@@ -4,7 +4,7 @@ describe AddProductToInventory do
   before do
     @product = { id: 1 }
     @inventory = double("Inventory")
-    @inventory.stub(:add).and_return(true)
+    @inventory.stub(:add).and_return(@inventory)
     @inventory.stub(:persist).and_return(true)
   end
 

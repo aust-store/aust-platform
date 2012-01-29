@@ -1,7 +1,5 @@
 class Product
-  def initialize
+  def initialize(serialized)
     
   end
-
-
 end

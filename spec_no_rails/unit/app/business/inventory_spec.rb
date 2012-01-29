@@ -13,14 +13,13 @@ describe Inventory do
 
   context "adding products" do
     it "adds a product" do
-      subject.should_receive(:persistence_layer)
       subject.add(@product)
       subject.products.should include(@product)
     end
 
     it "persist the data" do
       @persistence.should_receive(:persist)
-      subject.add(@product)
+      subject.add(@product).persist
     end
   end
 
@@ -28,6 +27,13 @@ describe Inventory do
     it "removes product successfully" do
       @persistence.should_receive(:remove)
       subject.remove(@product)
+    end
+  end
+
+  describe "#persist" do
+    it "calls the persistence layer" do
+      subject.should_receive(:persistence_layer).and_return(@persistence)
+      subject.persist
     end
   end
 end

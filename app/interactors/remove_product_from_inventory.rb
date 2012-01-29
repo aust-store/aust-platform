@@ -1,4 +1,4 @@
-class AddProductToInventory
+class RemoveProductFromInventory
   attr_reader :product, :inventory
 
   def initialize(product, inventory)
@@ -6,6 +6,6 @@ class AddProductToInventory
   end
 
   def call
-    @inventory.add(@product).persist
+    @inventory.remove(@product)
   end
 end
