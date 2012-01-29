@@ -1,32 +1,33 @@
 require "./spec_no_rails/spec_helper"
 
 describe Inventory do
+  subject { Inventory.new }
+
   before do
-    @product = double("Product", id: 1)
+    @product = {id: 1}
     @persistence = double("Persistence")
-    @persistence.stub(:add).and_return(true)
+    @persistence.stub(:persist).and_return(true)
     @persistence.stub(:remove).and_return(true)
+    subject.stub(:persistence_layer).and_return(@persistence)
   end
 
-  context "movement" do
-    subject { Inventory.new }
-
-    before do
-      subject.stub(:persistence_layer).and_return(@persistence)
+  context "adding products" do
+    it "adds a product" do
+      subject.should_receive(:persistence_layer)
+      subject.add(@product)
+      subject.products.should include(@product)
     end
 
-    context "adding products" do
-      it "adds a product successfully" do
-        subject.should_receive(:persistence_layer)
-        subject.add(@product).should be_true
-      end
+    it "persist the data" do
+      @persistence.should_receive(:persist)
+      subject.add(@product)
     end
+  end
 
-    context "removing products" do
-      it "removes product successfully" do
-        subject.should_receive(:persistence_layer)
-        subject.remove(@product).should be_true
-      end
+  context "remove a product" do
+    it "removes product successfully" do
+      @persistence.should_receive(:remove)
+      subject.remove(@product)
     end
   end
 end

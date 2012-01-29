@@ -7,12 +7,13 @@ class Inventory
 
   def add(product, options = {})
     quantity = options.has_key?(:quantity) ? options[:quantity] : 1
-    persistence_layer.add(product, quantity: quantity)
+    @products << product
+    persistence_layer.persist(product, quantity: quantity)
   end
 
   def remove(product, options = {})
     quantity = options.has_key?(:quantity) ? options[:quantity] : "all"
-    persistence_layer.add(product, quantity: quantity)
+    persistence_layer.remove(product, quantity: quantity)
   end
 
   def persistence_layer(object = InventoryPersistence)

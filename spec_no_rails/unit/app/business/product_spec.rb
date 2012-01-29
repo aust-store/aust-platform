@@ -7,7 +7,7 @@ describe Product do
     @product.stub(:entries).and_return(@product_in)
   end
 
-  it "" do
+  it "hey" do
     puts @product.entries.first.cost.inspect
   end
 
