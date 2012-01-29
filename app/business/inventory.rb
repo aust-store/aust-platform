@@ -18,6 +18,10 @@ class Inventory
     persistence_layer.remove(product, quantity: quantity)
   end
 
+  def all
+    persistence_layer.all
+  end
+
   def persist
     persistence_layer.persist self
   end

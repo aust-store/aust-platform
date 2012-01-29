@@ -7,7 +7,6 @@ describe Inventory do
     @product = {id: 1}
     @persistence = double("Persistence")
     @persistence.stub(:persist).and_return(true)
-    @persistence.stub(:remove).and_return(true)
     subject.stub(:persistence_layer).and_return(@persistence)
   end
 
@@ -24,6 +23,10 @@ describe Inventory do
   end
 
   context "remove a product" do
+    before do
+      @persistence.stub(:remove).and_return(true)
+    end
+
     it "removes product successfully" do
       @persistence.should_receive(:remove)
       subject.remove(@product)
@@ -34,6 +37,17 @@ describe Inventory do
     it "calls the persistence layer" do
       subject.should_receive(:persistence_layer).and_return(@persistence)
       subject.persist
+    end
+  end
+
+  describe "#all" do
+    before do
+      @persistence.stub(:all).and_return([1, 2, 3])
+    end
+
+    it "retrieves all products" do
+      @persistence.should_receive(:all).and_return([1, 2, 3])
+      subject.all
     end
   end
 end
