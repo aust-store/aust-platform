@@ -50,4 +50,15 @@ describe Inventory do
       subject.all
     end
   end
+
+  describe "#last" do
+    before do
+      @persistence.stub(:last).and_return([1, 2, 3])
+    end
+
+    it "retrieves all products" do
+      @persistence.should_receive(:last).and_return(3)
+      subject.last
+    end
+  end
 end

@@ -22,6 +22,10 @@ class Inventory
     persistence_layer.all
   end
 
+  def last
+    persistence_layer.last
+  end
+
   def persist
     persistence_layer.persist self
   end

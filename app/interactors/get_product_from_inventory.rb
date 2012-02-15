@@ -8,4 +8,8 @@ class GetProductFromInventory
   def all
     @inventory.all
   end
+
+  def last
+    @inventory.last
+  end
 end
