@@ -1,6 +1,12 @@
 $(function(){
   
-  var data = {
+  if( $("#pie_chart").length > 0 )
+    graphs();
+
+});
+
+function graphs(){
+  var data1 = {
     items: [
       {label: 'One', data: 12015},
       {label: 'Two', data: 23834},
@@ -8,23 +14,54 @@ $(function(){
     ]
   };
 
+  var data2 = {
+    items: [
+      {label: 'One', data: 12015},
+      {label: 'Two', data: 23834},
+      {label: 'Three', data: 24689}
+    ]
+  };
+
+  var data3 = {
+    items: [
+      {label: 'One', data: 1015},
+      {label: 'Two', data: 2834},
+      {label: 'Three', data: 4689}
+    ]
+  };
   //Push our data into two separate arrays
-  var labels = [];
-  var values = [];
-   for (i in data.items) {
-     var item = data.items[i];
-     labels.push(item.label);
-     values.push(item.data);
+  var labels1 = [];
+  var values1 = [];
+   for (i in data1.items) {
+     var item = data1.items[i];
+     labels1.push(item.label);
+     values1.push(item.data);
    }
 
-  var r = Raphael("pie_chart");
-  var pie = r.piechart(60, 60, 50, values, {legend: labels, legendpos: "east"});
+  var labels2 = [];
+  var values2 = [];
+   for (i in data2.items) {
+     var item = data2.items[i];
+     labels2.push(item.label);
+     values2.push(item.data);
+   }
 
-  var r_two = Raphael("pie_chart_two");
-  var pie_two = r_two.piechart(60, 60, 50, values, {legend: labels, legendpos: "east"});
+  var labels3 = [];
+  var values3 = [];
+  for (i in data3.items) {
+    var item = data3.items[i];
+    labels3.push(item.label);
+    values3.push(item.data);
+  }
 
-  var r_three = Raphael("pie_chart_three");
-  var pie_three = r_three.piechart(60, 60, 50, values, {legend: labels, legendpos: "east"});
+  var r = Raphael($("#pie_chart")[0]);
+  var pie = r.piechart(60, 60, 50, values1, {legend: labels1, legendpos: "east"});
+
+  var r_two = Raphael($("#pie_chart_two")[0]);
+  var pie_two = r_two.piechart(60, 60, 50, values2, {legend: labels2, legendpos: "east"});
+
+  var r_three = Raphael($("#pie_chart_three")[0]);
+  var pie_three = r_three.piechart(60, 60, 50, values3, {legend: labels3, legendpos: "east"});
 
   pie.attr({opacity: 0.7});
   pie.hover(function () {
@@ -46,6 +83,4 @@ $(function(){
     }
   });
 
-
-
-})
+}

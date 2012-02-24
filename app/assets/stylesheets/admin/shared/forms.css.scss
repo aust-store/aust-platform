@@ -1,0 +1,15 @@
+div.input {
+  display: table;
+  margin: 0 0 10px 0;
+
+  label {
+    display: block;
+  }
+
+  input, textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 3px;
+  }
+
+}

@@ -31,6 +31,9 @@ h1 { font-size: 2.5em; color: #165c85; }
 h2 { font-size: 2.0em; font-weight: normal; color: #aaa; }
 p { line-height: 1.6em; }
 
+a { color: #165c85; text-decoration: none; }
+a:hover { color: #165c85; text-decoration: none; }
+
 #navigation {
   float: right;
   width: 249px;
@@ -81,11 +84,16 @@ p { line-height: 1.6em; }
 
   box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
 
-  h1 { background: #f6f6f6; padding: 10px }
+  header, h1 { background: #f6f6f6; padding: 10px }
+  header {
+    h1 { padding: 0; margin: 0; background: none; }
+    p { margin: 0; color: #777; font-size: 0.9em; }
+  }
 
   .main_container {
     margin: 10px;
     display: table;
+    width: 690px;
   }
 }
 

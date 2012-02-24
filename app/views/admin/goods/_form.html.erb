@@ -1,45 +1,9 @@
-<%= form_for(@good) do |f| %>
-  <% if @good.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@good.errors.count, "error") %> prohibited this good from being saved:</h2>
-
-      <ul>
-      <% @good.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :store %><br />
-    <%= f.text_field :store %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :reference_number %><br />
-    <%= f.number_field :reference_number %>
-  </div>
-  <div class="field">
-    <%= f.label :cost %><br />
-    <%= f.text_field :cost %>
-  </div>
-  <div class="field">
-    <%= f.label :profit %><br />
-    <%= f.text_field :profit %>
-  </div>
-  <div class="field">
-    <%= f.label :lot %><br />
-    <%= f.text_field :lot %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= simple_form_for([:admin, :inventory, @good]) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :description %>
+  <%= f.input :reference_number %>
+  <%= f.input :cost %>
+  <%= f.input :profit_margin %>
+  <%= f.input :lot %>
+  <%= f.submit %>
 <% end %>

@@ -1,3 +1,3 @@
 class Good < ActiveRecord::Base
-  belongs_to :store
+  belongs_to :inventory, class_name: "InventoryPersistence"
 end
