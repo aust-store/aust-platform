@@ -1,0 +1,107 @@
+/* Buttons */
+$gradient-top: #f3f3f3;
+$gradient-bottom: #ddd;
+
+a.css_button_anchor {
+  display: block;
+  float: left;
+  margin: 0 10px 0 0;
+  min-height: 20px;
+  text-decoration: none;
+  outline: none;
+
+  overflow: hidden;
+  border-radius: 50px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #c3c3c3;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$gradient-top', endColorstr='$gradient-bottom'); /* for IE */
+  background: -webkit-gradient(linear, left bottom, left top, from($gradient-bottom), to($gradient-top)); /* for webkit browsers */
+  background: -moz-linear-gradient(bottom, $gradient-bottom, $gradient-top); /* for firefox 3.6+ */
+
+  .css_button {
+    display: table;
+    color: #444;
+    min-height: 20px;
+    min-width: 33px;
+    font-size: 1.0em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px white;
+    background-repeat: no-repeat;
+    background-position: 4px center;
+
+    &.has_image_only {
+      background-position: center 2px;
+    }
+    .css_button_container {
+      margin: 0px auto 0px auto;
+      padding-left: 11px;
+      display: table;
+      min-width: 0px;
+      &.text {
+        top: 3px;
+        position: relative;
+        padding-right: 11px;
+      }
+    }
+    
+    &.has_image .css_button_container, &.has_image_only .css_button_container {
+      margin: 0px 0px 3px 26px;
+      padding-left: 0px;
+      top: 2px;
+      height: 17px;
+      display: table;
+    }
+  }
+  &:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($gradient-bottom, 3%)', endColorstr='lighten($gradient-bottom, 3%)'); /* for IE */
+    background: -webkit-gradient(linear, left bottom, left top, from( lighten($gradient-bottom, 3%)), to( darken($gradient-top, 3%) )); /* for webkit browsers */
+    background: -moz-linear-gradient(bottom, lighten($gradient-bottom, 3%), darken($gradient-top, 3%)); /* for firefox 3.6+ */
+    text-decoration: none;
+  }
+}
+
+#view_nav a.css_button_anchor {
+  top: -4px;
+  position: relative;
+}
+
+a.css_button_anchor.small {
+  .css_button {
+    font-size: 0.9em;
+    &.has_image .css_button_container.text {
+      top: 3px;
+    }
+  }
+}
+
+a.css_button_anchor.big {
+  height: 30px;
+  width: 200px;
+  margin: 0 auto !important;
+  text-align: center;
+  display: table;
+  float: none;
+  
+  .css_button {
+    height: 30px;
+    font-size: 1.1em;
+    min-width: 100%;
+    background-position: 9px 3px !important;
+    .css_button_container { 
+      margin: 0 auto;
+      width: 150px;
+      padding: 0;
+    }
+    &.has_image .css_button_container {
+      margin: 0px 5px 0px 33px;
+      position: relative;
+      top: 6px;
+    }
+  }
+}
+a.css_button_anchor.round.big .css_button {
+  background-position: 5px 3px !important;
+  //.css_button_container { margin-left: 38px; }
+}

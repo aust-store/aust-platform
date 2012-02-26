@@ -1,38 +1,24 @@
+<%= render "layouts/admin/nav_history" %>
+
 <header>
   <h1>Estoque</h1>
-  <p>
-    Esta é a listagem de todos os itens do seu estoque.
-  </p>  
 </header>
 
 <div class="main_container">
-  <table>
+  <table class="listing">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Reference number</th>
-        <th>Cost</th>
-        <th>Profit</th>
-        <th>Lot</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Nome</th>
+        <th>Referência</th>
       </tr>
     </thead>
     <tbody>
   <% if @goods %>
     <% @goods.each do |good| %>
-      <tr>
-        <td><%= good.name %></td>
-        <td><%= good.description %></td>
-        <td><%= good.reference_number %></td>
-        <td><%= good.cost %></td>
-        <td><%= good.profit_margin %></td>
-        <td><%= good.lot %></td>
-        <td><%= link_to 'Show', admin_inventory_goods_path(good) %></td>
-        <td><%= link_to 'Edit', edit_admin_inventory_good_path(good) %></td>
-        <td><%= link_to 'Destroy', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete %></td>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to good.name, admin_inventory_good_path(good) %></td>
+        <td><%= good.reference %></td>
+        <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
       </tr>
     <% end %>
   <% end %>
@@ -41,5 +27,5 @@
 
   <br />
 
-  <%= link_to 'New Good', new_admin_inventory_good_path %>
+  <%= small_button new_admin_inventory_good_path, :text => "Adicionar item", :image => 'admin/icons/plus_16.png' %>
 </div>

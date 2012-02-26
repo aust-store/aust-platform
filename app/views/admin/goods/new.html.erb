@@ -1,13 +1,16 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_goods_path
+           } %>
+
 <header>
   <h1>
-    Novo item
+    Adicionar item ao estoque
   </h1>
   <p>Cadastre um novo bem ou mercadoria no estoque.</p>
 </header>
 
 <div class="main_container">
 <%= render 'form' %>
-
-<%= link_to 'Back', admin_inventory_goods_path %>
 
 </div>

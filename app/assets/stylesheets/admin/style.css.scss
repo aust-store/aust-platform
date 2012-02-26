@@ -1,3 +1,5 @@
+$navigation-background-color: lighten(#e8f5fd, 3%);
+
 * { margin: 0; padding: 0; }
 
 body {
@@ -10,39 +12,42 @@ body {
 #global {
   width: 960px;
   margin: 0 auto;
-  background: white;
-  background: #fcfcfc;
+  background: $navigation-background-color;
   display: table;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
   .global_container {
     margin: 0px;
     display: table;
+
+    #main_tabs {
+      min-height: 3px;
+      background-color: $navigation-background-color;
+    }
   }
 }
 
-h1, h2, h3, h4, p { margin-bottom: 15px; }
+h1, h2, h3, h4, p { font-weight: 100; margin-bottom: 15px; }
 
 h1 { font-size: 2.5em; color: #165c85; }
 h2 { font-size: 2.0em; font-weight: normal; color: #aaa; }
 p { line-height: 1.6em; }
 
 a { color: #165c85; text-decoration: none; }
-a:hover { color: #165c85; text-decoration: none; }
+a:hover { color: #165c85; text-decoration: underline; }
 
 #navigation {
   float: right;
-  width: 249px;
-  background: lighten(#e8f5fd, 1%);
+  width: 219px;
+  background: lighten(#e8f5fd, 3%);
   text-shadow: 2px 2px 1px rgba(255, 255, 255, 1);
-  border-left: 1px solid rgba(0, 0, 0, 0.05);//darken(#d9e1e6, 10%);
 
   .navigation_container {
-    padding: 15px;
+    padding: 40px 15px 15px 15px;
     width: 100%;
     height: 100%;
     display: table;
@@ -51,6 +56,7 @@ a:hover { color: #165c85; text-decoration: none; }
   .top {
 
     h2 {
+      display: none;
       text-shadow:
         inset -1px -1px 1px rgba(0, 0, 0, 0.1),
         1px 1px 0px rgba(255, 255, 255, 1);
@@ -80,20 +86,31 @@ a:hover { color: #165c85; text-decoration: none; }
 
 #main {
   float: left;
-  width: 710px;
+  width: 740px;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);//darken(#d9e1e6, 10%);
+  overflow: hidden;
+  background: white;
 
-  box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
+  nav.history {
+    background: #f9f9f9;
+    padding: 10px 10px;
+    font-size: 0.9em;
 
-  header, h1 { background: #f6f6f6; padding: 10px }
+    a {
+      color: #999;
+    }
+  }
+
+  header, h1 { background: white; padding: 5px 10px 0 10px }
   header {
     h1 { padding: 0; margin: 0; background: none; }
-    p { margin: 0; color: #777; font-size: 0.9em; }
+    p { margin: 0; color: #999; font-size: 0.9em; line-height: 1.0em; }
   }
 
   .main_container {
     margin: 10px;
     display: table;
-    width: 690px;
+    width: 720px;
   }
 }
 

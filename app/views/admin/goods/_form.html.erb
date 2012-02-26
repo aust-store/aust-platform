@@ -1,9 +1,14 @@
 <%= simple_form_for([:admin, :inventory, @good]) do |f| %>
-  <%= f.input :name %>
-  <%= f.input :description %>
-  <%= f.input :reference_number %>
-  <%= f.input :cost %>
-  <%= f.input :profit_margin %>
-  <%= f.input :lot %>
-  <%= f.submit %>
+  <%= f.input :name,
+        label: "Nome",
+        hint:  "Nome único do item. Se sua dimensão é um identificador, utilize-o.",
+        placeholder: "ex.: parafuso 1cm" %>
+  <%= f.input :description,
+        label: "Descrição" %>
+  <%= f.input :reference,
+        label: "Código de referência",
+        hint:  "Se você possui um código que identifique este produto internamente." %>
+  <%= f.submit "Salvar item" %> ou
+  <%= link_to "cancelar", "javascript: history.back()" %>
+
 <% end %>

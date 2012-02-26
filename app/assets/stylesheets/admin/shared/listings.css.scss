@@ -1,21 +1,25 @@
-body.index .main_container table {
+table.listing {
+  padding: 0 0 0 0;
   width: 100%;
   border-collapse:separate;
   border-spacing: 0;
 
+  th, td {
+    padding: 10px;
+  }
+
   thead {
-    background: #f6f6f6;
+    background: #f1f1f1;
 
     th {
       text-align: left;
-      padding: 4px;
       margin: 0;
     }
+
   }
 
   tbody {
-    td {
-      padding: 4px;
-    }
+    tr.odd { background-color: #fbfbfb; }
+    tr.even { background-color: #f8f8f8; }
   }
 }

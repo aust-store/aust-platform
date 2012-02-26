@@ -1,6 +1,14 @@
-<h1>Editing good</h1>
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_goods_path
+           } %>
+
+<header>
+  <h1><%= @good.name %></h1>
+</header>
+
+<div class="main_container">
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @good %> |
-<%= link_to 'Back', goods_path %>
+</div>

@@ -4,12 +4,24 @@ div.input {
 
   label {
     display: block;
+    margin: 0 0 3px 0;
   }
 
   input, textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 3px;
+  }
+
+  textarea {
+    height: 70px;
+  }
+
+  span.hint {
+    display: table;
+    font-size: 0.9em;
+    color: #999;
+    margin: 3px 0 0 0;
   }
 
 }
