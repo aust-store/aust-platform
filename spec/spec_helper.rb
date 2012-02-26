@@ -9,6 +9,9 @@ require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  config.filter_run wip: true
+  config.run_all_when_everything_filtered = true
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -21,6 +24,9 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
+
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
 end
 
 Capybara.javascript_driver = :webkit

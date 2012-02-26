@@ -1,0 +1,21 @@
+.search_existent_good {
+  width: 550px;
+  margin: 20px auto;
+
+  div.input {
+    width: 100%;
+
+    h1 {
+      font-size: 1.8em;
+      margin: 0;
+      padding: 0 !important;
+      color: #222;
+    }
+
+    input {
+      font-size: 1.6em;
+      margin: 10px 0 0 0;
+      width: 100%;
+    }
+  }  
+}

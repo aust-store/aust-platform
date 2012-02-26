@@ -3,14 +3,24 @@
              back_to: admin_inventory_goods_path
            } %>
 
-<header>
-  <h1>
-    Adicionar item ao estoque
-  </h1>
-  <p>Cadastre um novo bem ou mercadoria no estoque.</p>
-</header>
 
 <div class="main_container">
-<%= render 'form' %>
+
+  <div class="search_existent_good">
+    <div class="input">
+      <h1>Digite o nome do item a ser acrescentado</h1>
+
+      <input type="text" />
+
+      <span class="hint">
+        Se o bem ou mercadoria já existe, você só precisa cadastrar
+        a quantidade que está entrando no estoque.
+      </span>
+    </div>
+  </div>
+
+  <div class="form">
+    <% # render 'form' %>
+  </div>
 
 </div>
