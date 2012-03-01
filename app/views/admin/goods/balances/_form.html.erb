@@ -1,0 +1,17 @@
+<%= simple_form_for([:admin, :inventory, :good, @balance], url: admin_inventory_good_balances_path) do |f| %>
+
+  <%= f.input :description,
+        label: "Descrição" %>
+
+  <%= f.input :quantity,
+        label: "Quantidade",
+        hint:  "Um número inteiro (ex.: 10, 55, 109)" %>
+
+  <%= f.input :cost_per_unit,
+        label: "Custo unitário",
+        hint:  "Ex.: R$ 11,00" %>
+
+  <%= f.submit "Cadastrar entrada no estoque" %> ou
+  <%= link_to "cancelar", "javascript: history.back()" %>
+
+<% end %>

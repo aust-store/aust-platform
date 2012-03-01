@@ -2,6 +2,17 @@
 class Admin::GoodsController < Admin::ApplicationController
   inherit_resources
 
+  def new_good_or_balance
+  end
+
+  def search
+    @goods = Good.search {
+      fulltext params[:name]
+      paginate page: 1, per_page: 10
+    }.results
+    render "search", layout: false
+  end
+
   def create
     create! do |format|
       if resource.valid?

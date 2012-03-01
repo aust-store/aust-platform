@@ -8,13 +8,22 @@ Store::Application.routes.draw do
   get "home/index"
 
   namespace :admin do
-    resources :dashboards
-
-    resource :inventory do
-      resources :goods
+    resource :dashboard, controller: "dashboard" do
+      get 'index' => 'dashboard#index'
     end
 
-    root :to => 'dashboards#index'
+    resource :inventory do
+      resources :goods do
+        collection do
+          post 'search' => "goods#search"
+          get 'new_good_or_balance'
+        end
+
+        resources :balances, controller: 'goods/balances'
+      end
+    end
+
+    root :to => 'dashboard#index'
   end
 
   root :to => 'home#index'

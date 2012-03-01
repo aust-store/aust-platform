@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225040749) do
+ActiveRecord::Schema.define(:version => 20120229042537) do
 
   create_table "admin_dashboards", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -44,6 +44,23 @@ ActiveRecord::Schema.define(:version => 20120225040749) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "good_balances", :force => true do |t|
+    t.integer  "good_id"
+    t.integer  "admin_user_id"
+    t.string   "balance_type"
+    t.text     "description"
+    t.decimal  "quantity"
+    t.decimal  "cost_per_unit"
+    t.decimal  "moving_average_cost"
+    t.decimal  "total_quantity"
+    t.decimal  "total_cost"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "good_balances", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
+  add_index "good_balances", ["good_id"], :name => "index_good_balances_on_good_id"
 
   create_table "goods", :force => true do |t|
     t.integer  "company_id"

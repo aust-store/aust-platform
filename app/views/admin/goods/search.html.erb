@@ -1,0 +1,9 @@
+<% if @goods %>
+  <ul>
+  <% @goods.each do |good| %>
+    <li class="<%= cycle('odd', 'even') %>">
+      <%= link_to good.name, new_admin_inventory_good_balance_path(good), :"data-id" => good.id %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

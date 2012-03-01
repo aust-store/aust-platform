@@ -2,8 +2,8 @@ $(function(){
 
   // faux-column
   if( $("#navigation").height() < $("#main").height() )
-    $("#navigation").css('height', $("#main").height());
+    $("#navigation").css('min-height', $("#main").height());
   else
-    $("#main").css('height', $("#navigation").height());
+    $("#main").css('min-height', $("#navigation").height());
 
 });

@@ -1,9 +1,15 @@
-def login_into_admin
-  admin_user = Factory(:admin_user)
-  visit new_admin_user_session_url
+module AcceptanceSteps
+  def login_into_admin
+    admin_user = Factory(:admin_user)
+    visit "/admin_users/sign_in"
 
-  fill_in "Email", with: admin_user.email
-  fill_in "Password", with: "123456"
+    within("form#new_admin_user") do
+      fill_in "admin_user_email", with: admin_user.email
+      fill_in "admin_user_password", with: "1234567"
 
-  click_button "Sign in"
+      page.should have_selector "#admin_user_email"
+      page.should have_selector "#admin_user_password"
+    end
+    click_button "Sign in"
+  end
 end

@@ -1,17 +1,24 @@
 require 'spec_helper'
 
-feature "Admin User sessions" do
+feature "Admin User sessions", js: true do
   before do
     @admin_user = Factory(:admin_user)
   end
 
   scenario "As a user, I'd like to sign in into my store admin" do
-    visit new_admin_user_session_url
+    visit "/admin_users/sign_in"
 
-    fill_in "Email", with: @admin_user.email
-    fill_in "Password", with: "123456"
+    within("form#new_admin_user") do
+      fill_in "admin_user_email", with: @admin_user.email
+      fill_in "admin_user_password", with: "1234567"
 
+      page.should have_selector "#admin_user_email"
+      page.should have_selector "#admin_user_password"
+    end
     click_button "Sign in"
+
+    page.should have_content "Estoque"
+
     current_path.should == admin_dashboard_path
   end
 end

@@ -39,6 +39,8 @@ p { line-height: 1.6em; }
 
 a { color: #165c85; text-decoration: none; }
 a:hover { color: #165c85; text-decoration: underline; }
+ul { padding: 0; margin: 0 }
+li { list-style: none; margin: 0; padding: 0; }
 
 #navigation {
   float: right;

@@ -1,0 +1,17 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_goods_path
+           } %>
+
+<header>
+  <h1><%= @balance.good.name %></h1>
+  <p>Nova entrada no estoque</p>
+</header>
+
+<div class="main_container">
+
+  <div class="form">
+    <%= render 'form' %>
+  </div>
+
+</div>

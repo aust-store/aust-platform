@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.0'
+gem 'rails', '3.2.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,6 +8,8 @@ gem 'rails', '3.2.0'
 gem 'sqlite3'
 gem 'devise'
 gem 'simple_form', "~> 2.0.0"
+
+gem 'sunspot_rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,6 +26,7 @@ end
 gem 'jquery-rails'
 
 group :development, :test do
+  gem 'sunspot_solr'
   gem 'rspec-rails', '2.8.0'
   gem 'guard-rspec'
 end
@@ -33,6 +36,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'factory_girl'
   gem 'launchy'
+  gem 'database_cleaner'
 end
 
 gem 'inherited_resources'

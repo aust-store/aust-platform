@@ -1,4 +1,4 @@
-Dir["./app/business/**/*", "./app/interactors/**/*"].each { |x| require x }
+Dir["./lib/store/domain_object/**/*"].each { |x| require x }
 
 RSpec.configure do |c|
   c.filter_run wip: true

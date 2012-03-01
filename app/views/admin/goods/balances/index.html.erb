@@ -1,0 +1,40 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_goods_path
+           } %>
+
+<header>
+  <h1><%= collection.first.good.name %></h1>
+  <p>Balanço do estoque</p>
+</header>
+
+<div class="main_container">
+
+  <table class="listing">
+    <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Quantidade</th>
+        <th>Custo unitário</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% if collection %>
+    <% collection.each do |item| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= item.description %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.cost_per_unit, :unit => "R$ ", :separator => ",", :delimiter => ".") %></td>
+        <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
+      </tr>
+    <% end %>
+  <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= small_button new_admin_inventory_good_balance_path, 
+        :text => "Adicionar entrada no estoque",
+        :image => 'admin/icons/plus_16.png' %>
+</div>
