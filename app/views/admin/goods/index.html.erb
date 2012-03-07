@@ -10,6 +10,7 @@
       <tr>
         <th>Nome</th>
         <th>Referência</th>
+        <th>Total em estoque</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= link_to good.name, admin_inventory_good_path(good) %></td>
         <td><%= good.reference %></td>
+        <td><%= good.last_balance.try(:total_quantity) %></td>
         <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
       </tr>
     <% end %>

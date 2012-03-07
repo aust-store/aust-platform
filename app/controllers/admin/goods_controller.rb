@@ -2,6 +2,10 @@
 class Admin::GoodsController < Admin::ApplicationController
   inherit_resources
 
+  def index
+    @goods = Good.all
+  end
+
   def new_good_or_balance
   end
 

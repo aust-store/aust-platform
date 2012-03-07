@@ -1,15 +1,14 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_goods_path
+           } %>
+
 <header>
   <h1><%= @good.name %></h1>
-
 </header>
 
 <div class="main_container">
   <p id="notice"><%= notice %></p>
-
-  <p>
-    <b>Nome:</b>
-    <%= @good.name %>
-  </p>
 
   <p>
     <b>Descrição:</b>
@@ -21,6 +20,7 @@
     <%= @good.reference %>
   </p>
 
+  <%= small_button admin_inventory_good_balances_path(@good), text: "Ver estoque deste item" %>
 
-  <%= link_to 'Editar', edit_admin_inventory_good_path(@good) %>
+  <%= small_button edit_admin_inventory_good_path(@good), text: "Editar" %>
 </div>
