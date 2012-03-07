@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 feature "Adding and editing goods", js: true, search: true do
+ 
   before do
+    @admin_user = Factory(:admin_user)
     Factory(:good_two)
-    @good = Factory(:good)
-
+    @good = Factory(:good, user: @admin_user, company: @admin_user.company)
     login_into_admin
   end
 

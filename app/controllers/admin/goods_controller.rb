@@ -3,7 +3,7 @@ class Admin::GoodsController < Admin::ApplicationController
   inherit_resources
 
   def index
-    @goods = Good.all
+    @goods = Good.within_company(current_user.company).all
   end
 
   def new_good_or_balance
@@ -13,11 +13,14 @@ class Admin::GoodsController < Admin::ApplicationController
     @goods = Good.search {
       fulltext params[:name]
       paginate page: 1, per_page: 10
+      with :company_id, current_user.company_id
     }.results
     render "search", layout: false
   end
 
   def create
+    build_resource.user = current_user
+    resource.company = current_user.company
     create! do |format|
       if resource.valid?
         format.html { redirect_to admin_inventory_goods_url }

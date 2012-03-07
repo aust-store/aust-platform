@@ -7,4 +7,8 @@ class Admin::ApplicationController < ActionController::Base
   def define_layout
     request.xhr? ? false : "admin"
   end
+
+  def current_user
+    current_admin_user
+  end
 end

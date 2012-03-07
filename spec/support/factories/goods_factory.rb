@@ -1,4 +1,6 @@
 Factory.define :good do |u|
+  u.association :company
+  u.association :user, factory: :admin_user
   u.name { |i| "Goodyear tire 4 inches" }
   u.description "Lorem ipsum lorem"
 end

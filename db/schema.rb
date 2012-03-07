@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120229042537) do
+ActiveRecord::Schema.define(:version => 20120307023951) do
 
   create_table "admin_dashboards", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -66,10 +66,11 @@ ActiveRecord::Schema.define(:version => 20120229042537) do
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "inventory_id"
     t.string   "reference"
+    t.integer  "admin_user_id"
   end
 
   add_index "goods", ["company_id"], :name => "index_goods_on_company_id"
