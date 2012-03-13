@@ -11,6 +11,5 @@ module AcceptanceSteps
       page.should have_selector "#admin_user_password"
     end
     click_button "Sign in"
-    save_and_open_page
   end
 end
