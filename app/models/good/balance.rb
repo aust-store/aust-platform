@@ -6,6 +6,8 @@ class Good::Balance < ActiveRecord::Base
 
   accepts_nested_attributes_for :good
 
+  before_save :define_new_balance_values
+
   def define_new_balance_values
     past_balances = Good::Balance.where(good_id: good_id).where("quantity > 0").all
     balance = ::DomainObject::Balance.new([self] + past_balances)

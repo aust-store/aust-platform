@@ -5,9 +5,12 @@ class Admin::Goods::BalancesController < Admin::ApplicationController
 
   belongs_to :good
 
+  def index
+    @good = Good.find(params[:good_id])
+  end
+
   def create
     build_resource.balance_type = "in"
-    build_resource.define_new_balance_values
     create! do |format|
       if resource.valid?
         format.html { redirect_to admin_inventory_good_balances_url(resource.good) }

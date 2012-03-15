@@ -4,33 +4,50 @@
            } %>
 
 <header>
-  <h1><%= collection.first.good.name %></h1>
-  <p>Balanço do estoque</p>
+  <h1>Estoque: <%= @good.name %></h1>
 </header>
 
 <div class="main_container">
 
-  <table class="listing">
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <th>Quantidade</th>
-        <th>Custo unitário</th>
-      </tr>
-    </thead>
-    <tbody>
-  <% if collection %>
-    <% collection.each do |item| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td><%= item.description %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.cost_per_unit, :unit => "R$ ", :separator => ",", :delimiter => ".") %></td>
-        <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
-      </tr>
-    <% end %>
+  <% if collection.count > 0 %>
+    <table class="listing">
+      <thead>
+        <tr>
+          <th>Entradas</th>
+          <th></th>
+          <th>Quantidade</th>
+          <th>Custo unitário</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% collection.each do |item| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td class="date"><%= item.created_at.strftime("%d/%m/%Y") %></td>
+          <td class="description"><%= item.description %></td>
+          <td class="quantity"><%= item.quantity %></td>
+          <td class="cost_per_unit"><%= number_to_currency(item.cost_per_unit, :unit => "R$ ", :separator => ",", :delimiter => ".") %></td>
+          <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
+        </tr>
+      <% end %>
+      </tbody>
+
+      <tfoot>
+        <tr class="total">
+          <td colspan="2" class="description">Resumo</td>
+          <td class="quantity"><%= collection.last.total_quantity %></td>
+          <td class="cost_per_unit">
+            <%= number_to_currency(collection.last.total_cost, :unit => "R$ ", :separator => ",", :delimiter => ".") %>
+          </td>
+          <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
+        </tr>
+      </tfoot>
+
+    </table>
+  <% else %>
+    <p>
+      Não há itens em estoque.</p>
   <% end %>
-    </tbody>
-  </table>
 
   <br />
 

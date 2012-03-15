@@ -21,5 +21,25 @@ table.listing {
   tbody {
     tr.odd { background-color: #fbfbfb; }
     tr.even { background-color: #f8f8f8; }
+
+    td {
+      color: #666;
+      font-size: 0.9em;
+
+      &.date {
+      }
+    }
+  }
+
+  tfoot {
+    .total {
+      background: #f1f1f1;
+      background-image: -moz-linear-gradient(top center, #f8f8f8, #ededed);
+      color: black;
+
+      td {
+        border-top: 1px solid #f1f1f1;
+      }
+    }
   }
 }

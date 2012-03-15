@@ -6,10 +6,9 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'devise'
+gem 'devise', '2.0.4'
 gem 'simple_form', "~> 2.0.0"
-
-gem 'sunspot_rails'
+gem 'sunspot_rails', '~> 1.3.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -26,17 +25,16 @@ end
 gem 'jquery-rails'
 
 group :development, :test do
-  gem 'sunspot_solr'
   gem 'rspec-rails', '2.8.0'
-  gem 'guard-rspec'
+  gem 'sunspot_solr'
 end
 
 group :test do
-  gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'factory_girl'
-  gem 'launchy'
-  gem 'database_cleaner'
+  gem 'capybara', '1.1.2'
+  gem 'capybara-webkit', '0.10.0'
+  gem 'factory_girl', '2.6.0'
+  gem 'launchy', '2.0.5'
+  gem 'database_cleaner', '0.7.1'
 end
 
 gem 'inherited_resources'
