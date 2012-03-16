@@ -7,6 +7,8 @@ Store::Application.routes.draw do
 
   get "home/index"
 
+  get "store(/:id)" => "store#show"
+
   namespace :admin do
     resource :dashboard, controller: "dashboard" do
       get 'index' => 'dashboard#index'
@@ -26,5 +28,5 @@ Store::Application.routes.draw do
     root :to => 'dashboard#index'
   end
 
-  root :to => 'home#index'
+  root :to => 'store#show'
 end

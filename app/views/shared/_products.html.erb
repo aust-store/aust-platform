@@ -1,0 +1,21 @@
+<div class="products_list">
+<% r = 0 %>
+<% 4.times do %>
+  <% 5.times do |t| %>
+    <% r+= 1 %>
+    <div class="product">
+      <div class="image" style="background-image: url(<%= image_path("store/temp/product_#{t+1}_160x120.jpg") %>)">
+      </div>
+      <div class="text">
+        <div class="title">
+          Desk #<%= "#{r}" %>
+        </div>
+        <div class="description">
+          Marble wood, imported
+        </div>
+        <div class="price">R$ <%= "#{(t+15)^3}#{t}#{t^2}" %></div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+</div>

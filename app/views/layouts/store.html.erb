@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Store</title>
+  <%= stylesheet_link_tag    "store/application", :media => "all" %>
+  <%= javascript_include_tag "store/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div id="header">
+    <h1>Store</h1>
+  </div> 
+
+  <div id="global">
+    <div id="navigation">
+      <%= render "layouts/store/navigation" %> 
+    </div>
+    <div id="main">
+      <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
+      <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
+      <%= content_tag(:div, flash[:alert], :id => "flash_alert") if flash[:alert] %>
+          
+      <div class="main_container">
+        <%= yield %>
+      </div>
+    </div>
+    <div id="complementary_content">
+      Here we are. 
+    </div>
+    <div id="footer">
+
+    </div>
+  </div>
+
+</body>
+</html>
