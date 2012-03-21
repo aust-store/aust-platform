@@ -1,22 +1,28 @@
 class Admin::Goods::BalancesController < Admin::ApplicationController
-  inherit_resources
-
-  defaults resource_class: Good::Balance, collection_name: 'balances', instance_name: 'balance'
-
-  belongs_to :good
+  before_filter :load_good
 
   def index
-    @good = Good.find(params[:good_id])
+    @balances = @good.balances
+  end
+
+  def new
+    @balance = @good.balances.build
   end
 
   def create
-    build_resource.balance_type = "in"
-    create! do |format|
-      if resource.valid?
-        format.html { redirect_to admin_inventory_good_balances_url(resource.good) }
-      else
-        format.html { render "new" }
-      end
+    @balance = @good.balances.build params[:good_balance]
+    @balance.balance_type = "in"
+    if @balance.save
+      redirect_to admin_inventory_good_balances_url(@balance.good)
+    else
+      render "new"
     end
+  end
+
+  private
+
+  def load_good
+    @good = Good.where(id: params[:good_id]).within_company(current_user.company).first
+    raise "This doesn't belong to you" if @good.nil?
   end
 end

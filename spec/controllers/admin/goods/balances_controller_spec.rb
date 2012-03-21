@@ -11,16 +11,36 @@ describe Admin::Goods::BalancesController do
     end
 
     before do
-      @good = Factory(:good)
+      @good = Factory(:good, company_id: @admin_user.company_id)
     end
 
-    describe "saving balance" do
+    it "shold load the correct good" do
+      invalid_good = Factory(:good, company_id: Factory(:company).id)
+      expect { get :index, good_id: invalid_good.id }.to raise_error
+    end
+
+    describe "GET index" do
+      it "loads good's balances" do
+        get :index, good_id: @good.id
+        assigns(:good).should == @good
+      end
+    end
+
+    describe "GET new" do
+      it "builds a new balance" do
+        get :new, good_id: @good.id
+        assigns(:balance).should be_a_new Good::Balance
+      end
+    end
+
+    describe "POST create" do
       before do
         post :create, { good_id: @good.id, good_balance: valid_attributes }
       end
 
       subject { Good::Balance.first }
 
+      its(:good_id)              { should == @good.id }
       its(:description)     { should == "These came from Japan." }
       its(:quantity)        { should == 4 }
       its(:cost_per_unit)   { should == 20.0 }
