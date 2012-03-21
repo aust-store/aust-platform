@@ -1,48 +1,58 @@
 # encoding: utf-8 
 class Admin::GoodsController < Admin::ApplicationController
-  inherit_resources
+  before_filter :load_good, only: [:show, :edit, :update, :destroy]
 
   def index
     @goods = Good.within_company(current_user.company).all
   end
 
-  def new_good_or_balance
-  end
+  def new_good_or_balance; end
 
   def search
-    @goods = Good.search {
-      fulltext params[:name]
-      paginate page: 1, per_page: 10
-      with :company_id, current_user.company_id
-    }.results
+    @goods = Good.search params[:name], current_user.company_id, page: 1, per_page: 10
     render "search", layout: false
   end
 
+  def show
+  end
+
+  def new
+    @good = Good.new
+  end
+  
+  def edit
+  end
+
   def create
-    build_resource.user = current_user
-    resource.company = current_user.company
-    create! do |format|
-      if resource.valid?
-        format.html { redirect_to admin_inventory_goods_url }
-      else
-        format.html { render "new" }
-      end
+    @good = Good.new params[:good]
+    @good.user = current_user
+    @good.company = current_user.company
+    if @good.save
+      redirect_to admin_inventory_goods_url
+    else
+      render "new"
     end
   end
 
   def update
-    update! do |format|
-      unless resource.valid?
-        format.html { render "edit" and return }
-      else
-        format.html { redirect_to admin_inventory_goods_url and return }
-      end
+    if @good.update_attributes params[:good]
+      redirect_to admin_inventory_goods_url
+    else
+      render "edit"
     end
   end
 
   def destroy
-    destroy! {
-      redirect_to admin_inventory_goods_url and return
-    }
+    if @good.destroy
+      redirect_to admin_inventory_goods_url
+    else
+      redirect_to admin_inventory_goods_url, failure: "error message"
+    end
+  end
+
+  private
+
+  def load_good
+    @good = Good.find params[:id]
   end
 end
