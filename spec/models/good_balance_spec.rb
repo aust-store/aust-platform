@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Good::Balance do
+  let(:valid_balance) do
+    Good::Balance.new good_id: 1, cost_per_unit: 11, quantity: 5
+  end
+
   describe "#define_new_balance_values" do
     context "when first balance" do
       before do

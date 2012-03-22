@@ -3,51 +3,74 @@ require 'spec_helper'
 describe Admin::Goods::BalancesController do
   login_admin
 
-  describe "POST /create" do
-    def valid_attributes
-      { "description"   => "These came from Japan.",
-        "quantity"      => "4",
-        "cost_per_unit" => "20.0" }
-    end
+  let(:valid_attributes) do
+    { "description"   => "These came from Japan.",
+      "quantity"      => "4",
+      "cost_per_unit" => "R$ 20.0" }
+  end
+  let(:sanitized_attributes) do
+    { "description"   => "These came from Japan.",
+      "quantity"      => "4",
+      "cost_per_unit" => 20.0 }
+  end
 
+  before do
+    @balances = mock_model("Balance")
+    @good = mock_model("Good")
+    @balances.stub(:good).and_return(@good)
+    @balances.stub(:balance_type=)
+
+    Store::Currency.stub(:to_float).with("R$ 20.0").and_return(20.0)
+
+    Good.stub_chain(:where, :within_company, :first).and_return(@good)
+  end
+
+  it "should raise if other company's id was given" do
+    Good.stub_chain(:where, :within_company, :first).and_return(nil)
+    expect { get :index, good_id: invalid_good.id }.to raise_error
+  end
+
+  describe "GET index" do
     before do
-      @good = Factory(:good, company_id: @admin_user.company_id)
+      @good.stub_chain(:balances).and_return(@balances)
     end
 
-    it "shold load the correct good" do
-      invalid_good = Factory(:good, company_id: Factory(:company).id)
-      expect { get :index, good_id: invalid_good.id }.to raise_error
+    it "loads good's balances" do
+      get :index, good_id: "1"
+      assigns(:balances).should == @balances
+    end
+  end
+
+  describe "GET new" do
+    before do
+      @good.stub_chain(:balances, :build).and_return(@balances)
     end
 
-    describe "GET index" do
-      it "loads good's balances" do
-        get :index, good_id: @good.id
-        assigns(:good).should == @good
-      end
+    it "builds a new balance" do
+      get :new, good_id: "1"
+      assigns(:balance).should == @balances
+    end
+  end
+
+  describe "POST create" do
+    before do
+      @good.stub_chain(:balances, :build).with(sanitized_attributes).and_return(@balances)
+      @balances.should_receive(:save).and_return(true)
     end
 
-    describe "GET new" do
-      it "builds a new balance" do
-        get :new, good_id: @good.id
-        assigns(:balance).should be_a_new Good::Balance
-      end
+    it "should save balance" do
+      post :create, { good_id: "1", good_balance: valid_attributes }
+    end
+  end
+
+  describe "PUT update" do
+    before do
+      @good.stub_chain(:balances, :find).with("1").and_return(@balances)
+      @balances.should_receive(:update_attributes).with(sanitized_attributes).and_return(true)
     end
 
-    describe "POST create" do
-      before do
-        post :create, { good_id: @good.id, good_balance: valid_attributes }
-      end
-
-      subject { Good::Balance.first }
-
-      its(:good_id)              { should == @good.id }
-      its(:description)     { should == "These came from Japan." }
-      its(:quantity)        { should == 4 }
-      its(:cost_per_unit)   { should == 20.0 }
-      its(:balance_type)    { should == "in" }
-      its(:moving_average_cost) { should == 20.0 }
-      its(:total_quantity)  { should == 4 }
-      its(:total_cost)      { should == 80.0 }
+    it "should save balance" do
+      put :update, { id: 1, good_id: @good.id, good_balance: valid_attributes }
     end
   end
 end

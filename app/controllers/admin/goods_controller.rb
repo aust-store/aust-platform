@@ -9,7 +9,7 @@ class Admin::GoodsController < Admin::ApplicationController
   def new_good_or_balance; end
 
   def search
-    @goods = Good.search params[:name], current_user.company_id, page: 1, per_page: 10
+    @goods = Good.search_for params[:name], current_user.company_id, page: 1, per_page: 10
     render "search", layout: false
   end
 
