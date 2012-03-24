@@ -7,7 +7,10 @@ gem 'rails', '3.2.1'
 
 gem 'sqlite3'
 gem 'devise', '2.0.4'
+
 gem 'simple_form', "~> 2.0.0"
+gem 'simple_presenter'
+
 gem 'sunspot_rails', '~> 1.3.0'
 
 # Gems used only for assets and not required

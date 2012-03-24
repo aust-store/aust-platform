@@ -23,11 +23,10 @@
       <tbody>
       <% @balances.each do |item| %>
         <tr class="<%= cycle('odd', 'even') %>">
-          <td class="date"><%= item.created_at.strftime("%d/%m/%Y") %></td>
+          <td class="date"><%= item.created_at %></td>
           <td class="description"><%= item.description %></td>
           <td class="quantity"><%= item.quantity %></td>
-          <td class="cost_per_unit"><%= number_to_currency(item.cost_per_unit, :unit => "R$ ", :separator => ",", :delimiter => ".") %></td>
-          <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
+          <td class="cost_per_unit"><%= item.cost_per_unit %></td>
         </tr>
       <% end %>
       </tbody>
@@ -36,10 +35,7 @@
         <tr class="total">
           <td colspan="2" class="description">Resumo</td>
           <td class="quantity"><%= @balances.last.total_quantity %></td>
-          <td class="cost_per_unit">
-            <%= number_to_currency(@balances.last.total_cost, :unit => "R$ ", :separator => ",", :delimiter => ".") %>
-          </td>
-          <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
+          <td class="cost_per_unit"><%= @balances.last.total_cost %></td>
         </tr>
       </tfoot>
 
