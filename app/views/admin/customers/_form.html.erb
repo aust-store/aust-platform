@@ -1,0 +1,18 @@
+<%= simple_form_for([:admin, @good]) do |f| %>
+
+  <%= f.input :name,
+        label: "Nome do bem ou mercadoria",
+        hint:  "",
+        placeholder: "ex.: parafuso 1cm" %>
+
+  <%= f.input :description,
+        label: "Descrição" %>
+  <%= f.input :reference,
+        label: "Código de referência",
+        hint:  "Se você possui um código que identifique este produto internamente." %>
+
+  <%= f.submit "Salvar item" %> ou
+  <% # TODO This javascript code shouldn't be here %> 
+  <%= link_to "cancelar", "javascript: history.back()" %>
+
+<% end %>

@@ -1,0 +1,30 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1>Clientes</h1>
+</header>
+
+<div class="main_container">
+  <table class="listing">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% 7.times do |t| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to "John #{t}", admin_customer_path(1) %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= small_button new_admin_customer_path, :text => "Novo cliente", :image => 'admin/icons/plus_16.png' %>
+</div>

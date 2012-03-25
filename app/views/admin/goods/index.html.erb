@@ -20,7 +20,6 @@
         <td><%= link_to good.name, admin_inventory_good_path(good) %></td>
         <td><%= good.reference %></td>
         <td><%= good.last_balance.try(:total_quantity) %></td>
-        <% # <td><%= link_to 'Excluir', admin_inventory_good_path(good), confirm: 'Are you sure?', method: :delete ></td> %>
       </tr>
     <% end %>
   <% end %>
