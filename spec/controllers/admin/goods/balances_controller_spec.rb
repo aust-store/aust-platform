@@ -32,7 +32,7 @@ describe Admin::Goods::BalancesController do
 
   describe "GET index" do
     before do
-      @good.stub_chain(:balances).and_return(@balances)
+      @good.stub(:balances).and_return(@balances)
       Admin::GoodBalancePresenter.stub(:map).and_return(@balances)
     end
 

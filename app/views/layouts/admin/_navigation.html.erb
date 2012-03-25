@@ -1,12 +1,16 @@
 <h2>Gerenciamento</h2>
 <ul>
-  <li><%= link_to "Estoque", admin_inventory_goods_path %></li>
-  <li><%= link_to "Colaboradores", "/" %></li>
+  <li <%= current_nav_namespace("inventory") %>>
+    <%= link_to "Estoque", admin_inventory_goods_path %>
+  </li>
+  <li><%= link_to "Clientes", admin_inventory_goods_path %></li>
+  <li><%= link_to "Financeiro", admin_dashboard_path %></li>
+  <li><%= link_to "Colaboradores", admin_dashboard_path %></li>
 </ul>
 <h2>Loja</h2>
 <ul>
-  <li><%= link_to "Produtos", "/" %></li>
-  <li><%= link_to "Pedidos", "/" %></li>
+  <li><%= link_to "Produtos", admin_dashboard_path %></li>
+  <li><%= link_to "Pedidos", admin_dashboard_path %></li>
 </ul>
 
 <h2>Mais</h2>

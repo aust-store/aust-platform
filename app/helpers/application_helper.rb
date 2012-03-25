@@ -1,8 +1,11 @@
 module ApplicationHelper
+  # Navigation
+  def current_nav_namespace(namespace = nil)
+    raw 'class="current_namespace"' if @nav_namespace == namespace
+  end
 
   # BUTTONS & ELEMENTS
   def small_button routing_resource, options
-    
     has_image_class, image_styling = '', ''
     # has_image
     unless options[:image].blank?
