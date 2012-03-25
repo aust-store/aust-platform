@@ -20,6 +20,9 @@ feature "Listing goods' balance", js: true, search: true do
 
     scenario "As a store admin, I want to see goods from my company only" do
       page.should have_content "Balance 1"
+      page.should have_content "4.0"
+      page.should have_content "R$ 20,00"
+
       page.should have_content "Balance 2"
       page.should have_content "Balance 3"
       page.should have_content "Balance 4"
@@ -51,6 +54,7 @@ feature "Listing goods' balance", js: true, search: true do
       page.current_path.should == admin_inventory_good_balances_path(@good)
 
       page.should have_content "A new balance status."
+      page.should have_content "5.0"
       page.should have_content "R$ 1,30"
       page.should_not have_content "Other good"
     end

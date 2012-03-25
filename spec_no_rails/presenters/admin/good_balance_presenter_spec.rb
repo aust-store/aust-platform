@@ -1,6 +1,4 @@
-class Presenter; end
-module Admin; end
-
+require "./spec_no_rails/spec_helper"
 require "./app/presenters/admin/good_balance_presenter"
 
 describe Admin::GoodBalancePresenter do
@@ -16,12 +14,14 @@ describe Admin::GoodBalancePresenter do
 
   describe ".cost_per_unit" do
     it "should return converted to R$" do
+      @presenter.should_receive(:to_currency).and_return "R$ 10,00"
       @presenter.cost_per_unit.should == "R$ 10,00"
     end
   end
 
   describe ".total_cost" do
     it "should return converted to R$" do
+      @presenter.should_receive(:to_currency).and_return "R$ 14,14"
       @presenter.total_cost.should == "R$ 14,14"
     end
   end

@@ -4,7 +4,7 @@ class Admin::GoodBalancePresenter < Presenter
   expose :quantity, :cost_per_unit, :total_quantity, :total_cost
   expose :created_at
 
-  include ActionView::Helpers::NumberHelper
+  include ::ActionView::Helpers::NumberHelper
 
   def cost_per_unit
     to_currency @balance.cost_per_unit

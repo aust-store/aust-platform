@@ -2,7 +2,7 @@ require "./spec_no_rails/spec_helper"
 require "ostruct"
 require "bigdecimal"
 
-describe DomainObject::Balance do
+describe Store::DomainObject::Balance do
 
   before do
     @balances = [
@@ -12,7 +12,7 @@ describe DomainObject::Balance do
     ]
   end
 
-  subject { DomainObject::Balance.new(@balances) }
+  subject { Store::DomainObject::Balance.new(@balances) }
 
   describe "#calculate" do
     it "returns a hash with balance status" do
@@ -27,7 +27,7 @@ describe DomainObject::Balance do
 
     context "when no balance is given" do
       it "should return zero" do
-        DomainObject::Balance.new([]).moving_average_cost.to_s.should == BigDecimal("0.0").to_s
+        Store::DomainObject::Balance.new([]).moving_average_cost.to_s.should == BigDecimal("0.0").to_s
       end
     end
   end
@@ -39,7 +39,7 @@ describe DomainObject::Balance do
 
     context "when no balance is given" do
       it "should return zero" do
-        DomainObject::Balance.new([]).total_quantity.to_s.should == BigDecimal("0").to_s
+        Store::DomainObject::Balance.new([]).total_quantity.to_s.should == BigDecimal("0").to_s
       end
     end
   end
@@ -51,7 +51,7 @@ describe DomainObject::Balance do
 
     context "when no balance is given" do
       it "should return zero" do
-        DomainObject::Balance.new([]).total_cost.to_s.should == BigDecimal("0").to_s
+        Store::DomainObject::Balance.new([]).total_cost.to_s.should == BigDecimal("0").to_s
       end
     end
   end
