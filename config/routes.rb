@@ -1,5 +1,4 @@
 Store::Application.routes.draw do
-
   devise_for :admin_users,
     controllers: {
       registrations: "admin/users/registrations",
@@ -26,8 +25,13 @@ Store::Application.routes.draw do
       end
     end
 
-    resources :customers
-    get "financial/index"
+    resources :customers do
+      resources :receivables, controller: 'financial/receivables'
+    end
+
+    namespace :financial do
+      resources :receivables
+    end
 
     root :to => 'dashboard#index'
   end
