@@ -1,0 +1,29 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1>Loja</h1>
+</header>
+
+<div class="main_container section">
+  <h2>Últimos produtos</h2>
+
+  <div class="thumbs_gallery">
+    <% 5.times do %>
+      <% 5.times do |t| %>
+        <% t += 1 %>
+        <div class="box image">
+          <%= image_tag "store/temp/product_#{t}_170x127.jpg", width: 60 %>
+        </div>
+      <% end %>
+    <% end %>
+    <%= link_to admin_store_dashboard_path do %>
+      <div class="box add">
+
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="main_container">
+</div>
+

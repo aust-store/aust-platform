@@ -19,6 +19,7 @@ class Admin::ApplicationController < ActionController::Base
     @nav_namespace = case request.url
     when /inventory/ ; "inventory"
     when /customers/ ; "customers"
+    when /store/     ; "store"
     else nil
     end
   end

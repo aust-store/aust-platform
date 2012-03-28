@@ -33,6 +33,10 @@ Store::Application.routes.draw do
       resources :receivables
     end
 
+    namespace :store do
+      get 'dashboard' => 'dashboard#index'
+    end
+
     root :to => 'dashboard#index'
   end
 
