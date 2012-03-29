@@ -1,0 +1,51 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_good_path(@good),
+             text: "Voltar a #{@good.name}"
+           } %>
+
+<header>
+  <h1>Gerenciar imagens</h1>
+  <p>Você está vendo imagens do item <%= @good.name %></p>
+</header>
+
+<div class="main_container">
+  <% if notice %>
+    <p id="notice"><%= notice %></p>
+  <% end %>
+
+  <div>
+    <p>
+      Envia uma nova imagem para este item. As imagens aparecem automaticamente
+      na sua loja virtual.
+    </p>
+    <input type="file" />
+    <br />
+    <br />
+    <input type="submit" value="Enviar arquivos" />
+  </div>
+
+</div>
+
+<div class="main_container section">
+  <h2>Imagens atuais</h2>
+
+  <div class="thumbs_gallery">
+    <% 7.times do |m| %>
+      <% 5.times do |t| %>
+        <% t += 1 %>
+        <div class="box image">
+          <%= image_tag "store/temp/product_#{t}_170x127.jpg", width: 60 %>
+          <% if m == 0 && t == 2 %>
+            <div class="cover">Capa</div>
+          <% end %>
+          <div class="delete">
+            <%= link_to "Excluir", "whatever" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>
+

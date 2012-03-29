@@ -3,15 +3,48 @@
 
   div.box {
     display: block;
+    position: relative;
     width: 60px;
     height: 45px;
     overflow: hidden;
     float: left;
-    margin: 0 3px 3px 0;
+    margin: 0 5px 4px 0;
     border-radius: 3px;
 
     &.image{
-      font-size: 0;
+      .delete, .cover {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        position: absolute;
+        padding: 1px 3px;
+        bottom: 3px;
+        right: 0;
+        font-size: 0.7em;
+        text-transform: uppercase;
+        border-radius: 3px;
+      }
+
+      .cover {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+      }
+
+      .delete {
+        background: rgba(255, 255, 255, 0.9);
+        position: absolute;
+        padding: 1px 3px;
+        bottom: 35%;
+        width: 54px;
+        text-align: center;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        font-weight: bold;
+        border-radius: 0;
+        display: none;
+
+        a { color: red; }
+        a { text-decoration: none; }
+      }
     }
 
     img {

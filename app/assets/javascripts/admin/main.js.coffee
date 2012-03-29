@@ -8,5 +8,4 @@ $( ->
         $($(this).attr("data-complete")).html response
     )
     false
-
 )

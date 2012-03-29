@@ -22,6 +22,7 @@ Store::Application.routes.draw do
         end
 
         resources :balances, controller: 'goods/balances'
+        resources :images, controller: 'goods/images', only: ["index"]
       end
     end
 
