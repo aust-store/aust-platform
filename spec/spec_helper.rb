@@ -3,9 +3,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 
-# Runs spec_no_rails/ specs
-Dir[Rails.root.join("spec_no_rails/**/*.rb")].each { |f| require f }
-
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
