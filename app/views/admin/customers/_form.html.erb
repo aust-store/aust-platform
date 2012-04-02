@@ -1,18 +1,22 @@
-<%= simple_form_for([:admin, @good]) do |f| %>
+<%= simple_form_for([:admin,@customer]) do |f| %>
 
-  <%= f.input :name,
-        label: "Nome do bem ou mercadoria",
-        hint:  "",
-        placeholder: "ex.: parafuso 1cm" %>
+  <%= f.input :first_name,
+      hint: "",
+      placeholder: "ex.: João" %>
 
-  <%= f.input :description,
-        label: "Descrição" %>
-  <%= f.input :reference,
-        label: "Código de referência",
-        hint:  "Se você possui um código que identifique este produto internamente." %>
+    <%= f.input :last_name,
+      hint: "",
+      placeholder: "ex.: Silva" %>
 
-  <%= f.submit "Salvar item" %> ou
-  <% # TODO This javascript code shouldn't be here %> 
-  <%= link_to "cancelar", "javascript: history.back()" %>
+  
+    <%= f.input :description,
+      hint: "",
+        placeholder: "ex.: Cliente da padaria." %>
 
+    <%= f.submit "Salvar cliente",id: "salvar_cliente" %> ou
+    
+    <%= link_to "cancelar", "javascript: history.back()" %>
+
+  
+   
 <% end %>
