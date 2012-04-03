@@ -17,7 +17,6 @@ feature "Customers" do
     @old_customer = Factory.create(:customer, first_name: "Rafael",last_name: "Oliveira", company_id: '2')
   end
 
-
   describe "Adding new customer" do
     scenario "As a admin, I'd like to add new customers" do
 
@@ -29,7 +28,6 @@ feature "Customers" do
       click_button "salvar_cliente"
       page.should have_content(@customer.name)
       page.should_not have_content(@old_customer.name)
-
 
     end
   end
