@@ -1,5 +1,7 @@
 class Company < ActiveRecord::Base
   has_many :admin_users
+  has_many :customers
+
   has_one :inventory, class_name: "InventoryPersistence"
 
   accepts_nested_attributes_for :admin_users

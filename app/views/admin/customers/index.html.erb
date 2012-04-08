@@ -14,13 +14,15 @@
       </tr>
     </thead>
     <tbody>
-    <% 7.times do |t| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td><%= link_to "John #{t}", admin_customer_path(1) %></td>
+      <% if @customers %>
+        <% @customers.each do |customer| %>
+        <td><%= link_to customer.name %> </td>
         <td></td>
         <td></td>
-      </tr>
-    <% end %>
+      
+        <% end %>
+      
+      <% end %>
     </tbody>
   </table>
 
