@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-# Admins should be able to see the complete list of customersa
-
-#*Acceptance criteria*
-
-# * Admin creates a customer
-#* Customer has following information as of now: first_name, last_name, description
-###* Admins should be able to see the complete list of customers
 
 require 'spec_helper'
 
