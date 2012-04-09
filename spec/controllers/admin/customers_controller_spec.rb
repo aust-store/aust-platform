@@ -22,10 +22,6 @@ describe Admin::CustomersController do
   end
 
   describe "GET new" do
-    before do
-      @customer = Customer.new(company: @admin_user.company)
-    end
-
     it "assigns a new customer with company from current user" do
        get :new
        assigns(:customer).should be_a_kind_of(Customer)
@@ -65,5 +61,4 @@ describe Admin::CustomersController do
       end
     end
   end
-
 end
