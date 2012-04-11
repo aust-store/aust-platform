@@ -3,60 +3,60 @@ require 'spec_helper'
 describe Admin::CustomersController do
   login_admin
 
-
-  before do
-    @customer = Factory(:customer)
-    @customer_from_other_company = Factory(:customer,company_id: 2)
-  end
-
   def form_attributes
-    {first_name: "Jane", last_name: "Doe",description: "a new Customer"}
+    { first_name: "Jane", last_name: "Doe",description: "a new Customer" }
   end
 
   describe "GET index" do
+    before do
+      Customer.stub_chain(:within_company, :all).and_return(["customers"])
+    end
+
     it "assigns all customers as @customers" do
       get :index
-      assigns(:customers).should eq([@customer])
-      assigns(:customers).should_not include(@customer_from_other_company)
+      assigns(:customers).should eq(["customers"])
     end
   end
 
   describe "GET new" do
+    before do
+      Customer.stub(:new).and_return("customer")
+    end
+
     it "assigns a new customer with company from current user" do
        get :new
-       assigns(:customer).should be_a_kind_of(Customer)
-       assigns(:customer).company_id.should eq(@admin_user.company.id)
+       assigns(:customer).should == "customer"
     end
   end
 
   describe "POST create" do
+    before do
+      @customer = double and @customer.stub(:company=)
+      Customer.stub(:new).and_return(@customer)
+    end
+
     describe "with valid params" do
-      it "creates a new Customer" do
-        expect {
-          post :create, {:customer => form_attributes}
-        }.to change(Customer,:count).by(1)
+      before do
+        @customer.should_receive(:save)
       end
 
-      it "assigns a newly created customer as @customer" do
-        post :create,  {:customer => form_attributes}
-        assigns(:customer).should be_a(Customer)
-        assigns(:customer).should be_persisted
-        assigns(:customer).company_id.should eq(@admin_user.company.id)
+      it "creates a new Customer" do
+        post :create, { :customer => form_attributes }
       end
     end
 
     describe "with invalid params" do
       before do
-         Customer.any_instance.stub(:save).and_return(false)
+         @customer.stub(:save).and_return(false)
       end
 
       it "assigns a new created customer as @customer" do
-        post :create, {:good => {}}
-        assigns(:customer).should be_a_new(Customer)
+        post :create, { :good => {} }
+        assigns(:customer).should == @customer
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:customer =>{}}
+        post :create, { :customer =>{} }
         response.should render_template(:new)
       end
     end
