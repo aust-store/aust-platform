@@ -42,6 +42,9 @@ GEM
     capybara-webkit (0.10.0)
       capybara (>= 1.0.0, < 1.2)
       json
+    carrierwave (0.6.2)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
     coffee-rails (3.2.2)
@@ -118,6 +121,7 @@ GEM
       json (~> 1.4)
     responders (0.8.0)
       railties (~> 3.1)
+    rmagick (2.13.1)
     rsolr (1.0.7)
       builder (>= 2.1.2)
     rspec (2.8.0)
@@ -180,6 +184,7 @@ PLATFORMS
 DEPENDENCIES
   capybara (= 1.1.2)
   capybara-webkit (= 0.10.0)
+  carrierwave
   coffee-rails (~> 3.2.1)
   database_cleaner (= 0.7.1)
   devise (= 2.0.4)
@@ -190,6 +195,7 @@ DEPENDENCIES
   launchy (= 2.0.5)
   pg
   rails (= 3.2.1)
+  rmagick
   rspec-rails (= 2.8.0)
   sass-rails (~> 3.2.3)
   simple_form (~> 2.0.0)

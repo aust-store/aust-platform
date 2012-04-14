@@ -18,3 +18,4 @@ config/database.yml
 /tmp
 /solr/data
 /solr/pids
+.#*
