@@ -15,7 +15,7 @@ class Good < ActiveRecord::Base
   before_create :associate_with_inventory
 
   searchable do
-    text :name, as: :name_textp
+    text :name
     text :description
     integer :company_id
   end
