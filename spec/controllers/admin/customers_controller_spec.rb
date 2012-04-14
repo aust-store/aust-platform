@@ -21,6 +21,17 @@ describe Admin::CustomersController do
     end
   end
 
+  describe "GET show" do
+    before do
+      Customer.stub(:find).and_return("customer")
+    end
+
+    it "assigns the customer found by id" do
+      get :show, id: 1
+      assigns(:customer).should == "customer"
+    end
+  end
+
   describe "GET new" do
     it "assigns a new customer with company from current user" do
        get :new
