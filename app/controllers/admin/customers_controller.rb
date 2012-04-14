@@ -4,6 +4,10 @@ class Admin::CustomersController < Admin::ApplicationController
      @customers = Customer.within_company(current_user.company).all
   end
 
+  def show
+    @customer = Customer.find(params[:id])    
+  end
+
   def new
     @customer = Customer.new(company: current_user.company)
   end

@@ -1,0 +1,39 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_customers_path,
+             text: "Voltar ao estoque"
+           } %>
+
+<header>
+  <h1><%= @customer.name %></h1>
+</header>
+
+<div class="main_container">
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <b>Nome:</b>
+    <%= @customer.name %>
+  </p>
+
+  <%= small_button "#", text: "Editar" %>
+  <%= small_button admin_financial_receivables_path, text: "Dívida" %>
+  <%= small_button new_admin_financial_receivable_path, text: "Nova dívida" %>
+</div>
+<div class="main_container section">
+
+  <div class="thumbs_gallery">
+    <h2>Últimos produtos comprados</h2>
+    <% 2.times do |m| %>
+      <% 5.times do |t| %>
+        <% t += 1 %>
+        <div class="box image">
+          <%= image_tag "store/temp/product_#{t}_170x127.jpg", width: 60 %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>
+
+
