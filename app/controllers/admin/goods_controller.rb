@@ -37,7 +37,7 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def update
     if @good.update_attributes params[:good]
-      redirect_to admin_inventory_goods_url
+      redirect_to admin_inventory_good_url(@good)
     else
       render "edit"
     end
