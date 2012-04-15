@@ -1,4 +1,4 @@
-# encoding: utf-8 
+# encoding: utf-8
 class Admin::GoodsController < Admin::ApplicationController
   before_filter :load_good, only: [:show, :edit, :update, :destroy]
 
@@ -14,12 +14,13 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def show
+    @good = Good.find(params[:id])
   end
 
   def new
     @good = Good.new
   end
-  
+
   def edit
   end
 

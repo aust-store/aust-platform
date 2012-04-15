@@ -19,3 +19,4 @@ config/database.yml
 /solr/data
 /solr/pids
 .#*
+public/uploads/*

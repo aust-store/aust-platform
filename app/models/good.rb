@@ -8,6 +8,7 @@ class Good < ActiveRecord::Base
   has_many :good_images
 
   accepts_nested_attributes_for :balances
+  accepts_nested_attributes_for :good_images
 
   validates :name, :admin_user_id, :company_id, presence: true
 
@@ -15,7 +16,6 @@ class Good < ActiveRecord::Base
 
   before_create :associate_with_inventory
 
-  mount_uploader :image, ImageGoodUploader
 
   searchable do
     text :name
