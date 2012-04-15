@@ -17,8 +17,12 @@ Store::Application.routes.draw do
     resource :inventory do
       resources :goods do
         collection do
-          post 'search' => "goods#search"
           get 'new_good_or_balance'
+
+          resource :search, controller: 'goods/search', only: [] do
+            post "index"
+            post "for_adding_balance"
+          end
         end
 
         resources :balances, controller: 'goods/balances'
