@@ -1,0 +1,10 @@
+<% if @resources %>
+  <ul>
+  <% @resources.each do |resource| %>
+    <li class="<%= cycle('odd', 'even') %>">
+      <%= yield %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
