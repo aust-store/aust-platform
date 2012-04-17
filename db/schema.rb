@@ -13,6 +13,22 @@
 
 ActiveRecord::Schema.define(:version => 20120417020928) do
 
+  create_table "account_receivables", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "admin_user_id"
+    t.integer  "customer_id"
+    t.decimal  "value"
+    t.text     "description"
+    t.date     "due_to"
+    t.boolean  "paid"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "account_receivables", ["admin_user_id"], :name => "index_account_receivables_on_admin_user_id"
+  add_index "account_receivables", ["company_id"], :name => "index_account_receivables_on_company_id"
+  add_index "account_receivables", ["customer_id"], :name => "index_account_receivables_on_customer_id"
+
   create_table "admin_dashboards", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -91,21 +107,5 @@ ActiveRecord::Schema.define(:version => 20120417020928) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "receivables", :force => true do |t|
-    t.integer  "company_id"
-    t.integer  "admin_user_id"
-    t.integer  "customer_id"
-    t.decimal  "value"
-    t.text     "description"
-    t.datetime "due_to"
-    t.boolean  "payed"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  add_index "receivables", ["admin_user_id"], :name => "index_receivables_on_admin_user_id"
-  add_index "receivables", ["company_id"], :name => "index_receivables_on_company_id"
-  add_index "receivables", ["customer_id"], :name => "index_receivables_on_customer_id"
 
 end

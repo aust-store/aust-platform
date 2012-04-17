@@ -14,8 +14,8 @@ feature "Receivables management" do
         click_link "Nova dívida"
         fill_in "Descrição",with: "Description about the receivable"
         fill_in "Valor", with: "R$ 123,45"
-        fill_in "Data", with: "16/04/2036"
-        click_button "Salvar"
+        fill_in "Data", with: "16/04/2012"
+        click_button "Criar conta a receber"
 
         page.should have_content("R$ 123,45")
         page.should have_content("Description about the receivable")

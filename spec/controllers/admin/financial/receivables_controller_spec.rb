@@ -1,0 +1,48 @@
+require 'spec_helper'
+
+describe Admin::Financial::ReceivablesController do
+  login_admin
+
+  let(:valid_attributes) do
+    { "description" => "These came from Japan.",
+      "value"       => "R$ 4,00",
+      "due_to"      => "21/04/2012" }
+  end
+  
+  let(:sanitized_attributes) do
+    { "description" => "These came from Japan.",
+      "value"       => 4.0,
+      "due_to"      => "2012/04/21" }
+  end
+
+  before do
+    @resource = double
+    @resource.stub(:save)
+  end
+
+  describe "POST create" do
+    before do
+      @resource.should_receive(:customer_id=).with("1")
+    end
+
+    it "should redirect to the main page if saved resource" do
+      @resource.stub(:save).and_return(true)
+      AccountReceivable.stub(:new).and_return(@resource)
+      post :create, { customer_id: "1", account_receivable: valid_attributes }
+      response.should redirect_to(admin_customer_receivables_path)
+    end
+
+    it "should render the form again if didn't save resource" do
+      @resource.stub(:save).and_return(false)
+      AccountReceivable.stub(:new).and_return(@resource)
+      post :create, { customer_id: "1", account_receivable: valid_attributes }
+      response.should render_template("new")
+    end
+
+    it "should parse the date field" do
+      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
+      AccountReceivable.should_receive(:new).with(sanitized_attributes).and_return(@resource)
+      post :create, { customer_id: "1", account_receivable: valid_attributes }
+    end
+  end
+end

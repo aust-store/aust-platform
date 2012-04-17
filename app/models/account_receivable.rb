@@ -1,4 +1,4 @@
-class Receivable < ActiveRecord::Base
+class AccountReceivable < ActiveRecord::Base
   belongs_to :customer
   belongs_to :company
 end

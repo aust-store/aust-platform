@@ -5,6 +5,7 @@ class Navigation
   bind_events: ->
     $("a.js-back").on "click", ->
       history.back()
+      false
 
 $ ->
   navigation = new Navigation

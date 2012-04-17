@@ -19,19 +19,19 @@
   <table class="listing">
     <thead>
       <tr>
-        <th>Data da dívida</th>
-        <th>Pagamento em</th>
+        <th>Descrição</th>
+        <th>Vencimento</th>
         <th>Valor</th>
         <th>Status</th>
       </tr>
     </thead>
     <tbody>
-    <% 7.times do |t| %>
+    <% @receivables.each do |receivable| %>
       <tr class="<%= cycle('odd', 'even') %>">
-        <td>14/04/2011</td>
-        <td>14/14/2014</td>
-        <td>R$ 387,00</td>
-        <td>Pago</td>
+        <td><%= receivable.description %></td>
+        <td><%= receivable.due_to %></td>
+        <td><%= receivable.value %></td>
+        <td><%= receivable.status %></td>
       </tr>
     <% end %>
     </tbody>
