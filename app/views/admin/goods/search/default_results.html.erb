@@ -1,0 +1,10 @@
+<% if @resources %>
+  <ul>
+  <% @resources.each do |resource| %>
+    <li class="<%= cycle('odd', 'even') %>">
+      <%= link_to resource.name, @path.call(resource), :"data-id" => resource.id %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+

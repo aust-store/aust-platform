@@ -1,12 +1,15 @@
 class Goods
+
   # Adding goods to inventory workflow
   search_existent_good_event: ->
     $(".search_existent_good input.search").bind 'keyup', (event) =>
-      @search_existent_good_post($(event.target).val())
+      @search_existent_good_post($(event.target))
       
-  search_existent_good_post: (string) ->
+  search_existent_good_post: (element) ->
+    string = element.val()
+    path = element.data("path")
     $.post(
-        search_admin_inventory_goods_path,
+        path,
         { "name": string },
         (response) =>
           $(".search_existent_good .search_results").html(response)
@@ -14,7 +17,7 @@ class Goods
       )
 
   bind_search_results_to_new_form: ->
-    $(".search_existent_good .search_results ul li a").bind "click", (event)->
+    $(".search_existent_good .search_results ul li a[data-async='true']").bind "click", (event)->
       $.get(
         $(event.target).attr("href"),
         (response) ->
@@ -24,7 +27,6 @@ class Goods
 
   init: ->
     @search_existent_good_event()
-    @search_existent_good_post("")
 
 $( ->
   goods = new Goods
