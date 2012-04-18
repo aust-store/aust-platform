@@ -1,4 +1,4 @@
-require "./app/roles/currency_parser_role"
+require "./app/roles/currency_parser"
 
 describe CurrencyParser do
   describe ".to_float!" do

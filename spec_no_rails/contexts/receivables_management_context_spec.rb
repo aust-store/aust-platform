@@ -1,5 +1,5 @@
 require "./spec_no_rails/spec_helper"
-require "./app/roles/date_sanitizer_role"
+require "./app/roles/date_sanitizer"
 require "./spec_no_rails/contracts/simple_presenter_contract_spec"
 
 require "./app/contexts/receivables_management_context"

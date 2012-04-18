@@ -1,5 +1,5 @@
 require "date"
-require "./app/roles/date_sanitizer_role"
+require "./app/roles/date_sanitizer"
 
 describe DateSanitizer do
   before do
