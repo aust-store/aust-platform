@@ -16,33 +16,22 @@ describe Admin::Financial::ReceivablesController do
   end
 
   before do
-    @resource = double
-    @resource.stub(:save)
+    @context = double
   end
 
   describe "POST create" do
-    before do
-      @resource.should_receive(:customer_id=).with("1")
-    end
-
     it "should redirect to the main page if saved resource" do
-      @resource.stub(:save).and_return(true)
-      AccountReceivable.stub(:new).and_return(@resource)
+      @context.stub(:save_receivable).and_return(true)
+      ReceivablesManagementContext.stub(:new).and_return(@context)
       post :create, { customer_id: "1", account_receivable: valid_attributes }
       response.should redirect_to(admin_customer_receivables_path)
     end
 
     it "should render the form again if didn't save resource" do
-      @resource.stub(:save).and_return(false)
-      AccountReceivable.stub(:new).and_return(@resource)
+      @context.stub(:save_receivable).and_return(false)
+      ReceivablesManagementContext.stub(:new).and_return(@context)
       post :create, { customer_id: "1", account_receivable: valid_attributes }
       response.should render_template("new")
-    end
-
-    it "should parse the date field" do
-      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
-      AccountReceivable.should_receive(:new).with(sanitized_attributes).and_return(@resource)
-      post :create, { customer_id: "1", account_receivable: valid_attributes }
     end
   end
 end

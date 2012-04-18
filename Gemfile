@@ -9,7 +9,10 @@ gem 'pg'
 gem 'devise', '2.0.4'
 
 gem 'simple_form', "~> 2.0.0"
-gem 'simple_presenter'
+
+group :spec_no_rails do
+  gem 'simple_presenter'
+end
 
 gem 'sunspot_rails', '~> 1.3.0'
 
