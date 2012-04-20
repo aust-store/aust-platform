@@ -30,7 +30,7 @@
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= receivable.description %></td>
         <td><%= receivable.due_to %></td>
-        <td><%= receivable.value %></td>
+        <td><%= link_to receivable.value, edit_admin_customer_receivable_path(receivable.customer, receivable) %></td>
         <td><%= receivable.status %></td>
       </tr>
     <% end %>

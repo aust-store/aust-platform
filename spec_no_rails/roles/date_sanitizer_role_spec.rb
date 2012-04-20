@@ -2,9 +2,6 @@ require "date"
 require "./app/roles/date_sanitizer"
 
 describe DateSanitizer do
-  before do
-  end
-  
   describe ".parse_date_for_active_record" do
     before do
       @params = "21/04/1987"

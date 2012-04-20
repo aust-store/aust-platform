@@ -5,15 +5,24 @@ class Admin::Financial::ReceivablesController < Admin::ApplicationController
   end
 
   def new
-    @receivable = AccountReceivable.new(customer_id: params[:customer_id])    
+    @receivable = Admin::ReceivablePresenter.new(AccountReceivable.new(customer_id: params[:customer_id])) 
+  end
+
+  def edit
+    @receivable = Admin::ReceivablePresenter.new(AccountReceivable.find(params[:id])) 
   end
 
   def create
-    @context = ReceivablesManagementContext.new(params)
+    @context = ReceivablesManagementContext.new(params, current_user)
     if @context.save_receivable
       redirect_to admin_customer_receivables_path, notice: "Conta a receber cadastrada."
     else
+      @receivable = Admin::ReceivablePresenter.new(@context.resource)
       render :new
     end
+  end
+
+  def update
+    
   end
 end

@@ -1,5 +1,6 @@
 require "./spec_no_rails/spec_helper"
 require "./app/roles/date_sanitizer"
+require "./app/roles/currency_parser"
 require "./spec_no_rails/contracts/simple_presenter_contract_spec"
 
 require "./app/contexts/receivables_management_context"
@@ -13,7 +14,8 @@ describe ReceivablesManagementContext do
     { account_receivable:
       { "description" => "These came from Japan.",
         "value"       => "R$ 4,00",
-        "due_to"      => "21/04/2012" }
+        "due_to"      => "21/04/2012" },
+      :customer_id => 123 
     }
   end
   
@@ -28,17 +30,32 @@ describe ReceivablesManagementContext do
 
   describe ".save_receivable" do
     before do
-      @params = { account_receivable: :value }
-      @data = double
-      @data.stub(:customer_id=)
-      @data.stub(:save)
+      @resource = double
+      @resource.stub(:customer_id=)
+      @resource.stub(:admin_user_id=)
+      @resource.stub(:save)
+
+      @author = double
+      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
+      AccountReceivable.stub(:new).and_return(@resource)
+
+      @context = ReceivablesManagementContext.new(valid_attributes, @author)
+    end
+
+    after do
+      @context.save_receivable
     end
 
     it "should use injected params to instantiate data" do
-      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
-      @context = ReceivablesManagementContext.new(valid_attributes)
-      AccountReceivable.should_receive(:new).with(sanitized_attributes).and_return(@data)
-      @context.save_receivable
+      AccountReceivable.should_receive(:new).with(sanitized_attributes).and_return(@resource)
+    end
+
+    it "should set the customer" do
+      @resource.should_receive(:customer_id=).with(123)
+    end
+
+    it "should set the admin user" do
+      @resource.should_receive(:admin_user_id=).with(@author)
     end
 
   end

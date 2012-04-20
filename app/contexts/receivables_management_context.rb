@@ -1,13 +1,17 @@
 class ReceivablesManagementContext
-  def initialize(params)
+  attr_reader :resource
+
+  def initialize(params, author)
     @params = params
+    @author = author
   end
 
   def save_receivable
     sanitize_controller_params
-    @receivable = AccountReceivable.new(@params[:account_receivable])
-    @receivable.customer_id = @params[:customer_id]
-    @receivable.save
+    @resource = AccountReceivable.new(@params[:account_receivable])
+    @resource.customer_id = @params[:customer_id]
+    @resource.admin_user_id = @author
+    @resource.save
   end
 
   private

@@ -29,9 +29,11 @@ describe Admin::Financial::ReceivablesController do
 
     it "should render the form again if didn't save resource" do
       @context.stub(:save_receivable).and_return(false)
+      @context.stub(:resource).and_return("resource")
       ReceivablesManagementContext.stub(:new).and_return(@context)
       post :create, { customer_id: "1", account_receivable: valid_attributes }
       response.should render_template("new")
+      assigns(:receivable).should == "resource"
     end
   end
 end

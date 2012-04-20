@@ -1,16 +1,19 @@
 class Admin::ReceivablePresenter < Presenter
   subjects :receivable
-  expose :description, :value, :due_to, :paid
+  expose :id, :description, :value, :due_to, :paid
   expose :created_at
+  expose :customer
+  expose :errors, :model_name, :persisted?
 
   include ::ActionView::Helpers::NumberHelper
+  include ActiveModel::Conversion
 
   def value
     to_currency @receivable.value
   end
 
   def due_to
-    @receivable.due_to.strftime("%d/%m/%Y") 
+    @receivable.due_to.strftime("%d/%m/%Y") unless @receivable.due_to.nil? 
   end
 
   def status
@@ -19,6 +22,10 @@ class Admin::ReceivablePresenter < Presenter
     else
       "pendente"
     end
+  end
+
+  def self.model_name
+    ActiveModel::Name.new AccountReceivable
   end
 
   private
