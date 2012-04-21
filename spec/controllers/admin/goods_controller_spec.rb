@@ -98,7 +98,7 @@ describe Admin::GoodsController do
 
       it "redirects to the good" do
         put :update, {:id => @good.to_param, :good => valid_attributes}
-        response.should redirect_to(admin_inventory_goods_url)
+        response.should redirect_to(admin_inventory_good_url(@good))
       end
     end
 
