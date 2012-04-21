@@ -73,4 +73,15 @@ describe Admin::Financial::AccountReceivablesController do
       end
     end
   end
+
+  describe "DELETE destroy" do
+    before do
+      ReceivablesManagementContext.stub(:new).and_return(@context)
+    end
+
+    it "should render the form again if didn't save resource" do
+      @context.should_receive(:delete_receivable)
+      delete :destroy, customer_id: "1", id: "2"
+    end
+  end
 end

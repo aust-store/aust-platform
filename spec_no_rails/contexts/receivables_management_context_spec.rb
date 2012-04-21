@@ -25,17 +25,18 @@ describe ReceivablesManagementContext do
   end
 
   before do
+    Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
+    @resource = double
+    AccountReceivable.stub(:find).and_return(@resource)
   end
 
   describe ".save_receivable" do
     before do
-      @resource = double
       @resource.stub(:customer_id=)
       @resource.stub(:admin_user_id=)
       @resource.stub(:save)
 
       @author = double
-      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
       AccountReceivable.stub(:new).and_return(@resource)
 
       @context = ReceivablesManagementContext.new(valid_attributes, @author)
@@ -45,32 +46,38 @@ describe ReceivablesManagementContext do
       @context.save_receivable
     end
 
-    it "should use injected params to instantiate data" do
+    it "uses injected params to instantiate data" do
       AccountReceivable.should_receive(:new).with(sanitized_attributes).and_return(@resource)
     end
 
-    it "should set the customer" do
+    it "sets the customer" do
       @resource.should_receive(:customer_id=).with(123)
     end
 
-    it "should set the admin user" do
+    it "sets the admin user" do
       @resource.should_receive(:admin_user_id=).with(@author)
     end
   end
 
   describe ".update_receivable" do
     before do
-      @resource = double
-
-      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
-      AccountReceivable.stub(:find).and_return(@resource)
-
       @context = ReceivablesManagementContext.new(valid_attributes)
     end
 
-    it "should use injected params to instantiate data" do
+    it "uses injected params to instantiate data" do
       @resource.should_receive(:update_attributes).with(valid_attributes[:account_receivable])
       @context.update_receivable
+    end
+  end
+  
+  describe ".delete_receivable" do
+    before do
+      @context = ReceivablesManagementContext.new(valid_attributes.merge(id: "2"))
+    end
+
+    it "uses injected params to instantiate data" do
+      AccountReceivable.should_receive(:destroy).with("2")
+      @context.delete_receivable
     end
   end
 end

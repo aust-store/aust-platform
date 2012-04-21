@@ -23,6 +23,7 @@
         <th>Vencimento</th>
         <th>Valor</th>
         <th>Status</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +33,7 @@
         <td><%= receivable.due_to %></td>
         <td><%= link_to receivable.value, edit_admin_customer_account_receivable_path(receivable.customer, receivable) %></td>
         <td><%= receivable.status %></td>
+        <td><%= link_to "Excluir", admin_customer_account_receivable_path(receivable.customer, receivable), class: "delete_account_receivable", method: :delete %></td>
       </tr>
     <% end %>
     </tbody>

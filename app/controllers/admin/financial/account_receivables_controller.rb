@@ -32,6 +32,11 @@ class Admin::Financial::AccountReceivablesController < Admin::ApplicationControl
     end
   end
 
+  def destroy
+    @context = ReceivablesManagementContext.new(params).delete_receivable
+    redirect_to admin_customer_account_receivables_path, notice: "Conta a receber salva."
+  end
+
   private
 
   def decorate(resource)

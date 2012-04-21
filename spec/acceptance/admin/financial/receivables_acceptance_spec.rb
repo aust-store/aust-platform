@@ -68,4 +68,18 @@ feature "Receivables management" do
       page.should have_content("Simple description")
     end
   end
+
+  describe "Deleting an account receivable" do
+    before do
+      @account_receivable = FactoryGirl.create(:account_receivable)
+      visit admin_customer_path(@customer)
+      click_link "Contas a receber"
+    end
+
+    scenario "I'd like to change all fields values" do
+      page.should have_content("R$ 500,00")
+      find(".delete_account_receivable").click
+      page.should_not have_content("R$ 500,00")
+    end
+  end
 end

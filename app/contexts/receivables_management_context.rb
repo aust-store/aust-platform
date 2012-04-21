@@ -20,6 +20,10 @@ class ReceivablesManagementContext
     @resource.update_attributes(@params[:account_receivable])
   end
 
+  def delete_receivable
+    AccountReceivable.destroy(@params[:id])
+  end
+
   private
 
   def sanitize_controller_params
