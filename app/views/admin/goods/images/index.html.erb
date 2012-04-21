@@ -19,7 +19,9 @@
       Envia uma nova imagem para este item. As imagens aparecem automaticamente
       na sua loja virtual.
     </p>
-    <%= simple_form_for([:admin,:inventory,@good]) do |f| %>
+    <%= simple_form_for([:admin,:inventory,@good],html:{multipart:true,class:
+                       "form-upload"},
+                       remote: true) do |f| %>
       <%= f.simple_fields_for :good_images, @good.good_images.last do |image_form| %>
         <%= image_form.file_field :image %>
         <br /><br />
@@ -29,21 +31,18 @@
   </div>
 
 </div>
-
-<div class="main_container section">
-  <h2>Imagens atuais</h2>
-
-  <div class="thumbs_gallery">
-    <% @good.good_images.each do |good_image| %>
-      <div class="box image">
-        <%= image_tag good_image.image.url(:medium), width: 60 %>
-        <div class="cover">Capa</div>
-        <div class="delete">
-          <%= link_to "Excluir", "whatever" %>
-        </div>
-      </div>
-      <% end %>
-  </div>
-
+<div class='good_images'>
+  <%= render partial: "shared/good_images" %>
 </div>
 
+
+<script>
+$(document).ready(function(){
+
+$('.form-upload').bind('ajax:complete', function(evt, xhr, status){
+   $('.good_images').html(xhr.responseText);
+   $('.form-upload').find('input[type="file"]').val("");
+
+});
+});
+</script>

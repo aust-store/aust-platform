@@ -37,6 +37,9 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def update
     if @good.update_attributes params[:good]
+      if remotipart_submitted?
+        return render partial: "shared/good_images", layout: false
+      end
       redirect_to admin_inventory_good_url(@good)
     else
       render "edit"
