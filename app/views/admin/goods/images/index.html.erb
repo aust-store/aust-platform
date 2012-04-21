@@ -34,15 +34,3 @@
 <div class='good_images'>
   <%= render partial: "shared/good_images" %>
 </div>
-
-
-<script>
-$(document).ready(function(){
-
-$('.form-upload').bind('ajax:complete', function(evt, xhr, status){
-   $('.good_images').html(xhr.responseText);
-   $('.form-upload').find('input[type="file"]').val("");
-
-});
-});
-</script>
