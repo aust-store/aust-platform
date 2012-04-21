@@ -15,6 +15,8 @@ class Good < ActiveRecord::Base
 
   before_create :associate_with_inventory
 
+  mount_uploader :image, ImageGoodUploader
+
   searchable do
     text :name
     text :description
