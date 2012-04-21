@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Admin::Financial::AccountReceivablesController do
   login_admin
 
+  it_should_behave_like "ReceivablesManagementContext"
   let(:valid_attributes) do
     { "description" => "These came from Japan.",
       "value"       => "R$ 4,00",
