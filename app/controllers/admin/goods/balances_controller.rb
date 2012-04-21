@@ -3,7 +3,7 @@ class Admin::Goods::BalancesController < Admin::ApplicationController
   before_filter :sanitize_params, only: [:create, :update]
 
   def index
-    @balances = Admin::GoodBalancePresenter.map @good.balances
+    @balances = Admin::GoodBalanceDecorator.decorate @good.balances
   end
 
   def new

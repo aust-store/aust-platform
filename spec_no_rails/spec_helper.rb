@@ -1,7 +1,3 @@
-require "rubygems"
-require "bundler/setup"
-require "simple_presenter"
-
 Dir["./spec_no_rails/support/**/*.rb"].each { |x| require x }
 Dir["./lib/store/domain_object/**/*.rb"].each { |x| require x }
 

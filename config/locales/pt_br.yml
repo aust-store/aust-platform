@@ -1,0 +1,15 @@
+# encoding: utf-8
+pt_br:
+  activerecord:
+    attributes:
+      account_receivable:
+        value: "Valor"
+        description: "Descrição"
+        due_to: "Data de vencimento"
+    errors:
+      models:
+        account_receivable:
+          attributes:
+            value:
+              blank: "%{attribute} não pode ser em branco"
+              greater_than: "%{attribute} deve ter um valor válido"

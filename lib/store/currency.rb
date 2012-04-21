@@ -16,7 +16,8 @@ module Store
       else
         value.gsub(/[^0-9]/, '').to_s + ".00"
       end
-      BigDecimal value.gsub(/[^0-9|\.]/, '')
+      # TODO - BigDecimal?
+      value.gsub(/[^0-9|\.]/, '').to_f
     end
   end
 end

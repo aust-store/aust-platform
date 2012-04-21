@@ -21,7 +21,6 @@ feature "Customers" do
       click_button "salvar_cliente"
       page.should have_content(@customer.name)
       page.should_not have_content(@old_customer.name)
-
     end
   end
 end

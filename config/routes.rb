@@ -31,11 +31,11 @@ Store::Application.routes.draw do
     end
 
     resources :customers do
-      resources :receivables, controller: 'financial/receivables'
+      resources :account_receivables, controller: 'financial/account_receivables'
     end
 
     namespace :financial do
-      resources :receivables
+      resources :account_receivables
     end
 
     namespace :store do
