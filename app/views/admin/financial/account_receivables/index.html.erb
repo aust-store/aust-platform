@@ -1,5 +1,5 @@
 <% @customer_receivable = true %>
-<% back_to = admin_financial_receivables_path %>
+<% back_to = admin_financial_account_receivables_path %>
 <% back_to = admin_customer_path(1) if @customer_receivable %>
 
 <%= render partial: "layouts/admin/nav_history",
@@ -30,7 +30,7 @@
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= receivable.description %></td>
         <td><%= receivable.due_to %></td>
-        <td><%= link_to receivable.value, edit_admin_customer_receivable_path(receivable.customer, receivable) %></td>
+        <td><%= link_to receivable.value, edit_admin_customer_account_receivable_path(receivable.customer, receivable) %></td>
         <td><%= receivable.status %></td>
       </tr>
     <% end %>
@@ -39,5 +39,5 @@
 
   <br />
 
-  <%= small_button new_admin_customer_receivable_path(1), :text => "Nova dívida", :image => 'admin/icons/plus_16.png' %>
+  <%= small_button new_admin_customer_account_receivable_path(1), :text => "Nova dívida", :image => 'admin/icons/plus_16.png' %>
 </div>

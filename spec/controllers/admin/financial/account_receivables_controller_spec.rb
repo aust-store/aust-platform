@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Financial::ReceivablesController do
+describe Admin::Financial::AccountReceivablesController do
   login_admin
 
   let(:valid_attributes) do
@@ -24,7 +24,7 @@ describe Admin::Financial::ReceivablesController do
       @context.stub(:save_receivable).and_return(true)
       ReceivablesManagementContext.stub(:new).and_return(@context)
       post :create, { customer_id: "1", account_receivable: valid_attributes }
-      response.should redirect_to(admin_customer_receivables_path)
+      response.should redirect_to(admin_customer_account_receivables_path)
     end
 
     it "should render the form again if didn't save resource" do

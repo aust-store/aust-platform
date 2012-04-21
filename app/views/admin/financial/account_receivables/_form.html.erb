@@ -1,4 +1,4 @@
-<%= simple_form_for(@receivable, url: admin_customer_receivables_path) do |f| %>
+<%= simple_form_for([:admin, :customer, @receivable]) do |f| %>
 
   <%= f.input :value,
         label: "Valor",

@@ -34,7 +34,7 @@ feature "Receivables management" do
         scenario "I leave the 'value' field blank" do
           click_button "Salvar conta a receber"
 
-          current_path.should == admin_customer_receivables_path(@customer)
+          current_path.should == admin_customer_account_receivables_path(@customer)
           page.should have_content("Valor deve ter um valor válido")
         end
 
@@ -42,7 +42,7 @@ feature "Receivables management" do
           fill_in "Valor", with: "R$ 0"
           click_button "Salvar conta a receber"
 
-          current_path.should == admin_customer_receivables_path(@customer)
+          current_path.should == admin_customer_account_receivables_path(@customer)
           find("#account_receivable_value")[:value].should == "R$ 0,00"
         end
       end

@@ -1,7 +1,6 @@
-require "./spec_no_rails/spec_helper"
-require "./app/presenters/admin/good_balance_presenter"
+require "spec_helper"
 
-describe Admin::GoodBalancePresenter do
+describe Admin::GoodBalanceDecorator do
   def attributes
     { cost_per_unit: "10.0", total_cost: "14.14",
       created_at: Time.new(2012, 04, 14, 14, 14, 14) }
@@ -9,7 +8,7 @@ describe Admin::GoodBalancePresenter do
 
   before do
     @balance = stub attributes
-    @presenter = Admin::GoodBalancePresenter.new @balance
+    @presenter = Admin::GoodBalanceDecorator.new @balance
   end
 
   describe ".cost_per_unit" do

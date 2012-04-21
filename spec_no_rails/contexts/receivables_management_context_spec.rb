@@ -1,7 +1,6 @@
 require "./spec_no_rails/spec_helper"
 require "./app/roles/date_sanitizer"
 require "./app/roles/currency_parser"
-require "./spec_no_rails/contracts/simple_presenter_contract_spec"
 
 require "./app/contexts/receivables_management_context"
 
