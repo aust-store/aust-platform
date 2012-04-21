@@ -56,6 +56,21 @@ describe ReceivablesManagementContext do
     it "should set the admin user" do
       @resource.should_receive(:admin_user_id=).with(@author)
     end
+  end
 
+  describe ".update_receivable" do
+    before do
+      @resource = double
+
+      Store::Currency.stub(:to_float).with("R$ 4,00").and_return(4.0)
+      AccountReceivable.stub(:find).and_return(@resource)
+
+      @context = ReceivablesManagementContext.new(valid_attributes)
+    end
+
+    it "should use injected params to instantiate data" do
+      @resource.should_receive(:update_attributes).with(valid_attributes[:account_receivable])
+      @context.update_receivable
+    end
   end
 end

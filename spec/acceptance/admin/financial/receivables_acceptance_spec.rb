@@ -7,7 +7,7 @@ feature "Receivables management" do
     @customer = FactoryGirl.create(:customer)
   end
 
-  describe "As an admin, adding a new receivable account" do
+  describe "As an admin, adding a new account receivable" do
     context "through the user profile" do
       before do
         visit admin_customer_path(@customer)
@@ -18,7 +18,7 @@ feature "Receivables management" do
       context "valid form" do
         scenario "I'd like to add new customers" do
           fill_in "Valor", with: "R$ 123,45"
-          fill_in "Data", with: "16/04/2012"
+          fill_in "Data", with: "16/04/2016"
           click_button "Salvar conta a receber"
 
           page.should have_content("R$ 123,45")
@@ -28,7 +28,7 @@ feature "Receivables management" do
 
       context "different values for the 'value' field" do
         before do
-          fill_in "Data", with: "16/04/2012"
+          fill_in "Data", with: "16/04/2016"
         end
 
         scenario "I leave the 'value' field blank" do
@@ -48,5 +48,24 @@ feature "Receivables management" do
       end
     end
   end
-end
 
+  describe "Editing an existing account receivable" do
+    before do
+      @account_receivable = FactoryGirl.create(:account_receivable)
+      visit admin_customer_path(@customer)
+      click_link "Contas a receber"
+      click_link "R$ 500,00"
+    end
+
+    scenario "I'd like to change all fields values" do
+      fill_in "Valor", with: "R$ 123,45"
+      fill_in "Data", with: "16/04/2016"
+      fill_in "Descrição", with: "Simple description"
+      click_button "Salvar conta a receber"
+
+      page.should have_content("R$ 123,45")
+      page.should have_content("16/04")
+      page.should have_content("Simple description")
+    end
+  end
+end

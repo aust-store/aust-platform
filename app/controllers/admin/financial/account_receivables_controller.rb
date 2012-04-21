@@ -22,6 +22,16 @@ class Admin::Financial::AccountReceivablesController < Admin::ApplicationControl
     end
   end
 
+  def update
+    @context = ReceivablesManagementContext.new(params)
+    if @context.update_receivable
+      redirect_to admin_customer_account_receivables_path, notice: "Conta a receber salva."
+    else
+      @receivable = decorate(@context.resource)
+      render :edit
+    end
+  end
+
   private
 
   def decorate(resource)
