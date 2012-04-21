@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20120417020928) do
 
   create_table "account_receivables", :force => true do |t|
@@ -28,6 +29,9 @@ ActiveRecord::Schema.define(:version => 20120417020928) do
   add_index "account_receivables", ["admin_user_id"], :name => "index_account_receivables_on_admin_user_id"
   add_index "account_receivables", ["company_id"], :name => "index_account_receivables_on_company_id"
   add_index "account_receivables", ["customer_id"], :name => "index_account_receivables_on_customer_id"
+=======
+ActiveRecord::Schema.define(:version => 20120415000914) do
+>>>>>>> d16e738... configured uploads for goods
 
   create_table "admin_dashboards", :force => true do |t|
     t.datetime "created_at", :null => false
