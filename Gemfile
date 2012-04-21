@@ -42,7 +42,7 @@ end
 
 gem 'inherited_resources'
 
-gem 'rmagick'
+gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
 
