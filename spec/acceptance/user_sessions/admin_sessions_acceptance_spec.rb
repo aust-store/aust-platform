@@ -15,7 +15,7 @@ feature "Admin User sessions", js: true do
       page.should have_selector "#admin_user_email"
       page.should have_selector "#admin_user_password"
     end
-    click_button "Sign in"
+    click_button "sign_in"
 
     page.should have_content "Estoque"
 

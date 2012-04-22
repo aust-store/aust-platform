@@ -1,26 +1,25 @@
-<h2>Sign up</h2>
-
-<%  # resource.build_company %>
-<%= form_for(resource.with_company, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%= simple_form_for(resource.with_company, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <%= f.input :email, label: "Seu email" %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+  <%= f.input :password %>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <%= f.input :password_confirmation, hint: "Digite sua senha novamente" %>
+
+  <div class="divisor"></div>
 
   <%= f.fields_for :company do |company| %>
-    <div>
-      <%= company.label :name, "Your Company's Name" %><br />
-      <%= company.text_field :name %>
+    <%= company.input :name, label: "Nome da sua empresa", hint: "Qual o nome da sua empresa ou loja?" %>
+
+    <div class="input_store_handle">
+      <%= company.input :handle, label: "Escolha o endereço da sua loja", hint: "Apenas letras e números", input_html: { id: "handle" }  %>
+
+      <div class="store_address input">
+        http://<span class="handle"></span>.store.com
+      </div>
     </div>
   <% end %>
 
-  <div><%= f.submit "Sign up" %></div>
+  <div class="submit"><%= f.submit "Estou pronto para criar minha loja", id: "sign_up" %></div>
 <% end %>
-
-<%= render :partial => "devise/links" %>

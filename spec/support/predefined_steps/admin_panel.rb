@@ -10,6 +10,6 @@ module AcceptanceSteps
       page.should have_selector "#admin_user_email"
       page.should have_selector "#admin_user_password"
     end
-    click_button "Sign in"
+    click_button "sign_in"
   end
 end

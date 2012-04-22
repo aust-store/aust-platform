@@ -1,0 +1,15 @@
+# coding: utf-8
+require 'spec_helper'
+
+feature "Store's front-page" do
+  before do
+    @company = FactoryGirl.create(:company)
+  end
+
+  describe "Accessing a company's store" do
+    scenario "As a customer, I access a specific store" do
+      visit store_path(@company.handle)
+      page.should have_content(@company.name)
+    end
+  end
+end
