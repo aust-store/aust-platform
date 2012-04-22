@@ -10,7 +10,7 @@ class Forms
 
   setup_image_upload: ->
     $('.form-upload').bind 'ajax:complete', (evt, xhr, status) ->
-       $('.good_images').html(xhr.responseText)
+       $('.images').html(xhr.responseText)
        $('.form-upload').find('input[type="file"]').val("")
 
 $ ->

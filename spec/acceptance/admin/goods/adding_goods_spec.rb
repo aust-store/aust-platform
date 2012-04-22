@@ -31,14 +31,14 @@ feature "Adding and editing goods", js: true, search: true do
       visit admin_inventory_goods_path
 
       click_link @good.name
-      save_and_open_page
+
       click_link "Gerenciar imagens"
       within('.form-upload') do
         #attach_file(:xpath,"//input[@type='file']",image_path)
-        attach_file("good[good_images_attributes][0][image]",image_path)
+        attach_file("good[images_attributes][0][image]",image_path)
         click_button "Enviar arquivos"
       end
-
+      save_and_open_page
       page.should have_content "Imagens atuais"
       
     end

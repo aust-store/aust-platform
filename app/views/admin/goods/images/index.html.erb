@@ -22,7 +22,7 @@
     <%= simple_form_for([:admin,:inventory,@good],html:{multipart:true,class:
                        "form-upload"},
                        remote: true) do |f| %>
-      <%= f.simple_fields_for :good_images, @good.good_images.last do |image_form| %>
+      <%= f.simple_fields_for :images, @good.images.last do |image_form| %>
         <%= image_form.file_field :image %>
         <br /><br />
         <%= f.submit  'Enviar arquivos' %>
@@ -31,6 +31,6 @@
   </div>
 
 </div>
-<div class='good_images'>
-  <%= render partial: "shared/good_images" %>
+<div class='images'>
+  <%= render partial: "shared/images" %>
 </div>
