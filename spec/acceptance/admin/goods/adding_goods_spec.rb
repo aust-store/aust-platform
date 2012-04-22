@@ -24,6 +24,24 @@ feature "Adding and editing goods", js: true, search: true do
       click_button "Cadastrar entrada no estoque"
       page.should have_content "R$ 11,00"
     end
+
+    scenario "As a store admin, I'd like to add images to the goods" do
+      image_path ="#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png" 
+      
+      visit admin_inventory_goods_path
+
+      click_link @good.name
+      save_and_open_page
+      click_link "Gerenciar imagens"
+      within('.form-upload') do
+        #attach_file(:xpath,"//input[@type='file']",image_path)
+        attach_file("good[good_images_attributes][0][image]",image_path)
+        click_button "Enviar arquivos"
+      end
+
+      page.should have_content "Imagens atuais"
+      
+    end
   end
 
   context "inexistent goods" do
