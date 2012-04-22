@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Admin::GoodsController < Admin::ApplicationController
   before_filter :load_good, only: [:show, :edit, :update, :destroy]
+  include ImagesHelper
 
   def index
     @goods = Good.within_company(current_user.company).all
