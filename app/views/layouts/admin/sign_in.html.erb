@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign in to your store admin panel</title>
+  <%= stylesheet_link_tag "admin/sign_in_manifest", :media => "all" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
+
+<div id="global">
+  <div class="global_container">
+    <div id="main">
+        <h1>Entrar no gerenciador</h1>
+
+        <% if notice.present? %>
+          <p class="notice"><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="alert"><%= alert %></p>
+        <% end %>
+
+        <%= yield %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

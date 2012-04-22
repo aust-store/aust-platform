@@ -1,0 +1,6 @@
+/*
+ *= require ./shared/defaults
+ *= require_tree ./shared/
+ *= require ./controllers/users/registrations
+ *= require_self
+ */

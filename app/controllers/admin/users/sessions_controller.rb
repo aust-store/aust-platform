@@ -1,4 +1,5 @@
 class Admin::Users::SessionsController < Devise::SessionsController
+  layout "admin/sign_in"
   
   protected
 

@@ -6,6 +6,11 @@ pt_br:
         value: "Valor"
         description: "Descrição"
         due_to: "Data de vencimento"
+      admin_user:
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"
+      company:
+        name: "Nome da empresa"
     errors:
       models:
         account_receivable:

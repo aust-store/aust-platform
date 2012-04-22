@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cadastre-se e crie sua loja virtual</title>
+  <%= stylesheet_link_tag "admin/sign_up_manifest", :media => "all" %>
+  <%= javascript_include_tag "admin/sign_up_manifest" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
+
+<div id="global">
+  <div class="global_container">
+    <div id="main">
+      <div class="main_container">
+        <h1>Criando minha loja</h1>
+
+        <% if notice.present? %>
+          <p class="notice"><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="alert"><%= alert %></p>
+        <% end %>
+
+        <%= yield %>
+      </div>
+    </div>
+
+    <div id="sidebar">
+      <div class="sidebar_container">
+        <h2>Vendendo na internet</h2>
+        <p>
+          Você está prestes a criar sua loja virtual. 
+        </p>
+        <p>
+          Algumas dicas:
+        </p>
+        <ul>
+          <li>Use iniciais maiúsculas no nome da sua empresa.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
