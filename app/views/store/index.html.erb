@@ -1,0 +1,5 @@
+<ul>
+<% @companies.each do |c| %>
+  <li><%= link_to c.name, store_path(c.handle) %></li>
+<% end %>
+</ul>

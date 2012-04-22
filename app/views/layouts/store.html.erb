@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Store</title>
-  <%= stylesheet_link_tag    "store/application", :media => "all" %>
-  <%= javascript_include_tag "store/application" %>
+  <title><%= @company.name %> Store</title>
+  <%= stylesheet_link_tag    "store/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "store/application_manifest" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
   <div id="header">
     <div class="title">
-      <h1>Smartr Office Store</h1>
+      <h1><%= @company.name %></h1>
       <p>Caring about your workplace.</p>
     </div>
     <div class="cart">

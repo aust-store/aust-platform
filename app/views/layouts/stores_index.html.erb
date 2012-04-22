@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Catálogo de Lojas</title>
+  <%= stylesheet_link_tag    "store/store_index_manifest", :media => "all" %>
+  <%= javascript_include_tag "store/store_index_manifest" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div id="header">
+    <div class="title">
+      <h1>Catálogo de Lojas</h1>
+    </div>
+  </div> 
+
+  <div id="global">
+    <div id="navigation">
+      <%= render "layouts/store_index/navigation" %> 
+    </div>
+    <div id="main">
+      <div class="main_container">
+        <%= yield %>
+      </div>
+    </div>
+    <div id="footer">
+
+    </div>
+  </div>
+
+</body>
+</html>
