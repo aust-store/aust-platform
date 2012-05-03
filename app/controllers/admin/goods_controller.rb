@@ -1,6 +1,7 @@
-# encoding: utf-8 
+# encoding: utf-8
 class Admin::GoodsController < Admin::ApplicationController
   before_filter :load_good, only: [:show, :edit, :update, :destroy]
+  include ImagesHelper
 
   def index
     @goods = Good.within_company(current_user.company).all
@@ -14,12 +15,13 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def show
+    @good = Good.find(params[:id])
   end
 
   def new
     @good = Good.new
   end
-  
+
   def edit
   end
 
@@ -36,7 +38,10 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def update
     if @good.update_attributes params[:good]
-      redirect_to admin_inventory_goods_url
+      if remotipart_submitted?
+        return render partial: "shared/images", layout: false
+      end
+      redirect_to admin_inventory_good_url(@good)
     else
       render "edit"
     end

@@ -19,33 +19,18 @@
       Envia uma nova imagem para este item. As imagens aparecem automaticamente
       na sua loja virtual.
     </p>
-    <input type="file" />
-    <br />
-    <br />
-    <input type="submit" value="Enviar arquivos" />
-  </div>
-
-</div>
-
-<div class="main_container section">
-  <h2>Imagens atuais</h2>
-
-  <div class="thumbs_gallery">
-    <% 7.times do |m| %>
-      <% 5.times do |t| %>
-        <% t += 1 %>
-        <div class="box image">
-          <%= image_tag "store/temp/product_#{t}_170x127.jpg", width: 60 %>
-          <% if m == 0 && t == 2 %>
-            <div class="cover">Capa</div>
-          <% end %>
-          <div class="delete">
-            <%= link_to "Excluir", "whatever" %>
-          </div>
-        </div>
+    <%= simple_form_for([:admin,:inventory,@good],html:{multipart:true,class:
+                       "form-upload"},
+                       remote: true) do |f| %>
+      <%= f.simple_fields_for :images, @good.images.last do |image_form| %>
+        <%= image_form.file_field :image %>
+        <br /><br />
+        <%= f.submit  'Enviar arquivos' %>
       <% end %>
     <% end %>
   </div>
 
 </div>
-
+<div class='images'>
+  <%= render partial: "shared/images" %>
+</div>
