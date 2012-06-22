@@ -1,4 +1,4 @@
-require "./spec_no_rails/spec_helper"
+require "unit_spec_helper"
 require "./app/roles/date_sanitizer"
 require "./app/roles/currency_parser"
 
@@ -14,10 +14,10 @@ describe ReceivablesManagementContext do
       { "description" => "These came from Japan.",
         "value"       => "R$ 4,00",
         "due_to"      => "21/04/2012" },
-      :customer_id => 123 
+      :customer_id => 123
     }
   end
-  
+
   let(:sanitized_attributes) do
     { "description" => "These came from Japan.",
       "value"       => "4.0",

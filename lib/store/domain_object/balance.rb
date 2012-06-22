@@ -1,3 +1,4 @@
+# TODO - this DomainObject namespace is non-sense
 require "bigdecimal"
 
 module Store

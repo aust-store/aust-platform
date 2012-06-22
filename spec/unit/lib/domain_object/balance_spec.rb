@@ -1,4 +1,5 @@
-require "./spec_no_rails/spec_helper"
+require "unit_spec_helper"
+require "store/domain_object/balance"
 require "ostruct"
 require "bigdecimal"
 

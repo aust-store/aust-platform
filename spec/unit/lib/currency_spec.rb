@@ -1,5 +1,5 @@
 # encoding: utf-8
-require './lib/store/currency'
+require 'store/currency'
 
 describe Store::Currency do
   describe "currency to float" do
