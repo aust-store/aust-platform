@@ -4,7 +4,6 @@ require "ostruct"
 require "bigdecimal"
 
 describe Store::DomainObject::Balance do
-
   before do
     @balances = [
       OpenStruct.new(quantity: 10.0, cost_per_unit: 20.0), # 200

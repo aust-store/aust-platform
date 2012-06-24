@@ -1,7 +1,6 @@
 class Admin::CustomersController < Admin::ApplicationController
-
   def index
-     @customers = Customer.within_company(current_user.company).all
+    @customers = Customer.within_company(current_user.company).all
   end
 
   def show

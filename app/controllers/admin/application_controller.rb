@@ -5,14 +5,14 @@ class Admin::ApplicationController < ActionController::Base
   before_filter :authenticate_admin_user!
   before_filter :navigation_namespace
 
+  def current_user
+    current_admin_user
+  end
+
   private
 
   def define_layout
     request.xhr? ? false : "admin"
-  end
-
-  def current_user
-    current_admin_user
   end
 
   def navigation_namespace

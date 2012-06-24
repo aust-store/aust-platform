@@ -16,7 +16,6 @@ class Good < ActiveRecord::Base
 
   before_create :associate_with_inventory
 
-
   searchable do
     text :name
     text :description
