@@ -1,5 +1,5 @@
 # TODO unit test
-require 'spec_helper'
+require 'integration_spec_helper'
 
 describe Customer do
   describe "customer instances methods" do
@@ -10,6 +10,5 @@ describe Customer do
     it "should result the first_name plus last_name" do
       @customer.name.should eql("Jane Doe")
     end
-
   end
 end

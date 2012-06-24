@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'acceptance_spec_helper'
 
 feature "Listing goods' balance", js: true, search: true do
   background do

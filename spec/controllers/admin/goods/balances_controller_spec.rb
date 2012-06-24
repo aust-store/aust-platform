@@ -1,5 +1,5 @@
 # TODO unit test
-require 'spec_helper'
+require 'integration_spec_helper'
 
 describe Admin::Goods::BalancesController do
   login_admin

@@ -15,15 +15,22 @@ RSpec.configure do |config|
   config.filter_run wip: true
   config.run_all_when_everything_filtered = true
 
-  config.include AcceptanceHelpers
-  config.include Devise::TestHelpers, :type => :controller
-  config.extend ControllerMacros
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+  config.include AcceptanceSteps
 
-  config.infer_base_class_for_anonymous_controllers = false
+  config.before :all do
+    SunspotTest.stub
+  end
+
+  config.before(:all, search: true) do
+    SunspotTest.setup_solr
+    Sunspot.remove_all!
+    Sunspot.commit
+  end
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do
@@ -34,3 +41,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+Capybara.javascript_driver = :webkit
+Capybara.default_wait_time = 2

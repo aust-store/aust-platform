@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'acceptance_spec_helper'
 
 feature "Solr search", search: true do
   scenario "searches a good by name" do

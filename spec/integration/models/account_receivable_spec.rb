@@ -1,5 +1,5 @@
 # TODO unit test
-require 'spec_helper'
+require 'integration_spec_helper'
 
 describe AccountReceivable do
   describe ".valid?" do

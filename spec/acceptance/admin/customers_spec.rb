@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require 'spec_helper'
+require 'acceptance_spec_helper'
 
 feature "Customers" do
 

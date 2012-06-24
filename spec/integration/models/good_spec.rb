@@ -1,5 +1,5 @@
 # TODO unit test
-require 'spec_helper'
+require 'integration_spec_helper'
 
 describe Good do
   describe "#search_for", search: true do

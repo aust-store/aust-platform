@@ -11,7 +11,7 @@ Rake::Task[:spec].abandon
 
 task :spec do |t|
   #t.pattern = "./spec/{acceptance}/**/*_spec.rb"
-  sh "rspec spec/unit && bundle exec rspec spec/acceptance"
+  sh "rspec spec/unit && bundle exec rspec spec/integration spec/acceptance"
 end
 
 namespace :spec do

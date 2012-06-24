@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'spec_helper'
+require 'acceptance_spec_helper'
 
 feature "Receivables management" do
   before do
