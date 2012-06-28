@@ -1,6 +1,6 @@
 require 'integration_spec_helper'
 
-describe Admin::CustomersController do
+describe "Action Controller contract" do
   subject { Admin::CustomersController.new }
 
   it "should respond_to current_admin_user" do

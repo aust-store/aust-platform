@@ -1,5 +1,5 @@
 class Admin::GoodBalanceDecorator < ApplicationDecorator
-  decorates :good_balance, class: Good::Balance
+  decorates :good_balance, class: ::Good::Balance
   allows :description
   allows :quantity, :cost_per_unit, :total_quantity, :total_cost
   allows :created_at

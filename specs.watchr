@@ -1,5 +1,5 @@
 watch("spec/unit/(.+)_spec\.rb") { |m|
-  system("rspec spec/unit/#{m[1]}_spec.rb")
+  system("rspec spec/unit/")
 }
 watch("spec/unit/support/(.+)\.rb") { |m|
   system("rspec spec/unit/")

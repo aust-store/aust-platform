@@ -13,7 +13,9 @@ class Admin::AccountReceivableDecorator < ApplicationDecorator
   end
 
   def due_to
-    account_receivable.due_to.strftime("%d/%m/%Y") unless account_receivable.due_to.nil? 
+    unless account_receivable.due_to.nil? 
+      account_receivable.due_to.strftime("%d/%m/%Y") 
+    end
   end
 
   def status
@@ -26,6 +28,8 @@ class Admin::AccountReceivableDecorator < ApplicationDecorator
 
   private
 
+  # TODO create own lib for converting currency, so we can better isolate this
+  # in our tests
   def to_currency(value)
     number_to_currency(value, :unit => "R$ ", :separator => ",", :delimiter => ".")
   end
