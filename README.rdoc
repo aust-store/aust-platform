@@ -1,31 +1,73 @@
 == Project codename: Store
 
-e-Commerce num modelo SaaS. Para que a loja possa funcionar, é necessário um sistema de controle de estoque. Outras áreas existirão, como gerenciamento financeiro e logística, todas interligadas para possibilitar o funcionamento da loja virtual.
+It's an e-commerce in a SaaS model.
 
 === Guidelines
 
-* Todo código e commits devem ser escritos em inglês
-* Todo commit precisa conter [numero_da_story] no início. Ex.: "[12341235] Creates date timelines for subscriptions"
-* Todo código só entra no `master` através de um Pull Request (PR), exceto alterações menos importantes como atualizações de docs
-* Toda Story deve ter Acceptance specs correspondentes
+*Code*
 
-=== DB
+* ActiveRecord Models should not have any code related to the business logic,
+only the sufficient for dealing with the database.
+* Controllers should not have anything related to the business logic, but
+only the sufficient for dealing with web requests.
 
-Inicialmente, estamos usando SQLite para termos um protótipo mais rapidamente. Depois vamos usar PostgreSQL.
+*Git*
 
-=== Search
+* Code and commit messages are written in english.
+* Commits follow the format `[12341235] Commit title`
+* Code is not pushed directly to master, except for fixing typos or
+editing README. A PR is required.
 
-Para buscas, estamos usando o SOLR. A gem sunspot possui SOLR internamente para desenvolvimento/test.
+*HTML/CSS/Javascript*
 
-==== Sunspot/SOLR tasks
+* Use `classes` to identify elements. Use `id` only when dealing with Javascript.
 
-        rake sunspot:restart # [stop]/start/reindex_all
-        rake sunspot:solr:start
-        rake sunspot:solr:stop
-        rake sunspot:reindex[batch_size,models]
+*Tests*
 
-        # reindexing the tags model.
-        rake sunspot:reindex[,ActsAsTaggableOn::Tag]
+* Every story should have corresponding Acceptance tests
+* Everything you write should have a Unit test
+* If you write something that depends on Rails, like a `before_filter`, then
+write an Integration test to assert that. You don't need to write Integrated 
+to every controller.
 
-        # or you can reindex all using our customized task:
-        rake sunspot:reindex_all
+=== Testing
+
+*Architecture*
+
+There are three kinds of tests: Acceptance, Integration and Unit.
+
+For a new story, write an Acceptance test, then proceed to write Unit tests,
+following the TDD cycle until you have your Acceptance test passing.
+
+If you need to test something that depends on Rails, like a before_filter or
+a scope, write the simplest Integration test possible.
+
+We're avoid Integration tests at all costs, writing Unit tests and Contract
+tests instead. For further information on the reasons, see 
+[this article](http://alexsquest.com/texts/1)
+
+*Running the tests*
+
+If you want to run the tests, do the following:
+
+   $ rspec spec/unit
+   $ bundle exec rspec spec/acceptance
+   $ bundle exec rspec spec/integration
+
+The three types of tests have to be ran separatelly (!), so you can't do
+`bundle exec rspec spec/`. If you want to run all specs at once, use
+
+    $ bundle exec rake
+
+=== Search Engine
+
+We're using SOLR as search engine. The gem sunspot takes care of it in
+development and test envs.
+
+* Sunspot/SOLR tasks
+
+    $ rake sunspot:solr:start
+    $ rake sunspot:solr:stop
+
+    # or you can reindex all using our customized task:
+    $ rake sunspot:reindex_all
