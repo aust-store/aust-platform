@@ -9,9 +9,12 @@ end
 
 Rake::Task[:spec].abandon
 
-task :spec do |t|
-  #t.pattern = "./spec/{acceptance}/**/*_spec.rb"
-  sh "rspec spec/unit && bundle exec rspec spec/integration spec/acceptance"
+desc 'Run the entire suite of tests.'
+task :run_suite do |t|
+  #sh "rspec spec/unit && bundle exec rspec spec/integration spec/acceptance"
+  sh "rspec --no-drb spec/unit"
+  sh "bundle exec rspec spec/integration"
+  sh "bundle exec rspec spec/acceptance"
 end
 
 namespace :spec do
@@ -29,5 +32,5 @@ RSpec::Core::RakeTask.new(:coverage) do |t|
 end
 
 desc 'Default: run specs.'
-task :default => :spec
+task :default => :run_suite
 

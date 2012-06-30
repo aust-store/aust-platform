@@ -16,7 +16,7 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def show
-    @good = Good.find(params[:id])
+    @good = ::DecorationBuilder.good(Good.find(params[:id]))
   end
 
   def new
@@ -69,9 +69,8 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def has_images good
-    return true unless good.images.blank?
+    return false if good.images.blank?
     return false if good.images.first.blank?
-    return false if good.images.first.id
     true
   end
 end

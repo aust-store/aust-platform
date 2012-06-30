@@ -12,10 +12,11 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def create
-    @customer = Customer.new params[:customer]
-    @customer.company = current_user.company
+    @customer = Store::CustomerCreation.create(
+      params[:customer], current_user.company
+    )
 
-    if @customer.save
+    if @customer
       redirect_to admin_customers_url
     else
       render "new"

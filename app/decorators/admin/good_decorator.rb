@@ -1,5 +1,9 @@
-class Admin::GoodDecorator < ApplicationDecorator
-  decorates :good
-  allows :name, :reference, :description
-  allows :created_at
+module Admin
+  class GoodDecorator < ApplicationDecorator
+    decorates :good
+
+    def has_image?
+      good.images.present?
+    end
+  end
 end

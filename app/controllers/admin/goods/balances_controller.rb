@@ -35,7 +35,7 @@ module Admin
         end
       end
 
-      private
+    private
 
       def load_good
         @good = Good.where(id: params[:good_id]).within_company(current_user.company).first
@@ -45,7 +45,7 @@ module Admin
       # TODO there's no test coverage for this
       def sanitize_params
         good_params = params[:good_balance]
-        params[:good_balance][:cost_per_unit] = Store::Currency.to_float good_params[:cost_per_unit]
+        params[:good_balance][:cost_per_unit] = ::Store::Currency.to_float good_params[:cost_per_unit]
       end
     end
   end

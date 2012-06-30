@@ -5,6 +5,7 @@ describe Admin::GoodsController do
   subject { Admin::GoodsController.new }
 
   it_obeys_the "application controller contract"
+  it_obeys_the "Decoration Builder contract"
   it_obeys_the "Good model contract"
 
   before do
@@ -23,7 +24,8 @@ describe Admin::GoodsController do
     it "should return a single good" do
       subject.stub(:params) { {id: 123} }
       Good.stub(:find).with(123) { "good" }
-      subject.show.should == "good"
+      DecorationBuilder.should_receive(:good).with("good")
+      subject.show
     end
   end
 
