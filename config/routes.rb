@@ -43,7 +43,11 @@ Store::Application.routes.draw do
     root :to => 'dashboard#index'
   end
 
-  resources :store, only: [:index, :show]
+  # we want to use :store_id instead of :id for consistence
+  get "store/:store_id" => "store#show", as: "store"
+  resources :store, only: [:index] do
+    resource :cart, only: [:show], controller: "store/cart"
+  end
 
   root :to => 'store#index'
 end
