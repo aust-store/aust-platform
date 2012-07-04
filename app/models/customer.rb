@@ -5,8 +5,8 @@ class Customer < ActiveRecord::Base
 
   validates :first_name, :last_name, :description, presence: true
 
+  # TODO - move these methods to a module and load them as mixins
   def name
     "#{first_name} #{last_name}"
   end
-
 end

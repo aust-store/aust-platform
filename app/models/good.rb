@@ -1,5 +1,7 @@
 class Good < ActiveRecord::Base
 
+  include ::Store::ModelsExtensions::Good
+
   belongs_to :inventory, class_name: "InventoryPersistence"
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'
   belongs_to :company
@@ -16,6 +18,7 @@ class Good < ActiveRecord::Base
 
   before_create :associate_with_inventory
 
+  # TODO - move these methods to a module and load them as mixins
   searchable do
     text :name
     text :description
