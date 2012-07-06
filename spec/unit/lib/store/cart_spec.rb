@@ -71,7 +71,16 @@ describe Store::Cart do
     end
   end
 
-  pending "#total_price_by_item" do
-
+  describe "#total_price_by_item" do
+    it "delegates the responsibility to price calculation" do
+      item_one = double(id: 1)
+      item_two = double(id: 2)
+      subject.add_item(item_one)
+      subject.add_item(item_two)
+      Store::Cart::PriceCalculation.stub(:calculate)
+                                   .with([item_one])
+                                   .and_return(:total)
+      subject.total_price_by_item(item_one).should == :total
+    end
   end
 end

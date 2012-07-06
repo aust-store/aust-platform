@@ -25,7 +25,8 @@ module Store
     end
 
     def total_price_by_item(item)
-
+      items = @items.each_with_object([]) { |i, a| a << i if i.id == item.id }
+      Store::Cart::PriceCalculation.calculate(items)
     end
   end
 end
