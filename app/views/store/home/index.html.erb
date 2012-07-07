@@ -1,1 +1,19 @@
-<%= render "shared/products" %>
+<div class="products_list">
+  <% @goods.each do |good| %>
+     <div class="product">
+       <%= image_tag good.images.first.image.url(:medium), class: "image" %>
+       <div class="text">
+         <div class="title">
+           <%= good.name %>
+         </div>
+         <div class="description">
+           <%= good.description %>
+         </div>
+         <div class="price">
+           R$ 50
+         </div>
+       </div>
+       
+     </div>
+  <% end %>
+</div>
