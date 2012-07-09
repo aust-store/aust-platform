@@ -3,8 +3,11 @@ require 'acceptance_spec_helper'
 
 feature "Store catalog's front-page" do
   before do
-    @company_one = FactoryGirl.create(:company, name: "ACME", handle: "one")
-    @company_two = FactoryGirl.create(:company, name: "Easy Company", handle: "two")
+    @company_one = FactoryGirl.create(:company, name: "ACME",handle: "ACME")
+    @company_two = FactoryGirl.create(:company, name: "Easy Company",handle: "two")
+
+    @good_one = FactoryGirl.create(:good, company: @company_one)
+    @good_two = FactoryGirl.create(:good_two, company: @company_two)
   end
 
   describe "Store listing" do
@@ -17,6 +20,9 @@ feature "Store catalog's front-page" do
       click_link @company_one.name
 
       current_path.should == store_path(@company_one.handle)
+
+      page.should have_content(@good_one.name)
+      page.should_not have_content(@good_two.name)
     end
   end
 end
