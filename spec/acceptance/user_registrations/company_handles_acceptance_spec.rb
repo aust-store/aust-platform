@@ -13,5 +13,8 @@ feature "Company Handles", js: true do
 
     fill_in "handle", with: "m.ypet!@#,/;:"
     page.should have_content "http://mypet.store.com"
+
+    fill_in "handle", with: "Mypet"
+    page.should have_content "http://mypet.store.com"
   end
 end
