@@ -14,6 +14,7 @@ class RegistrationsController
   sanitize_handle: ->
     handle = $("input#handle").val()
     handle = handle.replace(/[^a-zA-Z0-9-_]/g, '')
+    handle = handle.toLowerCase()
     $("input#handle").val(handle)
 
 $ ->
