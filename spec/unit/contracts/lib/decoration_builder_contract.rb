@@ -1,4 +1,3 @@
-module Admin; class GoodDecorator < ApplicationDecorator; end; end
 require "decoration_builder"
 
 shared_examples_for "Decoration Builder contract" do

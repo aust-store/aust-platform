@@ -5,11 +5,11 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'pg', '0.14.0'
 gem 'devise', '2.0.4'
 
 gem 'simple_form', "~> 2.0.0"
-gem 'draper'
+gem 'draper', '0.11.0'
 
 gem 'sunspot_rails', '~> 1.3.0'
 
@@ -34,7 +34,7 @@ end
 
 group :test do
   gem 'capybara', '1.1.2'
-  gem 'capybara-webkit', '0.10.0'
+  gem 'capybara-webkit', '0.12.1'
   gem 'factory_girl', '2.6.0'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner', '0.7.1'
