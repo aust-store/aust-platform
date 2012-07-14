@@ -1,6 +1,6 @@
-class DecorationBuilder; end
-module Admin; class GoodDecorator; end; end
+require "unit_spec_helper"
 
+module Admin; class GoodDecorator < ApplicationDecorator; end; end
 require "decoration_builder"
 
 describe DecorationBuilder do
