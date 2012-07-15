@@ -6,7 +6,7 @@
   <%= javascript_include_tag "store/application_manifest" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="<%= params[:controller].gsub(/\//, "_") + "_" + params[:action] %>">
 
   <div id="header">
     <div class="title">
@@ -24,13 +24,15 @@
       <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
       <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
       <%= content_tag(:div, flash[:alert], :id => "flash_alert") if flash[:alert] %>
-          
+
       <div class="main_container">
         <%= yield %>
       </div>
     </div>
     <div id="complementary_content">
-      <%= image_tag "store/temp/banner_side_1_200x.jpg", width: 200 %>
+      <div class="complementary_content_container">
+        <%= image_tag "store/temp/banner_side_1_200x.jpg", width: 200 %>
+      </div>
     </div>
     <div id="footer">
 

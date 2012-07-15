@@ -6,7 +6,7 @@
 #
 require "integration_spec_helper"
 
-describe StoreController, type: :controller do
+describe Store::HomeController, type: :controller do
   describe "GET index" do
     it "should instantiate @company through Store::ApplicationController" do
       company = double(first: :company)

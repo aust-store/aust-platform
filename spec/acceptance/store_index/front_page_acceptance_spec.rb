@@ -3,13 +3,13 @@ require 'acceptance_spec_helper'
 
 feature "Store catalog's front-page" do
   before do
-    @company_one = FactoryGirl.create(:company, name: "ACME")
-    @company_two = FactoryGirl.create(:company, name: "Easy Company")
+    @company_one = FactoryGirl.create(:company, name: "ACME", handle: "one")
+    @company_two = FactoryGirl.create(:company, name: "Easy Company", handle: "two")
   end
 
   describe "Store listing" do
     scenario "As a customer, I access a store through the catalog" do
-      visit store_index_path
+      visit root_path
 
       page.should have_content(@company_one.name)
       page.should have_content(@company_two.name)

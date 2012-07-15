@@ -10,6 +10,10 @@ feature "Store's front-page" do
     scenario "As a customer, I access a specific store" do
       visit store_path(@company.handle)
       page.should have_content(@company.name)
+
+      within(".cart") do
+        page.should have_content("Seu carrinho está vazio.")
+      end
     end
   end
 end

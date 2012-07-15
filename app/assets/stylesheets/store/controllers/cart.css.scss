@@ -1,0 +1,135 @@
+body.store_cart_show {
+  #main .cart {
+    display: table;
+    width: 720px;
+
+    .columns_header {
+      background: darken(#eee, 0%);
+      border-radius: 0px;
+      display: table;
+      width: 100%;
+      padding: 0 0 0px 0;
+    }
+
+    .products {
+      display: table;
+      background: #fbfbfb;
+      padding: 5px 0 7px 0;
+      width: 100%;
+
+      .product {
+        border-top: 1px solid #f6f6f6;
+        display: table;
+        width: 100%;
+
+        &:first-child {
+          border: 0px;
+        }
+      }
+    }
+
+    .column {
+      float: left;
+      width: 80px;
+      padding: 7px 9px 7px 9px;
+
+      &.description {
+        width: 380px;
+      }
+
+      &.quantity {
+        width: 120px;
+        text-align: center;
+
+        input { width: 30px; text-align: center; }
+      }
+
+      &.item_options {
+        width: 40px;
+        text-align: center;
+      }
+    }
+
+    .product_total, .total {
+      display: table;
+      width: 100%;
+    }
+
+    .product_total {
+      background: lighten(#A8DAA3, 0%);
+      border-top: 1px solid darken(#A8DAA3, 10%);
+      margin: 0 0 0 0;
+
+      .description { }
+      .total_price {
+        font-weight: bold;
+      }
+    }
+
+    .total {
+      background-color: #f6f6f6;
+      border-bottom: 1px solid #eaeaea;
+
+      .description { width: 100px; }
+      .total_price { width: 160px; }
+      .freight_options {
+        width: 400px;
+
+        .freight_type, .zipcode {
+          width: 300px;
+          text-align: center;
+          display: table;
+
+          .pac { margin-right: 10px; }
+
+          input.text { width: 90px; }
+        }
+
+        .freight_type {
+          border-bottom: 1px solid #eaeaea;
+          padding: 0 0 6px 0;
+        }
+
+        .zipcode {
+          border-top: 1px solid #fbfbfb;
+          padding: 6px 0 0 0;
+        }
+      }
+    }
+
+    .actions {
+      display: block;
+      margin: 15px 0 0 0;
+
+      .line {
+        width: 100%;
+        margin: 0 0 20px 0;
+        display: table;
+      }
+
+      .action_link {
+        width: 50%;
+        text-align: center;
+        float: left;
+      }
+
+      .checkout {
+        width: 100%;
+        text-align: right;
+
+        a#checkout_button {
+          margin: 0 60px 0 0;
+          width: 175px;
+          height: 34px;
+          float: right;
+          display: table;
+          background-image: image-url("store/buttons/button_done_buying.png");
+
+          &:hover {
+            background-position: 0 -34px;
+          }
+        }
+      }
+    }
+  }
+}

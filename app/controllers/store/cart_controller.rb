@@ -1,7 +1,7 @@
 class Store::CartController < Store::ApplicationController
-  layout "store/cart"
+  layout "store"
 
   def show
-    
+
   end
 end

@@ -2,5 +2,7 @@
  *= require_self
  *= require ./shared/standard
  *= require ./shared/style
+ *= require_directory ./controllers/
  *= require ./themes/default
-*/
+ *= require ./themes/forms
+ */

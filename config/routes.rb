@@ -1,11 +1,10 @@
 Store::Application.routes.draw do
+
   devise_for :admin_users,
     controllers: {
       registrations: "admin/users/registrations",
       sessions: "admin/users/sessions"
     }
-
-  get "home/index"
 
   namespace :admin do
     resource :dashboard, controller: "dashboard" do
@@ -44,10 +43,16 @@ Store::Application.routes.draw do
   end
 
   # we want to use :store_id instead of :id for consistence
-  get "store/:store_id" => "store#show", as: "store"
-  resources :store, only: [:index] do
+  get "store/:store_id" => "store/home#index", as: "store"
+  resources :store, only: [], controller: "store/home" do
     resource :cart, only: [:show], controller: "store/cart"
+
+    resource :checkout, only: [], controller: "store/checkout" do
+      get "review"
+      get "confirm_informations"
+    end
   end
 
-  root :to => 'store#index'
+  get "home/index"
+  root :to => 'home#index'
 end

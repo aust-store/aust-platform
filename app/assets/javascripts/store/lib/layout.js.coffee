@@ -1,7 +1,7 @@
 class Layout
   init: ->
-    @faux_column_for_sidebar("#sidebar")
-    @faux_column_for_sidebar("#navigation")
+    @faux_column_for_sidebar("#complementary_content")
+    @faux_column_for_sidebar("#main")
 
   faux_column_for_sidebar: (sidebar_id) ->
     if( $(sidebar_id).height() < $("#main").height() )
