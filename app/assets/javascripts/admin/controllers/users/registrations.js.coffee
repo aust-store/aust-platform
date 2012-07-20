@@ -19,10 +19,10 @@ class RegistrationsController
     handle = handle.toLowerCase()
 
   sanitize_handle: ->
-    $("input#name").val(@sanitize_fields)
+    $("input#name").val(@sanitize_fields())
 
   sanitize_store_url: ->
-    $(".store_address .handle").html @sanitize_fields
+    $(".store_address .handle").html @sanitize_fields()
 
 $ ->
   controller = new RegistrationsController
