@@ -1,3 +1,4 @@
+module Store; module ModelsExtensions; module Good; end; end; end;
 require "models/good"
 
 shared_examples_for "Good model contract" do
