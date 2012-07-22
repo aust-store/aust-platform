@@ -2,6 +2,6 @@ class Store::HomeController < Store::ApplicationController
   layout "store"
 
   def index
-    @companies = Company.all
+    @goods = @company.list_goods
   end
 end

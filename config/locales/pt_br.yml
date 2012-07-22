@@ -18,3 +18,7 @@ pt_br:
             value:
               blank: "%{attribute} não pode ser em branco"
               greater_than: "%{attribute} deve ter um valor válido"
+        admin_user:
+          attributes:
+            email:
+              taken: "já utilizado"  

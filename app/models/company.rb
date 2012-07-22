@@ -11,4 +11,8 @@ class Company < ActiveRecord::Base
   def create_inventory
     self.build_inventory
   end
+
+  def list_goods
+    Good.within_company(self).all
+  end
 end
