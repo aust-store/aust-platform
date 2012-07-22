@@ -1,28 +1,26 @@
 class RegistrationsController
   init: ->
     @init_handle_bind()
-    @fill_address_with_handle()
-    @sanitize_handle()
+    setTimeout ( =>
+      @fill_store_address_with_handle()
+    ), 900
 
   init_handle_bind: ->
     $("input#handle").on "keyup", (e) =>
-      @fill_address_with_handle()
-      @sanitize_store_url()
+      @fill_store_address_with_handle()
+      @sanitize_handle()
       true
 
-  fill_address_with_handle: ->
-    $(".store_address .handle").html $("input#handle").val()
-   
-  sanitize_fields: ->
+  fill_store_address_with_handle: ->
+    $(".store_address .handle").html @sanitized_handle()
+
+  sanitize_handle: ->
+    $("input#handle").val @sanitized_handle()
+
+  sanitized_handle: ->
     handle = $("input#handle").val()
     handle = handle.replace(/[^a-zA-Z0-9-_]/g, '')
     handle = handle.toLowerCase()
-
-  sanitize_handle: ->
-    $("input#name").val(@sanitize_fields())
-
-  sanitize_store_url: ->
-    $(".store_address .handle").html @sanitize_fields()
 
 $ ->
   controller = new RegistrationsController
