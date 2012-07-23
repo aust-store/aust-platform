@@ -13,15 +13,15 @@ describe Admin::Goods::SearchController do
     subject.stub(:params) { {name: :name} }
   end
 
-  describe "#for_adding_balance" do
+  describe "#for_adding_entry" do
     it "should search for goods" do
       Good.should_receive(:search_for).with(:name, 1, page: 1, per_page: 10)
-      subject.for_adding_balance
+      subject.for_adding_entry
     end
 
     it "generates the correct route path" do
       subject.should_receive(:new_admin_inventory_good_entry_path)
-      subject.for_adding_balance
+      subject.for_adding_entry
       subject.path.call(1)
     end
   end

@@ -1,7 +1,6 @@
 require 'acceptance_spec_helper'
 
 feature "Adding and editing goods", js: true, search: true do
- 
   before do
     @admin_user = Factory(:admin_user)
     Factory(:good_two)
@@ -11,7 +10,7 @@ feature "Adding and editing goods", js: true, search: true do
 
   context "existent goods" do
     scenario "As a store admin, I'd like to add items to the inventory" do
-      visit new_good_or_balance_admin_inventory_goods_path
+      visit new_good_or_entry_admin_inventory_goods_path
 
       fill_in "search_goods", with: @good.name
       wait_until { page.has_content?(@good.name) }
@@ -26,8 +25,8 @@ feature "Adding and editing goods", js: true, search: true do
     end
 
     scenario "As a store admin, I'd like to add images to the goods" do
-      image_path ="#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png" 
-      
+      image_path ="#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png"
+
       visit admin_inventory_goods_path
 
       click_link @good.name
@@ -43,7 +42,7 @@ feature "Adding and editing goods", js: true, search: true do
 
   context "inexistent goods" do
     scenario "As a store admin, I'd like add new goods to the inventory" do
-      visit new_good_or_balance_admin_inventory_goods_path
+      visit new_good_or_entry_admin_inventory_goods_path
 
       click_link "Criar novo bem"
       wait_until { page.has_content?("Nome do bem ou mercadoria") }

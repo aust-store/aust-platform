@@ -8,7 +8,7 @@ feature "Listing inventory entries", js: true, search: true do
 
     @admin_user = Factory(:admin_user)
     @good = Factory(:good, name: "My good", user: @admin_user, company: @admin_user.company)
-    10.times { |t| Factory(:good_balance_lite, description: "Entry #{t+1}", quantity: (t+1), good: @good, admin_user: @admin_user) }
+    10.times { |t| Factory(:inventory_entry_lite, description: "Entry #{t+1}", quantity: (t+1), good: @good, admin_user: @admin_user) }
 
     login_into_admin
   end

@@ -6,7 +6,7 @@ module Admin
       # TODO URGGHH, fix this smell
       attr_reader :path
 
-      def for_adding_balance
+      def for_adding_entry
         search_goods
         # TODO what?
         @path = Proc.new { |resource| new_admin_inventory_good_entry_path(resource) }
