@@ -1,3 +1,5 @@
+Draft (july 23nd, 2012)
+
 ## Glossary and Use Cases
 
 A **Good** represents an item that is going to be sold. It doesn't know
@@ -31,13 +33,13 @@ profit, which can involve complex calculations.
 Take this example. T-shirt X Good was created and the first Lot has the
 following attributes:
 
-    __**Lot 1:** Cost: $10, Price: $15, Quantity: 50 units__
+    Lot 1: Cost: $10, Price: $15, Quantity: 50 units
 
 After 40 sales, when remaining 10 units in stock, a new Lot of the T-shirt X
 is bought (an entry in the stock), resulting in the following Balance:
 
-    __**Lot 1:** Cost: $10, Price: $15, Quantity: 10 units__
-    __**Lot 2:** Cost: $5, Price: $12, Quantity: 75 units__
+    Lot 1: Cost: $10, Price: $15, Quantity: 10 units
+    Lot 2: Cost: $5, Price: $12, Quantity: 75 units
 
 Which price should appear on the store page for sale, $15 or $12?
 
@@ -53,7 +55,7 @@ In Brazil, Average Moving Cost is mostly used. This means that both Lot 1
 and 2 are merged, resulting in the item being sold having an average cost.
 For example,
 
-   ($10 * 10 (cost times quantity, Lot 1) + $5 * 75 (Lot 2)) / 85
+    ($10 * 10 (cost times quantity, Lot 1) + $5 * 75 (Lot 2)) / 85
 
 now, the cost is considered 5,58 and there's no distinction between both Lots.
 
