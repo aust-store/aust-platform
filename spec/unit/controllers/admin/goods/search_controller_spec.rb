@@ -20,7 +20,7 @@ describe Admin::Goods::SearchController do
     end
 
     it "generates the correct route path" do
-      subject.should_receive(:new_admin_inventory_good_balance_path)
+      subject.should_receive(:new_admin_inventory_good_entry_path)
       subject.for_adding_balance
       subject.path.call(1)
     end

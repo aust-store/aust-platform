@@ -18,8 +18,8 @@ feature "Adding and editing goods", js: true, search: true do
 
       click_link @good.name
 
-      fill_in "good_balance_quantity", with: "4"
-      fill_in "good_balance_cost_per_unit", with: "11"
+      fill_in "inventory_entry_quantity", with: "4"
+      fill_in "inventory_entry_cost_per_unit", with: "11"
 
       click_button "Cadastrar entrada no estoque"
       page.should have_content "R$ 11,00"

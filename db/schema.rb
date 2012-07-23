@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120422022923) do
+ActiveRecord::Schema.define(:version => 20120723012339) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -55,6 +55,13 @@ ActiveRecord::Schema.define(:version => 20120422022923) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
+  create_table "carts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "store_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "companies", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -74,23 +81,6 @@ ActiveRecord::Schema.define(:version => 20120422022923) do
   end
 
   add_index "customers", ["company_id"], :name => "index_customers_on_company_id"
-
-  create_table "good_balances", :force => true do |t|
-    t.integer  "good_id"
-    t.integer  "admin_user_id"
-    t.string   "balance_type"
-    t.text     "description"
-    t.decimal  "quantity"
-    t.decimal  "cost_per_unit"
-    t.decimal  "moving_average_cost"
-    t.decimal  "total_quantity"
-    t.decimal  "total_cost"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "good_balances", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
-  add_index "good_balances", ["good_id"], :name => "index_good_balances_on_good_id"
 
   create_table "good_images", :force => true do |t|
     t.integer  "good_id"
@@ -118,6 +108,33 @@ ActiveRecord::Schema.define(:version => 20120422022923) do
     t.integer  "company_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "inventory_entries", :force => true do |t|
+    t.integer  "good_id"
+    t.integer  "admin_user_id"
+    t.string   "balance_type"
+    t.text     "description"
+    t.decimal  "quantity"
+    t.decimal  "cost_per_unit"
+    t.decimal  "moving_average_cost"
+    t.decimal  "total_quantity"
+    t.decimal  "total_cost"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+    t.decimal  "price",               :precision => 15, :scale => 2
+  end
+
+  add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
+  add_index "inventory_entries", ["good_id"], :name => "index_good_balances_on_good_id"
+
+  create_table "order_items", :force => true do |t|
+    t.integer  "cart_id"
+    t.integer  "order_id"
+    t.integer  "good_id"
+    t.decimal  "price",      :precision => 15, :scale => 2
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
 end

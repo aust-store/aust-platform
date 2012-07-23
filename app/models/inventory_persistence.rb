@@ -1,4 +1,3 @@
-class InventoryPersistence < ActiveRecord::Base
-  self.table_name = "inventories"
+class Inventory < ActiveRecord::Base
   belongs_to :company
 end

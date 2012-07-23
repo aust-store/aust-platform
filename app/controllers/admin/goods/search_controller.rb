@@ -9,7 +9,7 @@ module Admin
       def for_adding_balance
         search_goods
         # TODO what?
-        @path = Proc.new { |resource| new_admin_inventory_good_balance_path(resource) }
+        @path = Proc.new { |resource| new_admin_inventory_good_entry_path(resource) }
         render_results
       end
 

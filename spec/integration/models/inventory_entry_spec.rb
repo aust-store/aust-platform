@@ -1,9 +1,9 @@
 # TODO unit test
 require 'integration_spec_helper'
 
-describe Good::Balance do
+describe InventoryEntry do
   let(:valid_balance) do
-    Good::Balance.new good_id: 1, cost_per_unit: 11, quantity: 5
+    InventoryEntry.new good_id: 1, cost_per_unit: 11, quantity: 5
   end
 
   describe "#define_new_balance_values" do

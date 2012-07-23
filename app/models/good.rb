@@ -2,11 +2,11 @@ class Good < ActiveRecord::Base
 
   include ::Store::ModelsExtensions::Good
 
-  belongs_to :inventory, class_name: "InventoryPersistence"
+  belongs_to :inventory
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'
   belongs_to :company
-  has_many :balances, class_name: "Good::Balance"
-  has_one :last_balance, class_name: "Good::Balance", order: "updated_at desc", readonly: true
+  has_many :balances, class_name: "InventoryEntry"
+  has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
   has_many :images, class_name: "GoodImage"
 
   accepts_nested_attributes_for :balances

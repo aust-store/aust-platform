@@ -1,2 +1,2 @@
-Factory.define :inventory, class: InventoryPersistence do |i|
+Factory.define :inventory do |i|
 end

@@ -1,11 +1,11 @@
 require "unit_spec_helper"
 
-class Good; class Balance; end; end
-require "decorators/admin/good_balance_decorator"
+class InventoryEntry; end
+require "decorators/admin/inventory_entry_decorator"
 
-describe Admin::GoodBalanceDecorator do
+describe Admin::InventoryEntryDecorator do
 
-  it_obeys_the "admin good balance decorator contract"
+  it_obeys_the "admin inventory entry decorator contract"
 
   def attributes
     { cost_per_unit: "10.0", total_cost: "14.14",
@@ -13,11 +13,11 @@ describe Admin::GoodBalanceDecorator do
   end
 
   before do
-    @balance = stub attributes
-    @presenter = Admin::GoodBalanceDecorator.new @balance
+    @entry = stub attributes
+    @presenter = Admin::InventoryEntryDecorator.new @entry
 
-    @good_balance = double.as_null_object
-    @presenter.stub(:good_balance) { @good_balance }
+    @inventory_entry = double.as_null_object
+    @presenter.stub(:inventory_entry) { @inventory_entry }
   end
 
   describe "#cost_per_unit" do
@@ -36,7 +36,7 @@ describe Admin::GoodBalanceDecorator do
 
   describe "#created_at" do
     it "should the date in the 14/04/2012 format" do
-      @good_balance.stub(:created_at) { attributes[:created_at] }
+      @inventory_entry.stub(:created_at) { attributes[:created_at] }
       @presenter.created_at.should == "14/04/2012"
     end
   end
