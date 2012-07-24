@@ -9,7 +9,7 @@
 
 <div class="main_container">
 
-  <% if @balances.count > 0 %>
+  <% if @entries.count > 0 %>
     <table class="listing">
       <thead>
         <tr>
@@ -21,7 +21,7 @@
       </thead>
 
       <tbody>
-      <% @balances.each do |item| %>
+      <% @entries.each do |item| %>
         <tr class="<%= cycle('odd', 'even') %>">
           <td class="date"><%= item.created_at %></td>
           <td class="description"><%= item.description %></td>
@@ -34,8 +34,8 @@
       <tfoot>
         <tr class="total">
           <td colspan="2" class="description">Resumo</td>
-          <td class="quantity"><%= @balances.last.total_quantity %></td>
-          <td class="cost_per_unit"><%= @balances.last.total_cost %></td>
+          <td class="quantity"><%= @entries.last.total_quantity %></td>
+          <td class="cost_per_unit"><%= @entries.last.total_cost %></td>
         </tr>
       </tfoot>
 
@@ -47,7 +47,7 @@
 
   <br />
 
-  <%= small_button new_admin_inventory_good_balance_path, 
+  <%= small_button new_admin_inventory_good_entry_path, 
         :text => "Adicionar entrada no estoque",
         :image => 'admin/icons/plus_16.png' %>
 </div>

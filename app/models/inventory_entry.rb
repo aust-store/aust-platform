@@ -1,4 +1,4 @@
-class Good::Balance < ActiveRecord::Base
+class InventoryEntry < ActiveRecord::Base
   belongs_to :good
   belongs_to :admin_user
 
@@ -9,7 +9,7 @@ class Good::Balance < ActiveRecord::Base
   before_save :define_new_balance_values
 
   def define_new_balance_values
-    past_balances = Good::Balance.where(good_id: good_id).where("quantity > 0").all
+    past_balances = InventoryEntry.where(good_id: good_id).where("quantity > 0").all
     balance = Store::DomainObject::Balance.new([self] + past_balances)
 
     self.total_quantity      = balance.total_quantity

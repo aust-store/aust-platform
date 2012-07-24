@@ -1,8 +1,8 @@
 module Store; class Currency; end; end
 require "unit_spec_helper"
-require "controllers/admin/goods/balances_controller"
+require "controllers/admin/inventory/entries_controller"
 
-describe Admin::Goods::BalancesController do
+describe Admin::Inventory::EntriesController do
 
   it_obeys_the "application controller contract"
   it_obeys_the "Good model contract"
@@ -33,14 +33,14 @@ describe Admin::Goods::BalancesController do
   it "should raise if other company's id was given" do
     Good.stub_chain(:where, :within_company, :first).and_return(nil)
     expect do
-      get :index, good_id: invalid_good.id 
+      get :index, good_id: invalid_good.id
     end.to raise_error
   end
 
   describe "#index" do
-    it "loads good's balances" do
+    it "loads good's entries" do
       @good.stub(:balances) { double(balances: @balances) }
-      Admin::GoodBalanceDecorator.stub(:decorate) { @balances }
+      Admin::InventoryEntryDecorator.stub(:decorate) { @balances }
       subject.index.should == @balances
     end
   end
@@ -56,18 +56,18 @@ describe Admin::Goods::BalancesController do
     before do
       @good.stub_chain(:balances, :build).with(sanitized_attributes) { @balances }
       subject.stub(:params) do
-        { good_balance: sanitized_attributes }
+        { inventory_entry: sanitized_attributes }
       end
     end
 
     it "redirects if saving balance successfully" do
       @balances.stub(:save) { true }
-      subject.stub(:admin_inventory_good_balances_url).with(@good) { "good"}
+      subject.stub(:admin_inventory_good_entries_url).with(@good) { "good"}
       subject.should_receive(:redirect_to).with("good")
       subject.create
     end
 
-    it "renderform if not saving balance successfully" do
+    it "renderform if not saving entry successfully" do
       @balances.stub(:save) { false }
       subject.should_receive(:render).with("new")
       subject.create
@@ -78,18 +78,18 @@ describe Admin::Goods::BalancesController do
     before do
       @good.stub_chain(:balances, :find).with("1").and_return(@balances)
       subject.stub(:params) do
-        { id: "1", good_balance: sanitized_attributes }
+        { id: "1", inventory_entry: sanitized_attributes }
       end
     end
 
-    it "redirects if updating the balance successfully" do
+    it "redirects if updating the entry successfully" do
       @balances.stub(:update_attributes).with(sanitized_attributes) { true }
-      subject.stub(:admin_inventory_good_balances_url).with(@good) { "good"}
+      subject.stub(:admin_inventory_good_entries_url).with(@good) { "good"}
       subject.should_receive(:redirect_to).with("good")
       subject.update
     end
 
-    it "renders form if not updating balance successfully" do
+    it "renders form if not updating entry successfully" do
       @balances.stub(:update_attributes).with(sanitized_attributes) { false }
       subject.should_receive(:render).with("edit")
       subject.update

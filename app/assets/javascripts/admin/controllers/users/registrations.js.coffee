@@ -1,5 +1,6 @@
 class RegistrationsController
   init: ->
+    return if $("input#handle").length == 0
     @init_handle_bind()
     setTimeout ( =>
       @fill_store_address_with_handle()

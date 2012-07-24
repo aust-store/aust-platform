@@ -1,4 +1,4 @@
-Factory.define :good_balance, class: Good::Balance do |f|
+Factory.define :inventory_entry, class: InventoryEntry do |f|
   f.description "These came from Japan."
   f.quantity 4
   f.cost_per_unit 20.0
@@ -10,7 +10,7 @@ Factory.define :good_balance, class: Good::Balance do |f|
   f.association :admin_user
 end
 
-Factory.define :good_balance_lite, class: Good::Balance do |f|
+Factory.define :inventory_entry_lite, class: InventoryEntry do |f|
   f.description "These came from Japan."
   f.quantity 4
   f.cost_per_unit 20.0

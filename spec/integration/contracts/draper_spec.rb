@@ -5,7 +5,7 @@ describe "Draper decorator contract" do
 
   it "should respond_to decorates" do
     expect do
-      subject.decorates :good_balance, class: Good::Balance
+      subject.decorates :inventory_entry, class: InventoryEntry
     end.to_not raise_error
   end
 

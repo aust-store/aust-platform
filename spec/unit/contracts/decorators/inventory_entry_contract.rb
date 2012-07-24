@@ -1,14 +1,14 @@
-class Good < ActiveRecord::Base; class Balance; end; end
+class InventoryEntry < ActiveRecord::Base; end
 
-require "decorators/admin/good_balance_decorator"
+require "decorators/admin/inventory_entry_decorator"
 
-shared_examples_for "admin good balance decorator contract" do
-  subject { Admin::GoodBalanceDecorator }
+shared_examples_for "admin inventory entry decorator contract" do
+  subject { Admin::InventoryEntryDecorator }
 
-  it "decorates good_balance" do
+  it "decorates inventory_entry" do
     expect do
       subject.decorated_collection.should include [
-        :good_balance, { class: Good::Balance }
+        :inventory_entry
       ]
     end.to_not raise_error
   end

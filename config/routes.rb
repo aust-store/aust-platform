@@ -14,15 +14,15 @@ Store::Application.routes.draw do
     resource :inventory do
       resources :goods do
         collection do
-          get 'new_good_or_balance'
+          get 'new_good_or_entry'
 
           resource :search, controller: 'goods/search', only: [] do
             post "index"
-            post "for_adding_balance"
+            post "for_adding_entry"
           end
         end
 
-        resources :balances, controller: 'goods/balances'
+        resources :entries, controller: 'inventory/entries'
         resources :images, controller: 'goods/images', only: [:index,:delete]
       end
     end

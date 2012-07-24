@@ -6,7 +6,7 @@ class Admin::GoodsController < Admin::ApplicationController
     @goods = Good.within_company(current_user.company).all
   end
 
-  def new_good_or_balance; end
+  def new_good_or_entry; end
 
   def search
     @goods = Good.search_for(params[:name],
