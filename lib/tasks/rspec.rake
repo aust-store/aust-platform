@@ -1,6 +1,7 @@
-require 'rake'
-require 'rspec/core/rake_task'
+#require 'rake'
+#require 'rspec/core/rake_task'
 
+=begin
 class Rake::Task
   def abandon
     @actions.clear
@@ -34,3 +35,4 @@ end
 desc 'Default: run specs.'
 task :default => :run_suite
 
+=end
