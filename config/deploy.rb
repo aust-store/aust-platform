@@ -34,5 +34,5 @@ namespace :setup_database do
   end
 end
 
-#after "deploy:finalize_update", "setup_database:symlink_config"
-#after "setup_database:symlink_config", "deploy:migrate"
+after "deploy:finalize_update", "setup_database:symlink_config"
+after "setup_database:symlink_config", "deploy:migrate"
