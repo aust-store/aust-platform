@@ -13,7 +13,7 @@ feature "Store products" do
       page.should have_content @product.name
     end
   end
-  
+
   describe "adding a product to the cart" do
     scenario "As an user, I can add a product to the cart" do
       visit store_product_path(@company.handle, @product.balances.first)
