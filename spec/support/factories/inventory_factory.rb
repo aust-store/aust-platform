@@ -1,2 +1,4 @@
-Factory.define :inventory do |i|
+FactoryGirl.define do
+  factory :inventory do
+  end
 end

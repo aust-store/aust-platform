@@ -2,6 +2,6 @@ class Store::HomeController < Store::ApplicationController
   layout "store"
 
   def index
-    @goods = @company.list_goods
+    @entries = Store::ItemsForSale.new(self).items_for_homepage
   end
 end

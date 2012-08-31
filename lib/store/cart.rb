@@ -2,22 +2,22 @@ module Store
   class Cart
     attr_reader :items
 
-    def initialize
-      @items = []
+    def initialize(company, cart_id)
+      @company = company
+      @cart_id = cart_id
+      persist_cart
     end
 
-    def add_item(item, quantity = 1)
-      quantity.times do
-        @items << item
-      end
+    def id
+      @persistence.id
     end
 
-    def remove_item(item)
-      @items.delete_if { |i| i.id == item.id }
+    def add_item(inventory_entry_id, quantity = 1)
+      @persistence.add_item(inventory_entry_id, quantity)
     end
 
-    def item_quantity(item)
-      @items.count { |i| i.id == item.id }
+    def items
+      @persistence.items.all
     end
 
     def total_price
@@ -27,6 +27,14 @@ module Store
     def total_price_by_item(item)
       items = @items.each_with_object([]) { |i, a| a << i if i.id == item.id }
       Store::Cart::PriceCalculation.calculate(items)
+    end
+
+  private
+
+    def persist_cart
+      @persistence = ::Cart.find(@cart_id)
+    rescue ActiveRecord::RecordNotFound
+      @persistence = ::Cart.create(company: @company)
     end
   end
 end

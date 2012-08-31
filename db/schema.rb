@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723012339) do
+ActiveRecord::Schema.define(:version => 20120829161803) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -57,10 +57,13 @@ ActiveRecord::Schema.define(:version => 20120723012339) do
 
   create_table "carts", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "store_id"
+    t.integer  "company_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "carts", ["company_id"], :name => "index_carts_on_company_id"
+  add_index "carts", ["user_id"], :name => "index_carts_on_user_id"
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -120,21 +123,30 @@ ActiveRecord::Schema.define(:version => 20120723012339) do
     t.decimal  "moving_average_cost"
     t.decimal  "total_quantity"
     t.decimal  "total_cost"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
-    t.decimal  "price",               :precision => 15, :scale => 2
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+    t.integer  "store_id"
+    t.decimal  "price",               :precision => 8, :scale => 2
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
   add_index "inventory_entries", ["good_id"], :name => "index_good_balances_on_good_id"
+  add_index "inventory_entries", ["store_id"], :name => "index_inventory_entries_on_store_id"
 
   create_table "order_items", :force => true do |t|
+    t.integer  "inventory_item_id"
+    t.decimal  "price",              :precision => 8, :scale => 2
+    t.decimal  "quantity",           :precision => 8, :scale => 2
+    t.integer  "inventory_entry_id"
     t.integer  "cart_id"
     t.integer  "order_id"
-    t.integer  "good_id"
-    t.decimal  "price",      :precision => 15, :scale => 2
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
+
+  add_index "order_items", ["cart_id"], :name => "index_order_items_on_cart_id"
+  add_index "order_items", ["inventory_entry_id"], :name => "index_order_items_on_inventory_entry_id"
+  add_index "order_items", ["inventory_item_id"], :name => "index_order_items_on_inventory_item_id"
+  add_index "order_items", ["order_id"], :name => "index_order_items_on_order_id"
 
 end

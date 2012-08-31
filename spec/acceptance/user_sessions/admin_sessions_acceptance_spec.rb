@@ -2,7 +2,7 @@ require 'acceptance_spec_helper'
 
 feature "Admin User sessions", js: true do
   before do
-    @admin_user = Factory(:admin_user)
+    @admin_user = FactoryGirl.create(:admin_user)
   end
 
   scenario "As a user, I'd like to sign in into my store admin" do

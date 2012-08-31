@@ -15,12 +15,12 @@ body {
   display: table;
   clear: both;
 
-  .title, .cart { float: left; width: 50%; }
+  .title, .cart_status { float: left; width: 50%; }
   .title {
-    h1 { font-size: 3em; margin: 0; } 
+    h1 { font-size: 3em; margin: 0; }
     p { color: #444; font-size: 0.9em; margin: 0 0 5px 0; }
   }
-  .cart .background {
+  .cart_status .background {
     margin: 18px 0 0 0;
     padding: 5px 10px 5px 32px;
     font-size: 0.9em;

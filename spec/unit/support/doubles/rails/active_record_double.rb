@@ -36,4 +36,6 @@ module ActiveRecord
       def destroy(*args); end
     end
   end
+
+  class RecordNotFound < StandardError; end
 end

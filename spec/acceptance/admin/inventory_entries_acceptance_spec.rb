@@ -2,13 +2,13 @@ require 'acceptance_spec_helper'
 
 feature "Listing inventory entries", js: true, search: true do
   background do
-    @other_user = Factory(:admin_user)
+    @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
-    @other_good = Factory(:good, name: "Other good", user: @other_user, company: @other_company)
+    @other_good = FactoryGirl.create(:good, name: "Other good", user: @other_user, company: @other_company)
 
-    @admin_user = Factory(:admin_user)
-    @good = Factory(:good, name: "My good", user: @admin_user, company: @admin_user.company)
-    10.times { |t| Factory(:inventory_entry_lite, description: "Entry #{t+1}", quantity: (t+1), good: @good, admin_user: @admin_user) }
+    @admin_user = FactoryGirl.create(:admin_user)
+    @good = FactoryGirl.create(:good, name: "My good", user: @admin_user, company: @admin_user.company)
+    10.times { |t| FactoryGirl.create(:inventory_entry_lite, description: "Entry #{t+1}", quantity: (t+1), good: @good, admin_user: @admin_user) }
 
     login_into_admin
   end

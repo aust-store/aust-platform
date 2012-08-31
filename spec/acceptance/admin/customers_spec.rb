@@ -6,8 +6,8 @@ feature "Customers" do
 
   before do
     login_into_admin
-    @customer = Factory.build(:customer)
-    @old_customer = Factory.create(:customer, first_name: "Rafael",last_name: "Oliveira", company_id: '2')
+    @customer = FactoryGirl.build(:customer)
+    @old_customer = FactoryGirl.create(:customer, first_name: "Rafael",last_name: "Oliveira", company_id: '2')
   end
 
   describe "Adding new customer" do

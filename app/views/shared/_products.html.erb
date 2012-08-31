@@ -1,14 +1,14 @@
 <div class="products_list">
-  <% @goods.each do |good| %>
+  <% @entries.each do |entry| %>
      <div class="product">
-       <%= image_tag good.images.first.image.url(:medium), class:
-           "image" unless good.images.blank? %>
+       <%= image_tag entry.good.images.first.image.url(:medium), class:
+           "image" unless entry.good.images.blank? %>
        <div class="text">
          <div class="title">
-           <%= good.name %>
+           <%= link_to entry.good.name, store_product_path(id: entry.id) %>
          </div>
          <div class="description">
-           <%= good.description %>
+           <%= entry.good.description %>
          </div>
          <div class="price">
            R$ 50

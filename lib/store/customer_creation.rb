@@ -1,8 +1,8 @@
 module Store
   class CustomerCreation
-    def self.create(data, company, persistence_class = Customer)
+    def self.create(data, company_id, persistence_class = Customer)
       customer = persistence_class.new(data)
-      customer.company = company
+      customer.company_id = company_id
       customer.save
     end
   end
