@@ -1,5 +1,7 @@
-Factory.define :admin_user do |u|
-  u.sequence(:email) { |s| "user#{s}@example.com" }
-  u.password "1234567"
-  u.association :company
+FactoryGirl.define do
+  factory :admin_user do
+    sequence(:email) { |s| "user#{s}@example.com" }
+    password "1234567"
+    association :company
+  end
 end

@@ -1,6 +1,7 @@
-Factory.define :company do |u|
-  u.name { |i| "Super Company" }
-  u.association :inventory
-  u.handle :my_store
+FactoryGirl.define do
+  factory :company do
+    name { |i| "Super Company ##{i}" }
+    association :inventory
+    handle { |i| "handle_#{i}" }
+  end
 end
-

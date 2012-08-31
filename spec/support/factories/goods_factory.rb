@@ -1,11 +1,22 @@
-Factory.define :good do |u|
-  u.association :company
-  u.association :user, factory: :admin_user
-  u.name { |i| "Goodyear tire 4 inches" }
-  u.description "Lorem ipsum lorem"
-end
+FactoryGirl.define do
+  factory :good do
+    association :user, factory: :admin_user
+    name { |i| "Goodyear tire 4 inches ##{i}" }
+    description "Lorem ipsum lorem"
 
-Factory.define :good_two, parent: :good do |u|
-  u.name { |i| "Bridgestone tire 5 inches" }
-  u.description "Whatever ipsum lorem."
+    after(:create) do |good, evaluator|
+      FactoryGirl.create_list(:inventory_entry, 2,
+                              good: good,
+                              store: evaluator.company)
+    end
+
+    factory :good_with_company do
+      association :company
+    end
+  end
+
+  factory :good_two, parent: :good do
+    name { |i| "Bridgestone tire 5 inches ##{i}" }
+    description "Whatever ipsum lorem."
+  end
 end

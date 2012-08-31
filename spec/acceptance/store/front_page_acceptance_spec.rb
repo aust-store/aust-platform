@@ -11,7 +11,7 @@ feature "Store's front-page" do
       visit store_path(@company.handle)
       page.should have_content(@company.name)
 
-      within(".cart") do
+      within(".cart_status") do
         page.should have_content("Seu carrinho está vazio.")
       end
     end

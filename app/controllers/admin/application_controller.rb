@@ -9,6 +9,10 @@ class Admin::ApplicationController < ActionController::Base
     current_admin_user
   end
 
+  def current_company
+    current_user.company
+  end
+
   private
 
   def define_layout

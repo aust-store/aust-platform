@@ -1,8 +1,11 @@
 class InventoryEntry < ActiveRecord::Base
+  belongs_to :store, foreign_key: "store_id", class_name: "Company"
   belongs_to :good
   belongs_to :admin_user
 
-  attr_accessible :good_id, :description, :quantity, :cost_per_unit, :good
+  attr_accessible :good_id, :description, :quantity, :cost_per_unit, :good,
+                  :admin_user_id, :balance_type, :moving_average_cost,
+                  :total_quantity, :total_cost, :store_id
 
   accepts_nested_attributes_for :good
 

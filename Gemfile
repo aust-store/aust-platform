@@ -26,16 +26,17 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'quiet_assets', :group => :development
 
 group :development, :test do
-  gem 'rspec-rails', '2.8.0'
+  gem 'rspec-rails', '~> 2.11'
   gem 'sunspot_solr'
 end
 
 group :test do
   gem 'capybara', '1.1.2'
   gem 'capybara-webkit', '0.12.1'
-  gem 'factory_girl', '2.6.0'
+  gem 'factory_girl', '~> 4.0'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner', '0.7.1'
 end

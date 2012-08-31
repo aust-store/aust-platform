@@ -6,7 +6,7 @@
   <%= javascript_include_tag "store/application_manifest" %>
   <%= csrf_meta_tags %>
 </head>
-<body class="<%= params[:controller].gsub(/\//, "_") + "_" + params[:action] %>">
+<body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
   <div id="header">
     <div class="title">
@@ -14,11 +14,11 @@
       <p>Caring about your workplace.</p>
     </div>
     <%= render "shared/top_cart_summary" %>
-  </div> 
+  </div>
 
   <div id="global">
     <div id="navigation">
-      <%= render "layouts/store/navigation" %> 
+      <%= render "layouts/store/navigation" %>
     </div>
     <div id="main">
       <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>

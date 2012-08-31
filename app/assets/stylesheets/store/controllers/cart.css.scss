@@ -1,133 +1,117 @@
-body.store_cart_show {
-  #main .cart {
-    display: table;
+body.store_cart.show {
+  .cart {
     width: 720px;
 
-    .columns_header {
-      background: darken(#eee, 0%);
-      border-radius: 0px;
+    .cart_table {
+      background: #f9f9f9;
       display: table;
-      width: 100%;
-      padding: 0 0 0px 0;
     }
 
-    .products {
+    .header, .product, .items_total, .freight_contiguration {
       display: table;
-      background: #fbfbfb;
-      padding: 5px 0 7px 0;
-      width: 100%;
+      width: 720px;
+    }
 
-      .product {
-        border-top: 1px solid #f6f6f6;
-        display: table;
-        width: 100%;
-
-        &:first-child {
-          border: 0px;
-        }
-      }
+    .header {
+      background: red;
+      font-weight: bold;
     }
 
     .column {
+      padding: 6px 6px;
       float: left;
-      width: 80px;
-      padding: 7px 9px 7px 9px;
+      text-align: center;
 
-      &.description {
-        width: 380px;
-      }
+      &.description { width: 440px; text-align: left; }
+      &.quantity { width: 90px; }
+      &.total_price { width: 70px; }
+      &.options { width: 70px; }
+    }
 
-      &.quantity {
-        width: 120px;
+    .product {
+      background: #fbfbfb;
+      border-top: 1px solid #fdfdfd;
+      border-bottom: 1px solid #f9f9f9;
+
+      input[type="text"] {
+        width: 20px;
+        height: 16px;
         text-align: center;
-
-        input { width: 30px; text-align: center; }
       }
 
-      &.item_options {
-        width: 40px;
-        text-align: center;
-      }
-    }
+      .column {
+        padding-top: 8px;
 
-    .product_total, .total {
-      display: table;
-      width: 100%;
-    }
-
-    .product_total {
-      background: lighten(#A8DAA3, 0%);
-      border-top: 1px solid darken(#A8DAA3, 10%);
-      margin: 0 0 0 0;
-
-      .description { }
-      .total_price {
-        font-weight: bold;
+        &.quantity { padding-top: 6px; }
       }
     }
 
-    .total {
-      background-color: #f6f6f6;
-      border-bottom: 1px solid #eaeaea;
+    .items_total {
+      background: lighten(green, 65%);
+    }
 
-      .description { width: 100px; }
-      .total_price { width: 160px; }
-      .freight_options {
-        width: 400px;
+    .freight_configuration {
+      padding: 4px 0 0 0;
 
-        .freight_type, .zipcode {
-          width: 300px;
+      .freight_label { float: left; width: 60px }
+      .options {
+        float: left; width: 200px;
+
+        .service_selection {
+          width: 100%;
+          padding: 0 5px 5px 5px;
           text-align: center;
-          display: table;
-
-          .pac { margin-right: 10px; }
-
-          input.text { width: 90px; }
-        }
-
-        .freight_type {
-          border-bottom: 1px solid #eaeaea;
-          padding: 0 0 6px 0;
+          border-bottom: 1px solid #f7f7f7;
         }
 
         .zipcode {
-          border-top: 1px solid #fbfbfb;
-          padding: 6px 0 0 0;
+          width: 100%;
+          padding: 5px;
+          text-align: center;
+          border-top: 1px solid #fdfdfd;
         }
+      }
+
+      .summary {
+        width: 230px;
+        padding: 15px 0 0 0;
+        text-align: center;
+        float: right;
       }
     }
 
-    .actions {
-      display: block;
-      margin: 15px 0 0 0;
+  }
 
-      .line {
-        width: 100%;
-        margin: 0 0 20px 0;
+  .actions {
+    display: block;
+    margin: 15px 0 0 0;
+
+    .line {
+      width: 100%;
+      margin: 0 0 20px 0;
+      display: table;
+    }
+
+    .action_link {
+      width: 50%;
+      text-align: center;
+      float: left;
+    }
+
+    .checkout {
+      width: 100%;
+      text-align: right;
+
+      a#checkout_button {
+        margin: 0 60px 0 0;
+        width: 175px;
+        height: 34px;
+        float: right;
         display: table;
-      }
+        background-image: image-url("store/buttons/button_done_buying.png");
 
-      .action_link {
-        width: 50%;
-        text-align: center;
-        float: left;
-      }
-
-      .checkout {
-        width: 100%;
-        text-align: right;
-
-        a#checkout_button {
-          margin: 0 60px 0 0;
-          width: 175px;
-          height: 34px;
-          float: right;
-          display: table;
-          background-image: image-url("store/buttons/button_done_buying.png");
-
-          &:hover {
-            background-position: 0 -34px;
-          }
+        &:hover {
+          background-position: 0 -34px;
         }
       }
     }

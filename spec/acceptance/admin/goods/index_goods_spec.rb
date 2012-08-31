@@ -2,12 +2,12 @@ require 'acceptance_spec_helper'
 
 feature "Listing goods", js: true, search: true do
   before do
-    @other_user = Factory(:admin_user)
+    @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
-    @other_good = Factory(:good, name: "Other good", user: @other_user, company: @other_company)
+    @other_good = FactoryGirl.create(:good, name: "Other good", user: @other_user, company: @other_company)
 
-    @admin_user = Factory(:admin_user)
-    @good = Factory(:good, name: "My good", user: @admin_user, company: @admin_user.company)
+    @admin_user = FactoryGirl.create(:admin_user)
+    @good = FactoryGirl.create(:good, name: "My good", user: @admin_user, company: @admin_user.company)
     login_into_admin
   end
 

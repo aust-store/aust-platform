@@ -1,90 +1,82 @@
 <div class="cart">
-  <div class="columns_header">
-    <div class="column description">
-      Item
-    </div>
-
-    <div class="column quantity">
-      Quantidade
-    </div>
-
-    <div class="column total_price">
-      Subtotal
-    </div>
-
-    <div class="column item_options">
-    </div>
-  </div>
-
-  <div class="products">
-    <% 5.times do |t| %>
-    <div class="product">
-
+  <div class="cart_table">
+    <div class="columns_header">
       <div class="column description">
-        <%= link_to "Parafuso", "" %>
+        Item
       </div>
 
       <div class="column quantity">
-        <input type="text" value="2" />
+        Quantidade
       </div>
 
       <div class="column total_price">
-        R$ 13,12
+        Subtotal
       </div>
 
       <div class="column item_options">
-        <%= link_to image_tag("store/buttons/check_no.png"), "" %>
       </div>
     </div>
-    <% end %>
-  </div>
 
-  <div class="product_total">
+    <div class="products">
+      <% @cart_items.each do |item| %>
+      <div class="product">
+        <div class="column description">
+          <%= link_to item.inventory_item.name, "" %>
+        </div>
 
-    <div class="column description">
-      Total de produtos
-    </div>
+        <div class="column quantity">
+          <input type="text" value="2" />
+        </div>
 
-    <div class="column quantity">
-    </div>
+        <div class="column total_price">
+          R$ 13,12
+        </div>
 
-    <div class="column total_price">
-      R$ 113,12
-    </div>
-
-    <div class="column item_options">
-    </div>
-  </div>
-
-  <div class="total">
-
-    <div class="column description">
-      Valor do Frete
-    </div>
-
-    <div class="column freight_options">
-      <div class="freight_type">
-        <span class="freight_service pac">
-          <input type="radio" name="freight_type" value="pac" class="radio" checked="checked" />
-          Encomenda normal PAC
-        </span>
-        <span class="freight_service sedex">
-          <input type="radio" name="freight_type" value="sedex" />
-          Sedex
-        </span>
+        <div class="column item_options">
+          <%= link_to image_tag("store/buttons/check_no.png"), "" %>
+        </div>
       </div>
-      <span class="zipcode">
-        Digite seu CEP:
-        <input type="text" name="cep" value="" maxlength="9" class="text">
-        &nbsp;
-        <a href="/cart/update" id="update_next_ivte_cart">Calcular</a>
-      </span>
+      <% end %>
     </div>
 
-    <div class="column total_price">
-      R$ 13,00
-      <br />
-      Entrega em 6 dias úteis
+    <div class="items_total">
+      <div class="column description">
+        Total
+      </div>
+
+      <div class="column quantity">
+      </div>
+
+      <div class="column total_price">
+        R$ 99,12
+      </div>
+
+      <div class="column options">
+      </div>
+    </div>
+
+    <div class="freight_configuration">
+      <div class="column description">
+        <div class="freight_label">
+          Frete
+        </div>
+        <div class="options">
+          <div class="service_selection">
+            <input type="radio" checked="checked" /> Normal (PAC)
+            &nbsp;
+            <input type="radio" /> Sedex
+          </div>
+          <div class="zipcode">
+            CEP: <input type="text" />
+          </div>
+        </div>
+      </div>
+
+      <div class="column summary">
+        R$ 12,10,
+        <br />
+        entrega em 6 dias úteis
+      </div>
     </div>
   </div>
 

@@ -3,6 +3,7 @@
  *= require ./shared/standard
  *= require ./shared/style
  *= require_directory ./controllers/
+ *= require_directory ./shared
  *= require ./themes/default
  *= require ./themes/forms
  */

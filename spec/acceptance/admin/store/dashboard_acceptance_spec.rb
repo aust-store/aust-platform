@@ -2,9 +2,9 @@ require 'acceptance_spec_helper'
 
 feature "Managing the store", js: true, search: true do
   before do
-    @admin_user = Factory(:admin_user)
-    Factory(:good_two)
-    @good = Factory(:good, user: @admin_user, company: @admin_user.company)
+    @admin_user = FactoryGirl.create(:admin_user)
+    FactoryGirl.create(:good_with_company)
+    @good = FactoryGirl.create(:good, user: @admin_user, company: @admin_user.company)
 
     login_into_admin
   end

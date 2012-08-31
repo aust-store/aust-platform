@@ -1,6 +1,8 @@
-Factory.define :customer do |c|
-  c.first_name  "Jane"
-  c.last_name  "Doe"
-  c.company_id  "1"
-  c.description "my customer"
+FactoryGirl.define do
+  factory :customer do
+    first_name  "Jane"
+    last_name  "Doe"
+    company_id  "1"
+    description "my customer"
+  end
 end
