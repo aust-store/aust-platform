@@ -1,6 +1,6 @@
 module Store
   class Cart
-    attr_reader :items
+    attr_reader :items, :persistence
 
     def initialize(company, cart_id)
       @company = company
@@ -9,15 +9,15 @@ module Store
     end
 
     def id
-      @persistence.id
+      persistence.id
     end
 
     def add_item(inventory_entry_id, quantity = 1)
-      @persistence.add_item(inventory_entry_id, quantity)
+      persistence.add_item(inventory_entry_id, quantity)
     end
 
     def items
-      @persistence.items.all
+      persistence.items.all
     end
 
     def total_price
