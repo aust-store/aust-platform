@@ -1,11 +1,10 @@
-class AccountReceivable; end
-
-require "contexts/receivables_management_context"
+require "./app/contexts/receivables_management_context"
 
 shared_examples_for "Receivables Management context contract" do
   subject { ReceivablesManagementContext.new(double.as_null_object) }
 
   before do
+    stub_const("AccountReceivable", Object.new)
     subject.stub(:sanitize_controller_params)
     @resource = double.as_null_object
   end

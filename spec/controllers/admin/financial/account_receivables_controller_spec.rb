@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Admin::Financial::AccountReceivablesController do
   login_admin
-  #it_obeys_the "Receivables Management context contract"
+
+  it_obeys_the "Receivables Management context contract"
 
   describe "GET index" do
     it "assigns decorated receivables" do
