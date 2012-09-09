@@ -1,6 +1,6 @@
 class Admin::CustomersController < Admin::ApplicationController
   def index
-    @customers = Customer.within_company(current_company.id).all
+    @customers = current_company.customers.all
   end
 
   def show
@@ -8,7 +8,7 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def new
-    @customer = Customer.new(company: current_company.id)
+    @customer = Customer.new(company: current_company)
   end
 
   def create
@@ -16,7 +16,7 @@ class Admin::CustomersController < Admin::ApplicationController
       params[:customer], current_company.id
     )
 
-    if @customer
+    if @customer.save
       redirect_to admin_customers_url
     else
       render "new"

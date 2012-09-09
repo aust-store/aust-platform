@@ -20,13 +20,9 @@ RSpec.configure do |config|
   config.include AcceptanceSteps
 
   config.before :all do
-    SunspotTest.stub
   end
 
   config.before(:all, search: true) do
-    SunspotTest.setup_solr
-    Sunspot.remove_all!
-    Sunspot.commit
   end
 
   config.before(:suite) do

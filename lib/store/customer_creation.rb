@@ -3,7 +3,7 @@ module Store
     def self.create(data, company_id, persistence_class = Customer)
       customer = persistence_class.new(data)
       customer.company_id = company_id
-      customer.save
+      customer
     end
   end
 end

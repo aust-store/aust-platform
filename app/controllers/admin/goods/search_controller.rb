@@ -30,7 +30,7 @@ module Admin
       # TODO it's not the controller responsibility to tell how many pages
       # should be shown
       def search_goods
-       @resources = Good.search_for params[:name], current_user.company_id, page: 1, per_page: 10
+        @resources = current_company.items.search_for(params[:name])
       end
     end
   end

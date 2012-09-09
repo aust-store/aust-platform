@@ -9,9 +9,7 @@ class Admin::GoodsController < Admin::ApplicationController
   def new_good_or_entry; end
 
   def search
-    @goods = Good.search_for(params[:name],
-                             current_user.company_id,
-                             page: 1, per_page: 10)
+    @goods = current_company.items.search_for(params[:name])
     render "search", layout: false
   end
 
