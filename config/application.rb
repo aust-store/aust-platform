@@ -59,6 +59,19 @@ module Store
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
     # config.active_record.whitelist_attributes = true
+    config.assets.initialize_on_precompile = false
+
+    config.assets.precompile += ["admin_manifest.js"]
+    config.assets.precompile += ["admin/application.js", "admin/sign_up_manifest.js"]
+    config.assets.precompile += ["store/application_manifest.js"]
+
+    config.assets.precompile += ["admin/application.css"]
+    config.assets.precompile += ["admin/sign_in_manifest.css"]
+    config.assets.precompile += ["admin/sign_up_manifest.css"]
+    config.assets.precompile += ["store/application_manifest.css"]
+    
+    config.assets.precompile += ["store/store_index_manifest.css"]
+    config.assets.precompile += ["store/store_index_manifest.js"]
 
     # Enable the asset pipeline
     config.assets.enabled = true

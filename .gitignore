@@ -20,3 +20,4 @@ config/database.yml
 /solr/pids
 .#*
 public/uploads/*
+public/assets/*
