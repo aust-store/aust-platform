@@ -1,3 +1,4 @@
+require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 load "deploy/assets"
 
@@ -5,7 +6,8 @@ set :application, "store"
 set :repository,  "git@github.com:kurko/store.git"
 set :deploy_to, proc { "/var/rails/#{application}" }
 set :user, "deployer"
-set :default_stage, "staging"
+#set :stages, %w(staging production)
+#set :default_stage, "staging"
 
 set :scm, :git
 
