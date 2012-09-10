@@ -4,7 +4,7 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def show
-    @customer = Customer.find(params[:id])
+    @customer = current_company.customers.find(params[:id])
   end
 
   def new
@@ -12,13 +12,12 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def create
-    @customer = Store::CustomerCreation.create(
-      params[:customer], current_company.id
-    )
+    @customer = Store::CustomerCreation.new(self)
 
-    if @customer.save
+    if @customer.create(params[:customer])
       redirect_to admin_customers_url
     else
+      @customer = @customer.ar_instance
       render "new"
     end
   end

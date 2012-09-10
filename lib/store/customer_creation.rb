@@ -1,9 +1,20 @@
 module Store
   class CustomerCreation
-    def self.create(data, company_id, persistence_class = Customer)
-      customer = persistence_class.new(data)
-      customer.company_id = company_id
-      customer
+    attr_reader :ar_instance
+
+    def initialize(controller)
+      @controller = controller
+    end
+
+    def create(data)
+      @ar_instance = current_company.customers.new(data)
+      @ar_instance.save
+    end
+
+  private
+
+    def current_company
+      @controller.current_company
     end
   end
 end

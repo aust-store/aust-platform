@@ -1,14 +1,24 @@
 require "store/customer_creation"
 
 describe Store::CustomerCreation do
-  it "delegates to Customer the persistence of a new customer" do
-    customer_model = double
-    customer = double
-    data = double
-    company = double
-    customer_model.should_receive(:new).with(data) { customer }
-    customer.should_receive(:company_id=).with(company)
-    customer.should_receive(:save)
-    Store::CustomerCreation.create(data, company, customer_model)
+  let(:controller) { double(current_company: company) }
+  let(:company)    { double(customers: customers) }
+  let(:customers)  { double }
+  let(:model_instance) { double(save: true) }
+
+  describe "#create" do
+    it "creates a user" do
+      model_instance.should_receive(:save)
+      customers.stub(:new).with(:data) { model_instance }
+
+      Store::CustomerCreation.new(controller).create(:data)
+    end
+
+    it "returns the result from the creation" do
+      customers.stub(:new) { double(save: :return_from_the_model) }
+
+      customer = Store::CustomerCreation.new(controller).create(:data)
+      customer.should == :return_from_the_model
+    end
   end
 end
