@@ -3,44 +3,37 @@ class Admin::GoodsController < Admin::ApplicationController
   before_filter :load_good, only: [:show, :edit, :destroy]
 
   def index
-    @goods = Good.within_company(current_user.company).all
+    @goods = current_company.items.all
   end
 
   def new_good_or_entry; end
 
-  def search
-    @goods = current_company.items.search_for(params[:name])
-    render "search", layout: false
-  end
-
   def show
-    @good = ::DecorationBuilder.good(Good.find(params[:id]))
+    good = current_company.items.find(params[:id])
+    @good = ::DecorationBuilder.good(good)
   end
 
   def new
-    @good = Good.new
+    @good = current_company.items.new
   end
 
   def edit
-    @good = Good.find params[:id]
+    @good = current_company.items.find params[:id]
   end
 
   def create
-    # TODO Good::Creation would make sense here to remove this logic from
-    # the controller
-    @good = Good.new params[:good]
-    @good.user = current_user
-    @good.company = current_user.company
-    if @good.save
+    @good = Store::InventoryItemCreation.new(self)
+    if @good.create(params[:good])
       redirect_to admin_inventory_goods_url
     else
+      @good = @good.active_record_item
       render "new"
     end
   end
 
   def update
     # TODO remove this logic from the controller
-    @good = Good.find params[:id]
+    @good = current_company.items.find params[:id]
     if @good.update_attributes params[:good]
       if remotipart_submitted?
         return render partial: "shared/images", layout: false
@@ -52,7 +45,7 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def destroy
-    @good = Good.find params[:id]
+    @good = current_company.items.find params[:id]
     if @good.destroy
       redirect_to admin_inventory_goods_url
     else
@@ -63,7 +56,7 @@ class Admin::GoodsController < Admin::ApplicationController
   private
 
   def load_good
-    @good = Good.find params[:id]
+    @good = current_company.items.find params[:id]
   end
 
   def has_images good

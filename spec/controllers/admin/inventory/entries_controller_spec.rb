@@ -1,98 +1,56 @@
-module Store; class Currency; end; end
-require "unit_spec_helper"
-require "controllers/admin/inventory/entries_controller"
+require "spec_helper"
 
 describe Admin::Inventory::EntriesController do
+  login_admin
 
-  it_obeys_the "application controller contract"
-  it_obeys_the "Good model contract"
+  # TODO fix contracts
+  it_obeys_the "admin application controller contract"
+  #it_obeys_the "Good model contract"
 
-  let(:valid_attributes) do
-    { "description"   => "These came from Japan.",
-      "quantity"      => "4",
-      "cost_per_unit" => "R$ 20.0" }
-  end
-  let(:sanitized_attributes) do
-    { "description"   => "These came from Japan.",
-      "quantity"      => "4",
-      "cost_per_unit" => 20.0 }
-  end
+  let(:items) { double }
 
   before do
-    @good = double
-    @balances = double
-    @balances.stub(:good).and_return(@good)
-    @balances.stub(:balance_type=)
-    subject.stub_chain(:current_user, :company) { 1 }
-
     Store::Currency.stub(:to_float).with("R$ 20.0").and_return(20.0)
 
-    Good.stub_chain(:where, :within_company, :first).and_return(@good)
+    good = double(balances: items)
+    controller.stub_chain(:current_company, :items, :find) { good }
   end
 
-  it "should raise if other company's id was given" do
-    Good.stub_chain(:where, :within_company, :first).and_return(nil)
-    expect do
-      get :index, good_id: invalid_good.id
-    end.to raise_error
-  end
-
-  describe "#index" do
+  describe "GET index" do
     it "loads good's entries" do
-      @good.stub(:balances) { double(balances: @balances) }
-      Admin::InventoryEntryDecorator.stub(:decorate) { @balances }
-      subject.index.should == @balances
+      Admin::InventoryEntryDecorator.stub(:decorate).with(items) { :items }
+      get :index, good_id: 1
+      assigns(:entries).should == :items
     end
   end
 
-  describe "#new" do
+  describe "GET new" do
     it "builds a new balance" do
-      @good.stub_chain(:balances, :build).and_return(@balances)
-      subject.new.should == @balances
+      items.stub(:build).and_return(:items)
+      get :new, good_id: 1
+      assigns(:entry).should == :items
     end
   end
 
-  describe "#create" do
+  describe "POST create" do
     before do
-      @good.stub_chain(:balances, :build).with(sanitized_attributes) { @balances }
-      subject.stub(:params) do
-        { inventory_entry: sanitized_attributes }
-      end
+      items.stub(:build).and_return(items)
+      items.stub(:balance_type=)
     end
 
     it "redirects if saving balance successfully" do
-      @balances.stub(:save) { true }
-      subject.stub(:admin_inventory_good_entries_url).with(@good) { "good"}
-      subject.should_receive(:redirect_to).with("good")
-      subject.create
+      items.stub(:good) { :good }
+      items.stub(:save) { true }
+
+      post :create, good_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
+      response.should redirect_to admin_inventory_good_entries_url(:good)
     end
 
-    it "renderform if not saving entry successfully" do
-      @balances.stub(:save) { false }
-      subject.should_receive(:render).with("new")
-      subject.create
-    end
-  end
-
-  describe "#update" do
-    before do
-      @good.stub_chain(:balances, :find).with("1").and_return(@balances)
-      subject.stub(:params) do
-        { id: "1", inventory_entry: sanitized_attributes }
-      end
-    end
-
-    it "redirects if updating the entry successfully" do
-      @balances.stub(:update_attributes).with(sanitized_attributes) { true }
-      subject.stub(:admin_inventory_good_entries_url).with(@good) { "good"}
-      subject.should_receive(:redirect_to).with("good")
-      subject.update
-    end
-
-    it "renders form if not updating entry successfully" do
-      @balances.stub(:update_attributes).with(sanitized_attributes) { false }
-      subject.should_receive(:render).with("edit")
-      subject.update
+    it "render form if not saving entry successfully" do
+      items.stub(:save) { false }
+      post :create, good_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
+      response.should render_template "new"
+      assigns(:entry).should == items
     end
   end
 end
