@@ -1,10 +1,9 @@
-# TODO unit test
-require 'integration_spec_helper'
+require 'spec_helper'
 
 describe AccountReceivable do
   describe ".valid?" do
     before do
-      @account_receivable = Factory.build(:account_receivable)
+      @account_receivable = FactoryGirl.build(:account_receivable)
     end
 
     context "valid resource" do

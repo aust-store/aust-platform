@@ -2,20 +2,12 @@ require 'spec_helper'
 
 describe Good do
   describe "#search_for" do
-    before do
-      @good = FactoryGirl.create(:good_with_company,
-                                 name: "The good and the bad",
-                                 description: "Lorem ipsum")
-    end
+    let(:search) { double(search: :search) }
 
-    it "should result the correct words by name" do
-      result = Good.search_for "good", @good.company
-      result.should include @good
-    end
+    it "results the correct words by name" do
+      Store::ItemsSearch.should_receive(:new).with(Good, :good) { search }
 
-    it "should result the correct words by description" do
-      result = Good.search_for "ipsum", @good.company
-      result.should include @good
+      Good.search_for(:good).should == :search
     end
   end
 end

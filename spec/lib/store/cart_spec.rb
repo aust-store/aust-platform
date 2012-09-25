@@ -1,8 +1,3 @@
-module Store; class Cart; class PriceCalculation; end; end; end
-class Cart
-  def self.find(*args); raise ActiveRecord::RecordNotFound; end
-end
-
 require "unit_spec_helper"
 require "store/cart"
 
@@ -12,12 +7,19 @@ describe Store::Cart do
 
   let(:company) { double }
   let(:cart_id) { double }
+  let(:cart_model) { double }
   let(:item) { double(id: 1) }
 
   subject { Store::Cart.new(company, cart_id) }
 
+  before do
+    stub_const("Cart", cart_model)
+    stub_const("ActiveRecord::RecordNotFound", Exception.new)
+  end
+
   describe "initialization" do
     it "creates a new cart in the database if it doesn't exist" do
+      cart_model.stub(:find).and_raise(ActiveRecord::RecordNotFound)
       Cart.should_receive(:create).with(company: company)
       Store::Cart.new(company, nil)
     end

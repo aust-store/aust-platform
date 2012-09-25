@@ -1,11 +1,10 @@
-# TODO unit test
-require 'integration_spec_helper'
+require 'spec_helper'
 
 describe InventoryEntry do
   describe "#define_new_balance_values" do
     context "when first entry" do
       before do
-        @resource = Factory.build(:inventory_entry_lite)
+        @resource = FactoryGirl.build(:inventory_entry)
       end
 
       it "should have the correct values" do
@@ -18,8 +17,8 @@ describe InventoryEntry do
 
     context "when adding to existing balance" do
       before do
-        Factory(:inventory_entry, good: @good, quantity: 10, cost_per_unit: 20)
-        @resource = Factory.build(:inventory_entry_lite, good: @good, quantity: 10, cost_per_unit: 40)
+        FactoryGirl.create(:inventory_entry, good: @good, quantity: 10, cost_per_unit: 20)
+        @resource = FactoryGirl.build(:inventory_entry, good: @good, quantity: 10, cost_per_unit: 40)
       end
 
       it "should have the correct values" do

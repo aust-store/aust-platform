@@ -26,16 +26,6 @@ module Admin
         end
       end
 
-      def update
-        load_good
-        @entry = @good.balances.find params[:id]
-        if @entry.update_attributes params[:inventory_entry]
-          redirect_to admin_inventory_good_entries_url(@entry.good)
-        else
-          render "edit"
-        end
-      end
-
     private
 
       def load_good
