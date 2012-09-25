@@ -1,5 +1,4 @@
-require "date"
-require "./app/roles/date_sanitizer"
+require "spec_helper"
 
 describe DateSanitizer do
   describe ".parse_date_for_active_record" do

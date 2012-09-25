@@ -1,11 +1,8 @@
-require 'unit_spec_helper'
-require "decorators/admin/good_decorator"
+require 'spec_helper'
 
 describe Admin::GoodDecorator do
   let(:good) { double.as_null_object }
   subject { Admin::GoodDecorator.new(good) }
-
-  it_obeys_the "admin good decorator contract"
 
   before do
     subject.stub(:good) { good }

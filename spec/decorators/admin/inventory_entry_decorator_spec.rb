@@ -1,12 +1,6 @@
-require "unit_spec_helper"
-
-class InventoryEntry; end
-require "decorators/admin/inventory_entry_decorator"
+require "spec_helper"
 
 describe Admin::InventoryEntryDecorator do
-
-  it_obeys_the "admin inventory entry decorator contract"
-
   def attributes
     { cost_per_unit: "10.0", total_cost: "14.14",
       created_at: Time.new(2012, 04, 14, 14, 14, 14) }

@@ -1,11 +1,4 @@
-require "unit_spec_helper"
-require "./app/roles/date_sanitizer"
-require "./app/roles/currency_parser"
-
-require "./app/contexts/receivables_management_context"
-
-class AccountReceivable; end
-module Store; class Currency; end; end
+require "spec_helper"
 
 describe ReceivablesManagementContext do
 

@@ -10,7 +10,7 @@ module Admin
     include ::ActionView::Helpers::NumberHelper
 
     def value
-      to_currency account_receivable.value
+      to_currency(account_receivable.value)
     end
 
     def due_to
@@ -27,10 +27,8 @@ module Admin
       end
     end
 
-    private
+  private
 
-    # TODO create own lib for converting currency, so we can better isolate this
-    # in our tests
     def to_currency(value)
       number_to_currency(value, :unit => "R$ ", :separator => ",", :delimiter => ".")
     end

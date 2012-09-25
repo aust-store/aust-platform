@@ -1,10 +1,6 @@
-require 'unit_spec_helper'
-
-require "decorators/admin/account_receivable_decorator"
+require 'spec_helper'
 
 describe Admin::AccountReceivableDecorator do
-  it_obeys_the "admin account receivable decorator contract"
-
   def attributes
     { due_to: Time.new(2012, 04, 21, 12, 12, 12) }
   end
@@ -18,8 +14,8 @@ describe Admin::AccountReceivableDecorator do
 
   describe ".value" do
     it "should return as currency" do
-      @resource.stub(:value)
-      @presenter.should_receive(:to_currency).and_return "R$ 50,40"
+      @resource.stub(:value) { :value }
+      @presenter.should_receive(:to_currency).with(:value).and_return "R$ 50,40"
       @presenter.value.should == "R$ 50,40"
     end
   end
