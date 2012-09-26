@@ -3,13 +3,26 @@ require "store/cart/item"
 
 describe Store::Cart::Item do
   let(:product) do
-    double(id: 2,
-           title: "The Tick",
+    double(inventory_entry_id: 2,
+           name: "The Tick",
            description: "A movie",
            price: "10.10")
   end
 
   it_obeys_the "cart item contract"
+
+  describe "#quantity" do
+    let(:item) { Store::Cart::Item.new(product) }
+
+    it "can be read" do
+      item.quantity.should == 1
+    end
+
+    it "can be written" do
+      item.quantity = 9
+      item.quantity.should == 9
+    end
+  end
 
   describe "the item's properties" do
     let(:item) { Store::Cart::Item.new(product) }
@@ -18,8 +31,8 @@ describe Store::Cart::Item do
       item.id.should == 2
     end
 
-    it "returns the product title" do
-      item.title.should == "The Tick"
+    it "returns the product name" do
+      item.name.should == "The Tick"
     end
 
     it "returns the product description" do

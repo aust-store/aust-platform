@@ -18,14 +18,14 @@
     </div>
 
     <div class="products">
-      <% @cart_items.each do |item| %>
-      <div class="product">
+      <% @cart_items.each_with_index do |item, index| %>
+      <div class="product product_<%= index %>">
         <div class="column description">
-          <%= link_to item.inventory_item.name, "" %>
+          <%= link_to item.name, "" %>
         </div>
 
         <div class="column quantity">
-          <input type="text" value="2" />
+          <input type="text" value="<%= item.quantity %>" class="id_<%= item.id %>" />
         </div>
 
         <div class="column total_price">

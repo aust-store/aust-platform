@@ -3,6 +3,7 @@ require "store/cart"
 
 describe Store::Cart do
   it_obeys_the "cart item contract"
+  it_obeys_the "cart items display contract"
   it_obeys_the "cart price calculation contract"
 
   let(:company) { double }
@@ -51,13 +52,25 @@ describe Store::Cart do
   end
 
   describe "#items" do
+    it "delegates the gathering of items to the LoadingItems object" do
+      persisted_cart = double(id: 1)
+      Cart.stub(:find) { persisted_cart }
+
+      items_display = double(list: [:item, :item])
+      Store::Cart::ItemsDisplay.stub(:new).with(subject) { items_display }
+
+      subject.items.should == [:item, :item]
+    end
+  end
+
+  describe "#all_items" do
     it "returns the items form the persisted cart" do
       persisted_cart = double(id: 1)
 
       Cart.stub(:find) { persisted_cart }
 
       persisted_cart.stub_chain(:items, :all) { [:items] }
-      subject.items.should == [:items]
+      subject.all_items.should == [:items]
     end
   end
 

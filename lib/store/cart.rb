@@ -17,6 +17,10 @@ module Store
     end
 
     def items
+      Store::Cart::ItemsDisplay.new(self).list
+    end
+
+    def all_items
       persistence.items.all
     end
 
