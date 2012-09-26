@@ -18,22 +18,11 @@ class Good < ActiveRecord::Base
 
   before_create :associate_with_inventory
 
-  # TODO - move these methods to a module and load them as mixins
-  searchable do
-    text :name
-    text :description
-    integer :company_id
-  end
-
   def associate_with_inventory
     self.inventory = self.company.inventory
   end
 
-  def self.search_for keyword, company_id, options = {}
-    search do
-      fulltext keyword
-      paginate page: options[:page], per_page: options[:per_page]
-      with :company_id, company_id
-    end.results
+  def self.search_for query
+    Store::ItemsSearch.new(self, query).search
   end
 end

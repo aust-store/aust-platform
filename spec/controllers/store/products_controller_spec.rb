@@ -1,14 +1,12 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Store::ProductsController do
   describe "GET show" do
-    it "instantiates a new inventory item" do
-      Store::ItemsForSale
-        .stub(:new)
-        .with(controller)
-        .and_return(double(inventory_entry: :item))
-      get :show, store_id: "store_name", id: 2
-      assigns(:product).should == :item
+    it "loads a products by id" do
+      entries = double(inventory_entry: :entry)
+      Store::ItemsForSale.stub(:new).with(controller) { entries }
+      get :show, store_id: "name", id: 1
+      assigns(:product).should == :entry
     end
   end
 end

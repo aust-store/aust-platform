@@ -1,24 +1,23 @@
 class Admin::CustomersController < Admin::ApplicationController
   def index
-    @customers = Customer.within_company(current_company.id).all
+    @customers = current_company.customers.all
   end
 
   def show
-    @customer = Customer.find(params[:id])
+    @customer = current_company.customers.find(params[:id])
   end
 
   def new
-    @customer = Customer.new(company: current_company.id)
+    @customer = Customer.new(company: current_company)
   end
 
   def create
-    @customer = Store::CustomerCreation.create(
-      params[:customer], current_company.id
-    )
+    @customer = Store::CustomerCreation.new(self)
 
-    if @customer
+    if @customer.create(params[:customer])
       redirect_to admin_customers_url
     else
+      @customer = @customer.ar_instance
       render "new"
     end
   end

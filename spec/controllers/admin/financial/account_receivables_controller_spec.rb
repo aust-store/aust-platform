@@ -1,122 +1,94 @@
 require 'spec_helper'
 
 describe Admin::Financial::AccountReceivablesController do
-  login_admin
-
-  it_obeys_the "Receivables Management context contract"
-
-  describe "GET index" do
-    it "assigns decorated receivables" do
-      Admin::AccountReceivableDecorator.stub(:decorate) { :decorated }
-      get :index
-      assigns(:receivables).should == :decorated
-    end
+  let(:valid_attributes) do
+    { "description" => "These came from Japan.",
+      "value"       => "R$ 4,00",
+      "due_to"      => "21/04/2012" }
   end
 
-  describe "GET new" do
-    it "assigns decorated receivables" do
-      Admin::AccountReceivableDecorator.stub(:decorate) { :decorated }
-      get :new, customer_id: "1"
-      assigns(:receivable).should == :decorated
-    end
+  let(:sanitized_attributes) do
+    { "description" => "These came from Japan.",
+      "value"       => 4.0,
+      "due_to"      => "2012/04/21" }
   end
 
-  describe "GET edit" do
-    it "assigns decorated receivables" do
-      Admin::AccountReceivableDecorator.stub(:decorate) { :decorated }
-      get :new, customer_id: "1", id: "1"
-      assigns(:receivable).should == :decorated
-    end
+  before do
+    @context = double
+    subject.stub(:current_admin_user)
+    subject.stub(:admin_customer_account_receivables_path) { "receivables" }
   end
 
-  describe "POST create" do
-    it "should redirect to the main page if saved resource" do
-      ReceivablesManagementContext.stub(:new) { double(save_receivable: true) }
-
-      post :create, customer_id: "1", id: "1", account_receivable: "data"
-      response.should redirect_to admin_customer_account_receivables_path
-    end
-
-    context "when no receivable is saved" do
-      it "assigns the decorated resource" do
-        ReceivablesManagementContext.stub(:new) do
-          double(save_receivable: false, resource: :resource)
-        end
-
-        Admin::AccountReceivableDecorator.stub(:decorate)
-          .with(:resource).and_return(:decorated)
-
-        post :create, account_receivable: "data"
-        assigns(:receivable).should == :decorated
-      end
-
-      it "renders the form again if didn't save resource" do
-        ReceivablesManagementContext.stub(:new) do
-          double(save_receivable: false, resource: :resource)
-        end
-
-        Admin::AccountReceivableDecorator.stub(:decorate)
-
-        post :create, account_receivable: "data"
-        response.should render_template "new"
-      end
-    end
-  end
-
-  describe "PUT update" do
+  pending "#create" do
     before do
       ReceivablesManagementContext.stub(:new).and_return(@context)
     end
 
     it "should redirect to the main page if saved resource" do
-      ReceivablesManagementContext.stub(:new) { double(update_receivable: true) }
+      @context.stub(:save_receivable) { true }
 
-      put :update, customer_id: "1", id: "1", account_receivable: "data"
-      response.should redirect_to admin_customer_account_receivables_url
+      subject.should_receive(:redirect_to)
+             .with("receivables", notice: "Conta a receber cadastrada.")
+      subject.create
+    end
+
+    it "should render the form again if didn't save resource" do
+      @context.stub(:save_receivable) { false }
+      @context.stub(:resource).and_return("resource")
+
+      subject.should_receive(:decorate).with("resource")
+      subject.should_receive(:render).with(:new)
+      subject.create
+    end
+  end
+
+  pending "#update" do
+    before do
+      ReceivablesManagementContext.stub(:new).and_return(@context)
+    end
+
+    it "should redirect to the main page if saved resource" do
+      @context.stub(:update_receivable) { true }
+      subject.should_receive(:redirect_to)
+             .with("receivables", notice: "Conta a receber salva.")
+      subject.update
     end
 
     context "invalid resource" do
-      it "renders the form again if didn't save resource" do
-        ReceivablesManagementContext.stub(:new) do
-          double(update_receivable: false, resource: :resource)
-        end
-
-        Admin::AccountReceivableDecorator.stub(:decorate)
-
-        put :update, customer_id: "1", id: "1", account_receivable: "data"
-        response.should render_template "edit"
+      before do
+        @context.stub(:update_receivable) { false }
+        @context.stub(:resource) { "resource" }
       end
 
-      it "instantiates the resource from the context" do
-        ReceivablesManagementContext.stub(:new) do
-          double(update_receivable: false, resource: :resource)
-        end
+      it "should render the form again if didn't save resource" do
+        subject.stub(:decorate)
 
-        Admin::AccountReceivableDecorator.stub(:decorate)
-          .with(:resource).and_return(:decorated)
+        subject.should_receive(:render).with(:edit)
+        subject.update
+      end
 
-        put :update, customer_id: "1", id: "1", account_receivable: "data"
-        assigns(:receivable).should == :decorated
+      it "should instantiate the resource from the context" do
+        subject.should_receive(:decorate).with("resource")
+        subject.update
       end
     end
   end
 
-  describe "DELETE destroy" do
-    let(:context) { double }
-
-    it "deletes the receivable" do
-      ReceivablesManagementContext.stub(:new) { context }
-      context.should_receive(:delete_receivable)
-
-      delete :destroy, customer_id: "1", id: "1"
+  pending "#destroy" do
+    before do
+      @context.stub(:delete_receivable)
+      ReceivablesManagementContext.stub(:new).and_return(@context)
     end
 
-    it "renders the form again if didn't save resource" do
-      ReceivablesManagementContext.stub(:new) { context }
-      context.stub(:delete_receivable)
+    it "should delete the receivable" do
+      @context.should_receive(:delete_receivable)
+      subject.destroy
+    end
 
-      delete :destroy, customer_id: "1", id: "1"
-      response.should redirect_to admin_customer_account_receivables_url
+    it "should render the form again if didn't save resource" do
+      subject.should_receive(:redirect_to)
+             .with("receivables", notice: "Conta a receber salva.")
+      subject.destroy
     end
   end
 end

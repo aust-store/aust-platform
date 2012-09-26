@@ -22,16 +22,6 @@ RSpec.configure do |config|
   config.extend ControllerMacros
   config.include AcceptanceSteps
 
-  config.before :all do
-    SunspotTest.stub
-  end
-
-  config.before(:all, search: true) do
-    SunspotTest.setup_solr
-    Sunspot.remove_all!
-    Sunspot.commit
-  end
-
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
   end
@@ -44,6 +34,3 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
-
-Capybara.javascript_driver = :webkit
-Capybara.default_wait_time = 2

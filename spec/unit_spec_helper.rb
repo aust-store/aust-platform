@@ -3,11 +3,7 @@
   $LOAD_PATH.unshift full_path unless $LOAD_PATH.include?(full_path)
 end
 
-Dir[File.expand_path("../unit/support/**/*.rb", __FILE__)].each do |f|
-  require f
-end
-
-Dir[File.expand_path("../unit/contracts/**/*_contract.rb", __FILE__)].each do |f|
+Dir[File.expand_path("../contracts/**/*_contract.rb", __FILE__)].each do |f|
   require f
 end
 
