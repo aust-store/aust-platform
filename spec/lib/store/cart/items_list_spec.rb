@@ -1,7 +1,10 @@
 require "unit_spec_helper"
-require "store/cart/items_display"
+require "store/cart/items_list"
 
-describe Store::Cart::ItemsDisplay do
+describe Store::Cart::ItemsList do
+  it_obeys_the "cart contract"
+  it_obeys_the "cart items list contract"
+
   describe "#list" do
     let(:items) do
       [ double(inventory_entry_id: 1, price: 1.1),
@@ -13,7 +16,7 @@ describe Store::Cart::ItemsDisplay do
     let(:cart) { double(all_items: items) }
 
     it "instantiate items setting the quantity where appropriate" do
-      list = Store::Cart::ItemsDisplay.new(cart).list
+      list = Store::Cart::ItemsList.new(cart).list
 
       list[0].quantity.should == 2
       list[1].quantity.should == 1

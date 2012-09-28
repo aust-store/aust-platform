@@ -16,8 +16,8 @@ module Store
       persistence.add_item(inventory_entry_id, quantity)
     end
 
-    def items
-      Store::Cart::ItemsDisplay.new(self).list
+    def current_items
+      Store::Cart::ItemsList.new(self).list
     end
 
     def all_items

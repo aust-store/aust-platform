@@ -1,6 +1,6 @@
 module Store
   class Cart
-    class ItemsDisplay
+    class ItemsList
       def initialize(cart)
         @cart = cart
         @items = []
