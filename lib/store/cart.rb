@@ -5,11 +5,15 @@ module Store
     def initialize(company, cart_id)
       @company = company
       @cart_id = cart_id
-      persist_cart
+      persisted_cart
     end
 
     def id
-      persistence.id
+      @cart_id || (persistence && persistence.id)
+    end
+
+    def current_company
+      @company
     end
 
     def add_item(inventory_entry_id, quantity = 1)
@@ -33,12 +37,8 @@ module Store
       Store::Cart::PriceCalculation.calculate(items)
     end
 
-  private
-
-    def persist_cart
-      @persistence = ::Cart.find(@cart_id)
-    rescue ActiveRecord::RecordNotFound
-      @persistence = ::Cart.create(company: @company)
+    def persisted_cart(cart = ::Cart)
+      @persistence = cart.find_or_create_cart(self)
     end
   end
 end

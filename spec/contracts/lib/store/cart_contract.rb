@@ -21,5 +21,12 @@ shared_examples "cart contract" do
         cart.all_items
       end.to_not raise_error NoMethodError
     end
+
+    it "responds to current_company" do
+      cart = Store::Cart.new(double, double)
+      expect do
+        cart.current_company
+      end.to_not raise_error NoMethodError
+    end
   end
 end

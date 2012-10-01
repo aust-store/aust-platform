@@ -2,40 +2,44 @@ require "unit_spec_helper"
 require "store/cart"
 
 describe Store::Cart do
+  it_obeys_the "cart contract"
   it_obeys_the "cart item contract"
   it_obeys_the "cart items list contract"
   it_obeys_the "cart price calculation contract"
 
-  let(:company) { double }
-  let(:cart_id) { double }
-  let(:cart_model) { double }
-  let(:item) { double(id: 1) }
+  let(:company)    { double }
+  let(:cart_id)    { double }
+  let(:cart_model) { double(find_or_create_cart: true) }
+  let(:item)       { double(id: 1) }
 
   subject { Store::Cart.new(company, cart_id) }
 
   before do
     stub_const("Cart", cart_model)
-    stub_const("ActiveRecord::RecordNotFound", Exception.new)
   end
 
   describe "initialization" do
-    it "creates a new cart in the database if it doesn't exist" do
-      cart_model.stub(:find).and_raise(ActiveRecord::RecordNotFound)
-      Cart.should_receive(:create).with(company: company)
+    it "persists the current cart" do
+      Store::Cart.any_instance.should_receive(:persisted_cart)
       Store::Cart.new(company, nil)
-    end
-
-    it "loads an existing cart" do
-      Cart.should_receive(:find).with(cart_id)
-      Cart.should_not_receive(:create)
-      Store::Cart.new(company, cart_id)
     end
   end
 
   describe "#id" do
-    it "returns the persistence's id" do
-      Cart.stub(:find) { double(id: 1) }
-      subject.id.should == 1
+    it "returns the current session's id" do
+      subject.id.should == cart_id
+    end
+
+    it "returns the persistence's id if current session is nil" do
+      subject = Store::Cart.new(company, nil)
+      subject.stub_chain(:persistence, :id) { :id }
+      subject.id.should == :id
+    end
+
+    it "returns nil if no persistence was set" do
+      subject = Store::Cart.new(company, nil)
+      subject.stub_chain(:persistence) { nil }
+      subject.id.should == nil
     end
   end
 
@@ -43,8 +47,7 @@ describe Store::Cart do
     it "adds one item to the cart" do
       quantity = double
       persisted_cart = double(id: 1)
-
-      Cart.stub(:find) { persisted_cart }
+      subject.stub(:persistence) { persisted_cart }
 
       persisted_cart.should_receive(:add_item).with(item, quantity)
       subject.add_item(item, quantity)
@@ -54,7 +57,7 @@ describe Store::Cart do
   describe "#current_items" do
     it "delegates the gathering of items to the LoadingItems object" do
       persisted_cart = double(id: 1)
-      Cart.stub(:find) { persisted_cart }
+      subject.stub(:persistence) { persisted_cart }
 
       items_display = double(list: [:item, :item])
       Store::Cart::ItemsList.stub(:new).with(subject) { items_display }
@@ -66,11 +69,19 @@ describe Store::Cart do
   describe "#all_items" do
     it "returns the items form the persisted cart" do
       persisted_cart = double(id: 1)
-
-      Cart.stub(:find) { persisted_cart }
+      subject.stub(:persistence) { persisted_cart }
 
       persisted_cart.stub_chain(:items, :all) { [:items] }
       subject.all_items.should == [:items]
+    end
+  end
+
+  describe "#persisted_cart" do
+    it "finds the current cart or creates a new" do
+      subject = Store::Cart.new(company, cart_id)
+
+      cart_model.should_receive(:find_or_create_cart).with(subject)
+      subject.persisted_cart
     end
   end
 

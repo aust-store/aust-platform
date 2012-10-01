@@ -15,4 +15,10 @@ class Cart < ActiveRecord::Base
     items << item
     save
   end
+
+  def self.find_or_create_cart(cart)
+    find(cart.id)
+  rescue ActiveRecord::RecordNotFound
+    create(company: cart.current_company)
+  end
 end
