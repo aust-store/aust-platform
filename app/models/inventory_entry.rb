@@ -5,11 +5,14 @@ class InventoryEntry < ActiveRecord::Base
 
   attr_accessible :good_id, :description, :quantity, :cost_per_unit, :good,
                   :admin_user_id, :balance_type, :moving_average_cost,
-                  :total_quantity, :total_cost, :store_id
+                  :total_quantity, :total_cost, :store_id, :price
 
   accepts_nested_attributes_for :good
 
+  # TODO hum? can we remove this callback later?
   before_save :define_new_balance_values
+
+  class OutOfStock < StandardError; end
 
   def define_new_balance_values
     past_balances = InventoryEntry.where(good_id: good_id).where("quantity > 0").all

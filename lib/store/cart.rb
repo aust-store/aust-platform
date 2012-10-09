@@ -40,5 +40,9 @@ module Store
     def persisted_cart(cart = ::Cart)
       @persistence = cart.find_or_create_cart(self)
     end
+
+    def update(params)
+      Store::Cart::Update.new(self).update(params)
+    end
   end
 end

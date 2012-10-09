@@ -6,6 +6,7 @@ describe Store::Cart do
   it_obeys_the "cart item contract"
   it_obeys_the "cart items list contract"
   it_obeys_the "cart price calculation contract"
+  it_obeys_the "cart update contract"
 
   let(:company)    { double }
   let(:cart_id)    { double }
@@ -82,6 +83,17 @@ describe Store::Cart do
 
       cart_model.should_receive(:find_or_create_cart).with(subject)
       subject.persisted_cart
+    end
+  end
+
+  describe "#update" do
+    let(:update) { double(update: :update) }
+
+    it "updates the current cart" do
+      update.stub(:new).with(subject) { update }
+      stub_const("Store::Cart::Update", update)
+
+      subject.update(:params).should == :update
     end
   end
 

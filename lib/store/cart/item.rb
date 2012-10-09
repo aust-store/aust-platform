@@ -1,15 +1,17 @@
 module Store
   class Cart
     class Item
-      attr_accessor :quantity
-
       def initialize(persisted_item)
         @persisted_item = persisted_item
         @quantity = 1
       end
 
       def id
-        @persisted_item.inventory_entry_id
+        @persisted_item.id
+      end
+
+      def quantity
+        @persisted_item.quantity.to_i
       end
 
       def name

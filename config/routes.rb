@@ -46,8 +46,8 @@ Store::Application.routes.draw do
   get "store/:store_id" => "store/home#index", as: "store"
   resources :store, only: [], controller: "store/home" do
 
-    resource :cart, only: [:show], controller: "store/cart"
-    resource :cart_items, controller: "store/cart_items"
+    resource :cart, only: [:show, :update], controller: "store/cart"
+    resource :cart_items, only: [:create], controller: "store/cart_items"
 
     resource :checkout, only: [], controller: "store/checkout" do
       get "review"

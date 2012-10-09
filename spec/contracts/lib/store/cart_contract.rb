@@ -3,7 +3,7 @@ require "store/cart"
 shared_examples "cart contract" do
   describe "Cart" do
     before do
-      Store::Cart.any_instance.stub(:persist_cart)
+      Store::Cart.any_instance.stub(:persisted_cart)
     end
 
     it "responds to add_item" do
@@ -26,6 +26,20 @@ shared_examples "cart contract" do
       cart = Store::Cart.new(double, double)
       expect do
         cart.current_company
+      end.to_not raise_error NoMethodError
+    end
+
+    it "responds to persisted_cart" do
+      cart = Store::Cart.new(double, double)
+      expect do
+        cart.persisted_cart
+      end.to_not raise_error NoMethodError
+    end
+
+    it "responds to update" do
+      cart = Store::Cart.new(double, double)
+      expect do
+        cart.update(double)
       end.to_not raise_error NoMethodError
     end
   end

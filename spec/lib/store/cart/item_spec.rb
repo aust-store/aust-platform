@@ -3,9 +3,10 @@ require "store/cart/item"
 
 describe Store::Cart::Item do
   let(:product) do
-    double(inventory_entry_id: 2,
+    double(id: 2,
            name: "The Tick",
            description: "A movie",
+           quantity: 2.0,
            price: "10.10")
   end
 
@@ -15,12 +16,7 @@ describe Store::Cart::Item do
     let(:item) { Store::Cart::Item.new(product) }
 
     it "can be read" do
-      item.quantity.should == 1
-    end
-
-    it "can be written" do
-      item.quantity = 9
-      item.quantity.should == 9
+      item.quantity.should == 2
     end
   end
 

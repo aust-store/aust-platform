@@ -1,99 +1,103 @@
-<div class="cart">
-  <div class="cart_table">
-    <div class="columns_header">
-      <div class="column description">
-        Item
-      </div>
+<%= simple_form_for :cart, url: store_cart_path, html: { method: :put } do |form| %>
 
-      <div class="column quantity">
-        Quantidade
-      </div>
-
-      <div class="column total_price">
-        Subtotal
-      </div>
-
-      <div class="column item_options">
-      </div>
-    </div>
-
-    <div class="products">
-      <% @cart_items.each_with_index do |item, index| %>
-      <div class="product product_<%= index %>">
+  <div class="cart">
+    <div class="cart_table">
+      <div class="columns_header">
         <div class="column description">
-          <%= link_to item.name, "" %>
+          Item
         </div>
 
         <div class="column quantity">
-          <input type="text" value="<%= item.quantity %>" class="id_<%= item.id %>" />
+          Quantidade
         </div>
 
         <div class="column total_price">
-          R$ 13,12
+          Subtotal
         </div>
 
         <div class="column item_options">
-          <%= link_to image_tag("store/buttons/check_no.png"), "" %>
         </div>
       </div>
-      <% end %>
-    </div>
 
-    <div class="items_total">
-      <div class="column description">
-        Total
-      </div>
-
-      <div class="column quantity">
-      </div>
-
-      <div class="column total_price">
-        R$ 99,12
-      </div>
-
-      <div class="column options">
-      </div>
-    </div>
-
-    <div class="freight_configuration">
-      <div class="column description">
-        <div class="freight_label">
-          Frete
-        </div>
-        <div class="options">
-          <div class="service_selection">
-            <input type="radio" checked="checked" /> Normal (PAC)
-            &nbsp;
-            <input type="radio" /> Sedex
+      <div class="products">
+        <% @cart_items.each_with_index do |item, index| %>
+        <div class="product product_<%= index %>">
+          <div class="column description">
+            <%= link_to item.name, "" %>
           </div>
-          <div class="zipcode">
-            CEP: <input type="text" />
+
+          <div class="column quantity">
+            <input type="text" value="<%= item.quantity %>" class="id_<%= item.id %>" name="<%= "cart[item_quantities][#{item.id}]" %>" />
+          </div>
+
+          <div class="column total_price">
+            R$ 13,12
+          </div>
+
+          <div class="column item_options">
+            <%= link_to image_tag("store/buttons/check_no.png"), "" %>
           </div>
         </div>
+        <% end %>
       </div>
 
-      <div class="column summary">
-        R$ 12,10,
-        <br />
-        entrega em 6 dias úteis
+      <div class="items_total">
+        <div class="column description">
+          Total
+        </div>
+
+        <div class="column quantity">
+        </div>
+
+        <div class="column total_price">
+          R$ 99,12
+        </div>
+
+        <div class="column options">
+        </div>
+      </div>
+
+      <div class="freight_configuration">
+        <div class="column description">
+          <div class="freight_label">
+            Frete
+          </div>
+          <div class="options">
+            <div class="service_selection">
+              <input type="radio" checked="checked" /> Normal (PAC)
+              &nbsp;
+              <input type="radio" /> Sedex
+            </div>
+            <div class="zipcode">
+              CEP: <input type="text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="column summary">
+          R$ 12,10,
+          <br />
+          entrega em 6 dias úteis
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="line">
+        <div class="action_link">
+          <%= link_to "Continuar comprando", store_path(@company.handle) %>
+        </div>
+        <div class="action_link">
+          <%= form.submit "Atualizar carrinho" %>
+        </div>
+      </div>
+
+      <div class="line">
+        <div class="checkout">
+          <%= link_to "", confirm_informations_store_checkout_path, id: "checkout_button" %>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="actions">
-    <div class="line">
-      <div class="action_link">
-        <%= link_to "Continuar comprando", store_path(@company.handle) %>
-      </div>
-      <div class="action_link">
-        <%= link_to "Atualizar carrinho", "#" %>
-      </div>
-    </div>
-
-    <div class="line">
-      <div class="checkout">
-        <%= link_to "", confirm_informations_store_checkout_path, id: "checkout_button" %>
-      </div>
-    </div>
-  </div>
-</div>
+<% end %>
