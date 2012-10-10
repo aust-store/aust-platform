@@ -11,6 +11,10 @@ pt_br:
         password_confirmation: "Confirmação de senha"
       company:
         name: "Nome da empresa"
+      inventory_entry:
+        cost_per_unit: "Custo unitário"
+        quantity: "Quantidade"
+        price: "Preço"
     errors:
       models:
         account_receivable:
@@ -22,3 +26,11 @@ pt_br:
           attributes:
             email:
               taken: "já utilizado"  
+        inventory_entry:
+          attributes:
+            cost_per_unit:
+              blank: "Você deve especificar o %{attribute}"
+            quantity:
+              blank: "Você deve especificar a %{attribute}"
+            price:
+              blank: "Você deve especificar o %{attribute}"

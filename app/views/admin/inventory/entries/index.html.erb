@@ -17,6 +17,7 @@
           <th></th>
           <th>Quantidade</th>
           <th>Custo unitário</th>
+          <th>Preço de venda</th>
         </tr>
       </thead>
 
@@ -27,13 +28,14 @@
           <td class="description"><%= item.description %></td>
           <td class="quantity"><%= item.quantity %></td>
           <td class="cost_per_unit"><%= item.cost_per_unit %></td>
+          <td class="price"><%= item.price %></td>
         </tr>
       <% end %>
       </tbody>
 
       <tfoot>
         <tr class="total">
-          <td colspan="2" class="description">Resumo</td>
+          <td colspan="3" class="description">Resumo</td>
           <td class="quantity"><%= @entries.last.total_quantity %></td>
           <td class="cost_per_unit"><%= @entries.last.total_cost %></td>
         </tr>

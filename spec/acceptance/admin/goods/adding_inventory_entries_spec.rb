@@ -8,8 +8,8 @@ feature "Adding and editing goods", js: true, search: true do
     login_into_admin
   end
 
-  context "existent goods" do
-    scenario "As a store admin, I'd like to add items to the inventory" do
+  context "existent inventory items" do
+    scenario "As a store admin, I'd like to create inventory entries" do
       visit new_good_or_entry_admin_inventory_goods_path
 
       fill_in "search_goods", with: @good.name
@@ -19,29 +19,16 @@ feature "Adding and editing goods", js: true, search: true do
 
       fill_in "inventory_entry_quantity", with: "4"
       fill_in "inventory_entry_cost_per_unit", with: "11"
+      fill_in "inventory_entry_price", with: "14"
 
       click_button "Cadastrar entrada no estoque"
       page.should have_content "R$ 11,00"
-    end
-
-    scenario "As a store admin, I'd like to add images to the goods" do
-      image_path ="#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png"
-
-      visit admin_inventory_goods_path
-
-      click_link @good.name
-
-      click_link "Gerenciar imagens"
-      within('.form-upload') do
-        attach_file("good[images_attributes][0][image]",image_path)
-        click_button "Enviar arquivos"
-      end
-      page.should have_content "Imagens atuais"
+      page.should have_content "R$ 14,00"
     end
   end
 
-  context "inexistent goods" do
-    scenario "As a store admin, I'd like add new goods to the inventory" do
+  context "inexistent inventory items" do
+    scenario "As a store admin, I'd like add new item to the inventory" do
       visit new_good_or_entry_admin_inventory_goods_path
 
       click_link "Criar novo bem"
@@ -55,5 +42,5 @@ feature "Adding and editing goods", js: true, search: true do
 
       page.should have_content "Chocolate Cookies"
     end
-  end  
+  end
 end

@@ -10,6 +10,10 @@ class Admin::InventoryEntryDecorator < ApplicationDecorator
     to_currency inventory_entry.cost_per_unit
   end
 
+  def price
+    to_currency inventory_entry.price
+  end
+
   def total_cost
     to_currency inventory_entry.total_cost
   end

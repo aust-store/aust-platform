@@ -45,6 +45,7 @@ feature "Listing inventory entries", js: true, search: true do
       fill_in "inventory_entry_description", with: "A new Entry."
       fill_in "inventory_entry_quantity", with: "5"
       fill_in "inventory_entry_cost_per_unit", with: "R$ 1.30"
+      fill_in "inventory_entry_price", with: "R$ 1.30"
       click_on "submit_entry"
     end
 

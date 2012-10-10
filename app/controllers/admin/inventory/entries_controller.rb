@@ -35,7 +35,13 @@ module Admin
 
       def sanitize_params
         good_params = params[:inventory_entry]
-        params[:inventory_entry][:cost_per_unit] = ::Store::Currency.to_float good_params[:cost_per_unit]
+        cost_per_unit = ::Store::Currency.to_float good_params[:cost_per_unit]
+
+        if cost_per_unit == 0.0
+          params[:inventory_entry][:cost_per_unit] = ""
+        else
+          params[:inventory_entry][:cost_per_unit] = cost_per_unit
+        end
       end
     end
   end
