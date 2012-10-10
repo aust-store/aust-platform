@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :good do
     association :user, factory: :admin_user
-    name { |i| "Goodyear tire 4 inches ##{i}" }
+    sequence(:name) { |i| "Goodyear tire 4 inches ##{i}" }
     description "Lorem ipsum lorem"
 
     after(:create) do |good, evaluator|
@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :good_two, parent: :good do
-    name { |i| "Bridgestone tire 5 inches ##{i}" }
+    sequence(:name) { |i| "Bridgestone tire 5 inches ##{i}" }
     description "Whatever ipsum lorem."
   end
 end

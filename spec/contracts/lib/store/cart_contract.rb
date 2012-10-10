@@ -14,6 +14,14 @@ shared_examples "cart contract" do
       end.to_not raise_error NoMethodError
     end
 
+    it "responds to remove_item" do
+      cart = Store::Cart.new(double, double)
+      cart.stub(:persistence) { double.as_null_object }
+      expect do
+        cart.remove_item(double)
+      end.to_not raise_error NoMethodError
+    end
+
     it "responds to all_items" do
       cart = Store::Cart.new(double, double)
       cart.stub_chain(:persistence, :items, :all) { double.as_null_object }

@@ -55,6 +55,17 @@ describe Store::Cart do
     end
   end
 
+  describe "#remove_item" do
+    it "removes one item from the cart" do
+      cart_items = double
+      persisted_cart = double(id: 1, items: cart_items)
+      subject.stub(:persistence) { persisted_cart }
+
+      cart_items.should_receive(:destroy).with(1)
+      subject.remove_item(1)
+    end
+  end
+
   describe "#current_items" do
     it "delegates the gathering of items to the LoadingItems object" do
       persisted_cart = double(id: 1)

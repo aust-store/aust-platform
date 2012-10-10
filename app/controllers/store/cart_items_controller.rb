@@ -4,4 +4,9 @@ class Store::CartItemsController < Store::ApplicationController
     cart.add_item(entry)
     redirect_to store_cart_path(@company)
   end
+
+  def destroy
+    cart.remove_item(params[:id])
+    redirect_to store_cart_path(@company)
+  end
 end

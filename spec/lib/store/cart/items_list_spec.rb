@@ -17,9 +17,9 @@ describe Store::Cart::ItemsList do
     it "instantiate items setting the quantity where appropriate" do
       list = Store::Cart::ItemsList.new(cart).list
 
-      list[0].quantity.should == 1.1
+      list[0].quantity.should == 1
       list[1].quantity.should == 3
-      list[2].quantity.should == 2.2
+      list[2].quantity.should == 2
     end
   end
 end

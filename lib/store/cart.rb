@@ -20,6 +20,10 @@ module Store
       persistence.add_item(inventory_entry_id, quantity)
     end
 
+    def remove_item(id)
+      persistence.items.destroy(id)
+    end
+
     def current_items
       Store::Cart::ItemsList.new(self).list
     end

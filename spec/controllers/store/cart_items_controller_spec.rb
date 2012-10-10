@@ -25,5 +25,25 @@ describe Store::CartItemsController do
       response.should redirect_to store_cart_path(company)
     end
   end
+
+  describe "DELETE destroy" do
+    let(:cart) { double(id: nil).as_null_object }
+    let(:company) { double }
+
+    before do
+      Company.stub(:find_by_handle).with("store_name") { company }
+      Store::Cart.stub(:new) { cart }
+    end
+
+    it "removes an item from the cart" do
+      cart.should_receive(:remove_item).with("2")
+      delete :destroy, store_id: "store_name", id: 2
+    end
+
+    it "redirects to the cart" do
+      delete :destroy, store_id: "store_name", id: 2
+      response.should redirect_to store_cart_path(company)
+    end
+  end
 end
 

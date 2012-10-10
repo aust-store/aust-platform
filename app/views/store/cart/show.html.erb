@@ -21,7 +21,7 @@
 
       <div class="products">
         <% @cart_items.each_with_index do |item, index| %>
-        <div class="product product_<%= index %>">
+        <div class="product order_item_<%= item.id %>">
           <div class="column description">
             <%= link_to item.name, "" %>
           </div>
@@ -35,7 +35,10 @@
           </div>
 
           <div class="column item_options">
-            <%= link_to image_tag("store/buttons/check_no.png"), "" %>
+            <%= link_to image_tag("store/buttons/check_no.png"),
+                  store_cart_items_path(id: item.id),
+                  method: :delete,
+                  name: "remove_order_item" %>
           </div>
         </div>
         <% end %>
