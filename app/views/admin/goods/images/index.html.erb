@@ -31,6 +31,9 @@
   </div>
 
 </div>
-<div class='images'>
-  <%= render partial: "shared/images" %>
-</div>
+
+<% if @good_images.present? %>
+  <div class='images'>
+    <%= render partial: "shared/images" %>
+  </div>
+<% end %>

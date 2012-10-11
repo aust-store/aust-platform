@@ -18,6 +18,7 @@ module Admin
       def create
         load_good
         @entry = @good.balances.build params[:inventory_entry]
+        @entry.store_id = current_company.id
         @entry.balance_type = "in"
         if @entry.save
           redirect_to admin_inventory_good_entries_url(@entry.good)

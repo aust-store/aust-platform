@@ -10,6 +10,7 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def show
     good = current_company.items.find(params[:id])
+    @good_images = good.images.dup
     @good = ::DecorationBuilder.good(good)
   end
 
@@ -36,6 +37,7 @@ class Admin::GoodsController < Admin::ApplicationController
     @good = current_company.items.find params[:id]
     if @good.update_attributes params[:good]
       if remotipart_submitted?
+        @good_images = @good.images.dup
         return render partial: "shared/images", layout: false
       end
       redirect_to admin_inventory_good_url(@good)

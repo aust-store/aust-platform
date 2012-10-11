@@ -2,7 +2,7 @@
   <h2>Imagens atuais</h2>
 
   <div class="thumbs_gallery">
-    <% @good.images.each do |good_image| %>
+    <% @good_images.each do |good_image| %>
       <div class="box image">
         <%= image_tag good_image.image.url(:medium), width: 60 %>
         <div class="cover">Capa</div>
