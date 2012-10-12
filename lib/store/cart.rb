@@ -9,7 +9,7 @@ module Store
     end
 
     def id
-      @cart_id || (persistence && persistence.id)
+      (persistence and persistence.id) || @cart_id
     end
 
     def current_company
@@ -41,8 +41,8 @@ module Store
       Store::Cart::PriceCalculation.calculate(items)
     end
 
-    def persisted_cart(cart = ::Cart)
-      @persistence = cart.find_or_create_cart(self)
+    def persisted_cart
+      @persistence = ::Cart.find_or_create_cart(self)
     end
 
     def update(params)

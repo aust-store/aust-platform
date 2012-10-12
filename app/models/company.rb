@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
   has_many :admin_users
   has_many :customers
   has_many :items, class_name: "Good"
+  has_many :carts
   has_many :inventory_entries, foreign_key: "store_id"
 
   has_one :inventory

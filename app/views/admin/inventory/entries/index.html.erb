@@ -1,10 +1,11 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: { 
-             back_to: admin_inventory_goods_path
+             back_to: admin_inventory_good_path(@good),
+             text: "Voltar a #{@good.name}"
            } %>
 
 <header>
-  <h1>Estoque: <%= @good.name %></h1>
+  <h1>Entradas no estoque: <%= @good.name %></h1>
 </header>
 
 <div class="main_container">
@@ -35,21 +36,22 @@
 
       <tfoot>
         <tr class="total">
-          <td colspan="3" class="description">Resumo</td>
-          <td class="quantity"><%= @entries.last.total_quantity %></td>
-          <td class="cost_per_unit"><%= @entries.last.total_cost %></td>
+          <td colspan="3" class="description"></td>
+          <td></td>
+          <td></td>
         </tr>
       </tfoot>
 
     </table>
   <% else %>
     <p>
-      Não há itens em estoque.</p>
+      Não há itens em estoque.
+    </p>
   <% end %>
 
   <br />
 
   <%= small_button new_admin_inventory_good_entry_path, 
-        :text => "Adicionar entrada no estoque",
+        :text => "Adicionar entrada deste item no estoque",
         :image => 'admin/icons/plus_16.png' %>
 </div>

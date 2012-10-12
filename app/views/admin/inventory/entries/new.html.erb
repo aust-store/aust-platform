@@ -1,6 +1,7 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: { 
-             back_to: admin_inventory_goods_path
+             back_to: admin_inventory_good_entries_path(@good),
+             text: "Voltar às entradas no estoque de #{@good.name}"
            } %>
 
 <header>

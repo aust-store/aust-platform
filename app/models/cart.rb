@@ -54,8 +54,8 @@ class Cart < ActiveRecord::Base
   end
 
   def self.find_or_create_cart(cart)
-    find(cart.id)
+    cart.current_company.carts.find(cart.id)
   rescue ActiveRecord::RecordNotFound
-    create(company: cart.current_company)
+    cart.current_company.carts.create
   end
 end

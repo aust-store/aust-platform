@@ -1,32 +1,28 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: { 
              back_to: admin_inventory_goods_path,
-             text: "Voltar ao estoque"
+             text: "Voltar à listagem do estoque"
            } %>
 
-<header>
+<header class="continuous_bottom">
   <h1><%= @good.name %></h1>
 </header>
-  <%= render partial: "shared/images" %>
-  <div>
-    <%= link_to "Gerenciar imagens", admin_inventory_good_images_path(@good) %> 
-  </div>
 
-
+<%= render partial: "shared/images" %>
 
 <div class="main_container">
+
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <b>Descrição:</b>
-    <%= @good.description %>
-  </p>
+  <% if @good.description.present? %>
+    <p> <b>Descrição:</b> <%= @good.description %> </p>
+  <% end %>
 
-  <p>
-    <b>Referência:</b>
-    <%= @good.reference %>
-  </p>
+  <% if @good.reference.present? %>
+    <p> <b>Referência:</b> <%= @good.reference %> </p>
+  <% end %>
 
+  <%= small_button admin_inventory_good_images_path(@good), text: "Gerenciar imagens" %>
   <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque deste item" %>
 
   <%= small_button edit_admin_inventory_good_path(@good), text: "Editar" %>

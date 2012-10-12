@@ -2,5 +2,5 @@
   <% unless defined?(text) %>
     <% text = defined?(back_to) ? "Voltar" : "Voltar ao painel" %>
   <% end %>
-  <%= link_to text, defined?(back_to) ? back_to : admin_dashboard_path %>
+  <%= link_to "◀ #{text}", defined?(back_to) ? back_to : admin_dashboard_path %>
 </nav>
