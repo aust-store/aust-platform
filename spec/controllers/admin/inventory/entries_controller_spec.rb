@@ -36,11 +36,17 @@ describe Admin::Inventory::EntriesController do
     before do
       items.stub(:build).and_return(items)
       items.stub(:balance_type=)
+      items.stub(:store_id=)
+
+      controller.current_company.stub(:id) { 1 }
     end
 
     it "redirects if saving balance successfully" do
       items.stub(:good) { :good }
       items.stub(:save) { true }
+
+      items.should_receive(:store_id=).with(1)
+      items.should_receive(:balance_type=).with("in")
 
       post :create, good_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
       response.should redirect_to admin_inventory_good_entries_url(:good)

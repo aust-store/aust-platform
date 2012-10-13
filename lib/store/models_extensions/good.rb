@@ -6,11 +6,6 @@ module Store
       end
 
       module ClassMethods
-        def find_and_build_image(good_id)
-          good = find(good_id)
-          #good.tap { |s| s.images.build }
-          good
-        end
       end
     end
   end

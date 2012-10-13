@@ -28,6 +28,7 @@ describe Store::Cart do
 
   describe "#id" do
     it "returns the current session's id" do
+      subject.stub(:persistence) { nil }
       subject.id.should == cart_id
     end
 
@@ -37,7 +38,7 @@ describe Store::Cart do
       subject.id.should == :id
     end
 
-    it "returns nil if no persistence was set" do
+    it "returns nil if no persistence or session was set" do
       subject = Store::Cart.new(company, nil)
       subject.stub_chain(:persistence) { nil }
       subject.id.should == nil

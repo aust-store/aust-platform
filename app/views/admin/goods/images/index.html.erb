@@ -32,8 +32,8 @@
 
 </div>
 
-<% if @good_images.present? %>
+<% if @item_images.present? %>
   <div class='images'>
-    <%= render partial: "shared/images" %>
+    <%= render partial: "shared/images", locals: { images: @item_images } %>
   </div>
 <% end %>

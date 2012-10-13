@@ -4,6 +4,7 @@ describe Admin::GoodsController do
   login_admin
 
   it_obeys_the "admin application controller contract"
+  # FIXME: should we add the contracts?
   #it_obeys_the "Decoration Builder contract"
   #it_obeys_the "Good model contract"
 
@@ -16,11 +17,16 @@ describe Admin::GoodsController do
   end
 
   describe "#show" do
+    let(:good) { double }
+
     it "should return a single good" do
-      subject.stub_chain(:current_company, :items, :find).with("123") { :good }
-      DecorationBuilder.should_receive(:good).with(:good) { :decorated_good }
+      good.stub_chain(:images, :dup) { :images }
+      subject.stub_chain(:current_company, :items, :find).with("123") { good }
+      DecorationBuilder.should_receive(:good).with(good) { :decorated_good }
+
       get :show, id: 123
       assigns(:good).should == :decorated_good
+      assigns(:item_images).should == :images
     end
   end
 

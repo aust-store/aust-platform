@@ -110,16 +110,18 @@ describe Cart do
   end
 
   describe ".find_or_create_cart" do
-    let(:cart) { double(id: :id, current_company: :company) }
+    let(:company) { double(carts: carts) }
+    let(:cart) { double(id: :id, current_company: company) }
+    let(:carts) { double }
 
     it "finds an existing persisted cart" do
-      Cart.stub(:find).with(:id) { :found_persisted_cart }
+      carts.stub(:find).with(:id) { :found_persisted_cart }
       Cart.find_or_create_cart(cart).should == :found_persisted_cart
     end
 
     it "creates a new cart if no cart is previously found" do
-      Cart.stub(:find).and_raise(ActiveRecord::RecordNotFound)
-      Cart.stub(:create).with(company: :company) { :created_new_cart }
+      carts.stub(:find).and_raise(ActiveRecord::RecordNotFound)
+      carts.stub(:create) { :created_new_cart }
 
       Cart.find_or_create_cart(cart).should == :created_new_cart
     end

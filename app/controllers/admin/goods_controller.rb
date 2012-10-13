@@ -10,7 +10,7 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def show
     good = current_company.items.find(params[:id])
-    @good_images = good.images.dup
+    @item_images = good.images.dup
     @good = ::DecorationBuilder.good(good)
   end
 
