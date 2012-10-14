@@ -19,9 +19,13 @@
       Envia uma nova imagem para este item. As imagens aparecem automaticamente
       na sua loja virtual.
     </p>
-    <%= simple_form_for([:admin,:inventory,@good],html:{multipart:true,class:
-                       "form-upload"},
-                       remote: true) do |f| %>
+    <%= simple_form_for(
+          :good,
+          url: admin_inventory_good_images_path,
+          html: { multipart: true,
+                  class: "form-upload" },
+          remote: true
+    ) do |f| %>
       <%= f.simple_fields_for :images, @good.images.last do |image_form| %>
         <%= image_form.file_field :image %>
         <br /><br />
@@ -32,8 +36,10 @@
 
 </div>
 
-<% if @item_images.present? %>
-  <div class='images'>
-    <%= render partial: "shared/images", locals: { images: @item_images } %>
-  </div>
-<% end %>
+<span class="images_container_for_ajax">
+  <% if @item_images.present? %>
+    <div class='images'>
+      <%= render partial: "shared/images", locals: { images: @item_images } %>
+    </div>
+  <% end %>
+</span>
