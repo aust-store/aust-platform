@@ -2,5 +2,5 @@
 //= require jquery_ujs
 //= require ./layout
 //= require ./../../../../vendor/assets/javascripts/vendor/admin/jquery.ui
-//= require ./lib/forms
+//= require ./events/forms
 //= require ./controllers/users/registrations

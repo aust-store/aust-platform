@@ -9,37 +9,41 @@
   <p>Você está vendo imagens do item <%= @good.name %></p>
 </header>
 
-<div class="main_container">
-  <% if notice %>
-    <p id="notice"><%= notice %></p>
-  <% end %>
-
-  <div>
-    <p>
-      Envia uma nova imagem para este item. As imagens aparecem automaticamente
-      na sua loja virtual.
-    </p>
-    <%= simple_form_for(
-          :good,
-          url: admin_inventory_good_images_path,
-          html: { multipart: true,
-                  class: "form-upload" },
-          remote: true
-    ) do |f| %>
-      <%= f.simple_fields_for :images, @good.images.last do |image_form| %>
-        <%= image_form.file_field :image %>
-        <br /><br />
-        <%= f.submit  'Enviar arquivos' %>
-      <% end %>
+<span class="form_loading_section">
+  <div class="main_container">
+    <% if notice %>
+      <p id="notice"><%= notice %></p>
     <% end %>
+
+    <div>
+      <p>
+        Envia uma nova imagem para este item. As imagens aparecem automaticamente
+        na sua loja virtual.
+      </p>
+      <%= simple_form_for(
+            :good,
+            url: admin_inventory_good_images_path,
+            html: { multipart: true,
+                    class: "form-upload image" },
+            remote: true
+      ) do |f| %>
+        <%= f.simple_fields_for :images, @good.images.last do |image_form| %>
+          <%= image_form.file_field :image %>
+          <br /><br />
+          <%= f.submit  'Enviar arquivos' %>
+        <% end %>
+      <% end %>
+
+    </div>
+
   </div>
 
-</div>
+  <span class="images_container_for_ajax">
+    <% if @item_images.present? %>
+      <div class='images'>
+        <%= render partial: "shared/images", locals: { images: @item_images } %>
+      </div>
+    <% end %>
+  </span>
 
-<span class="images_container_for_ajax">
-  <% if @item_images.present? %>
-    <div class='images'>
-      <%= render partial: "shared/images", locals: { images: @item_images } %>
-    </div>
-  <% end %>
 </span>
