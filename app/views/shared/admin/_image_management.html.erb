@@ -1,0 +1,11 @@
+<div class="html_template context_menu image">
+  <div class="context_menu_container">
+    <div class="button">
+      <%= small_button admin_inventory_good_image_path(@good, image, set_cover: true), text: "Definir como capa", method: :put %>
+    </div>
+
+    <div class="button delete">
+      <%= small_button admin_inventory_good_image_path(@good, image), text: "Excluir", class: "red", method: :delete %>
+    </div>
+  </div>
+</div>

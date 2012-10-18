@@ -22,8 +22,10 @@
     <p> <b>Referência:</b> <%= @good.reference %> </p>
   <% end %>
 
-  <%= small_button admin_inventory_good_images_path(@good), text: "Gerenciar imagens" %>
-  <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque deste item" %>
+  <div class="managing_buttons">
+    <%= small_button admin_inventory_good_images_path(@good), text: "Gerenciar imagens" %>
+    <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque deste item" %>
 
-  <%= small_button edit_admin_inventory_good_path(@good), text: "Editar" %>
+    <%= small_button edit_admin_inventory_good_path(@good), text: "Editar" %>
+  </div>
 </div>

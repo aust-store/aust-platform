@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120909211724) do
+ActiveRecord::Schema.define(:version => 20121018022814) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -87,11 +87,13 @@ ActiveRecord::Schema.define(:version => 20120909211724) do
 
   create_table "good_images", :force => true do |t|
     t.integer  "good_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.string   "image"
+    t.boolean  "cover",      :default => false
   end
 
+  add_index "good_images", ["cover"], :name => "index_good_images_on_cover"
   add_index "good_images", ["good_id"], :name => "index_good_images_on_good_id"
 
   create_table "goods", :force => true do |t|

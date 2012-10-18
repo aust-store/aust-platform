@@ -26,7 +26,9 @@ module ApplicationHelper
     
     options.delete(:text) unless options[:text].blank?
     options.delete(:image) unless options[:image].blank?
-    options[:class] = 'css_button_anchor'
+
+    options[:class] = "" unless options.has_key?(:class)
+    options[:class] << ' css_button_anchor'
     if options.include?(:big)
       options[:class] << ' big round'
     else
