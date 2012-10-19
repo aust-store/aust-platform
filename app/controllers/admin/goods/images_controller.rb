@@ -3,7 +3,7 @@ module Admin
     class ImagesController < Admin::ApplicationController
       def index
         @good = current_company.items.find(params[:good_id])
-        @item_images = @good.images.dup
+        @item_images = load_good_images
         @good.images.build
       end
 
@@ -13,7 +13,7 @@ module Admin
         if @good.save
           return render partial: "shared/images",
             layout: false,
-            locals: { images: @good.images.dup }
+            locals: { images: load_good_images }
         end
       end
 
@@ -34,6 +34,10 @@ module Admin
 
       def load_good
         current_company.items.find(params[:good_id])
+      end
+
+      def load_good_images
+        @good.images.order("id desc, cover desc").dup
       end
     end
   end

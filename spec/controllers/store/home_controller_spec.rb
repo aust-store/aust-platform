@@ -4,8 +4,10 @@ describe Store::HomeController do
   describe "GET index" do
     it "returns a list of entries in the inventory" do
       Store::ItemsForSale.stub(:new).with(controller) { double(items_for_homepage: :entries) }
+      Store::InventoryItemDecorator.stub(:decorate).with(:entries) { :entries }
+
       get :index, store_id: "store_name"
-      assigns(:entries).should == :entries
+      assigns(:items).should == :entries
     end
   end
 end

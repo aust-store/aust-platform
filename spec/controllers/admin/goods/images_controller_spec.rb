@@ -10,7 +10,7 @@ describe Admin::Goods::ImagesController do
     it "should find the respective good and build its image" do
       controller.current_company.stub(:items) { items }
 
-      good.stub_chain(:images, :dup) { :images }
+      good.stub_chain(:images, :order, :dup) { :images }
       good.stub_chain(:images, :build)
       items.should_receive(:find).with("12") { good }
 
