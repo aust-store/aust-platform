@@ -10,7 +10,7 @@ module Store
         @model.where(sql_where_statement, q: "#{query}:*")
           .order(sql_order_statement)
       else
-        @model.first(10)
+        @model
       end
     end
 
@@ -28,7 +28,7 @@ module Store
     def sql_order_statement
       rank = "ts_rank(to_tsvector(name), " + \
              "plainto_tsquery(#{@model.sanitize(query)}))"
-      "#{rank} DESC"
+      "#{rank} ASC"
     end
 
     def query

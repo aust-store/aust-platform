@@ -17,7 +17,7 @@ feature "Adding and editing goods", js: true, search: true do
 
     click_link "Gerenciar imagens"
     within('.form-upload') do
-      attach_file("good[images_attributes][0][image]",image_path)
+      attach_file("good[images][image]",image_path)
       click_button "Enviar arquivos"
     end
     visit admin_inventory_good_images_path(@good)

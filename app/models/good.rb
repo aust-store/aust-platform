@@ -22,7 +22,15 @@ class Good < ActiveRecord::Base
     self.inventory = self.company.inventory
   end
 
+  def total_quantity
+    balances.sum(:quantity)
+  end
+
+  def price
+    Store::ItemPrice.new(self).price
+  end
+
   def self.search_for query
-    Store::ItemsSearch.new(self, query).search
+    Store::ItemsSearch.new(self, query).search.includes(:balances)
   end
 end

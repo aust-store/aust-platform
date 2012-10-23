@@ -1,13 +1,15 @@
 class Admin::InventoryEntryDecorator < ApplicationDecorator
   decorates :inventory_entry
-  allows :description
-  allows :quantity, :cost_per_unit, :total_quantity, :total_cost
-  allows :created_at
+  decorates_association :good, with: Admin::GoodDecorator
 
   include ::ActionView::Helpers::NumberHelper
 
   def cost_per_unit
     to_currency inventory_entry.cost_per_unit
+  end
+
+  def quantity
+    inventory_entry.quantity.to_i
   end
 
   def price

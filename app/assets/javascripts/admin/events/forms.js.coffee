@@ -1,6 +1,7 @@
 class Forms
   init: ->
     @init_datepicker()
+    @set_focus_on_first_input()
     @setup_image_upload()
     @show_loading_on_form_submit()
     @hide_loading_on_form_response()
@@ -9,6 +10,9 @@ class Forms
     $("input.date").datepicker({
       dateFormat: "dd/mm/yy"
     })
+
+  set_focus_on_first_input: ->
+    $("[data-input-focus='true'] input:first").focus()
 
   setup_image_upload: ->
     $('.form-upload.image').bind 'ajax:complete', (evt, xhr, status) ->

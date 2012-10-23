@@ -21,6 +21,13 @@ describe Admin::InventoryEntryDecorator do
     end
   end
 
+  describe "#quantity" do
+    it "should return an integer" do
+      @presenter.stub_chain(:inventory_entry, :quantity).and_return 12.0
+      @presenter.quantity.should == 12
+    end
+  end
+
   describe "#price" do
     it "should return converted to R$" do
       @presenter.should_receive(:to_currency).and_return "R$ 14,14"

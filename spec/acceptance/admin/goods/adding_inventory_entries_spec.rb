@@ -12,7 +12,7 @@ feature "Adding and editing goods", js: true, search: true do
     scenario "As a store admin, I'd like to create inventory entries" do
       visit new_good_or_entry_admin_inventory_goods_path
 
-      fill_in "search_goods", with: @good.name
+      fill_in "search_inventory_items", with: @good.name
       wait_until { page.has_content?(@good.name) }
 
       click_link @good.name
@@ -31,7 +31,8 @@ feature "Adding and editing goods", js: true, search: true do
     scenario "As a store admin, I'd like add new item to the inventory" do
       visit new_good_or_entry_admin_inventory_goods_path
 
-      click_link "Criar novo bem"
+      fill_in "search_inventory_items", with: "Backpack"
+      click_link "Criar um novo item"
       wait_until { page.has_content?("Nome do bem ou mercadoria") }
 
       fill_in "good_name", with: "Chocolate Cookies"

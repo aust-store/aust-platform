@@ -35,7 +35,7 @@ describe Store::ItemsSearch do
       it "orders the search by name" do
         order = double
         order.should_receive(:order)
-          .with("ts_rank(to_tsvector(name), plainto_tsquery(keyword)) DESC")
+          .with("ts_rank(to_tsvector(name), plainto_tsquery(keyword)) ASC")
 
         model.stub(:where).and_return(order)
 
@@ -50,13 +50,7 @@ describe Store::ItemsSearch do
 
     describe "when no valid keyword was given" do
       it "returns first 10 rows" do
-        model.stub(:first).with(10) { :arel }
-        Store::ItemsSearch.new(model, "").search.should == :arel
-      end
-
-      it "returns first 10 rows if keyword is less than 3 characters" do
-        model.stub(:first).with(10) { :arel }
-        Store::ItemsSearch.new(model, "ke").search.should == :arel
+        Store::ItemsSearch.new(model, "").search.should == model
       end
     end
   end

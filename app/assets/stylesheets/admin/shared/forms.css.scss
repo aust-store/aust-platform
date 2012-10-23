@@ -34,3 +34,22 @@ div.input {
   }
 
 }
+
+form {
+  div.error_explanation {
+    color: red;
+  }
+
+  div.field_with_errors {
+    border-left: 4px solid lighten(red, 40%);
+    padding-left: 10px;
+
+    label { color: red; }
+    span.error {
+      color: red;
+      margin: 5px 0 10px 0;
+      display: block;
+      font-size: 0.9em;
+    }
+  }
+}

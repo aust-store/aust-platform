@@ -1,10 +1,32 @@
-<% if @resources %>
-  <ul>
-  <% @resources.each do |resource| %>
-    <li class="<%= cycle('odd', 'even') %>">
-      <%= link_to resource.name, @path.call(resource), :"data-id" => resource.id %>
-    </li>
-  <% end %>
-  </ul>
-<% end %>
+<% if @resources.present? %>
 
+  <div class="divline">
+  </div>
+  <div class="search_results_container">
+    <table>
+      <thead>
+        <tr>
+          <td class="title">
+            Resultados
+          </td>
+          <td class="status">
+          </td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @resources.each do |item| %>
+          <tr class="result_line <%= cycle('odd', 'even') %>">
+            <td>
+              <%= link_to item.name, @path.call(item), data: { id: item.id } %>
+            </td>
+            <td class="status">
+              <%= item.total_quantity_summing_inventory_entries %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% end %>

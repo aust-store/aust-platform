@@ -19,4 +19,24 @@ describe Admin::GoodDecorator do
       subject.has_image?.should be_false
     end
   end
+
+  describe "#total_quantity_summing_inventory_entries" do
+    it "returns the total" do
+      good.stub(:total_quantity) { "10" }
+      subject.total_quantity_summing_inventory_entries.should == "10 un."
+    end
+
+    it "returns out of stock" do
+      good.stub(:total_quantity) { "0" }
+      subject.total_quantity_summing_inventory_entries.should == "fora do estoque"
+    end
+  end
+
+  describe "#price" do
+    it "converts price to currency" do
+      good.stub(:price) { 2 }
+      subject.stub(:to_currency).with(2) { "$2" }
+      subject.price.should == "$2"
+    end
+  end
 end
