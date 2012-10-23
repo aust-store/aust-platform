@@ -11,7 +11,7 @@ class InventoryEntry < ActiveRecord::Base
 
   validates :price, presence: true
   validates :cost_per_unit, presence: true
-  validates :quantity, presence: true
+  validates :quantity, presence: true, numericality: { greater_than: 0 }
 
   # TODO hum? can we remove this callback later?
   before_save :define_new_balance_values

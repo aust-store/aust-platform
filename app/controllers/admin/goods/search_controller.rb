@@ -30,7 +30,8 @@ module Admin
       # TODO it's not the controller responsibility to tell how many pages
       # should be shown
       def search_goods
-        @resources = current_company.items.search_for(params[:name])
+        @resources = current_company.items.search_for(params[:name]).limit(10)
+        @resources = Admin::GoodDecorator.decorate(@resources)
       end
     end
   end

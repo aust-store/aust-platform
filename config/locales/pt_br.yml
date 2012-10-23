@@ -32,5 +32,6 @@ pt_br:
               blank: "Você deve especificar o %{attribute}"
             quantity:
               blank: "Você deve especificar a %{attribute}"
+              greater_than: "Você deve especificar um número maior que zero"
             price:
               blank: "Você deve especificar o %{attribute}"

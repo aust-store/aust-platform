@@ -2,6 +2,7 @@ module Admin
   module Inventory
     class EntriesController < Admin::ApplicationController
       before_filter :sanitize_params, only: [:create, :update]
+      before_filter :load_entries_summary, only: [:new, :edit, :create]
 
       def index
         # TODO load_good has no tests (e.g mock Good.where)
@@ -12,7 +13,8 @@ module Admin
 
       def new
         load_good
-        @entry = @good.balances.build
+        entry = @good.balances.build
+        @entry = Admin::InventoryEntryDecorator.decorate(entry)
       end
 
       def create
@@ -23,6 +25,7 @@ module Admin
         if @entry.save
           redirect_to admin_inventory_good_entries_url(@entry.good)
         else
+          @entry = Admin::InventoryEntryDecorator.decorate(@entry)
           render "new"
         end
       end
@@ -30,8 +33,14 @@ module Admin
     private
 
       def load_good
-        @good = current_company.items.find(params[:good_id])
+        @good ||= current_company.items.find(params[:good_id])
         raise "This doesn't belong to you" if @good.nil?
+        @good
+      end
+
+      def load_entries_summary
+        last_entries = load_good.balances.order("id desc").last(6)
+        @last_entries = Admin::InventoryEntryDecorator.decorate(last_entries)
       end
 
       def sanitize_params

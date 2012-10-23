@@ -1,19 +1,49 @@
-<%= simple_form_for([:admin, :inventory, @entry], url: admin_inventory_good_entries_path) do |f| %>
-  <%= f.input :description,
-        label: "Descrição" %>
+<div class="form_container">
+  <%= simple_form_for(@entry, url: admin_inventory_good_entries_path) do |f| %>
+    <% if @entry.errors.any? %>
+      <div class="error_explanation">
+        <p>
+          Não foi possível salvar seus dados.
+          Por favor, ajuste os erros abaixo:
+        </p>
+      </div>
+    <% end %>
 
-  <%= f.input :quantity,
-        label: "Quantidade",
-        hint:  "Um número inteiro (ex.: 10, 55, 109)" %>
+    <%= f.input :description,
+          label: "Descrição",
+          input_html: { value: @entry.description } %>
 
-  <%= f.input :cost_per_unit,
-        label: "Custo unitário",
-        hint:  "Ex.: R$ 11,00" %>
+    <%= f.input :quantity,
+          label: "Quantidade",
+          hint:  "Um número inteiro (ex.: 10, 55, 109)",
+          input_html: { value: @entry.quantity } %>
 
-  <%= f.input :price,
-        label: "Preço de venda",
-        hint:  "Ex.: R$ 14,00" %>
+    <%= f.input :cost_per_unit,
+          label: "Custo unitário",
+          hint:  "Ex.: R$ 11,00",
+          input_html: { value: @entry.cost_per_unit } %>
 
-  <%= f.submit "Cadastrar entrada no estoque", id: "submit_entry" %> ou
-  <%= link_to "cancelar", "javascript: history.back()" %>
-<% end %>
+    <%= f.input :price,
+          label: "Preço de venda",
+          hint:  "Ex.: R$ 14,00",
+          input_html: { value: @entry.price } %>
+
+    <%= f.submit "Cadastrar entrada no estoque", id: "submit_entry" %> ou
+    <%= link_to "cancelar", "javascript: history.back()" %>
+  <% end %>
+</div>
+
+<div class="entries_summary">
+  <% if @last_entries.present? %>
+    <h2>Últimas entradas</h2>
+    <ul>
+      <% @last_entries.each do |entry| %>
+        <li>
+          <%= "#{entry.created_at}:" %>
+          <%= "preço a #{entry.price}, " %>
+          <%= "#{entry.quantity} un." %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
