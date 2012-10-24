@@ -2,8 +2,8 @@ Store::Application.routes.draw do
 
   devise_for :admin_users,
     controllers: {
-      registrations: "admin/users/registrations",
-      sessions: "admin/users/sessions"
+      registrations: "admin/devise/registrations",
+      sessions: "admin/devise/sessions"
     }
 
   namespace :admin do
@@ -38,6 +38,8 @@ Store::Application.routes.draw do
     namespace :store do
       get 'dashboard' => 'dashboard#index'
     end
+
+    resources :users
 
     root :to => 'dashboard#index'
   end

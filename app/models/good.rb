@@ -1,5 +1,4 @@
 class Good < ActiveRecord::Base
-
   include ::Store::ModelsExtensions::Good
 
   belongs_to :inventory

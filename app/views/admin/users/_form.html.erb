@@ -1,0 +1,15 @@
+<div class="main_container">
+
+  <%= simple_form_for(@user) do |f| %>
+
+    <%= f.input :name, label: "Nome" %>
+
+    <%= f.input :email, label: "Email" %>
+
+    <%= f.input :password %>
+
+    <%= f.input :password_confirmation, hint: "Digite a senha novamente" %>
+
+    <div class="submit"><%= f.submit "Salvar", name: "commit" %></div>
+  <% end %>
+</div>

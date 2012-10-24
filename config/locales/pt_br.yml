@@ -17,15 +17,21 @@ pt_br:
         price: "Preço"
     errors:
       models:
+        admin_user:
+          attributes:
+            email:
+              blank: "%{attribute} não pode ser em branco"
+              invalid: "Formato de email incorreto! (Ex: email@email.com)"
+              taken: "já utilizado"
+            password:
+              blank: "O campo %{attribute} não pode ficar em branco!"
+              too_short: "%{attribute} deve ter no mínimo 6 caracteres!"
+              confirmation: "As senhas são incompatíveis, digite novamente!"
         account_receivable:
           attributes:
             value:
               blank: "%{attribute} não pode ser em branco"
               greater_than: "%{attribute} deve ter um valor válido"
-        admin_user:
-          attributes:
-            email:
-              taken: "já utilizado"  
         inventory_entry:
           attributes:
             cost_per_unit:
@@ -35,3 +41,4 @@ pt_br:
               greater_than: "Você deve especificar um número maior que zero"
             price:
               blank: "Você deve especificar o %{attribute}"
+              greater_than: "%{attribute} deve ter um valor válido"

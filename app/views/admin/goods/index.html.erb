@@ -13,14 +13,14 @@
       </tr>
     </thead>
     <tbody>
-  <% if @goods %>
-    <% @goods.each do |good| %>
+    <% if @goods.present? %>
+      <% @goods.each do |good| %>
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= link_to good.name, admin_inventory_good_path(good) %></td>
         <td><%= good.last_balance.try(:total_quantity) %></td>
       </tr>
+      <% end %>
     <% end %>
-  <% end %>
     </tbody>
   </table>
 

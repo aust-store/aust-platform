@@ -13,7 +13,7 @@ feature "Listing goods", js: true, search: true do
 
   context "existent goods" do
     before do
-      visit admin_inventory_goods_path 
+      visit admin_inventory_goods_path
     end
 
     scenario "As a store admin, I want to see goods from my company only" do

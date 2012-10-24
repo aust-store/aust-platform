@@ -4,8 +4,8 @@ class AdminUser < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # Setup accessible (or protected) attributes for your model
-  #attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me,
+                  :company_attributes, :role, :name, :company_id
 
   belongs_to :company
   accepts_nested_attributes_for :company
@@ -13,5 +13,4 @@ class AdminUser < ActiveRecord::Base
   def with_company
     self.tap { |t| t.build_company }
   end
-
 end

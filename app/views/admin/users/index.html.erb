@@ -1,0 +1,39 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1>Lista de colaboradores</h1>
+</header>
+<div class="main_container">
+  <table class="listing">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td>
+          <% if can_edit_users?(user, current_admin_user) %>
+            <%= link_to user.name, edit_admin_user_path(user) %>
+          <% else can? :read, user %>
+            <%= user.name %>
+          <% end %>
+        </td>
+        <td>
+          <% if can_destroy_users?(user, current_admin_user) %>
+            <%= link_to image_tag("store/buttons/check_no.png"), user, confirm: "Tem certeza?", method: :delete, title: "Excluir usuário #{user.name}", :class => "erase"%>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <% if can? :manage, AdminUser %>
+    <%= small_button new_admin_user_path, :text => "Adicionar usuário", :image => 'admin/icons/plus_16.png' %>  
+  <% end %>
+</div>

@@ -5,6 +5,7 @@ gem 'rails', '~>3.2'
 gem 'pg', '0.14.0'
 gem 'pg_search'
 gem 'devise', '2.0.4'
+gem 'cancan'
 
 gem 'simple_form', "~> 2.0.0"
 gem 'draper', '0.11.0'
@@ -31,6 +32,8 @@ end
 group :test do
   gem 'capybara', '1.1.2'
   gem 'capybara-webkit', '0.12.1'
+  gem 'shoulda'
+  gem 'shoulda-matchers'
   gem 'factory_girl', '~> 4.0'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner', '0.7.1'

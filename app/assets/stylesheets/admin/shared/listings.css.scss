@@ -26,7 +26,8 @@ table.listing {
       color: #666;
       font-size: 0.9em;
 
-      &.date {
+      & a.erase {
+        float: right;
       }
     }
   }
