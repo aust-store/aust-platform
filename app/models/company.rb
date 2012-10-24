@@ -13,7 +13,6 @@ class Company < ActiveRecord::Base
 
 
   def distinct_goods
-    # TODO fix which items should appear
     self.items.includes(:images).includes(:balances)
       .where("inventory_entries.quantity > 0")
       .where("good_images.cover = ?", true).all

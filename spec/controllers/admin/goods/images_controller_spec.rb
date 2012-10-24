@@ -45,4 +45,22 @@ describe Admin::Goods::ImagesController do
       response.should redirect_to admin_inventory_good_images_path(1)
     end
   end
+
+  describe "PUT update" do
+    let(:item) { double(images: images) }
+    let(:images) { double(find: image) }
+    let(:image) { double }
+
+    it "updates the image cover attribute" do
+      controller.current_company.stub_chain(:items, :find) { item }
+      images.should_receive(:update_all).with(cover: false)
+      image.should_receive(:update_attributes).with(cover: true)
+      put :update, good_id: 1, id: 2, set_cover: true
+    end
+
+    it "redirects to the image management page" do
+      put :update, good_id: 1, id: 2, set_cover: false
+      response.should redirect_to admin_inventory_good_images_path
+    end
+  end
 end
