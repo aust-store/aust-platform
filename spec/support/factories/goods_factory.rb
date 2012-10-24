@@ -4,15 +4,23 @@ FactoryGirl.define do
     sequence(:name) { |i| "Goodyear tire 4 inches ##{i}" }
     description "Lorem ipsum lorem"
 
+    # inventory_entry
     after(:create) do |good, evaluator|
       FactoryGirl.create_list(:inventory_entry, 2,
                               good: good,
                               store: evaluator.company)
     end
 
+    # images
+    after(:create) do |good, evaluator|
+      FactoryGirl.create_list(:item_image, 2,
+                              good: good)
+    end
+
     factory :good_with_company do
       association :company
     end
+
   end
 
   factory :good_two, parent: :good do

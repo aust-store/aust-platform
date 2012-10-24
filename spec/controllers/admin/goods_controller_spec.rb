@@ -20,7 +20,7 @@ describe Admin::GoodsController do
     let(:good) { double }
 
     it "should return a single good" do
-      good.stub_chain(:images, :dup) { :images }
+      good.stub_chain(:images, :order, :limit, :dup) { :images }
       subject.stub_chain(:current_company, :items, :find).with("123") { good }
       DecorationBuilder.should_receive(:good).with(good) { :decorated_good }
 

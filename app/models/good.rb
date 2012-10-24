@@ -7,7 +7,7 @@ class Good < ActiveRecord::Base
   belongs_to :company
   has_many :balances, class_name: "InventoryEntry"
   has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
-  has_many :images, class_name: "GoodImage", order: "id asc"
+  has_many :images, class_name: "GoodImage"
 
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images

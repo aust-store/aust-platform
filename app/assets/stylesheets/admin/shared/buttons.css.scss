@@ -1,11 +1,12 @@
 /* Buttons */
 $gradient-top: #f3f3f3;
 $gradient-bottom: #ddd;
+$red-gradient-top: darken(red, 6%);
+$red-gradient-bottom: darken(red, 17%);
 
 a.css_button_anchor {
   display: block;
   float: left;
-  margin: 0 10px 0 0;
   min-height: 20px;
   text-decoration: none;
   outline: none;
@@ -19,6 +20,27 @@ a.css_button_anchor {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$gradient-top', endColorstr='$gradient-bottom'); /* for IE */
   background: -webkit-gradient(linear, left bottom, left top, from($gradient-bottom), to($gradient-top)); /* for webkit browsers */
   background: -moz-linear-gradient(bottom, $gradient-bottom, $gradient-top); /* for firefox 3.6+ */
+
+  &.red {
+    color: white;
+    border-top: 1px solid lighten($red-gradient-top, 30%);
+    border-bottom: 1px solid darken($red-gradient-bottom, 3%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$red-gradient-top', endColorstr='$red-gradient-bottom'); /* for IE */
+    background: -webkit-gradient(linear, left bottom, left top, from($red-gradient-bottom), to($red-gradient-top)); /* for webkit browsers */
+    background: -moz-linear-gradient(bottom, $red-gradient-bottom, $red-gradient-top); /* for firefox 3.6+ */
+
+
+    &:hover {
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($red-gradient-bottom, 3%)', endColorstr='lighten($red-gradient-bottom, 3%)'); /* for IE */
+      background: -webkit-gradient(linear, left bottom, left top, from( lighten($red-gradient-bottom, 3%)), to( darken($red-gradient-top, 3%) )); /* for webkit browsers */
+      background: -moz-linear-gradient(bottom, lighten($red-gradient-bottom, 3%), darken($red-gradient-top, 3%)); /* for firefox 3.6+ */
+      text-decoration: none;
+    }
+    .css_button {
+      text-shadow: 1px 1px 0px #555;
+      color: white;
+    }
+  }
 
   .css_button {
     display: table;

@@ -12,9 +12,10 @@ class Company < ActiveRecord::Base
   before_create :create_inventory
 
 
-  def distinct_inventory_entries
-    # TODO fix which items should appear
-    self.inventory_entries.all
+  def distinct_goods
+    self.items.includes(:images).includes(:balances)
+      .where("inventory_entries.quantity > 0")
+      .where("good_images.cover = ?", true).all
   end
 
   def create_inventory
