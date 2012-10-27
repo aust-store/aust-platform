@@ -40,4 +40,3 @@ describe AccountReceivable do
     end
   end
 end
-

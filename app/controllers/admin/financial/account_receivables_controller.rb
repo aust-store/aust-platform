@@ -9,7 +9,7 @@ class Admin::Financial::AccountReceivablesController < Admin::ApplicationControl
   end
 
   def edit
-    @receivable = decorate(AccountReceivable.find(params[:id])) 
+    @receivable = decorate(AccountReceivable.find(params[:id]))
   end
 
   def create

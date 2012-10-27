@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20121018022814) do
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
     t.integer  "company_id"
+    t.string   "role"
+    t.string   "name"
   end
 
   add_index "admin_users", ["company_id"], :name => "index_admin_users_on_company_id"

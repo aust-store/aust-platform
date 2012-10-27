@@ -1,6 +1,6 @@
 /*
  *= require ./shared/defaults
  *= require_tree ./shared/
- *= require ./controllers/users/sessions
+ *= require ./controllers/devise/sessions
  *= require_self
  */

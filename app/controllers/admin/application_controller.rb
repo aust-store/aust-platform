@@ -1,6 +1,11 @@
 class Admin::ApplicationController < ActionController::Base
   protect_from_forgery
 
+  rescue_from CanCan::AccessDenied do |exception|
+    exception.default_message = "Acesso negado!"
+    redirect_to admin_users_url, :alert => exception.message
+  end
+
   layout :define_layout
   before_filter :authenticate_admin_user!
   before_filter :navigation_namespace
@@ -22,7 +27,7 @@ class Admin::ApplicationController < ActionController::Base
   def navigation_namespace
     @nav_namespace = case request.url
     when /inventory/ ; "inventory"
-    when /customers/ ; "customers"
+    when /users/     ; "users"
     when /store/     ; "store"
     else nil
     end

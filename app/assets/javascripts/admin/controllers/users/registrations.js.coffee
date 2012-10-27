@@ -26,4 +26,3 @@ class RegistrationsController
 $ ->
   controller = new RegistrationsController
   controller.init()
-
