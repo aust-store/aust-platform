@@ -7,15 +7,22 @@ class InventoryItemsSearch
     @show_good_button_time = 1000
     @hide_button_for_adding_items()
     @bind_load_new_form_after_submit()
+    @bind_add_item_button_to_form()
+
+  bind_add_item_button_to_form: ->
+    $("#add_new_good_button .button a[data-ajax]").on 'click', ->
+      $("#inventory_item_search").submit()
 
   bind_load_new_form_after_submit: ->
-    $("#add_new_good_button .button a[data-ajax]").on 'click', ->
+    $("#inventory_item_search").on 'submit', ->
       loading.show $(".main_container")
       $.get(
         $(this).attr("data-ajax"),
         { new_item_name: $("input.search").val() },
         (response) =>
+          window.History.pushState({refresh: false}, "Novo item", $("#inventory_item_search").data("ajax"))
           $($(this).attr("data-complete")).html response
+          $("#main input[type='text']:first").focus()
       )
       false
 
@@ -27,6 +34,8 @@ class InventoryItemsSearch
   # Depending on the search results, the button for creating a new inventory
   # item shows up or not
   can_show_add_item_button: ->
+    return if $(".search_existent_good").length == 0
+
     good_div = $(".search_existent_good")
     search_query_length = good_div.find("input.search").val().length
     search_results_length = good_div.find(".result_line").length

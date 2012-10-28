@@ -1,3 +1,5 @@
+//= require ./../vendors/history.adapter.jquery
+//= require ./../vendors/history
 //= require ./main
 //= require ./layout
 //= require ./raphael_main
