@@ -6,11 +6,23 @@ class InventoryItemsSearch
     @show_add_item_button()
     @show_good_button_time = 1000
     @hide_button_for_adding_items()
+    @bind_load_new_form_after_submit()
+
+  bind_load_new_form_after_submit: ->
+    $("#add_new_good_button .button a[data-ajax]").on 'click', ->
+      loading.show $(".main_container")
+      $.get(
+        $(this).attr("data-ajax"),
+        { new_item_name: $("input.search").val() },
+        (response) =>
+          $($(this).attr("data-complete")).html response
+      )
+      false
 
     # When the page opens, the shouldn't be able to enter a new item if he
     # hasn't typed anything for its name.
   hide_button_for_adding_items: ->
-    $(".add_new_good_button").hide()
+    $("#add_new_good_button").hide()
 
   # Depending on the search results, the button for creating a new inventory
   # item shows up or not

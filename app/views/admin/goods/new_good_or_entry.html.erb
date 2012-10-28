@@ -16,6 +16,7 @@
         class="search"
         value=""
         data-path="<%= for_adding_entry_admin_inventory_search_path %>"
+        data-new-item-path="<%= new_admin_inventory_good_path %>"
       />
 
       <!--
@@ -30,7 +31,7 @@
 
   </div>
 
-  <div class="add_new_good_button">
+  <div id="add_new_good_button" class="add_new_good_button">
     <div class="add_new_good_button_container">
       <div class="button">
         <%= small_button new_admin_inventory_good_path,

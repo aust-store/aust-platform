@@ -3,7 +3,8 @@
   <%= f.input :name,
         label: "Nome do bem ou mercadoria",
         hint:  "",
-        placeholder: "ex.: parafuso 1cm" %>
+        placeholder: "ex.: parafuso 1cm",
+        input_html: { id: "inventory_item_name" } %>
 
   <%= f.input :description,
         label: "Descrição" %>
