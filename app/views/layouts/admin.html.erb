@@ -8,37 +8,43 @@
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
 
-<div id="global">
-  <div class="global_container">
-    <div id="navigation">
-      <div class="navigation_container">
-        <%= render "layouts/admin/navigation" %>
+  <div id="global">
+    <div class="global_container">
+      <div id="navigation">
+        <div class="navigation_container">
+          <%= render "layouts/admin/navigation" %>
+        </div>
+      </div>
+
+      <div id="main">
+          <%= yield %>
       </div>
     </div>
+  </div>
 
-    <div id="main">
-        <%= yield %>
+  <% # hidden divs used by JS %>
+  <div id="context_menu_placeholder">
+    <div class="context_menu_placeholder_container">
     </div>
   </div>
-</div>
 
-<div id="loading_timer" style="display: none">
-  <div class="loading_box" style="background-image: url('<%= asset_path("admin/loading.gif") %>')">
-    <div class="text normal">
-      Carregando...
-    </div>
-    <div class="text timeout">
-      O processo está demorado. Por favor, tente novamente.
-      <br />
-      <br />
-      Abortando em 3 segundos.
+  <div id="loading_timer" style="display: none">
+    <div class="loading_box" style="background-image: url('<%= asset_path("admin/loading.gif") %>')">
+      <div class="text normal">
+        Carregando...
+      </div>
+      <div class="text timeout">
+        O processo está demorado. Por favor, tente novamente.
+        <br />
+        <br />
+        Abortando em 3 segundos.
+      </div>
     </div>
   </div>
-</div>
-<%= image_tag "admin/loading.gif", style: "display: none" %>
+  <%= image_tag "admin/loading.gif", style: "display: none" %>
 
 </body>
 </html>
