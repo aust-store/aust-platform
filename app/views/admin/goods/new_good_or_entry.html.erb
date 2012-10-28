@@ -1,6 +1,7 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: {
-             back_to: admin_inventory_goods_path
+             back_to: admin_inventory_goods_path,
+             text: "Voltar ao estoque"
            } %>
 
 
@@ -10,13 +11,20 @@
     <div class="input">
       <h1>Digite o nome do item a ser acrescentado</h1>
 
-      <input
-        type="text"
-        name="search_inventory_items"
-        class="search"
-        value=""
-        data-path="<%= for_adding_entry_admin_inventory_search_path %>"
-      />
+      <form
+        id="inventory_item_search"
+        data-ajax=<%= new_admin_inventory_good_path %>
+        data-complete="#main" >
+
+        <input
+          type="text"
+          name="search_inventory_items"
+          class="search"
+          value=""
+          data-path="<%= for_adding_entry_admin_inventory_search_path %>"
+          data-new-item-path="<%= new_admin_inventory_good_path %>"
+        />
+      </form>
 
       <!--
       <span class="hint">
@@ -30,16 +38,12 @@
 
   </div>
 
-  <div class="add_new_good_button">
+  <div id="add_new_good_button" class="add_new_good_button">
     <div class="add_new_good_button_container">
       <div class="button">
         <%= small_button new_admin_inventory_good_path,
               text: "Criar um novo item",
-              image: 'admin/icons/plus_16.png',
-              data: {
-                ajax: new_admin_inventory_good_path,
-                complete: "#main"
-              } %>
+              image: 'admin/icons/plus_16.png' %>
       </div>
       <div class="explanation with_search_results">
         Selecione acima um dos itens já existentes ou crie um novo.

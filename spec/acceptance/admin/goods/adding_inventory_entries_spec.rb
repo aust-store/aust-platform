@@ -35,7 +35,7 @@ feature "Adding and editing goods", js: true, search: true do
       click_link "Criar um novo item"
       wait_until { page.has_content?("Nome do bem ou mercadoria") }
 
-      fill_in "good_name", with: "Chocolate Cookies"
+      fill_in "inventory_item_name", with: "Chocolate Cookies"
       fill_in "good_description", with: "Yammy Cookies"
       fill_in "good_reference", with: "192837465"
 

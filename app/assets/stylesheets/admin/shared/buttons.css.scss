@@ -5,7 +5,7 @@ $red-gradient-top: darken(red, 6%);
 $red-gradient-bottom: darken(red, 17%);
 
 a.css_button_anchor {
-  display: block;
+  display: inline-block;
   float: left;
   min-height: 20px;
   text-decoration: none;
@@ -43,12 +43,12 @@ a.css_button_anchor {
   }
 
   .css_button {
-    display: table;
+    display: block;
     color: #444;
     min-height: 20px;
     min-width: 33px;
     font-size: 1.0em;
-    font-weight: bold;
+    font-weight: normal;
     text-shadow: 1px 1px 2px white;
     background-repeat: no-repeat;
     background-position: 4px center;
@@ -59,7 +59,7 @@ a.css_button_anchor {
     .css_button_container {
       margin: 0px auto 0px auto;
       padding-left: 11px;
-      display: table;
+      display: inline-block;
       min-width: 0px;
       &.text {
         top: 3px;
@@ -67,13 +67,13 @@ a.css_button_anchor {
         padding-right: 11px;
       }
     }
-    
+
     &.has_image .css_button_container, &.has_image_only .css_button_container {
       margin: 0px 0px 3px 26px;
       padding-left: 0px;
       top: 2px;
       height: 17px;
-      display: table;
+      display: inline-block;
     }
   }
   &:hover {
@@ -103,7 +103,7 @@ a.css_button_anchor.big {
   width: 200px;
   margin: 0 auto !important;
   text-align: center;
-  display: table;
+  display: inline-block;
   float: none;
   
   .css_button {

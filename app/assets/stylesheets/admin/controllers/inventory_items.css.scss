@@ -26,7 +26,6 @@
     width: 550px;
     margin: 30px auto 15px auto;
     text-align: right;
-    display: none;
     clear: both;
 
     .add_new_good_button_container {
@@ -50,8 +49,9 @@
       width: 200px;
       display: table;
       margin: 0 auto 0 auto;
+      text-align: center;
 
-      a { display: table; float: none; margin: 0 auto 0 auto; }
+      a { float: none; margin: 0 auto 0 auto; }
     }
   }
 

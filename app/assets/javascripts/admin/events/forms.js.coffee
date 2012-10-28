@@ -12,7 +12,7 @@ class Forms
     })
 
   set_focus_on_first_input: ->
-    $("[data-input-focus='true'] input:first").focus()
+    $("#main input[type='text']:first, #main textarea:first").focus()
 
   setup_image_upload: ->
     $('.form-upload.image').bind 'ajax:complete', (evt, xhr, status) ->

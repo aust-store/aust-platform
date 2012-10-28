@@ -15,7 +15,7 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def new
-    @good = current_company.items.new
+    @good = current_company.items.new(name: params[:new_item_name])
   end
 
   def edit
