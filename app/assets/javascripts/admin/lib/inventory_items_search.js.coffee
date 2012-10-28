@@ -1,10 +1,16 @@
 # Deals with the search page for adding goods
-class InventoryEntriesSearch
+class InventoryItemsSearch
 
   init: ->
     @search_existent_good_event()
     @show_add_item_button()
     @show_good_button_time = 1000
+    @hide_button_for_adding_items()
+
+    # When the page opens, the shouldn't be able to enter a new item if he
+    # hasn't typed anything for its name.
+  hide_button_for_adding_items: ->
+    $(".add_new_good_button").hide()
 
   # Depending on the search results, the button for creating a new inventory
   # item shows up or not
@@ -105,6 +111,6 @@ class InventoryEntriesSearch
 
 $( ->
   if $(".search_existent_good").length > 0
-    search = new InventoryEntriesSearch
+    search = new InventoryItemsSearch
     search.init()
 )
