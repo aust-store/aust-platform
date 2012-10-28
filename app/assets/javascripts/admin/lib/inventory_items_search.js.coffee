@@ -10,8 +10,9 @@ class InventoryItemsSearch
     @bind_add_item_button_to_form()
 
   bind_add_item_button_to_form: ->
-    $("#add_new_good_button .button a[data-ajax]").on 'click', ->
-      $("#inventory_item_search").submit()
+    $("#add_new_good_button .button a").on 'click', ->
+      $("form#inventory_item_search").submit()
+      false
 
   bind_load_new_form_after_submit: ->
     $("#inventory_item_search").on 'submit', ->
