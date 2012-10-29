@@ -92,7 +92,7 @@ feature "Users listing" do
 
     scenario "As a collaborator, I cannot edit other users" do
       click_link "Colaboradores"
-      page.should_not have_link('arekufun')
+      page.should_not have_link('#{@user.name}')
     end
 
     scenario "As a collaborator, I will be redirected when trying to edit other users" do

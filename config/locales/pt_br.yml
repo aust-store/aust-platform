@@ -19,10 +19,13 @@ pt_br:
       models:
         admin_user:
           attributes:
+            name:
+              blank: "%{attribute} não pode ser em branco"
+              taken: "já utilizado, escolha outro!"
             email:
               blank: "%{attribute} não pode ser em branco"
               invalid: "Formato de email incorreto! (Ex: email@email.com)"
-              taken: "já utilizado"
+              taken: "já utilizado, escolha outro!"
             password:
               blank: "O campo %{attribute} não pode ficar em branco!"
               too_short: "%{attribute} deve ter no mínimo 6 caracteres!"
