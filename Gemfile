@@ -45,4 +45,4 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
 
-gem 'capistrano'
+gem 'capistrano', '2.13.5'
