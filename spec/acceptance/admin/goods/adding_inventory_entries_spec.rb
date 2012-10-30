@@ -32,8 +32,8 @@ feature "Adding and editing goods", js: true, search: true do
       visit new_good_or_entry_admin_inventory_goods_path
 
       fill_in "search_inventory_items", with: "Backpack"
-      click_link "Criar um novo item"
-      wait_until { page.has_content?("Nome do bem ou mercadoria") }
+      wait_until { click_link "Criar um novo item" }
+      page.has_content?("Nome do bem ou mercadoria")
 
       fill_in "inventory_item_name", with: "Chocolate Cookies"
       fill_in "good_description", with: "Yammy Cookies"
