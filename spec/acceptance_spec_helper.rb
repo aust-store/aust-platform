@@ -1,4 +1,4 @@
 require "spec_helper"
 
 Capybara.javascript_driver = :webkit
-Capybara.default_wait_time = 2
+Capybara.default_wait_time = 4

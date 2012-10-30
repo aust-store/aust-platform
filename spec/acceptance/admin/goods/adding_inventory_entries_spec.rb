@@ -28,7 +28,7 @@ feature "Adding and editing goods", js: true, search: true do
   end
 
   context "inexistent inventory items" do
-    scenario "As a store admin, I'd like add new item to the inventory" do
+    scenario "As a store admin, I'd like add new item to the inventory", focus: true do
       visit new_good_or_entry_admin_inventory_goods_path
 
       fill_in "search_inventory_items", with: "Backpack"
