@@ -47,7 +47,7 @@ feature "Managing collaborators" do
       page.should_not have_content "oko"
     end
 
-    scenario "As a founder, I want to edit a chosen user" do
+    scenario "As a founder, I want to fully edit a chosen user" do
       click_link "Colaboradores"
       click_link "oko"
 
@@ -69,6 +69,31 @@ feature "Managing collaborators" do
       user.name.should == "okosuta"
       user.role.should == "collaborator"
       user.company_id.should == @admin_user.company_id
+    end
+
+    scenario "As a founder, I want to partially edit a chosen user" do
+      click_link "Colaboradores"
+      click_link "oko"
+
+      page.should have_selector "input#admin_user_name"
+      page.should have_selector "input#admin_user_email"
+      page.should have_selector "input#admin_user_password"
+      page.should have_selector "input#admin_user_password_confirmation"
+
+      fill_in "admin_user_name", with: "okosuta"
+      fill_in "admin_user_email", with: "okosuta@example.com"
+
+      click_button "Salvar"
+
+      current_path.should == admin_users_path
+
+      click_link "Sair"
+
+      @admin_user = AdminUser.find_by_email("okosuta@example.com")
+      login_into_admin
+
+      @admin_user.name.should == "okosuta"
+      @admin_user.role.should == "collaborator"
     end
 
     scenario "As a founder, I want to edit myself" do
