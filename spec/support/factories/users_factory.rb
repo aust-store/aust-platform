@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :admin_user do
-  	name "The Tick"
+  	sequence(:name) { |s| "The Tick#{n}" }
     sequence(:email) { |s| "user#{s}@example.com" }
     password "1234567"
+    password_confirmation "1234567"
     association :company
     role "founder"
   end
