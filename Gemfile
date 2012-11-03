@@ -31,7 +31,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'shoulda'
   gem 'shoulda-matchers'

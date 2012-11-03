@@ -10,7 +10,7 @@
 //   JSON: {"item":{"name":"My item", "price":"US$40,00"}}
 //
 //   Document:
-//     
+//
 //     <span data-observe="item.name"></span>
 //     <span data-observe="item.price"></span>
 //
@@ -24,18 +24,15 @@ modelObserver.prototype.update = function(jsonData){
   $("[data-observe]").each(function(index){
     var observing = $(this).data("observe");
     var observedResources = observing.split(".");
-    console.log(observedResources);
 
     var currentValue = jsonData;
     $.each(observedResources, function(index, value){
-      console.log(typeof currentValue[value]);
       if (currentValue[value] || typeof currentValue[value] == "string")
         currentValue = currentValue[value];
       else
         return false;
     });
 
-    console.log(typeof currentValue);
     if (typeof currentValue == "string"){
       observerCallbacks.run(observing, currentValue);
       $(this).html(currentValue);

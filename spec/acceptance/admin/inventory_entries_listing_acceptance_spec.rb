@@ -35,32 +35,5 @@ feature "Listing inventory entries", js: true, search: true do
       page.should_not have_content "Other good"
     end
   end
-
-  describe "add an inventory entry" do
-    before do
-      visit new_admin_inventory_good_entry_path(@good)
-    end
-
-    def add_entry
-      fill_in "inventory_entry_description", with: "A new Entry."
-      fill_in "inventory_entry_quantity", with: "5"
-      fill_in "inventory_entry_cost_per_unit", with: "1.30"
-      fill_in "inventory_entry_price", with: "1.30"
-      save_and_open_page
-      click_on "submit_entry"
-    end
-
-    scenario "As a store admin, I want to see the entry I just added" do
-      add_entry
-
-      page.current_path.should == admin_inventory_good_entries_path(@good)
-
-      save_and_open_page
-      page.should have_content "A new Entry."
-      page.should have_content "5"
-      page.should have_content "R$ 1,30"
-      page.should_not have_content "Other good"
-    end
-  end
 end
 

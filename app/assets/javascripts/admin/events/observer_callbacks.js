@@ -1,8 +1,4 @@
 $(document).ready(function(){
-  $("[data-observe-callback]").each(function(index){
-
-  });
-
   observerCallbacks.add("good.price", goodPriceCallback);
 });
 

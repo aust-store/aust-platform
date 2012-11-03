@@ -60,7 +60,7 @@ class InventoryItemsSearch
       show_button = true
 
     else if search_results_length > 5
-      @show_good_button_time = 500
+      @show_good_button_time = 3000
       show_button = true
 
     if search_results_length < 2 and search_query_length > 4

@@ -26,11 +26,6 @@ module Admin
       to_currency good.price
     end
 
-    def active_model_serializer
-      Rails.logger.info "HERE"
-      GoodSerializer
-    end
-
     private
 
     def to_currency(value)

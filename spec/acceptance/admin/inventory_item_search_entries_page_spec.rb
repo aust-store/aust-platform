@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Adding and editing goods", js: true, search: true do
+feature "Adding Inventory Entries", js: true, search: true do
   before do
     login_into_admin
     FactoryGirl.create(:good, company: @company)

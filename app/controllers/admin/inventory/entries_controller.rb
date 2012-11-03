@@ -32,7 +32,6 @@ module Admin
 
       def update
         good = current_company.items.find(params[:good_id])
-        #puts current_company.items.all
         entry = good.balances.find(params[:id])
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
