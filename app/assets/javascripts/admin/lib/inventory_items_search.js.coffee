@@ -60,7 +60,7 @@ class InventoryItemsSearch
       show_button = true
 
     else if search_results_length > 5
-      @show_good_button_time = 3000
+      @show_good_button_time = 500
       show_button = true
 
     if search_results_length < 2 and search_query_length > 4
@@ -87,7 +87,7 @@ class InventoryItemsSearch
       @add_good_button_timer = setTimeout ( =>
         if @can_show_add_item_button()
           @show_proper_creation_explanation_text()
-          $(".add_new_good_button").fadeIn(800)
+          $(".add_new_good_button").fadeIn(400)
 
       ), @show_good_button_time
     else

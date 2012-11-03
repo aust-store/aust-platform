@@ -11,11 +11,8 @@ class Company < ActiveRecord::Base
 
   before_create :create_inventory
 
-
   def distinct_goods
-    self.items.includes(:images).includes(:balances)
-      .where("inventory_entries.quantity > 0")
-      .where("good_images.cover = ?", true).all
+    self.items.with_entries_for_sale.all
   end
 
   def create_inventory

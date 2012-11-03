@@ -1,3 +1,40 @@
+.show_item {
+  .section {
+    div.subsection { margin-bottom: 15px; }
+
+    &.current_price {
+      display: table;
+
+      .text {
+        padding: 5px 0 0 27px;
+        display: none;
+        height: 24px;
+
+        &.current { display: block; }
+      }
+      .not_on_sale {
+        color: #e61b26;
+        background: image_url("admin/icons/red_x.png") no-repeat;
+      }
+      .on_sale {
+        background: image_url("admin/icons/gray_check.png") no-repeat;
+      }
+    }
+
+    &.taxonomy {
+      .child_category {
+        margin: 2px 0px 2px 16px;
+        display: table;
+      }
+    }
+
+    a.css_button_anchor {
+      float: right;
+      margin-left: 8px;
+    }
+  }
+}
+
 .search_existent_good {
   width: 680px;
   margin: 20px auto;
@@ -45,7 +82,7 @@
       display: none;
     }
 
-    .button { 
+    .button {
       width: 200px;
       display: table;
       margin: 0 auto 0 auto;

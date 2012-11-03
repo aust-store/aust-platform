@@ -44,8 +44,9 @@ feature "Listing inventory entries", js: true, search: true do
     def add_entry
       fill_in "inventory_entry_description", with: "A new Entry."
       fill_in "inventory_entry_quantity", with: "5"
-      fill_in "inventory_entry_cost_per_unit", with: "R$ 1.30"
-      fill_in "inventory_entry_price", with: "R$ 1.30"
+      fill_in "inventory_entry_cost_per_unit", with: "1.30"
+      fill_in "inventory_entry_price", with: "1.30"
+      save_and_open_page
       click_on "submit_entry"
     end
 
@@ -54,6 +55,7 @@ feature "Listing inventory entries", js: true, search: true do
 
       page.current_path.should == admin_inventory_good_entries_path(@good)
 
+      save_and_open_page
       page.should have_content "A new Entry."
       page.should have_content "5"
       page.should have_content "R$ 1,30"

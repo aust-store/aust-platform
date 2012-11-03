@@ -5,13 +5,11 @@ module Store
     end
 
     def price
-      if entry_for_sale
-        entry_for_sale.price
-      end
+      entry_for_sale.price if entry_for_sale
     end
 
     def entry_for_sale
-      @entry_for_sale ||= @item.balances.first
+      @entry_for_sale ||= @item.entry_for_sale
     end
   end
 end

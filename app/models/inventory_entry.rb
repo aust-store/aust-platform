@@ -5,16 +5,27 @@ class InventoryEntry < ActiveRecord::Base
 
   attr_accessible :good_id, :description, :quantity, :cost_per_unit, :good,
                   :admin_user_id, :balance_type, :moving_average_cost,
-                  :total_quantity, :total_cost, :store_id, :price
+                  :total_quantity, :total_cost, :store_id, :price, :on_sale
 
   accepts_nested_attributes_for :good
 
   validates :price, presence: true
   validates :cost_per_unit, presence: true
-  validates :quantity, presence: true, numericality: { greater_than: 0 }
+  validates :quantity, presence: true,
+    numericality: { greater_than: 0 }, on: :create
 
   # TODO hum? can we remove this callback later?
   before_save :define_new_balance_values
+
+  scope :on_sale, lambda {
+    where("inventory_entries.on_sale = ?", true)
+    .all_entries_available_for_sale
+  }
+
+  scope :all_entries_available_for_sale, lambda {
+    where("inventory_entries.quantity > 0")
+    .order("inventory_entries.created_at asc, inventory_entries.id asc")
+  }
 
   class OutOfStock < StandardError; end
 

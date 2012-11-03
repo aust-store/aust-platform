@@ -2,10 +2,9 @@ require 'acceptance_spec_helper'
 
 feature "Adding and editing goods", js: true, search: true do
   before do
-    @admin_user = FactoryGirl.create(:admin_user)
-    FactoryGirl.create(:good_with_company)
-    @good = FactoryGirl.create(:good, user: @admin_user, company: @admin_user.company)
     login_into_admin
+    FactoryGirl.create(:good, company: @company)
+    @good = FactoryGirl.create(:good, user: @admin_user, company: @company)
   end
 
   scenario "As a store admin, I'd like to add images to inventory items" do

@@ -1,31 +1,146 @@
 <%= render partial: "layouts/admin/nav_history",
-           locals: { 
+           locals: {
              back_to: admin_inventory_goods_path,
              text: "Voltar à listagem do estoque"
            } %>
 
 <header class="continuous_bottom">
-  <h1><%= @good.name %></h1>
+  <div class="inline_title">
+    <h1>
+      <%= @good.name %>
+    </h1>
+    <%= small_button edit_admin_inventory_good_path(@good), text: "Editar este item", :image => 'admin/icons/edit_16.png' %>
+  </div>
+  <p>
+    Vestuário
+    <span class="gray_arrow">►</span>
+    Masculino
+    <span class="gray_arrow">►</span>
+    Camisetas
+  </p>
 </header>
 
-<%= render partial: "shared/images", locals: { images: @item_images } %>
-
-<div class="main_container">
-
-  <p id="notice"><%= notice %></p>
-
-  <% if @good.description.present? %>
-    <p> <b>Descrição:</b> <%= @good.description %> </p>
+<div class="main_container show_item">
+  <% if notice.present? %>
+    <p id="notice"><%= notice %></p>
   <% end %>
 
-  <% if @good.reference.present? %>
-    <p> <b>Referência:</b> <%= @good.reference %> </p>
+  <% if alert.present? %>
+    <p id="alert"><%= alert %></p>
   <% end %>
+
+  <div class="column_pane_half left">
+    <div class="section current_price" data-observe-callback="good.price">
+
+      <span class="text not_on_sale <%= "current" unless @good.price.present? %>">
+        Este item não está sendo vendido atualmente.
+      </span>
+      <span class="text on_sale <%= "current" if @good.price.present? %>">
+        Vendido atualmente por
+        <span data-observe="good.price"><%= @good.price %></span>.
+      </span>
+    </div>
+
+    <div class="section description">
+      <% if @good.description.present? %>
+        <p><b>Descrição:</b> <%= @good.description %></p>
+      <% end %>
+      <% if @good.reference.present? %>
+        <p> <b>Referência:</b> <%= @good.reference %> </p>
+      <% end %>
+    </div>
+
+    <div class="section shipping">
+      <h2>Frete</h2>
+      <p>
+        <div>
+        Peso da caixa: 6Kg
+        <table cellspacing="0">
+          <tr>
+            <td valign="top" width="130">Dimensões da caixa: </td>
+            <td>
+              25cm de comprimento<br />
+              15cm de largura<br />
+              5cm de altura
+            </td>
+          </tr>
+        </table>
+        </div>
+      </p>
+    </div>
+    <div class="section taxonomy">
+      <h2>Categorias</h2>
+      <div class="category_first_row">
+        <span class="gray_arrow">►</span>
+        Vestuário
+
+        <div class="child_category">
+          <span class="gray_arrow">►</span>
+          Masculino
+
+          <div class="child_category">
+            <span class="gray_arrow">►</span>
+            Camisetas
+
+            <div class="child_category item_name">
+              <span class="gray_arrow">►</span>
+              <%= @good.name %> (<%= link_to "Editar", "" %>)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column_pane_half right">
+    <div class="section inventory_entries update_on_sale">
+      <h2>Estoque & vendas</h2>
+      <p>
+        Selecione as entradas no estoque deste item devem ser postos à venda:
+      </p>
+
+      <p>
+      <table class="sub_listing listing">
+      <% @inventory_entries.each do |entry| %>
+        <tr>
+          <td>
+            <%= check_box_tag :on_sale,
+                  1,
+                  entry.on_sale?,
+                  class: "inventory_entry_on_sale on_sale_#{entry.id}",
+                  data: {
+                    url: admin_inventory_good_entry_url(good_id: @good,
+                                                        id: entry.id)
+                  } %>
+          </td>
+          <td>
+            <%= entry.created_at %>
+          </td>
+          <td>
+            preço <%= entry.price %>
+          </td>
+          <td>
+            <%= entry.quantity %> un.
+          </td>
+        </tr>
+      <% end %>
+      </table>
+      </p>
+
+      <%= small_button new_admin_inventory_good_entry_path(@good), text: "Nova entrada", :image => 'admin/icons/plus_16.png', class: "round_icon" %>
+      <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque" %>
+    </div>
+
+    <div class="section">
+      <h2>Imagens</h2>
+      <div class="subsection">
+        <%= render partial: "show_images", locals: { images: @item_images } %>
+      </div>
+      <%= small_button admin_inventory_good_images_path(@good), text: "Gerenciar imagens", id: "manage_images" %>
+    </div>
+  </div>
 
   <div class="managing_buttons">
-    <%= small_button admin_inventory_good_images_path(@good), text: "Gerenciar imagens" %>
-    <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque deste item" %>
 
-    <%= small_button edit_admin_inventory_good_path(@good), text: "Editar" %>
   </div>
 </div>

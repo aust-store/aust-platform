@@ -79,4 +79,51 @@ describe Admin::Inventory::EntriesController do
       assigns(:last_entries).should == :item
     end
   end
+
+  describe "PUT update" do
+    let(:entry) { double }
+
+    before do
+      @good = FactoryGirl.create(:good_with_company, company: @company)
+      controller.stub_chain(:current_company, :items, :find) { @good }
+    end
+
+    it "updates an inventory entry" do
+      @good.stub_chain(:balances, :find) { entry }
+      entry.should_receive(:update_attributes).with("on_sale" => "0")
+      controller.stub(:render)
+      put :update, good_id: 1, id: 2,
+        inventory_entry: { on_sale: "0" }, format: "js"
+    end
+
+    describe "redirections" do
+      it "updates an inventory entry" do
+        entry.stub(:update_attributes) { true }
+        first_entry = InventoryEntry.first
+        put :update, good_id: @good.id, id: first_entry.id, inventory_entry: { on_sale: "0" }, format: "js"
+        ActiveSupport::JSON.decode(response.body).should == {
+          "good" => {
+            "id" => @good.id,
+            "name" => @good.name,
+            "description" => "Lorem ipsum lorem",
+            "price" => "R$ 20,00"
+          }
+        }
+      end
+
+      it "updates an inventory entry" do
+        entry.stub(:update_attributes) { false }
+        first_entry = InventoryEntry.first
+        put :update, good_id: @good.id, id: first_entry.id, inventory_entry: { on_sale: "0" }, format: "js"
+        ActiveSupport::JSON.decode(response.body).should == {
+          "good" => {
+            "id" => @good.id,
+            "name" => @good.name,
+            "description" => "Lorem ipsum lorem",
+            "price" => "R$ 20,00"
+          }
+        }
+      end
+    end
+  end
 end

@@ -119,7 +119,26 @@ li { list-style: none; margin: 0; padding: 0; }
   header, h1 { background: white; padding: 5px 10px 7px 10px }
   header {
     border-bottom: 1px solid #f3f3f3;
-    h1 { padding: 0; margin: 0; background: none; }
+    display: table;
+    width: 720px;
+
+    div.inline_title {
+      display: table;
+      width: 100%;
+
+      h1 {
+        display: inline;
+        padding: 0; margin: 0;
+        float: left;
+      }
+    }
+
+    h1 { padding: 0; margin: 0; }
+
+    a.css_button_anchor {
+      margin: 10px 0 0 10px;
+      display: inline;
+    }
     p { margin: 3px 0; color: #999; font-size: 0.9em; line-height: 1.0em; }
 
     &.continuous_bottom {
@@ -149,9 +168,44 @@ li { list-style: none; margin: 0; padding: 0; }
     }
 
     .managing_buttons a.css_button_anchor { margin: 0 10px 0 0; }
+
+    .column_pane_half {
+      float: left;
+      width: 345px;
+      padding-top: 5px;
+      margin: 0 10px 0 0;
+
+      &.right {
+        padding-left: 10px;
+        margin: 0;
+        border-left: 1px solid #ddd;
+      }
+
+      .section {
+        display: table;
+        width: 100%;
+        margin: 0 0 10px 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f9f9f9;
+
+        &:last-child { border: 0 }
+        & > p:last-child { margin-bottom: 0; }
+
+        h2 {
+          color: #555;
+          font-size: 1.3em;
+          font-weight: bold;
+        }
+
+        a.css_button_anchor {
+          margin-botton: 3px;
+        }
+      }
+    }
   }
 }
 
+table { width: 100%; }
 
 .graphs {
   display: table;
@@ -191,4 +245,5 @@ li { list-style: none; margin: 0; padding: 0; }
   }
 }
 
+span.gray_arrow { color: #bbb; font-size: 0.8em; }
 .html_template { display: none; }

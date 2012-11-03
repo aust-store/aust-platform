@@ -22,4 +22,17 @@ describe Good do
       good.price
     end
   end
+
+  describe "#entry_for_sale" do
+    before do
+      @good = FactoryGirl.create(:good_with_company)
+    end
+
+    it "loads the first entry for sale" do
+      entries = @good.balances.all
+      @good.entry_for_sale.should == entries.first
+      InventoryEntry.first.update_attribute(:on_sale, false)
+      @good.entry_for_sale.should == entries.last
+    end
+  end
 end

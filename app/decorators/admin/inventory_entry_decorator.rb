@@ -21,7 +21,7 @@ class Admin::InventoryEntryDecorator < ApplicationDecorator
   end
 
   def created_at
-    inventory_entry.created_at.strftime("%d/%m/%Y")
+    inventory_entry.created_at.strftime("%d/%m")
   end
 
   private

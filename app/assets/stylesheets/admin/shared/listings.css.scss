@@ -4,6 +4,12 @@ table.listing {
   border-collapse:separate;
   border-spacing: 0;
 
+  &.sub_listing {
+    tr td, tr th {
+      padding: 3px;
+    }
+  }
+
   th, td {
     padding: 10px;
   }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121018022814) do
+ActiveRecord::Schema.define(:version => 20121031011538) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -127,14 +127,16 @@ ActiveRecord::Schema.define(:version => 20121018022814) do
     t.decimal  "moving_average_cost"
     t.decimal  "total_quantity"
     t.decimal  "total_cost"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
     t.integer  "store_id"
     t.decimal  "price",               :precision => 8, :scale => 2
+    t.boolean  "on_sale",                                           :default => true
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
   add_index "inventory_entries", ["good_id"], :name => "index_good_balances_on_good_id"
+  add_index "inventory_entries", ["on_sale"], :name => "index_inventory_entries_on_on_sale"
   add_index "inventory_entries", ["store_id"], :name => "index_inventory_entries_on_store_id"
 
   create_table "order_items", :force => true do |t|

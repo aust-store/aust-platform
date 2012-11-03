@@ -23,7 +23,12 @@ RSpec.configure do |config|
   config.include AcceptanceSteps
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :deletion
   end
 
   config.before(:each) do

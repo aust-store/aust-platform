@@ -10,8 +10,10 @@ class Admin::GoodsController < Admin::ApplicationController
 
   def show
     good = current_company.items.find(params[:id])
-    @item_images = good.images.order("cover desc").limit(11).dup
-    @good = ::DecorationBuilder.good(good)
+    @item_images = good.images.order("cover desc").limit(10).dup
+    @good = DecorationBuilder.good(good)
+    balances = good.all_entries_available_for_sale
+    @inventory_entries = DecorationBuilder.inventory_entries(balances)
   end
 
   def new
