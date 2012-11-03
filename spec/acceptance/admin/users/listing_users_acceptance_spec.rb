@@ -73,10 +73,10 @@ feature "Users listing" do
     before do
       @admin_user = FactoryGirl.create(:admin_user, name: "Silviom", role: "collaborator")
       login_into_admin
-      @user = FactoryGirl.create(:admin_user, id: 7,
-                                 name:            "arekufun",
-                                 company:         @admin_user.company,
-                                 role:            "collaborator")
+      @user = FactoryGirl.create(:admin_user,
+                                 name:    "arekufun2",
+                                 company: @admin_user.company,
+                                 role:    "collaborator")
     end
 
     scenario "As a collaborator I can't create a new user" do
@@ -92,7 +92,7 @@ feature "Users listing" do
 
     scenario "As a collaborator, I cannot edit other users" do
       click_link "Colaboradores"
-      page.should_not have_link('#{@user.name}')
+      page.should_not have_link('arekufun2')
     end
 
     scenario "As a collaborator, I will be redirected when trying to edit other users" do

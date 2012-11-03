@@ -24,6 +24,7 @@ describe Admin::GoodsController do
       subject.stub_chain(:current_company, :items, :find).with("123") { good }
       DecorationBuilder.should_receive(:good).with(good) { :decorated_good }
 
+      good.stub(:all_entries_available_for_sale)
       get :show, id: 123
       assigns(:good).should == :decorated_good
       assigns(:item_images).should == :images

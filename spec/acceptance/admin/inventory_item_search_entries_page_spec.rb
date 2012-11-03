@@ -1,11 +1,10 @@
 require 'acceptance_spec_helper'
 
-feature "Adding and editing goods", js: true, search: true do
+feature "Adding Inventory Entries", js: true, search: true do
   before do
-    @admin_user = FactoryGirl.create(:admin_user)
-    FactoryGirl.create(:good_with_company)
-    @good = FactoryGirl.create(:good, user: @admin_user, company: @admin_user.company)
     login_into_admin
+    FactoryGirl.create(:good, company: @company)
+    @good = FactoryGirl.create(:good, user: @admin_user, company: @company)
   end
 
   context "existent inventory items" do
@@ -28,12 +27,16 @@ feature "Adding and editing goods", js: true, search: true do
   end
 
   context "inexistent inventory items" do
-    scenario "As a store admin, I'd like add new item to the inventory", focus: true do
-      visit new_good_or_entry_admin_inventory_goods_path
+    scenario "As a store admin, I'd like add new item to the inventory" do
+      click_link "Estoque"
+      click_link "Adicionar item"
 
-      fill_in "search_inventory_items", with: "Backpack"
-      wait_until { click_link "Criar um novo item" }
-      page.has_content?("Nome do bem ou mercadoria")
+      fill_in "search_inventory_items", with: "My backpack"
+      find("#search_inventory_items").value.should == "My backpack"
+
+      wait_until(30) { page.has_content?("Criar um novo item") }
+      click_link "Criar um novo item"
+      wait_until(30) { page.has_content?("Nome do item ou mercadoria") }
 
       fill_in "inventory_item_name", with: "Chocolate Cookies"
       fill_in "good_description", with: "Yammy Cookies"

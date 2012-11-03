@@ -43,9 +43,9 @@ describe Admin::InventoryEntryDecorator do
   end
 
   describe "#created_at" do
-    it "should the date in the 14/04/2012 format" do
+    it "should the date in the 14/04 format" do
       @inventory_entry.stub(:created_at) { attributes[:created_at] }
-      @presenter.created_at.should == "14/04/2012"
+      @presenter.created_at.should == "14/04"
     end
   end
 end

@@ -2,7 +2,7 @@
 require 'acceptance_spec_helper'
 
 feature "Store catalog's front-page" do
-  before do
+  background do
     @company_one = FactoryGirl.create(:company, name: "ACME", handle: "ACME")
     @company_two = FactoryGirl.create(:company, name: "Easy Company", handle: "two")
 

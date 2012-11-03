@@ -87,7 +87,7 @@ class InventoryItemsSearch
       @add_good_button_timer = setTimeout ( =>
         if @can_show_add_item_button()
           @show_proper_creation_explanation_text()
-          $(".add_new_good_button").fadeIn(800)
+          $(".add_new_good_button").fadeIn(400)
 
       ), @show_good_button_time
     else

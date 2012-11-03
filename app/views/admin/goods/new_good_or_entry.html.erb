@@ -19,6 +19,7 @@
         <input
           type="text"
           name="search_inventory_items"
+          id="search_inventory_items"
           class="search"
           value=""
           data-path="<%= for_adding_entry_admin_inventory_search_path %>"
@@ -43,7 +44,8 @@
       <div class="button">
         <%= small_button new_admin_inventory_good_path,
               text: "Criar um novo item",
-              image: 'admin/icons/plus_16.png' %>
+              image: 'admin/icons/plus_16.png',
+              class: "round_icon" %>
       </div>
       <div class="explanation with_search_results">
         Selecione acima um dos itens já existentes ou crie um novo.

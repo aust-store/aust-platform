@@ -3,6 +3,11 @@ module Admin
     decorates :good
 
     include ::ActionView::Helpers::NumberHelper
+    include ::ActionView::Helpers::OutputSafetyHelper
+
+    def description
+      raw good.description.gsub("\n", "<br />")
+    end
 
     def has_image?
       good.images.present?

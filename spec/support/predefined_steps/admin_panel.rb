@@ -1,6 +1,7 @@
 module AcceptanceSteps
   def login_into_admin
     @admin_user ||= FactoryGirl.create(:admin_user)
+    @company = @admin_user.company
     visit "/admin_users/sign_in"
 
     within("form#new_admin_user") do

@@ -8,7 +8,7 @@ gem 'devise', '2.0.4'
 gem 'cancan'
 
 gem 'simple_form', "~> 2.0.0"
-gem 'draper', '0.11.0'
+gem 'draper'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,16 +30,17 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara', '1.1.2'
-  gem 'capybara-webkit', '0.12.1'
+  gem 'capybara'
+  gem 'poltergeist'
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'factory_girl', '~> 4.0'
   gem 'launchy', '2.0.5'
-  gem 'database_cleaner', '0.7.1'
+  gem 'database_cleaner'
 end
 
 gem 'inherited_resources'
+gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
 
 gem 'mini_magick'
 gem 'carrierwave'

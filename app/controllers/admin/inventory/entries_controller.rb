@@ -30,6 +30,20 @@ module Admin
         end
       end
 
+      def update
+        good = current_company.items.find(params[:good_id])
+        entry = good.balances.find(params[:id])
+        if entry.update_attributes(params[:inventory_entry])
+          respond_to do |format|
+            format.js { render json: good, status: 200 }
+          end
+        else
+          respond_to do |format|
+            format.js { render json: good, status: 400 }
+          end
+        end
+      end
+
     private
 
       def load_good
@@ -45,12 +59,14 @@ module Admin
 
       def sanitize_params
         good_params = params[:inventory_entry]
-        cost_per_unit = ::Store::Currency.to_float good_params[:cost_per_unit]
+        if good_params[:cost_per_unit].present?
+          cost_per_unit = ::Store::Currency.to_float good_params[:cost_per_unit]
 
-        if cost_per_unit == 0.0
-          params[:inventory_entry][:cost_per_unit] = ""
-        else
-          params[:inventory_entry][:cost_per_unit] = cost_per_unit
+          if cost_per_unit == 0.0
+            params[:inventory_entry][:cost_per_unit] = ""
+          else
+            params[:inventory_entry][:cost_per_unit] = cost_per_unit
+          end
         end
       end
     end

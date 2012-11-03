@@ -16,7 +16,7 @@ describe Store::ItemPrice do
 
   describe "#entry_for_sale" do
     it "returns the item's first inventory entry" do
-      item.stub_chain(:balances, :first) { :first }
+      item.stub(:entry_for_sale) { :first }
 
       item_price = Store::ItemPrice.new(item)
       expect(item_price.entry_for_sale).to eql(:first)
