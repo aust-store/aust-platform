@@ -4,9 +4,7 @@ describe Admin::GoodsController do
   login_admin
 
   it_obeys_the "admin application controller contract"
-  # FIXME: should we add the contracts?
-  #it_obeys_the "Decoration Builder contract"
-  #it_obeys_the "Good model contract"
+  it_obeys_the "Decoration Builder contract"
 
   describe "#index" do
     it "assigns all goods as @goods" do

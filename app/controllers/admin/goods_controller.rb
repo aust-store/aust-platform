@@ -35,7 +35,6 @@ class Admin::GoodsController < Admin::ApplicationController
   end
 
   def update
-    # TODO remove this logic from the controller
     @good = current_company.items.find params[:id]
     if @good.update_attributes params[:good]
       if remotipart_submitted?

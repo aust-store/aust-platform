@@ -44,6 +44,11 @@
     <div class="section description">
       <% if @good.description.present? %>
         <p><b>Descrição:</b> <%= @good.description %></p>
+      <% else %>
+        <p>
+          Sem descrição.
+          <%= link_to "Crie uma", edit_admin_inventory_good_path(@good) %>.
+        </p>
       <% end %>
       <% if @good.reference.present? %>
         <p> <b>Referência:</b> <%= @good.reference %> </p>
@@ -95,40 +100,14 @@
   <div class="column_pane_half right">
     <div class="section inventory_entries update_on_sale">
       <h2>Estoque & vendas</h2>
-      <p>
-        Selecione as entradas no estoque deste item devem ser postos à venda:
-      </p>
 
-      <p>
-      <table class="sub_listing listing">
-      <% @inventory_entries.each do |entry| %>
-        <tr>
-          <td>
-            <%= check_box_tag :on_sale,
-                  1,
-                  entry.on_sale?,
-                  class: "inventory_entry_on_sale on_sale_#{entry.id}",
-                  data: {
-                    url: admin_inventory_good_entry_url(good_id: @good,
-                                                        id: entry.id)
-                  } %>
-          </td>
-          <td>
-            <%= entry.created_at %>
-          </td>
-          <td>
-            preço <%= entry.price %>
-          </td>
-          <td>
-            <%= entry.quantity %> un.
-          </td>
-        </tr>
+      <% if @inventory_entries.size == 0 %>
+        <%= render partial: "show_no_entry" %>
+      <% elsif @inventory_entries.size == 1 %>
+        <%= render partial: "show_one_entry" %>
+      <% elsif @inventory_entries.size > 1 %>
+        <%= render partial: "show_more_entries" %>
       <% end %>
-      </table>
-      </p>
-
-      <%= small_button new_admin_inventory_good_entry_path(@good), text: "Nova entrada", :image => 'admin/icons/plus_16.png', class: "round_icon" %>
-      <%= small_button admin_inventory_good_entries_path(@good), text: "Ver estoque" %>
     </div>
 
     <div class="section">
