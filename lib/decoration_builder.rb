@@ -1,6 +1,6 @@
 class DecorationBuilder
-  def self.good(good)
-    Admin::GoodDecorator.decorate(good)
+  def self.inventory_items(item)
+    Admin::InventoryItemDecorator.decorate(item)
   end
 
   def self.inventory_entries(entries)

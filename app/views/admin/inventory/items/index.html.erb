@@ -1,0 +1,30 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1>Estoque</h1>
+</header>
+
+<div class="main_container">
+  <table class="listing">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Total em estoque</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @items.present? %>
+      <% @items.each do |item| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
+        <td><%= item.last_balance.try(:total_quantity) %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= small_button new_item_or_entry_admin_inventory_items_path, text: "Adicionar item", image: 'admin/icons/plus_16.png', class: "round_icon" %>
+</div>

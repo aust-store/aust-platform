@@ -12,11 +12,11 @@ Store::Application.routes.draw do
     end
 
     resource :inventory do
-      resources :goods do
+      resources :items, controller: 'inventory/items' do
         collection do
-          get 'new_good_or_entry'
+          get 'new_item_or_entry'
 
-          resource :search, controller: 'goods/search', only: [] do
+          resource :search, controller: 'inventory/items/search', only: [] do
             post "index"
             post "for_adding_entry"
           end
@@ -25,7 +25,8 @@ Store::Application.routes.draw do
         resources :entries, controller: 'inventory/entries',
           only: [:index, :new, :create, :update]
 
-        resources :images, controller: 'goods/images', only: [:index, :destroy, :create, :update]
+        resources :images, controller: 'inventory/items/images',
+          only: [:index, :destroy, :create, :update]
       end
     end
 

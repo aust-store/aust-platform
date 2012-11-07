@@ -1,11 +1,11 @@
 <%= render partial: "layouts/admin/nav_history",
-           locals: { 
-             back_to: admin_inventory_good_path(@good),
-             text: "Voltar a #{@good.name}"
+           locals: {
+             back_to: admin_inventory_item_path(@item),
+             text: "Voltar a #{@item.name}"
            } %>
 
 <header>
-  <h1>Entradas no estoque: <%= @good.name %></h1>
+  <h1>Entradas no estoque: <%= @item.name %></h1>
 </header>
 
 <div class="main_container">
@@ -51,7 +51,7 @@
 
   <br />
 
-  <%= small_button new_admin_inventory_good_entry_path,
+  <%= small_button new_admin_inventory_item_entry_path,
         text:  "Adicionar entrada deste item no estoque",
         image: "admin/icons/plus_16.png",
         class: "round_icon" %>

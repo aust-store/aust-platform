@@ -6,12 +6,12 @@
 //
 // For exampleL
 //
-//   function goodPriceCallback(value) { // do something }
+//   function itemPriceCallback(value) { // do something }
 //
-//   observerCallbacks.add("item.price", goodPriceCallback);
+//   observerCallbacks.add("item.price", itemPriceCallback);
 //
 // This way, whenever item.price is going to be modified by modelObserver,
-// goodPriceCallback is called.
+// itemPriceCallback is called.
 //
 function modelObserverCallbacks(){}
 

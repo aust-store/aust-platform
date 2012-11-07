@@ -7,7 +7,7 @@ describe Store::ItemsForSale do
 
     # TODO define contracts with controller
     it "returns items from the current store" do
-      store.stub(:distinct_goods) { [1, 2, 3] }
+      store.stub(:distinct_items) { [1, 2, 3] }
       controller.stub(:current_store) { store }
 
       items = Store::ItemsForSale.new(controller).items_for_homepage

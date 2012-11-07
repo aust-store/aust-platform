@@ -5,25 +5,25 @@ module Admin
       before_filter :load_entries_summary, only: [:new, :edit, :create]
 
       def index
-        # TODO load_good has no tests (e.g mock Good.where)
+        # TODO load_item has no tests (e.g mock item.where)
 
-        load_good
-        @entries = Admin::InventoryEntryDecorator.decorate(@good.balances)
+        load_item
+        @entries = Admin::InventoryEntryDecorator.decorate(@item.balances)
       end
 
       def new
-        load_good
-        entry = @good.balances.build
-        @entry = Admin::InventoryEntryDecorator.decorate(entry)
+        load_item
+        entry = @item.balances.build
+        @entry = entry # Admin::InventoryEntryDecorator.decorate(entry)
       end
 
       def create
-        load_good
-        @entry = @good.balances.build params[:inventory_entry]
+        load_item
+        @entry = @item.balances.build params[:inventory_entry]
         @entry.store_id = current_company.id
         @entry.balance_type = "in"
         if @entry.save
-          redirect_to admin_inventory_good_entries_url(@entry.good)
+          redirect_to admin_inventory_item_entries_url(@entry.inventory_item)
         else
           @entry = Admin::InventoryEntryDecorator.decorate(@entry)
           render "new"
@@ -31,36 +31,36 @@ module Admin
       end
 
       def update
-        good = current_company.items.find(params[:good_id])
-        entry = good.balances.find(params[:id])
+        item = current_company.items.find(params[:item_id])
+        entry = item.balances.find(params[:id])
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
-            format.js { render json: good, status: 200 }
+            format.js { render json: item, status: 200 }
           end
         else
           respond_to do |format|
-            format.js { render json: good, status: 400 }
+            format.js { render json: item, status: 400 }
           end
         end
       end
 
     private
 
-      def load_good
-        @good ||= current_company.items.find(params[:good_id])
-        raise "This doesn't belong to you" if @good.nil?
-        @good
+      def load_item
+        @item ||= current_company.items.find(params[:item_id])
+        raise "This doesn't belong to you" if @item.nil?
+        @item
       end
 
       def load_entries_summary
-        last_entries = load_good.balances.order("id desc").last(6)
+        last_entries = load_item.balances.order("id desc").last(6)
         @last_entries = Admin::InventoryEntryDecorator.decorate(last_entries)
       end
 
       def sanitize_params
-        good_params = params[:inventory_entry]
-        if good_params[:cost_per_unit].present?
-          cost_per_unit = ::Store::Currency.to_float good_params[:cost_per_unit]
+        item_params = params[:inventory_entry]
+        if item_params[:cost_per_unit].present?
+          cost_per_unit = ::Store::Currency.to_float item_params[:cost_per_unit]
 
           if cost_per_unit == 0.0
             params[:inventory_entry][:cost_per_unit] = ""

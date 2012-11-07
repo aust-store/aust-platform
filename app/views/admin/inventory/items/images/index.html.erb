@@ -1,0 +1,49 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_inventory_item_path(@item),
+             text: "Voltar a #{@item.name}"
+           } %>
+
+<header>
+  <h1>Gerenciar imagens</h1>
+  <p>Você está vendo imagens do item <%= @item.name %></p>
+</header>
+
+<span class="form_loading_section">
+  <div class="main_container">
+    <% if notice %>
+      <p id="notice"><%= notice %></p>
+    <% end %>
+
+    <div>
+      <p>
+        Envia uma nova imagem para este item. As imagens aparecem automaticamente
+        na sua loja virtual.
+      </p>
+      <%= simple_form_for(
+            :item,
+            url: admin_inventory_item_images_path,
+            html: { multipart: true,
+                    class: "form-upload image" },
+            remote: true
+      ) do |f| %>
+        <%= f.simple_fields_for :images, @item.images.last do |image_form| %>
+          <%= image_form.file_field :image %>
+          <br /><br />
+          <%= f.submit  'Enviar arquivos' %>
+        <% end %>
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <span class="images_container_for_ajax" id="js_image_management">
+    <% if @item_images.present? %>
+      <div class='images'>
+        <%= render partial: "shared/images", locals: { images: @item_images } %>
+      </div>
+    <% end %>
+  </span>
+
+</span>

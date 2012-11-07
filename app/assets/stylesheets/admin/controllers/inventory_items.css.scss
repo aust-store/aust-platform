@@ -35,7 +35,7 @@
   }
 }
 
-.search_existent_good {
+.search_existent_item {
   width: 680px;
   margin: 20px auto;
 
@@ -59,13 +59,13 @@
     }
   }
 
-  .add_new_good_button {
+  .add_new_item_button {
     width: 550px;
     margin: 30px auto 15px auto;
     text-align: right;
     clear: both;
 
-    .add_new_good_button_container {
+    .add_new_item_button_container {
       width: 140px;
       display: block;
       float: right;

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031011538) do
+ActiveRecord::Schema.define(:version => 20121106223719) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -87,30 +87,6 @@ ActiveRecord::Schema.define(:version => 20121031011538) do
 
   add_index "customers", ["company_id"], :name => "index_customers_on_company_id"
 
-  create_table "good_images", :force => true do |t|
-    t.integer  "good_id"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.string   "image"
-    t.boolean  "cover",      :default => false
-  end
-
-  add_index "good_images", ["cover"], :name => "index_good_images_on_cover"
-  add_index "good_images", ["good_id"], :name => "index_good_images_on_good_id"
-
-  create_table "goods", :force => true do |t|
-    t.integer  "company_id"
-    t.string   "name"
-    t.text     "description"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.integer  "inventory_id"
-    t.string   "reference"
-    t.integer  "admin_user_id"
-  end
-
-  add_index "goods", ["company_id"], :name => "index_goods_on_company_id"
-
   create_table "inventories", :force => true do |t|
     t.integer  "company_id"
     t.datetime "created_at", :null => false
@@ -118,7 +94,7 @@ ActiveRecord::Schema.define(:version => 20121031011538) do
   end
 
   create_table "inventory_entries", :force => true do |t|
-    t.integer  "good_id"
+    t.integer  "inventory_item_id"
     t.integer  "admin_user_id"
     t.string   "balance_type"
     t.text     "description"
@@ -135,9 +111,33 @@ ActiveRecord::Schema.define(:version => 20121031011538) do
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
-  add_index "inventory_entries", ["good_id"], :name => "index_good_balances_on_good_id"
+  add_index "inventory_entries", ["inventory_item_id"], :name => "index_good_balances_on_good_id"
   add_index "inventory_entries", ["on_sale"], :name => "index_inventory_entries_on_on_sale"
   add_index "inventory_entries", ["store_id"], :name => "index_inventory_entries_on_store_id"
+
+  create_table "inventory_item_images", :force => true do |t|
+    t.integer  "inventory_item_id"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.string   "image"
+    t.boolean  "cover",             :default => false
+  end
+
+  add_index "inventory_item_images", ["cover"], :name => "index_good_images_on_cover"
+  add_index "inventory_item_images", ["inventory_item_id"], :name => "index_good_images_on_good_id"
+
+  create_table "inventory_items", :force => true do |t|
+    t.integer  "company_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "inventory_id"
+    t.string   "reference"
+    t.integer  "admin_user_id"
+  end
+
+  add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
 
   create_table "order_items", :force => true do |t|
     t.integer  "inventory_item_id"

@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   // Item has one entry
   if ($("#stop_selling_item").length > 0){
-    observerCallbacks.add("good.price", saveCurrentOnSaleStatusCallback);
+    observerCallbacks.add("item.price", saveCurrentOnSaleStatusCallback);
     saveCurrentOnSaleStatusCallback($("#stop_selling_item").data("on-sale") == "1");
   }
 

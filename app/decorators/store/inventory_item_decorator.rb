@@ -1,12 +1,12 @@
 module Store
   class InventoryItemDecorator < ApplicationDecorator
-    decorates :good
+    decorates :inventory_item
     decorates_association :balances, with: Admin::InventoryEntryDecorator
 
     include ::ActionView::Helpers::NumberHelper
 
     def images
-      good.images
+      inventory_item.images
     end
 
     def price

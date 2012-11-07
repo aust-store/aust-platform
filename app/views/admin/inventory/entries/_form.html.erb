@@ -1,5 +1,7 @@
 <div class="form_container">
-  <%= simple_form_for(@entry, url: admin_inventory_good_entries_path) do |f| %>
+  <% # simple_form_for([:admin, @entry]) do |f| %>
+  <%= simple_form_for(@entry,
+                      url: admin_inventory_item_entries_path(item_id: @item.id)) do |f| %>
     <% if @entry.errors.any? %>
       <div class="error_explanation">
         <p>

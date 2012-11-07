@@ -2,8 +2,6 @@ require "spec_helper"
 
 describe Store::HomeController do
   describe "GET index" do
-    let(:company) { double(list_goods: :goods) }
-
     before do
       Store::ItemsForSale.stub(:new).with(controller) { double(items_for_homepage: :entries) }
     end

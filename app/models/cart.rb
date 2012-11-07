@@ -29,7 +29,7 @@ class Cart < ActiveRecord::Base
       price: entry.price,
       quantity: 1,
       inventory_entry: entry,
-      inventory_item: entry.good
+      inventory_item: entry.inventory_item
     )
 
     items << item

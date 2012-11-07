@@ -17,8 +17,12 @@ describe InventoryEntry do
 
     context "when adding to existing balance" do
       before do
-        FactoryGirl.create(:inventory_entry, good: @good, quantity: 10, cost_per_unit: 20)
-        @resource = FactoryGirl.build(:inventory_entry, good: @good, quantity: 10, cost_per_unit: 40)
+        FactoryGirl.create(:inventory_entry, inventory_item: nil,
+                           quantity: 10, cost_per_unit: 20)
+        @resource = FactoryGirl.build(:inventory_entry,
+                                      inventory_item: nil,
+                                      quantity: 10,
+                                      cost_per_unit: 40)
       end
 
       it "should have the correct values" do

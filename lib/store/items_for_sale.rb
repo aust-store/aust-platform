@@ -5,7 +5,7 @@ module Store
     end
 
     def items_for_homepage
-      entries = current_store.distinct_goods
+      entries = current_store.distinct_items
     end
 
     def item_for_cart

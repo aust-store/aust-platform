@@ -4,7 +4,7 @@ require "acceptance_spec_helper"
 feature "Store cart" do
   before do
     @company = FactoryGirl.create(:company)
-    @product = FactoryGirl.create(:good, company: @company)
+    @product = FactoryGirl.create(:inventory_item, company: @company)
   end
 
   describe "an empty cart" do

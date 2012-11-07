@@ -1,13 +1,13 @@
 class InventoryEntry < ActiveRecord::Base
   belongs_to :store, foreign_key: "store_id", class_name: "Company"
-  belongs_to :good
+  belongs_to :inventory_item
   belongs_to :admin_user
 
-  attr_accessible :good_id, :description, :quantity, :cost_per_unit, :good,
+  attr_accessible :inventory_item_id, :description, :quantity, :cost_per_unit, :inventory_item,
                   :admin_user_id, :balance_type, :moving_average_cost,
                   :total_quantity, :total_cost, :store_id, :price, :on_sale
 
-  accepts_nested_attributes_for :good
+  accepts_nested_attributes_for :inventory_item
 
   validates :price, presence: true
   validates :cost_per_unit, presence: true
@@ -30,7 +30,9 @@ class InventoryEntry < ActiveRecord::Base
   class OutOfStock < StandardError; end
 
   def define_new_balance_values
-    past_balances = InventoryEntry.where(good_id: good_id).where("quantity > 0").all
+    past_balances = InventoryEntry.where(inventory_item_id: inventory_item_id)
+                                  .where("quantity > 0")
+                                  .all
     balance = Store::DomainObject::Balance.new([self] + past_balances)
 
     self.total_quantity      = balance.total_quantity

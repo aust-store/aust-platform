@@ -1,0 +1,63 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_inventory_items_path,
+             text: "Voltar ao estoque"
+           } %>
+
+
+<div class="main_container" data-input-focus="true">
+
+  <div class="search_existent_item">
+    <div class="input">
+      <h1>Digite o nome do item a ser acrescentado</h1>
+
+      <form
+        id="inventory_item_search"
+        data-ajax=<%= new_admin_inventory_item_path %>
+        data-complete="#main" >
+
+        <input
+          type="text"
+          name="search_inventory_items"
+          id="search_inventory_items"
+          class="search"
+          value=""
+          data-path="<%= for_adding_entry_admin_inventory_search_path %>"
+          data-new-item-path="<%= new_admin_inventory_item_path %>"
+        />
+      </form>
+
+      <!--
+      <span class="hint">
+        Se o bem ou mercadoria já existe, você só precisa cadastrar
+        a quantidade que está entrando no estoque.
+      </span>
+      -->
+  </div>
+
+  <div class="search_results">
+
+  </div>
+
+  <div id="add_new_item_button" class="add_new_item_button">
+    <div class="add_new_item_button_container">
+      <div class="button">
+        <%= small_button new_admin_inventory_item_path,
+              text: "Criar um novo item",
+              image: 'admin/icons/plus_16.png',
+              class: "round_icon" %>
+      </div>
+      <div class="explanation with_search_results">
+        Selecione acima um dos itens já existentes ou crie um novo.
+      </div>
+      <div class="explanation without_search_results">
+        Se o item não existe ainda, crie um novo.
+      </div>
+    </div>
+  </div>
+
+  <div class="form">
+    <% # render 'form' %>
+  </div>
+
+</div>

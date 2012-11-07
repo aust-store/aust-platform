@@ -2,9 +2,9 @@ require "decoration_builder"
 
 shared_examples "Decoration Builder contract" do
   describe "DecorationBuilder" do
-    it "responds to good" do
+    it "responds to inventory_items" do
       expect do
-        DecorationBuilder.good(double)
+        DecorationBuilder.inventory_items(double)
       end.to_not raise_error NoMethodError
     end
 

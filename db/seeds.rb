@@ -5,10 +5,10 @@ if Rails.env.development?
                                             password: "123456",
                                             company_id: store.id)
 
-  item = Good.find_or_create_by_name(name: "T-Shirt Apple",
-                                     admin_user_id: admin.id,
-                                     company_id: store.id)
-  entry = InventoryEntry.create(good_id: item.id,
+  item = InventoryItem.find_or_create_by_name(name: "T-Shirt Apple",
+                                              admin_user_id: admin.id,
+                                              company_id: store.id)
+  entry = InventoryEntry.create(item_id: item.id,
                                 store_id: store.id,
                                 admin_user_id: admin.id,
                                 balance_type: "in",

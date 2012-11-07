@@ -1,3 +1,3 @@
-<h1><%= @product.good.name %></h1>
+<h1><%= @product.inventory_item.name %></h1>
 
 <%= link_to "Comprar", store_cart_items_path(id: @product.id), method: :post %>

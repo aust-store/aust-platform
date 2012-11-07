@@ -1,0 +1,29 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: { 
+             back_to: admin_inventory_items_path
+           } %>
+
+<header>
+  <h1><%= @item.name %></h1>
+</header>
+
+<div class="main_container">
+
+<% # render 'form' %>
+
+<%= simple_form_for(@item, url: admin_inventory_item_path) do |f| %>
+  <%= f.input :name,
+        label: "Nome",
+        hint:  "Nome único do item. Se sua dimensão é um identificador, utilize-o.",
+        placeholder: "ex.: parafuso 1cm" %>
+  <%= f.input :description,
+        label: "Descrição" %>
+  <%= f.input :reference,
+        label: "Código de referência",
+        hint:  "Se você possui um código que identifique este produto internamente." %>
+  <%= f.submit "Salvar item" %> ou
+  <%= link_to "cancelar", "javascript: history.back()" %>
+
+<% end %>
+
+</div>

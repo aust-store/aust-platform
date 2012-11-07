@@ -1,8 +1,8 @@
 $(document).ready(function(){
-  observerCallbacks.add("good.price", goodPriceCallback);
+  observerCallbacks.add("item.price", itemPriceCallback);
 });
 
-function goodPriceCallback(priceValue){
+function itemPriceCallback(priceValue){
   if (priceValue == ""){
     $(".current_price .not_on_sale").css("display", "block");
     $(".current_price .on_sale").hide();

@@ -6,8 +6,8 @@ feature "Store catalog's front-page" do
     @company_one = FactoryGirl.create(:company, name: "ACME", handle: "ACME")
     @company_two = FactoryGirl.create(:company, name: "Easy Company", handle: "two")
 
-    @good_one = FactoryGirl.create(:good, company: @company_one)
-    @good_two = FactoryGirl.create(:good_two, company: @company_two)
+    @item_one = FactoryGirl.create(:inventory_item, company: @company_one)
+    @item_two = FactoryGirl.create(:inventory_item_two, company: @company_two)
   end
 
   describe "Store listing" do
@@ -21,8 +21,8 @@ feature "Store catalog's front-page" do
 
       current_path.should == store_path(@company_one.handle)
 
-      page.should have_content(@good_one.name)
-      page.should_not have_content(@good_two.name)
+      page.should have_content(@item_one.name)
+      page.should_not have_content(@item_two.name)
     end
   end
 end

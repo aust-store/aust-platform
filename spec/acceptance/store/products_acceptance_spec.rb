@@ -3,7 +3,7 @@ require "acceptance_spec_helper"
 feature "Store products" do
   before do
     @company = FactoryGirl.create(:company)
-    @product = FactoryGirl.create(:good, company: @company)
+    @product = FactoryGirl.create(:inventory_item, company: @company)
   end
 
   describe "products details" do

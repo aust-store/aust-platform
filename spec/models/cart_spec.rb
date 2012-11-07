@@ -33,13 +33,13 @@ describe Cart do
     let(:cart) { Cart.new }
 
     it "creates the given item into the cart" do
-      entry = double(price: 1, good: :good)
+      entry = double(price: 1, inventory_item: :inventory_item)
 
       OrderItem.should_receive(:new)
                .with(price: 1,
                      quantity: 1,
                      inventory_entry: entry,
-                     inventory_item: :good)
+                     inventory_item: :inventory_item)
                .and_return(:new_item)
 
 

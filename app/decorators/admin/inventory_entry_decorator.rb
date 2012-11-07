@@ -1,6 +1,6 @@
 class Admin::InventoryEntryDecorator < ApplicationDecorator
   decorates :inventory_entry
-  decorates_association :good, with: Admin::GoodDecorator
+  decorates_association :inventory_item, with: Admin::InventoryItemDecorator
 
   include ::ActionView::Helpers::NumberHelper
 

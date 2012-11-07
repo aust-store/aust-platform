@@ -23,6 +23,6 @@ describe AdminUser do
       it { :password_confirmation.should_not be_blank }
     end
 
-    pending { should_not allow_mass_assignment_of(:password) }
+    it { should allow_mass_assignment_of(:password) }
   end
 end

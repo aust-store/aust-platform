@@ -2,15 +2,15 @@ require "decoration_builder"
 
 describe DecorationBuilder do
   before do
-    stub_const("Admin::GoodDecorator", Object.new)
+    stub_const("Admin::InventoryItemDecorator", Object.new)
   end
 
-  describe ".good" do
-    it "returns a decorated Good" do
-      good = double
-      Admin::GoodDecorator.stub(:decorate)
-                          .with(good) { :good }
-      DecorationBuilder.good(good).should == :good
+  describe ".item" do
+    it "returns a decorated InventoryItem" do
+      item = double
+      Admin::InventoryItemDecorator.stub(:decorate)
+                          .with(item) { :item }
+      DecorationBuilder.inventory_items(item).should == :item
     end
   end
 end

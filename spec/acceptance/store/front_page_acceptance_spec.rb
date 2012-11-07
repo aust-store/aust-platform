@@ -8,7 +8,7 @@ feature "Store's front-page" do
     inventory_entry_one   = FactoryGirl.create(:inventory_entry, price: 11.0)
     inventory_entry_two   = FactoryGirl.create(:inventory_entry, price: 23.0)
     inventory_entry_three = FactoryGirl.create(:inventory_entry, price: 12.0)
-    @good = FactoryGirl.create(:good, company: @company, balances: [
+    @item = FactoryGirl.create(:inventory_item, company: @company, balances: [
                                  inventory_entry_one,
                                  inventory_entry_two,
                                  inventory_entry_three
@@ -26,7 +26,7 @@ feature "Store's front-page" do
       end
 
       # the correct price is shown
-      page.should have_content @good.name
+      page.should have_content @item.name
       page.should have_content "R$ 23,00"
     end
   end
