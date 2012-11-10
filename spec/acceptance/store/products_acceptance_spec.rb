@@ -2,6 +2,7 @@ require "acceptance_spec_helper"
 
 feature "Store products" do
   before do
+    inventory_entry_one = FactoryGirl.create(:inventory_entry, price: 11.0)
     @company = FactoryGirl.create(:company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end
@@ -11,6 +12,11 @@ feature "Store products" do
       visit store_product_path(@company.handle, @product.balances.first)
 
       page.should have_content @product.name
+      page.should have_content @product.merchandising
+      page.should have_content @product.description
+      page.should have_content @product.price
+      page.should have_content @product.images.first.image
+
     end
   end
 

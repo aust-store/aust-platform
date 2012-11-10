@@ -2,7 +2,6 @@
   <% @items.each do |item| %>
      <div class="product">
 
-       <%= link_to store_product_path(id: item.balances.first.id) do %>
          <%= image_tag item.images.first.image.url(:medium), class:
                "image" unless item.images.blank? %>
          <div class="text">
@@ -16,7 +15,6 @@
              <%= item.price %>
            </div>
          </div>
-       <% end %>
        
      </div>
   <% end %>

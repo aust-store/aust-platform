@@ -3,6 +3,7 @@ FactoryGirl.define do
     association :user, factory: :admin_user
     sequence(:name) { |i| "Goodyear tire 4 inches ##{i}" }
     description "Lorem ipsum lorem"
+    merchandising "The best item ever!!"
 
     # images
     after(:create) do |item, evaluator|
