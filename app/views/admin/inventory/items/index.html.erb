@@ -1,15 +1,15 @@
 <%= render "layouts/admin/nav_history" %>
 
 <header>
-  <h1>Estoque</h1>
+  <h1><%= t ".title" %></h1>
 </header>
 
 <div class="main_container">
   <table class="listing">
     <thead>
       <tr>
-        <th>Nome</th>
-        <th>Total em estoque</th>
+        <th><%= t ".listing.name" %></th>
+        <th><%= t ".listing.total_in_stock" %></th>
       </tr>
     </thead>
     <tbody>
@@ -26,5 +26,8 @@
 
   <br />
 
-  <%= small_button new_item_or_entry_admin_inventory_items_path, text: "Adicionar item", image: 'admin/icons/plus_16.png', class: "round_icon" %>
+  <%= small_button new_item_or_entry_admin_inventory_items_path,
+        text: t(".add_item_button"),
+        image: 'admin/icons/plus_16.png',
+        class: "round_icon" %>
 </div>

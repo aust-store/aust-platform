@@ -1,0 +1,15 @@
+# encoding: utf-8
+pt_br:
+  simple_form:
+    labels:
+      defaults:
+        description: "Descrição"
+      inventory_entry:
+        quantity: "Quantidade"
+        cost_per_unit: "Custo por unidade"
+        price: "Preço de venda"
+    hints:
+      inventory_entry:
+        quantity: "Um número inteiro (ex.: 10, 55, 109)"
+        cost_per_unit: "Ex.: R$ 11,00"
+        price: "Ex.: R$ 14,00"

@@ -27,6 +27,7 @@ gem 'quiet_assets', :group => :development
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.11'
+  gem 'thin'
 end
 
 group :test do
@@ -37,6 +38,7 @@ group :test do
   gem 'factory_girl', '~> 4.0'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
+  gem 'timecop'
 end
 
 gem 'inherited_resources'
