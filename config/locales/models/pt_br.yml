@@ -12,6 +12,7 @@ pt_br:
       company:
         name: "Nome da empresa"
       inventory_entry:
+        description: "Descrição"
         cost_per_unit: "Custo unitário"
         quantity: "Quantidade"
         price: "Preço"
