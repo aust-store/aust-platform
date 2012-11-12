@@ -93,6 +93,7 @@ feature "Store's front-page" do
         page.has_css?("image_1")
         page.should have_content "R$ 30,00"
       end
+
       within(".product_2") do
         page.should have_content "Item 1"
         page.has_css?("image_2")
