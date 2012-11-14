@@ -4,9 +4,12 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :company
   has_many :balances, class_name: "InventoryEntry",
     order: "inventory_entries.created_at asc, inventory_entries.id asc"
-  has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
+  has_one :last_balance, class_name: "InventoryEntry",
+    order: "updated_at desc", readonly: true
   has_many :images, class_name: "InventoryItemImage"
+  has_one :shipping_box
 
+  accepts_nested_attributes_for :shipping_box
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
 
@@ -22,7 +25,7 @@ class InventoryItem < ActiveRecord::Base
       SELECT #{FIRST_ENTRY_FLAG}
       FROM inventory_entries
       WHERE inventory_entries.inventory_item_id=inventory_items.id
-      AND inventory_entries.on_sale = ? 
+      AND inventory_entries.on_sale = ?
       AND inventory_entries.quantity > 0
       LIMIT 1)", true)
     .where("inventory_entries.on_sale = ?", true)

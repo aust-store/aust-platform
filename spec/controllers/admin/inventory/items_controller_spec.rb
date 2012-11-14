@@ -30,16 +30,34 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "#new" do
+    let(:item) { double.as_null_object }
+
+    before do
+      InventoryItem.stub(:new) { item }
+    end
+
     it "should instantiate a item" do
-      InventoryItem.stub(:new) { :item }
       get :new
-      assigns(:item).should == :item
+      assigns(:item).should == item
+    end
+
+    it "builds a shipping box instance" do
+      item.should_receive(:build_shipping_box)
+      get :new
     end
   end
 
   describe "#edit" do
+    let(:items) { double }
+
+    before do
+      controller.should_receive(:load_item)
+    end
+
     it "should instantiate a given item" do
-      subject.stub_chain(:current_company, :items, :find).with("1") { :item }
+      DecorationBuilder.stub(:inventory_items).with(:item) { :item }
+      subject.stub_chain(:current_company, :items, :includes) { items }
+      items.stub(:find).with("1") { :item }
       get :edit, id: 1
       assigns(:item).should == :item
     end

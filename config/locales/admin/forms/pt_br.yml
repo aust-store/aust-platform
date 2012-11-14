@@ -21,6 +21,11 @@ pt_br:
         name: "Nome do item ou mercadoria"
         merchandising: "Merchandising"
         reference: "Código de referência"
+      shipping_box:
+        length: "Comprimento"
+        width: "Largura"
+        height: "Altura"
+        weight: "Peso"
     hints:
       inventory_entry:
         quantity: "Um número inteiro (ex.: 10, 55, 109)"
@@ -32,3 +37,8 @@ pt_br:
     placeholders:
       inventory_item:
         name: "ex.: Parafuso 1cm"
+      shipping_box:
+        length: "Entre o valor em centímetros (cm)."
+        width: "Entre o valor em centímetros (cm)."
+        height: "Entre o valor em centímetros (cm)."
+        weight: "Entre o valor em quilos (kg)."

@@ -18,10 +18,12 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def new
     @item = current_company.items.new(name: params[:new_item_name])
+    @item.build_shipping_box
   end
 
   def edit
-    @item = current_company.items.find params[:id]
+    @item = current_company.items.includes(:shipping_box).find(params[:id])
+    @item = DecorationBuilder.inventory_items(@item)
   end
 
   def create

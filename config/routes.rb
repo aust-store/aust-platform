@@ -1,5 +1,7 @@
 Store::Application.routes.draw do
 
+  resources :shipping_boxes
+
   devise_for :admin_users,
     controllers: {
       registrations: "admin/devise/registrations",
