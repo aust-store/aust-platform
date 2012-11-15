@@ -1,6 +1,6 @@
 <div class="main_container">
 
-  <%= simple_form_for(@user) do |f| %>
+  <%= simple_form_for(@user, html: {autocomplete: :off}) do |f| %>
 
     <%= f.input :name, label: "Nome" %>
 
