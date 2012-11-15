@@ -6,7 +6,7 @@ describe AdminUser do
 
   describe "validations" do
     context "when valid resource" do
-      it { should validate_uniqueness_of(:name) }
+      it { should validate_uniqueness_of(:name).scoped_to(:company_id) }
       it { should allow_value("a@b.com").for(:email) }
       it { should validate_uniqueness_of(:email) }
       it { should allow_value(123456).for(:password) }
