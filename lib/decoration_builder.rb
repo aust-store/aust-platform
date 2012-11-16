@@ -6,4 +6,8 @@ class DecorationBuilder
   def self.inventory_entries(entries)
     Admin::InventoryEntryDecorator.decorate(entries)
   end
+
+  def self.shipping_box(shipping_box)
+    Admin::ShippingBoxDecorator.decorate(shipping_box)
+  end
 end
