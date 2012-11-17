@@ -19,7 +19,9 @@ module Store
     config.generators do |g|
       g.view_specs false
       g.helpers_specs false
-      g.helpers false
+      g.helper false
+      g.stylesheets false
+      g.javascripts false
     end
 
     # Custom directories with classes and modules you want to be autoloadable.
