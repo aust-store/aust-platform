@@ -43,9 +43,11 @@ end
 
 gem 'inherited_resources'
 gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
+gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
 
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
+gem 'correios', '0.6.0'
 
 gem 'capistrano', '2.13.5'

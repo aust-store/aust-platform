@@ -1,7 +1,5 @@
 Store::Application.routes.draw do
 
-  resources :shipping_boxes
-
   devise_for :admin_users,
     controllers: {
       registrations: "admin/devise/registrations",
@@ -12,6 +10,8 @@ Store::Application.routes.draw do
     resource :dashboard, controller: "dashboard" do
       get 'index' => 'dashboard#index'
     end
+
+    resources :settings
 
     resource :inventory do
       resources :items, controller: 'inventory/items' do
