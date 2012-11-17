@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~>3.2'
+gem 'rails', '~>3.2.9'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'

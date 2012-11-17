@@ -11,7 +11,7 @@ Store::Application.routes.draw do
       get 'index' => 'dashboard#index'
     end
 
-    resources :settings
+    resource :settings, only: [:show, :update]
 
     resource :inventory do
       resources :items, controller: 'inventory/items' do
