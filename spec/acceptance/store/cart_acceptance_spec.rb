@@ -22,7 +22,7 @@ feature "Store cart" do
       inventory_entry = @product.balances.first
       3.times do
         visit store_product_path(@company.handle, inventory_entry)
-        click_link "Comprar"
+        click_link "Adicionar ao carrinho"
       end
 
       OrderItem.count.should == 1

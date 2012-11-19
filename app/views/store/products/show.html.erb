@@ -1,23 +1,43 @@
-<div class="product">
+<div class="main_container">
+  <div class="product_details">
+    <div class="product">
+      <div class="title">
+        <h1><%= @product.name %></h1>
+      </div>
 
-  <div class="title">
-    <h2><%= @product.inventory_item.name %></h2>
-  </div>
+      <div class="merchandising">
+        <h3><%= @product.merchandising %></h3>
+      </div>
+      <% unless @product.images.blank? %>
+        <div class="images">
+          <div class="cover">
+            <%= image_tag @product.images.first.image.url(:big), class:
+                "image" %>
+          </div>
+          <% if @product.images.count > 1  %>
+            <div class="divisor"></div>
+            <div class="small_images">
+              <% @product.images.each do |image| %>
+                <%= image_tag image.image.url(:thumb), class:
+                    "image" unless image.cover == true %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
 
-  <div class="merchandising">
-    <%= @product.inventory_item.merchandising %>
-  </div>
+      <div class="text">
+        <div class="description">
+          <%= @product.description %>
+        </div>
 
-  <%= image_tag @product.inventory_item.images.first.image.url(:medium), class:
-      "image" unless @product.inventory_item.images.blank? %>
+        <div class="price">
+          <%= "Apenas " + @product.price unless @product.price.blank? %>
+        </div>
 
-  <div class="description">
-    <%= @product.inventory_item.description %>
-  </div>
-
-  <div class="price">
-   <%= @product.inventory_item.price %>
+        <div class="button"><%= link_to "Adicionar ao carrinho",store_cart_items_path(id: @product.balances.first), method: :post %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<%= link_to "Comprar", store_cart_items_path(id: @product.id), method: :post %>

@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/josevalim/active_model_serializers.git
+  remote: git://github.com/rails-api/active_model_serializers.git
   revision: 9f5e1b1776b67e2a601b0205fbba705a0cde55e6
   specs:
     active_model_serializers (0.5.2)
@@ -53,9 +53,6 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    capybara-webkit (0.12.1)
-      capybara (>= 1.0.0, < 1.2)
-      json
     carrierwave (0.7.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -231,7 +228,6 @@ DEPENDENCIES
   cancan
   capistrano (= 2.13.5)
   capybara
-  capybara-webkit
   carrierwave
   coffee-rails (~> 3.2.1)
   database_cleaner

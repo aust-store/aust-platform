@@ -29,4 +29,26 @@ describe Store::ItemsForSale do
       items.should == :entry
     end
   end
+
+  describe "#detailed_item_for_show_page" do
+    let(:store) { double }
+    let(:controller) { double(current_store: store) }
+
+    it "returns a detailed item for a given id" do
+      entries_model = double
+      entry = double
+      product = double
+      item = double(id: :id)
+
+      store.stub(:inventory_entries) { entries_model }
+      entries_model.stub(:find).with(2) { entry }
+      entry.stub(:inventory_item) { item }
+      store.stub(:detailed_item).with(:id) { product }
+      controller.stub(:params) { {id: 2} }
+
+      detailed_item = Store::ItemsForSale.new(controller).detailed_item_for_show_page
+      detailed_item.should == product
+    end
+  end
+
 end

@@ -14,8 +14,9 @@ feature "Store products" do
       page.should have_content @product.name
       page.should have_content @product.merchandising
       page.should have_content @product.description
-      page.should have_content @product.price
+      page.should have_content "R$ 20,0"
       page.should have_content @product.images.first.image
+      page.should have_content @product.images.last.image
 
     end
   end
@@ -24,7 +25,7 @@ feature "Store products" do
     scenario "As an user, I can add a product to the cart" do
       visit store_product_path(@company.handle, @product.balances.first)
 
-      click_link "Comprar"
+      click_link "Adicionar ao carrinho"
       current_path.should == store_cart_path(@company)
       page.should have_content @product.name
     end
