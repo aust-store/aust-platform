@@ -14,12 +14,11 @@
             <%= image_tag @product.images.first.image.url(:big), class:
                 "image" %>
           </div>
-          <% if @product.images.count > 1  %>
-            <div class="divisor"></div>
+          <% if @product.images.count > 1 %>
             <div class="small_images">
               <% @product.images.each do |image| %>
-                <%= image_tag image.image.url(:thumb), class:
-                    "image" unless image.cover == true %>
+                <%= image_tag image.image.url(:thumb),
+                    class: "image" unless image.cover == true %>
               <% end %>
             </div>
           <% end %>
@@ -32,10 +31,10 @@
         </div>
 
         <div class="price">
-          <%= "Apenas " + @product.price unless @product.price.blank? %>
+          <%= t(".price_merchan") + @product.price unless @product.price.blank? %>
         </div>
 
-        <div class="button"><%= link_to "Adicionar ao carrinho",store_cart_items_path(id: @product.balances.first), method: :post %>
+        <div class="button"><%= link_to t(".add_to_cart_link"), store_cart_items_path(id: @product.balances.first), method: :post %>
         </div>
       </div>
     </div>

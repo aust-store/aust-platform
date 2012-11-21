@@ -14,9 +14,13 @@ feature "Store products" do
       page.should have_content @product.name
       page.should have_content @product.merchandising
       page.should have_content @product.description
-      page.should have_content "R$ 20,0"
+      page.should have_content "R$ 20,00"
       page.should have_content @product.images.first.image
       page.should have_content @product.images.last.image
+
+      click_link "Adicionar ao carrinho"
+      current_path.should == store_cart_path(@company)
+      page.should have_content @product.name
 
     end
   end

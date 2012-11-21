@@ -24,8 +24,7 @@ class InventoryItem < ActiveRecord::Base
 
   scope :detailed_item_for_sale, lambda {
     includes(:images).includes(:balances)
-    .order("cover desc")
-    .limit(10)
+    .order("inventory_item_images.cover desc")
     .where("inventory_entries.on_sale = ?", true)
     .order("inventory_entries.created_at asc, inventory_entries.id asc")
   }

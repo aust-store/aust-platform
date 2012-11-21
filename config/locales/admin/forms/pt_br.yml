@@ -1,5 +1,14 @@
 # encoding: utf-8
 pt_br:
+  admin:
+    generic:
+      or: "ou"
+      cancel: "Cancelar"
+  helpers:
+    submit:
+      inventory_item:
+        create: "Salvar item"
+        update: "Salvar item"
   simple_form:
     labels:
       defaults:
@@ -8,8 +17,18 @@ pt_br:
         quantity: "Quantidade"
         cost_per_unit: "Custo por unidade"
         price: "Preço de venda"
+      inventory_item:
+        name: "Nome do item ou mercadoria"
+        merchandising: "Merchandising"
+        reference: "Código de referência"
     hints:
       inventory_entry:
         quantity: "Um número inteiro (ex.: 10, 55, 109)"
         cost_per_unit: "Ex.: R$ 11,00"
         price: "Ex.: R$ 14,00"
+      inventory_item:
+        merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
+        reference: "Se você possui um código que identifique este produto internamente."
+    placeholders:
+      inventory_item:
+        name: "ex.: Parafuso 1cm"

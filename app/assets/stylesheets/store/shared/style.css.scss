@@ -159,14 +159,9 @@ body {
         .image {
           width: 300px;
           margin: 5px;
+          border-bottom: 2px lighten(#888, 40%) solid;
+          padding: 0 0 50px 0;
         }
-      }
-
-      .divisor {
-        background: lighten(#888, 40%);
-        height: 2px;
-        width: 300px;
-        margin: 35px 0 15px 0;
       }
 
       .small_images {
