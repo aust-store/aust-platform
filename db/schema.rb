@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106223719) do
+ActiveRecord::Schema.define(:version => 20121109074438) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20121106223719) do
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
+    t.text     "merchandising"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"

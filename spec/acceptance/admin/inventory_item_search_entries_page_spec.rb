@@ -42,6 +42,7 @@ feature "Adding Inventory Entries", js: true, search: true do
 
       fill_in "inventory_item_name", with: "Chocolate Cookies"
       fill_in "inventory_item_description", with: "Yammy Cookies"
+      fill_in "inventory_item_merchandising", with: "The Chookiest"
       fill_in "inventory_item_reference", with: "192837465"
 
       click_button "Salvar item"

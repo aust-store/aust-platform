@@ -15,6 +15,10 @@ class Company < ActiveRecord::Base
     self.items.with_entries_for_sale.all
   end
 
+  def detailed_item(id)
+    self.items.detailed_item_for_sale.find(id)
+  end
+
   def create_inventory
     self.build_inventory
   end

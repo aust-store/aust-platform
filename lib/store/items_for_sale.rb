@@ -9,11 +9,15 @@ module Store
     end
 
     def item_for_cart
-      current_store.inventory_entries.find(entry_id)
+      inventory_entry
     end
 
     def inventory_entry
       current_store.inventory_entries.find(entry_id)
+    end
+
+    def detailed_item_for_show_page
+      current_store.detailed_item(item_id)
     end
 
   private
@@ -24,6 +28,10 @@ module Store
 
     def entry_id
       @controller.params[:id]
+    end
+
+    def item_id
+      inventory_entry.inventory_item.id
     end
   end
 end

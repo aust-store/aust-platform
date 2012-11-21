@@ -1,19 +1,15 @@
 <%= simple_form_for([:admin, @item]) do |f| %>
 
   <%= f.input :name,
-        label: "Nome do item ou mercadoria",
-        hint:  "",
-        placeholder: "ex.: Parafuso 1cm",
         input_html: { id: "inventory_item_name" } %>
 
-  <%= f.input :description,
-        label: "Descrição" %>
+  <%= f.input :description %>
 
-  <%= f.input :reference,
-        label: "Código de referência",
-        hint:  "Se você possui um código que identifique este produto internamente." %>
+  <%= f.input :merchandising %>
 
-  <%= f.submit "Salvar item" %> ou
-  <%= link_to "cancelar", "javascript: history.back()" %>
+  <%= f.input :reference %>
 
+  <%= f.submit %>
+  <%= t("admin.generic.or") %>
+  <%= link_to t("admin.generic.cancel"), "javascript: history.back()" %>
 <% end %>

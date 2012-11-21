@@ -3,7 +3,7 @@ class InventoryEntry < ActiveRecord::Base
   belongs_to :inventory_item
   belongs_to :admin_user
 
-  attr_accessible :inventory_item_id, :description, :quantity, :cost_per_unit, :inventory_item,
+  attr_accessible :inventory_item_id, :description, :merchandising, :quantity, :cost_per_unit, :inventory_item,
                   :admin_user_id, :balance_type, :moving_average_cost,
                   :total_quantity, :total_cost, :store_id, :price, :on_sale
 
