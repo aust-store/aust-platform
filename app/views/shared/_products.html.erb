@@ -1,5 +1,6 @@
 <div class="products_list">
   <% n = 1 %>
+  <%= @items.count %>
   <% @items.each do |item| %>
     <% if n < 13 %>
       <div class="product product_<%= n %>">
@@ -11,9 +12,6 @@
             <div class="title">
               <%= link_to item.name,
                   store_product_path(id: item.balances.first.id) %>
-            </div>
-
-            <div class="description">
             </div>
 
             <div class="price">
