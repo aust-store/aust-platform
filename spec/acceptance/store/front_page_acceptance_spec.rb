@@ -32,23 +32,23 @@ feature "Store's front-page" do
   end
 
   describe "Showing highlight products in the main page" do
-    background do
-    end
+    scenario "As a customer, I see a list of highlight products, max 12 results" do
+      12.times do |i|
+        inventory_entry = FactoryGirl.create(:inventory_entry, price: 20.0)
+        FactoryGirl.create(:inventory_item, name: "Item #{i+1}", company: @company, balances: [inventory_entry])
+      end
 
-    pending "As a customer, I see a list of highlight products, max 12 results" do
       visit store_path(@company.handle)
       page.should have_content(@company.name)
 
-      within(".product_1") do
-        page.should have_content "Item 12"
-        page.has_css?('image_1')
-        page.should have_content "R$ 20,00"
-      end
-
-      within(".product_2") do
-        page.should have_content "Item 11"
-        page.has_css?('image_2')
-        page.should have_content "R$ 20,00"
+      n = 12
+      12.times do |p|
+        within(".product_#{p+1}") do
+          page.should have_content "Item #{n}"
+          page.has_css?("image_#{p+1}")
+          page.should have_content "R$ 20,00"
+          n -= 1
+        end
       end
     end
 
@@ -62,7 +62,7 @@ feature "Store's front-page" do
 
       2.times do |n|
 
-        visit new_admin_inventory_good_path(@company.handle)
+        visit new_admin_inventory_item_path(@company.handle)
         fill_in "inventory_item_name", with: "Item #{n+1}"
         click_button "Salvar item"
 
@@ -78,20 +78,25 @@ feature "Store's front-page" do
 
         click_link "Gerenciar imagens"
         within('.form-upload') do
-          attach_file("good[images][image]",image_path)
+          attach_file("item[images][image]",image_path)
           click_button "Enviar arquivos"
         end
 
-        new_good = Good.find_by_name("Item #{n+1}")
-        new_good.images.first.update_attribute(:cover, true)
+        new_item = InventoryItem.find_by_name("Item #{n+1}")
+        new_item.images.first.update_attribute(:cover, true)
       end
 
       visit store_path(@company.handle)
+
       within(".product_1") do
         page.should have_content "Item 2"
+        page.has_css?("image_1")
+        page.should have_content "R$ 30,00"
       end
       within(".product_2") do
         page.should have_content "Item 1"
+        page.has_css?("image_2")
+        page.should have_content "R$ 30,00"
       end
     end
 

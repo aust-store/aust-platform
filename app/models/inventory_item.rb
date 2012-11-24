@@ -7,19 +7,26 @@ class InventoryItem < ActiveRecord::Base
   has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
   has_many :images, class_name: "InventoryItemImage"
 
-
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
 
   validates :name, :admin_user_id, :company_id, presence: true
 
+  FIRST_ENTRY_FLAG = "min(id)"
+  LAST_ENTRY_FLAG  = "max(id)"
+
   scope :within_company, lambda { |company| where(company_id: company.id) }
-  scope :with_entries_for_sale, lambda {
+  scope :with_entry_for_sale, lambda {
     includes(:images).includes(:balances)
-    .where("inventory_item_images.cover = ?", true)
-    .where("inventory_entries.quantity > 0")
+    .where("inventory_entries.id = (
+      SELECT #{FIRST_ENTRY_FLAG}
+      FROM inventory_entries
+      WHERE inventory_entries.inventory_item_id=inventory_items.id
+      AND inventory_entries.on_sale = ? 
+      AND inventory_entries.quantity > 0
+      LIMIT 1)", true)
     .where("inventory_entries.on_sale = ?", true)
-    .order("inventory_entries.created_at asc, inventory_entries.id asc")
+    .where("inventory_item_images.cover = ?", true)
   }
 
   scope :detailed_item_for_sale, lambda {
@@ -33,6 +40,10 @@ class InventoryItem < ActiveRecord::Base
 
   def entry_for_sale
     self.balances.on_sale.first
+  end
+
+  def self.items_on_sale
+    with_entry_for_sale.limit(12).order("inventory_items.created_at desc")
   end
 
   def all_entries_available_for_sale

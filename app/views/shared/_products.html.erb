@@ -4,13 +4,13 @@
     <% if n < 13 %>
       <div class="product product_<%= n %>">
         <%= link_to store_product_path(id: item.balances.first.id) do %>
-          <%= image_tag item.images.first.image.url(:medium), class:
-               "image image_#{n}" unless item.images.blank? %>
+          <%= image_tag item.images.first.image.url(:medium),
+              class: "image image_#{n}" unless item.images.blank? %>
           <% n += 1 %>
-
           <div class="text">
             <div class="title">
-              <%= link_to item.name, store_product_path(id: item.balances.first.id) %>
+              <%= link_to item.name,
+                  store_product_path(id: item.balances.first.id) %>
             </div>
 
             <div class="description">
