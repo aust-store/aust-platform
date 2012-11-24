@@ -60,7 +60,6 @@ feature "Inventory Item Management", search: true do
           page.should_not have_content "R$ 11,00"
           page.should_not have_content "R$ 23,00"
           page.should have_content "R$ 12,00"
-
         end
       end
     end

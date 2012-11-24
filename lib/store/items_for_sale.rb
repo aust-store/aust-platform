@@ -4,8 +4,8 @@ module Store
       @controller = controller
     end
 
-    def items_for_homepage
-      entries = current_store.distinct_items
+    def items_for_main_page
+      entries = current_store.items_on_sale_on_main_page
     end
 
     def item_for_cart

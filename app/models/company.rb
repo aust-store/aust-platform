@@ -11,8 +11,8 @@ class Company < ActiveRecord::Base
 
   before_create :create_inventory
 
-  def distinct_items
-    self.items.with_entries_for_sale.all
+  def items_on_sale_on_main_page
+    main_page_items(self.items)
   end
 
   def detailed_item(id)
@@ -25,5 +25,15 @@ class Company < ActiveRecord::Base
 
   def to_param
     handle
+  end
+
+  private
+
+  def main_page_items(items)
+    items.group("goods.id, inventory_entries.id, good_images.id")
+    .order("goods.created_at desc")
+    .with_entries_for_sale
+    .limit(12)
+    .all
   end
 end

@@ -3,7 +3,7 @@ require "spec_helper"
 describe Store::HomeController do
   describe "GET index" do
     before do
-      Store::ItemsForSale.stub(:new).with(controller) { double(items_for_homepage: :entries) }
+      Store::ItemsForSale.stub(:new).with(controller) { double(items_for_main_page: :entries) }
     end
 
     it "should instantiate @company through Store::ApplicationController" do
