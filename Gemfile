@@ -28,6 +28,7 @@ gem 'quiet_assets', :group => :development
 group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'
+  gem 'pry'
 end
 
 group :test do
@@ -35,7 +36,7 @@ group :test do
   gem 'poltergeist'
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'factory_girl', '~> 4.0'
+  gem 'factory_girl', '~> 4'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
   gem 'timecop'
@@ -49,5 +50,6 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
 gem 'correios', '0.6.0'
+gem 'emerald-rails', "~> 0.0.4"
 
 gem 'capistrano', '2.13.5'

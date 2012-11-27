@@ -27,4 +27,8 @@ class Company < ActiveRecord::Base
   def to_param
     handle
   end
+
+  def zipcode
+    settings.zipcode
+  end
 end

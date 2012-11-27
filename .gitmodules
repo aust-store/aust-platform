@@ -1,0 +1,3 @@
+[submodule "app/assets/javascripts/emerald"]
+	path = app/assets/javascripts/emerald
+	url = git@github.com:kurko/emerald.js.git

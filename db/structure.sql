@@ -462,6 +462,42 @@ ALTER SEQUENCE order_items_id_seq OWNED BY order_items.id;
 
 
 --
+-- Name: order_shippings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE order_shippings (
+    id integer NOT NULL,
+    cart_id integer,
+    order_id integer,
+    price numeric,
+    delivery_days integer,
+    delivery_type text,
+    service_type text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: order_shippings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE order_shippings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: order_shippings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE order_shippings_id_seq OWNED BY order_shippings.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -593,6 +629,13 @@ ALTER TABLE ONLY order_items ALTER COLUMN id SET DEFAULT nextval('order_items_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY order_shippings ALTER COLUMN id SET DEFAULT nextval('order_shippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY shipping_boxes ALTER COLUMN id SET DEFAULT nextval('shipping_boxes_id_seq'::regclass);
 
 
@@ -690,6 +733,14 @@ ALTER TABLE ONLY inventory_entries
 
 ALTER TABLE ONLY order_items
     ADD CONSTRAINT order_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_shippings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY order_shippings
+    ADD CONSTRAINT order_shippings_pkey PRIMARY KEY (id);
 
 
 --
@@ -862,6 +913,20 @@ CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id)
 
 
 --
+-- Name: index_order_shippings_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_shippings_on_cart_id ON order_shippings USING btree (cart_id);
+
+
+--
+-- Name: index_order_shippings_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_shippings_on_order_id ON order_shippings USING btree (order_id);
+
+
+--
 -- Name: index_shipping_boxes_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -938,3 +1003,5 @@ INSERT INTO schema_migrations (version) VALUES ('20121114014017');
 INSERT INTO schema_migrations (version) VALUES ('20121117023754');
 
 INSERT INTO schema_migrations (version) VALUES ('20121117024812');
+
+INSERT INTO schema_migrations (version) VALUES ('20121125010831');

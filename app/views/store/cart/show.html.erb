@@ -65,22 +65,39 @@
           <div class="shipping_label">
             Frete
           </div>
-          <div class="options">
+          <div class="options" data-view="cartView">
             <div class="service_selection">
-              <input type="radio" checked="checked" /> Normal (PAC)
+              <input
+                type="radio"
+                name="type"
+                value="pac"
+                checked="checked"
+                data-view-action="zipcodeCalculation" /> Normal (PAC)
               &nbsp;
-              <input type="radio" /> Sedex
+              <input
+                type="radio"
+                name="type"
+                value="sedex"
+                data-view-action="zipcodeCalculation" /> Sedex
             </div>
             <div class="zipcode">
-              CEP: <input type="text" />
+              CEP:
+              <input
+                type="text"
+                value="9636000"
+                name="zipcode"
+                data-event="keyup"
+                data-view-action="zipcodeCalculation" />
             </div>
           </div>
         </div>
 
         <div class="column summary">
-          R$ 12,10,
+          <span data-observe="zipcode.cost">R$ 12,10</span>
           <br />
-          entrega em 6 dias úteis
+          entrega em
+          <span data-observe="zipcode.days"></span>
+          dias úteis
         </div>
       </div>
     </div>

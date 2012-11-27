@@ -9,12 +9,12 @@
 
   <%= f.input :reference %>
   <%= f.fields_for :shipping_box do |box| %>
-    <h2><%= t ".shipping_box.title" %></h2> 
-    <p><%= t ".shipping_box.description" %></p> 
-    <%= box.input :length, input_html: { value: @item.shipping_box.length } %>
-    <%= box.input :width, input_html: { value: @item.shipping_box.width } %>
-    <%= box.input :height, input_html: { value: @item.shipping_box.height } %>
-    <%= box.input :weight, input_html: { value: @item.shipping_box.weight } %>
+    <h2><%= t ".shipping_box.title" %></h2>
+    <p><%= t ".shipping_box.description" %></p>
+    <%= box.input :length, input_html: { type: 'string', value: @item.shipping_box.length } %>
+    <%= box.input :width, input_html: { type: 'string', value: @item.shipping_box.width } %>
+    <%= box.input :height, input_html: { type: 'string', value: @item.shipping_box.height } %>
+    <%= box.input :weight, input_html: { type: 'string', value: @item.shipping_box.weight } %>
 
   <% end %>
 
