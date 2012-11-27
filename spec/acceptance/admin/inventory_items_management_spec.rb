@@ -63,5 +63,55 @@ feature "Inventory Item Management", search: true do
         end
       end
     end
+  
+    describe "last products created are shown first in main page" do
+      context "only the first defined entry will be shown per item" do
+        scenario  "As an admin, I want the last product created to be displayed first in my store's main page listing" do
+          visit store_path(@company.handle)
+          page.should_not have_content "Item 0"
+          page.should_not have_content "Item 1"
+
+          2.times do |n|
+            visit new_admin_inventory_item_path(@company.handle)
+            fill_in "inventory_item_name", with: "Item #{n}"
+            click_button "Salvar item"
+
+            click_link "Item #{n}"
+
+            click_link "Nova entrada no estoque"
+            fill_in "inventory_entry_quantity", with: 10
+            fill_in "inventory_entry_cost_per_unit", with: 20
+            fill_in "inventory_entry_price", with: 30
+            click_button "submit_entry"
+
+            click_link "Item #{n}"
+
+            click_link "Gerenciar imagens"
+            image_path = "#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png"
+            within('.form-upload') do
+              attach_file("item[images][image]",image_path)
+              click_button "Enviar arquivos"
+            end
+
+            new_item = InventoryItem.find_by_name("Item #{n}")
+            new_item.images.first.update_attribute(:cover, true)
+          end
+
+          visit store_path(@company.handle)
+
+          within(".product_0") do
+            page.should have_content "Item 1"
+            page.has_css?("image_0")
+            page.should have_content "R$ 30,00"
+          end
+
+          within(".product_1") do
+            page.should have_content "Item 0"
+            page.has_css?("image_1")
+            page.should have_content "R$ 30,00"
+          end
+        end
+      end
+    end
   end
 end
