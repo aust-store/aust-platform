@@ -46,11 +46,19 @@ describe Store::Cart do
   end
 
   describe "#add_item" do
-    it "adds one item to the cart" do
-      quantity = double
-      persisted_cart = double(id: 1)
-      subject.stub(:persistence) { persisted_cart }
+    let(:quantity) { double }
+    let(:persisted_cart) { double(id: 1).as_null_object }
 
+    before do
+      subject.stub(:persistence) { persisted_cart }
+    end
+
+    it "deletes the current shipping calculation" do
+      persisted_cart.should_receive(:reset_shipping)
+      subject.add_item(item, quantity)
+    end
+
+    it "adds one item to the cart" do
       persisted_cart.should_receive(:add_item).with(item, quantity)
       subject.add_item(item, quantity)
     end

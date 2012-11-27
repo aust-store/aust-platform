@@ -7,6 +7,7 @@ class CreateOrderShippings < ActiveRecord::Migration
       t.integer :delivery_days
       t.text :delivery_type
       t.text :service_type
+      t.text :zipcode
 
       t.timestamps
     end

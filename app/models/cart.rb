@@ -2,6 +2,7 @@ class Cart < ActiveRecord::Base
   belongs_to :user
   belongs_to :company
   has_many :items, class_name: "OrderItem", dependent: :destroy
+  has_one :shipping, class_name: "OrderShipping"
 
   def current_inventory_entry(id)
     company.inventory_entries.find(id)
@@ -51,6 +52,10 @@ class Cart < ActiveRecord::Base
         item.update_quantity(quantities[item.id.to_s].to_i)
       end
     end
+  end
+
+  def reset_shipping
+    shipping.destroy if shipping
   end
 
   def self.find_or_create_cart(cart)

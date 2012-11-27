@@ -22,8 +22,12 @@ module Store
         @persisted_item.description 
       end
 
+      def entry_id
+        @persisted_item.inventory_entry_id
+      end
+
       def price
-        @persisted_item.price 
+        Money.new(@persisted_item.price).to_s
       end
     end
   end

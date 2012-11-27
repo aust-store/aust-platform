@@ -28,10 +28,10 @@ describe Store::Shipping::CartCalculation do
         .and_return(calc_results)
 
       OrderShipping
-        .should_receive(:create)
+        .should_receive(:create_for_cart)
         .with({price: 12.0, delivery_days: 4,
                delivery_type: :correios, service_type: :pac,
-               cart: :cart})
+               zipcode: "456", cart: :cart})
 
       result.create("456", :pac).should == calc_results
     end

@@ -23,7 +23,7 @@
         <% @cart_items.each_with_index do |item, index| %>
         <div class="product order_item_<%= item.id %>">
           <div class="column description">
-            <%= link_to item.name, "" %>
+            <%= link_to item.name, store_product_path(id: item.entry_id) %>
           </div>
 
           <div class="column quantity">
@@ -31,7 +31,7 @@
           </div>
 
           <div class="column total_price">
-            R$ 13,12
+            <%= item.price %>
           </div>
 
           <div class="column item_options">
@@ -67,24 +67,28 @@
           </div>
           <div class="options" data-view="cartView">
             <div class="service_selection">
+              <%= @cart.shipping_type %>
               <input
                 type="radio"
                 name="type"
                 value="pac"
-                checked="checked"
+                <%= raw 'checked="checked"' if @cart.shipping_type == "pac" %>
+                data-event="change"
                 data-view-action="zipcodeCalculation" /> Normal (PAC)
               &nbsp;
               <input
                 type="radio"
                 name="type"
                 value="sedex"
+                <%= raw 'checked="checked"' if @cart.shipping_type == "sedex" %>
+                data-event="change"
                 data-view-action="zipcodeCalculation" /> Sedex
             </div>
             <div class="zipcode">
               CEP:
               <input
                 type="text"
-                value="9636000"
+                value="<%= @cart.shipping_zipcode %>"
                 name="zipcode"
                 data-event="keyup"
                 data-view-action="zipcodeCalculation" />
@@ -93,10 +97,10 @@
         </div>
 
         <div class="column summary">
-          <span data-observe="zipcode.cost">R$ 12,10</span>
+          <span data-observe="zipcode.cost"><%= @cart.shipping_price %></span>
           <br />
           entrega em
-          <span data-observe="zipcode.days"></span>
+          <span data-observe="zipcode.days"><%= @cart.shipping_days %></span>
           dias úteis
         </div>
       </div>

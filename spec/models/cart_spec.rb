@@ -145,4 +145,14 @@ describe Cart do
       cart.update_quantities_in_batch(params)
     end
   end
+
+  describe "#reset_shipping" do
+    it "destroy the cart's shipping calculations" do
+      cart = Cart.new
+      shipping = double
+      cart.stub(:shipping) { shipping }
+      shipping.should_receive(:destroy_all)
+      cart.reset_shipping
+    end
+  end
 end

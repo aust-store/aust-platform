@@ -10,4 +10,8 @@ class DecorationBuilder
   def self.shipping_box(shipping_box)
     Admin::ShippingBoxDecorator.decorate(shipping_box)
   end
+
+  def self.cart(cart)
+    Store::CartDecorator.decorate(cart)
+  end
 end

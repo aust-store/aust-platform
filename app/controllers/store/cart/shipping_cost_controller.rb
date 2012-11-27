@@ -16,6 +16,12 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
   end
 
   def cart_items_dimensions
-    cart.all_items.map { |e| e.inventory_item.shipping_box }
+    shipping_boxes = []
+    cart.all_items.each do |e|
+      e.quantity.to_i.times do |t|
+        shipping_boxes << e.inventory_item.shipping_box
+      end
+    end
+    shipping_boxes
   end
 end

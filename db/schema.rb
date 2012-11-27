@@ -76,8 +76,15 @@ ActiveRecord::Schema.define(:version => 20121125010831) do
 
   add_index "companies", ["handle"], :name => "index_companies_on_handle"
 
-# Could not dump table "company_settings" because of following StandardError
-#   Unknown type 'hstore' for column 'settings'
+  create_table "company_settings", :force => true do |t|
+    t.integer  "company_id"
+    t.hstore   "settings"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "company_settings", ["company_id"], :name => "index_company_settings_on_company_id"
+  add_index "company_settings", ["settings"], :name => "company_settings_gist_settings"
 
   create_table "customers", :force => true do |t|
     t.string   "first_name"

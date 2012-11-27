@@ -12,8 +12,8 @@ module Store
 
         OrderShipping.create_for_cart(
           price: result.total, delivery_days: result.days,
-          delivery_type: :correios, service_type: :pac,
-          cart: cart
+          delivery_type: :correios, service_type: type,
+          zipcode: client_zipcode, cart: cart
         )
         result
       end

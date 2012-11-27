@@ -473,6 +473,7 @@ CREATE TABLE order_shippings (
     delivery_days integer,
     delivery_type text,
     service_type text,
+    zipcode text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
