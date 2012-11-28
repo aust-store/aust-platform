@@ -4,9 +4,7 @@
              text: "Voltar ao estoque"
            } %>
 
-
 <div class="main_container" data-input-focus="true">
-
   <div class="search_existent_item">
     <div class="input">
       <h1>Digite o nome do item a ser acrescentado</h1>
@@ -33,31 +31,34 @@
         a quantidade que está entrando no estoque.
       </span>
       -->
-  </div>
+    </div>
 
-  <div class="search_results">
+    <div id="loading">
+      <%= image_tag("admin/ajax-loader.gif")%>
+    </div>
 
-  </div>
+    <div class="search_results">
+    </div>
 
-  <div id="add_new_item_button" class="add_new_item_button">
-    <div class="add_new_item_button_container">
-      <div class="button">
-        <%= small_button new_admin_inventory_item_path,
-              text: "Criar um novo item",
-              image: 'admin/icons/plus_16.png',
-              class: "round_icon" %>
-      </div>
-      <div class="explanation with_search_results">
-        Selecione acima um dos itens já existentes ou crie um novo.
-      </div>
-      <div class="explanation without_search_results">
-        Se o item não existe ainda, crie um novo.
+    <div id="add_new_item_button" class="add_new_item_button">
+      <div class="add_new_item_button_container">
+        <div class="button">
+          <%= small_button new_admin_inventory_item_path,
+                text: "Criar um novo item",
+                image: 'admin/icons/plus_16.png',
+                class: "round_icon" %>
+        </div>
+        <div class="explanation with_search_results">
+          Selecione acima um dos itens já existentes ou crie um novo.
+        </div>
+        <div class="explanation without_search_results">
+          Se o item não existe ainda, crie um novo.
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="form">
-    <% # render 'form' %>
+    <div class="form">
+      <% # render 'form' %>
+    </div>
   </div>
-
 </div>

@@ -27,7 +27,7 @@ class InventoryItemsSearch
       )
       false
 
-    # When the page opens, the shouldn't be able to enter a new item if he
+    # When the page opens, the user shouldn't be able to enter a new item if he
     # hasn't typed anything for its name.
   hide_button_for_adding_items: ->
     $("#add_new_item_button").hide()
@@ -100,6 +100,7 @@ class InventoryItemsSearch
   # Starts searching for items
   search_existent_item_event: ->
     $(".search_existent_item input.search").bind 'keyup', (event) =>
+      @define_loading_visibility(true)
       clearTimeout @search_keydown_delay_timer
       query_el = $(event.target)
       @show_add_item_button()
@@ -109,6 +110,14 @@ class InventoryItemsSearch
         @search_keydown_delay_timer = setTimeout ( =>
           @search_existent_item_post(query_el)
         ), 1200
+      else
+        @define_loading_visibility(false)
+
+  define_loading_visibility: (status) ->
+    if status == true
+      $('#loading').fadeIn(300)
+    if status == false
+      $('#loading').hide()
 
   search_existent_item_post: (element) ->
     string = element.val()
@@ -117,6 +126,7 @@ class InventoryItemsSearch
       path,
       { "name": string },
       (response) =>
+        @define_loading_visibility(false)
         $(".search_existent_item .search_results").html(response)
         @bind_search_results_to_new_form()
         @show_add_item_button()
