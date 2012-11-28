@@ -11,8 +11,8 @@ class Company < ActiveRecord::Base
 
   before_create :create_inventory
 
-  def distinct_items
-    self.items.with_entries_for_sale.all
+  def items_on_sale_on_main_page
+    self.items.items_on_sale
   end
 
   def detailed_item(id)

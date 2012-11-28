@@ -2,22 +2,22 @@ require "store/items_for_sale"
 
 describe Store::ItemsForSale do
   before do
-    @store = double 
+    @store = double
     @controller = double(current_store: @store)
   end
 
-  describe "#items_for_homepage" do
+  describe "#items_for_main_page" do
     # TODO define contracts with controller
     it "returns items from the current store" do
-      @store.stub(:distinct_items) { [1, 2, 3] }
+      @store.stub(:items_on_sale_on_main_page) { [1, 2, 3] }
       @controller.stub(:current_store) { @store }
 
-      items = Store::ItemsForSale.new(@controller).items_for_homepage
+      items = Store::ItemsForSale.new(@controller).items_for_main_page
       items.should == [1, 2, 3]
     end
   end
 
-  describe "#item_for_cart" do    
+  describe "#item_for_cart" do
     it "returns an inventory entry given an id" do
       entries_model = double
       entries_model.stub(:find).with(2) { :entry }

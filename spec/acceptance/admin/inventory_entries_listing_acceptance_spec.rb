@@ -48,4 +48,3 @@ feature "Listing inventory entries", js: true, search: true do
     end
   end
 end
-
