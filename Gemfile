@@ -29,11 +29,12 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'
   gem 'pry'
+  gem 'poltergeist'
+  gem 'konacha'
 end
 
 group :test do
   gem 'capybara'
-  gem 'poltergeist'
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'factory_girl', '~> 4'

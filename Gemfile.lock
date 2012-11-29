@@ -75,6 +75,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    colorize (0.5.8)
     correios (0.6.0)
       xml-simple
     daemons (1.1.9)
@@ -111,6 +112,12 @@ GEM
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
     json (1.7.5)
+    konacha (2.1.0)
+      actionpack (~> 3.1)
+      capybara
+      colorize
+      railties (~> 3.1)
+      sprockets
     launchy (2.0.5)
       addressable (~> 2.2.6)
     libv8 (3.3.10.4)
@@ -260,6 +267,7 @@ DEPENDENCIES
   factory_girl (~> 4)
   inherited_resources
   jquery-rails
+  konacha
   launchy (= 2.0.5)
   mini_magick
   pg (= 0.14.0)

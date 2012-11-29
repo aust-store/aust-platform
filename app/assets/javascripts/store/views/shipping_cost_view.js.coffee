@@ -12,6 +12,6 @@ Emerald.shippingCostView = Emerald.ActionView.extend(
   isValidZipcode: =>
     cartView = $("[data-view='cartView']")
     validZipcode = $('[name="zipcode"]', cartView).val().replace(/[^0-9]/g, '').length == 8
-    validServiceType = typeof $(".service_selection [name='type']:checked", cartView).val() != 'undefined'
+    validServiceType = typeof $(".js_service_selection [name='type']:checked", cartView).val() != 'undefined'
     validZipcode && validServiceType
 )
