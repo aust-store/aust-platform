@@ -35,9 +35,14 @@ describe Store::Shipping::Calculation do
       Store::Shipping::Correios
         .stub(:new)
         .with(:result)
-        .and_return(double(cost: 12.0))
+        .and_return(correios)
 
-      result.calculate("456", :pac).should == 24.0
+      Store::Shipping::CalculationResult
+        .stub(:new)
+        .with([correios, correios])
+        .and_return(:result_wrapper)
+
+      result.calculate("456", :pac).should == :result_wrapper
     end
   end
 

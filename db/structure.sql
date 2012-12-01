@@ -402,7 +402,8 @@ CREATE TABLE inventory_items (
     updated_at timestamp without time zone NOT NULL,
     inventory_id integer,
     reference character varying(255),
-    admin_user_id integer
+    admin_user_id integer,
+    merchandising text
 );
 
 
@@ -998,6 +999,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121031011538');
 INSERT INTO schema_migrations (version) VALUES ('20121106222802');
 
 INSERT INTO schema_migrations (version) VALUES ('20121106223719');
+
+INSERT INTO schema_migrations (version) VALUES ('20121109074438');
 
 INSERT INTO schema_migrations (version) VALUES ('20121114014017');
 

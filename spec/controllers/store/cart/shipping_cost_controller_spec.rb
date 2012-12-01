@@ -12,7 +12,8 @@ describe Store::Cart::ShippingCostController do
     let(:item) { double(shipping_box: shipping_box) }
 
     before do
-      @items = [ double(inventory_item: item), double(inventory_item: item) ]
+      @items = [ double(inventory_item: item, quantity: 1),
+                 double(inventory_item: item, quantity: 1) ]
       controller.stub_chain(:cart, :all_items) { @items }
     end
 

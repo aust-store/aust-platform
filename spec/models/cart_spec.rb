@@ -151,7 +151,7 @@ describe Cart do
       cart = Cart.new
       shipping = double
       cart.stub(:shipping) { shipping }
-      shipping.should_receive(:destroy_all)
+      shipping.should_receive(:destroy)
       cart.reset_shipping
     end
   end

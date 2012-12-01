@@ -4,6 +4,9 @@ pt_br:
     generic:
       or: "ou"
       cancel: "Cancelar"
+    javascript:
+      form_success: "Os dados foram salvos com sucesso."
+      form_failure: "Não foi possível salvar seus dados."
   helpers:
     submit:
       inventory_item:
@@ -11,9 +14,6 @@ pt_br:
         update: "Salvar item"
       company_setting:
         update: "Salvar configurações"
-    javascript:
-      form_success: "Os dados foram salvos com sucesso."
-      form_failure: "Não foi possível salvar seus dados."
   simple_form:
     labels:
       defaults:
