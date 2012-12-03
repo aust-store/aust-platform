@@ -14,7 +14,7 @@ module Store
       end
 
       def success?
-        @resource.erro >= 0
+        @resource.erro == 0
       end
 
       def message

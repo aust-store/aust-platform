@@ -12,6 +12,7 @@ describe Store::Shipping::Correios do
 
   describe "#success?" do
     it "returns false if there's any error" do
+      correios_result.stub(:erro) { -22 }
       result = described_class.new(correios_result)
       result.success?.should == false
     end
@@ -20,6 +21,12 @@ describe Store::Shipping::Correios do
       correios_result.stub(:erro) { 0 }
       result = described_class.new(correios_result)
       result.success?.should == true
+    end
+
+    it "returns false if error number is greater than 0" do
+      correios_result.stub(:erro) { 99 }
+      result = described_class.new(correios_result)
+      result.success?.should == false
     end
   end
 end
