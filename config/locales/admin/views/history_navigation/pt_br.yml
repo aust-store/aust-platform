@@ -1,0 +1,6 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    history_navigation:
+      back:
+        dashboard: "Voltar ao painel principal"

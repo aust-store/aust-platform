@@ -1,0 +1,24 @@
+<h2><%= t ".title" %></h2>
+<% if @shipping_box.present? %>
+  <p>
+    <div>
+      <%= t ".box_weight" %>:
+      <%= @shipping_box.weight %>
+      <table cellspacing="0">
+        <tr>
+          <td valign="top" width="130"><%= t ".box_dimensions" %>: </td>
+          <td>
+            <%= @shipping_box.length %> <%= t ".length" %><br />
+            <%= @shipping_box.width %>  <%= t ".width" %><br />
+            <%= @shipping_box.height %> <%= t ".height" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </p>
+<% else %>
+  <span class="section_without_content">
+    <%= t ".no_shipping_box" %> 
+    <%= link_to t(".new_link") %>.
+  </span>
+<% end %>

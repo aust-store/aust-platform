@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :inventory_item_without_entries, class: "InventoryItem" do
     association :user, factory: :admin_user
+    association :shipping_box
     sequence(:name) { |i| "Goodyear tire 4 inches ##{i}" }
     description "Lorem ipsum lorem"
     merchandising "The best item ever!!"

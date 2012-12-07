@@ -4,11 +4,16 @@ pt_br:
     generic:
       or: "ou"
       cancel: "Cancelar"
+    javascript:
+      form_success: "Os dados foram salvos com sucesso."
+      form_failure: "Não foi possível salvar seus dados."
   helpers:
     submit:
       inventory_item:
         create: "Salvar item"
         update: "Salvar item"
+      company_setting:
+        update: "Salvar configurações"
   simple_form:
     labels:
       defaults:
@@ -21,6 +26,14 @@ pt_br:
         name: "Nome do item ou mercadoria"
         merchandising: "Merchandising"
         reference: "Código de referência"
+      shipping_box:
+        length: "Comprimento"
+        width: "Largura"
+        height: "Altura"
+        weight: "Peso"
+      company_setting:
+        zipcode: "CEP do remetente"
+        commit: "Salvar configurações"
     hints:
       inventory_entry:
         quantity: "Um número inteiro (ex.: 10, 55, 109)"
@@ -32,3 +45,12 @@ pt_br:
     placeholders:
       inventory_item:
         name: "ex.: Parafuso 1cm"
+      shipping_box:
+        length: "Entre o valor em centímetros (cm)."
+        width: "Entre o valor em centímetros (cm)."
+        height: "Entre o valor em centímetros (cm)."
+        weight: "Entre o valor em quilos (kg)."
+      company_setting:
+        zipcode: |
+          Este CEP é usado para calcular o valor dos fretes. Deve ser da sua
+          loja ou da cidade de onde as encomendas são enviadas.

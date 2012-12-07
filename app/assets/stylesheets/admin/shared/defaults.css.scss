@@ -8,9 +8,20 @@ body {
   font-weight: bold;
 }
 
-.alert {
+.failure {
   color: red;
   font-weight: bold;
+}
+
+form {
+  .notice, .failure {
+    padding: 5px 8px;
+    margin: 0 0 10px 0;
+    border-radius: 3px;
+  }
+
+  .notice { background-color: #E8FFE8; }
+  .failure { background-color: #FFF4F4; color: red; }
 }
 
 ul { margin-left: 0px; padding-left: 20px; }

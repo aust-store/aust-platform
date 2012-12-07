@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~>3.2'
+gem 'rails', '~>3.2.9'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'
@@ -28,14 +28,16 @@ gem 'quiet_assets', :group => :development
 group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'
+  gem 'pry'
+  gem 'poltergeist'
+  gem 'konacha'
 end
 
 group :test do
   gem 'capybara'
-  gem 'poltergeist'
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'factory_girl', '~> 4.0'
+  gem 'factory_girl', '~> 4'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
   gem 'timecop'
@@ -43,9 +45,12 @@ end
 
 gem 'inherited_resources'
 gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
+gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
 
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
+gem 'correios', '0.6.0'
+gem 'emerald-rails', "~> 0.0.5"
 
 gem 'capistrano', '2.13.5'

@@ -1,6 +1,7 @@
 class OrderItem < ActiveRecord::Base
   belongs_to :inventory_item
   belongs_to :inventory_entry
+  has_one :shipping_box
 
   def name
     inventory_item.name

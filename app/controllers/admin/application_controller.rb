@@ -29,6 +29,7 @@ class Admin::ApplicationController < ActionController::Base
     when /inventory/ ; "inventory"
     when /users/     ; "users"
     when /store/     ; "store"
+    when /settings/  ; "settings"
     else nil
     end
   end

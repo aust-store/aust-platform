@@ -23,7 +23,7 @@
         <% @cart_items.each_with_index do |item, index| %>
         <div class="product order_item_<%= item.id %>">
           <div class="column description">
-            <%= link_to item.name, "" %>
+            <%= link_to item.name, store_product_path(id: item.entry_id) %>
           </div>
 
           <div class="column quantity">
@@ -31,7 +31,7 @@
           </div>
 
           <div class="column total_price">
-            R$ 13,12
+            <%= item.price %>
           </div>
 
           <div class="column item_options">
@@ -60,27 +60,50 @@
         </div>
       </div>
 
-      <div class="freight_configuration">
+      <div class="shipping_configuration">
         <div class="column description">
-          <div class="freight_label">
+          <div class="shipping_label">
             Frete
           </div>
-          <div class="options">
-            <div class="service_selection">
-              <input type="radio" checked="checked" /> Normal (PAC)
+          <div class="options" data-view="cartView">
+            <div class="js_service_selection">
+              <input
+                type="radio"
+                name="type"
+                value="pac"
+                id="type_pac"
+                <%= raw 'checked="checked"' if @cart.shipping_type == "pac" %>
+                data-event="change"
+                data-view-action="zipcodeCalculation" />
+                <%= t(".service_type.correios.normal") %>
               &nbsp;
-              <input type="radio" /> Sedex
+              <input
+                type="radio"
+                name="type"
+                value="sedex"
+                <%= raw 'checked="checked"' if @cart.shipping_type == "sedex" %>
+                data-event="change"
+                data-view-action="zipcodeCalculation" />
+                <%= t(".service_type.correios.sedex") %>
             </div>
             <div class="zipcode">
-              CEP: <input type="text" />
+              CEP:
+              <input
+                type="text"
+                value="<%= @cart.shipping_zipcode %>"
+                name="zipcode"
+                data-event="keyup"
+                data-view-action="zipcodeCalculation" />
             </div>
           </div>
         </div>
 
         <div class="column summary">
-          R$ 12,10,
+          <span data-observe="zipcode.cost"><%= @cart.shipping_price %></span>
           <br />
-          entrega em 6 dias úteis
+          <%= t(".shipping_calculation.ships_in") %>
+          <span data-observe="zipcode.days"><%= @cart.shipping_days %></span>
+          <%= t(".shipping_calculation.working_days") %>
         </div>
       </div>
     </div>

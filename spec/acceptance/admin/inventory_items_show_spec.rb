@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Inventory Item Management", search: true do
+feature "Inventory Item Management" do
   before do
     login_into_admin
     @other_user = FactoryGirl.create(:admin_user)
@@ -32,7 +32,17 @@ feature "Inventory Item Management", search: true do
   describe "show page" do
     scenario "As a store admin, I want to see the basic item's details" do
       visit admin_inventory_item_path(@item)
+
+      # Basic item informations
       page.should have_content "My item"
+      page.should have_content "Lorem ipsum lorem"
+
+      # Shipping Box
+      translations = "admin.inventory.items.shipping_box"
+      page.should have_content "12.5cm #{I18n.t("#{translations}.length")}"
+      page.should have_content "14.5cm #{I18n.t("#{translations}.width")}"
+      page.should have_content "5cm #{I18n.t("#{translations}.height")}"
+      page.should have_content "#{I18n.t("#{translations}.box_weight")}: 10kg"
     end
 
     describe "defining what entries should be on sale", js: true do
@@ -63,7 +73,7 @@ feature "Inventory Item Management", search: true do
         end
       end
     end
-  
+
     describe "last products created are shown first in main page" do
       context "only the first defined entry will be shown per item" do
         scenario  "As an admin, I want the last product created to be displayed first in my store's main page listing" do

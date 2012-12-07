@@ -6,6 +6,7 @@ class Company < ActiveRecord::Base
   has_many :inventory_entries, foreign_key: "store_id"
 
   has_one :inventory
+  has_one :settings, class_name: "CompanySetting"
 
   accepts_nested_attributes_for :admin_users
 
@@ -25,5 +26,9 @@ class Company < ActiveRecord::Base
 
   def to_param
     handle
+  end
+
+  def zipcode
+    settings.zipcode
   end
 end

@@ -14,14 +14,19 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item = DecorationBuilder.inventory_items(item)
     balances = item.all_entries_available_for_sale
     @inventory_entries = DecorationBuilder.inventory_entries(balances)
+    @shipping_box = DecorationBuilder.shipping_box(item.shipping_box)
   end
 
   def new
     @item = current_company.items.new(name: params[:new_item_name])
+    @item.build_shipping_box
   end
 
   def edit
-    @item = current_company.items.find params[:id]
+    @item = current_company.items.includes(:shipping_box).find(params[:id])
+    @item.build_shipping_box unless @item.shipping_box.present?
+
+    @item = DecorationBuilder.inventory_items(@item)
   end
 
   def create

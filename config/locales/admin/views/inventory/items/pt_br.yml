@@ -9,4 +9,28 @@ pt_br:
             name: "Nome"
             total_in_stock: "Total em estoque"
           add_item_button: "Adicionar item"
-
+        show:
+        shipping_box:
+          title: "Frete"
+          box_dimensions: "Dimensões do pacote"
+          length: "de comprimento"
+          width:  "de largura"
+          height: "de altura"
+          box_weight: "Peso do pacote"
+          no_shipping_box: |
+            Cadastre as dimensões do pacote a ser enviado para podermos
+            calcular o valor do frete.
+          new_link: "Editar caixa"
+        form:
+          shipping_box:
+            title: "Dimensões da Caixa de Entrega"
+            description: |
+              Para podermos calcular o frete da sua encomenda,
+              precisamos saber o tamanho da caixa que será despachada
+              pelos Correios.
+    settings:
+      show:
+        title: "Configurações"
+      form:
+        shipping:
+          title: "Entrega"

@@ -6,19 +6,5 @@
 </header>
 
 <div class="main_container">
-  <%= simple_form_for(@item, url: admin_inventory_item_path) do |f| %>
-
-    <%= f.input :name,
-          input_html: { id: "inventory_item_name" } %>
-
-    <%= f.input :description %>
-
-    <%= f.input :merchandising %>
-
-    <%= f.input :reference %>
-
-    <%= f.submit %>
-    <%= t("admin.generic.or") %>
-    <%= link_to t("admin.generic.cancel"), "javascript: history.back()" %>
-  <% end %>
+  <%= render partial: 'form' %>
 </div>

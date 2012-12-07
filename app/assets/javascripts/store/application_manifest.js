@@ -1,6 +1,10 @@
 //= require_self
 //= require jquery
 //= require jquery_ujs
-//= require_tree ./../../../../vendor/assets/javascripts/vendor/store/.
-//= require_tree .
-
+//= require emerald
+//= require_tree ./../../../../vendor/assets/javascripts/vendor/store/
+//= require_tree ./router/
+//= require_tree ./models/
+//= require_tree ./controllers/
+//= require_tree ./views/
+//= require_tree ./

@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag "admin/application", :media => "all" %>
   <%= javascript_include_tag "admin_manifest" %>
   <%= csrf_meta_tags %>
+  <%= render partial: "admin/shared/i18n" %>
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
 
@@ -45,6 +46,11 @@
     </div>
   </div>
   <%= image_tag "admin/loading.gif", style: "display: none" %>
+
+  <div class="html_template">
+    <div class="js_notice"><div class="notice"></div></div>
+    <div class="js_failure"><div class="failure"></div></div>
+  </div>
 
 </body>
 </html>

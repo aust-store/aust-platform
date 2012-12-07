@@ -11,6 +11,8 @@ Store::Application.routes.draw do
       get 'index' => 'dashboard#index'
     end
 
+    resource :settings, only: [:show, :update]
+
     resource :inventory do
       resources :items, controller: 'inventory/items' do
         collection do
@@ -51,7 +53,10 @@ Store::Application.routes.draw do
   get "store/:store_id" => "store/home#index", as: "store"
   resources :store, only: [], controller: "store/home" do
 
-    resource :cart, only: [:show, :update], controller: "store/cart"
+    resource :cart, only: [:show, :update], controller: "store/cart" do
+      resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
+    end
+
     resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
 
     resource :checkout, only: [], controller: "store/checkout" do

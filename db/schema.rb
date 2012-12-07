@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109074438) do
+ActiveRecord::Schema.define(:version => 20121125010831) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(:version => 20121109074438) do
 
   add_index "companies", ["handle"], :name => "index_companies_on_handle"
 
+  create_table "company_settings", :force => true do |t|
+    t.integer  "company_id"
+    t.hstore   "settings"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "company_settings", ["company_id"], :name => "index_company_settings_on_company_id"
+  add_index "company_settings", ["settings"], :name => "company_settings_gist_settings"
+
   create_table "customers", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -135,7 +145,6 @@ ActiveRecord::Schema.define(:version => 20121109074438) do
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
-    t.text     "merchandising"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
@@ -155,5 +164,32 @@ ActiveRecord::Schema.define(:version => 20121109074438) do
   add_index "order_items", ["inventory_entry_id"], :name => "index_order_items_on_inventory_entry_id"
   add_index "order_items", ["inventory_item_id"], :name => "index_order_items_on_inventory_item_id"
   add_index "order_items", ["order_id"], :name => "index_order_items_on_order_id"
+
+  create_table "order_shippings", :force => true do |t|
+    t.integer  "cart_id"
+    t.integer  "order_id"
+    t.decimal  "price"
+    t.integer  "delivery_days"
+    t.text     "delivery_type"
+    t.text     "service_type"
+    t.text     "zipcode"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "order_shippings", ["cart_id"], :name => "index_order_shippings_on_cart_id"
+  add_index "order_shippings", ["order_id"], :name => "index_order_shippings_on_order_id"
+
+  create_table "shipping_boxes", :force => true do |t|
+    t.decimal  "length",            :precision => 8, :scale => 2
+    t.decimal  "width",             :precision => 8, :scale => 2
+    t.decimal  "height",            :precision => 8, :scale => 2
+    t.decimal  "weight",            :precision => 8, :scale => 2
+    t.integer  "inventory_item_id"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
 
 end

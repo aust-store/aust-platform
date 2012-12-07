@@ -1,6 +1,7 @@
 module Admin
   class InventoryItemDecorator < ApplicationDecorator
     decorates :inventory_item
+    decorates_association :shipping_box, with: Admin::ShippingBoxDecorator
 
     include ::ActionView::Helpers::NumberHelper
     include ::ActionView::Helpers::OutputSafetyHelper

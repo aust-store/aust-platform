@@ -1,0 +1,13 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_dashboard_path,
+             text: t("admin.history_navigation.back.dashboard")
+           } %>
+
+<header>
+  <h1><%= t ".title" %></h1>
+</header>
+
+<div class="main_container">
+  <%= render partial: 'form' %>
+</div>

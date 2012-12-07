@@ -15,12 +15,13 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "#show" do
-    let(:item) { double }
+    let(:item) { double(shipping_box: :shipping_box) }
 
     it "should return a single item" do
       item.stub_chain(:images, :order, :limit, :dup) { :images }
       subject.stub_chain(:current_company, :items, :find).with("123") { item }
       DecorationBuilder.should_receive(:inventory_items).with(item) { :decorated_item }
+      DecorationBuilder.should_receive(:shipping_box).with(item.shipping_box)
 
       item.stub(:all_entries_available_for_sale)
       get :show, id: 123
@@ -30,18 +31,37 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "#new" do
+    let(:item) { double.as_null_object }
+
+    before do
+      InventoryItem.stub(:new) { item }
+    end
+
     it "should instantiate a item" do
-      InventoryItem.stub(:new) { :item }
       get :new
-      assigns(:item).should == :item
+      assigns(:item).should == item
+    end
+
+    it "builds a shipping box instance" do
+      item.should_receive(:build_shipping_box)
+      get :new
     end
   end
 
   describe "#edit" do
+    let(:item) { double(shipping_box: :shipping_box) }
+    let(:items) { double }
+
+    before do
+      controller.should_receive(:load_item)
+    end
+
     it "should instantiate a given item" do
-      subject.stub_chain(:current_company, :items, :find).with("1") { :item }
+      subject.stub_chain(:current_company, :items, :includes) { items }
+      items.stub(:find).with("1") { item }
+      DecorationBuilder.stub(:inventory_items).with(item) { :decorated_item }
       get :edit, id: 1
-      assigns(:item).should == :item
+      assigns(:item).should == :decorated_item
     end
   end
 

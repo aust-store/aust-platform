@@ -1,4 +1,5 @@
 require "unit_spec_helper"
+require "store/money"
 require "store/cart/item"
 
 describe Store::Cart::Item do
@@ -36,7 +37,7 @@ describe Store::Cart::Item do
     end
 
     it "returns the product price" do
-      item.price.should == "10.10"
+      item.price.should == "R$ 10,10"
     end
   end
 end

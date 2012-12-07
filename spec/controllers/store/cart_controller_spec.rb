@@ -3,16 +3,23 @@ require "spec_helper"
 describe Store::CartController do
   it_obeys_the "cart contract"
 
-  let(:cart) { double(id: 1, current_items: :items) }
+  let(:cart) { double(id: 1, current_items: :items, persistence: :persistence) }
+
+  before do
+    # TODO contract test - does cart has #items?
+    controller.stub(:cart) { cart }
+  end
 
   describe "GET show" do
     it "loads the cart items" do
-      # TODO contract test - does cart has #items?
-      cart = double(id: 1, current_items: :items)
-      Store::Cart.stub(:new) { cart }
-
       get :show, store_id: "store_name"
       assigns(:cart_items).should == :items
+    end
+
+    it "decorates the cart" do
+      DecorationBuilder.stub(:cart).with(:persistence) { :decorated_items }
+      get :show, store_id: "store_name"
+      assigns(:cart).should == :decorated_items
     end
   end
 

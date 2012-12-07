@@ -7,7 +7,7 @@ body.store_cart.show {
       display: table;
     }
 
-    .header, .products, .product, .items_total, .freight_contiguration {
+    .header, .products, .product, .items_total, .shipping_contiguration {
       display: table;
       width: 720px;
     }
@@ -50,14 +50,14 @@ body.store_cart.show {
       background: lighten(green, 65%);
     }
 
-    .freight_configuration {
+    .shipping_configuration {
       padding: 4px 0 0 0;
 
-      .freight_label { float: left; width: 60px }
+      .shipping_label { float: left; width: 60px }
       .options {
         float: left; width: 200px;
 
-        .service_selection {
+        .js_service_selection {
           width: 100%;
           padding: 0 5px 5px 5px;
           text-align: center;
