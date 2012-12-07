@@ -74,7 +74,8 @@
                 id="type_pac"
                 <%= raw 'checked="checked"' if @cart.shipping_type == "pac" %>
                 data-event="change"
-                data-view-action="zipcodeCalculation" /> Normal (PAC)
+                data-view-action="zipcodeCalculation" />
+                <%= t(".service_type.correios.normal") %>
               &nbsp;
               <input
                 type="radio"
@@ -82,7 +83,8 @@
                 value="sedex"
                 <%= raw 'checked="checked"' if @cart.shipping_type == "sedex" %>
                 data-event="change"
-                data-view-action="zipcodeCalculation" /> Sedex
+                data-view-action="zipcodeCalculation" />
+                <%= t(".service_type.correios.sedex") %>
             </div>
             <div class="zipcode">
               CEP:

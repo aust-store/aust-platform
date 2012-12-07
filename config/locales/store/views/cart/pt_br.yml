@@ -6,3 +6,7 @@ pt_br:
         shipping_calculation:
           ships_in: "entrega em"
           working_days: "dias úteis"
+        service_type:
+          correios:
+            normal: "Normal (PAC)"
+            sedex: "Sedex"
