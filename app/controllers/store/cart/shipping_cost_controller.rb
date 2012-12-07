@@ -1,7 +1,6 @@
 class Store::Cart::ShippingCostController < Store::ApplicationController
   def create
-    calc = Store::Shipping::CartCalculation.new(self, :br)
-    result = calc.create(params[:zipcode], params[:type])
+    result = Store::Shipping::CartCalculation.create(self, :br, params)
     if result.success?
       render json: {
         zipcode: {

@@ -5,7 +5,8 @@ require "store/shipping/calculation"
 describe Store::Shipping::CartCalculation do
   it_obeys_the "cart contract"
 
-  let(:controller)  { double(cart: double(persisted_cart: :cart)) }
+  let(:params)  { {zipcode: "456", type: :pac} }
+  let(:controller)  { double(cart: double(persisted_cart: :cart), params: params) }
   let(:calculation) { double }
   let(:calc_results) { double(days: 4, total: 12.0) }
 
@@ -33,7 +34,8 @@ describe Store::Shipping::CartCalculation do
                delivery_type: :correios, service_type: :pac,
                zipcode: "456", cart: :cart})
 
-      result.create("456", :pac).should == calc_results
+
+      described_class.create(controller, :br, params).should == calc_results
     end
   end
 end

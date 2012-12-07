@@ -46,4 +46,24 @@ feature "Store cart" do
       page.should_not have_content "Goodyear"
     end
   end
+
+  describe "shipping calculations", js: true do
+    let(:stubbed_shipping) { double(success?: true, total: 12.34, days: 3) }
+
+    scenario "As an user, I enter my zipcode to calculate the shipping price" do
+      Store::Shipping::CartCalculation.stub(:create) { stubbed_shipping }
+
+      inventory_entry = @product.balances.first
+      visit store_product_path(@company.handle, inventory_entry)
+      click_link "Adicionar ao carrinho"
+
+      within(".js_service_selection") do
+        choose("type_pac")
+      end
+      fill_in "zipcode", with: "96360000"
+
+      page.should have_content "R$ 12,34"
+      page.should have_content "entrega em 3 dias úteis"
+    end
+  end
 end

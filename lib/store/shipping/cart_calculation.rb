@@ -6,14 +6,18 @@ module Store
         @country = country
       end
 
-      def create(client_zipcode, type)
+      def self.create(controller, country, params)
+        new(controller, country).create
+      end
+
+      def create
         calculation = Store::Shipping::Calculation.new(@controller, @country)
-        result = calculation.calculate(client_zipcode, type)
+        result = calculation.calculate(zipcode, type)
 
         OrderShipping.create_for_cart(
           price: result.total, delivery_days: result.days,
           delivery_type: :correios, service_type: type,
-          zipcode: client_zipcode, cart: cart
+          zipcode: zipcode, cart: cart
         )
         result
       end
@@ -22,6 +26,14 @@ module Store
 
       def cart
         @controller.cart.persisted_cart
+      end
+
+      def zipcode
+        @controller.params[:zipcode]
+      end
+
+      def type
+        @controller.params[:type]
       end
     end
   end
