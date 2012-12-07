@@ -89,7 +89,8 @@ GEM
     draper (0.18.0)
       actionpack (~> 3.2)
       activesupport (~> 3.2)
-    emerald-rails (0.0.4)
+    emerald-rails (0.0.5)
+      railties (~> 3.1)
     erubis (2.7.0)
     eventmachine (1.0.0)
     execjs (1.4.0)
@@ -263,7 +264,7 @@ DEPENDENCIES
   database_cleaner
   devise (= 2.0.4)
   draper
-  emerald-rails (~> 0.0.4)
+  emerald-rails (~> 0.0.5)
   factory_girl (~> 4)
   inherited_resources
   jquery-rails

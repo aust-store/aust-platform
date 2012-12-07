@@ -51,6 +51,6 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
 gem 'correios', '0.6.0'
-gem 'emerald-rails', "~> 0.0.4"
+gem 'emerald-rails', "~> 0.0.5"
 
 gem 'capistrano', '2.13.5'

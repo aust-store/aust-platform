@@ -1,0 +1,8 @@
+# encoding: utf-8
+pt_br:
+  store:
+    cart:
+      show:
+        shipping_calculation:
+          ships_in: "entrega em"
+          working_days: "dias úteis"

@@ -98,9 +98,9 @@
         <div class="column summary">
           <span data-observe="zipcode.cost"><%= @cart.shipping_price %></span>
           <br />
-          entrega em
+          <%= t(".shipping_calculation.ships_in") %>
           <span data-observe="zipcode.days"><%= @cart.shipping_days %></span>
-          dias úteis
+          <%= t(".shipping_calculation.working_days") %>
         </div>
       </div>
     </div>
