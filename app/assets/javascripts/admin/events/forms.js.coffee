@@ -21,11 +21,13 @@ class Forms
 
   show_loading_on_form_submit: ->
     $("form[data-remote='true']").on "submit", ->
-      loading.show($(this).parents(".form_loading_section"))
+      page_loading = new PageLoading
+      page_loading.show($(this).parents(".form_loading_section"))
 
   hide_loading_on_form_response: ->
     $("form").on "ajax:complete", ->
-      loading.hide($(this).parents(".form_loading_section"))
+      page_loading = new PageLoading
+      page_loading.hide($(this).parents(".form_loading_section"))
 
 $ ->
   forms = new Forms

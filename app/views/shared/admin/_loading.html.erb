@@ -1,0 +1,18 @@
+<div id="loading_timer" class="html_template">
+  <div id="page_loading" style="background-image: url('<%= asset_path("admin/loading.gif") %>')">
+    <div class="text normal">
+      Carregando...
+    </div>
+    <div class="text timeout">
+      O processo está demorado. Por favor, tente novamente.
+      <br />
+      <br />
+      Abortando em 3 segundos.
+    </div>
+  </div>
+  <div id="input_loading" style="background-image: url('<%= asset_path("admin/ajax-loader.gif") %>')">
+  </div>
+</div>
+
+<%= image_tag("admin/loading.gif", style: 'display: none') %>
+<%= image_tag("admin/ajax-loader.gif", style: 'display: none') %>

@@ -222,7 +222,14 @@ table { width: 100%; }
 
 #loading_timer { display: none }
 
-.loading_box {
+#input_loading {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  display: none;
+}
+
+#page_loading {
   position: absolute;
   top: 0;
   background-color: white;
