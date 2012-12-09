@@ -39,11 +39,11 @@
   </div>
 
   <span class="images_container_for_ajax" id="js_image_management">
-    <% if @item_images.present? %>
-      <div class='images'>
+    <div class='images'>
+      <% if @item_images.present? %>
         <%= render partial: "shared/images", locals: { images: @item_images } %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </span>
 
 </span>
