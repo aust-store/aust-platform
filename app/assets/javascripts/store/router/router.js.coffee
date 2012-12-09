@@ -1,2 +1,3 @@
-Emerald.Router = 
-  zipcodeModel: "/store/my_store/cart/shipping_cost"
+Emerald.Router =
+  zipcodeModel: ->
+    $('[data-shipping-url]').data('shipping-url')
