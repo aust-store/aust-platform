@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-feature "Customers" do
+pending "Customers" do
 
   before do
     login_into_admin
