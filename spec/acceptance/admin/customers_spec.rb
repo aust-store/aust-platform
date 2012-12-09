@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-pending "Customers" do
+feature "Customers" do
 
   before do
     login_into_admin
@@ -11,7 +11,7 @@ pending "Customers" do
   end
 
   describe "Adding new customer" do
-    scenario "As a admin, I'd like to add new customers" do
+    pending "As a admin, I'd like to add new customers" do
 
       visit admin_customers_path
       click_link "Novo cliente"
