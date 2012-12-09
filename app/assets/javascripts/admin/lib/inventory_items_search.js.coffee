@@ -16,6 +16,7 @@ class InventoryItemsSearch
 
   bind_load_new_form_after_submit: ->
     $("#inventory_item_search").on 'submit', ->
+      page_loading = new PageLoading
       page_loading.show $(".main_container")
       $.get(
         $(this).attr("data-ajax"),
