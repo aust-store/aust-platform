@@ -16,7 +16,8 @@ class InventoryItemsSearch
 
   bind_load_new_form_after_submit: ->
     $("#inventory_item_search").on 'submit', ->
-      loading.show $(".main_container")
+      page_loading = new PageLoading
+      page_loading.show $(".main_container")
       $.get(
         $(this).attr("data-ajax"),
         { new_item_name: $("input.search").val() },
@@ -27,7 +28,7 @@ class InventoryItemsSearch
       )
       false
 
-    # When the page opens, the shouldn't be able to enter a new item if he
+    # When the page opens, the user shouldn't be able to enter a new item if he
     # hasn't typed anything for its name.
   hide_button_for_adding_items: ->
     $("#add_new_item_button").hide()
@@ -109,14 +110,22 @@ class InventoryItemsSearch
         @search_keydown_delay_timer = setTimeout ( =>
           @search_existent_item_post(query_el)
         ), 1200
-
-  search_existent_item_post: (element) ->
-    string = element.val()
-    path = element.data("path")
-    $.post(
-      path,
-      { "name": string },
-      (response) =>
+  
+  search_existent_item_post: (input_element) ->
+    string = input_element.val()
+    path = input_element.data("path")
+    $.ajax(
+      type: "POST"
+      url: path
+      data:
+        "name": string
+      beforeSend: ->
+        input_loading = new InputLoading
+        input_loading.show(input_element)
+      complete: ->
+        input_loading = new InputLoading
+        input_loading.hide(input_element)
+      success: (response) =>
         $(".search_existent_item .search_results").html(response)
         @bind_search_results_to_new_form()
         @show_add_item_button()
