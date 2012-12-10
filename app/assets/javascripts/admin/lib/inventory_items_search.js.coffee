@@ -111,9 +111,9 @@ class InventoryItemsSearch
           @search_existent_item_post(query_el)
         ), 1200
   
-  search_existent_item_post: (element) ->
-    string = element.val()
-    path = element.data("path")
+  search_existent_item_post: (input_element) ->
+    string = input_element.val()
+    path = input_element.data("path")
     $.ajax(
       type: "POST"
       url: path
@@ -121,10 +121,10 @@ class InventoryItemsSearch
         "name": string
       beforeSend: ->
         input_loading = new InputLoading
-        input_loading.show(element)
+        input_loading.show(input_element)
       complete: ->
-        input_loadingo = new InputLoading
-        input_loadingo.hide(element)
+        input_loading = new InputLoading
+        input_loading.hide(input_element)
       success: (response) =>
         $(".search_existent_item .search_results").html(response)
         @bind_search_results_to_new_form()
