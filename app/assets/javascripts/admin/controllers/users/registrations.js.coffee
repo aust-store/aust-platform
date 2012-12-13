@@ -8,9 +8,16 @@ class RegistrationsController
 
   init_handle_bind: ->
     $("input#handle").on "keyup", (e) =>
-      @fill_store_address_with_handle()
-      @sanitize_handle()
-      true
+      if @sanitize_keys(e)
+        @fill_store_address_with_handle()
+        @sanitize_handle()
+        true
+
+  sanitize_keys: (key_event) ->
+    sanitized_key = String.fromCharCode(key_event.keyCode)
+    return true if /[a-zA-Z0-9-_]/.test(sanitized_key) ||
+    key_event.keyCode == 8 ||
+    key_event.keyCode == 189
 
   fill_store_address_with_handle: ->
     $(".store_address .handle").html @sanitized_handle()
