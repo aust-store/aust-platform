@@ -6,6 +6,12 @@ Store::Application.routes.draw do
       sessions: "admin/devise/sessions"
     }
 
+  namespace :superadmin do
+    resource :dashboard, controller: 'dashboard'
+    resources :companies, controller: 'companies'
+    root :to => 'companies#index'
+  end
+
   namespace :admin do
     resource :dashboard, controller: "dashboard" do
       get 'index' => 'dashboard#index'

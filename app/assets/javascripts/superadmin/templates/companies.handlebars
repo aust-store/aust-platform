@@ -1,0 +1,14 @@
+<h1>Lojas</h1>
+<p>
+  Todas as lojas:
+</p>
+<ul>
+{{#each company in controller}}
+  {{#with company}}
+  <li>
+     <a {{action showCompany this href=true}}>{{name}}</a>
+     <span class="less_important">({{handle}})</span>
+  </li>
+  {{/with}}
+{{/each}}
+</ul>

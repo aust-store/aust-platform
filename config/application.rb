@@ -72,14 +72,19 @@ module Store
     config.assets.precompile += ["admin/sign_in_manifest.css"]
     config.assets.precompile += ["admin/sign_up_manifest.css"]
     config.assets.precompile += ["store/application_manifest.css"]
-    
+
     config.assets.precompile += ["store/store_index_manifest.css"]
     config.assets.precompile += ["store/store_index_manifest.js"]
+
+    config.assets.precompile += ["superadmin/application_manifest.js"]
+    config.assets.precompile += ["superadmin/application_manifest.css"]
 
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.ember.variant = :production
   end
 end

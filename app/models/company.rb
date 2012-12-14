@@ -16,6 +16,19 @@ class Company < ActiveRecord::Base
     self.items.items_on_sale
   end
 
+  def statistics
+    Store::CompanyStatistics.new(self).statistics
+  end
+
+  def include_statistics
+    @include_statistics = true
+    self
+  end
+
+  def include_statistics?
+    @include_statistics || false
+  end
+
   def detailed_item(id)
     self.items.detailed_item_for_sale.find(id)
   end
