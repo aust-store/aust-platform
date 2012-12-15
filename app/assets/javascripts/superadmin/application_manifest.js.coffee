@@ -13,8 +13,9 @@
 #= require_tree ./templates
 
 window.App = Ember.Application.create(
+  autoinit: false,
   ready: ->
-    console.log "Starting the app"
+
 )
 
 App.store = DS.Store.create(
@@ -26,3 +27,4 @@ App.store = DS.Store.create(
   )
 )
 
+$ -> App.initialize() if typeof mocha == "undefined"

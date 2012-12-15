@@ -4,6 +4,6 @@ if defined?(Konacha)
   Konacha.configure do |config|
     config.spec_dir    = "spec/javascripts"
     config.driver      = :poltergeist
-    config.stylesheets = %w(application)
+    config.stylesheets = %w(superadmin/application_manifest)
   end
 end
