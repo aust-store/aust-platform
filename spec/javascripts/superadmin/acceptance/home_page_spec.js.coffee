@@ -12,8 +12,6 @@ describe "Superadmin Home page", ->
 
   it 'has the list of stores', (done) ->
     setTimeout ( ->
-      console.log $('ul li a:first').text()
-      console.log $('body').text()
-      $('ul li a:first').text().should.equal("My Store")
+      $('.application ul li a:first').text().should.equal("My Store")
       done()
     ), 80
