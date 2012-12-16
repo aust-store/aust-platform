@@ -35,11 +35,16 @@ namespace :deploy do
   end
 end
 
-namespace :setup_database do
-  task :symlink_config do
+namespace :symlinks do
+  task :database do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+
+  task :uploads do
+    run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
   end
 end
 
-after "deploy:finalize_update", "setup_database:symlink_config"
+after "deploy:finalize_update", "symlinks:database"
+after "deploy:finalize_update", "symlinks:uploads"
 after "setup_database:symlink_config", "deploy:migrate"

@@ -24,7 +24,7 @@ end
 
 gem 'jquery-rails'
 gem 'quiet_assets', :group => :development
-
+gem 'better_errors', :group => :development
 group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'

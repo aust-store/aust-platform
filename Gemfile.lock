@@ -47,6 +47,9 @@ GEM
     addressable (2.2.8)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    better_errors (0.3.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.7.0)
     builder (3.0.4)
     cancan (1.6.8)
     capistrano (2.13.5)
@@ -259,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers!
   activerecord-postgres-hstore!
+  better_errors
   cancan
   capistrano (= 2.13.5)
   capybara
