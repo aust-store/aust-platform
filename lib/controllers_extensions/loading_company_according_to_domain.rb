@@ -7,6 +7,7 @@ module ControllersExtensions
     private
 
     def current_subdomain
+      Rails.logger.info "Current subdomain: #{request.subdomain.inspect}"
       if request.subdomain.present?
         Array(request.subdomain).last
       end
