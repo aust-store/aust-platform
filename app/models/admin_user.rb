@@ -3,7 +3,8 @@ class AdminUser < ActiveRecord::Base
   # :token_authenticatable, :encryptable, :confirmable, :validatable, :lockable, :timeoutable and :omniauthable
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable
+         :recoverable, :rememberable, :trackable,
+         :authentication_keys => [:company_id]
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :company_attributes, :role, :name, :company_id

@@ -1,4 +1,4 @@
-<%= simple_form_for :cart, url: store_cart_path, html: { method: :put } do |form| %>
+<%= simple_form_for :cart, url: cart_path, html: { method: :put } do |form| %>
 
   <div class="cart">
     <div class="cart_table">
@@ -23,7 +23,7 @@
         <% @cart_items.each_with_index do |item, index| %>
         <div class="product order_item_<%= item.id %>">
           <div class="column description">
-            <%= link_to item.name, store_product_path(id: item.entry_id) %>
+            <%= link_to item.name, product_path(id: item.entry_id) %>
           </div>
 
           <div class="column quantity">
@@ -36,7 +36,7 @@
 
           <div class="column item_options">
             <%= link_to image_tag("store/buttons/check_no.png"),
-                  store_cart_items_path(id: item.id),
+                  cart_items_path(id: item.id),
                   method: :delete,
                   name: "remove_order_item" %>
           </div>
@@ -66,7 +66,7 @@
             Frete
           </div>
           <div class="options" data-view="cartView">
-            <div class="js_service_selection" data-shipping-url="<%= store_cart_shipping_cost_url %>">
+            <div class="js_service_selection" data-shipping-url="<%= cart_shipping_cost_url %>">
               <input
                 type="radio"
                 name="type"
@@ -111,7 +111,7 @@
     <div class="actions">
       <div class="line">
         <div class="action_link">
-          <%= link_to "Continuar comprando", store_path(@company.handle) %>
+          <%= link_to "Continuar comprando", root_path %>
         </div>
         <div class="action_link">
           <%= form.submit "Atualizar carrinho" %>
@@ -120,7 +120,7 @@
 
       <div class="line">
         <div class="checkout">
-          <%= link_to "", confirm_informations_store_checkout_path, id: "checkout_button" %>
+          <%= link_to "", confirm_informations_checkout_path, id: "checkout_button" %>
         </div>
       </div>
     </div>

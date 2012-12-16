@@ -4,12 +4,13 @@ require "acceptance_spec_helper"
 feature "Store cart" do
   before do
     @company = FactoryGirl.create(:company)
+    stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end
 
   describe "an empty cart" do
     scenario "As an user, I can see an appropriate message when the cart is empty" do
-      visit store_cart_path(@company.handle)
+      visit cart_path
 
       page.should have_content "Seu carrinho está vazio."
     end
@@ -21,7 +22,7 @@ feature "Store cart" do
 
       inventory_entry = @product.balances.first
       3.times do
-        visit store_product_path(@company.handle, inventory_entry)
+        visit product_path(inventory_entry)
         click_link "Adicionar ao carrinho"
       end
 
@@ -54,7 +55,7 @@ feature "Store cart" do
       Store::Shipping::CartCalculation.stub(:create) { stubbed_shipping }
 
       inventory_entry = @product.balances.first
-      visit store_product_path(@company.handle, inventory_entry)
+      visit product_path(inventory_entry)
       click_link "Adicionar ao carrinho"
 
       within(".js_service_selection") do

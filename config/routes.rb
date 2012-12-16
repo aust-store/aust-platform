@@ -56,23 +56,21 @@ Store::Application.routes.draw do
   end
 
   # we want to use :store_id instead of :id for consistence
-  get "store/:store_id" => "store/home#index", as: "store"
-  resources :store, only: [], controller: "store/home" do
+  #get "store/:store_id" => "store/home#index", as: "store"
 
-    resource :cart, only: [:show, :update], controller: "store/cart" do
-      resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
-    end
-
-    resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
-
-    resource :checkout, only: [], controller: "store/checkout" do
-      get "review"
-      get "confirm_informations"
-    end
-
-    resources :products, only: [:show], controller: "store/products"
+  resource :cart, only: [:show, :update], controller: "store/cart" do
+    resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
   end
 
+  resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
+
+  resource :checkout, only: [], controller: "store/checkout" do
+    get "review"
+    get "confirm_informations"
+  end
+
+  resources :products, only: [:show], controller: "store/products"
+
   get "home/index"
-  root :to => 'home#index'
+  root :to => 'store/home#index'
 end

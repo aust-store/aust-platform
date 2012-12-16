@@ -21,6 +21,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros
   config.include AcceptanceSteps
+  config.include CapybaraHelpers::DomainHelpers
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

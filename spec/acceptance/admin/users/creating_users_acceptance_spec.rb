@@ -5,6 +5,7 @@ feature "Managing collaborators" do
 
   before do
     login_into_admin
+    stub_subdomain(@admin_user.company)
     @user = FactoryGirl.create(:admin_user, name: "oko",
                                company: @admin_user.company,
                                role: "collaborator")

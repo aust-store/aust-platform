@@ -36,7 +36,7 @@ describe Store::CartController do
     it "redirects the user to the show page" do
       cart.stub(:update)
       put :update, store_id: "store_name", cart: "true"
-      response.should redirect_to store_cart_url
+      response.should redirect_to cart_url
     end
   end
 end

@@ -3,6 +3,8 @@ require 'acceptance_spec_helper'
 feature "Inventory Item Management" do
   before do
     login_into_admin
+    stub_subdomain(@company)
+
     @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
     @other_item = FactoryGirl.create(:inventory_item, name: "Other item", user: @other_user, company: @other_company)
@@ -54,7 +56,7 @@ feature "Inventory Item Management" do
           page.should have_content "R$ 23,00"
           page.should have_content "R$ 12,00"
 
-          visit store_path(@company.handle)
+          visit root_path
           page.should_not have_content "R$ 11,00"
           page.should have_content "R$ 23,00"
           page.should_not have_content "R$ 12,00"
@@ -66,7 +68,7 @@ feature "Inventory Item Management" do
 
           visit admin_inventory_item_path(@item)
 
-          visit store_path(@company.handle)
+          visit root_path
           page.should_not have_content "R$ 11,00"
           page.should_not have_content "R$ 23,00"
           page.should have_content "R$ 12,00"
@@ -77,7 +79,7 @@ feature "Inventory Item Management" do
     describe "last products created are shown first in main page" do
       context "only the first defined entry will be shown per item" do
         scenario  "As an admin, I want the last product created to be displayed first in my store's main page listing" do
-          visit store_path(@company.handle)
+          visit root_path
           page.should_not have_content "Item 0"
           page.should_not have_content "Item 1"
 
@@ -107,7 +109,7 @@ feature "Inventory Item Management" do
             new_item.images.first.update_attribute(:cover, true)
           end
 
-          visit store_path(@company.handle)
+          visit root_path
 
           within(".product_0") do
             page.should have_content "Item 1"
