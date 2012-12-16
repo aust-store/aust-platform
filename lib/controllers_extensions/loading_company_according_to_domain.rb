@@ -15,7 +15,7 @@ module ControllersExtensions
 
     def load_store_information
       if current_subdomain.present?
-        Rails.logger.info "Visiting #{current_subdomain} store."
+        Rails.logger.info "Visiting :#{current_subdomain} store (subdomain #{request.subdomain.inspect})"
         @company ||= Company.find_by_handle(current_subdomain)
       end
     end
