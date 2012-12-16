@@ -1,6 +1,4 @@
-class Admin::ApplicationController < ActionController::Base
-  protect_from_forgery
-
+class Admin::ApplicationController < ApplicationController
   rescue_from CanCan::AccessDenied do |exception|
     exception.default_message = "Acesso negado!"
     redirect_to admin_users_url, :alert => exception.message

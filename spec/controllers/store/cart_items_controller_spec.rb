@@ -22,7 +22,7 @@ describe Store::CartItemsController do
 
     it "redirects to the cart" do
       post :create, store_id: "store_name", id: 2
-      response.should redirect_to store_cart_path(company)
+      response.should redirect_to cart_path
     end
   end
 
@@ -42,7 +42,7 @@ describe Store::CartItemsController do
 
     it "redirects to the cart" do
       delete :destroy, store_id: "store_name", id: 2
-      response.should redirect_to store_cart_path(company)
+      response.should redirect_to cart_path
     end
   end
 end

@@ -9,6 +9,6 @@ class Store::CartController < Store::ApplicationController
 
   def update
     cart.update(params[:cart])
-    redirect_to store_cart_url
+    redirect_to cart_url
   end
 end

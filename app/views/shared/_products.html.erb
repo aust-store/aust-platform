@@ -1,13 +1,13 @@
 <div class="products_list">
   <% @items.each_with_index do |item, index| %>
     <div class="product product_<%= index %>">
-      <%= link_to store_product_path(id: item.entry_for_sale.id) do %>
+      <%= link_to product_path(id: item.entry_for_sale.id) do %>
         <%= image_tag item.images.first.image.url(:medium),
             class: "image image_#{ index }" unless item.images.blank? %>
         <div class="text">
           <div class="title">
             <%= link_to item.name,
-                store_product_path(id: item.entry_for_sale.id) %>
+                product_path(id: item.entry_for_sale.id) %>
           </div>
           <div class="price">
             <%= item.price %>

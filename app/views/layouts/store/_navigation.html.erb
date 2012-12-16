@@ -1,6 +1,6 @@
 <ul>
-  <li><%= link_to "Principal", store_path(@company.handle), class: "current" %></li>
+  <li><%= link_to "Principal", root_path, class: "current" %></li>
   <li><%= link_to "Produtos", root_path %></li>
-  <li><%= link_to "Carrinho de compras", store_cart_path(@company.handle) %></li>
+  <li><%= link_to "Carrinho de compras", cart_path %></li>
   <li><%= link_to "Contato", root_path %></li>
 </ul>

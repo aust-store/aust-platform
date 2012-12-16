@@ -4,6 +4,7 @@ require 'acceptance_spec_helper'
 feature "Store's front-page" do
   before do
     @company = FactoryGirl.create(:company)
+    stub_subdomain(@company)
 
     inventory_entry_one   = FactoryGirl.create(:inventory_entry, price: 11.0)
     inventory_entry_two   = FactoryGirl.create(:inventory_entry, price: 23.0)
@@ -18,7 +19,7 @@ feature "Store's front-page" do
 
   describe "Accessing a company's store" do
     scenario "As a customer, I access a specific store" do
-      visit store_path(@company.handle)
+      visit root_path
       page.should have_content(@company.name)
 
       within(".cart_status") do
@@ -38,7 +39,7 @@ feature "Store's front-page" do
         FactoryGirl.create(:inventory_item, name: "Item #{i}", company: @company, balances: [inventory_entry])
       end
 
-      visit store_path(@company.handle)
+      visit root_path
       page.should have_content(@company.name)
 
       n = 11
