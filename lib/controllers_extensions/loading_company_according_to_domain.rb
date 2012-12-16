@@ -8,8 +8,9 @@ module ControllersExtensions
 
     def current_subdomain
       Rails.logger.info "Current subdomain: #{request.subdomain.inspect}"
+      Rails.logger.info "Current subdomain: #{request.subdomains.inspect}"
       if request.subdomain.present?
-        Array(request.subdomain).last
+        request.subdomain.split(".").first
       end
     end
 
