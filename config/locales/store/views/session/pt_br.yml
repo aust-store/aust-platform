@@ -1,0 +1,13 @@
+# encoding: utf-8
+pt_br:
+  session:
+    new:
+      page_title: "Login"
+      titles:
+        whats_your_email: "Qual é o seu email?"
+        do_you_have_a_password: "Você possui uma senha?"
+      labels:
+        email: "Meu email é: "
+        has_no_password: "Não, desejo criar uma."
+        has_password:    "Sim, tenho uma senha: "
+        submit:          "Entrar"

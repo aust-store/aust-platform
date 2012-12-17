@@ -205,9 +205,20 @@ body {
   }
 }
 
-#error {
+#error, #flash_alert {
   color: darken(red, 2%);
   background: lighten(red, 47%);
+  font-size: 1.1em;
+  padding: 5px 7px;
+  margin: 0 0 10px 0;
+
+  &:empty { display: none; }
+}
+
+#flash_notice {
+  color: darken(green, 2%);
+  background: lighten(green, 67%);
+  font-size: 1.1em;
   padding: 5px 7px;
   margin: 0 0 10px 0;
 
