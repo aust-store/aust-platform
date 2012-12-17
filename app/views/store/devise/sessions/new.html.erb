@@ -1,0 +1,34 @@
+<h1><%= t('session.new.page_title') %></h1>
+
+<div class="js_sign_in sign_in">
+  <%= simple_form_for resource, :as => resource_name, :url => user_session_path(@company), html: { autocomplete: :off } do |f| %>
+
+    <div class="email_block">
+      <h2><%= t('session.new.titles.whats_your_email') %></h2>
+      <div class="fields">
+        <%= f.input :email, label: t('session.new.labels.email'), type: :email, input_html: { tabindex: 1 } %>
+      </div>
+    </div>
+
+    <div class="passw_block">
+      <h2><%= t('session.new.titles.do_you_have_a_password') %></h2>
+
+      <div class="fields">
+        <div class="field">
+          <input type="radio" name="has_password" value="no" id="has_no_password" />
+          <label for="has_no_password"> <%= t('session.new.labels.has_no_password') %></label>
+        </div>
+
+        <div class="field">
+          <input type="radio" name="has_password" value="yes" checked="checked" id="has_password" />
+          <label for="has_password" class="has_password"> <%= t('session.new.labels.has_password') %></label>
+          <%= f.input :password, label: false, input_html: { tabindex: 2 } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit">
+      <%= f.submit t("session.new.labels.submit"), id: "sign_in", tabindex: 3 %>
+    </div>
+  <% end %>
+</div>

@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.extend ControllerMacros
   config.include AcceptanceSteps
   config.include CapybaraHelpers::DomainHelpers
+  config.include CapybaraHelpers::CartHelpers
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
