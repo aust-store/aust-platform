@@ -4,15 +4,15 @@
     <div class="cart_table">
       <div class="columns_header">
         <div class="column description">
-          Item
+          <%= t(".header.column.item") %>
         </div>
 
         <div class="column quantity">
-          Quantidade
+          <%= t(".header.column.quantity") %>
         </div>
 
         <div class="column total_price">
-          Subtotal
+          <%= t(".header.column.total_price") %>
         </div>
 
         <div class="column item_options">
@@ -46,7 +46,7 @@
 
       <div class="items_total">
         <div class="column description">
-          Total
+          <%= t(".column.items_total") %>
         </div>
 
         <div class="column quantity">
@@ -60,52 +60,13 @@
         </div>
       </div>
 
-      <div class="shipping_configuration">
-        <div class="column description">
-          <div class="shipping_label">
-            Frete
-          </div>
-          <div class="options" data-view="cartView">
-            <div class="js_service_selection" data-shipping-url="<%= cart_shipping_cost_url %>">
-              <input
-                type="radio"
-                name="type"
-                value="pac"
-                id="type_pac"
-                <%= raw 'checked="checked"' if @cart.shipping_type == "pac" %>
-                data-event="change"
-                data-view-action="zipcodeCalculation" />
-                <%= t(".service_type.correios.normal") %>
-              &nbsp;
-              <input
-                type="radio"
-                name="type"
-                value="sedex"
-                <%= raw 'checked="checked"' if @cart.shipping_type == "sedex" %>
-                data-event="change"
-                data-view-action="zipcodeCalculation" />
-                <%= t(".service_type.correios.sedex") %>
-            </div>
-            <div class="zipcode">
-              CEP:
-              <input
-                type="text"
-                value="<%= @cart.shipping_zipcode %>"
-                name="zipcode"
-                data-event="keyup"
-                data-view-action="zipcodeCalculation" />
-            </div>
-          </div>
-        </div>
-
-        <div class="column summary">
-          <span data-observe="zipcode.cost"><%= @cart.shipping_price %></span>
-          <br />
-          <%= t(".shipping_calculation.ships_in") %>
-          <span data-observe="zipcode.days"><%= @cart.shipping_days %></span>
-          <%= t(".shipping_calculation.working_days") %>
-        </div>
-      </div>
+      <% if @shipping_calculation_enabled %>
+        <%= render "store/cart/shipping_calculation" %>
+      <% else %>
+        <p class="shipping_disabled">
+          <%= t(".shipping_disabled_message") %>
+        </p>
+      <% end %>
     </div>
 
     <div class="actions">

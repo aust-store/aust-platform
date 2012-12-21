@@ -6,6 +6,7 @@ feature "Store products" do
     @company = FactoryGirl.create(:company)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
+    stub_shipping_calculation_enabled(true)
   end
 
   describe "products details" do

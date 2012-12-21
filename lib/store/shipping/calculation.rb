@@ -6,6 +6,11 @@ module Store
         @country = country
       end
 
+      def enabled?
+        return true unless store.zipcode.empty?
+        false
+      end
+
       def calculate(client_zipcode, type)
         type = type.to_sym
         company_zipcode = store.zipcode

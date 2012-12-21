@@ -25,6 +25,22 @@ describe Store::Shipping::Calculation do
     DummyCorreios.stub(:new).with("123", "456") { correios }
   end
 
+  describe "#enabled?" do
+    let(:store2) { double(zipcode: "") }
+    let(:controller2) do
+      double(current_store: store2, cart_items_dimensions: [dimension, dimension] )
+    end
+    it "returns true if store's zipcode is not empty" do
+      shipping = described_class.new(controller)
+      shipping.enabled?.should == true
+    end
+
+    it "does'not return true if store's zipcode is empty" do
+      shipping = described_class.new(controller2)
+      shipping.enabled?.should == false
+    end
+  end
+
   describe "#calculate" do
     it "returns an instance of the result wrapper" do
       correios

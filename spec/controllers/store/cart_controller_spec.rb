@@ -8,6 +8,8 @@ describe Store::CartController do
   before do
     # TODO contract test - does cart has #items?
     controller.stub(:cart) { cart }
+    @shipping_calculation = double(enabled?: true)
+    Store::Shipping::Calculation.stub(:new).with(controller) { @shipping_calculation }
   end
 
   describe "GET show" do
@@ -32,6 +34,19 @@ describe Store::CartController do
       checkout_policy.stub(:enabled?) { :checkout_enabled }
       get :show
       assigns(:checkout_enabled).should == :checkout_enabled
+    end
+
+    describe "sets the shipping calculation status" do
+      it "has true value if the shipping calculation is enabled" do
+        get :show, store_id: "store_name"
+        assigns(:shipping_calculation_enabled).should == true
+      end
+
+      it "has false value if the shipping calculation is enabled" do
+        @shipping_calculation = double(enabled?: false)
+        get :show, store_id: "store_name"
+        assigns(:shipping_calculation_enabled).should == false
+      end
     end
   end
 
