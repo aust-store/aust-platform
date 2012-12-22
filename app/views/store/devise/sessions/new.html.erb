@@ -1,7 +1,7 @@
 <h1><%= t('session.new.page_title') %></h1>
 
 <div class="js_sign_in sign_in">
-  <%= simple_form_for resource, :as => resource_name, :url => user_session_path(@company), html: { autocomplete: :off } do |f| %>
+  <%= simple_form_for resource, :as => resource_name, :url => user_session_path, html: { autocomplete: :off, data: { sign_up: new_user_registration_url } } do |f| %>
 
     <div class="email_block">
       <h2><%= t('session.new.titles.whats_your_email') %></h2>

@@ -80,6 +80,46 @@ ALTER SEQUENCE account_receivables_id_seq OWNED BY account_receivables.id;
 
 
 --
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE addresses (
+    id integer NOT NULL,
+    addressable_id integer,
+    addressable_type character varying(255),
+    address_1 text,
+    address_2 text,
+    city text,
+    zipcode text,
+    state character varying(255),
+    country character varying(255),
+    "default" boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    neighborhood character varying(255)
+);
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
+
+
+--
 -- Name: admin_dashboards; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -565,7 +605,15 @@ CREATE TABLE users (
     unconfirmed_email character varying(255),
     authentication_token character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    first_name text,
+    last_name text,
+    social_security_number character varying(255),
+    nationality character varying(255),
+    receive_newsletter boolean,
+    mobile_number character varying(255),
+    home_number character varying(255),
+    work_number character varying(255)
 );
 
 
@@ -593,6 +641,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 --
 
 ALTER TABLE ONLY account_receivables ALTER COLUMN id SET DEFAULT nextval('account_receivables_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq'::regclass);
 
 
 --
@@ -699,6 +754,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY account_receivables
     ADD CONSTRAINT account_receivables_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY addresses
+    ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
 
 
 --
@@ -839,6 +902,20 @@ CREATE INDEX index_account_receivables_on_company_id ON account_receivables USIN
 --
 
 CREATE INDEX index_account_receivables_on_customer_id ON account_receivables USING btree (customer_id);
+
+
+--
+-- Name: index_addresses_on_addressable_id_and_addressable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_addresses_on_addressable_id_and_addressable_type ON addresses USING btree (addressable_id, addressable_type);
+
+
+--
+-- Name: index_addresses_on_default; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_addresses_on_default ON addresses USING btree ("default");
 
 
 --
@@ -1017,6 +1094,13 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
+-- Name: index_users_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_receive_newsletter ON users USING btree (receive_newsletter);
+
+
+--
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1099,3 +1183,11 @@ INSERT INTO schema_migrations (version) VALUES ('20121117024812');
 INSERT INTO schema_migrations (version) VALUES ('20121125010831');
 
 INSERT INTO schema_migrations (version) VALUES ('20121216001442');
+
+INSERT INTO schema_migrations (version) VALUES ('20121219003059');
+
+INSERT INTO schema_migrations (version) VALUES ('20121219005832');
+
+INSERT INTO schema_migrations (version) VALUES ('20121220012219');
+
+INSERT INTO schema_migrations (version) VALUES ('20121222193601');

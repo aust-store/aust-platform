@@ -7,7 +7,6 @@ Store::Application.routes.draw do
     }
 
   devise_for :users,
-    path: 'users/',
     controllers: {
       registrations: "store/devise/registrations",
       sessions: "store/devise/sessions"

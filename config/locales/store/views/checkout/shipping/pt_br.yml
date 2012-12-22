@@ -1,0 +1,7 @@
+# encoding: utf-8
+pt_br:
+  store:
+    checkout:
+      shipping:
+        show:
+          page_title: "Entrega"

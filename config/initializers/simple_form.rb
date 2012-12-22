@@ -40,7 +40,8 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     ## Inputs
-    b.use :label_input
+    b.use :label
+    b.use :input, :wrap_with => { :tag => :span, :class => :input_wrapper }
     b.use :hint,  :wrap_with => { :tag => :span, :class => :hint }
     b.use :error, :wrap_with => { :tag => :span, :class => :error }
   end
@@ -133,4 +134,8 @@ SimpleForm.setup do |config|
 
   # Cache SimpleForm inputs discovery
   # config.cache_discovery = !Rails.env.development?
+
+  config.wrappers :checkbox_inline, :tag => false do |b|
+    b.use :label_input
+  end
 end
