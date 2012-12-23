@@ -65,24 +65,4 @@ feature "Store cart" do
       page.should have_content "entrega em 3 dias úteis"
     end
   end
-
-  describe "checkout process" do
-    # TODO this could be converted to non-js
-    it "As an unlogged user, I click Checkout and go to the login page", js: true do
-      stub_shipping
-
-      inventory_entry = @product.balances.first
-      visit product_path(inventory_entry)
-      click_link "Adicionar ao carrinho"
-
-      within(".js_service_selection") { choose("type_pac") }
-      fill_in "zipcode", with: "96360000"
-
-      page.should have_content "R$ 12,34"
-      page.should have_content "entrega em 3 dias úteis"
-      click_on "checkout_button"
-
-      page.should have_content "Login"
-    end
-  end
 end

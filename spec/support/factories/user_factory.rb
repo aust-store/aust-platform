@@ -9,5 +9,10 @@ FactoryGirl.define do
     home_number   "12345678"
     work_number   "12345678"
     mobile_number "12345678"
+
+    # address
+    after(:create) do |user, evaluator|
+      FactoryGirl.create(:address, addressable: user)
+    end
   end
 end
