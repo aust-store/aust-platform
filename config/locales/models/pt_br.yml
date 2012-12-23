@@ -2,10 +2,27 @@
 pt_br:
   activerecord:
     attributes:
+      address:
+        address_1:    "Endereço 1"
+        address_2:    "Endereço 2"
+        neighborhood: "Bairro"
+        zipcode:      "CEP"
+        city:         "Cidade"
+        state:        "Estado"
+        country:      "País"
+      user:
+        first_name:   "Nome"
+        last_name:    "Sobrenome"
+        password:     "Senha"
+        password_confirmation:  "Confirmação da senha"
+        social_security_number: "CPF"
+        home_number: "Telefone residencial"
+        work_number: "Telefone no trabalho"
+        mobile_number: "Celular"
       account_receivable:
-        value: "Valor"
+        value:       "Valor"
         description: "Descrição"
-        due_to: "Data de vencimento"
+        due_to:      "Data de vencimento"
       admin_user:
         password: "Senha"
         password_confirmation: "Confirmação de senha"
@@ -18,6 +35,45 @@ pt_br:
         price: "Preço"
     errors:
       models:
+        address:
+          attributes:
+            address_1:
+              blank: "%{attribute} não pode ficar em branco"
+            neighborhood:
+              blank: "%{attribute} não pode ficar em branco"
+            zipcode:
+              blank: "%{attribute} não pode ficar em branco"
+              invalid: "%{attribute} não é válido (ex.: 12345-000)"
+            city:
+              blank: "%{attribute} não pode ficar em branco"
+            state:
+              blank: "%{attribute} não pode ficar em branco"
+            country:
+              blank: "%{attribute} não pode ficar em branco"
+        user:
+          attributes:
+            first_name:
+              blank: "%{attribute} não pode ficar em branco"
+            last_name:
+              blank: "%{attribute} não pode ficar em branco"
+            email:
+              blank: "%{attribute} não pode ser em branco"
+              invalid: "Formato de email incorreto! (Ex: email@email.com)"
+              taken: "Já utilizado, escolha outro!"
+            password:
+              blank: "O campo %{attribute} não pode ficar em branco!"
+              too_short: "%{attribute} deve ter no mínimo 6 caracteres!"
+              confirmation: "As senhas são incompatíveis, digite novamente!"
+            password_confirmation:
+              blank: "O campo %{attribute} não pode ficar em branco!"
+              too_short: "%{attribute} deve ter no mínimo 6 caracteres!"
+              confirmation: "As senhas são incompatíveis, digite novamente!"
+            social_security_number:
+              blank: "O campo %{attribute} não pode ficar em branco!"
+            home_number:
+              blank: "Você deve inserir seu número residencial ou celular."
+            mobile_number:
+              blank: "Você deve inserir seu número residencial ou celular."
         admin_user:
           attributes:
             name:

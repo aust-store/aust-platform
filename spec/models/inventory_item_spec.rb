@@ -11,7 +11,6 @@ describe InventoryItem do
         items = InventoryItem.first(2)
         items[0].balances.first.update_attribute(:on_sale, false)
         items[1].balances.first.update_attribute(:on_sale, false)
-        
 
         result = InventoryItem.with_entry_for_sale.limit(2).order("inventory_items.id ASC")
 

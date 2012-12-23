@@ -1,5 +1,12 @@
 # encoding: utf-8
 pt_br:
+  store:
+    generic:
+      or: "ou"
+      cancel: "Cancelar"
+    javascript:
+      form_success: "Os dados foram salvos com sucesso."
+      form_failure: "Não foi possível salvar seus dados."
   admin:
     generic:
       or: "ou"
@@ -14,27 +21,42 @@ pt_br:
         update: "Salvar item"
       company_setting:
         update: "Salvar configurações"
+      user:
+        create: "Salvar"
   simple_form:
     labels:
       defaults:
         description: "Descrição"
+      user:
+        receive_newsletter: "Desejo receber novidades e anúncios relevantes."
       inventory_entry:
-        quantity: "Quantidade"
+        quantity:      "Quantidade"
         cost_per_unit: "Custo por unidade"
-        price: "Preço de venda"
+        price:         "Preço de venda"
       inventory_item:
-        name: "Nome do item ou mercadoria"
+        name:          "Nome do item ou mercadoria"
         merchandising: "Merchandising"
-        reference: "Código de referência"
+        reference:     "Código de referência"
       shipping_box:
         length: "Comprimento"
-        width: "Largura"
+        width:  "Largura"
         height: "Altura"
         weight: "Peso"
       company_setting:
         zipcode: "CEP do remetente"
         commit: "Salvar configurações"
     hints:
+      user:
+        social_security_number: "No formato 000.000.000-00 ou apenas números."
+        home_number:   ""
+        work_number:   ""
+        mobile_number: ""
+        password:      "Use no mínimo 6 caracteres."
+        password_confirmation: "Digite sua senha novamente para evitar erros."
+      addresses:
+        address_2: "Use para complementos, referências etc"
+        zipcode: "8 números, com ou sem hífen"
+        country: "Atualmente, apenas brasileiros são permitidos"
       inventory_entry:
         quantity: "Um número inteiro (ex.: 10, 55, 109)"
         cost_per_unit: "Ex.: R$ 11,00"

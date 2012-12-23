@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125010831) do
+ActiveRecord::Schema.define(:version => 20121219005832) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -28,6 +28,23 @@ ActiveRecord::Schema.define(:version => 20121125010831) do
   add_index "account_receivables", ["admin_user_id"], :name => "index_account_receivables_on_admin_user_id"
   add_index "account_receivables", ["company_id"], :name => "index_account_receivables_on_company_id"
   add_index "account_receivables", ["customer_id"], :name => "index_account_receivables_on_customer_id"
+
+  create_table "addresses", :force => true do |t|
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
+    t.text     "address_1"
+    t.text     "address_2"
+    t.text     "city"
+    t.text     "zipcode"
+    t.string   "state"
+    t.string   "country"
+    t.boolean  "default"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "addresses", ["addressable_id", "addressable_type"], :name => "index_addresses_on_addressable_id_and_addressable_type"
+  add_index "addresses", ["default"], :name => "index_addresses_on_default"
 
   create_table "admin_dashboards", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -145,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20121125010831) do
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
+    t.text     "merchandising"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
@@ -191,5 +209,36 @@ ActiveRecord::Schema.define(:version => 20121125010831) do
   end
 
   add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "authentication_token"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.text     "first_name"
+    t.text     "last_name"
+    t.integer  "social_security_number"
+    t.string   "nationality"
+    t.boolean  "receive_newsletter"
+  end
+
+  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["receive_newsletter"], :name => "index_users_on_receive_newsletter"
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

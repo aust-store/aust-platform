@@ -1,0 +1,49 @@
+<h1><%= t('.page_title') %></h1>
+
+<div class="sign_up">
+  <%= simple_form_for resource, :url => user_registration_path, html: { autocomplete: :off } do |f| %>
+
+    <p><%= t('.compulsory_fields') %></p>
+    <fieldset class="personal_info">
+      <h2><%= t('.personal_info') %></h2>
+      <%= f.input :email, type: :email, input_html: { value: params[:email] } %>
+      <%= f.input :first_name, as: 'string' %>
+      <%= f.input :last_name, as: 'string' %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+      <%= f.input :social_security_number, as: 'string' %>
+    </fieldset>
+
+    <fieldset class="contact_info">
+      <div class="fields_with_illustration">
+        <p><%= t(".phone_rules") %></p>
+        <%= f.input :home_number, as: 'string' %>
+        <%= f.input :mobile_number, as: 'string' %>
+      </div>
+      <div class="illustration">
+        <%= image_tag "store/illustrations/phones_illustration.png" %>
+      </div>
+    </fieldset>
+
+    <fieldset class="address">
+      <div class="fields_with_illustration">
+        <h2><%= t('.address') %></h2>
+
+        <%= f.fields_for :addresses do |address| %>
+          <%= render partial: "shared/address_form", locals: { address: address } %>
+        <% end %>
+      </div>
+      <div class="illustration">
+        <%= image_tag "store/illustrations/illustrative_map.png" %>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <%= f.input :receive_newsletter, wrapper: :checkbox_inline, input_html: { checked: 'checked' } %>
+    </fieldset>
+
+    <div class="submit">
+      <%= f.submit id: 'sign_up_button' %>
+    </div>
+  <% end %>
+</div>

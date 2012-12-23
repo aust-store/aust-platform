@@ -1,0 +1,11 @@
+# encoding: utf-8
+pt_br:
+  store:
+    devise:
+      registrations:
+        new:
+          page_title: "Nova conta"
+          compulsory_fields: "Campos com asterísco (*) são obrigatórios."
+          personal_info: "Informações pessoais"
+          address_info: "Seu endereço"
+          phone_rules: "Você deve inserir no mínimo um número de contato."
