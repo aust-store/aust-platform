@@ -1,7 +1,12 @@
-<%= address.input :address_1, as: 'string' %>
-<%= address.input :address_2, as: 'string' %>
-<%= address.input :neighborhood, as: 'string' %>
-<%= address.input :zipcode, as: 'string' %>
-<%= address.input :city, as: 'string' %>
-<%= address.input :state %>
-<%= address.input :country, as: 'string', input_html: { value: "Brasil", disabled: "disabled" } %>
+<span class="address_fields">
+  <div class="input inline_inputs">
+    <%= address.input :address_1, as: 'string', wrapper_html: { class: 'input_with_label' } %>
+    <%= address.input :number, wrapper_html: { class: 'input_without_label smaller' }, label: false %>
+  </div>
+  <%= address.input :address_2, as: 'string' %>
+  <%= address.input :neighborhood, as: 'string' %>
+  <%= address.input :zipcode, as: 'string' %>
+  <%= address.input :city, as: 'string' %>
+  <%= address.input :state %>
+  <%= address.input :country, as: 'string', input_html: { value: "Brasil", disabled: "disabled" } %>
+</span>

@@ -16,9 +16,12 @@ pt_br:
         password:     "Senha"
         password_confirmation:  "Confirmação da senha"
         social_security_number: "CPF"
-        home_number: "Telefone residencial"
-        work_number: "Telefone no trabalho"
-        mobile_number: "Celular"
+        home_number:        "Telefone residencial"
+        home_area_number:   "DDD do telefone residencial"
+        work_number:        "Telefone do trabalho"
+        work_area_number:   "DDD do telefone do trabalho"
+        mobile_number:      "Celular"
+        mobile_area_number: "DDD do celular"
       account_receivable:
         value:       "Valor"
         description: "Descrição"
@@ -29,16 +32,18 @@ pt_br:
       company:
         name: "Nome da empresa"
       inventory_entry:
-        description: "Descrição"
+        description:   "Descrição"
         cost_per_unit: "Custo unitário"
-        quantity: "Quantidade"
-        price: "Preço"
+        quantity:      "Quantidade"
+        price:         "Preço"
     errors:
       models:
         address:
           attributes:
             address_1:
-              blank: "%{attribute} não pode ficar em branco"
+              blank: "Não pode ficar em branco"
+            number:
+              blank: "Não deixe em branco"
             neighborhood:
               blank: "%{attribute} não pode ficar em branco"
             zipcode:
@@ -72,8 +77,16 @@ pt_br:
               blank: "O campo %{attribute} não pode ficar em branco!"
             home_number:
               blank: "Você deve inserir seu número residencial ou celular."
+            home_area_number:
+              blank: "Insira o DDD."
+            work_number:
+              blank: "Você deve inserir seu número do trabalho."
+            work_area_number:
+              blank: "Insira o DDD."
             mobile_number:
               blank: "Você deve inserir seu número residencial ou celular."
+            mobile_area_number:
+              blank: "Insira o DDD."
         admin_user:
           attributes:
             name:

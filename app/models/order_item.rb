@@ -20,4 +20,8 @@ class OrderItem < ActiveRecord::Base
     quantity = 0 if quantity < 0
     update_attributes(quantity: quantity)
   end
+
+  def quantity
+    super.to_i
+  end
 end

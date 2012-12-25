@@ -29,6 +29,9 @@ pt_br:
         description: "Descrição"
       user:
         receive_newsletter: "Desejo receber novidades e anúncios relevantes."
+        home_area_number:   "Telefone residencial"
+        work_area_number:   "Telefone no trabalho"
+        mobile_area_number: "Celular"
       inventory_entry:
         quantity:      "Quantidade"
         cost_per_unit: "Custo por unidade"
@@ -53,10 +56,14 @@ pt_br:
         mobile_number: ""
         password:      "Use no mínimo 6 caracteres."
         password_confirmation: "Digite sua senha novamente para evitar erros."
+        home_area_number:   "DDD"
+        work_area_number:   "DDD"
+        mobile_area_number: "DDD"
       addresses:
         address_2: "Use para complementos, referências etc"
         zipcode: "8 números, com ou sem hífen"
         country: "Atualmente, apenas brasileiros são permitidos"
+        number:  "Número"
       inventory_entry:
         quantity: "Um número inteiro (ex.: 10, 55, 109)"
         cost_per_unit: "Ex.: R$ 11,00"

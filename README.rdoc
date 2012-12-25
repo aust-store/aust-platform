@@ -1,8 +1,8 @@
-== Project codename: Store
+This project is an e-commerce in a SaaS model.
 
-It's an e-commerce in a SaaS model.
+== Installing
 
-=== Installing
+=== Using subdomains locally
 
 The app requires subdomains. To be able to develop in the local machine, follow
 these steps:
@@ -23,7 +23,7 @@ these steps:
 In any computer, typing 127.0.0.1 is the same as typing `localhost`. The first
 line above is going to tunnel `http://store.i:3000` to `http://localhost:3000`.
 
-3. If you're not on a Mac, run
+3. If you're on a Mac, it might be necessasry to run in some cases to flush the cache
 
 `$ dscacheutil -flushcache`
 
@@ -36,72 +36,8 @@ the subdomain with the store you have locally.
 On Rails, you can read the current subdomain in a controller via
 `request.subdomain`.
 
-=== Guidelines
+=== Environments
 
-*Code*
+These are the available environments right now:
 
-* ActiveRecord Models should not have any code related to the business logic,
-only the sufficient for dealing with the database.
-* Controllers should not have anything related to the business logic, but
-only the sufficient for dealing with web requests.
-
-*Git*
-
-* Code and commit messages are written in english.
-* Commits follow the format `[12341235] Commit title`
-* Code is not pushed directly to master, except for fixing typos or
-editing README. A PR is required.
-
-*HTML/CSS/Javascript*
-
-* Use `classes` to identify elements. Use `id` only when dealing with Javascript.
-
-*Tests*
-
-* Every story should have corresponding Acceptance tests
-* Everything you write should have a Unit test
-* If you write something that depends on Rails, like a `before_filter`, then
-write an Integration test to assert that. You don't need to write Integrated 
-to every controller.
-
-=== Testing
-
-*Architecture*
-
-There are three kinds of tests: Acceptance, Integration and Unit.
-
-For a new story, write an Acceptance test, then proceed to write Unit tests,
-following the TDD cycle until you have your Acceptance test passing.
-
-If you need to test something that depends on Rails, like a before_filter or
-a scope, write the simplest Integration test possible.
-
-We're avoid Integration tests at all costs, writing Unit tests and Contract
-tests instead. For further information on the reasons, see 
-[this article](http://alexsquest.com/texts/1)
-
-*Running the tests*
-
-If you want to run the tests, do the following:
-
-   $ rspec spec/unit
-   $ bundle exec rspec spec/acceptance
-   $ bundle exec rspec spec/integration
-
-The three types of tests have to be ran separatelly (!), so you can't do
-`bundle exec rspec spec/`. If you want to run all specs at once, use
-
-    $ bundle exec rake
-
-=== Search Engine
-
-We're using SOLR as search engine. The gem sunspot takes care of it in
-development and test envs.
-
-* Sunspot/SOLR tasks
-
-    $ rake sunspot:solr:start
-    $ rake sunspot:solr:stop
-
-    # or you can reindex all using our customized task:
-    $ rake sunspot:reindex_all
+**Staging:** alestore.com.br

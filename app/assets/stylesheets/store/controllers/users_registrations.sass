@@ -1,0 +1,38 @@
+div.sign_up
+div.inline_inputs
+  display: table
+
+  .input
+    input
+      width: 160px
+
+  .smaller
+    input
+      width: 25px
+
+  .input_with_label
+    float: left
+    display: inline-block
+    .hint
+      display: table
+
+  .input_with_label.smaller
+    input
+      margin-right: 3px
+    .error
+      margin-left: 0
+      width: 180px
+      text-align: right
+
+  .input_without_label
+    display: inline-block
+    .error
+      margin: 3px 0 0 0
+
+  .input_without_label.smaller
+    display: table
+    input
+      margin-left: 3px
+    .hint
+      display: table
+      margin: 3px 0 0 0

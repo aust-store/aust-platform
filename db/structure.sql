@@ -96,7 +96,8 @@ CREATE TABLE addresses (
     "default" boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    neighborhood character varying(255)
+    neighborhood character varying(255),
+    number character varying(255)
 );
 
 
@@ -613,7 +614,11 @@ CREATE TABLE users (
     receive_newsletter boolean,
     mobile_number character varying(255),
     home_number character varying(255),
-    work_number character varying(255)
+    work_number character varying(255),
+    home_area_number character varying(255),
+    work_area_number character varying(255),
+    mobile_area_number character varying(255),
+    store_id integer
 );
 
 
@@ -1108,6 +1113,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_users_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_store_id ON users USING btree (store_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1191,3 +1203,7 @@ INSERT INTO schema_migrations (version) VALUES ('20121219005832');
 INSERT INTO schema_migrations (version) VALUES ('20121220012219');
 
 INSERT INTO schema_migrations (version) VALUES ('20121222193601');
+
+INSERT INTO schema_migrations (version) VALUES ('20121224011412');
+
+INSERT INTO schema_migrations (version) VALUES ('20121224061117');

@@ -3,6 +3,9 @@ class Cart < ActiveRecord::Base
   belongs_to :company
   has_many :items, class_name: "OrderItem", dependent: :destroy
   has_one :shipping, class_name: "OrderShipping"
+  has_one :shipping_address, as: :addressable, class_name: "Address"
+
+  accepts_nested_attributes_for :shipping_address
 
   def current_inventory_entry(id)
     company.inventory_entries.find(id)

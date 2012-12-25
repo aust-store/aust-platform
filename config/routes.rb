@@ -68,10 +68,15 @@ Store::Application.routes.draw do
   resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
 
   namespace :checkout, module: 'store/checkout' do
-    resource :shipping, only: [:show, :create], controller: "shipping"
+    resource :shipping, only: [:show, :update], controller: "shipping"
+    resource :payment,  only: [:show], controller: "payment"
   end
 
   resources :products, only: [:show], controller: "store/products"
+
+  namespace :gateway_notifications do
+    resource :pagseguro, only: :create
+  end
 
   get "home/index"
   root :to => 'store/home#index'

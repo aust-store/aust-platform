@@ -1,10 +1,33 @@
 require 'spec_helper'
 
 describe Store::Checkout::ShippingController do
+  it_should_behave_like "authenticable controller"
+
+  login_user
+
+  let(:cart) { double.as_null_object }
+
+  before do
+    controller.stub(:cart) { cart }
+  end
+
   describe "GET show" do
-    it "redirects to the sign in page" do
+    it "instantiates the cart model" do
+      cart.stub(:persistence) { :persistence }
       get :show
-      response.should redirect_to "/users/sign_in"
+      assigns(:cart).should == :persistence
+    end
+  end
+
+  describe "PUT update" do
+    it "sets the cart's shipping address" do
+      cart.should_receive(:set_shipping_address)
+      put :update
+    end
+
+    it "redirects to the payments controller" do
+      put :update
+      response.should redirect_to checkout_payment_url
     end
   end
 end

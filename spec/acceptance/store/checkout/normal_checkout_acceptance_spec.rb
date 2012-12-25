@@ -5,7 +5,7 @@ feature "Store cart" do
   background do
     @company = FactoryGirl.create(:company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
-    @user    = FactoryGirl.create(:user)
+    @user    = FactoryGirl.create(:user, store: @company)
     stub_subdomain(@company)
     stub_shipping
   end
@@ -29,7 +29,6 @@ feature "Store cart" do
       fill_in "user_email", with: @user.email
       fill_in "user_password", with: "123456"
       click_on "sign_in"
-
 
       page.should have_content I18n.t('store.checkout.shipping.show.page_title')
     end
