@@ -15,23 +15,40 @@ body {
   display: table;
   clear: both;
 
-  .title, .cart_status { float: left; width: 50%; }
   .title {
+    float: left; width: 50%;
     h1 { font-size: 3em; margin: 0; }
     p { color: #444; font-size: 0.9em; margin: 0 0 5px 0; }
   }
-  .cart_status .background {
-    margin: 18px 0 0 0;
-    padding: 5px 10px 5px 32px;
-    font-size: 0.9em;
-    color: #555;
+
+  .user_and_cart_status {
     float: right;
-    display: table;
-    background: image-url('store/icons/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
-    border-top: 1px solid white;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.07);
-    border-radius: 50px;
+    width: 200px;
+
+    .status_container {
+      display: table;
+      float: right;
+    }
+
+    .user_status {
+      display: table;
+      margin: 0 auto;
+      font-size: 0.9em;
+    }
+
+    .cart_status {
+      margin: 3px 0 0 0;
+      padding: 5px 10px 5px 32px;
+      font-size: 0.9em;
+      color: #555;
+      float: right;
+      display: table;
+      background: image-url('store/icons/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
+      border-top: 1px solid white;
+      border-bottom: 1px solid #ccc;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.07);
+      border-radius: 50px;
+    }
   }
 }
 

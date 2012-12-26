@@ -1,4 +1,6 @@
 class OrderItem < ActiveRecord::Base
+  belongs_to :order
+  belongs_to :cart
   belongs_to :inventory_item
   belongs_to :inventory_entry
   has_one :shipping_box
@@ -19,5 +21,9 @@ class OrderItem < ActiveRecord::Base
     quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
     quantity = 0 if quantity < 0
     update_attributes(quantity: quantity)
+  end
+
+  def quantity
+    super.to_i
   end
 end

@@ -9,6 +9,13 @@ describe OrderItem do
     end
   end
 
+  describe "#quantity" do
+    it "returns a integer" do
+      item = OrderItem.new(quantity: 2)
+      expect(item.quantity).to equal(2)
+    end
+  end
+
   describe "#update_quantity" do
     let(:item) { OrderItem.new }
 

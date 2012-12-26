@@ -1,5 +1,16 @@
-<div class="cart_status">
-  <div class="background">
-    <%= link_to "Seu carrinho está vazio.", cart_path %>
+<div class="user_and_cart_status">
+  <div class="status_container">
+    <div class="user_status">
+      <% if user_signed_in? %>
+        Olá, <%= current_user.first_name %>.
+        <%= link_to "Sair", destroy_user_session_path, method: :delete %>.
+      <% else %>
+        Olá. Já é cadastrado?
+        <%= link_to "Login", new_user_session_path %>.
+      <% end %>
+    </div>
+    <div class="cart_status">
+      <%= link_to "Seu carrinho está vazio.", cart_path %>
+    </div>
   </div>
 </div>

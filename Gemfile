@@ -4,7 +4,7 @@ gem 'rails', '~>3.2.9'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'
-gem 'devise', '2.0.4'
+gem 'devise'
 gem 'cancan'
 
 gem 'simple_form', "~> 2.0.0"
@@ -54,5 +54,6 @@ gem 'remotipart', '~> 1.0'
 gem 'correios', '0.6.0'
 gem 'emerald-rails', "~> 0.0.5"
 gem 'brazilian-rails'
+gem 'pag_seguro', '~> 0.4'
 
 gem 'capistrano', '2.13.5'

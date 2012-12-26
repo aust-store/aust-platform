@@ -6,7 +6,7 @@
     <p><%= t('.compulsory_fields') %></p>
     <fieldset class="personal_info">
       <h2><%= t('.personal_info') %></h2>
-      <%= f.input :email, type: :email, input_html: { value: params[:email] } %>
+      <%= f.input :email, type: :email, input_html: {}.merge(load_user_email) %>
       <%= f.input :first_name, as: 'string' %>
       <%= f.input :last_name, as: 'string' %>
       <%= f.input :password %>
@@ -17,8 +17,14 @@
     <fieldset class="contact_info">
       <div class="fields_with_illustration">
         <p><%= t(".phone_rules") %></p>
-        <%= f.input :home_number, as: 'string' %>
-        <%= f.input :mobile_number, as: 'string' %>
+        <div class="inline_inputs">
+          <%= f.input :home_area_number,   as: 'string', wrapper_html: { class: "input_with_label smaller" } %>
+          <%= f.input :home_number,        as: 'string', wrapper_html: { class: "input_without_label" }, label: false %>
+        </div>
+        <div class="inline_inputs">
+          <%= f.input :mobile_area_number, as: 'string', wrapper_html: { class: "input_with_label smaller" } %>
+          <%= f.input :mobile_number,      as: 'string', wrapper_html: { class: "input_without_label" }, label: false %>
+        </div>
       </div>
       <div class="illustration">
         <%= image_tag "store/illustrations/phones_illustration.png" %>

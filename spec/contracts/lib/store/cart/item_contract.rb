@@ -1,4 +1,5 @@
 require "store/cart/item"
+require "store/money"
 
 shared_examples_for "cart item contract" do
   it "responds to id" do

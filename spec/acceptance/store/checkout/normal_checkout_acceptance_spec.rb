@@ -2,12 +2,20 @@
 require "acceptance_spec_helper"
 
 feature "Store cart" do
+  let(:pagseguro) { double }
+
   background do
     @company = FactoryGirl.create(:company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
-    @user    = FactoryGirl.create(:user)
+    @user    = FactoryGirl.create(:user, store: @company)
     stub_subdomain(@company)
     stub_shipping
+
+    # bypass the gateway step, leading the user directly from the
+    # "finish order" to the success page
+    Store::Payment::Pagseguro::Checkout.stub(:new) { pagseguro }
+    pagseguro.stub(:create_transaction)
+    pagseguro.stub(:payment_url) { checkout_success_path }
   end
 
   describe "checkout process" do
@@ -30,8 +38,16 @@ feature "Store cart" do
       fill_in "user_password", with: "123456"
       click_on "sign_in"
 
-
       page.should have_content I18n.t('store.checkout.shipping.show.page_title')
+
+      within(".edit_cart") do
+        find("[name='place_order']").click
+      end
+
+      cart = Cart.last
+      Order.first.cart_id.should == cart.id
+
+      page.should have_content "Sucesso"
     end
   end
 end

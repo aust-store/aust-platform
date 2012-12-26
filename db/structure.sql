@@ -96,7 +96,8 @@ CREATE TABLE addresses (
     "default" boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    neighborhood character varying(255)
+    neighborhood character varying(255),
+    number character varying(255)
 );
 
 
@@ -540,6 +541,72 @@ ALTER SEQUENCE order_shippings_id_seq OWNED BY order_shippings.id;
 
 
 --
+-- Name: orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE orders (
+    id integer NOT NULL,
+    cart_id integer,
+    user_id integer,
+    store_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
+
+
+--
+-- Name: payment_statuses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payment_statuses (
+    id integer NOT NULL,
+    order_id integer,
+    status character varying(255),
+    notification_id text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payment_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payment_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payment_statuses_id_seq OWNED BY payment_statuses.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -613,7 +680,11 @@ CREATE TABLE users (
     receive_newsletter boolean,
     mobile_number character varying(255),
     home_number character varying(255),
-    work_number character varying(255)
+    work_number character varying(255),
+    home_area_number character varying(255),
+    work_area_number character varying(255),
+    mobile_area_number character varying(255),
+    store_id integer
 );
 
 
@@ -732,6 +803,20 @@ ALTER TABLE ONLY order_items ALTER COLUMN id SET DEFAULT nextval('order_items_id
 --
 
 ALTER TABLE ONLY order_shippings ALTER COLUMN id SET DEFAULT nextval('order_shippings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY orders ALTER COLUMN id SET DEFAULT nextval('orders_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payment_statuses ALTER COLUMN id SET DEFAULT nextval('payment_statuses_id_seq'::regclass);
 
 
 --
@@ -858,6 +943,22 @@ ALTER TABLE ONLY order_items
 
 ALTER TABLE ONLY order_shippings
     ADD CONSTRAINT order_shippings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payment_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_statuses
+    ADD CONSTRAINT payment_statuses_pkey PRIMARY KEY (id);
 
 
 --
@@ -1066,6 +1167,41 @@ CREATE INDEX index_order_shippings_on_order_id ON order_shippings USING btree (o
 
 
 --
+-- Name: index_orders_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_cart_id ON orders USING btree (cart_id);
+
+
+--
+-- Name: index_orders_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
+
+
+--
+-- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
+
+
+--
+-- Name: index_payment_statuses_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_statuses_on_order_id ON payment_statuses USING btree (order_id);
+
+
+--
+-- Name: index_payment_statuses_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_statuses_on_status ON payment_statuses USING btree (status);
+
+
+--
 -- Name: index_shipping_boxes_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1105,6 +1241,13 @@ CREATE INDEX index_users_on_receive_newsletter ON users USING btree (receive_new
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_store_id ON users USING btree (store_id);
 
 
 --
@@ -1191,3 +1334,11 @@ INSERT INTO schema_migrations (version) VALUES ('20121219005832');
 INSERT INTO schema_migrations (version) VALUES ('20121220012219');
 
 INSERT INTO schema_migrations (version) VALUES ('20121222193601');
+
+INSERT INTO schema_migrations (version) VALUES ('20121224011412');
+
+INSERT INTO schema_migrations (version) VALUES ('20121224061117');
+
+INSERT INTO schema_migrations (version) VALUES ('20121225191435');
+
+INSERT INTO schema_migrations (version) VALUES ('20121225203245');

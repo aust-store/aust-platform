@@ -9,11 +9,13 @@ describe Store::Cart do
   it_obeys_the "cart update contract"
 
   let(:company)    { double }
-  let(:cart_id)    { double }
+  let(:user)       { double }
+  let(:session)    { {cart_id: 2} }
+  let(:controller) { double(current_store: company, current_user: user, session: session) }
   let(:cart_model) { double(find_or_create_cart: true) }
   let(:item)       { double(id: 1) }
 
-  subject { Store::Cart.new(company, cart_id) }
+  subject { Store::Cart.new(controller) }
 
   before do
     stub_const("Cart", cart_model)
@@ -22,25 +24,28 @@ describe Store::Cart do
   describe "initialization" do
     it "persists the current cart" do
       Store::Cart.any_instance.should_receive(:persisted_cart)
-      Store::Cart.new(company, nil)
+      session = { cart_id: nil }
+      Store::Cart.new(controller)
     end
   end
 
   describe "#id" do
     it "returns the current session's id" do
+      controller.stub(:session) { {cart_id: 3} }
       subject.stub(:persistence) { nil }
-      subject.id.should == cart_id
+      subject.id.should == 3
     end
 
     it "returns the persistence's id if current session is nil" do
-      subject = Store::Cart.new(company, nil)
+      session = { cart_id: nil }
       subject.stub_chain(:persistence, :id) { :id }
       subject.id.should == :id
     end
 
     it "returns nil if no persistence or session was set" do
-      subject = Store::Cart.new(company, nil)
-      subject.stub_chain(:persistence) { nil }
+      controller.stub(:session) { {cart_id: nil} }
+      subject = Store::Cart.new(controller)
+      subject.stub(:persistence) { nil }
       subject.id.should == nil
     end
   end
@@ -99,8 +104,6 @@ describe Store::Cart do
 
   describe "#persisted_cart" do
     it "finds the current cart or creates a new" do
-      subject = Store::Cart.new(company, cart_id)
-
       cart_model.should_receive(:find_or_create_cart).with(subject)
       subject.persisted_cart
     end
@@ -119,4 +122,39 @@ describe Store::Cart do
 
   pending "#total_price"
   pending "#total_price_by_item"
+
+  describe "#set_shipping_address" do
+    let(:persistence)  { double.as_null_object }
+    let(:user_address) { double(copied: :user_address_copied).as_null_object }
+
+    before do
+      subject.stub(:persistence) { persistence }
+      user.stub(:default_address) { user_address }
+    end
+
+    it "deletes the previous shipping_address" do
+      shipping_address = double
+      persistence.stub(:shipping_address) { shipping_address }
+      shipping_address.should_receive(:destroy)
+      subject.set_shipping_address
+    end
+
+    it "deletes the previous shipping_address" do
+      persistence.should_receive(:build_shipping_address).with(:user_address_copied)
+      subject.set_shipping_address
+    end
+
+    it "deletes the previous shipping_address" do
+      persistence.should_receive(:save)
+      subject.set_shipping_address
+    end
+  end
+
+  describe "#convert_into_order" do
+    it "should persist a new order based on this cart" do
+      subject.persistence.should_receive(:convert_into_order)
+      subject.convert_into_order
+    end
+  end
+
 end

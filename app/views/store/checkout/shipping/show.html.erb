@@ -1,4 +1,9 @@
 <div>
   <h1><%= t('.page_title') %></h1>
 
+  <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+
+    <%= f.submit name: "place_order" %>
+  <% end %>
+
 </div>

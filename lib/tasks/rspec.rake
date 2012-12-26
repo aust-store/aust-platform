@@ -17,6 +17,8 @@ if Rails.env.development?
     sh "bundle exec rake konacha:run"
     puts ""
     sh "bundle exec rspec -O ~/.rspec --color --format progress --no-drb spec/"
+    puts ""
+    sh "bundle exec rspec -O ~/.rspec --color --format progress --no-drb spec_integration/"
   end
 
   desc 'Default: run specs.'
