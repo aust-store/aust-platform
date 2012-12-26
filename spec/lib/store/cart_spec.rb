@@ -149,4 +149,12 @@ describe Store::Cart do
       subject.set_shipping_address
     end
   end
+
+  describe "#convert_into_order" do
+    it "should persist a new order based on this cart" do
+      subject.persistence.should_receive(:convert_into_order)
+      subject.convert_into_order
+    end
+  end
+
 end

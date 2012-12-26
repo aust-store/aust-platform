@@ -9,13 +9,17 @@ describe Store::Payment::Pagseguro::Checkout do
   let(:shipping_options) { double(service_type: 'pac') }
   let(:user)             { FactoryGirl.create(:user) }
   let(:items)            { [double(id: 1, name: "T-Shirt", price: 12.0, quantity: 2)] }
-  let(:controller)       { double(return_urls: {pagseguro: "http://www.uol.com.br"}) }
+  let(:controller)       { double }
 
   let(:order)            { double(id:               2,
                                   shipping_address: shipping_address,
                                   shipping_options: shipping_options,
                                   user:             user,
                                   all_items:        items) }
+
+  before do
+    controller.stub(:after_payment_return_url).with(:pagseguro) { "http://www.uol.com.br" }
+  end
 
   describe "#create_transaction" do
     it "contacts PagSeguro and returns the payment URL" do

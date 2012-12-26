@@ -68,5 +68,9 @@ module Store
     def set_user
       persistence.update_attributes(user: @user)
     end
+
+    def convert_into_order
+      persistence.convert_into_order
+    end
   end
 end

@@ -16,4 +16,20 @@ describe Address do
       end
     end
   end
+
+  describe "#copied" do
+    it "returns a hash with all attributes except Rails defaults" do
+      address = FactoryGirl.build_stubbed(:address)
+      address.copied.should == {
+        "address_1"    => "Baker street",
+        "address_2"    => "Obviously not 221A",
+        "city"         => "London",
+        "zipcode"      => "96360000",
+        "state"        => "RS",
+        "country"      => "BR",
+        "neighborhood" => "Center",
+        "number"       => "221B"
+      }
+    end
+  end
 end

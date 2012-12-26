@@ -1,7 +1,7 @@
 class Cart < ActiveRecord::Base
   belongs_to :user
   belongs_to :company
-  has_many :items, class_name: "OrderItem", dependent: :destroy
+  has_many :items, class_name: "OrderItem"
   has_one :shipping, class_name: "OrderShipping"
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
@@ -65,5 +65,17 @@ class Cart < ActiveRecord::Base
     cart.current_company.carts.find(cart.id)
   rescue ActiveRecord::RecordNotFound
     cart.current_company.carts.create
+  end
+
+  def convert_into_order
+    order = Order.find_or_create_by_cart_id(id)
+    order.user             = user
+    order.store            = company
+    order.shipping_address = shipping_address
+    order.shipping_details = shipping
+    items.each do |item|
+      order.items << item
+    end
+    order.save
   end
 end

@@ -155,4 +155,31 @@ describe Cart do
       cart.reset_shipping
     end
   end
+
+  describe "#convert_into_order" do
+    it "creates an order based on the cart" do
+      cart = FactoryGirl.create(:cart)
+      cart.convert_into_order
+      order = Order.where(cart_id: cart.id).first
+
+      # order counterpart should be created
+      order.should be_present
+
+      # order attributes should match the cart's
+      order.cart_id.should          == cart.id
+      order.user_id.should          == cart.user_id
+      order.store.should            == cart.company
+
+      # cart items are copied as well
+      cart.items.each do |item|
+        order.items.should include item
+      end
+
+      # shipping address is copied as well
+      order.shipping_address.should == cart.shipping_address
+
+      # shipping options are copied as well
+      order.shipping_details.should == cart.shipping
+    end
+  end
 end

@@ -70,12 +70,13 @@ Store::Application.routes.draw do
   namespace :checkout, module: 'store/checkout' do
     resource :shipping, only: [:show, :update], controller: "shipping"
     resource :payment,  only: [:show], controller: "payment"
+    resource :success,  only: [:show], controller: "success"
   end
 
   resources :products, only: [:show], controller: "store/products"
 
-  namespace :gateway_notifications do
-    resource :pagseguro, only: :create
+  namespace :gateway_notifications, module: 'store/gateway_notifications' do
+    resource :pagseguro, only: :create, controller: "pagseguro"
   end
 
   get "home/index"

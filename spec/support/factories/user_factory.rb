@@ -15,9 +15,11 @@ FactoryGirl.define do
     work_area_number   "55"
 
     association :store, factory: :company
+
     # address
     after(:create) do |user, evaluator|
-      FactoryGirl.create(:address, addressable: user)
+      user.addresses.build(FactoryGirl.attributes_for(:address))
+      user.save
     end
   end
 end

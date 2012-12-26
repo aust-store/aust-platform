@@ -37,7 +37,11 @@ class User < ActiveRecord::Base
   end
 
   def default_address
-    addresses.where(default: true).first
+    if addresses.present?
+      addresses.where(default: true).first
+    else
+      raise "User has no address"
+    end
   end
 
   def full_name

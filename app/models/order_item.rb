@@ -1,4 +1,6 @@
 class OrderItem < ActiveRecord::Base
+  belongs_to :order
+  belongs_to :cart
   belongs_to :inventory_item
   belongs_to :inventory_entry
   has_one :shipping_box

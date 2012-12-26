@@ -7,6 +7,10 @@ Dir[File.expand_path("../contracts/**/*_contract.rb", __FILE__)].each do |f|
   require f
 end
 
+Dir[File.expand_path("../support/shared_examples/**/*.rb", __FILE__)].each do |f|
+  require f
+end
+
 RSpec.configure do |config|
   config.filter_run wip: true
   config.run_all_when_everything_filtered = true

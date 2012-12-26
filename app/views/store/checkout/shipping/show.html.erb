@@ -3,7 +3,7 @@
 
   <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
 
-    <%= f.submit %>
+    <%= f.submit name: "place_order" %>
   <% end %>
 
 </div>
