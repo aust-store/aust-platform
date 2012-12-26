@@ -7,8 +7,7 @@ module Store
       end
 
       def enabled?
-        return true unless store.zipcode.empty?
-        false
+        store.zipcode.present?
       end
 
       def calculate(client_zipcode, type)

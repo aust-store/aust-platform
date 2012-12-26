@@ -10,6 +10,7 @@ feature "Store cart" do
     @user    = FactoryGirl.create(:user, store: @company)
     stub_subdomain(@company)
     stub_shipping
+    stub_shipping_calculation_enabled(true)
 
     # bypass the gateway step, leading the user directly from the
     # "finish order" to the success page

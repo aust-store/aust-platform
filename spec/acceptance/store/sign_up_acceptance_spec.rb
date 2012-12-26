@@ -6,6 +6,7 @@ feature "Store Sign Up" do
     @company = FactoryGirl.create(:company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
     stub_subdomain(@company)
+    stub_shipping_calculation_enabled(true)
   end
 
   scenario "As an user, I can sign up when checking out", js: true do
