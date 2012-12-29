@@ -3,6 +3,10 @@ body {
   font-family: "Lucida Grande", "Lucida Sans", "Verdana", sans-serif;
 }
 
+.green_background {
+  background: lighten(green, 65%) !important;
+}
+
 .notice {
   color: green;
   font-weight: bold;

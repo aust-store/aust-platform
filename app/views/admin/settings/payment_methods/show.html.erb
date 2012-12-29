@@ -1,0 +1,61 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_settings_path,
+             text: t("admin.history_navigation.back.settings")
+           } %>
+
+<header>
+  <h1><%= t ".title" %></h1>
+</header>
+
+<div class="main_container">
+  <div class="payment_methods_table">
+    <div class="labels column">
+      <div class="logo"></div>
+      <div>
+        Status
+      </div>
+      <div>
+        Público Alvo
+      </div>
+      <div>
+        Tarifa por transação
+      </div>
+      <div>
+        Taxa em pagamentos por boleto
+      </div>
+      <div>
+        Taxa em pagamentos por cartão de crédito
+      </div>
+      <div>
+        Mensalidade
+      </div>
+      <div>
+      </div>
+    </div>
+
+    <div class="gateway pagseguro column">
+      <div class="logo">
+        <%= image_tag 'admin/gateways/pagseguro_logo.png', width: 170 %>
+      </div>
+      <div class="status <%= 'green_background' if @gateway.active? %>">
+        <%= @gateway.active? ? "Ativado" : "Desativado" %>
+      </div>
+      <div>Apenas brasileiros</div>
+      <div>R$ 0,40</div>
+      <div>4,99%</div>
+      <div>4,99%</div>
+      <div>sem mensalidades</div>
+      <div>
+        <%= small_button admin_settings_payment_methods_pagseguro_wizard_path,
+              text: t(".configure_button"),
+              image: 'admin/icons/edit_16.png',
+              id: 'configure_pagseguro' %>
+      </div>
+    </div>
+  </div>
+
+  <p class="responsability">
+    <%= t(".gateway_responsibility") %>
+  </p>
+</div>

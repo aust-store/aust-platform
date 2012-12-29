@@ -574,6 +574,40 @@ ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
 
 
 --
+-- Name: payment_gateways; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payment_gateways (
+    id integer NOT NULL,
+    store_id integer,
+    name character varying(255),
+    email character varying(255),
+    token text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payment_gateways_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payment_gateways_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_gateways_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payment_gateways_id_seq OWNED BY payment_gateways.id;
+
+
+--
 -- Name: payment_statuses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -816,6 +850,13 @@ ALTER TABLE ONLY orders ALTER COLUMN id SET DEFAULT nextval('orders_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY payment_gateways ALTER COLUMN id SET DEFAULT nextval('payment_gateways_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY payment_statuses ALTER COLUMN id SET DEFAULT nextval('payment_statuses_id_seq'::regclass);
 
 
@@ -951,6 +992,14 @@ ALTER TABLE ONLY order_shippings
 
 ALTER TABLE ONLY orders
     ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payment_gateways_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_gateways
+    ADD CONSTRAINT payment_gateways_pkey PRIMARY KEY (id);
 
 
 --
@@ -1188,6 +1237,13 @@ CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
 
 
 --
+-- Name: index_payment_gateways_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_gateways_on_store_id ON payment_gateways USING btree (store_id);
+
+
+--
 -- Name: index_payment_statuses_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1342,3 +1398,5 @@ INSERT INTO schema_migrations (version) VALUES ('20121224061117');
 INSERT INTO schema_migrations (version) VALUES ('20121225191435');
 
 INSERT INTO schema_migrations (version) VALUES ('20121225203245');
+
+INSERT INTO schema_migrations (version) VALUES ('20121227022754');

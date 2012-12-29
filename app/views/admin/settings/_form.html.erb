@@ -5,6 +5,12 @@
       <%= s.input :zipcode %>
     </div>
 
+    <div class="section pagseguro">
+      <h2><%= t ".payment_gateway.title" %></h2>
+      <%= image_tag 'admin/icons/payment_cards.png' %>
+      <%= link_to t(".payment_gateway.configure"), admin_settings_payment_methods_path %>
+    </div>
+
     <%= s.submit %>
   </div>
 <% end %>

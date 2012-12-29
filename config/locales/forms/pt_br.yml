@@ -11,6 +11,7 @@ pt_br:
     generic:
       or: "ou"
       cancel: "Cancelar"
+      back: "Voltar"
     javascript:
       form_success: "Os dados foram salvos com sucesso."
       form_failure: "Não foi possível salvar seus dados."
@@ -23,6 +24,9 @@ pt_br:
         update: "Salvar configurações"
       user:
         create: "Salvar"
+      payment_gateway:
+        create: "Salvar e prosseguir"
+        update: "Salvar e prosseguir"
   simple_form:
     labels:
       defaults:
