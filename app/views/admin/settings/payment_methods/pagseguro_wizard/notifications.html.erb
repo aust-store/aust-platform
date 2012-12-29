@@ -1,0 +1,35 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_settings_path,
+             text: t("admin.history_navigation.back.dashboard")
+           } %>
+
+<header>
+  <h1><%= t ".title" %></h1>
+</header>
+
+<div class="main_container">
+  <div class="content_tabs">
+    <%= render "tabs" %>
+    
+    <div class="tab_body">
+  
+      <%= simple_format t(".body",
+                          pagseguro_link_notifications: link_to(
+                            "https://pagseguro.uol.com.br/integracao/notificacao-de-transacoes.jhtml",
+                            "https://pagseguro.uol.com.br/integracao/notificacao-de-transacoes.jhtml",
+                            { class: 'js_another_window' }
+                          ),
+                          store_notification_url: gateway_notifications_pagseguro_url,
+                          pagseguro_img_notifications: image_tag('admin/instructions/gateways/pagseguro_notifications.jpg')
+                         ) %>
+
+      <p>
+        <%= link_button_to t("admin.settings.payment_methods.continue"), next_wizard_path %>
+        <%= t "admin.generic.or" %>
+        <%= link_to t("admin.generic.back"), previous_wizard_path %>
+      </p>
+    </div>
+  </div>
+
+</div>

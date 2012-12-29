@@ -1,0 +1,21 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_settings_path,
+             text: t("admin.history_navigation.back.dashboard")
+           } %>
+
+<header>
+  <h1><%= t ".title" %></h1>
+</header>
+
+<div class="main_container">
+  <div class="content_tabs">
+    <%= render "tabs" %>
+    
+    <div class="tab_body">
+
+      <h2><%= t(".body_title") %></h2>
+      <%= simple_format t(".body") %>
+    </div>
+  </div>
+</div>

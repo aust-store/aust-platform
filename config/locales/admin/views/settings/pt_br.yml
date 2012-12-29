@@ -1,0 +1,67 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    settings:
+      show:
+        title: "Configurações"
+      form:
+        shipping:
+          title: "Entrega"
+        payment_gateway:
+          title: "Meios de pagamento"
+          configure: "Configurar meios de pagamento"
+      payment_methods:
+        continue: "Prosseguir"
+        show:
+          title: "Meios de Pagamento"
+          configure_button: "Configurar"
+          gateway_responsibility: "Os valores acima têm fim ilustrativa. Os valores e tarifas acima são cobrados pelos gateways de pagamento segundo sua própria política de cobrança e estão sujeitas a mudança sem aviso prévio. Toda responsabilidade pelo funcionamento dos métodos de pagamento é do respectivo gateway utilizado."
+        pagseguro_wizard:
+          email:
+            title: "Configure o PagSeguro"
+            subtitle: "Crie sua conta PagSeguro e configure seu email"
+            body: |
+              Para usar o PagSeguro, comece preenchendo o campo abaixo com o email da sua conta de vendedor no PagSeguro:
+            creating_account:
+              title: "Como criar uma conta de vendedor no PagSeguro"
+              pagseguro_link: "http://www.pagseguro.com.br"
+              body: |
+
+                Visite o seguinte endereço: %{pagseguro_link}. Na página inicial, clique em Criar Conta e siga os passos como nas imagens abaixo.
+
+                <strong>Importante:</strong> sua conta deve ser do tipo vendedor.
+
+                %{steps_img}
+          token:
+            title: "Configure o PagSeguro"
+            body: |
+              Accesse a seguinte página do PagSeguro: %{pagseguro_link}
+
+              Clique em <strong>Ativado</strong> e no botão <strong>Gerar novo token</strong>.
+
+              %{pagseguro_img_token}
+
+              Então cole no campo abaixo o código gerado.
+          notifications:
+            title: "Configure o PagSeguro"
+            body: |
+                Chegamos ao último passo. O PagSeguro precisa saber o endereço da sua loja para que possa avisar que pagamentos com cartão de crédito foram aceitos ou não.
+
+                Accesse a seguinte página do PagSeguro: <br /> %{pagseguro_link_notifications}
+
+                Então selecione <strong>Ativado</strong> e no campo <strong>"Definir URL para receber as notificações"</strong>, cole o endereço em negrito abaixo.
+
+                <strong>%{store_notification_url}</strong>
+
+                %{pagseguro_img_notifications}
+
+                Clique <strong>Ativar</strong> para salvar as alterações.
+          success:
+            title: "O PagSeguro está integrado!"
+            body_title: "Parabéns!"
+            body: |
+              A integração com o PagSeguro está completa. Experimente realizar um pedido na sua loja. Para não precisa realizar pagamentos, experimente uma compra usando boleto.
+
+              Toda configuração dos meios de pagamento, como cartões aceitos e parcelamentos deve ser feito no painel de administração do PagSeguro.
+
+              Boas vendas!
