@@ -1,9 +1,9 @@
 module Store
   module GatewayNotifications
-    class PagseguroController < Store::ApplicationController
+    class PagseguroController < ActionController::Base
       def create
-        email = current_store.payment_gateway.email
-        token = current_store.payment_gateway.token
+        email = "email"
+        token = "token"
         notification_code = params[:notificationCode]
 
         pagseguro_response = PagSeguro::Notification.new(email, token, notification_code)

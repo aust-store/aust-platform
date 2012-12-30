@@ -1,28 +1,15 @@
 require 'spec_helper'
 
 describe Store::GatewayNotifications::PagseguroController do
-  before do
-    @store = FactoryGirl.create(:company)
-    @store.build_payment_gateway(
-      email: "user@example.com",
-      name:  "pagseguro",
-      token: "1234"
-    )
-    @store.save
-    stub_subdomain(@store)
-  end
-
   describe "POST create" do
     it "triggers the status change" do
-      PagSeguro::Notification
-        .stub(:new)
-        .with("user@example.com", "1234", "notification_code")
-        .and_return(:notification)
 
+      PagSeguro::Notification.stub(:new).with("email", "token", "1234") { :notification }
       Store::GatewayNotifications::PagseguroWrapper.stub(:new).with(:notification) { :notification_wrapper }
+
       Store::Order::StatusChange.should_receive(:change).with(:notification_wrapper)
 
-      post :create, notificationCode: "notification_code"
+      post :create, notificationCode: "1234"
     end
   end
 end
