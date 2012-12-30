@@ -118,11 +118,13 @@
         </div>
       </div>
 
-      <div class="line">
-        <div class="checkout">
-          <%= link_to "", checkout_shipping_path, id: "checkout_button" %>
+      <% if @checkout_enabled %>
+        <div class="line">
+          <div class="checkout">
+            <%= link_to "", checkout_shipping_path, id: "checkout_button" %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 

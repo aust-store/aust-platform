@@ -1,13 +1,16 @@
 module ControllersExtensions
-  module LoadingCompanyAccordingToDomain
+  module LoadingStore
     def self.included(base)
       base.before_filter :load_store_information
+    end
+
+    def current_store
+      @company ||= load_store_information
     end
 
     private
 
     def current_subdomain
-      Rails.logger.info "Current request.subdomains: #{request.subdomains.inspect}"
       if request.subdomains.present?
         request.subdomains.first
       end
