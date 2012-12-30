@@ -1,3 +1,4 @@
+require "unit_spec_helper"
 require "store/shipping/calculation"
 require "store/shipping/calculation_result"
 require "store/shipping/correios"
@@ -10,6 +11,8 @@ class DummyCorreios
 end
 
 describe Store::Shipping::Calculation do
+  it_should_behave_like "loading store contract"
+
   let(:store) { double(zipcode: "123") }
   let(:dimension) { double(length: 1, width: 2, height: 3, weight: 4) }
   let(:controller) do

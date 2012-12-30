@@ -65,4 +65,23 @@ feature "Store cart" do
       page.should have_content "entrega em 3 dias úteis"
     end
   end
+
+  describe "policies" do
+    background do
+      inventory_entry = @product.balances.first
+      visit product_path(inventory_entry)
+      click_link "Adicionar ao carrinho"
+    end
+
+    scenario "As an user, I can see a checkout button if a payment gateway was configured" do
+      visit cart_path
+      page.should have_selector "#checkout_button"
+    end
+
+    scenario "As an user, I can't see a checkout button if not payment gateway was configured" do
+      @company.payment_gateway.delete
+      visit cart_path
+      page.should_not have_selector "#checkout_button"
+    end
+  end
 end

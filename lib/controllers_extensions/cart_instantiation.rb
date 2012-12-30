@@ -1,5 +1,5 @@
 module ControllersExtensions
-  module StoreApplication
+  module CartInstantiation
     def cart
       @cart ||= Store::Cart.new(self)
       session[:cart_id] = @cart.id

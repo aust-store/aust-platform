@@ -1,6 +1,9 @@
+require "unit_spec_helper"
 require "store/items_for_sale"
 
 describe Store::ItemsForSale do
+  it_should_behave_like "loading store contract"
+
   before do
     @store = double
     @controller = double(current_store: @store)
