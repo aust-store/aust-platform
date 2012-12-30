@@ -309,7 +309,7 @@ DEPENDENCIES
   capistrano (= 2.13.5)
   capybara
   carrierwave
-  coffee-rails (~> 3.2.1)
+  coffee-rails
   correios (= 0.6.0)
   database_cleaner
   devise
@@ -331,7 +331,7 @@ DEPENDENCIES
   rails (~> 3.2.9)
   remotipart (~> 1.0)
   rspec-rails (~> 2.11)
-  sass-rails (~> 3.2.3)
+  sass-rails
   shoulda
   shoulda-matchers
   simple_form (~> 2.0.0)
