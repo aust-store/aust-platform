@@ -7,7 +7,6 @@ describe Store::Cart do
   it_obeys_the "cart items list contract"
   it_obeys_the "cart price calculation contract"
   it_obeys_the "cart update contract"
-  it_obeys_the "loading store contract"
 
   let(:company)    { double }
   let(:user)       { double }

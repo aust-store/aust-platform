@@ -2,7 +2,6 @@ class Store::CartController < Store::ApplicationController
   layout "store"
 
   def show
-    @checkout_enabled = Store::Policy::Checkout.new(self).enabled?
     @cart_items = cart.current_items
     @cart = DecorationBuilder.cart(cart.persistence)
     render "empty" and return if @cart_items.blank?

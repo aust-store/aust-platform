@@ -1,5 +1,6 @@
 class Store::ApplicationController < ApplicationController
   layout "store"
 
-  include ControllersExtensions::CartInstantiation
+  include ControllersExtensions::StoreApplication
+
 end

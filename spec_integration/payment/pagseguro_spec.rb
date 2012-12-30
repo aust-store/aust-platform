@@ -4,8 +4,6 @@ require 'store/payment/pagseguro/checkout'
 describe Store::Payment::Pagseguro::Checkout do
   it_obeys_the "cart contract"
   it_obeys_the "cart item contract"
-  it_obeys_the "loading store contract"
-
 
   let(:shipping_address) { FactoryGirl.build(:address) }
   let(:shipping_options) { double(service_type: 'pac') }

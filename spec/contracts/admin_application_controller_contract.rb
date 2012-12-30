@@ -13,4 +13,5 @@ shared_examples_for "admin application controller contract" do
       controller.current_user
     end.to_not raise_error
   end
+
 end

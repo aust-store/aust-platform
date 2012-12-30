@@ -8,7 +8,6 @@ feature "PagSeguro as Payment Gateway" do
   end
 
   scenario "As a store admin, I want to configure PagSeguro" do
-    @admin_user.company.payment_gateway.delete
     visit admin_settings_path
 
     click_link "Configurar meios de pagamento"

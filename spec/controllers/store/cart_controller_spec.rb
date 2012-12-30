@@ -11,27 +11,15 @@ describe Store::CartController do
   end
 
   describe "GET show" do
-    let(:checkout_policy) { double.as_null_object }
-
-    before do
-      Store::Policy::Checkout.stub(:new).with(controller) { checkout_policy }
-    end
-
     it "loads the cart items" do
-      get :show
+      get :show, store_id: "store_name"
       assigns(:cart_items).should == :items
     end
 
     it "decorates the cart" do
       DecorationBuilder.stub(:cart).with(:persistence) { :decorated_items }
-      get :show
+      get :show, store_id: "store_name"
       assigns(:cart).should == :decorated_items
-    end
-
-    it "defines if the checkout is enabled" do
-      checkout_policy.stub(:enabled?) { :checkout_enabled }
-      get :show
-      assigns(:checkout_enabled).should == :checkout_enabled
     end
   end
 
