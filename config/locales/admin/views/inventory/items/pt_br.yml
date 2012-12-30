@@ -28,9 +28,3 @@ pt_br:
               Para podermos calcular o frete da sua encomenda,
               precisamos saber o tamanho da caixa que será despachada
               pelos Correios.
-    settings:
-      show:
-        title: "Configurações"
-      form:
-        shipping:
-          title: "Entrega"
