@@ -11,10 +11,10 @@ module Store
         end
 
         def create_transaction
-          @payment = PagSeguro::Payment.new(gateway_email,
-                                            gateway_token,
-                                            id: order.id,
-                                            redirect_url: @controller.after_payment_return_url(:pagseguro))
+          @payment = PagSeguro::Payment.new('chavedomundo@gmail.com',
+                                           '3FD7050526694058A462366B32EDFE96',
+                                           id: order.id,
+                                           redirect_url: @controller.after_payment_return_url(:pagseguro))
           set_sender
           set_shipping if order.shipping_options.present?
           set_items
@@ -63,18 +63,6 @@ module Store
               amount:      sprintf("%.2f", item.price),
               quantity:    item.quantity)
           end
-        end
-
-        def current_store
-          @controller.current_store
-        end
-
-        def gateway_email
-          current_store.payment_gateway.email
-        end
-
-        def gateway_token
-          current_store.payment_gateway.token
         end
       end
     end

@@ -69,10 +69,10 @@ class Cart < ActiveRecord::Base
 
   def convert_into_order
     order = Order.find_or_create_by_cart_id(id)
-    order.user             = user             if user.present?
-    order.store            = company          if company.present?
-    order.shipping_address = shipping_address if shipping_address.present?
-    order.shipping_details = shipping         if shipping.present?
+    order.user             = user
+    order.store            = company
+    order.shipping_address = shipping_address
+    order.shipping_details = shipping
     items.each do |item|
       order.items << item
     end
