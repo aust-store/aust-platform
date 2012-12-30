@@ -5,7 +5,6 @@ class Forms
     @setup_image_upload()
     @show_loading_on_form_submit()
     @hide_loading_on_form_response()
-    @custom_button_to()
 
   init_datepicker: ->
     $("input.date").datepicker({
@@ -13,7 +12,7 @@ class Forms
     })
 
   set_focus_on_first_input: ->
-    $("form input[type='text'][value='']:visible:enabled:first, #main textarea:visible:enabled:first").focus()
+    $("#main input[type='text']:first, #main textarea:first").focus()
 
   setup_image_upload: ->
     $('.form-upload.image').bind 'ajax:complete', (evt, xhr, status) ->
@@ -29,10 +28,6 @@ class Forms
     $("form").on "ajax:complete", ->
       page_loading = new PageLoading
       page_loading.hide($(this).parents(".form_loading_section"))
-
-  custom_button_to: ->
-    $('body').on 'click', 'button.js_link_to', ->
-      window.location = $(this).data('url')
 
 $ ->
   forms = new Forms

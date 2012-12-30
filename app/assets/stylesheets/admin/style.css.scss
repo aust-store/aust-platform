@@ -1,4 +1,6 @@
-$navigation-background-color: lighten(#e8f5fd, 0%);
+$navigation-background-color: lighten(#e8f5fd, 3%);
+
+* { margin: 0; padding: 0; }
 
 body {
   background: #eee;
@@ -29,18 +31,13 @@ body {
   }
 }
 
-h1, h2, h3, h4, p { font-weight: 100; margin: 0 0 15px 0; }
-
+h1, h2, h3, h4, p { font-weight: 100; margin-bottom: 15px; }
 
 h1 { font-size: 2.5em; color: #165c85; }
-h2 { font-size: 1.7em; font-weight: normal; color: #555; }
+h2 { font-size: 2.0em; font-weight: normal; color: #999; }
 p { line-height: 1.6em; }
-p:last-child { margin-bottom: 0; }
 
-a { color: #1783b6; text-decoration: none; }
-.button_to { display: inline-block; }
-
-#main a { text-decoration: underline; }
+a { color: #165c85; text-decoration: none; }
 a:hover { color: #165c85; text-decoration: underline; }
 ul { padding: 0; margin: 0 }
 li { list-style: none; margin: 0; padding: 0; }
@@ -48,8 +45,8 @@ li { list-style: none; margin: 0; padding: 0; }
 #navigation {
   float: right;
   width: 219px;
-  background: $navigation-background-color;
-  //text-shadow: 2px 2px 1px rgba(255, 255, 255, 1);
+  background: lighten(#e8f5fd, 3%);
+  text-shadow: 2px 2px 1px rgba(255, 255, 255, 1);
   padding: 40px 0 10px 0;
 
   .navigation_container {
@@ -66,7 +63,7 @@ li { list-style: none; margin: 0; padding: 0; }
     padding: 0 10px 10px 0; list-style: none;
 
     li {
-      padding: 5px 3px 5px 0;
+      padding: 3px 3px 3px 0;
       margin: 0 0 0 15px;
       display: block;
 
@@ -116,7 +113,6 @@ li { list-style: none; margin: 0; padding: 0; }
 
     a {
       color: #999;
-      text-decoration: none;
     }
   }
 
@@ -161,6 +157,14 @@ li { list-style: none; margin: 0; padding: 0; }
       background: #efefef;
       margin: 10px 0 0 0;
       padding: 10px;
+
+      h2 {
+        color: #555;
+        margin: 0 0 10px 0;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        background: none;
+      }
     }
 
     .managing_buttons a.css_button_anchor { margin: 0 10px 0 0; }

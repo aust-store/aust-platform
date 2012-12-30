@@ -36,8 +36,6 @@ pt_br:
         cost_per_unit: "Custo unitário"
         quantity:      "Quantidade"
         price:         "Preço"
-      payment_gateway:
-        token: "Token de segurança"
     errors:
       models:
         address:

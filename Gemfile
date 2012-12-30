@@ -55,6 +55,5 @@ gem 'correios', '0.6.0'
 gem 'emerald-rails', "~> 0.0.5"
 gem 'brazilian-rails'
 gem 'pag_seguro', '~> 0.4'
-gem 'wicked', '~> 0.3'
 
 gem 'capistrano', '2.13.5'
