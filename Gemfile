@@ -17,9 +17,10 @@ group :assets do
   gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer'
+  gem 'libv8', '~> 3.11.8'
+  gem 'therubyracer', '~> 0.11.0'
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '~> 1.3.0'
 end
 
 gem 'jquery-rails'
