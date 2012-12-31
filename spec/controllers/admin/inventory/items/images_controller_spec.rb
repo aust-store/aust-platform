@@ -21,10 +21,10 @@ describe Admin::Inventory::Items::ImagesController do
   end
 
   describe "DELETE destroy" do
-    let(:items) { double }
-    let(:item) { double }
+    let(:items)  { double }
+    let(:item)   { double }
     let(:images) { double }
-    let(:image) { double }
+    let(:image)  { double }
 
     it "deletes an image" do
       controller.current_company.stub(:items) { items }

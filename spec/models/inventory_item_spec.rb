@@ -4,9 +4,9 @@ describe InventoryItem do
   describe "scopes" do
     describe "#with_entry_for_sale" do
       it "should return the correct entries" do
-        FactoryGirl.create(:inventory_item_with_company)
-        FactoryGirl.create(:inventory_item_with_company)
-        FactoryGirl.create(:inventory_item_with_company)
+        FactoryGirl.create(:inventory_item)
+        FactoryGirl.create(:inventory_item)
+        FactoryGirl.create(:inventory_item)
 
         items = InventoryItem.first(2)
         items[0].balances.first.update_attribute(:on_sale, false)
@@ -49,7 +49,7 @@ describe InventoryItem do
 
   describe "#entry_for_sale" do
     before do
-      @item = FactoryGirl.create(:inventory_item_with_company)
+      @item = FactoryGirl.create(:inventory_item)
     end
 
     it "loads the first entry for sale" do

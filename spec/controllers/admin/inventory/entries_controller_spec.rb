@@ -84,7 +84,7 @@ describe Admin::Inventory::EntriesController do
     let(:entry) { double }
 
     before do
-      @item = FactoryGirl.create(:inventory_item_with_company, company: @company)
+      @item = FactoryGirl.create(:inventory_item, company: @company)
       controller.stub_chain(:current_company, :items, :find) { @item }
     end
 

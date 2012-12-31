@@ -1,6 +1,7 @@
 require 'acceptance_spec_helper'
 
-feature "Adding and editing items", js: true, search: true do
+feature "Inventory Items' images management", js: true, search: true do
+  let(:image_path) { "#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png" }
   before do
     login_into_admin
     FactoryGirl.create(:inventory_item, company: @company)
@@ -8,8 +9,6 @@ feature "Adding and editing items", js: true, search: true do
   end
 
   scenario "As a store admin, I'd like to add images to inventory items" do
-    image_path ="#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png"
-
     visit admin_inventory_items_path
 
     click_link @item.name
