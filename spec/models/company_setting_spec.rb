@@ -3,7 +3,7 @@ require "spec_helper"
 describe CompanySetting do
   describe "hstore methods" do
     before do
-      @settings = FactoryGirl.build(:company_setting)
+      @settings = FactoryGirl.create(:company_setting)
     end
 
     specify "zipcode" do

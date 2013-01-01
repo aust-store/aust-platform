@@ -3,9 +3,19 @@ pt_br:
   store:
     cart:
       show:
-        shipping_calculation:
-          ships_in: "entrega em"
-          working_days: "dias úteis"
+        header:
+          column:
+            item: "Item"
+            quantity: "Quantidade"
+            total_price: "Subtotal"
+        column:
+          items_total: "Total"
+        shipping_disabled_message: "Não estamos fazendo entrega no momento."
+      shipping_calculation:
+        shipping: "Frete"
+        zipcode: "CEP:"
+        ships_in: "entrega em"
+        working_days: "dias úteis"
         service_type:
           correios:
             normal: "Normal (PAC)"

@@ -45,4 +45,8 @@ class Company < ActiveRecord::Base
   def zipcode
     settings.zipcode
   end
+
+  def has_zipcode?
+    zipcode.present?
+  end
 end

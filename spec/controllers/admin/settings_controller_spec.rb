@@ -17,6 +17,7 @@ describe Admin::SettingsController do
 
     context "when update occurs successfully" do
       before do
+        @settings.stub(:zipcode) { "96360000" }
         @settings.stub(:update_attributes) { true }
         xhr :put, :update, company_setting: { zipcode: "1234567" }
       end

@@ -5,7 +5,7 @@ feature "Store cart" do
   let(:pagseguro) { double }
 
   background do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     @product = FactoryGirl.create(:inventory_item, company: @company)
     @user    = FactoryGirl.create(:user, store: @company)
     stub_subdomain(@company)

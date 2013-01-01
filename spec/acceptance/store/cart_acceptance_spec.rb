@@ -3,7 +3,7 @@ require "acceptance_spec_helper"
 
 feature "Store cart" do
   before do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end
@@ -63,6 +63,17 @@ feature "Store cart" do
 
       page.should have_content "R$ 12,34"
       page.should have_content "entrega em 3 dias úteis"
+    end
+
+    scenario "As an user, I see a message when shipping is not available" do
+      @company.settings.update_attributes(zipcode: "")
+
+      inventory_entry = @product.balances.first
+      visit product_path(inventory_entry)
+
+      click_link "Adicionar ao carrinho"
+
+      page.should have_content "#{I18n.t("store.cart.show.shipping_disabled_message")}"
     end
   end
 

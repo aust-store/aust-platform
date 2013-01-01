@@ -5,6 +5,10 @@ body.store_cart.show {
     .cart_table {
       background: #f9f9f9;
       display: table;
+
+      .shipping_disabled {
+        margin: 10px;
+      }
     }
 
     .header, .products, .product, .items_total, .shipping_contiguration {
