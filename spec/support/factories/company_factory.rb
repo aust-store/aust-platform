@@ -10,5 +10,9 @@ FactoryGirl.define do
                                     name:  "pagseguro")
       company.save
     end
+
+    factory :company_with_zipcode do
+      association :settings, factory: :company_setting
+    end
   end
 end

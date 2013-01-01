@@ -5,12 +5,11 @@ feature "Store cart" do
   let(:pagseguro) { double }
 
   background do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     @product = FactoryGirl.create(:inventory_item, company: @company)
     @user    = FactoryGirl.create(:user, store: @company)
     stub_subdomain(@company)
     stub_shipping
-    stub_shipping_calculation_enabled(true)
 
     # bypass the gateway step, leading the user directly from the
     # "finish order" to the success page

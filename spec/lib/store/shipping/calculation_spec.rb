@@ -27,13 +27,13 @@ describe Store::Shipping::Calculation do
 
   describe "#enabled?" do
     it "returns true if store's zipcode is not empty" do
-      store.stub(:zipcode) { "96360-000" }
+      store.stub(:has_zipcode?) { true }
       shipping = described_class.new(controller)
       shipping.enabled?.should == true
     end
 
     it "does'not return true if store's zipcode is empty" do
-      store.stub(:zipcode) { "" }
+      store.stub(:has_zipcode?) { false }
       shipping = described_class.new(controller)
       shipping.enabled?.should == false
     end

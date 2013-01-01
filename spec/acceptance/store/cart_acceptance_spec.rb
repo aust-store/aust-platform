@@ -3,10 +3,9 @@ require "acceptance_spec_helper"
 
 feature "Store cart" do
   before do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
-    stub_shipping_calculation_enabled(true)
   end
 
   describe "an empty cart" do
@@ -67,7 +66,7 @@ feature "Store cart" do
     end
 
     scenario "As an user, I see a message when shipping is not available" do
-      stub_shipping_calculation_enabled(false)
+      @company.settings.update_attributes(zipcode: "")
 
       inventory_entry = @product.balances.first
       visit product_path(inventory_entry)

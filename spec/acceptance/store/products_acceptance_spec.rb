@@ -3,10 +3,9 @@ require "acceptance_spec_helper"
 feature "Store products" do
   before do
     inventory_entry_one = FactoryGirl.create(:inventory_entry, price: 11.0)
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
-    stub_shipping_calculation_enabled(true)
   end
 
   describe "products details" do

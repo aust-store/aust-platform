@@ -3,10 +3,9 @@ require "acceptance_spec_helper"
 
 feature "Store Sign Up" do
   before do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company_with_zipcode)
     @product = FactoryGirl.create(:inventory_item, company: @company)
     stub_subdomain(@company)
-    stub_shipping_calculation_enabled(true)
   end
 
   scenario "As an user, I can sign up when checking out", js: true do

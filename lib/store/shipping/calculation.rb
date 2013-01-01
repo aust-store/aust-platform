@@ -7,7 +7,7 @@ module Store
       end
 
       def enabled?
-        store.zipcode.present?
+        store.has_zipcode?
       end
 
       def calculate(client_zipcode, type)
