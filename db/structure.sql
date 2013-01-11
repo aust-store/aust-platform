@@ -685,6 +685,50 @@ ALTER SEQUENCE shipping_boxes_id_seq OWNED BY shipping_boxes.id;
 
 
 --
+-- Name: taxonomies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE taxonomies (
+    id integer NOT NULL,
+    name text,
+    parent_id integer,
+    store_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: taxonomies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE taxonomies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: taxonomies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE taxonomies_id_seq OWNED BY taxonomies.id;
+
+
+--
+-- Name: taxonomy_hierarchies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE taxonomy_hierarchies (
+    ancestor_id integer NOT NULL,
+    descendant_id integer NOT NULL,
+    generations integer NOT NULL
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -871,6 +915,13 @@ ALTER TABLE ONLY shipping_boxes ALTER COLUMN id SET DEFAULT nextval('shipping_bo
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY taxonomies ALTER COLUMN id SET DEFAULT nextval('taxonomies_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -1016,6 +1067,14 @@ ALTER TABLE ONLY payment_statuses
 
 ALTER TABLE ONLY shipping_boxes
     ADD CONSTRAINT shipping_boxes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: taxonomies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY taxonomies
+    ADD CONSTRAINT taxonomies_pkey PRIMARY KEY (id);
 
 
 --
@@ -1279,6 +1338,34 @@ CREATE INDEX index_shipping_boxes_on_inventory_item_id ON shipping_boxes USING b
 
 
 --
+-- Name: index_taxonomies_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_taxonomies_on_parent_id ON taxonomies USING btree (parent_id);
+
+
+--
+-- Name: index_taxonomies_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_taxonomies_on_store_id ON taxonomies USING btree (store_id);
+
+
+--
+-- Name: index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id ON taxonomy_hierarchies USING btree (ancestor_id, descendant_id);
+
+
+--
+-- Name: index_taxonomy_hierarchies_on_descendant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_taxonomy_hierarchies_on_descendant_id ON taxonomy_hierarchies USING btree (descendant_id);
+
+
+--
 -- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1414,3 +1501,7 @@ INSERT INTO schema_migrations (version) VALUES ('20121225191435');
 INSERT INTO schema_migrations (version) VALUES ('20121225203245');
 
 INSERT INTO schema_migrations (version) VALUES ('20121227022754');
+
+INSERT INTO schema_migrations (version) VALUES ('20130101030424');
+
+INSERT INTO schema_migrations (version) VALUES ('20130101030632');

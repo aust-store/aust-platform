@@ -8,6 +8,13 @@ GIT
       rake
 
 GIT
+  remote: git://github.com/mceachen/closure_tree.git
+  revision: 7bf33728b6251d012986f657ddb8496194ae1ae1
+  specs:
+    closure_tree (3.6.9)
+      activerecord (>= 3.0.0)
+
+GIT
   remote: git://github.com/rails-api/active_model_serializers.git
   revision: e79fe399a53bb79b22f040697681617eea8cedbc
   specs:
@@ -122,6 +129,7 @@ GEM
     draper (0.18.0)
       actionpack (~> 3.2)
       activesupport (~> 3.2)
+    ejs (1.1.1)
     ember-rails (0.8.0)
       active_model_serializers
       execjs (>= 1.2)
@@ -310,11 +318,13 @@ DEPENDENCIES
   capistrano (= 2.13.5)
   capybara
   carrierwave
+  closure_tree!
   coffee-rails
   correios (= 0.6.0)
   database_cleaner
   devise
   draper
+  ejs
   ember-rails
   emerald-rails (~> 0.0.5)
   factory_girl (~> 4)

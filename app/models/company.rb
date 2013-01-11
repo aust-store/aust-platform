@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_many :items, class_name: "InventoryItem"
   has_many :carts
   has_many :inventory_entries, foreign_key: "store_id"
+  has_many :taxonomies, foreign_key: "store_id"
 
   has_one :inventory
   has_one :payment_gateway, foreign_key: :store_id

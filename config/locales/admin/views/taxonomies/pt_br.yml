@@ -1,0 +1,13 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    taxonomies:
+      index:
+        title: "Categorias"
+        intro: "Seus produtos possuem categorias. Estas categorias são mostradas em menus na sua loja."
+        first_instructions: "Clique no botão verde abaixo para criar uma nova categoria. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar."
+        normal_instructions: |
+          Passe o mouse sobre as categorias e clique no botão verde para inserir uma nova categoria. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar."
+
+          Para editar uma categoria, clique sobre seu nome para ver seu campo de texto.
+        greatfather_node: "Categorias de produtos"
