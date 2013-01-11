@@ -10,6 +10,9 @@
   </li>
   <li><%= link_to "Financeiro", admin_dashboard_path %></li>
   -->
+  <li <%= current_nav_namespace("taxonomies") %>>
+    <%= link_to "Categorias", admin_taxonomies_path %>
+  </li>
   <li <%= current_nav_namespace("users") %>>
     <%= link_to "Colaboradores", admin_users_path %>
   </li>

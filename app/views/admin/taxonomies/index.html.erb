@@ -1,0 +1,40 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1><%= t('.title') %></h1>
+</header>
+
+<div class="main_container">
+  <p>
+    <%= t('.intro') %>
+  </p>
+
+  <% if @taxonomies.empty? %>
+    <p>
+      <%= t('.first_instructions') %>
+    </p>
+  <% end %>
+
+  <div class="js_tree_diagrams tree_diagrams">
+    <div class="html_template">
+      <%= render "tree_templates" %>
+    </div>
+
+    <div class="js_tree_body" data-create-url="<%= admin_taxonomies_url %>">
+
+      <div class="greatfather has_children">
+        <div class="node js_node greatfather_node">
+          <div class="box"><%= t('.greatfather_node') %></div>
+        </div>
+
+        <%= render "tree", taxonomies: @taxonomies %>
+
+        <div class="hoverable_end"></div>
+      </div>
+    </div>
+  </div>
+
+  <% unless @taxonomies.empty? %>
+    <%= simple_format t('.normal_instructions') %>
+  <% end %>
+</div>

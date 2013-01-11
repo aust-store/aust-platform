@@ -24,10 +24,11 @@ class Admin::ApplicationController < ApplicationController
 
   def navigation_namespace
     @nav_namespace = case request.url
-    when /admin\/inventory/ ; "inventory"
-    when /admin\/users/     ; "users"
-    when /admin\/store/     ; "store"
-    when /admin\/settings/  ; "settings"
+    when /admin\/inventory/  ; "inventory"
+    when /admin\/users/      ; "users"
+    when /admin\/store/      ; "store"
+    when /admin\/settings/   ; "settings"
+    when /admin\/taxonomies/ ; "taxonomies"
     else nil
     end
   end

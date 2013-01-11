@@ -1,0 +1,135 @@
+$node-box-background: #ebebeb
+
+.tree_diagrams
+  margin: 15px 0 0 0
+  display: table
+  clear: both
+  width: 100%
+
+  .node
+    display: table
+    margin-left: -15px
+    position: relative
+    background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
+    background-position: 0 11px
+    .box
+      display: table
+      background: $node-box-background
+      border-radius: 50px
+      border-bottom: 1px solid #dadada
+      padding: 4px 10px
+      margin: 0 0 0 14px
+      -webkit-transition: background-color 200ms linear
+      -moz-transition: background-color 200ms linear
+      -o-transition: background-color 200ms linear
+      -ms-transition: background-color 200ms linear
+      transition: background-color 200ms linear
+
+      &:hover
+        background-color: lighten($node-box-background, 4%)
+        -webkit-transition: background-color 300ms linear
+        -moz-transition: background-color 300ms linear
+        -o-transition: background-color 300ms linear
+        -ms-transition: background-color 300ms linear
+        transition: background-color 300ms linear
+
+  .child
+    width: 100%
+    padding: 0 0 0 25px
+    display: table
+    background: image-url('admin/layout/taxonomies/vertical.png') repeat-y
+    background-position: 10px
+
+    &.has_children
+      padding: 0px 0 0 25px
+      display: table
+
+      .js_node:last-child
+        background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
+        background-position: 0 -7px
+        margin-bottom: 0
+
+    .js_hoverable_bottom
+      background: pink
+      height: 16px
+      width: auto
+      display: table
+
+    > .node.candidate_input:last-child
+      background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
+      background-position: 0 -7px
+
+    > .node.candidate:last-child
+      background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
+      background-position: 0 -15px
+      margin-top: 7px
+      position: relative
+      .plus
+        top: -4px
+        left: 36px
+
+  .node
+    .node.candidate
+      background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
+      background-position: 0 4px !important
+      position: absolute !important
+      right: -54px
+      top: 0px
+      margin-left: -15px
+      .plus
+        right: 0 !important
+        top: -4px
+
+    .node.candidate_input
+      background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
+      background-position: 0 11px !important
+      position: absolute !important
+      right: -150px
+
+  .node.candidate
+    .box
+      min-width: 40px
+      background: lighten($node-box-background, 1%)
+    .plus
+      width: 16px
+      height: 16px
+      background: image-url('admin/icons/plus_16.png') no-repeat
+      position: absolute
+
+  .greatfather > .child
+    &.has_children
+      margin-bottom: 0
+
+  .child.js_last_greatfather_node, .child.js_has_one_node
+    background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
+    background-position: 10px -1px
+
+  .has_children > .node .box
+    margin-bottom: 0px
+    margin-top: 0px
+
+  .node
+    margin-top: 7px
+
+  .node.candidate_input:last-child
+    margin-top: 7px
+  .node .candidate_input:last-child
+    margin-top: 0px
+
+  .node.candidate_input
+    width: 150px
+    top: 0px
+    .box
+      display: block
+      padding-top: 0
+      padding-bottom: 0
+  input
+    width: 110px
+    height: 17px
+
+  .hoverable_end
+    background: transparent
+    margin: 5px 0 0 0
+    height: 20px
+    width: 100%
+    display: table

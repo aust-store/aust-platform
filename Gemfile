@@ -27,14 +27,19 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'quiet_assets', :group => :development
-gem 'better_errors', :group => :development
+
+group :development do
+  gem 'quiet_assets'
+  gem 'better_errors'
+end
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'
   gem 'pry'
   gem 'poltergeist'
   gem 'konacha'
+  gem 'ejs'
 end
 
 group :test do
@@ -60,5 +65,6 @@ gem 'emerald-rails', "~> 0.0.5"
 gem 'brazilian-rails'
 gem 'pag_seguro', '~> 0.4'
 gem 'wicked', '~> 0.3'
+gem 'closure_tree', github: 'mceachen/closure_tree'
 
 gem 'capistrano', '2.13.5'

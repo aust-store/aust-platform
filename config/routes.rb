@@ -29,6 +29,8 @@ Store::Application.routes.draw do
       end
     end
 
+    resources :taxonomies, only: [:index, :create, :update, :delete]
+
     resource :inventory do
       resources :items, controller: 'inventory/items' do
         collection do
