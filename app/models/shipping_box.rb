@@ -3,6 +3,8 @@ class ShippingBox < ActiveRecord::Base
 
   attr_accessible :height, :inventory_items, :length, :weight, :width
 
+  before_validation :sanitize_attributes
+
   validates :width, :height, :weight, :length,
     presence: true , if: :dependent_fields_present?
 
@@ -24,5 +26,19 @@ class ShippingBox < ActiveRecord::Base
 
   def dependent_fields_present?
     [:width, :height, :weight, :length].any? { |f| send(f).present? }
+  end
+
+  def sanitize_attributes
+    self.length = Store::NumberSanitizer.sanitize_number(length)
+    self.length = BigDecimal.new(length.to_s) if length.present?
+
+    self.height = Store::NumberSanitizer.sanitize_number(height)
+    self.height = BigDecimal.new(height.to_s) if height.present?
+
+    self.width  = Store::NumberSanitizer.sanitize_number(width)
+    self.width  = BigDecimal.new(width.to_s)  if width.present?
+
+    self.weight = Store::NumberSanitizer.sanitize_number(weight)
+    self.weight = BigDecimal.new(weight.to_s) if weight.present?
   end
 end

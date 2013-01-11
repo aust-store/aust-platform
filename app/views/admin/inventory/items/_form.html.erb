@@ -11,6 +11,7 @@
   <%= f.fields_for :shipping_box do |box| %>
     <h2><%= t ".shipping_box.title" %></h2>
     <p><%= t ".shipping_box.description" %></p>
+    <p><%= t ".shipping_box.tip" %></p>
     <%= box.input :length, input_html: { type: 'string', value: @item.shipping_box.length } %>
     <%= box.input :width, input_html: { type: 'string', value: @item.shipping_box.width } %>
     <%= box.input :height, input_html: { type: 'string', value: @item.shipping_box.height } %>
