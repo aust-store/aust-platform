@@ -1,5 +1,11 @@
 Store::Application.routes.draw do
 
+  namespace :consultor do
+    resources :home, only: [:index]
+
+    root :to => 'home#index'
+  end
+
   devise_for :admin_users,
     controllers: {
       registrations: "admin/devise/registrations",

@@ -79,6 +79,9 @@ module Store
     config.assets.precompile += ["superadmin/application_manifest.js"]
     config.assets.precompile += ["superadmin/application_manifest.css"]
 
+    config.assets.precompile += ["consultor/application_manifest.js"]
+    config.assets.precompile += ["consultor/application_manifest.css"]
+
     # Enable the asset pipeline
     config.assets.enabled = true
 

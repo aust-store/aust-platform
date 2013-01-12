@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Consultor</title>
+  <%= stylesheet_link_tag    "consultor/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "consultor/application_manifest" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="global">
+    <header class="page">
+      <h1>Consultoria</h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li class="current">Resumo</li>
+        <li>
+          <%= link_to "Submarino", "#" %>
+        </li>
+        <li>
+          <%= link_to "Ponto Frio", "#" %>
+        </li>
+        <li>
+          <%= link_to "Americanas", "#" %>
+        </li>
+        <li>
+          <%= link_to "Casas Bahia", "#" %>
+        </li>
+        <li>
+          <%= link_to "Lojas marisa", "#" %>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="view">
+      <%= yield %>
+    </div>
+  </div>
+</body>
+</html>
