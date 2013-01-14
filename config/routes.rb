@@ -91,6 +91,5 @@ Store::Application.routes.draw do
     resource :pagseguro, only: :create, controller: "pagseguro"
   end
 
-  get "home/index"
   root :to => 'store/home#index'
 end
