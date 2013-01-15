@@ -23,4 +23,4 @@ tags
 public/uploads/*
 public/assets/*
 zeus*
-.sass-cache/
+.sass-cache/*
