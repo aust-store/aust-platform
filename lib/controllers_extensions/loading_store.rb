@@ -16,7 +16,6 @@ module ControllersExtensions
       end
     end
 
-
     def load_store_information
       if current_subdomain.present?
         Rails.logger.info "Visiting store with '#{current_subdomain}' handle"
