@@ -7,9 +7,8 @@ module Store
     def self.sanitize(value)
       result = value.to_s.gsub(/[^0-9|\.|,]/, "")
 
-      if result.scan(",").count + result.scan(".").count == 1 and
-      !(result =~ /[\.|,]\d{2}$/).nil? == false and
-      !(result =~ /[\.|,]\d{1}$/).nil? == false
+      if result.scan(/[,|\.]/).count == 1 &&
+        (result =~ /[\.|,]\d{1,2}$/).nil?
 
         result = result.gsub(/[^0-9]/, "")
       else
