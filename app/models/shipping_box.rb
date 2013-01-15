@@ -21,7 +21,7 @@ class ShippingBox < ActiveRecord::Base
                                     allow_blank: true }
 
   validates :weight, numericality: { greater_than_or_equal_to: 0.3,
-                                    less_than_or_equal_to: 30,
+                                     less_than_or_equal_to: 30,
                                      allow_blank: true }
 
   def dependent_fields_present?
@@ -29,16 +29,12 @@ class ShippingBox < ActiveRecord::Base
   end
 
   def sanitize_attributes
-    self.length = Store::NumberSanitizer.sanitize_number(length)
-    self.length = BigDecimal.new(length.to_s) if length.present?
+    self.length = Store::DimensionsSanitization.sanitize(length) if length.present?
 
-    self.height = Store::NumberSanitizer.sanitize_number(height)
-    self.height = BigDecimal.new(height.to_s) if height.present?
+    self.height = Store::DimensionsSanitization.sanitize(height) if height.present?
 
-    self.width  = Store::NumberSanitizer.sanitize_number(width)
-    self.width  = BigDecimal.new(width.to_s)  if width.present?
+    self.width  = Store::DimensionsSanitization.sanitize(width)  if width.present?
 
-    self.weight = Store::NumberSanitizer.sanitize_number(weight)
-    self.weight = BigDecimal.new(weight.to_s) if weight.present?
+    self.weight = Store::DimensionsSanitization.sanitize(weight) if weight.present?
   end
 end

@@ -31,11 +31,7 @@ describe ShippingBox do
     end
 
     describe "dependent_fields_present?" do
-      let(:shipping_box) { ShippingBox.new({ height: 10,
-                                             weight: 12,
-                                             width:  23,
-                                             length: 19 })
-                         }
+      let(:shipping_box) { ShippingBox.new(height: 10, weight: 12, width:  23, length: 19) }
 
       it "should return true if all attributes are present" do
         shipping_box.should be_valid
@@ -50,8 +46,29 @@ describe ShippingBox do
         shipping_box.should be_valid
       end
 
-      it "should return false when some attribute is left blank" do
+      it "should return false when any 2 attributes has been left blank" do
         shipping_box.weight = nil
+        shipping_box.height = nil
+        shipping_box.should_not be_valid
+      end
+
+      it "should return false when only weight attribute is left blank" do
+        shipping_box.weight = nil
+        shipping_box.should_not be_valid
+      end
+
+      it "should return false when only length is left blank" do
+        shipping_box.length = nil
+        shipping_box.should_not be_valid
+      end
+
+      it "should return false when only width attribute is left blank" do
+        shipping_box.width = nil
+        shipping_box.should_not be_valid
+      end
+
+      it "should return false when only height attribute is left blank" do
+        shipping_box.height = nil
         shipping_box.should_not be_valid
       end
     end
