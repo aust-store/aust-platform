@@ -45,6 +45,11 @@ feature "Adding Inventory Entries", js: true, search: true do
       fill_in "inventory_item_merchandising", with: "The Chookiest"
       fill_in "inventory_item_reference", with: "192837465"
 
+      fill_in "inventory_item_shipping_box_attributes_length", with: 25
+      fill_in "inventory_item_shipping_box_attributes_height", with: 25
+      fill_in "inventory_item_shipping_box_attributes_width", with: 25
+      fill_in "inventory_item_shipping_box_attributes_weight", with: 25
+
       click_button "Salvar item"
 
       page.should have_content "Chocolate Cookies"

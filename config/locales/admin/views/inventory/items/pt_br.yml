@@ -28,3 +28,4 @@ pt_br:
               Para podermos calcular o frete da sua encomenda,
               precisamos saber o tamanho da caixa que será despachada
               pelos Correios.
+            tip: "Se você não definir as dimensões da caixa, o produto não será posto à venda."

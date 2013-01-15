@@ -117,3 +117,25 @@ pt_br:
             price:
               blank: "Você deve especificar o %{attribute}"
               greater_than: "%{attribute} deve ter um valor válido"
+        shipping_box:
+          attributes:
+            length:
+              greater_than_or_equal_to: "O comprimento não pode ser menor que 18cm"
+              less_than_or_equal_to: "O comprimento não pode ser maior que 105cm"
+              blank: "O campo não pode ser deixado em branco"
+              not_a_number: "Use somente números"
+            height:
+              greater_than_or_equal_to: "A altura não pode ser menor que 2cm"
+              less_than_or_equal_to: "A altura não pode ser maior que 105cm"
+              blank: "O campo não pode ser deixado em branco"
+              not_a_number: "Use somente números"
+            width:
+              greater_than_or_equal_to: "A largura não pode ser menor que 11cm"
+              less_than_or_equal_to: "A largura não pode ser maior que 105cm"
+              blank: "O campo não pode ser deixado em branco"
+              not_a_number: "Use somente números"
+            weight:
+              greater_than_or_equal_to: "O peso não pode ser menor que 0.3kg"
+              less_than_or_equal_to: "O peso não pode ser maior que 30Kg"
+              blank: "O campo não pode ser deixado em branco"
+              not_a_number: "Use somente números"

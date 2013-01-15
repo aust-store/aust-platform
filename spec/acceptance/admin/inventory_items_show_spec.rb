@@ -41,7 +41,7 @@ feature "Inventory Item Management" do
 
       # Shipping Box
       translations = "admin.inventory.items.shipping_box"
-      page.should have_content "12.5cm #{I18n.t("#{translations}.length")}"
+      page.should have_content "18.5cm #{I18n.t("#{translations}.length")}"
       page.should have_content "14.5cm #{I18n.t("#{translations}.width")}"
       page.should have_content "5cm #{I18n.t("#{translations}.height")}"
       page.should have_content "#{I18n.t("#{translations}.box_weight")}: 10kg"
