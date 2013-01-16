@@ -59,4 +59,25 @@ describe InventoryItem do
       @item.entry_for_sale.should == entries.second
     end
   end
+
+  describe "#assert_valid_shipping_box" do
+    before do
+      @item = FactoryGirl.create(:inventory_item)
+    end
+
+    it "destroys an empty built shipping box" do
+      @item.shipping_box.weight = nil
+      @item.shipping_box.length = nil
+      @item.shipping_box.width  = nil
+      @item.shipping_box.height = nil
+
+      @item.assert_valid_shipping_box
+      ShippingBox.all.should == []
+    end
+
+    it "allows persistance when shipping box is valid" do
+      @item.assert_valid_shipping_box
+      @item.shipping_box.should_not == nil
+    end
+  end
 end

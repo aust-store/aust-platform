@@ -53,12 +53,12 @@ feature "Inventory Item Management" do
           # entries with quantity 0 should not appear
           visit admin_inventory_item_path(@item)
           page.should_not have_content "R$ 11,00"
-          page.should have_content "R$ 23,00"
-          page.should have_content "R$ 12,00"
+          page.should have_content     "R$ 23,00"
+          page.should have_content     "R$ 12,00"
 
           visit root_path
           page.should_not have_content "R$ 11,00"
-          page.should have_content "R$ 23,00"
+          page.should have_content     "R$ 23,00"
           page.should_not have_content "R$ 12,00"
 
           # selects the entry with price R$ 12,00
@@ -71,7 +71,7 @@ feature "Inventory Item Management" do
           visit root_path
           page.should_not have_content "R$ 11,00"
           page.should_not have_content "R$ 23,00"
-          page.should have_content "R$ 12,00"
+          page.should have_content     "R$ 12,00"
         end
       end
     end
@@ -86,14 +86,20 @@ feature "Inventory Item Management" do
           2.times do |n|
             visit new_admin_inventory_item_path(@company.handle)
             fill_in "inventory_item_name", with: "Item #{n}"
+
+            fill_in "inventory_item_shipping_box_attributes_length", with: 23
+            fill_in "inventory_item_shipping_box_attributes_width",  with: 23
+            fill_in "inventory_item_shipping_box_attributes_height", with: 23
+            fill_in "inventory_item_shipping_box_attributes_weight", with: 23
+
             click_button "Salvar item"
 
             click_link "Item #{n}"
 
             click_link "Nova entrada no estoque"
-            fill_in "inventory_entry_quantity", with: 10
+            fill_in "inventory_entry_quantity",      with: 10
             fill_in "inventory_entry_cost_per_unit", with: 20
-            fill_in "inventory_entry_price", with: 30
+            fill_in "inventory_entry_price",         with: 30
             click_button "submit_entry"
 
             click_link "Item #{n}"
@@ -101,7 +107,7 @@ feature "Inventory Item Management" do
             click_link "Gerenciar imagens"
             image_path = "#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png"
             within('.form-upload') do
-              attach_file("item[images][image]",image_path)
+              attach_file("item[images][image]", image_path)
               click_button "Enviar arquivos"
             end
 
@@ -110,7 +116,6 @@ feature "Inventory Item Management" do
           end
 
           visit root_path
-
           within(".product_0") do
             page.should have_content "Item 1"
             page.has_css?("image_0")
