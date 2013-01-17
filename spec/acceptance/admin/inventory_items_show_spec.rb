@@ -130,5 +130,36 @@ feature "Inventory Item Management" do
         end
       end
     end
+
+    describe "products not shown for sale on main page" do
+      scenario "items without a valid shipping box, do not appears on mais page" do
+        visit root_path
+        page.should have_content "My item"
+
+        visit edit_admin_inventory_item_path(@item)
+        fill_in "inventory_item_shipping_box_attributes_length", with: ""
+        fill_in "inventory_item_shipping_box_attributes_width",  with: ""
+        fill_in "inventory_item_shipping_box_attributes_height", with: ""
+        fill_in "inventory_item_shipping_box_attributes_weight", with: ""
+        click_button "Salvar item"
+
+        visit root_path
+        page.should_not have_content "My item"
+      end
+
+      scenario "items without a cover image, do not appears on mais page " do
+        visit root_path
+        page.should have_content "My item"
+
+        new_item = InventoryItem.find_by_name("My item")
+        new_item.images.each do |img|
+          img.cover = false
+          new_item.save
+        end
+
+        visit root_path
+        page.should_not have_content "My item"
+      end
+    end
   end
 end

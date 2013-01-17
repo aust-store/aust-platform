@@ -60,7 +60,7 @@ describe InventoryItem do
     end
   end
 
-  describe "#assert_valid_shipping_box" do
+  describe "#remove_empty_shipping_box" do
     before do
       @item = FactoryGirl.create(:inventory_item)
     end
@@ -71,12 +71,12 @@ describe InventoryItem do
       @item.shipping_box.width  = nil
       @item.shipping_box.height = nil
 
-      @item.assert_valid_shipping_box
+      @item.remove_empty_shipping_box
       ShippingBox.all.should == []
     end
 
     it "allows persistance when shipping box is valid" do
-      @item.assert_valid_shipping_box
+      @item.remove_empty_shipping_box
       @item.shipping_box.should_not == nil
     end
   end

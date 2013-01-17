@@ -13,7 +13,7 @@ class InventoryItem < ActiveRecord::Base
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
 
-  before_validation :assert_valid_shipping_box
+  before_validation :remove_empty_shipping_box
 
   validates :name, :admin_user_id, :company_id, presence: true
 
@@ -71,9 +71,10 @@ class InventoryItem < ActiveRecord::Base
     Store::ItemsSearch.new(self, query).search.includes(:balances)
   end
 
-  def assert_valid_shipping_box
-    if self.shipping_box.present?
+  def remove_empty_shipping_box
+    if shipping_box.present?
       self.shipping_box.destroy unless self.shipping_box.dependent_fields_present?
     end
+    true
   end
 end
