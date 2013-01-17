@@ -11,4 +11,19 @@ describe Taxonomy do
       vader.parent.should == anakin
     end
   end
+
+  describe ".flat_hash_tree" do
+    it "returns a flat array" do
+      anakin = Taxonomy.create(name: "Anakin")
+      vader  = anakin.children.create(name: "Darth Vader")
+      ben    = Taxonomy.create(name: "Ben")
+      luke   = vader .children.create(name: "Luke")
+
+      nodes = Taxonomy.flat_hash_tree
+      nodes[0].should == anakin
+      nodes[1].should == vader
+      nodes[2].should == luke
+      nodes[3].should == ben
+    end
+  end
 end

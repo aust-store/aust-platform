@@ -18,7 +18,7 @@
   </p>
 <% else %>
   <span class="section_without_content">
-    <%= t ".no_shipping_box" %> 
-    <%= link_to t(".new_link") %>.
+    <%= t ".no_shipping_box" %>
+    <%= link_to t(".new_link"), edit_admin_inventory_item_path(@item) %>.
   </span>
 <% end %>

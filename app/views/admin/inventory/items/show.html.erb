@@ -12,11 +12,11 @@
     <%= small_button edit_admin_inventory_item_path(@item), text: "Editar este item", :image => 'admin/icons/edit_16.png' %>
   </div>
   <p>
-    Vestuário
-    <span class="gray_arrow">►</span>
-    Masculino
-    <span class="gray_arrow">►</span>
-    Camisetas
+    <% if @taxonomy.present? %>
+      <%= t('.category') %>: <%= raw @taxonomy.map { |e| e.name }.join(' <span class="gray_arrow">►</span> ') %>
+    <% else %>
+      <%= t('.undefined_category') %>.
+    <% end %>
   </p>
 </header>
 
@@ -56,30 +56,7 @@
     </div>
 
     <div class="section shipping">
-      <%= render partial: "shipping_box" %>
-    </div>
-
-    <div class="section taxonomy">
-      <h2>Categorias</h2>
-      <div class="category_first_row">
-        <span class="gray_arrow">►</span>
-        Vestuário
-
-        <div class="child_category">
-          <span class="gray_arrow">►</span>
-          Masculino
-
-          <div class="child_category">
-            <span class="gray_arrow">►</span>
-            Camisetas
-
-            <div class="child_category item_name">
-              <span class="gray_arrow">►</span>
-              <%= @item.name %> (<%= link_to "Editar", "" %>)
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render "shipping_box" %>
     </div>
   </div>
 

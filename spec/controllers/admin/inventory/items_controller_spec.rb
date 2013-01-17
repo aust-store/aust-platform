@@ -6,6 +6,10 @@ describe Admin::Inventory::ItemsController do
   it_obeys_the "admin application controller contract"
   it_obeys_the "Decoration Builder contract"
 
+  before do
+    subject.stub_chain(:current_company, :taxonomies, :flat_hash_tree) { double }
+  end
+
   describe "#index" do
     it "assigns all items as @items" do
       subject.stub_chain(:current_company, :items, :all) { 123 }
@@ -16,21 +20,32 @@ describe Admin::Inventory::ItemsController do
 
   describe "#show" do
     let(:item) { double(shipping_box: :shipping_box) }
+    let(:taxonomy) { double(self_and_ancestors: [1, 2, 3]) }
 
     before do
+      subject.stub_chain(:current_company, :items, :find) { item }
       Store::Policy::ItemOnSale.stub_chain(:new, :on_sale?) { :on_sale }
+      item.stub(:taxonomy) { taxonomy }
+      item.stub_chain(:images, :order, :limit, :dup) { :images }
+      item.stub(:all_entries_available_for_sale)
     end
 
     it "should return a single item" do
-      item.stub_chain(:images, :order, :limit, :dup) { :images }
       subject.stub_chain(:current_company, :items, :find).with("123") { item }
+    end
+
+    it "should return a single item" do
       DecorationBuilder.should_receive(:inventory_items).with(item) { :decorated_item }
       DecorationBuilder.should_receive(:shipping_box).with(item.shipping_box)
 
-      item.stub(:all_entries_available_for_sale)
       get :show, id: 123
       assigns(:item).should == :decorated_item
       assigns(:item_images).should == :images
+    end
+
+    it "instantiates the item's taxonomy" do
+      get :show, id: 123
+      assigns(:taxonomy).should == [3, 2, 1]
     end
   end
 
@@ -39,9 +54,10 @@ describe Admin::Inventory::ItemsController do
 
     before do
       InventoryItem.stub(:new) { item }
+      subject.stub_chain(:current_company, :items, :new) { item }
     end
 
-    it "should instantiate a item" do
+    it "should instantiate an item" do
       get :new
       assigns(:item).should == item
     end

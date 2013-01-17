@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'acceptance_spec_helper'
 
 feature "Inventory Item Management" do
@@ -33,11 +34,17 @@ feature "Inventory Item Management" do
 
   describe "show page" do
     scenario "As a store admin, I want to see the basic item's details" do
+      FactoryGirl.create(:taxonomy)
+      @taxonomy = Taxonomy.all
+      @item.taxonomy = @taxonomy.last
+      @item.save
+
       visit admin_inventory_item_path(@item)
 
       # Basic item informations
       page.should have_content "My item"
       page.should have_content "Lorem ipsum lorem"
+      page.should have_content "Categoria: #{@taxonomy.first.name} ► #{@taxonomy.last.name}"
 
       # Shipping Box
       translations = "admin.inventory.items.shipping_box"

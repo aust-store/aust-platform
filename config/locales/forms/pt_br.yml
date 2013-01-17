@@ -41,6 +41,7 @@ pt_br:
         cost_per_unit: "Custo por unidade"
         price:         "Preço de venda"
       inventory_item:
+        taxonomy_id:   "Categoria"
         name:          "Nome do item ou mercadoria"
         merchandising: "Merchandising"
         reference:     "Código de referência"
