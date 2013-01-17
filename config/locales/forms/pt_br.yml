@@ -74,6 +74,7 @@ pt_br:
         cost_per_unit: "Ex.: R$ 11,00"
         price: "Ex.: R$ 14,00"
       inventory_item:
+        taxonomy_id: "Itens sem categoria não aparecem nos menus da loja"
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
         reference: "Se você possui um código que identifique este produto internamente."
     placeholders:
