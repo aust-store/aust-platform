@@ -1,10 +1,15 @@
 require "spec_helper"
 
 describe Store::HomeController do
+  let(:company) { double.as_null_object }
+
   describe "GET index" do
     it "returns a list of entries in the inventory" do
+      controller.stub(:current_subdomain) { :company_handle }
       Store::ItemsForSale.stub(:new).with(controller) { double(items_for_main_page: :entries) }
       Store::InventoryItemDecorator.stub(:decorate).with(:entries) { :entries }
+      Company.should_receive(:find_by_handle).with(:company_handle) { company }
+      company.stub(:taxonomies) { double.as_null_object }
 
       get :index, store_id: "store_name"
       assigns(:items).should == :entries
