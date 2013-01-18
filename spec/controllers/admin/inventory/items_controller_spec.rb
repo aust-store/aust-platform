@@ -17,6 +17,10 @@ describe Admin::Inventory::ItemsController do
   describe "#show" do
     let(:item) { double(shipping_box: :shipping_box) }
 
+    before do
+      Store::Policy::ItemOnSale.stub_chain(:new, :on_sale?) { :on_sale }
+    end
+
     it "should return a single item" do
       item.stub_chain(:images, :order, :limit, :dup) { :images }
       subject.stub_chain(:current_company, :items, :find).with("123") { item }

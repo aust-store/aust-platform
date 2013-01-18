@@ -106,7 +106,8 @@ describe Admin::Inventory::EntriesController do
             "id" => @item.id,
             "name" => @item.name,
             "description" => "Lorem ipsum lorem",
-            "price" => "R$ 20,00"
+            "price" => "R$ 20,00",
+            "on_sale" => true
           }
         }
       end
@@ -120,7 +121,8 @@ describe Admin::Inventory::EntriesController do
             "id" => @item.id,
             "name" => @item.name,
             "description" => "Lorem ipsum lorem",
-            "price" => "R$ 20,00"
+            "price" => "R$ 20,00",
+            "on_sale" => true
           }
         }
       end

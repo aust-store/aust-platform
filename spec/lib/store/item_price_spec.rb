@@ -6,20 +6,29 @@ describe Store::ItemPrice do
 
   let(:item) { double }
 
+  subject { Store::ItemPrice.new(item) }
+
   describe "#price" do
     it "returns the first entry's price" do
-      item_price = Store::ItemPrice.new(item)
-      item_price.stub(:entry_for_sale) { double(price: 10) }
-      expect(item_price.price).to eql(10)
+      subject.stub(:entry_for_sale) { double(price: 10) }
+      expect(subject.price).to eql(10)
+    end
+
+    it "returns nil if entry's price is nil" do
+      subject.stub(:entry_for_sale) { double(price: nil) }
+      expect(subject.price).to be_nil
+    end
+
+    it "returns nil if no entry is defined" do
+      subject.stub(:entry_for_sale) { nil }
+      expect(subject.price).to be_nil
     end
   end
 
   describe "#entry_for_sale" do
     it "returns the item's first inventory entry" do
       item.stub(:entry_for_sale) { :first }
-
-      item_price = Store::ItemPrice.new(item)
-      expect(item_price.entry_for_sale).to eql(:first)
+      expect(subject.entry_for_sale).to eql(:first)
     end
   end
 end

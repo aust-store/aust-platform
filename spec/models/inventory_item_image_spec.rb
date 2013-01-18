@@ -14,4 +14,20 @@ describe InventoryItemImage do
       end
     end
   end
+
+  describe ".has_cover" do
+    before do
+      InventoryItemImage.any_instance.stub(:inventory_item) { double(images: [1]) }
+    end
+
+    it "returns true if at least one cover image exists" do
+      FactoryGirl.create(:inventory_item_cover_image)
+      expect(InventoryItemImage).to have_cover
+    end
+
+    it "returns true if at least one cover image exists" do
+      FactoryGirl.create(:inventory_item_image)
+      expect(InventoryItemImage).to_not have_cover
+    end
+  end
 end

@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
   // Item has one entry
-  if ($("#stop_selling_item").length > 0){
-    observerCallbacks.add("item.price", saveCurrentOnSaleStatusCallback);
+  if ($("#stop_selling_item").length) {
+    observerCallbacks.add("inventory_item.on_sale", saveCurrentOnSaleStatusCallback);
     saveCurrentOnSaleStatusCallback($("#stop_selling_item").data("on-sale") == "1");
   }
 
@@ -42,9 +42,9 @@ function updateEntriesOnSale(url, onSale, checkbox){
   });
 }
 
-function saveCurrentOnSaleStatusCallback(value){
+function saveCurrentOnSaleStatusCallback(onSale){
   var button = $("#stop_selling_item");
-  if (value === "" || value === false){
+  if (!onSale){
     button.data("on-sale", "0");
     button.find(".text").html(button.data("not-on-sale-text"));
     $(".js_this_entry_status_not_on_sale").show();
