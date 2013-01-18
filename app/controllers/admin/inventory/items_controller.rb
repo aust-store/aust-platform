@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_item, only: [:show, :edit, :destroy]
+  before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
     @items = current_company.items.all
@@ -17,6 +18,10 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)
 
     @shipping_box      = DecorationBuilder.shipping_box(@item.shipping_box)
+
+    @taxonomy          = @item.taxonomy
+    @taxonomy          = @taxonomy.self_and_ancestors.reverse if @taxonomy.present?
+
     @item              = DecorationBuilder.inventory_items(@item)
   end
 
@@ -74,5 +79,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     return false if item.images.blank?
     return false if item.images.first.blank?
     true
+  end
+
+  def load_all_taxonomies
+    @company_taxonomies = current_company.taxonomies.flat_hash_tree
   end
 end

@@ -1,5 +1,6 @@
 <%= simple_form_for([:admin, @item]) do |f| %>
-  
+
+  <%= f.input :taxonomy_id, collection: html_select_collection(@company_taxonomies) %>
   <%= f.input :name,
         input_html: { id: "inventory_item_name" } %>
 
