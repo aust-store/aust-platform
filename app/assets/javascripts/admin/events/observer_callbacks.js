@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  observerCallbacks.add("item.price", itemPriceCallback);
+  observerCallbacks.add("inventory_item.price", itemPriceCallback);
 });
 
 function itemPriceCallback(priceValue){

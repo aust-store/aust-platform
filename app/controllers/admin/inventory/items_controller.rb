@@ -9,12 +9,15 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def new_item_or_entry; end
 
   def show
-    item = current_company.items.find(params[:id])
-    @item_images = item.images.order("cover desc").limit(10).dup
-    @item = DecorationBuilder.inventory_items(item)
-    balances = item.all_entries_available_for_sale
-    @inventory_entries = DecorationBuilder.inventory_entries(balances)
-    @shipping_box = DecorationBuilder.shipping_box(item.shipping_box)
+    @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
+
+    @item_images       = @item.images.order("cover desc").limit(10).dup
+
+    @inventory_entries = @item.all_entries_available_for_sale
+    @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)
+
+    @shipping_box      = DecorationBuilder.shipping_box(@item.shipping_box)
+    @item              = DecorationBuilder.inventory_items(@item)
   end
 
   def new

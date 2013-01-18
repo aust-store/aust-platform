@@ -18,7 +18,7 @@ FactoryGirl.define do
 
       # images
       after(:create) do |item, evaluator|
-        item.images << FactoryGirl.build(:inventory_item_image)
+        item.images << FactoryGirl.build(:inventory_item_cover_image)
         item.images << FactoryGirl.build(:inventory_item_image)
         item.save
       end
