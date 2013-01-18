@@ -15,6 +15,8 @@ class InventoryItem < ActiveRecord::Base
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
 
+  before_validation :remove_empty_shipping_box
+
   validates :name, :admin_user_id, :company_id, presence: true
 
   FIRST_ENTRY_FLAG = "min(id)"
@@ -22,7 +24,7 @@ class InventoryItem < ActiveRecord::Base
 
   scope :within_company, lambda { |company| where(company_id: company.id) }
   scope :with_entry_for_sale, lambda {
-    includes(:images).includes(:balances)
+    joins(:shipping_box).includes(:images).includes(:balances)
     .where("inventory_entries.id = (
       SELECT #{FIRST_ENTRY_FLAG}
       FROM inventory_entries
@@ -69,5 +71,12 @@ class InventoryItem < ActiveRecord::Base
 
   def self.search_for(query)
     Store::ItemsSearch.new(self, query).search.includes(:balances)
+  end
+
+  def remove_empty_shipping_box
+    if shipping_box.present?
+      self.shipping_box.destroy unless self.shipping_box.dependent_fields_present?
+    end
+    true
   end
 end

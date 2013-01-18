@@ -29,48 +29,22 @@ describe ShippingBox do
       it { should_not allow_value(0.2).for(:weight) }
       it { should_not allow_value(106).for(:weight) }
     end
+  end
 
-    describe "dependent_fields_present?" do
-      let(:shipping_box) { ShippingBox.new(height: 10, weight: 12, width:  23, length: 19) }
+  describe "dependent_fields_present?" do
+    let(:shipping_box) { ShippingBox.new(height: 10, weight: 12, width:  nil, length: 19) }
 
-      it "should return true if all attributes are present" do
-        shipping_box.should be_valid
-      end
+    it "should return true if any attribute is present" do
+      shipping_box.dependent_fields_present?.should == true
+    end
 
-      it "should return true when all attributes are left blank" do
-        shipping_box.weight = nil
-        shipping_box.length = nil
-        shipping_box.width  = nil
-        shipping_box.height = nil
+    it "should return false when all attributes are left blank" do
+      shipping_box.weight = nil
+      shipping_box.length = nil
+      shipping_box.width  = nil
+      shipping_box.height = nil
 
-        shipping_box.should be_valid
-      end
-
-      it "should return false when any 2 attributes has been left blank" do
-        shipping_box.weight = nil
-        shipping_box.height = nil
-        shipping_box.should_not be_valid
-      end
-
-      it "should return false when only weight attribute is left blank" do
-        shipping_box.weight = nil
-        shipping_box.should_not be_valid
-      end
-
-      it "should return false when only length is left blank" do
-        shipping_box.length = nil
-        shipping_box.should_not be_valid
-      end
-
-      it "should return false when only width attribute is left blank" do
-        shipping_box.width = nil
-        shipping_box.should_not be_valid
-      end
-
-      it "should return false when only height attribute is left blank" do
-        shipping_box.height = nil
-        shipping_box.should_not be_valid
-      end
+      shipping_box.dependent_fields_present?.should == false
     end
   end
 end
