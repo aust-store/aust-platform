@@ -34,6 +34,10 @@ module Store
       persistence.items.all
     end
 
+    def total_items_quantity
+      all_items.map(&:quantity).reduce(:+) || 0
+    end
+
     def total_price
       Store::Order::PriceCalculation.calculate(all_items)
     end

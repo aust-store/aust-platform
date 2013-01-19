@@ -21,6 +21,12 @@ feature "Store cart" do
              "my cart, then I can change the quantities and later remove " + \
              "them" do
 
+      visit cart_path
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Seu carrinho está vazio."
+      end
+
       inventory_entry = @product.balances.first
       3.times do
         visit product_path(inventory_entry)
@@ -30,6 +36,12 @@ feature "Store cart" do
       OrderItem.count.should == 1
       page.should have_content "Goodyear"
 
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Você possui 3 itens no carrinho."
+      end
+
+      # quantity field has a 3
       order_item_id = OrderItem.first.id
       find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "3"
 
@@ -38,6 +50,8 @@ feature "Store cart" do
         page.should have_content "R$ 60,00"
       end
 
+      # then
+      #
       # changes the quantity
       fill_in "cart[item_quantities][#{order_item_id}]", with: "4"
       click_button "Atualizar carrinho"
@@ -48,6 +62,11 @@ feature "Store cart" do
       # price was changed
       within ".items_total .total_price" do
         page.should have_content "R$ 80,00"
+      end
+
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Você possui 4 itens no carrinho."
       end
 
       # deletes an item

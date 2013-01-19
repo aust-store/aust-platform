@@ -9,8 +9,15 @@
         <%= link_to "Login", new_user_session_path %>.
       <% end %>
     </div>
+
     <div class="cart_status">
-      <%= link_to "Seu carrinho está vazio.", cart_path %>
+      <% if @cart_items_quantity == 1 %>
+        <%= link_to "Você possui 1 item no carrinho.", cart_path %>
+      <% elsif @cart_items_quantity > 1 %>
+        <%= link_to "Você possui #{@cart_items_quantity} itens no carrinho.", cart_path %>
+      <% else %>
+        Seu carrinho está vazio.
+      <% end %>
     </div>
   </div>
 </div>

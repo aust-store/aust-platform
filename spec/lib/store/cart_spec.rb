@@ -121,6 +121,18 @@ describe Store::Cart do
     end
   end
 
+  describe "#total_items_quantity" do
+    it "returns the total quantity of items in the cart" do
+      subject.stub(:all_items) { [double(quantity: 2), double(quantity: 3)] }
+      expect(subject.total_items_quantity).to eq 5
+    end
+
+    it "returns 0 if there are no items in the cart" do
+      subject.stub(:all_items) { [] }
+      expect(subject.total_items_quantity).to eq 0
+    end
+  end
+
   describe "#total_price" do
     it "returns the total amount of the cart" do
       subject.stub(:all_items) { :all_items }
