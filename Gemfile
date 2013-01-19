@@ -63,7 +63,7 @@ gem 'remotipart', '~> 1.0'
 gem 'correios', '0.6.0'
 gem 'emerald-rails', "~> 0.0.5"
 gem 'brazilian-rails'
-gem 'pag_seguro', '~> 0.4'
+gem 'pag_seguro', '~> 0.4', git: "git://github.com/kurko/pag_seguro.git", branch: "add_shipping_cost"
 gem 'wicked', '~> 0.3'
 gem 'closure_tree', github: 'mceachen/closure_tree'
 

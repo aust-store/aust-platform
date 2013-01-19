@@ -2,9 +2,9 @@ module Store
   module Checkout
     class PaymentController < Store::CheckoutBaseController
       def show
-        cart.convert_into_order
         pagseguro = Store::Payment::Pagseguro::Checkout.new(self, cart)
         pagseguro.create_transaction
+        cart.convert_into_order
         redirect_to pagseguro.payment_url and return
       end
 

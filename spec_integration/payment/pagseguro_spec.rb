@@ -8,11 +8,11 @@ describe Store::Payment::Pagseguro::Checkout do
 
 
   let(:shipping_address) { FactoryGirl.build(:address) }
-  let(:shipping_options) { double(service_type: 'pac') }
+  let(:shipping_options) { double(service_type: 'pac', price: 8.0) }
   let(:user)             { FactoryGirl.create(:user) }
   let(:items)            { [double(id: 1, name: "T-Shirt", price: 12.0, quantity: 2)] }
 
-  let(:payment_gateway)  { double(email: "chavedomundo@gmail.com", token: "7270EC0CE70F4FE8A1C6C4346CAC4417") }
+  let(:payment_gateway)  { double(email: "chavedomundo@gmail.com", token: "F239F29FA4314E26A4A58D7D563E7E91") }
   let(:store)            { double(payment_gateway: payment_gateway) }
   let(:controller)       { double(current_store: store) }
 
