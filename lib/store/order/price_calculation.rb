@@ -1,11 +1,11 @@
 require "bigdecimal"
 
 module Store
-  class Cart
+  module Order
     class PriceCalculation
       def self.calculate(items)
-        return 0 unless items.kind_of? Array
-        total = items.reduce(0) { |sum, i| sum + i.price }
+        return 0 unless items.respond_to? :each
+        total = items.reduce(0) { |sum, i| sum + (i.price * i.quantity) }
         BigDecimal(total.to_s)
       end
     end

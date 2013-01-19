@@ -7,6 +7,10 @@ class Cart < ActiveRecord::Base
 
   accepts_nested_attributes_for :shipping_address
 
+  def total
+    Store::Order::PriceCalculation.calculate(items)
+  end
+
   def current_inventory_entry(id)
     company.inventory_entries.find(id)
   end
