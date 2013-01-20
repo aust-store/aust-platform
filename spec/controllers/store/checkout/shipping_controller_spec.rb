@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Store::Checkout::ShippingController do
   it_should_behave_like "authenticable controller"
+  it_should_behave_like "loading taxonomy"
 
   login_user
 
@@ -9,6 +10,7 @@ describe Store::Checkout::ShippingController do
 
   before do
     controller.stub(:cart) { cart }
+    controller.stub(:current_store) { double.as_null_object }
   end
 
   describe "GET show" do

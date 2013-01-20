@@ -1,6 +1,8 @@
 module Store
   module Checkout
     class PaymentController < Store::CheckoutBaseController
+      skip_before_filter :load_taxonomies
+
       def show
         cart.convert_into_order
         pagseguro = Store::Payment::Pagseguro::Checkout.new(self, cart)

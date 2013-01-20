@@ -1,4 +1,6 @@
 class Store::Cart::ShippingCostController < Store::ApplicationController
+  skip_before_filter :load_taxonomies
+
   def create
     result = Store::Shipping::CartCalculation.create(self, :br, params)
     if result.success?

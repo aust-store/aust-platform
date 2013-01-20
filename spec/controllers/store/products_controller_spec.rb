@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Store::ProductsController do
+  it_should_behave_like "loading taxonomy"
+
+  before do
+    controller.stub(:current_store) { double.as_null_object }
+  end
+
   describe "GET show" do
     it "loads a products by id" do
       product = double

@@ -1,4 +1,6 @@
 class Store::CartItemsController < Store::ApplicationController
+  skip_before_filter :load_taxonomies
+
   def create
     entry = Store::ItemsForSale.new(self).item_for_cart
     cart.add_item(entry)

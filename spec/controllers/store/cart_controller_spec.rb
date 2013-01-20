@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe Store::CartController do
   it_obeys_the "cart contract"
+  it_should_behave_like "loading taxonomy"
 
   let(:cart) { double(id: 1, current_items: :items, persistence: :persistence) }
 
@@ -10,6 +11,7 @@ describe Store::CartController do
     controller.stub(:cart) { cart }
     @shipping_calculation = double(enabled?: true)
     Store::Shipping::Calculation.stub(:new).with(controller) { @shipping_calculation }
+    controller.stub(:current_store) { double.as_null_object }
   end
 
   describe "GET show" do
