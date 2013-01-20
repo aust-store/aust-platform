@@ -19,7 +19,7 @@ module Store
       end
 
       def description
-        @persisted_item.description 
+        @persisted_item.description
       end
 
       def entry_id

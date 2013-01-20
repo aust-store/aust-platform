@@ -5,7 +5,7 @@ describe Store::Cart do
   it_obeys_the "cart contract"
   it_obeys_the "cart item contract"
   it_obeys_the "cart items list contract"
-  it_obeys_the "cart price calculation contract"
+  it_obeys_the "order price calculation contract"
   it_obeys_the "cart update contract"
   it_obeys_the "loading store contract"
 
@@ -121,7 +121,26 @@ describe Store::Cart do
     end
   end
 
-  pending "#total_price"
+  describe "#total_items_quantity" do
+    it "returns the total quantity of items in the cart" do
+      subject.stub(:all_items) { [double(quantity: 2), double(quantity: 3)] }
+      expect(subject.total_items_quantity).to eq 5
+    end
+
+    it "returns 0 if there are no items in the cart" do
+      subject.stub(:all_items) { [] }
+      expect(subject.total_items_quantity).to eq 0
+    end
+  end
+
+  describe "#total_price" do
+    it "returns the total amount of the cart" do
+      subject.stub(:all_items) { :all_items }
+      Store::Order::PriceCalculation.stub(:calculate).with(:all_items) { :total }
+      expect(subject.total_price).to eq :total
+    end
+  end
+
   pending "#total_price_by_item"
 
   describe "#set_shipping_address" do

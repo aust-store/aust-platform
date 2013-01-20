@@ -1,6 +1,15 @@
 require "spec_helper"
 
 describe Cart do
+  describe "#total" do
+    it "returns the result of a price calculation" do
+      cart = Cart.new
+      Store::Order::PriceCalculation.stub(:calculate).with(:items) { :total }
+      cart.stub(:items) { :items }
+      expect(cart.total).to eq :total
+    end
+  end
+
   describe "#add_item" do
     let(:cart) { Cart.new }
     let(:entry) { double(quantity: 5) }

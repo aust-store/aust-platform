@@ -8,7 +8,7 @@ feature "Store cart" do
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end
 
-  describe "an empty cart" do
+  context "an empty cart" do
     scenario "As an user, I can see an appropriate message when the cart is empty" do
       visit cart_path
 
@@ -17,8 +17,15 @@ feature "Store cart" do
   end
 
   describe "item quantities management" do
-    scenario "As an user, I see the correct quantity of an item in my cart,  " + \
-             "then I can change the quantities and later remove them" do
+    scenario "As an user, I see the correct price and quantity of an item in " + \
+             "my cart, then I can change the quantities and later remove " + \
+             "them" do
+
+      visit cart_path
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Seu carrinho está vazio."
+      end
 
       inventory_entry = @product.balances.first
       3.times do
@@ -29,15 +36,38 @@ feature "Store cart" do
       OrderItem.count.should == 1
       page.should have_content "Goodyear"
 
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Você possui 3 itens no carrinho."
+      end
+
+      # quantity field has a 3
       order_item_id = OrderItem.first.id
       find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "3"
 
+      # price
+      within ".items_total .total_price" do
+        page.should have_content "R$ 60,00"
+      end
+
+      # then
+      #
       # changes the quantity
       fill_in "cart[item_quantities][#{order_item_id}]", with: "4"
       click_button "Atualizar carrinho"
 
       # the quantity was changed
       find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "4"
+
+      # price was changed
+      within ".items_total .total_price" do
+        page.should have_content "R$ 80,00"
+      end
+
+      # cart status at the top of the page
+      within ".cart_status" do
+        page.should have_content "Você possui 4 itens no carrinho."
+      end
 
       # deletes an item
       within(".order_item_#{order_item_id}") do

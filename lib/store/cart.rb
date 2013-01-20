@@ -34,13 +34,17 @@ module Store
       persistence.items.all
     end
 
+    def total_items_quantity
+      all_items.map(&:quantity).reduce(:+) || 0
+    end
+
     def total_price
-      Store::Cart::PriceCalculation.calculate(@items)
+      Store::Order::PriceCalculation.calculate(all_items)
     end
 
     def total_price_by_item(item)
       items = @items.each_with_object([]) { |i, a| a << i if i.id == item.id }
-      Store::Cart::PriceCalculation.calculate(items)
+      Store::Order::PriceCalculation.calculate(items)
     end
 
     def persisted_cart

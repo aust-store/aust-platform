@@ -21,6 +21,10 @@ module Store
       shipping.zipcode if cart.shipping
     end
 
+    def total
+      to_currency cart.total
+    end
+
     private
 
     def to_currency(value)

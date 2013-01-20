@@ -1,6 +1,11 @@
 class Store::Devise::RegistrationsController < Devise::RegistrationsController
   layout "store"
 
+  include ControllersExtensions::CartInstantiation
+
+  # e. g loads taxonomies, cart item quantities
+  include ControllersExtensions::LoadingGlobalInformations
+
   def new
     resource = build_resource
     address = resource.addresses.build

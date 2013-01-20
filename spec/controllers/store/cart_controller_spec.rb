@@ -4,7 +4,7 @@ describe Store::CartController do
   it_obeys_the "cart contract"
   it_should_behave_like "loading taxonomy"
 
-  let(:cart) { double(id: 1, current_items: :items, persistence: :persistence) }
+  let(:cart) { double(id: 1, current_items: :items, persistence: :persistence).as_null_object }
 
   before do
     # TODO contract test - does cart has #items?
