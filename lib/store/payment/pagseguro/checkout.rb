@@ -11,10 +11,12 @@ module Store
         end
 
         def create_transaction
-          @payment = PagSeguro::Payment.new(gateway_email,
-                                            gateway_token,
-                                            id: order.id,
-                                            redirect_url: @controller.after_payment_return_url(:pagseguro))
+          @payment = PagSeguro::Payment.new(
+            gateway_email,
+            gateway_token,
+            id: order.id,
+            redirect_url: @controller.after_payment_return_url(:pagseguro))
+
           set_sender
           set_shipping if order.shipping_options.present?
           set_items
@@ -46,6 +48,7 @@ module Store
 
           payment.shipping = PagSeguro::Shipping.new(
             type:        shipping_type,
+            cost:        order.shipping_options.price.to_s("F"),
             state:       order.shipping_address.state,
             city:        order.shipping_address.city,
             postal_code: order.shipping_address.zipcode,
