@@ -4,11 +4,12 @@ describe InventoryItem do
   describe "scopes" do
     describe "#with_entry_for_sale" do
       it "should return the correct entries" do
+        # each item has 3 entries
         FactoryGirl.create(:inventory_item)
         FactoryGirl.create(:inventory_item)
         FactoryGirl.create(:inventory_item)
 
-        items = InventoryItem.first(2)
+        items = InventoryItem.order("id ASC").first(2)
         items[0].balances.first.update_attribute(:on_sale, false)
         items[1].balances.first.update_attribute(:on_sale, false)
 
