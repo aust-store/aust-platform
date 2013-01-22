@@ -73,9 +73,6 @@ module Store
     config.assets.precompile += ["admin/sign_up_manifest.css"]
     config.assets.precompile += ["store/application_manifest.css"]
 
-    config.assets.precompile += ["store/store_index_manifest.css"]
-    config.assets.precompile += ["store/store_index_manifest.js"]
-
     config.assets.precompile += ["superadmin/application_manifest.js"]
     config.assets.precompile += ["superadmin/application_manifest.css"]
 
