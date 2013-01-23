@@ -40,7 +40,7 @@ module Store
 
       def calculation_results(results_for_each_item)
         results = results_for_each_item.map do |result|
-          ::Store::Shipping::Correios.new(result)
+          ::Store::Shipping::Correios::Response.new(result)
         end
         CalculationResult.new(results)
       end

@@ -1,7 +1,7 @@
 require "unit_spec_helper"
 require "store/shipping/calculation"
 require "store/shipping/calculation_result"
-require "store/shipping/correios"
+require "store/shipping/correios/response"
 
 class DummyCorreios
   class Servico
@@ -49,7 +49,7 @@ describe Store::Shipping::Calculation do
 
       result = described_class.new(controller)
 
-      Store::Shipping::Correios
+      Store::Shipping::Correios::Response
         .stub(:new)
         .with(:result)
         .and_return(correios)
@@ -67,13 +67,13 @@ describe Store::Shipping::Calculation do
     it "returns an instance of the result wrapper" do
       result = described_class.new(controller).items_dimensions
       result.first.length.should == 1
-      result.first.width.should == 2
+      result.first.width .should == 2
       result.first.height.should == 3
       result.first.weight.should == 4
-      result.last.length.should == 1
-      result.last.width.should == 2
-      result.last.height.should == 3
-      result.last.weight.should == 4
+      result.last.length .should == 1
+      result.last.width  .should == 2
+      result.last.height .should == 3
+      result.last.weight .should == 4
     end
   end
 end

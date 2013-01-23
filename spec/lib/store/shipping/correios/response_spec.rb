@@ -1,6 +1,6 @@
-require "store/shipping/correios"
+require "store/shipping/correios/response"
 
-describe Store::Shipping::Correios do
+describe Store::Shipping::Correios::Response do
   let(:correios_result) { double(valor: "123", erro: -22) }
 
   describe "#value" do
