@@ -38,12 +38,15 @@ class ShippingBox < ActiveRecord::Base
     self.weight = Store::DimensionsSanitization.sanitize(weight) if weight.present?
   end
 
+  def max_box_size
+  end
+
   def calculate_total_dimensions
     if [:width, :height, :length].all? { |f| send(f).present? } == true
       if self.height + self.width + self.length <= 200
         true
       else
-        errors.add(:sum, "A soma das dimensoes nao deve ser maior que 200cm")
+        errors.add(:max_box_size)
       end
     end
     true
