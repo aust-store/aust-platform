@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121219005832) do
+ActiveRecord::Schema.define(:version => 20130116005754) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
     t.boolean  "default"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "neighborhood"
+    t.string   "number"
   end
 
   add_index "addresses", ["addressable_id", "addressable_type"], :name => "index_addresses_on_addressable_id_and_addressable_type"
@@ -163,9 +165,11 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
     t.string   "reference"
     t.integer  "admin_user_id"
     t.text     "merchandising"
+    t.integer  "taxonomy_id"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
+  add_index "inventory_items", ["taxonomy_id"], :name => "index_inventory_items_on_taxonomy_id"
 
   create_table "order_items", :force => true do |t|
     t.integer  "inventory_item_id"
@@ -198,6 +202,40 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
   add_index "order_shippings", ["cart_id"], :name => "index_order_shippings_on_cart_id"
   add_index "order_shippings", ["order_id"], :name => "index_order_shippings_on_order_id"
 
+  create_table "orders", :force => true do |t|
+    t.integer  "cart_id"
+    t.integer  "user_id"
+    t.integer  "store_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "orders", ["cart_id"], :name => "index_orders_on_cart_id"
+  add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
+  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+
+  create_table "payment_gateways", :force => true do |t|
+    t.integer  "store_id"
+    t.string   "name"
+    t.string   "email"
+    t.text     "token"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "payment_gateways", ["store_id"], :name => "index_payment_gateways_on_store_id"
+
+  create_table "payment_statuses", :force => true do |t|
+    t.integer  "order_id"
+    t.string   "status"
+    t.text     "notification_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "payment_statuses", ["order_id"], :name => "index_payment_statuses_on_order_id"
+  add_index "payment_statuses", ["status"], :name => "index_payment_statuses_on_status"
+
   create_table "shipping_boxes", :force => true do |t|
     t.decimal  "length",            :precision => 8, :scale => 2
     t.decimal  "width",             :precision => 8, :scale => 2
@@ -209,6 +247,26 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
   end
 
   add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
+
+  create_table "taxonomies", :force => true do |t|
+    t.text     "name"
+    t.integer  "parent_id"
+    t.integer  "store_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "taxonomies", ["parent_id"], :name => "index_taxonomies_on_parent_id"
+  add_index "taxonomies", ["store_id"], :name => "index_taxonomies_on_store_id"
+
+  create_table "taxonomy_hierarchies", :id => false, :force => true do |t|
+    t.integer "ancestor_id",   :null => false
+    t.integer "descendant_id", :null => false
+    t.integer "generations",   :null => false
+  end
+
+  add_index "taxonomy_hierarchies", ["ancestor_id", "descendant_id"], :name => "index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id", :unique => true
+  add_index "taxonomy_hierarchies", ["descendant_id"], :name => "index_taxonomy_hierarchies_on_descendant_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -230,9 +288,16 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
     t.datetime "updated_at",                             :null => false
     t.text     "first_name"
     t.text     "last_name"
-    t.integer  "social_security_number"
+    t.string   "social_security_number"
     t.string   "nationality"
     t.boolean  "receive_newsletter"
+    t.string   "mobile_number"
+    t.string   "home_number"
+    t.string   "work_number"
+    t.string   "home_area_number"
+    t.string   "work_area_number"
+    t.string   "mobile_area_number"
+    t.integer  "store_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
@@ -240,5 +305,6 @@ ActiveRecord::Schema.define(:version => 20121219005832) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["receive_newsletter"], :name => "index_users_on_receive_newsletter"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["store_id"], :name => "index_users_on_store_id"
 
 end

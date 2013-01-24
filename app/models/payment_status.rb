@@ -14,4 +14,17 @@ class PaymentStatus < ActiveRecord::Base
     self.status = status_string
     save
   end
+
+  def self.current_status
+    last_status = self.last and last_status = last_status.status.to_sym
+    last_status || :undefined
+  end
+
+  def self.paid?
+    [:approved, :available_for_withdrawal].include? current_status
+  end
+
+  def self.cancelled?
+    [:cancelled, :refunded, :disputed].include? current_status
+  end
 end

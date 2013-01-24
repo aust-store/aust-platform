@@ -7,7 +7,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
       render json: {
         zipcode: {
           zipcode: params[:zipcode],
-          cost:    Store::Money.new(result.total).to_s,
+          cost:    Store::Money.new(result.total).to_currency,
           days:    result.days.to_s
         }
       }

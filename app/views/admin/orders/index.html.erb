@@ -1,0 +1,29 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1><%= t('.title') %></h1>
+</header>
+
+<div class="main_container">
+    <p>
+      <span class="color_legend processing"> </span>
+      Não requerem atenção neste momento
+
+      <span class="color_legend requires_attention"> </span>
+      Requerem atenção
+
+      <span class="color_legend approved"> </span>
+      Pedidos concluídos com sucesso
+    </p>
+
+  <div class="order_cards">
+    <% @orders.each_slice(5) do |orders_line| %>
+      <div class="orders_line">
+      <% orders_line.each do |order| %>
+        <%= render "order_card", order: order %>
+      <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

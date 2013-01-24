@@ -2,16 +2,24 @@ FactoryGirl.define do
   factory :order do
     association :shipping_address, factory: :address
     association :user
-    association :company
+    association :store, factory: :company
 
-    # address
+    # order_item
     after(:create) do |order, evaluator|
       order.items.build(FactoryGirl.attributes_for(:order_item))
       order.save
     end
 
-    factory :cart, class: "Cart" do
-
+    factory :paid_order do
+      after(:create) do |order, evaluator|
+        order.items.each { |item| item.update_attributes(status: "shipped") }
+        order.payment_statuses.build(status: :approved, order_id: order.id)
+        order.save
+      end
     end
+
+  end
+
+  factory :cart, class: "Cart" do
   end
 end

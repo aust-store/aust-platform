@@ -11,7 +11,7 @@ describe Store::Order::StatusChange do
     stub_const("Order", Class.new)
     stub_const("PaymentStatus", Class.new)
     Order.stub(:find).with(2) { order }
-    PaymentStatus.stub(:new).with(notification_id: 3, order: order) { payment_status }
+    PaymentStatus.stub(:new).with(notification_id: 3, order_id: 2) { payment_status }
   end
 
   describe "#change" do

@@ -29,6 +29,7 @@ class Admin::ApplicationController < ApplicationController
     when /admin\/store/      ; "store"
     when /admin\/settings/   ; "settings"
     when /admin\/taxonomies/ ; "taxonomies"
+    when /admin\/order/      ; "orders"
     else nil
     end
   end

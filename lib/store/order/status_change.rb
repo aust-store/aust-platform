@@ -21,13 +21,9 @@ module Store
         notification.unique_id_within_gateway
       end
 
-      def order
-        @order ||= ::Order.find(notification.id)
-      end
-
       def status_log
         @status ||= PaymentStatus.new(
-          notification_id: unique_id_within_gateway, order: order
+          notification_id: unique_id_within_gateway, order_id: notification.id
         )
       end
     end

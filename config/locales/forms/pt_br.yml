@@ -24,6 +24,8 @@ pt_br:
         update: "Salvar configurações"
       user:
         create: "Salvar"
+      order:
+        update: "Atualizar pedido"
       payment_gateway:
         create: "Salvar e prosseguir"
         update: "Salvar e prosseguir"

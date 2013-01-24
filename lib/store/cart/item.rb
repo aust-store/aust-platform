@@ -27,7 +27,7 @@ module Store
       end
 
       def price
-        Money.new(@persisted_item.price).to_s
+        Money.new(@persisted_item.price).to_currency
       end
     end
   end
