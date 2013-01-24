@@ -29,6 +29,8 @@ Store::Application.routes.draw do
       get 'index' => 'dashboard#index'
     end
 
+    resources :orders, only: [:index, :show, :update]
+
     resource :settings, only: [:show, :update] do
       resource :payment_methods, controller: 'payment_methods', only: :show, module: 'settings' do
         resource :pagseguro_wizard, only: [:show, :update], controller: 'payment_methods/pagseguro_wizard'

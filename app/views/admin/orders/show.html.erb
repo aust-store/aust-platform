@@ -1,0 +1,81 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_orders_path,
+             text: "Voltar aos pedidos"
+           } %>
+
+<header>
+  <h1><%= t('.title') %><%= @order.number %></h1>
+</header>
+
+<div class="main_container">
+
+  <%= simple_form_for @order, url: admin_order_path, method: :put do |f| %>
+
+    <table class="properties">
+      <tbody>
+        <tr class="odd">
+          <td>Resumo:</td>
+          <td class="summary <%= @order.model.summary %>">
+            <%= @order.summary_long_text %>
+          </td>
+        </tr>
+        <tr class="even">
+          <td>Status do pagamento:</td>
+          <td class="payment_status <%= @order.current_payment_status %>">
+            <%= @order.payment_status %>
+          </td>
+        </tr>
+        <tr class="odd">
+          <td>Detalhes da entrega:</td>
+          <td><%= @order.shipping_details.complete_details %></td>
+        </tr>
+        <tr class="even">
+          <td>Endereço de entrega:</td>
+          <td>
+            <%= @order.shipping_address.complete_address %>
+          </td>
+        </tr>
+        <tr class="odd">
+          <td> Valor total:</td>
+          <td> <%= @order.total %> (sem frete) </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br />
+    <h2>Items no pedido</h2>
+    <table class="listing">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Preço unitário</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= f.fields_for :items do |item_form| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td> <%= item_form.object.id %> </td>
+          <td> <%= item_form.object.name %> </td>
+          <td> <%= item_form.object.quantity %> </td>
+          <td> <%= item_form.object.price %> </td>
+          <td class="options">
+            <%= item_form.input :status,
+              collection: statuses_collection,
+              selected: item_form.object.model.status,
+              include_blank: false %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+
+    </table>
+
+    <p>
+      <%= f.submit %>
+    </p>
+  <% end %>
+</div>

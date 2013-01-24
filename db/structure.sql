@@ -481,7 +481,8 @@ CREATE TABLE order_items (
     cart_id integer,
     order_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    status character varying(255)
 );
 
 
@@ -1269,6 +1270,13 @@ CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id)
 
 
 --
+-- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_items_on_status ON order_items USING btree (status);
+
+
+--
 -- Name: index_order_shippings_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1501,3 +1509,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130101030424');
 INSERT INTO schema_migrations (version) VALUES ('20130101030632');
 
 INSERT INTO schema_migrations (version) VALUES ('20130116005754');
+
+INSERT INTO schema_migrations (version) VALUES ('20130122004925');

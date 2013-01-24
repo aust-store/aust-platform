@@ -8,7 +8,7 @@ module Store
       @currency = currency
     end
 
-    def to_s
+    def to_currency
       amount = format_number
       "#{@currency} #{amount}"
     end

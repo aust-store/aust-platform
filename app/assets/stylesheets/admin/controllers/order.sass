@@ -1,0 +1,106 @@
+$processing_background: #f6f6f6
+$approved_background: lighten(green, 70%)
+$requires_attention_background: lighten(yellow, 35%)
+$card_border_color: #e9e9e9
+
+span.color_legend
+  background: darken($processing_background, 6%)
+  width: 16px
+  height: 16px
+  display: inline-block
+  margin: 0 2px -3px 0
+  border-radius: 5px
+  border: 1px solid darken($card_border_color, 10%)
+
+  &.requires_attention
+    margin-left: 15px
+    background-color: darken($requires_attention_background, 10%)
+  &.approved
+    margin-left: 15px
+    background-color: darken($approved_background, 6%)
+
+.order_cards
+  .orders_line
+    display: table
+    width: 100%
+    margin-bottom: 10px
+
+  a.order_card
+    background: $processing_background
+    text-decoration: none !important
+    color: inherit
+    color: #666
+    &:hover
+      background: darken($processing_background, 2%)
+      color: #111
+
+    &.paid_and_shipped
+      background: $approved_background
+      &:hover
+        background: darken($approved_background, 3%)
+
+    &.paid_some_shipped_some_pending, &.paid_pending_all_shipments,
+    &.paid_but_shipment_cancelled
+      color: #111
+      background: $requires_attention_background
+      &:hover
+        background: darken($requires_attention_background, 8%)
+
+  .order_card:first-child
+    margin-left: 0
+
+  .order_card
+    width: 138px
+    margin-left: 5px
+    float: left
+    display: table
+    border-radius: 3px
+    border: 1px solid $card_border_color
+
+    .card_containner
+      margin: 10px
+
+    .label
+      color: #999
+      font-size: 0.9em
+
+    .payment_status, .shipping_status
+      color: #999
+      font-size: 0.9em
+      text-align: center
+
+    .order_id, .shipping_status, .details
+      margin-bottom: 10px
+
+    .shipping_status
+      &.paid_some_shipped_some_pending,  &.paid_pending_all_shipments
+        color: red
+
+    .order_id
+      text-align: center
+
+    .payment_status
+      &.paid
+        color: green
+
+    .details
+
+table
+  tbody
+    // properties
+    td.summary
+      &.paid_and_shipped
+        color: green
+      &.paid_some_shipped_some_pending
+        color: red
+      &.paid_pending_all_shipments
+        color: red
+
+    td.payment_status
+      &.approved, &.available_for_withdrawal
+        color: green
+
+    // listing
+    td.options
+      .button
+        margin-right: 5px

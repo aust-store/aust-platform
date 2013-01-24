@@ -1,6 +1,6 @@
 class Address < ActiveRecord::Base
-  attr_accessible :address_1, :address_2, :number, :city, :country, :default, :state,
-                  :zipcode, :neighborhood
+  attr_accessible :address_1, :address_2, :number, :city, :country, :default,
+                  :state, :zipcode, :neighborhood
 
   belongs_to :addressable, polymorphic: true
 
@@ -8,10 +8,6 @@ class Address < ActiveRecord::Base
   validates :zipcode, format: { with: /[0-9]{8}|[0-9]{5}\-[0-9]{3}/ }
 
   before_validation :set_country_to_brazil
-
-  def set_country_to_brazil
-    self.country = "BR"
-  end
 
   def copied
     attributes.reject do |key, value|
@@ -23,5 +19,11 @@ class Address < ActiveRecord::Base
         'default'
       ].include?(key)
     end
+  end
+
+  private
+
+  def set_country_to_brazil
+    self.country = "BR"
   end
 end

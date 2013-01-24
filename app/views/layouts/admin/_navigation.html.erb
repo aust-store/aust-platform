@@ -4,6 +4,10 @@
     <%= link_to "Estoque", admin_inventory_items_path %>
   </li>
 
+  <li <%= current_nav_namespace("orders") %>>
+    <%= link_to "Pedidos", admin_orders_path %>
+  </li>
+
   <!--
   <li <%= current_nav_namespace("customers") %>>
     <%= link_to "Clientes", admin_customers_path %>

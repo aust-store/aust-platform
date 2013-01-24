@@ -1,6 +1,38 @@
 require "spec_helper"
 
 describe OrderItem do
+  describe "callbacks" do
+    describe "#set_status_as_pending on before_create" do
+      it "sets the status field to pending" do
+        item = FactoryGirl.build(:order_item_without_associations)
+        item.valid?
+        expect(item.status).to eq "pending"
+      end
+    end
+  end
+
+  describe "validations" do
+    describe "status" do
+      let(:order) { FactoryGirl.build(:order_item_without_associations) }
+
+      specify "the valid values" do
+        order.status = "pending"
+        expect(order).to be_valid
+        order.status = "shipped"
+        expect(order).to be_valid
+        order.status = "cancelled"
+        expect(order).to be_valid
+      end
+
+      specify "the invalid values" do
+        order.status = "whatever"
+        expect(order).to be_invalid
+        order.status = "canceled"
+        expect(order).to be_invalid
+      end
+    end
+  end
+
   describe "#remaining_entries_in_stock" do
     it "returns the quantity still in stock" do
       item = OrderItem.new

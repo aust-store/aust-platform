@@ -73,7 +73,7 @@ describe Cart do
     let(:cart)  { Cart.new }
     let(:entry) { double(price: 10) }
     let(:items) { double }
-    
+
     before do
       cart.stub(:items) { items }
     end

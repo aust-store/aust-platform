@@ -1,0 +1,31 @@
+<%= link_to admin_order_path(order), class: "order_card #{order.summary}", id: "order_card_#{order.id}" do %>
+  <div class="card_containner">
+    <div class="order_id">
+      <div class="label">Número do pedido</div>
+      <div class="value">
+        <%= order.id %>
+      </div>
+    </div>
+
+    <div class="payment_status <%= :paid if order.paid? %>">
+      <%= t(".payment_statuses.#{order.current_payment_status}") %>
+    </div>
+
+    <div class="shipping_status <%= order.summary %>">
+      <%= raw t(".shipping_summary.#{order.summary}") %>
+    </div>
+
+    <div class="details">
+      <div class="total">
+        <%= order.total %>
+      </div>
+      <div class="purchase_date">
+        <%= order.purchase_date %>
+      </div>
+      <div class="purchase_date">
+        <%= order.items_quantity == 1 ? "1 item" : "#{order.items_quantity} itens" %>
+      </div>
+
+    </div>
+  </div>
+<% end %>

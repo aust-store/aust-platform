@@ -1,0 +1,28 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    orders:
+      show:
+        title: "Pedido #"
+        set_order_as_shipped: "Marcar todos os itens como enviados"
+        set_item_as_shipped: "Marcar como enviado"
+        set_item_as_cancelled: "Cancelar"
+      index:
+        title: "Pedidos"
+      order_card:
+        payment_statuses:
+          approved: "Pagamento Completo"
+          in_analysis: "Em análise"
+          processing: "Processando"
+          available_for_withdrawal: "Saque disponível"
+          disputed: "Em disputa"
+          cancelled: "Cancelado"
+          refunded: "Reembolsado"
+          undefined: "Aguardando pgto."
+        shipping_summary:
+          paid_and_shipped:               "Itens enviados"
+          paid_pending_all_shipments:     "Envio pendente"
+          paid_some_shipped_some_pending: "Envios pendentes"
+          paid_but_shipment_cancelled:    "Envio cancelado"
+          cancelled:                      "Envio cancelado"
+          pending_payment:                "&nbsp;"

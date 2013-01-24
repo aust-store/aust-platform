@@ -1,0 +1,66 @@
+$odd-row: #f6f6f6
+$even-row: #f3f3f3
+
+table.listing
+  padding: 0 0 0 0
+  width: 100%
+  border-collapse: separate
+  border-spacing: 0
+
+  &.sub_listing
+    tr td, tr th
+      padding: 3px
+
+  th, td
+    padding: 10px
+
+  thead
+    background: #f1f1f1
+
+    th
+      text-align: left
+      margin: 0
+
+  tbody
+    tr:first-child td
+      padding-top: 13px
+    tr.odd
+      background-color: $odd-row
+    tr.even
+      background-color: $even-row
+
+    td
+      color: #666
+      font-size: 1em
+
+      & a.erase
+        float: right
+
+  tfoot
+    .total
+      background: #f1f1f1
+      background-image: -moz-linear-gradient(top center, #f8f8f8, #ededed)
+      color: black
+
+      td
+        border-top: 1px solid #f1f1f1
+
+table.properties
+  padding: 0 0 0 0
+  width: 100%
+  border-collapse: separate
+  border-spacing: 0
+
+  tbody
+    tr.odd
+      background-color: $odd-row
+    tr.even
+      background-color: $even-row
+
+    td
+      vertical-align: top
+      padding: 7px 3px
+    tr td:first-child
+      width: 160px
+      text-align: right
+      color: #666
