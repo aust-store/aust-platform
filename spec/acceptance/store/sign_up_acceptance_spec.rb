@@ -53,15 +53,15 @@ feature "Store Sign Up" do
     fill_in "user_addresses_attributes_0_neighborhood", with: "Central London"
     fill_in "user_addresses_attributes_0_zipcode",      with: "96360000"
     fill_in "user_addresses_attributes_0_city",         with: "London"
-    fill_in "user_addresses_attributes_0_state",        with: "LO"
+    select "Rio Grande do Sul", from: "user_addresses_attributes_0_state"
     click_button "sign_up_button"
+
+    # Ends up in the shipping page
+    page.should have_content I18n.t('store.checkout.shipping.show.page_title')
 
     # sets the default address
     user = User.where(email: 'sherlock@holmes.com').first
     user.store.should == @company
     user.addresses.first.default.should == true
-
-    # Ends up in the shipping page
-    page.should have_content I18n.t('store.checkout.shipping.show.page_title')
   end
 end

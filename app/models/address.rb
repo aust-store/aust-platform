@@ -6,6 +6,7 @@ class Address < ActiveRecord::Base
 
   validates :address_1, :zipcode, :neighborhood, :number, :city, :state, :country, presence: true
   validates :zipcode, format: { with: /[0-9]{8}|[0-9]{5}\-[0-9]{3}/ }
+  validates :state, inclusion: { in: Geography::BrazilianStates.states_codes }
 
   before_validation :set_country_to_brazil
 
