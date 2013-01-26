@@ -7,6 +7,6 @@
   <%= address.input :neighborhood, as: 'string' %>
   <%= address.input :zipcode, as: 'string' %>
   <%= address.input :city, as: 'string' %>
-  <%= address.input :state %>
+  <%= address.input :state, collection: Geography::BrazilianStates.states %>
   <%= address.input :country, as: 'string', input_html: { value: "Brasil", disabled: "disabled" } %>
 </span>

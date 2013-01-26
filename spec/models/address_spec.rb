@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Address do
   describe "validations" do
+    it { should     allow_value("RS").for(:state) }
+    it { should_not allow_value("Rio Grande do Sul").for(:state) }
     it { should     allow_value("96360-000").for(:zipcode) }
     it { should     allow_value("96360000").for(:zipcode) }
     it { should_not allow_value("9636000").for(:zipcode) }
