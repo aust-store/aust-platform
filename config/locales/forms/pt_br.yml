@@ -2,16 +2,16 @@
 pt_br:
   store:
     generic:
-      or: "ou"
+      or:     "ou"
       cancel: "Cancelar"
     javascript:
       form_success: "Os dados foram salvos com sucesso."
       form_failure: "Não foi possível salvar seus dados."
   admin:
     generic:
-      or: "ou"
+      or:     "ou"
       cancel: "Cancelar"
-      back: "Voltar"
+      back:   "Voltar"
     javascript:
       form_success: "Os dados foram salvos com sucesso."
       form_failure: "Não foi possível salvar seus dados."
@@ -68,23 +68,23 @@ pt_br:
         mobile_area_number: "DDD"
       addresses:
         address_2: "Use para complementos, referências etc"
-        zipcode: "8 números, com ou sem hífen"
-        country: "Atualmente, apenas brasileiros são permitidos"
-        number:  "Número"
+        zipcode:   "8 números, com ou sem hífen"
+        country:   "Atualmente, apenas brasileiros são permitidos"
+        number:    "Número"
       inventory_entry:
-        quantity: "Um número inteiro (ex.: 10, 55, 109)"
+        quantity:      "Um número inteiro (ex.: 10, 55, 109)"
         cost_per_unit: "Ex.: R$ 11,00"
-        price: "Ex.: R$ 14,00"
+        price:         "Ex.: R$ 14,00"
       inventory_item:
-        taxonomy_id: "Itens sem categoria não aparecem nos menus da loja"
+        taxonomy_id:   "Itens sem categoria não aparecem nos menus da loja"
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
-        reference: "Se você possui um código que identifique este produto internamente."
+        reference:     "Se você possui um código que identifique este produto internamente."
     placeholders:
       inventory_item:
         name: "ex.: Parafuso 1cm"
       shipping_box:
         length: "Entre o valor em centímetros (cm)."
-        width: "Entre o valor em centímetros (cm)."
+        width:  "Entre o valor em centímetros (cm)."
         height: "Entre o valor em centímetros (cm)."
         weight: "Entre o valor em quilos (kg)."
       company_setting:

@@ -4,10 +4,10 @@ describe ShippingBox do
   describe "validations" do
     context "when valid resource" do
       it { should allow_value(11) .for(:width)  }
-      it { should allow_value(105) .for(:width)  }
+      it { should allow_value(105).for(:width)  }
 
       it { should allow_value(18) .for(:length) }
-      it { should allow_value(105) .for(:length) }
+      it { should allow_value(105).for(:length) }
 
       it { should allow_value(2)  .for(:height) }
       it { should allow_value(105).for(:height) }
@@ -18,10 +18,10 @@ describe ShippingBox do
 
     context "when invalid resource" do
       it { should_not allow_value(10) .for(:width)  }
-      it { should_not allow_value(106) .for(:width)  }
+      it { should_not allow_value(106).for(:width)  }
 
       it { should_not allow_value(17) .for(:length) }
-      it { should_not allow_value(106) .for(:length) }
+      it { should_not allow_value(106).for(:length) }
 
       it { should_not allow_value(1)  .for(:height) }
       it { should_not allow_value(106).for(:height) }

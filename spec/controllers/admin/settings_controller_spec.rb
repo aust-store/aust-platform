@@ -12,40 +12,27 @@ describe Admin::SettingsController do
 
     it "updates the company settings" do
       @settings.should_receive(:update_attributes).with({"zipcode" => "1234567"})
-      xhr :put, :update, company_setting: { "zipcode" => "1234567" }
+      put :update, company_setting: { "zipcode" => "1234567" }
     end
 
     context "when update occurs successfully" do
       before do
-        @settings.stub(:zipcode) { "96360000" }
+        @settings.stub(:zipcode) { 96360000 }
         @settings.stub(:update_attributes) { true }
-        xhr :put, :update, company_setting: { zipcode: "1234567" }
       end
 
-      it "returns 200" do
-        response.status.should == 200
-      end
-
-      it "returns the settings" do
-        json = { "company_setting" => {
-          "id" => nil, "zipcode" => "96360000", "updated_at" => nil }
-        }
-        response.body.should == ActiveSupport::JSON.encode(json)
+      it "renders the form again with a success message" do
+        put :update, company_setting: { zipcode: 1234567 }
+        flash[:success].should be_eql I18n.t('admin.javascript.form_success')
+        response.should redirect_to admin_settings_url
       end
     end
 
     context "when update doesn't occur" do
-      before do
-        @settings.stub(:update_attributes) { false }
-        xhr :put, :update, company_setting: { zipcode: "1234567" }
-      end
-
-      it "returns 422" do
-        response.status.should == 422
-      end
-
-      it "returns the error messages" do
-        response.body.should == ActiveSupport::JSON.encode({errors: []})
+      it "renders the form again" do
+        @settings.should_receive(:update_attributes) { false }
+        put :update, company_setting: { "zipcode" => "1237" }
+        response.should render_template "show"
       end
     end
   end

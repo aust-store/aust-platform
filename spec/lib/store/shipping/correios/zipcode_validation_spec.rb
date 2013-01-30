@@ -15,15 +15,44 @@ describe Store::Shipping::Correios::ZipcodeValidation do
     DummyCorreios.stub(:new).with(96360000, 96360000) { correios }
   end
 
-  describe "#success?" do
-    it "returns false if there's any error" do
+  describe "#invalid_origin_zipcode?" do
+    it "returns true if the response returns the expected error" do
       correios_response.stub(:erro) { -2 }
-      described_class.new(96360000).success?.should == false
+      described_class.new(96360000).invalid_origin_zipcode?.should == true
     end
 
-    it "returns true if there's no error" do
+    it "returns false if the response doesn't returns the expected error" do
+      correios_response.stub(:erro) { 2 }
+      described_class.new(96360000).invalid_origin_zipcode?.should == false
+    end
+  end
+
+  describe "#correios_system_unavailable?" do
+    it "returns true if the response returns the expected error" do
+      correios_response.stub(:erro) { -33 }
+      described_class.new(96360000).correios_system_unavailable?.should == true
+    end
+
+    it "returns false if the response returns the expected error" do
       correios_response.stub(:erro) { 0 }
-      described_class.new(96360000).success?.should == true
+      described_class.new(96360000).correios_system_unavailable?.should == false
+    end
+  end
+
+  describe "#unexpected_error?" do
+    it "returns true if the response returns an unexpected error" do
+      correios_response.stub(:erro) { -3 }
+      described_class.new(96360000).unexpected_error?.should == true
+    end
+
+    it "returns false if the response returns an already known error" do
+      correios_response.stub(:erro) { -33 }
+      described_class.new(96360000).unexpected_error?.should == false
+    end
+
+    it "returns false if the response returns an already known error" do
+      correios_response.stub(:erro) { -2 }
+      described_class.new(96360000).unexpected_error?.should == false
     end
   end
 end
