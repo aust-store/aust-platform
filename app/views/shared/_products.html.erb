@@ -2,8 +2,11 @@
   <% @items.each_with_index do |item, index| %>
     <div class="product product_<%= index %>">
       <%= link_to product_path(id: item.entry_for_sale.id) do %>
-        <%= image_tag item.images.first.image.url(:medium),
-            class: "image image_#{ index }" unless item.images.blank? %>
+        <div class="image image_#{ index }"
+             style="background-image:
+                    url(<%= item.images.first.image.url(:big) %>)">
+        </div>
+
         <div class="text">
           <div class="title">
             <%= link_to item.name,
