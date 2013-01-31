@@ -4,7 +4,7 @@
       <%= link_to product_path(id: item.entry_for_sale.id) do %>
         <div class="image image_#{ index }"
              style="background-image:
-                    url(<%= item.images.first.image.url(:big) %>)">
+                    url(<%= item.images.first.image.url %>)">
         </div>
 
         <div class="text">
