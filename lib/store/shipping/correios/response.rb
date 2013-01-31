@@ -21,6 +21,10 @@ module Store
         def message
           @resource.message
         end
+
+        def error
+          @resource.erro
+        end
       end
     end
   end

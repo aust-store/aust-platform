@@ -6,8 +6,7 @@ class Admin::SettingsController < Admin::ApplicationController
   def update
     @settings = current_company.settings
     if @settings.update_attributes(params[:company_setting])
-      redirect_to admin_settings_url,
-        flash: { success: t(".admin.javascript.form_success") }
+      redirect_to admin_settings_url, notice: t(".admin.javascript.form_success")
     else  
       render "show"
     end

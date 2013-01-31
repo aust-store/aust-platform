@@ -23,7 +23,7 @@ describe Admin::SettingsController do
 
       it "renders the form again with a success message" do
         put :update, company_setting: { zipcode: 1234567 }
-        flash[:success].should be_eql I18n.t('admin.javascript.form_success')
+        flash[:notice].should be_eql I18n.t('admin.javascript.form_success')
         response.should redirect_to admin_settings_url
       end
     end
