@@ -49,17 +49,17 @@ pt_br:
           pending_payment:                "Pagamento pendente"
       order_item:
         status:
-          shipped: "Enviado"
-          pending: "Pendente"
+          shipped:   "Enviado"
+          pending:   "Pendente"
           cancelled: "Cancelado"
       payment_status:
-        approved: "Completo"
+        approved:    "Completo"
         in_analysis: "Em análise"
-        processing: "Processando"
+        processing:  "Processando"
         available_for_withdrawal: "Saque disponível"
-        disputed: "Em disputa"
+        disputed:  "Em disputa"
         cancelled: "Cancelado"
-        refunded: "Reembolsado"
+        refunded:  "Reembolsado"
         undefined: "Aguardando"
     errors:
       models:
@@ -164,3 +164,11 @@ pt_br:
               less_than_or_equal_to:    "O peso não pode ser maior que 30Kg"
               blank:                    "O campo não pode ser deixado em branco"
               not_a_number:             "Use somente números"
+        company_setting:
+          attributes:
+            zipcode:
+              invalid:              "O Cep cadastrado não é valido."
+              not_a_number:         "Use somente números"
+              wrong_length:         "O Cep deve conter exatos 8 dígitos"
+              unexpected_error:     "Um erro inesperado ocorreu. Favor tentar mais tarde"
+              correios_unavailable: "Sistema dos Correios temporariamente fora do ar. Favor tentar mais tarde"

@@ -6,9 +6,9 @@ class Admin::SettingsController < Admin::ApplicationController
   def update
     @settings = current_company.settings
     if @settings.update_attributes(params[:company_setting])
-      render json: @settings
-    else
-      render json: { errors: @settings.errors.full_messages }, status: 422
+      redirect_to admin_settings_url, notice: t(".admin.javascript.form_success")
+    else  
+      render "show"
     end
   end
 end

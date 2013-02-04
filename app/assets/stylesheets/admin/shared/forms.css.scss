@@ -31,6 +31,12 @@ div.input {
 }
 
 form {
+  span.success {
+    color: green;
+    display: block;
+    font-size: 0.9em;
+  }
+
   div.error_explanation {
     color: red;
   }
