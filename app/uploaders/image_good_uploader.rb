@@ -16,7 +16,7 @@ class ImageGoodUploader < CarrierWave::Uploader::Base
     process resize_to_limit: [170,127]
   end
 
-  version :cover do
+  version :cover_standard do
     process resize_to_fill:  [170,127]
   end
 
