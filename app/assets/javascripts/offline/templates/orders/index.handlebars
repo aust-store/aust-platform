@@ -1,0 +1,19 @@
+<table class="listing orders">
+
+  <thead>
+    <th>ID do pedido</th>
+    <th>Status</th>
+    <th>Valor</th>
+  </thead>
+
+  <tbody>
+    {{#each controller}}
+      <tr class="even">
+        <td>{{id}}</td>
+        <td>Pago</td>
+        <td>R$ {{total}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+
+</table>

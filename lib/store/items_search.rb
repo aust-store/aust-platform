@@ -21,8 +21,8 @@ module Store
     end
 
     def sql_where_statement
-      "to_tsvector('english', name) @@ :q or " + \
-      "to_tsvector('english', description) @@ :q"
+      "to_tsvector('english', inventory_items.name) @@ :q or " + \
+      "to_tsvector('english', inventory_items.description) @@ :q"
     end
 
     def sql_order_statement

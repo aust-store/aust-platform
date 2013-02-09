@@ -1,0 +1,27 @@
+<div class="global">
+  <div class="global_container">
+    <nav class="navigation">
+      <div class="navigation_padding">
+        <ul>
+          <li>
+            {{#linkTo "orders"}}Pedidos{{/linkTo}}
+          </li>
+          <li>
+            {{#linkTo "orders.new"}}Novo pedido{{/linkTo}}
+          </li>
+          <li>
+            {{#linkTo "orders.new"}}Sair{{/linkTo}}
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+    <section class="main_content">
+      <div id="main">
+        <div class="main_container">
+          {{outlet}}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

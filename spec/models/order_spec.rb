@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe Order do
+  describe "validations" do
+    context "environment" do
+      it { should allow_value(:offline).for(:environment)  }
+      it { should allow_value(:website).for(:environment)  }
+
+      it { should_not allow_value(:online).for(:environment)  }
+    end
+  end
+
   describe "#current_payment_status" do
     it "returns the last status" do
       subject.stub_chain(:payment_statuses, :current_status) { :some_status }
@@ -58,6 +67,13 @@ describe Order do
       subject.items << OrderItem.new(status: "pending")
       subject.save
       expect(subject.summary).to eq :pending_payment
+    end
+  end
+
+  describe "#create_offline" do
+    it "adds a new environment key defining the order as made offline" do
+      Order.should_receive(:create).with({field: 'value', environment: :offline})
+      Order.create_offline(field: 'value')
     end
   end
 end

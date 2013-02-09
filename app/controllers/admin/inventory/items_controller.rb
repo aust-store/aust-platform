@@ -4,7 +4,15 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
-    @items = current_company.items.all
+    respond_to do |format|
+      format.html { @items = current_company.items.last(50) }
+
+      format.js do
+        @items = current_company.items.limit(3)
+        @items = @items.search_for(params[:search]) if params[:search].present?
+        render json: @items, root: 'inventory_items'
+      end
+    end
   end
 
   def new_item_or_entry; end

@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
-  attr_accessible :cart_id, :store_id, :user_id, :items_attributes
+  attr_accessible :cart_id, :store_id, :user_id, :items_attributes, :items,
+    :environment
 
   belongs_to :user
   belongs_to :store, class_name: "Company"
@@ -8,7 +9,17 @@ class Order < ActiveRecord::Base
   has_one :shipping_details, class_name: "OrderShipping"
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
+  VALID_ENVIRONMENTS = [:website, :offline]
+
+  validates :environment, inclusion: { in: VALID_ENVIRONMENTS }, allow_blank: true
+
   accepts_nested_attributes_for :items
+
+  scope :created_on_the_website, where(environment: "website")
+
+  def self.create_offline(params)
+    create(params.merge(environment: :offline))
+  end
 
   def current_payment_status
     payment_statuses.current_status

@@ -3,6 +3,7 @@ class Admin::OrdersController < Admin::ApplicationController
     orders = current_company
       .orders
       .includes(:payment_statuses)
+      .created_on_the_website
       .order('id desc')
       .last(50)
     @orders = Admin::OrderDecorator.decorate(orders)

@@ -1,0 +1,30 @@
+$nav-background-image: image-url('admin/offline/black_background.jpg')
+$nav-background-color: #222
+
+table
+  border-collapse: separate
+  border-spacing: 0
+  width: 100%
+  text-align: left
+
+  th, td
+    padding: 7px 7px
+
+table.listing
+
+  thead th
+    background: $nav-background-image $nav-background-color
+    color: #eee
+
+  tr.odd td
+    background-color: #e6e6e6
+
+  tr.even td
+    background-color: #e2e2e2
+
+table.orders
+  td.price
+    width: 100px
+  tr.order_total td
+    background-color: lighten(green, 67%)
+    border-bottom: 1px solid lighten(green, 60%)

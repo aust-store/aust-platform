@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     # order_item
     after(:create) do |order, evaluator|
-      order.items.build(FactoryGirl.attributes_for(:order_item))
+      order.items << FactoryGirl.create(:order_item)
       order.save
     end
 

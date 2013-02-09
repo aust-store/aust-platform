@@ -175,9 +175,9 @@ describe Cart do
       order.should be_present
 
       # order attributes should match the cart's
-      order.cart_id.should          == cart.id
-      order.user_id.should          == cart.user_id
-      order.store.should            == cart.company
+      order.cart_id.should == cart.id
+      order.user_id.should == cart.user_id
+      order.store.should   == cart.company
 
       # cart items are copied as well
       cart.items.each do |item|
@@ -189,6 +189,9 @@ describe Cart do
 
       # shipping options are copied as well
       order.shipping_details.should == cart.shipping
+
+      # purchases in the website
+      order.environment.should == "website"
     end
   end
 end
