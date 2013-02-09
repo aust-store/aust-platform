@@ -3,17 +3,17 @@ App.Router.reopen
   rootURL: '/'
 
 App.Router.map ->
-  this.resource 'orders', ->
+  this.resource 'carts', ->
     this.route 'new'
 
-App.OrdersIndexRoute = Ember.Route.extend
+App.CartsIndexRoute = Ember.Route.extend
   model: ->
-    App.Order.find()
+    App.Cart.find()
 
-App.OrdersNewRoute = Ember.Route.extend
+App.CartsNewRoute = Ember.Route.extend
   model: ->
-    current_model = this.controllerFor('orders_new').get('model')
-    current_model or App.Order.createRecord()
+    current_model = this.controllerFor('carts_new').get('model')
+    current_model or App.Cart.createRecord()
 
   setupController: (controller, model) ->
-    this.controllerFor('orders_new').set('content', model)
+    this.controllerFor('carts_new').set('content', model)

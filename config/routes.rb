@@ -30,6 +30,7 @@ Store::Application.routes.draw do
       scope "/v1" do
         resources :inventory_items, only: [:index]
         resources :orders,          only: api_actions
+        resources :carts,           only: api_actions
       end
     end
 

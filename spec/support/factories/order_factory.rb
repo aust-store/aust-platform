@@ -1,8 +1,7 @@
 FactoryGirl.define do
-  factory :order do
+  factory :order_without_store do
     association :shipping_address, factory: :address
     association :user
-    association :store, factory: :company
 
     # order_item
     after(:create) do |order, evaluator|
@@ -18,8 +17,12 @@ FactoryGirl.define do
       end
     end
 
-  end
+    factory :order do
+      association :store, factory: :company
+    end
 
-  factory :cart, class: "Cart" do
+    factory :cart, class: "Cart" do
+      association :company
+    end
   end
 end

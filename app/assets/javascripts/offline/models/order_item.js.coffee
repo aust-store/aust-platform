@@ -1,6 +1,6 @@
 App.OrderItem = DS.Model.extend
   price: attr('number')
-  order: DS.belongsTo('App.Order', {embedded: 'always'})
+  order: DS.belongsTo('App.Cart', {embedded: 'always'})
   inventory_item: DS.belongsTo('App.InventoryItem')
   inventory_entry_id: attr('number')
 

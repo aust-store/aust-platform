@@ -6,6 +6,13 @@ class Cart < ActiveRecord::Base
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
   accepts_nested_attributes_for :shipping_address
+  accepts_nested_attributes_for :items
+
+  validates :environment, inclusion: { in: Order::VALID_ENVIRONMENTS }, allow_blank: true
+
+  def self.create_offline(params = {})
+    create(params.merge(environment: :offline))
+  end
 
   def total
     Store::Order::PriceCalculation.calculate(items)
@@ -68,7 +75,7 @@ class Cart < ActiveRecord::Base
   def self.find_or_create_cart(cart)
     cart.current_company.carts.find(cart.id)
   rescue ActiveRecord::RecordNotFound
-    cart.current_company.carts.create
+    cart.current_company.carts.create(environment: :website)
   end
 
   def convert_into_order
