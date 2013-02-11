@@ -2,7 +2,9 @@ App.InventoryItemController = Ember.ArrayController.extend
   searchQuery: null
 
   queryChanged: ((value) ->
-    this.controllerFor('carts_new').set('isOrderPlaced', false)
+    # fix after updating Ember.js. See bug #2035
+    # this.controllerFor('carts_new').set('isOrderPlaced', false)
+
     value = this.get('searchQuery')
     if typeof value == "string" and value.length > 0
       this.set('content', App.InventoryItem.find({search: this.searchQuery}))

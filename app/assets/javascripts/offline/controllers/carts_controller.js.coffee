@@ -13,12 +13,15 @@ App.CartsNewController = Ember.ObjectController.extend
 
   whenOrderIsPlaced: ->
     new_cart = App.Cart.createRecord()
-    this.controllerFor('carts_new').set('content', new_cart)
+    this.controllerFor('cartsNew').set('content', new_cart)
     this.set('content', new_cart)
     this.controllerFor('inventory_item').set('searchQuery', null)
 
+    setTimeout ( =>
+      this.set('isOrderPlaced', false)
+    ), 4000
+
     this.set('isOrderPlaced', true)
-    console.log this.isOrderPlaced
     Ember.run =>
       $('#inventory_item_search').focus()
 
