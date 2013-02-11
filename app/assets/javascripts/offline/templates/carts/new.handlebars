@@ -28,11 +28,25 @@
     {{/each}}
 
     {{#if subtotal}}
-    <tr class="even cart_total">
-      <td>Total do pedido</td>
-      <td></td>
-      <td>R$ {{subtotal}}</td>
-    </tr>
+      <tr class="even cart_total">
+        <td>Total do pedido</td>
+        <td></td>
+        <td>R$ {{subtotal}}</td>
+      </tr>
+    {{else}}
+      <tr class="">
+        <td colspan="3">Sem items no carrinho de compras</td>
+      </tr>
     {{/if}}
   </tbody>
 </table>
+
+{{#if subtotal}}
+  <a href="#" class="place_order_button" {{action "placeOrder"}}> </a>
+{{/if}}
+
+{{#if isOrderPlaced}}
+  <div class="order_status order_placed">
+    {{!Pedido concluído com sucesso!}}
+  </div>
+{{/if}}

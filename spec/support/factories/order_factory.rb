@@ -23,6 +23,10 @@ FactoryGirl.define do
 
     factory :cart, class: "Cart" do
       association :company
+
+      factory :offline_cart do
+        environment "offline"
+      end
     end
   end
 end

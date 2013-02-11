@@ -356,7 +356,7 @@ DEPENDENCIES
   poltergeist
   pry
   quiet_assets
-  rails (~> 3.2.9)
+  rails (~> 3.2.11)
   remotipart (~> 1.0)
   rspec-rails (~> 2.11)
   sass-rails

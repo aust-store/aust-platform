@@ -14,22 +14,13 @@ class Admin::Api::OrdersController < Admin::ApplicationController
 
   def create
     params[:order] = JsonRequestParser.new(params).add_attributes_suffix["order"]
-    params[:order][:user_id] = current_user.id
-    order = current_company.orders.create_offline(params[:order])
+
+    cart_id = current_company.carts.find(params[:order][:cart_attributes][:id])
+    cart = current_company.carts.find(cart_id)
+    order = cart.convert_into_order
 
     respond_to do |format|
       format.js { render json: order }
-    end
-  end
-
-  def update
-    params[:order] = JsonRequestParser.new(params).add_attributes_suffix["order"]
-    order = current_company.orders.find(params[:id])
-
-    if order.update_attributes(params[:order])
-      render json: order
-    else
-      render json: order
     end
   end
 end

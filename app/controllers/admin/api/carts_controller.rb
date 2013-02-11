@@ -14,7 +14,6 @@ class Admin::Api::CartsController < Admin::ApplicationController
 
   def create
     params[:cart] = JsonRequestParser.new(params).add_attributes_suffix["cart"]
-    params[:cart][:user_id] = current_user.id
     cart = current_company.carts.create_offline(params[:cart])
 
     respond_to do |format|

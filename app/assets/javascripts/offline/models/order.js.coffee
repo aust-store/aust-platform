@@ -1,11 +1,6 @@
 App.Order = DS.Model.extend
-  items: DS.hasMany('App.OrderItem', {embedded: 'always'})
-  subtotal: (->
-    this.get('items').getEach('price').reduce (accum, item) ->
-      accum + item
-    , 0
-  ).property('items.@each.price')
+  cart: DS.belongsTo('App.Cart')
 
 App.RESTAdapter.map App.Order,
-  items:
+  cart:
     embedded: "always"

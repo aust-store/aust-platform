@@ -5,6 +5,8 @@ describe Order do
     context "environment" do
       it { should allow_value(:offline).for(:environment)  }
       it { should allow_value(:website).for(:environment)  }
+      it { should allow_value("offline").for(:environment)  }
+      it { should allow_value("website").for(:environment)  }
 
       it { should_not allow_value(:online).for(:environment)  }
     end

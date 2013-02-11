@@ -1,6 +1,7 @@
 class Order < ActiveRecord::Base
   attr_accessible :cart_id, :store_id, :user_id, :items_attributes, :items,
-    :environment
+    :environment,
+    :user, :store, :shipping_address, :shipping_details
 
   belongs_to :user
   belongs_to :store, class_name: "Company"
@@ -11,7 +12,9 @@ class Order < ActiveRecord::Base
 
   VALID_ENVIRONMENTS = [:website, :offline]
 
-  validates :environment, inclusion: { in: VALID_ENVIRONMENTS }, allow_blank: true
+  validates :environment,
+    inclusion: { in: VALID_ENVIRONMENTS + VALID_ENVIRONMENTS.map(&:to_s) },
+    allow_blank: true
 
   accepts_nested_attributes_for :items
 

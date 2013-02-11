@@ -21,6 +21,9 @@ h2
 a
   color: #165c85
 
+.preload_template
+  display: none !important
+
 body
   background: $nav-background-image $nav-background-color
   font-family: "Helvetica"
@@ -74,3 +77,19 @@ nav.navigation
   position: relative
   .main_container
     padding: 10px
+
+a.place_order_button
+  float: right
+  margin: 30px 15px 0 0
+  width: 199px
+  height: 42px
+  display: table
+  background: image-url('admin/offline/place_order.png') no-repeat
+  background-position: 0 0px
+  &:hover
+    background-position: 0 -42px
+
+div.order_status.order_placed
+  margin: 50px auto 0 auto
+  color: green
+  text-align: center

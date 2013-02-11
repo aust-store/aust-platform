@@ -16,4 +16,5 @@ App.CartsNewRoute = Ember.Route.extend
     current_model or App.Cart.createRecord()
 
   setupController: (controller, model) ->
+    console.log "router#setupController"
     this.controllerFor('carts_new').set('content', model)
