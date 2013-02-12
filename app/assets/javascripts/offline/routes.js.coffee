@@ -12,8 +12,8 @@ App.CartsIndexRoute = Ember.Route.extend
 
 App.CartsNewRoute = Ember.Route.extend
   model: ->
-    current_model = this.controllerFor('carts_new').get('model')
+    current_model = this.controllerFor('carts.new').get('model')
     current_model or App.Cart.createRecord()
 
   setupController: (controller, model) ->
-    this.controllerFor('carts_new').set('content', model)
+    controller.set('content', model)

@@ -4,13 +4,23 @@
       <div class="navigation_padding">
         <ul>
           <li>
-            {{#linkTo "carts"}}Pedidos{{/linkTo}}
+            <a href="#" {{action "newCart"}} class="new_cart">Novo pedido</a>
+          </li>
+          {{#if cartHasItems}}
+          <li>
+            {{#linkTo "carts.new" class="current_cart"}}
+              Pedido atual
+              <div class="global_cart_status">
+                {{cartStatusMessage}}
+              </div>
+            {{/linkTo}}
+          </li>
+          {{/if}}
+          <li>
+            {{#linkTo "carts.index" class="all_orders"}}Pedidos{{/linkTo}}
           </li>
           <li>
-            {{#linkTo "carts.new"}}Novo pedido{{/linkTo}}
-          </li>
-          <li>
-            {{#linkTo "carts.new"}}Sair{{/linkTo}}
+            {{#linkTo "index" class="log_out"}}Sair{{/linkTo}}
           </li>
         </ul>
 

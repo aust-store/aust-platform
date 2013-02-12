@@ -54,11 +54,31 @@ nav.navigation
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5)
         text-decoration: none
         padding: 10px
+        padding-left: 35px
+        background-repeat: no-repeat
+        background-position: 10px 10px
 
-        &:hover
-          background: lighten($nav-background-color, 8%)
+        &:hover, &.active
+          background-color: lighten($nav-background-color, 8%)
           border-bottom: 0px solid lighten($nav-background-color, 3%)
           border-top: 0px solid lighten($nav-background-color, 10%)
+
+        &.new_cart
+          background-image: image-url('admin/offline/offline_nav_plus.png')
+
+        &.current_cart
+          background-image: image-url('admin/offline/offline_nav_circle.png')
+          .global_cart_status
+            font-size: 0.8em
+            font-weight: 200
+            margin: 5px 0 0 0
+
+        &.all_orders
+          background-image: image-url('admin/offline/offline_nav_list.png')
+
+        &.log_out
+          background-image: image-url('admin/offline/offline_nav_quit.png')
+
 
 
 .main_content
