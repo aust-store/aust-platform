@@ -2,11 +2,25 @@ require "spec_helper"
 
 describe OrderItem do
   describe "callbacks" do
-    describe "#set_status_as_pending on before_create" do
+    describe "#set_status_as_pending on before_validation" do
       it "sets the status field to pending" do
         item = FactoryGirl.build(:order_item_without_associations)
         item.valid?
         expect(item.status).to eq "pending"
+      end
+    end
+
+    describe "#set_quantity_to_one on before_validation" do
+      it "sets the quantity to 1 if it's nil" do
+        item = FactoryGirl.build(:order_item_without_associations, quantity: 0)
+        item.valid?
+        expect(item.quantity).to eq 1
+      end
+
+      it "doesn't change the quantity if it's present" do
+        item = FactoryGirl.build(:order_item_without_associations, quantity: 3)
+        item.valid?
+        expect(item.quantity).to eq 3
       end
     end
   end

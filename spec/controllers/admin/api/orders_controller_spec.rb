@@ -9,6 +9,7 @@ describe Admin::Api::OrdersController do
   describe "POST create" do
     it "creates orders with embedded order items" do
       inventory_item = FactoryGirl.create(:inventory_item, company: @company)
+      # 4 order items are created
       cart = FactoryGirl.create(:offline_cart, company: @company)
       cart_item = cart.items.first
 
@@ -28,23 +29,23 @@ describe Admin::Api::OrdersController do
       xhr :post, :create, json_request
 
       order = Order.first
-      item  = OrderItem.first
       json  = ActiveSupport::JSON.decode(response.body)
 
-      json.should == {
-        "order" => {
-          "id"    => order.id,
-          "total" => order.total.to_s,
-          "items"=>[
-            { "id"                 => item.id,
-              "name"               => item.name,
-              "quantity"           => item.quantity,
-              "price"              => item.price.to_s,
-              "inventory_item_id"  => item.inventory_item_id,
-              "inventory_entry_id" => item.inventory_entry_id }
-          ]
-        }
-      }
+      json["order"].should include(
+        { "id"    => order.id,
+          "total" => order.total.to_s }
+      )
+
+      cart.items.each do |item|
+        json["order"]["items"].should include(
+          { "id"                 => item.id,
+            "name"               => item.name,
+            "quantity"           => item.quantity,
+            "price"              => item.price.to_s,
+            "inventory_item_id"  => item.inventory_item_id,
+            "inventory_entry_id" => item.inventory_entry_id }
+        )
+      end
     end
   end
 end

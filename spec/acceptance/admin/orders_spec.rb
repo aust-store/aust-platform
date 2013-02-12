@@ -19,17 +19,17 @@ feature "Orders Management" do
 
       within "#order_card_#{@pending_order.id}" do
         page.should have_content "Aguardando pgto."
-        page.should have_content "R$ 55,76"
+        page.should have_content "R$ 223,04"
         page.should have_content @pending_order.created_at.strftime("%d/%m/%Y %H:%M")
-        page.should have_content "4 itens"
+        page.should have_content "16 itens"
       end
 
       within "#order_card_#{@paid_order.id}" do
         page.should have_content "Pagamento Completo"
         page.should have_content "Itens enviados"
-        page.should have_content "R$ 55,76"
+        page.should have_content "R$ 223,04"
         page.should have_content @paid_order.created_at.strftime("%d/%m/%Y %H:%M")
-        page.should have_content "4 itens"
+        page.should have_content "16 itens"
       end
     end
   end

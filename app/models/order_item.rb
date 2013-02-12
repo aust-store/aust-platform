@@ -11,12 +11,18 @@ class OrderItem < ActiveRecord::Base
   before_validation :set_status_as_pending
   before_validation :set_quantity_to_one
 
-  def remaining_entries_in_stock
-    inventory_entry.quantity
+  # callbacks
+  def set_status_as_pending
+    self.status = "pending" unless self.status.present?
   end
 
   def set_quantity_to_one
-    self.quantity = 1
+    self.quantity = 1 if self.quantity.zero?
+    true
+  end
+
+  def remaining_entries_in_stock
+    inventory_entry.quantity
   end
 
   def update_quantity(quantity)
@@ -35,10 +41,6 @@ class OrderItem < ActiveRecord::Base
 
   def quantity
     super.to_i
-  end
-
-  def set_status_as_pending
-    self.status = "pending" unless self.status.present?
   end
 
   def self.statuses

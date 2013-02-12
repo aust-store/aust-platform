@@ -33,7 +33,7 @@ describe Admin::Api::CartsController do
           "items"=>[
             { "id"                 => item.id,
               "name"               => item.name,
-              "quantity"           => item.quantity,
+              "quantity"           => 1,
               "price"              => item.price.to_s,
               "inventory_item_id"  => item.inventory_item_id,
               "inventory_entry_id" => entry.id }
@@ -65,31 +65,24 @@ describe Admin::Api::CartsController do
       xhr :put, :update, json_request
 
       cart         = Cart.first
-      created_item = OrderItem.first
-      updated_item = OrderItem.last
       json         = ActiveSupport::JSON.decode(response.body)
 
-      json.should == {
-        "cart" => {
-          "id"    => cart.id,
-          "total" => "110.0",
-          "items" => [
-            { "id"                 => updated_item.id,
-              "name"               => updated_item.name,
-              "quantity"           => updated_item.quantity,
-              "price"              => updated_item.price.to_s,
-              "inventory_item_id"  => updated_item.inventory_item_id,
-              "inventory_entry_id" => updated_item.inventory_entry_id },
+      json["cart"].should include(
+        { "id"    => cart.id,
+          "total" => "427.28" }
+      )
 
-            { "id"                 => created_item.id,
-              "name"               => created_item.name,
-              "quantity"           => created_item.quantity,
-              "price"              => created_item.price.to_s,
-              "inventory_item_id"  => created_item.inventory_item_id,
-              "inventory_entry_id" => created_item.inventory_entry_id }
-          ]
-        }
-      }
+      # returns all items, not only the ones that were sent via PUT
+      cart.items.each do |item|
+        json["cart"]["items"].should include(
+          { "id"                 => item.id,
+            "name"               => item.name,
+            "quantity"           => item.quantity,
+            "price"              => item.price.to_s,
+            "inventory_item_id"  => item.inventory_item_id,
+            "inventory_entry_id" => item.inventory_entry_id }
+        )
+      end
     end
   end
 end

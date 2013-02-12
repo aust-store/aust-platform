@@ -103,11 +103,12 @@ describe Admin::Inventory::EntriesController do
         put :update, item_id: @item.id, id: first_entry.id, inventory_entry: { on_sale: "0" }, format: "js"
         ActiveSupport::JSON.decode(response.body).should == {
           "inventory_item" => {
-            "id" => @item.id,
-            "name" => @item.name,
-            "description" => "Lorem ipsum lorem",
-            "price" => "R$ 20,00",
-            "on_sale" => true
+            "id"                => @item.id,
+            "name"              => @item.name,
+            "description"       => "Lorem ipsum lorem",
+            "price"             => "20.0",
+            "entry_for_sale_id" => @item.entry_for_sale.id,
+            "on_sale"           => true
           }
         }
       end
@@ -118,11 +119,12 @@ describe Admin::Inventory::EntriesController do
         put :update, item_id: @item.id, id: first_entry.id, inventory_entry: { on_sale: "0" }, format: "js"
         ActiveSupport::JSON.decode(response.body).should == {
           "inventory_item" => {
-            "id" => @item.id,
-            "name" => @item.name,
-            "description" => "Lorem ipsum lorem",
-            "price" => "R$ 20,00",
-            "on_sale" => true
+            "id"                => @item.id,
+            "name"              => @item.name,
+            "description"       => "Lorem ipsum lorem",
+            "price"             => "20.0",
+            "entry_for_sale_id" => @item.entry_for_sale.id,
+            "on_sale"           => true
           }
         }
       end
