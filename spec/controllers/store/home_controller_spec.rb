@@ -8,10 +8,10 @@ describe Store::HomeController do
       controller.stub(:current_subdomain) { :company_handle }
       Store::ItemsForSale.stub(:new).with(controller) { double(items_for_main_page: :entries) }
       Store::InventoryItemDecorator.stub(:decorate).with(:entries) { :entries }
-      Company.should_receive(:find_by_handle).with(:company_handle) { company }
+      Company.stub_chain(:where, :first) { company }
       company.stub(:taxonomies) { double.as_null_object }
 
-      get :index, store_id: "store_name"
+      get :index
       assigns(:items).should == :entries
     end
   end

@@ -2,6 +2,10 @@ require "store/company/domain_sanitizer"
 
 describe Store::Company::DomainSanitizer do
   sanitizing_rules = [
+    ["",                      ""],
+    [nil,                     ""],
+    [1,                       ""],
+    [true,                    ""],
     ["www.domain.com",        "domain.com"],
     ["ww.domain.com",         "domain.com"],
     ["w.domain.com",          "domain.com"],

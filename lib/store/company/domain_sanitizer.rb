@@ -6,7 +6,7 @@ module Store
       end
 
       def sanitize
-        domain = @domain
+        domain = @domain.is_a?(String) ? @domain : ""
         domain.strip!
         domain.gsub!(/http:[\/]{0,2}/, "") # removes http
         domain.gsub!(/\A[www]{0,3}\./, "") # removes www
