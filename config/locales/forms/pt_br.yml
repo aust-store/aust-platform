@@ -15,6 +15,8 @@ pt_br:
     javascript:
       form_success: "Os dados foram salvos com sucesso."
       form_failure: "Não foi possível salvar seus dados."
+    notices:
+      form_success: "Os dados foram salvos com sucesso."
   helpers:
     submit:
       inventory_item:
@@ -22,6 +24,8 @@ pt_br:
         update: "Salvar item"
       company_setting:
         update: "Salvar configurações"
+      company:
+        update: "Salvar"
       user:
         create: "Salvar"
       order:
@@ -52,6 +56,8 @@ pt_br:
         width:  "Largura"
         height: "Altura"
         weight: "Peso"
+      company:
+        domain: "Domínio de acesso à sua loja"
       company_setting:
         zipcode: "CEP do remetente"
         commit: "Salvar configurações"
@@ -79,6 +85,8 @@ pt_br:
         taxonomy_id:   "Itens sem categoria não aparecem nos menus da loja"
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
         reference:     "Se você possui um código que identifique este produto internamente."
+      company:
+        domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
     placeholders:
       inventory_item:
         name: "ex.: Parafuso 1cm"

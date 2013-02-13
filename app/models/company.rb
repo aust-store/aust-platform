@@ -14,6 +14,16 @@ class Company < ActiveRecord::Base
   accepts_nested_attributes_for :admin_users
 
   before_create :create_inventory
+  before_validation :sanitize_domain
+
+  def create_inventory
+    self.build_inventory
+  end
+
+  def sanitize_domain
+    self.domain = Store::Company::DomainSanitizer.new(self.domain).sanitize
+    true
+  end
 
   def items_on_sale_on_main_page
     self.items.items_on_sale
@@ -34,10 +44,6 @@ class Company < ActiveRecord::Base
 
   def detailed_item(id)
     self.items.detailed_item_for_sale.find(id)
-  end
-
-  def create_inventory
-    self.build_inventory
   end
 
   def to_param

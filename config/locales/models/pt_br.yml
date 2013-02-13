@@ -31,6 +31,7 @@ pt_br:
         password_confirmation: "Confirmação de senha"
       company:
         name: "Nome da empresa"
+        domain: "Domínio"
       inventory_entry:
         description:   "Descrição"
         cost_per_unit: "Custo unitário"

@@ -1,6 +1,16 @@
 require "spec_helper"
 
 describe Company do
+  describe "callbacks" do
+    describe "sanitize_domain" do
+      it "converts www.domain.com to domain.com" do
+        company = FactoryGirl.build(:company, domain: "www.domain.com")
+        company.valid?
+        expect(company.domain).to eq "domain.com"
+      end
+    end
+  end
+
   describe "#zipcode" do
     it "returns the company zipcode" do
       company = Company.new

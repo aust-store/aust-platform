@@ -1,18 +1,27 @@
-<%= simple_form_for @settings, url: admin_settings_path do |s| %>
-
-  <div class="column_pane_half left">
+<div class="column_pane_half left">
+  <%= simple_form_for @settings, url: admin_settings_path do |s| %>
     <div class="section shipping">
       <h2><%= t ".shipping.title" %></h2>
       <%= s.input :zipcode %>
-      <span class="success"><%= notice %></span>
+      <%= s.submit %>
     </div>
+  <% end %>
 
-    <div class="section pagseguro">
-      <h2><%= t ".payment_gateway.title" %></h2>
-      <%= image_tag 'admin/icons/payment_cards.png' %>
-      <%= link_to t(".payment_gateway.configure"), admin_settings_payment_methods_path %>
-    </div>
-
-    <%= s.submit %>
+  <div class="section pagseguro">
+    <h2><%= t ".payment_gateway.title" %></h2>
+    <%= image_tag 'admin/icons/payment_cards.png' %>
+    <%= link_to t(".payment_gateway.configure"), admin_settings_payment_methods_path %>
   </div>
-<% end %>
+</div>
+
+<div class="column_pane_half right">
+  <%= simple_form_for @company, url: admin_settings_path do |f| %>
+    <div class="section shipping">
+      <h2><%= t ".company.domain" %></h2>
+      <%= f.input :domain, as: :string %>
+
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+</div>
