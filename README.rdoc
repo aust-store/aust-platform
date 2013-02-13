@@ -18,12 +18,17 @@ these steps:
 127.0.0.1 www.store.i
 127.0.0.1 mystore.store.i
 127.0.0.1 choose_a_store_name.store.i
+127.0.0.1 petshop.com.br
+127.0.0.1 www.petshop.com.br
 ```
 
-In any computer, typing 127.0.0.1 is the same as typing `localhost`. The first
-line above is going to tunnel `http://store.i:3000` to `http://localhost:3000`.
+The first line above is going to tunnel `http://store.i:3000` to `http://localhost:3000`.
 
-3. If you're on a Mac, it might be necessasry to run in some cases to flush the cache
+The last two lines are a way to mimic more closely how a URL would be typed in the
+browser. For that case, you have to login into your store and enter `petshop.com.br`
+as an accepted login.
+
+3. If you're on a Mac, it might be necessary to run in some cases to flush the cache
 
 `$ dscacheutil -flushcache`
 
