@@ -248,6 +248,13 @@ body {
   }
 }
 
+#input_loading {
+  position: absolute;
+  width:    32px;
+  height:   32px;
+  display:  none;
+}
+
 #error, #flash_alert {
   color: darken(red, 2%);
   background: lighten(red, 47%);

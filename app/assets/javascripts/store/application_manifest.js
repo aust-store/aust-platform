@@ -3,9 +3,6 @@
 //= require jquery_ujs
 //= require emerald
 //= require_tree ./../../../../vendor/assets/javascripts/vendor/store/
+//= require_tree ./../shared/lib/
 //= require_tree ./lib/
-//= require_tree ./router/
-//= require_tree ./models/
-//= require_tree ./controllers/
-//= require_tree ./views/
 //= require_tree ./

@@ -11,7 +11,7 @@ class window.InputLoading
 
     # spinner gif dimensions: 32x32.
     spinnerLeft = inputLeft + (width - 40) + "px"
-    spinnerTop  = inputTop + (height / 2) + "px"
+    spinnerTop  = inputTop  + (height / 2) + "px"
 
     input_loading_div = $("#input_loading")
     input_loading_div.css

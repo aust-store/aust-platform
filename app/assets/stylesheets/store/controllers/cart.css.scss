@@ -59,7 +59,7 @@ body.store_cart.show {
 
       .shipping_label { float: left; width: 60px }
       .options {
-        float: left; width: 200px;
+        float: left; width: 220px;
 
         .js_service_selection {
           width: 100%;
@@ -69,8 +69,8 @@ body.store_cart.show {
         }
 
         .zipcode {
-          width: 100%;
-          padding: 5px;
+          width:      100%;
+          padding:    7px;
           text-align: center;
           border-top: 1px solid #fdfdfd;
         }
