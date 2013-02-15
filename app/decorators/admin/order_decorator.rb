@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Admin
   class OrderDecorator < ApplicationDecorator
     decorates :order
@@ -13,6 +14,21 @@ module Admin
 
     def payment_status
       I18n.t("activerecord.values.payment_status.#{order.current_payment_status}")
+    end
+
+    def payment_status_with_datetime
+      status = I18n.t("activerecord.values.payment_status.#{order.current_payment_status}")
+
+      if order.paid?
+        payment_status = order.payment_statuses.paid_status.first
+        status << ", pago em " + payment_status.created_at.strftime("%d/%m/%Y, às %H:%M")
+      end
+
+      status
+    end
+
+    def created_at
+      order.created_at.strftime("%d/%m/%Y, às %H:%M")
     end
 
     def summary_long_text

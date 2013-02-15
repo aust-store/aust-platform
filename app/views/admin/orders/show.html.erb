@@ -14,20 +14,26 @@
 
     <table class="properties">
       <tbody>
-        <tr class="odd">
-          <td>Resumo:</td>
+        <tr class="even">
+          <td>Resumo:<br /></td>
           <td class="summary <%= @order.model.summary %>">
             <%= @order.summary_long_text %>
+          </td>
+        </tr>
+        <tr class="odd">
+          <td>Pedido feito em:<br /></td>
+          <td>
+            <%= @order.created_at %>
           </td>
         </tr>
         <tr class="even">
           <td>Status do pagamento:</td>
           <td class="payment_status <%= @order.current_payment_status %>">
-            <%= @order.payment_status %>
+            <%= @order.payment_status_with_datetime %>
           </td>
         </tr>
         <tr class="odd">
-          <td>Detalhes da entrega:</td>
+          <td>Detalhes do frete:</td>
           <td><%= @order.shipping_details.complete_details %></td>
         </tr>
         <tr class="even">
@@ -39,6 +45,13 @@
         <tr class="odd">
           <td> Valor total:</td>
           <td> <%= @order.total %> (sem frete) </td>
+        </tr>
+        <tr class="even">
+          <td>Cliente:</td>
+          <td>
+            <%= @order.user.full_name %>,
+            <%= @order.user.email %>
+          </td>
         </tr>
       </tbody>
     </table>

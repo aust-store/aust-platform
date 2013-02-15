@@ -25,7 +25,7 @@ span.color_legend
     width: 100%
     margin-bottom: 10px
 
-  a.order_card
+  .order_card
     background: $processing_background
     text-decoration: none !important
     color: inherit
@@ -84,6 +84,15 @@ span.color_legend
         color: green
 
     .details
+      .details_button
+        display: table
+        text-align: center
+        margin: 5px auto 5px auto
+
+        a.css_button_anchor
+          opacity: 0.85
+          &:hover
+            opacity: 1
 
 table
   tbody

@@ -21,7 +21,7 @@ unless Rails.env.production?
         puts "No order_id value was defined."
         return false
       end
-      Order.find(ENV['order_id'])
+      ::Order.find(ENV['order_id'])
       true
     end
 
@@ -33,7 +33,7 @@ unless Rails.env.production?
       :disputed, :refunded, :cancelled ].each do |status|
 
       desc description(status)
-      task status do |t|
+      task status => :environment do |t|
         return valid_arguments unless valid_arguments
         Store::Order::StatusChange.change(fake_notification(status))
       end

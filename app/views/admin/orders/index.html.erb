@@ -5,16 +5,16 @@
 </header>
 
 <div class="main_container">
-    <p>
-      <span class="color_legend processing"> </span>
-      Não requerem atenção neste momento
+  <p>
+    <span class="color_legend processing"> </span>
+    Não requerem atenção neste momento
 
-      <span class="color_legend requires_attention"> </span>
-      Requerem atenção
+    <span class="color_legend requires_attention"> </span>
+    Requerem atenção
 
-      <span class="color_legend approved"> </span>
-      Pedidos concluídos com sucesso
-    </p>
+    <span class="color_legend approved"> </span>
+    Pedidos concluídos com sucesso
+  </p>
 
   <div class="order_cards">
     <% @orders.each_slice(5) do |orders_line| %>
@@ -24,6 +24,5 @@
       <% end %>
       </div>
     <% end %>
-
   </div>
 </div>

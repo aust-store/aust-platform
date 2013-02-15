@@ -1,4 +1,4 @@
-<%= link_to admin_order_path(order), class: "order_card #{order.summary}", id: "order_card_#{order.id}" do %>
+<div class="order_card <%= order.summary %>" id="order_card_<%= order.id%>">
   <div class="card_containner">
     <div class="order_id">
       <div class="label">Número do pedido</div>
@@ -26,6 +26,12 @@
         <%= order.items_quantity == 1 ? "1 item" : "#{order.items_quantity} itens" %>
       </div>
 
+      <div class="details_button">
+        <%= small_button admin_order_path(order),
+              text: "Ver detalhes",
+              class: "round_icon" %>
+      </div>
     </div>
+
   </div>
-<% end %>
+</div>

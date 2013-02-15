@@ -22,6 +22,16 @@ describe PaymentStatus do
     end
   end
 
+  describe ".paid_status" do
+    it "returns the approved payment record" do
+      approved = FactoryGirl.create(:payment_approved)
+      FactoryGirl.create(:payment_available_for_withdrawal)
+      FactoryGirl.create(:payment_processing)
+      FactoryGirl.create(:payment_refunded)
+      PaymentStatus.paid_status.first.should == approved
+    end
+  end
+
   describe ".paid?" do
     it "returns true when status is approved" do
       PaymentStatus.stub(:current_status) { :approved }

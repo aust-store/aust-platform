@@ -9,6 +9,8 @@ class PaymentStatus < ActiveRecord::Base
     :disputed, :refunded, :cancelled
   ]
 
+  scope :paid_status, ->{ where(status: "approved") }
+
   def set_status_as(status_string)
     return unless VALID_STATUSES.include?(status_string.to_sym)
     self.status = status_string

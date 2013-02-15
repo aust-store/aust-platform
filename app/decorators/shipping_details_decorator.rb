@@ -7,7 +7,7 @@ class ShippingDetailsDecorator < ApplicationDecorator
   def complete_details
     complete = []
     complete << "Custo #{to_currency(order_shipping.price)}"
-    complete << "entrega em #{order_shipping.delivery_days} dias úteis"
+    complete << "entrega prometida em #{order_shipping.delivery_days} dias úteis"
     complete << delivery_by.capitalize if delivery_by.present?
     complete << "serviço #{order_shipping.service_type.upcase}"
     complete.join(", ")

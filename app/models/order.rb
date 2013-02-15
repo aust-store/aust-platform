@@ -37,7 +37,7 @@ class Order < ActiveRecord::Base
   end
 
   def paid?
-    payment_statuses.paid?
+    @paid = payment_statuses.paid?
   end
 
   def number
