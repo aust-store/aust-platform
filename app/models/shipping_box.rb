@@ -1,7 +1,8 @@
 class ShippingBox < ActiveRecord::Base
   belongs_to :inventory_items, dependent: :destroy
+  belongs_to :order_item, dependent: :destroy
 
-  attr_accessible :height, :inventory_items, :length, :weight, :width
+  attr_accessible :height, :inventory_items, :length, :weight, :width, :order_item_id
 
   before_validation :sanitize_attributes, :calculate_total_dimensions
 
@@ -30,11 +31,8 @@ class ShippingBox < ActiveRecord::Base
 
   def sanitize_attributes
     self.length = Store::DimensionsSanitization.sanitize(length) if length.present?
-
     self.height = Store::DimensionsSanitization.sanitize(height) if height.present?
-
     self.width  = Store::DimensionsSanitization.sanitize(width)  if width.present?
-
     self.weight = Store::DimensionsSanitization.sanitize(weight) if weight.present?
   end
 

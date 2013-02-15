@@ -6,6 +6,15 @@ class Cart < ActiveRecord::Base
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
   accepts_nested_attributes_for :shipping_address
+  accepts_nested_attributes_for :items
+
+  validates :environment,
+    inclusion: { in: Order::VALID_ENVIRONMENTS + Order::VALID_ENVIRONMENTS.map(&:to_s) },
+    allow_blank: true
+
+  def self.create_offline(params = {})
+    create(params.merge(environment: :offline))
+  end
 
   def total
     Store::Order::PriceCalculation.calculate(items)
@@ -68,18 +77,22 @@ class Cart < ActiveRecord::Base
   def self.find_or_create_cart(cart)
     cart.current_company.carts.find(cart.id)
   rescue ActiveRecord::RecordNotFound
-    cart.current_company.carts.create
+    cart.current_company.carts.create(environment: :website)
   end
 
   def convert_into_order
-    order = Order.find_or_create_by_cart_id(id)
-    order.user             = user             if user.present?
-    order.store            = company          if company.present?
-    order.shipping_address = shipping_address if shipping_address.present?
-    order.shipping_details = shipping         if shipping.present?
-    items.each do |item|
-      order.items << item
-    end
+    serialized_fields = {
+      cart_id:          self.id,
+      environment:      self.environment,
+      user:             self.user,
+      store:            self.company,
+      shipping_address: self.shipping_address,
+      shipping_details: self.shipping
+    }
+
+    order = Order.find_or_create_by_cart_id(serialized_fields)
+    items.each { |item| order.items << item }
     order.save
+    order
   end
 end

@@ -167,17 +167,19 @@ describe Cart do
 
   describe "#convert_into_order" do
     it "creates an order based on the cart" do
-      cart = FactoryGirl.create(:cart)
-      cart.convert_into_order
+      cart = FactoryGirl.create(:cart, environment: :offline)
+      returned_value = cart.convert_into_order
       order = Order.where(cart_id: cart.id).first
 
       # order counterpart should be created
       order.should be_present
+      order.should == returned_value
 
       # order attributes should match the cart's
-      order.cart_id.should          == cart.id
-      order.user_id.should          == cart.user_id
-      order.store.should            == cart.company
+      order.environment.should == "offline"
+      order.cart_id.should == cart.id
+      order.user_id.should == cart.user_id
+      order.store.should   == cart.company
 
       # cart items are copied as well
       cart.items.each do |item|

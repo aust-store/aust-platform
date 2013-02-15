@@ -4,7 +4,6 @@ FactoryGirl.define do
     quantity 4
 
     factory :order_item do
-      association :shipping_box
       association :inventory_item
       association :inventory_entry
     end

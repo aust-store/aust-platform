@@ -1,4 +1,5 @@
 Store::Application.routes.draw do
+  api_actions = [:index, :create, :update, :show]
 
   namespace :consultor do
     resources :home, only: [:index]
@@ -25,11 +26,19 @@ Store::Application.routes.draw do
   end
 
   namespace :admin do
+    namespace :api do
+      scope "/v1" do
+        resources :inventory_items, only: [:index]
+        resources :orders,          only: api_actions
+        resources :carts,           only: api_actions
+      end
+    end
+
     resource :dashboard, controller: "dashboard" do
       get 'index' => 'dashboard#index'
     end
 
-    resources :orders, only: [:index, :show, :update]
+    resources :orders, only: [:index, :show, :update, :create]
 
     resource :settings, only: [:show, :update] do
       resource :payment_methods, controller: 'payment_methods', only: :show, module: 'settings' do
@@ -71,6 +80,11 @@ Store::Application.routes.draw do
     end
 
     resources :users
+
+    namespace :offline, module: "offline" do
+      resources :sales, only: :new
+      root :to => 'sales#new'
+    end
 
     root :to => 'dashboard#index'
   end

@@ -3,7 +3,7 @@ Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
 
-gem 'rails', '~>3.2.9'
+gem 'rails', '~>3.2.11'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'
@@ -31,6 +31,7 @@ gem 'jquery-rails'
 group :development do
   gem 'quiet_assets'
   gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :development, :test do

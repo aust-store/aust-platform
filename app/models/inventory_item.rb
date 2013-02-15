@@ -4,6 +4,9 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :company
   belongs_to :taxonomy
 
+  has_many :entries, class_name: "InventoryEntry"
+
+  # TODO remove balances
   has_many :balances, class_name: "InventoryEntry",
     order: "inventory_entries.created_at asc, inventory_entries.id asc"
   has_one :last_balance, class_name: "InventoryEntry",

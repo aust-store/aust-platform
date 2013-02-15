@@ -1,0 +1,39 @@
+<div class="global">
+  <div class="global_container">
+    <nav class="navigation">
+      <div class="navigation_padding">
+        <ul>
+          <li>
+            <a href="#" {{action "newCart"}} class="new_cart">Novo pedido</a>
+          </li>
+          {{#if cartHasItems}}
+          <li>
+            {{#linkTo "carts.new" class="current_cart"}}
+              Pedido atual
+              <div class="global_cart_status">
+                {{cartStatusMessage}}
+              </div>
+            {{/linkTo}}
+          </li>
+          {{/if}}
+          <li>
+            {{#linkTo "carts.index" class="all_orders"}}Pedidos{{/linkTo}}
+          </li>
+          <li>
+            {{#linkTo "index" class="log_out"}}Sair{{/linkTo}}
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+    <section class="main_content">
+      <div id="main">
+        <div class="main_container">
+          {{outlet}}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<a class="place_order_button preload_template"></a>

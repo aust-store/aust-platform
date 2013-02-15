@@ -3,13 +3,23 @@ class OrderItem < ActiveRecord::Base
   belongs_to :cart
   belongs_to :inventory_item
   belongs_to :inventory_entry
-  has_one :shipping_box
 
   VALID_STATUSES = [:pending, :shipped, :cancelled]
 
   validates :status, inclusion: { in: VALID_STATUSES.map(&:to_s) }
 
   before_validation :set_status_as_pending
+  before_validation :set_quantity_to_one
+
+  # callbacks
+  def set_status_as_pending
+    self.status = "pending" unless self.status.present?
+  end
+
+  def set_quantity_to_one
+    self.quantity = 1 if self.quantity.zero?
+    true
+  end
 
   def remaining_entries_in_stock
     inventory_entry.quantity
@@ -31,10 +41,6 @@ class OrderItem < ActiveRecord::Base
 
   def quantity
     super.to_i
-  end
-
-  def set_status_as_pending
-    self.status = "pending" unless self.status.present?
   end
 
   def self.statuses

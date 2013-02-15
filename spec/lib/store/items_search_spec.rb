@@ -13,8 +13,8 @@ describe Store::ItemsSearch do
 
         it "replaces spaces with |" do
           model.should_receive(:where)
-            .with("to_tsvector('english', name) @@ :q or " + \
-                  "to_tsvector('english', description) @@ :q",
+            .with("to_tsvector('english', inventory_items.name) @@ :q or " + \
+                  "to_tsvector('english', inventory_items.description) @@ :q",
                   q: "keyword | keyword:*")
             .and_return(double.as_null_object)
 
@@ -24,8 +24,8 @@ describe Store::ItemsSearch do
 
       it "searches for the given keywords" do
         model.should_receive(:where)
-          .with("to_tsvector('english', name) @@ :q or " + \
-                "to_tsvector('english', description) @@ :q",
+          .with("to_tsvector('english', inventory_items.name) @@ :q or " + \
+                "to_tsvector('english', inventory_items.description) @@ :q",
                 q: "keyword:*")
           .and_return(double.as_null_object)
 
