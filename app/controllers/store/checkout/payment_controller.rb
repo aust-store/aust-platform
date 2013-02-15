@@ -4,8 +4,8 @@ module Store
       skip_before_filter :load_taxonomies
 
       def show
-        cart.convert_into_order
-        pagseguro = Store::Payment::Pagseguro::Checkout.new(self, cart)
+        order = cart.convert_into_order
+        pagseguro = Store::Payment::Pagseguro::Checkout.new(self, order)
         pagseguro.create_transaction
         redirect_to pagseguro.payment_url and return
       end
