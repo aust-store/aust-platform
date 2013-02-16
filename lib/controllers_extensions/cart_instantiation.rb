@@ -5,5 +5,9 @@ module ControllersExtensions
       session[:cart_id] = @cart.id
       @cart
     end
+
+    def flush_cart
+      session[:cart_id] = nil
+    end
   end
 end
