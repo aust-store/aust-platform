@@ -20,6 +20,7 @@ feature "Store cart" do
 
   describe "checkout process" do
     scenario "As a signed out user, I want to checkout", js: true do
+
       # user adds item to the cart
       visit product_path(@product.balances.first)
       click_link "Adicionar ao carrinho"
@@ -44,10 +45,16 @@ feature "Store cart" do
         find("[name='place_order']").click
       end
 
-      cart = Cart.last
+      # given we flush the cart after the checkout, a new one is generated
+      ::Cart.count.should == 2
+      cart = Cart.first
       Order.first.cart_id.should == cart.id
 
       page.should have_content "Sucesso"
+
+      # checks if the cart has been really flushed
+      visit cart_path
+      page.should_not have_content "R$ 12,34"
     end
   end
 end
