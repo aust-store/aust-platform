@@ -1,5 +1,6 @@
 class InventoryItem < ActiveRecord::Base
   belongs_to :inventory
+  belongs_to :manufacturer
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'
   belongs_to :company
   belongs_to :taxonomy
@@ -7,12 +8,11 @@ class InventoryItem < ActiveRecord::Base
   has_many :entries, class_name: "InventoryEntry"
 
   # TODO remove balances
-  has_many :balances, class_name: "InventoryEntry",
-    order: "inventory_entries.created_at asc, inventory_entries.id asc"
-  has_one :last_balance, class_name: "InventoryEntry",
-    order: "updated_at desc", readonly: true
+  has_many :balances, class_name: "InventoryEntry", order: "inventory_entries.created_at asc, inventory_entries.id asc"
   has_many :images, class_name: "InventoryItemImage"
+  has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
   has_one :shipping_box
+  has_one :properties, class_name: "InventoryItemProperty"
 
   accepts_nested_attributes_for :shipping_box
   accepts_nested_attributes_for :balances

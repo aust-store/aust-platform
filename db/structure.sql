@@ -36,6 +36,20 @@ CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
 
 
+--
+-- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION unaccent; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -327,48 +341,6 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 
 
 --
--- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE inventory_entries (
-    id integer NOT NULL,
-    inventory_item_id integer,
-    admin_user_id integer,
-    balance_type character varying(255),
-    description text,
-    quantity numeric,
-    cost_per_unit numeric,
-    moving_average_cost numeric,
-    total_quantity numeric,
-    total_cost numeric,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    store_id integer,
-    price numeric(8,2),
-    on_sale boolean DEFAULT true
-);
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE good_balances_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE good_balances_id_seq OWNED BY inventory_entries.id;
-
-
---
 -- Name: inventories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -397,6 +369,47 @@ CREATE SEQUENCE inventories_id_seq
 --
 
 ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
+
+
+--
+-- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_entries (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    admin_user_id integer,
+    balance_type character varying(255),
+    description text,
+    quantity numeric,
+    cost_per_unit numeric,
+    moving_average_cost numeric,
+    total_quantity numeric,
+    total_cost numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    on_sale boolean DEFAULT true,
+    store_id integer
+);
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE inventory_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 
 
 --
@@ -433,6 +446,70 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 
 
 --
+-- Name: inventory_item_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_item_prices (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    value numeric(8,2),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: inventory_item_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE inventory_item_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: inventory_item_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE inventory_item_prices_id_seq OWNED BY inventory_item_prices.id;
+
+
+--
+-- Name: inventory_item_properties; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_item_properties (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    properties hstore,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: inventory_item_properties_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE inventory_item_properties_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: inventory_item_properties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE inventory_item_properties_id_seq OWNED BY inventory_item_properties.id;
+
+
+--
 -- Name: inventory_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -447,7 +524,9 @@ CREATE TABLE inventory_items (
     reference character varying(255),
     admin_user_id integer,
     merchandising text,
-    taxonomy_id integer
+    taxonomy_id integer,
+    year integer,
+    manufacturer_id integer
 );
 
 
@@ -471,6 +550,38 @@ ALTER SEQUENCE inventory_items_id_seq OWNED BY inventory_items.id;
 
 
 --
+-- Name: manufacturers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE manufacturers (
+    id integer NOT NULL,
+    name character varying(255),
+    company_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: manufacturers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE manufacturers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: manufacturers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
+
+
+--
 -- Name: order_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -484,8 +595,7 @@ CREATE TABLE order_items (
     order_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status character varying(255),
-    related_id integer
+    status character varying(255)
 );
 
 
@@ -858,7 +968,7 @@ ALTER TABLE ONLY inventories ALTER COLUMN id SET DEFAULT nextval('inventories_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('good_balances_id_seq'::regclass);
+ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('inventory_entries_id_seq'::regclass);
 
 
 --
@@ -872,7 +982,28 @@ ALTER TABLE ONLY inventory_item_images ALTER COLUMN id SET DEFAULT nextval('inve
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY inventory_item_prices ALTER COLUMN id SET DEFAULT nextval('inventory_item_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY inventory_item_properties ALTER COLUMN id SET DEFAULT nextval('inventory_item_properties_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY inventory_items ALTER COLUMN id SET DEFAULT nextval('inventory_items_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY manufacturers ALTER COLUMN id SET DEFAULT nextval('manufacturers_id_seq'::regclass);
 
 
 --
@@ -996,14 +1127,6 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1025,6 +1148,38 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_item_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_item_prices
+    ADD CONSTRAINT inventory_item_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_item_properties_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_item_properties
+    ADD CONSTRAINT inventory_item_properties_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: manufacturers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY manufacturers
+    ADD CONSTRAINT manufacturers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1096,20 +1251,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
-
-
---
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
-
-
---
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
@@ -1267,10 +1408,38 @@ CREATE INDEX index_inventory_entries_on_store_id ON inventory_entries USING btre
 
 
 --
+-- Name: index_inventory_item_prices_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_item_prices_on_inventory_item_id ON inventory_item_prices USING btree (inventory_item_id);
+
+
+--
+-- Name: index_inventory_item_properties_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_item_properties_on_inventory_item_id ON inventory_item_properties USING btree (inventory_item_id);
+
+
+--
+-- Name: index_inventory_items_on_manufacturer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_manufacturer_id ON inventory_items USING btree (manufacturer_id);
+
+
+--
 -- Name: index_inventory_items_on_taxonomy_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_inventory_items_on_taxonomy_id ON inventory_items USING btree (taxonomy_id);
+
+
+--
+-- Name: index_manufacturers_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_manufacturers_on_company_id ON manufacturers USING btree (company_id);
 
 
 --
@@ -1299,13 +1468,6 @@ CREATE INDEX index_order_items_on_inventory_item_id ON order_items USING btree (
 --
 
 CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id);
-
-
---
--- Name: index_order_items_on_related_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_order_items_on_related_id ON order_items USING btree (related_id);
 
 
 --
@@ -1456,6 +1618,34 @@ CREATE INDEX index_users_on_store_id ON users USING btree (store_id);
 
 
 --
+-- Name: inventory_item_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX inventory_item_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
+
+
+--
+-- Name: item_properties; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX item_properties ON inventory_item_properties USING gin (properties);
+
+
+--
+-- Name: manufacturers_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX manufacturers_name ON manufacturers USING gin (to_tsvector('english'::regconfig, (name)::text));
+
+
+--
+-- Name: taxonomies_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX taxonomies_name ON taxonomies USING gin (to_tsvector('english'::regconfig, name));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1564,4 +1754,20 @@ INSERT INTO schema_migrations (version) VALUES ('20130209072541');
 
 INSERT INTO schema_migrations (version) VALUES ('20130213041013');
 
-INSERT INTO schema_migrations (version) VALUES ('20130215020517');
+INSERT INTO schema_migrations (version) VALUES ('20130217201429');
+
+INSERT INTO schema_migrations (version) VALUES ('20130217202510');
+
+INSERT INTO schema_migrations (version) VALUES ('20130217202710');
+
+INSERT INTO schema_migrations (version) VALUES ('20130219173554');
+
+INSERT INTO schema_migrations (version) VALUES ('20130220175350');
+
+INSERT INTO schema_migrations (version) VALUES ('20130220181633');
+
+INSERT INTO schema_migrations (version) VALUES ('20130220182904');
+
+INSERT INTO schema_migrations (version) VALUES ('20130220200724');
+
+INSERT INTO schema_migrations (version) VALUES ('20130220200955');

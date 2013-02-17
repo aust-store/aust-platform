@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213041013) do
+ActiveRecord::Schema.define(:version => 20130217202710) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -159,21 +159,45 @@ ActiveRecord::Schema.define(:version => 20130213041013) do
   add_index "inventory_item_images", ["cover"], :name => "index_good_images_on_cover"
   add_index "inventory_item_images", ["inventory_item_id"], :name => "index_good_images_on_good_id"
 
+  create_table "inventory_item_properties", :force => true do |t|
+    t.integer  "inventory_item_id"
+    t.hstore   "properties"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "inventory_item_properties", ["inventory_item_id"], :name => "index_inventory_item_properties_on_inventory_item_id"
+  add_index "inventory_item_properties", ["properties"], :name => "item_properties"
+
   create_table "inventory_items", :force => true do |t|
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
     t.text     "merchandising"
     t.integer  "taxonomy_id"
+    t.string   "size"
+    t.integer  "year"
+    t.text     "model"
+    t.integer  "manufacturer_id"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
+  add_index "inventory_items", ["manufacturer_id"], :name => "index_inventory_items_on_manufacturer_id"
   add_index "inventory_items", ["taxonomy_id"], :name => "index_inventory_items_on_taxonomy_id"
+
+  create_table "manufacturers", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "manufacturers", ["company_id"], :name => "index_manufacturers_on_company_id"
 
   create_table "order_items", :force => true do |t|
     t.integer  "inventory_item_id"
