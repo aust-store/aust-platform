@@ -182,7 +182,6 @@ ActiveRecord::Schema.define(:version => 20130217202710) do
     t.integer  "taxonomy_id"
     t.string   "size"
     t.integer  "year"
-    t.text     "model"
     t.integer  "manufacturer_id"
   end
 

@@ -15,7 +15,16 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     end
   end
 
-  def new_item_or_entry; end
+  def new_item_or_entry
+    @item = current_company.items.new
+
+    # item has:
+    #
+    #   - taxonomy:     another table
+    #   - manufacturer: another table
+    #   - name:         same table
+    #@item.build_shipping_box
+  end
 
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
@@ -34,7 +43,14 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def new
-    @item = current_company.items.new(name: params[:new_item_name])
+    @item = current_company.items.new
+
+    # item has:
+    #
+    #   - taxonomy:     another table
+    #   - manufacturer: another table
+    #   - name:         same table
+    #@item.build_shipping_box
     @item.build_shipping_box
   end
 

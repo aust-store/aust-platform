@@ -9,9 +9,11 @@
 </header>
 
 <div class="main_container">
+  <div class="new_item_or_entries form">
 
-  <div class="form">
-    <%= render 'form' %>
+    <%= simple_form_for([:admin, @item]) do |f| %>
+      <%= render 'form', item: f %>
+    <% end %>
+
   </div>
-
 </div>

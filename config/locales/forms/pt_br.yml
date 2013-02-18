@@ -48,7 +48,10 @@ pt_br:
         price:         "Preço de venda"
       inventory_item:
         taxonomy_id:   "Categoria"
-        name:          "Nome do item ou mercadoria"
+        taxonomy:      "Categoria"
+        name:          "Nome/modelo"
+        year:          "Ano"
+        manufacturer:  "Fabricante"
         merchandising: "Merchandising"
         reference:     "Código de referência"
       shipping_box:

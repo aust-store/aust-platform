@@ -5,6 +5,16 @@
            } %>
 
 <div class="main_container" data-input-focus="true">
+      <%= simple_form_for([:admin, @item]) do |f| %>
+        <div class="search">
+          <%= f.input :taxonomy_id, as: :hidden %>
+          <%= f.input :taxonomy %>
+          <%= f.input :manufacturer %>
+          <%= f.input : %>
+          <%= f.input :taxonomy %>
+        </div>
+      <% end %>
+
   <div class="search_existent_item">
     <div class="input">
       <h1>Digite o nome do item a ser acrescentado</h1>
