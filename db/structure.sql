@@ -203,7 +203,8 @@ CREATE TABLE carts (
     user_id integer,
     company_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    environment character varying(255)
 );
 
 
@@ -483,7 +484,8 @@ CREATE TABLE order_items (
     order_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status character varying(255)
+    status character varying(255),
+    related_id integer
 );
 
 
@@ -553,7 +555,8 @@ CREATE TABLE orders (
     user_id integer,
     store_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    environment character varying(255)
 );
 
 
@@ -1173,6 +1176,13 @@ CREATE INDEX index_carts_on_company_id ON carts USING btree (company_id);
 
 
 --
+-- Name: index_carts_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_carts_on_environment ON carts USING btree (environment);
+
+
+--
 -- Name: index_carts_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1292,6 +1302,13 @@ CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id)
 
 
 --
+-- Name: index_order_items_on_related_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_items_on_related_id ON order_items USING btree (related_id);
+
+
+--
 -- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1317,6 +1334,13 @@ CREATE INDEX index_order_shippings_on_order_id ON order_shippings USING btree (o
 --
 
 CREATE INDEX index_orders_on_cart_id ON orders USING btree (cart_id);
+
+
+--
+-- Name: index_orders_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 
 
 --
@@ -1534,4 +1558,10 @@ INSERT INTO schema_migrations (version) VALUES ('20130116005754');
 
 INSERT INTO schema_migrations (version) VALUES ('20130122004925');
 
+INSERT INTO schema_migrations (version) VALUES ('20130209055558');
+
+INSERT INTO schema_migrations (version) VALUES ('20130209072541');
+
 INSERT INTO schema_migrations (version) VALUES ('20130213041013');
+
+INSERT INTO schema_migrations (version) VALUES ('20130215020517');

@@ -12,7 +12,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
         }
       }
     else
-      render status: 422, json: result.error_message
+      render status: 422, json: { errors: [result.error_message] }
     end
   end
 

@@ -5,29 +5,27 @@ class ShippingCalculation
 
   shipping_calculate: ->
     if @is_valid_zipcode()
-      zipcode  = $('[name="zipcode"]').val()
-      path     = $("input#zipcode").data("path")
-      type     = $(".js_service_selection [name='type']:checked").val()
+      zipcode       = $('[name="zipcode"]').val()
+      request_url   = $("input#zipcode").data("shipping-path")
+      shipping_type = $(".js_service_selection [name='type']:checked").val()
       $.ajax(
         type: "POST"
-        url: path
+        url: request_url
         data:
           "zipcode": zipcode
-          "type":    type
+          "type":    shipping_type
         beforeSend: ->
-          input_loading = new InputLoading
-          input_loading.show($(".zipcode"))
+          new InputSpinningWheel().show $("input#zipcode")
         complete: ->
-          input_loading = new InputLoading
-          input_loading.hide($(".zipcode"))
+          new InputSpinningWheel().hide $("input#zipcode")
         success: (response) ->
-          $('[name="zipcode_cost"]').html(response.zipcode.cost)
-          $('[name="zipcode_days"]').html(response.zipcode.days)
-          $("div#error").html("")
+          $(".js_zipcode_cost").html(response.zipcode.cost)
+          $(".js_zipcode_days").html(response.zipcode.days)
         error: (response) ->
-          $('[name="zipcode_cost"]').html("")
-          $('[name="zipcode_days"]').html("")
-          $("div#error").html(response.responseText)
+          $(".js_zipcode_cost").html("")
+          $(".js_zipcode_days").html("")
+          responseText = jQuery.parseJSON(response.responseText)
+          $("div#error").html(responseText.errors[0])
       )
 
   is_valid_zipcode: =>

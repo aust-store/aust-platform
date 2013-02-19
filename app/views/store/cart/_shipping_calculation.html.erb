@@ -29,16 +29,16 @@
           id="zipcode"
           value="<%= @cart.shipping_zipcode %>"
           name="zipcode"
-          data-path="<%= cart_shipping_cost_path %>"/>
+          data-shipping-path="<%= cart_shipping_cost_path %>"/>
       </div>
     </div>
   </div>
 
   <div class="column summary">
-    <span name="zipcode_cost"><%= @cart.shipping_price %></span>
+    <span class="js_zipcode_cost"><%= @cart.shipping_price %></span>
     <br />
     <%= t(".ships_in") %>
-    <span name="zipcode_days"><%= @cart.shipping_days %></span>
+    <span class="js_zipcode_days"><%= @cart.shipping_days %></span>
     <%= t(".working_days") %>
   </div>
 </div>

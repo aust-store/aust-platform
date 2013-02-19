@@ -6,4 +6,5 @@
  *= require_directory ./shared
  *= require ./themes/default
  *= require ./themes/forms
+ *= require_tree ./../shared/
  */
