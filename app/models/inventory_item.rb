@@ -1,4 +1,6 @@
 class InventoryItem < ActiveRecord::Base
+  extend ModelExtensions::FullTextSearch
+
   belongs_to :inventory
   belongs_to :manufacturer
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'
@@ -73,7 +75,10 @@ class InventoryItem < ActiveRecord::Base
   end
 
   def self.search_for(query)
-    Store::ItemsSearch.new(self, query).search.includes(:balances)
+    search do
+      fields :name, :description
+      keywords query
+    end.includes(:balances)
   end
 
   def remove_empty_shipping_box

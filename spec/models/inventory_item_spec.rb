@@ -27,12 +27,9 @@ describe InventoryItem do
   end
 
   describe "#search_for" do
-    let(:search) { double(search: double(includes: :search)) }
-
-    it "results the correct words by name" do
-      Store::ItemsSearch.should_receive(:new).with(InventoryItem, :item) { search }
-
-      InventoryItem.search_for(:item).should == :search
+    it "searches for items" do
+      item = FactoryGirl.create(:inventory_item, name: "my item")
+      InventoryItem.search_for("item").all.should include item
     end
   end
 
