@@ -4,15 +4,14 @@
       <%= t(".shipping") %>
     </div>
     <div class="options" data-view="cartView">
-      <div class="js_service_selection" data-shipping-url="<%= cart_shipping_cost_url %>">
+      <div class="js_service_selection" data-path="<%= cart_shipping_cost_path %>">
         <input
           type="radio"
           name="type"
           value="pac"
           id="type_pac"
           <%= raw 'checked="checked"' if @cart.shipping_type == "pac" %>
-          data-event="change"
-          data-view-action="zipcodeCalculation" />
+          />
           <%= t(".service_type.correios.normal") %>
         &nbsp;
         <input
@@ -20,27 +19,26 @@
           name="type"
           value="sedex"
           <%= raw 'checked="checked"' if @cart.shipping_type == "sedex" %>
-          data-event="change"
-          data-view-action="zipcodeCalculation" />
+          />
           <%= t(".service_type.correios.sedex") %>
       </div>
       <div class="zipcode">
         <%= t(".zipcode") %>
         <input
           type="text"
+          id="zipcode"
           value="<%= @cart.shipping_zipcode %>"
           name="zipcode"
-          data-event="keyup"
-          data-view-action="zipcodeCalculation" />
+          data-shipping-path="<%= cart_shipping_cost_path %>"/>
       </div>
     </div>
   </div>
 
   <div class="column summary">
-    <span data-observe="zipcode.cost"><%= @cart.shipping_price %></span>
+    <span class="js_zipcode_cost"><%= @cart.shipping_price %></span>
     <br />
     <%= t(".ships_in") %>
-    <span data-observe="zipcode.days"><%= @cart.shipping_days %></span>
+    <span class="js_zipcode_days"><%= @cart.shipping_days %></span>
     <%= t(".working_days") %>
   </div>
 </div>

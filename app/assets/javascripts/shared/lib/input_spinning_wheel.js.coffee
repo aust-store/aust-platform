@@ -1,19 +1,18 @@
-class window.InputLoading
+class window.InputSpinningWheel
   show: ($input) ->
     $input_parent = $input.parent()
-    $input_parent.append $("#input_loading")
+    $input_parent.append $("#spinning_wheel")
     $input_parent.css position: 'relative'
 
     width     = $input.width()
-    height    = $input.height()
     inputTop  = $input.position().top
     inputLeft = $input.position().left
 
     # spinner gif dimensions: 32x32.
-    spinnerLeft = inputLeft + (width - 40) + "px"
-    spinnerTop  = inputTop + (height / 2) + "px"
+    spinnerLeft = inputLeft + width - 32 + "px"
+    spinnerTop  = inputTop  + "px"
 
-    input_loading_div = $("#input_loading")
+    input_loading_div = $("#spinning_wheel")
     input_loading_div.css
       top:  spinnerTop
       left: spinnerLeft
@@ -22,5 +21,5 @@ class window.InputLoading
 
   hide: ($input) ->
     $input.parent()
-      .find("#input_loading")
+      .find("#spinning_wheel")
       .fadeOut(300)

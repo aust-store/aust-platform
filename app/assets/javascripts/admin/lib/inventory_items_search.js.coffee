@@ -120,11 +120,9 @@ class InventoryItemsSearch
       data:
         "name": string
       beforeSend: ->
-        input_loading = new InputLoading
-        input_loading.show(input_element)
+        new InputSpinningWheel().show (input_element)
       complete: ->
-        input_loading = new InputLoading
-        input_loading.hide(input_element)
+        new InputSpinningWheel().hide (input_element)
       success: (response) =>
         $(".search_existent_item .search_results").html(response)
         @bind_search_results_to_new_form()
