@@ -9,8 +9,8 @@ describe PostgresSearch::Query do
   describe "#where" do
     it "returns the SQL string for both fields with an OR in between" do
       subject.where.should ==
-        "to_tsvector('english', table_name.name) @@ :q or " + \
-        "to_tsvector('english', table_name.description) @@ :q"
+        "to_tsvector('english', table_name.name) @@ to_tsquery(:q) or " + \
+        "to_tsvector('english', table_name.description) @@ to_tsquery(:q)"
     end
   end
 

@@ -3,7 +3,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
 
   def create
     result = Store::Shipping::CartCalculation.create(self, :br, params)
-    if result.success?
+    if false # result.success?
       render json: {
         zipcode: {
           zipcode: params[:zipcode],

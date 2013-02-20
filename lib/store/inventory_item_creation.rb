@@ -15,7 +15,7 @@ module Store
       @item
     end
 
-  private
+    private
 
     def current_company
       @controller.current_company

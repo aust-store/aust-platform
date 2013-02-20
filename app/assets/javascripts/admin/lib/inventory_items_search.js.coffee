@@ -1,3 +1,4 @@
+# FIXME remove?
 # Deals with the search page for adding items
 class InventoryItemsSearch
 

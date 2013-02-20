@@ -44,13 +44,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def new
     @item = current_company.items.new
-
-    # item has:
-    #
-    #   - taxonomy:     another table
-    #   - manufacturer: another table
-    #   - name:         same table
-    #@item.build_shipping_box
+    @item.entries.build
     @item.build_shipping_box
   end
 

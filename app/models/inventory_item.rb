@@ -19,6 +19,7 @@ class InventoryItem < ActiveRecord::Base
   accepts_nested_attributes_for :shipping_box
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :entries
 
   before_validation :remove_empty_shipping_box
 

@@ -32,8 +32,15 @@
 
 .new_item_or_entries
   .secondary_fields
-    margin: 0 auto
-    width: 610px
+    margin-left: 50px
+    display: table
+
+    .entry
+      h2
+        font-weight: bold
+        font-size: 1em
+    .js_add_entry
+      float: right
 
   .search
     width: 690px
@@ -50,16 +57,18 @@
       &:last-child
         margin-right: 0
 
+      .hint
+        padding-left: 3px
       input
         font-size: 1.2em
         margin: 10px 0 0 0
         width: 180px
 
         &.taxonomy
-          width: 150px
+          width: 180px
 
         &.year
-          width: 70px
+          width: 60px
 
         &.name
-          width: 220px
+          width: 200px

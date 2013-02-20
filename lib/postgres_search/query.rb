@@ -27,7 +27,7 @@ module PostgresSearch
     attr_accessor :model, :query_options, :keywords
 
     def sql_where_statement(field_name)
-      "to_tsvector('english', #{table_name}.#{field_name}) @@ :q"
+      "to_tsvector('english', #{table_name}.#{field_name}) @@ to_tsquery(:q)"
     end
 
     def sql_order_statement(field)

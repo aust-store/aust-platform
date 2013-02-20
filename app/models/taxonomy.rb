@@ -1,4 +1,6 @@
 class Taxonomy < ActiveRecord::Base
+  extend ModelExtensions::FullTextSearch
+
   acts_as_tree order: 'id'
 
   belongs_to :store, foreign_key: 'store_id', class_name: "Company"
@@ -29,5 +31,12 @@ class Taxonomy < ActiveRecord::Base
       end
     end
     result
+  end
+
+  def self.search_for(query)
+    search do
+      fields :name
+      keywords query
+    end
   end
 end
