@@ -1,7 +1,7 @@
 <div class="entry">
   <h2>Lote 1:</h2>
-  <%= entries.input :quantity %>
-  <%= entries.input :cost_per_unit %>
+  <%= entries.input :quantity, as: :string %>
+  <%= entries.input :cost_per_unit, as: :string %>
 </div>
 <div class="js_add_entry">
   <%= small_button new_admin_inventory_item_path,

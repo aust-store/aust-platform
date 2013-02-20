@@ -7,6 +7,10 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :company
   belongs_to :taxonomy
 
+  has_many :prices,
+    class_name: "InventoryItemPrice",
+    order: "inventory_item_prices.id asc"
+
   has_many :entries, class_name: "InventoryEntry"
 
   # TODO remove balances
@@ -20,6 +24,7 @@ class InventoryItem < ActiveRecord::Base
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :entries
+  accepts_nested_attributes_for :prices
 
   before_validation :remove_empty_shipping_box
 

@@ -32,6 +32,7 @@ Store::Application.routes.draw do
         resources :orders,          only: api_actions
         resources :carts,           only: api_actions
         resources :taxonomies,      only: [:index]
+        resources :manufacturers,   only: [:index]
       end
     end
 

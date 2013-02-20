@@ -13,7 +13,9 @@ class Forms
     })
 
   set_focus_on_first_input: ->
-    $("form input[type='text'][value='']:visible:enabled:first, #main textarea:visible:enabled:first").focus()
+    $("form input[type='text'], #main textarea")
+      .filter(':visible:enabled:first')
+      .focus()
 
   setup_image_upload: ->
     $('.form-upload.image').bind 'ajax:complete', (evt, xhr, status) ->

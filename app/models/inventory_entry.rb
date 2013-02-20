@@ -9,11 +9,10 @@ class InventoryEntry < ActiveRecord::Base
                   :description, :quantity, :cost_per_unit,
                   # FIXME remove these fields
                   :balance_type, :moving_average_cost,
-                  :total_quantity, :total_cost, :price, :on_sale
+                  :total_quantity, :total_cost, :on_sale
 
   accepts_nested_attributes_for :inventory_item
 
-  validates :price, presence: true
   validates :cost_per_unit, presence: true
   validates :quantity, presence: true,
     numericality: { greater_than: 0 }, on: :create

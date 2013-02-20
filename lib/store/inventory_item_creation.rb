@@ -6,6 +6,9 @@ module Store
     end
 
     def create(params)
+      params.delete(:taxonomy)
+      params.delete(:manufacturer)
+
       @item = current_company.items
         .new(params.merge(user: current_user))
       @item.save

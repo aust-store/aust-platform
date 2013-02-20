@@ -1,23 +1,50 @@
 var Admin = {};
 
 Admin.FieldSearch = {
+  lastResults:    null,
+  selectedResult: null,
+
   init: function() {
     var that = this;
-    $('input[data-search-url]').keyup(function(event){
+
+    $('html').click(function() { that.removePopup(); });
+    $('.popup_result').click(function(e) { e.stopPropagation(); });
+
+    $('input[data-search-url]').keyup(function(e){
       var input = $(this);
 
-      that.clearId(input);
+      if ($('.popup_result a').length) {
+        if (e.keyCode == 40 || e.keyCode == 38) {
 
-      $.ajax({
-        url: input.data('search-url'),
-        data: { search: input.val() },
-        dataType: "json",
-        complete: function(response) {
-          response = $.parseJSON(response.responseText);
-          Admin.FieldSearch.ResultsPopup.showResults(response, input);
+          that._verticalSelection(e);
+          return false;
         }
-      });
+      }
+
+      if (e.keyCode == 13) {
+        that.userPressesEnter(e);
+        return false;
+      }
+
+      that.selectedResult = null;
+
+      that.clearId(input);
+      that._searchRequest(input);
     });
+
+    $('input[data-search-url]').keydown(function(e){
+      if (e.keyCode == 13)
+        return false;
+
+      if (e.keyCode == 9) {
+        that.userPressesEnter(e);
+        that.removePopup();
+      }
+    });
+  },
+
+  removePopup: function() {
+    $('.popup_result').remove();
   },
 
   clearId: function(input) {
@@ -27,6 +54,77 @@ Admin.FieldSearch = {
 
   idField: function(textFieldId) {
     return $('#' + textFieldId + '_id');
+  },
+
+  _searchRequest: function(input) {
+    var that = this;
+
+    $.ajax({
+      url: input.data('search-url'),
+      data: { search: input.val() },
+      dataType: "json",
+      complete: function(response) {
+        response = $.parseJSON(response.responseText);
+
+        for(key in response) {
+          that.lastResults = response[key];
+          break;
+        }
+
+        if (!that.lastResults.length)
+          that.removePopup();
+        else
+          Admin.FieldSearch.ResultsPopup.showResults(input);
+      }
+    });
+  },
+
+  _verticalSelection: function(e) {
+    var current     = $('.popup_result a.current'),
+        firstResult = $('.popup_result a:first'),
+        lastResult  = $('.popup_result a:last'),
+        next,
+        previous;
+
+    /**
+      Arrow down
+     */
+    if (e.keyCode == 40) {
+      if (!current.length) {
+        next = firstResult;
+      } else {
+        next = current.parent('li').next('li').find('a');
+      }
+
+      if (!next.length)
+        next = firstResult;
+
+      this.selectedResult = next.data('id');
+    } else if (e.keyCode == 38) {
+      if (!current.length) {
+        previous = lastResult;
+      } else {
+        previous = current.parent('li').prev('li').find('a');
+      }
+
+      if (!previous.length)
+        previous = lastResult;
+
+      this.selectedResult = previous.data('id');
+    }
+
+    Admin.FieldSearch.ResultsPopup.showResults($(e.target));
+  },
+
+  userPressesEnter: function(e) {
+    if (this.selectedResult) {
+      var selectedName = $('.popup_result a[data-id="'+this.selectedResult+'"]').html();
+
+      if (selectedName)
+        $(e.target).val(selectedName);
+
+      this.removePopup();
+    }
   }
 }
 
@@ -34,13 +132,11 @@ $(document).ready(function(){
   Admin.FieldSearch.init()
 });
 
-//var Admin = {};
-
 Admin.FieldSearch.ResultsPopup = {
-  showResults: function(responseJson, input) {
+  showResults: function(input) {
     var popupResult = this._createPopup();
     this._prepareInput(input);
-    this._populateResultPopup(input, popupResult, responseJson);
+    this._populateResultPopup(input, popupResult);
     this._showResultPopup(input, popupResult);
   },
 
@@ -54,19 +150,32 @@ Admin.FieldSearch.ResultsPopup = {
     input.parent().css('position', 'relative');
   },
 
-  _populateResultPopup: function(input, resultElement, responseJson) {
-    var entity;
-    var inputId = $(input).attr('id');
+  _populateResultPopup: function(input, resultElement) {
+    Admin.FieldSearch.ResultsPopupDrawing.drawResults(input, resultElement);
+  },
 
-    for(key in responseJson) {
-      entity = responseJson[key];
-      break;
-    }
+  _showResultPopup: function(input, resultElement) {
+    Admin.FieldSearch.removePopup();
+    input.parent().append(resultElement);
+    this._bindResultAnchorEvent();
+  },
 
-    var resultHtml = '';
-    for(i = 0; i < entity.length; i++) {
-      var name   = entity[i].name,
-          id     = entity[i].id,
+  _bindResultAnchorEvent: function() {
+    $('.popup_result a').click(function(e) {
+      return Admin.FieldSearch.Result.click(this, e);
+    });
+  }
+}
+
+Admin.FieldSearch.ResultsPopupDrawing = {
+  drawResults: function(input, resultElement) {
+    var resultHtml  = '',
+        inputId     = $(input).attr('id'),
+        jsonResults = Admin.FieldSearch.lastResults;
+
+    for(i = 0; i < jsonResults.length; i++) {
+      var name   = jsonResults[i].name,
+          id     = jsonResults[i].id,
           suffix = '',
           anchorClass = '';
 
@@ -75,8 +184,13 @@ Admin.FieldSearch.ResultsPopup = {
         If the typed entity already exists in the results list, fill in the form
         with the current entity's id.
       */
-      if( name.toLowerCase() == $(input).val().toLowerCase() ) {
+      if (Admin.FieldSearch.selectedResult == id ||
+          ( !Admin.FieldSearch.selectedResult &&
+            name.toLowerCase() == $(input).val().toLowerCase() ) )
+      {
+
         Admin.FieldSearch.Result.setId(inputId, id);
+        Admin.FieldSearch.selectedResult = id;
         suffix = '<span class="current_arrow">►</span> ';
         anchorClass = 'current';
       }
@@ -90,18 +204,6 @@ Admin.FieldSearch.ResultsPopup = {
     }
 
     $(resultElement).append('<ul class="search_result">' + resultHtml + '</ul>');
-  },
-
-  _showResultPopup: function(input, resultElement) {
-    $('.popup_result').remove();
-    input.parent().append(resultElement);
-    this._bindResultAnchorEvent();
-  },
-
-  _bindResultAnchorEvent: function() {
-    $('.popup_result a').click(function(e) {
-      return Admin.FieldSearch.Result.click(this, e);
-    });
   }
 }
 
@@ -122,11 +224,10 @@ Admin.FieldSearch.Result = {
 
   setId: function(textFieldId, id) {
     var targetField = Admin.FieldSearch.idField(textFieldId);
-
     targetField.val(id);
   },
 
   _hideSearchPopup: function() {
-    $('.popup_result').remove();
+    Admin.FieldSearch.removePopup();
   }
 }

@@ -1,10 +1,17 @@
 <div class="search">
   <%= item.input :taxonomy_id, as: :hidden %>
   <%= item.input :taxonomy, input_html: {
-    class: "taxonomy", data: { search_url: admin_api_taxonomies_url } } %>
+    class: "taxonomy",
+    autocomplete: "off",
+    data: { search_url: admin_api_taxonomies_url }
+  } %>
 
   <%= item.input :manufacturer_id, as: :hidden %>
-  <%= item.input :manufacturer,    input_html: { class: "manufacturer" } %>
+  <%= item.input :manufacturer, input_html: {
+    class: "manufacturer",
+    autocomplete: "off",
+    data: { search_url: admin_api_manufacturers_url }
+  } %>
 
   <%= item.input :year, as: :string, input_html: { class: "year" } %>
   <%= item.input :name, input_html: { class: "name" }, required: false %>
@@ -12,11 +19,13 @@
 
 <div class="secondary_fields">
   <%= item.input :description %>
-  <%= item.input :price %>
+  <%= item.simple_fields_for :prices do |price| %>
+    <%= price.input :value, as: :string %>
+  <% end %>
 
   <%= item.simple_fields_for :entries do |entries| %>
     <%= render "form_entries", entries: entries %>
   <% end %>
 </div>
 
-<%= item.submit %>
+<%= item.submit id: "submit" %>
