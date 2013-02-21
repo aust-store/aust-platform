@@ -7,10 +7,11 @@ module Store
 
     def create(params)
       params.delete(:taxonomy)
+      params.delete(:taxonomy_attributes)
       params.delete(:manufacturer)
+      params.delete(:manufacturer_attributes)
 
-      @item = current_company.items
-        .new(params.merge(user: current_user))
+      @item = current_company.items.new(params.merge(user: current_user))
       @item.save
     end
 

@@ -12,8 +12,7 @@ FactoryGirl.define do
       # inventory_entry
       after(:create) do |item, evaluator|
         FactoryGirl.create_list(:inventory_entry, 3,
-                                inventory_item: item,
-                                store: evaluator.company)
+                                inventory_item: item)
       end
 
       # images

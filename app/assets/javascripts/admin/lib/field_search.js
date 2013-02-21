@@ -53,7 +53,12 @@ Admin.FieldSearch = {
   },
 
   idField: function(textFieldId) {
-    return $('#' + textFieldId + '_id');
+    var input = $('#' + textFieldId);
+
+    if (input.data('result-id'))
+      return $('#' + input.data('result-id'));
+    else
+      return $('#' + textFieldId + '_id');
   },
 
   _searchRequest: function(input) {

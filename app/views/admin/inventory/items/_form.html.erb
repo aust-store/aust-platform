@@ -1,17 +1,31 @@
 <div class="search">
   <%= item.input :taxonomy_id, as: :hidden %>
-  <%= item.input :taxonomy, input_html: {
-    class: "taxonomy",
-    autocomplete: "off",
-    data: { search_url: admin_api_taxonomies_url }
-  } %>
+  <%= item.simple_fields_for :taxonomy do |t| %>
+    <%= t.input :name, as: :string,
+      required: false,
+      input_html: {
+        class: "taxonomy",
+        autocomplete: "off",
+        data: {
+          search_url: admin_api_taxonomies_url,
+          result_id: "inventory_item_taxonomy_id"
+        }
+      } %>
+  <% end %>
 
   <%= item.input :manufacturer_id, as: :hidden %>
-  <%= item.input :manufacturer, input_html: {
-    class: "manufacturer",
-    autocomplete: "off",
-    data: { search_url: admin_api_manufacturers_url }
-  } %>
+  <%= item.simple_fields_for :manufacturer do |m| %>
+    <%= m.input :name,
+      required: false,
+      input_html: {
+        class: "manufacturer",
+        autocomplete: "off",
+        data: {
+          search_url: admin_api_manufacturers_url,
+          result_id: "inventory_item_manufacturer_id"
+        }
+      } %>
+  <% end %>
 
   <%= item.input :year, as: :string, input_html: { class: "year" } %>
   <%= item.input :name, input_html: { class: "name" }, required: false %>
@@ -21,6 +35,13 @@
   <%= item.input :description %>
   <%= item.simple_fields_for :prices do |price| %>
     <%= price.input :value, as: :string %>
+  <% end %>
+
+  <%= item.simple_fields_for :shipping_box do |s| %>
+    <%= s.input :length, as: :string %>
+    <%= s.input :height, as: :string %>
+    <%= s.input :width, as: :string %>
+    <%= s.input :weight, as: :string %>
   <% end %>
 
   <%= item.simple_fields_for :entries do |entries| %>

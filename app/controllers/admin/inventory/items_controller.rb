@@ -46,6 +46,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item = current_company.items.new
     @item.entries.build
     @item.prices.build
+    @item.build_taxonomy
+    @item.build_manufacturer
     @item.build_shipping_box
   end
 

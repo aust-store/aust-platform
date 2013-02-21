@@ -48,13 +48,15 @@ pt_br:
         price:         "Preço de venda"
       inventory_item:
         taxonomy_id:   "Categoria"
-        taxonomy:      "Categoria"
         name:          "Nome/modelo"
         size:          "Tamanho"
         year:          "Ano"
-        manufacturer:  "Fabricante"
         merchandising: "Merchandising"
         reference:     "Código de referência"
+      taxonomy:
+        name: "Categoria"
+      manufacturer:
+        name: "Fabricante"
       shipping_box:
         length: "Comprimento"
         width:  "Largura"
@@ -87,13 +89,15 @@ pt_br:
         price:         "Ex.: R$ 14,00"
       inventory_item:
         taxonomy_id:   "Itens sem categoria não aparecem nos menus da loja"
-        taxonomy:      "Ex.: Tênis, Livro, Carro"
         name:          "Ex.: Parafuso 10mm"
         size:          "42\", 10Kg"
         year:          ""
-        manufacturer:  "Ex.: Ford, Nike, Elma Chips"
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
         reference:     "Se você possui um código que identifique este produto internamente."
+      taxonomy:
+        name: "Ex.: Tênis, Livro, Carro"
+      manufacturer:
+        name: "Ex.: Ford, Nike, Elma Chips"
       company:
         domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
     placeholders:
