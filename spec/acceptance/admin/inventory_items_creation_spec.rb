@@ -44,6 +44,15 @@ feature "Inventory Item creation", js: true do
 
       current_path.should == admin_inventory_items_path
       page.should have_content "Air Max"
+
+      created_item = InventoryItem.joins(:taxonomy, :manufacturer).last
+      created_item.taxonomy.name.should == "Shirt"
+      created_item.manufacturer.name.should == "Nike"
+      created_item.year.should == 2013
+      created_item.name.should == "Air Max"
+
+      created_item.description.should == "Item description"
+      created_item.price.should == 12.34
     end
   end
 end

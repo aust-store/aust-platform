@@ -12,10 +12,6 @@ class Admin::InventoryEntryDecorator < ApplicationDecorator
     inventory_entry.quantity.to_i
   end
 
-  def price
-    to_currency inventory_entry.price
-  end
-
   def total_cost
     to_currency inventory_entry.total_cost
   end

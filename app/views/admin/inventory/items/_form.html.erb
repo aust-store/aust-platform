@@ -34,18 +34,21 @@
 <div class="secondary_fields">
   <%= item.input :description %>
   <%= item.simple_fields_for :prices do |price| %>
-    <%= price.input :value, as: :string %>
+    <%= price.input :value, as: :string, input_html: { value: @item.price } %>
   <% end %>
 
   <%= item.simple_fields_for :shipping_box do |s| %>
-    <%= s.input :length, as: :string %>
-    <%= s.input :height, as: :string %>
-    <%= s.input :width, as: :string %>
-    <%= s.input :weight, as: :string %>
+    <%= s.input :length, as: :string, input_html: { value: @item.shipping_box.length } %>
+    <%= s.input :height, as: :string, input_html: { value: @item.shipping_box.height } %>
+    <%= s.input :width,  as: :string, input_html: { value: @item.shipping_box.width  } %>
+    <%= s.input :weight, as: :string, input_html: { value: @item.shipping_box.weight } %>
   <% end %>
 
-  <%= item.simple_fields_for :entries do |entries| %>
-    <%= render "form_entries", entries: entries %>
+  <% lot_counter = 1 %>
+  <%= item.simple_fields_for :entries do |entries, index| %>
+    <%= render "form_entries", entries: entries, lot_counter: lot_counter %>
+
+    <% lot_counter+= 1 %>
   <% end %>
 </div>
 

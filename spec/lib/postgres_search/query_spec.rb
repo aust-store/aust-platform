@@ -19,8 +19,8 @@ describe PostgresSearch::Query do
       model.stub(:sanitize).with("Tony Montana") { :sanitized }
 
       subject.order.should ==
-        "ts_rank(to_tsvector(name), plainto_tsquery(sanitized)) + " + \
-        "ts_rank(to_tsvector(description), plainto_tsquery(sanitized)) DESC"
+        "ts_rank(to_tsvector(table_name.name), plainto_tsquery(sanitized)) + " + \
+        "ts_rank(to_tsvector(table_name.description), plainto_tsquery(sanitized)) DESC"
     end
   end
 end

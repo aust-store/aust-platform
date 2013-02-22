@@ -37,22 +37,19 @@ class InventoryItem < ActiveRecord::Base
 
   scope :within_company, lambda { |company| where(company_id: company.id) }
   scope :with_entry_for_sale, lambda {
-    joins(:shipping_box).includes(:images).includes(:balances)
+    joins(:prices).includes(:images).includes(:balances)
     .where("inventory_entries.id = (
       SELECT #{FIRST_ENTRY_FLAG}
       FROM inventory_entries
       WHERE inventory_entries.inventory_item_id=inventory_items.id
-      AND inventory_entries.on_sale = ?
       AND inventory_entries.quantity > 0
-      LIMIT 1)", true)
-    .where("inventory_entries.on_sale = ?", true)
+      LIMIT 1)")
     .where("inventory_item_images.cover = ?", true)
   }
 
   scope :detailed_item_for_sale, lambda {
     includes(:images).includes(:balances)
     .order("inventory_item_images.cover desc")
-    .where("inventory_entries.on_sale = ?", true)
     .order("inventory_entries.created_at asc, inventory_entries.id asc")
   }
 

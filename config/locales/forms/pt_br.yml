@@ -53,6 +53,8 @@ pt_br:
         year:          "Ano"
         merchandising: "Merchandising"
         reference:     "Código de referência"
+      prices:
+        value: "Preço"
       taxonomy:
         name: "Categoria"
       manufacturer:

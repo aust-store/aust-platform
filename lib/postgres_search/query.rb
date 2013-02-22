@@ -31,7 +31,7 @@ module PostgresSearch
     end
 
     def sql_order_statement(field)
-      "ts_rank(to_tsvector(#{field}), plainto_tsquery(#{model_sanitize}))"
+      "ts_rank(to_tsvector(#{table_name}.#{field}), plainto_tsquery(#{model_sanitize}))"
     end
 
     def table_name

@@ -69,6 +69,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def update
+    params[:inventory_item].delete(:taxonomy_attributes)
+    params[:inventory_item].delete(:manufacturer_attributes)
     @item = current_company.items.find params[:id]
     if @item.update_attributes params[:inventory_item]
       if remotipart_submitted?
