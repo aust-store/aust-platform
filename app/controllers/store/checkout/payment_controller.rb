@@ -5,7 +5,7 @@ module Store
 
       def show
         order = cart.convert_into_order
-        flush_cart
+        #flush_cart
         pagseguro = Store::Payment::Pagseguro::Checkout.new(self, order)
         pagseguro.create_transaction
         redirect_to pagseguro.payment_url

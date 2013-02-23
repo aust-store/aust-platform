@@ -171,7 +171,7 @@ ALTER SEQUENCE admin_dashboards_id_seq OWNED BY admin_dashboards.id;
 CREATE TABLE admin_users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
@@ -341,43 +341,6 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 
 
 --
--- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE inventory_entries (
-    id integer NOT NULL,
-    inventory_item_id integer,
-    admin_user_id integer,
-    description text,
-    quantity numeric,
-    cost_per_unit numeric,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    store_id integer,
-    on_sale boolean DEFAULT true
-);
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE good_balances_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE good_balances_id_seq OWNED BY inventory_entries.id;
-
-
---
 -- Name: inventories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -406,6 +369,43 @@ CREATE SEQUENCE inventories_id_seq
 --
 
 ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
+
+
+--
+-- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_entries (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    admin_user_id integer,
+    description text,
+    quantity numeric,
+    cost_per_unit numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    store_id integer,
+    on_sale boolean DEFAULT true
+);
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE inventory_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 
 
 --
@@ -594,7 +594,7 @@ CREATE TABLE order_items (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     status character varying(255),
-    related_id integer
+    parent_id integer
 );
 
 
@@ -686,40 +686,6 @@ CREATE SEQUENCE orders_id_seq
 --
 
 ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
-
-
---
--- Name: pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE pages (
-    id integer NOT NULL,
-    title text,
-    body text,
-    company_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    admin_user_id integer
-);
-
-
---
--- Name: pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE pages_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
@@ -1001,7 +967,7 @@ ALTER TABLE ONLY inventories ALTER COLUMN id SET DEFAULT nextval('inventories_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('good_balances_id_seq'::regclass);
+ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('inventory_entries_id_seq'::regclass);
 
 
 --
@@ -1058,13 +1024,6 @@ ALTER TABLE ONLY order_shippings ALTER COLUMN id SET DEFAULT nextval('order_ship
 --
 
 ALTER TABLE ONLY orders ALTER COLUMN id SET DEFAULT nextval('orders_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regclass);
 
 
 --
@@ -1244,14 +1203,6 @@ ALTER TABLE ONLY order_shippings
 
 ALTER TABLE ONLY orders
     ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
-
-
---
--- Name: pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY pages
-    ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1540,10 +1491,10 @@ CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id)
 
 
 --
--- Name: index_order_items_on_related_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_order_items_on_related_id ON order_items USING btree (related_id);
+CREATE INDEX index_order_items_on_parent_id ON order_items USING btree (parent_id);
 
 
 --
@@ -1593,20 +1544,6 @@ CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
 --
 
 CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
-
-
---
--- Name: index_pages_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_pages_on_admin_user_id ON pages USING btree (admin_user_id);
-
-
---
--- Name: index_pages_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_pages_on_company_id ON pages USING btree (company_id);
 
 
 --
@@ -1844,8 +1781,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130209072541');
 
 INSERT INTO schema_migrations (version) VALUES ('20130213041013');
 
-INSERT INTO schema_migrations (version) VALUES ('20130215020517');
-
 INSERT INTO schema_migrations (version) VALUES ('20130217201429');
 
 INSERT INTO schema_migrations (version) VALUES ('20130217202510');
@@ -1864,12 +1799,10 @@ INSERT INTO schema_migrations (version) VALUES ('20130220200724');
 
 INSERT INTO schema_migrations (version) VALUES ('20130220200955');
 
+INSERT INTO schema_migrations (version) VALUES ('20130222202202');
+
 INSERT INTO schema_migrations (version) VALUES ('20130303065958');
 
 INSERT INTO schema_migrations (version) VALUES ('20130304002307');
 
 INSERT INTO schema_migrations (version) VALUES ('20130304003040');
-
-INSERT INTO schema_migrations (version) VALUES ('20130309232957');
-
-INSERT INTO schema_migrations (version) VALUES ('20130317211352');

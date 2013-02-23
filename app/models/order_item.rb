@@ -1,5 +1,7 @@
 class OrderItem < ActiveRecord::Base
   belongs_to :order
+  has_many   :children, class_name: "OrderItem",
+    foreign_key: :related_id, dependent: :destroy
   belongs_to :cart
   belongs_to :inventory_item
   belongs_to :inventory_entry
@@ -26,9 +28,34 @@ class OrderItem < ActiveRecord::Base
   end
 
   def update_quantity(quantity)
-    quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
     quantity = 0 if quantity < 0
-    update_attributes(quantity: quantity)
+    quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
+    
+    quantity = quantity.to_s.to_i
+
+    if quantity > 0
+      if quantity > (children.count + 1)
+        create_order_items_chidren(quantity)
+      elsif quantity < (children.count + 1)
+        ((children.count + 1) - quantity).times do
+          children.last.destroy
+        end
+      end
+    else
+      delete_all_order_items
+    end
+  end
+
+  def create_order_items_chidren(quantity)
+    parent_attributes = self.attributes
+    (quantity - 1).times do
+      children << children.build(parent_attributes)
+    end
+  end
+
+  def delete_all_order_items
+    children.destroy_all
+    self.destroy
   end
 
   def name

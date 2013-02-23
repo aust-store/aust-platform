@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130309232957) do
+ActiveRecord::Schema.define(:version => 20130304003040) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -54,19 +54,19 @@ ActiveRecord::Schema.define(:version => 20130309232957) do
   end
 
   create_table "admin_users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.integer  "sign_in_count",          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "password_salt"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.integer  "company_id"
     t.string   "role"
     t.string   "name"
@@ -214,13 +214,14 @@ ActiveRecord::Schema.define(:version => 20130309232957) do
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.string   "status"
+    t.integer  "parent_id"
   end
 
   add_index "order_items", ["cart_id"], :name => "index_order_items_on_cart_id"
   add_index "order_items", ["inventory_entry_id"], :name => "index_order_items_on_inventory_entry_id"
   add_index "order_items", ["inventory_item_id"], :name => "index_order_items_on_inventory_item_id"
   add_index "order_items", ["order_id"], :name => "index_order_items_on_order_id"
-  add_index "order_items", ["related_id"], :name => "index_order_items_on_related_id"
+  add_index "order_items", ["parent_id"], :name => "index_order_items_on_parent_id"
   add_index "order_items", ["status"], :name => "index_order_items_on_status"
 
   create_table "order_shippings", :force => true do |t|
@@ -251,16 +252,6 @@ ActiveRecord::Schema.define(:version => 20130309232957) do
   add_index "orders", ["environment"], :name => "index_orders_on_environment"
   add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
-
-  create_table "pages", :force => true do |t|
-    t.text     "title"
-    t.text     "body"
-    t.integer  "company_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "pages", ["company_id"], :name => "index_pages_on_company_id"
 
   create_table "payment_gateways", :force => true do |t|
     t.integer  "store_id"

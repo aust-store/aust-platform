@@ -59,6 +59,7 @@ class Cart < ActiveRecord::Base
   end
 
   def update_item_quantity(item, quantity)
+    #product = item_already_in_cart(item.inventory_entry)
     item.update_quantity(quantity) if quantity.present?
   end
 
@@ -90,7 +91,7 @@ class Cart < ActiveRecord::Base
       shipping_details: self.shipping
     }
 
-    order = Order.find_or_create_by_cart_id(serialized_fields)
+    order = Order.create(serialized_fields)
     items.each { |item| order.items << item }
     order.save
     order
