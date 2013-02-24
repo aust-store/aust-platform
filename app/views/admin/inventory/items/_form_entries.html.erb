@@ -1,29 +1,19 @@
-<h2>Lote <%= lot_counter %>:</h2>
-<fieldset class="entries">
+<fieldset class="entry <%= "entry_#{lot_counter}" %>">
+  <h2>Lote <span class="js_increment"><%= lot_counter %></span>:</h2>
   <div class="fields">
-    <div class="entry <%= "entry_#{lot_counter}" %>">
-      <%  entry = entries.object %>
-      <%= entries.input :quantity,
-        as: :string,
-        required: false,
-        input_html: { value: entry.quantity } %>
-      <%= entries.input :cost_per_unit,
-        as: :string,
-        required: false,
-        input_html: { value: entry.cost_per_unit } %>
-    </div>
-
-    <div class="js_add_entry">
-      <%= small_button new_admin_inventory_item_path,
-            text: "Adicionar lote",
-            image: 'admin/icons/plus_16.png',
-            class: "round_icon" %>
-    </div>
+    <%  entry = entries.object %>
+    <%= entries.input :quantity,
+      as: :string,
+      required: false,
+      input_html: { value: entry.quantity } %>
+    <%= entries.input :cost_per_unit,
+      as: :string,
+      required: false,
+      input_html: { value: entry.cost_per_unit } %>
   </div>
   <div class="explanations">
     <p>
       Um lote é um entrada no estoque deste item.
     </p>
-
   </div>
-</div>
+</fieldset>
