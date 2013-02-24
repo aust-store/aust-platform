@@ -54,7 +54,7 @@ pt_br:
         merchandising: "Merchandising"
         reference:     "Código de referência"
       prices:
-        value: "Preço"
+        value: "Preço de venda"
       taxonomy:
         name: "Categoria"
       manufacturer:
@@ -96,18 +96,20 @@ pt_br:
         year:          ""
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
         reference:     "Se você possui um código que identifique este produto internamente."
+      prices:
+        value: "Formatos aceitos: 'R$ 15,00', '15', '15.00' e '15,00'"
       taxonomy:
         name: "Ex.: Tênis, Livro, Carro"
       manufacturer:
         name: "Ex.: Ford, Nike, Elma Chips"
+      shipping_box:
+        length: "Ex.: 19cm"
+        width:  "Ex.: 19cm"
+        height: "Ex.: 19cm"
+        weight: "Entre o valor em quilos (kg)."
       company:
         domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
     placeholders:
-      shipping_box:
-        length: "Entre o valor em centímetros (cm)."
-        width:  "Entre o valor em centímetros (cm)."
-        height: "Entre o valor em centímetros (cm)."
-        weight: "Entre o valor em quilos (kg)."
       company_setting:
         zipcode: |
           Este CEP é usado para calcular o valor dos fretes. Deve ser da sua

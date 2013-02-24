@@ -37,12 +37,26 @@
     <%= price.input :value, as: :string, input_html: { value: @item.price } %>
   <% end %>
 
-  <%= item.simple_fields_for :shipping_box do |s| %>
-    <%= s.input :length, as: :string, input_html: { value: @item.shipping_box.length } %>
-    <%= s.input :height, as: :string, input_html: { value: @item.shipping_box.height } %>
-    <%= s.input :width,  as: :string, input_html: { value: @item.shipping_box.width  } %>
-    <%= s.input :weight, as: :string, input_html: { value: @item.shipping_box.weight } %>
-  <% end %>
+  <h2>Caixa para frete</h2>
+  <fieldset class="shipping_box">
+    <div class="fields">
+      <%= item.simple_fields_for :shipping_box do |s| %>
+        <%= s.input :length, as: :string, input_html: { value: @item.shipping_box.length } %>
+        <%= s.input :height, as: :string, input_html: { value: @item.shipping_box.height } %>
+        <%= s.input :width,  as: :string, input_html: { value: @item.shipping_box.width  } %>
+        <%= s.input :weight, as: :string, input_html: { value: @item.shipping_box.weight } %>
+      <% end %>
+    </div>
+    <div class="explanations">
+      <p class="use_default">
+        <input type="checkbox" disabled="disabled" /> Usar tamanho de caixa padrão
+      </p>
+      <p>
+      Ao entrar as medidas da caixa, verificaremos se estas
+      são realmente aceitas pelos Correios.
+      </p>
+    </div>
+  </fieldset>
 
   <% lot_counter = 1 %>
   <%= item.simple_fields_for :entries do |entries, index| %>

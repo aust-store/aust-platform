@@ -35,10 +35,43 @@
     margin-left: 50px
     display: table
 
-    .entry
-      h2
-        font-weight: bold
-        font-size: 1em
+    div.input.string
+      label
+        width: 110px
+        display: inline-block
+
+      input
+        width: 190px
+        display: inline
+
+      span.hint
+        margin: 0 0 3px 113px
+
+    h2
+      border-top: 1px solid #eaeaea
+      margin-top: 5px
+      padding-top: 15px
+      font-weight: bold
+      font-size: 1.2em
+      color: black
+
+    fieldset
+      display: table
+      margin: 0
+      border: 0
+      padding: 0
+      .fields
+        width: 350px
+        float: left
+      .explanations
+        float: left
+        width: 270px
+        background: #fafafa
+        padding: 10px
+        p.use_default
+          margin-top: 10px
+          text-align: center
+
     .js_add_entry
       float: right
 
