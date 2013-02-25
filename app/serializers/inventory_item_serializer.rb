@@ -8,7 +8,8 @@ class InventoryItemSerializer < ActiveModel::Serializer
   end
 
   def entry_for_sale_id
-    object.entry_for_sale.id
+    entry_for_sale = object.entry_for_sale
+    entry_for_sale.present? ? entry_for_sale.id : nil
   end
 
   def on_sale

@@ -11,13 +11,13 @@ feature "Inventory Item Management" do
     @other_item = FactoryGirl.create(:inventory_item, name: "Other item", user: @other_user, company: @other_company)
 
     Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
-      @inventory_entry_one = FactoryGirl.create(:inventory_entry, price: 11.0, on_sale: true)
+      @inventory_entry_one = FactoryGirl.create(:inventory_entry, on_sale: true)
     end
     Timecop.travel(Time.local(2012, 04, 21, 11, 0, 0)) do
-      @inventory_entry_two = FactoryGirl.create(:inventory_entry, price: 23.0, on_sale: true)
+      @inventory_entry_two = FactoryGirl.create(:inventory_entry, on_sale: true)
     end
     Timecop.travel(Time.local(2012, 04, 21, 12, 0, 0)) do
-      @inventory_entry_three = FactoryGirl.create(:inventory_entry, price: 12.0, on_sale: true)
+      @inventory_entry_three = FactoryGirl.create(:inventory_entry, on_sale: true)
     end
 
     @item = FactoryGirl.create(:inventory_item,

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :manufacturer do
     sequence(:name) { |i| "Manufacturer ##{i}" }
-    company :company
+    association :company
   end
 end

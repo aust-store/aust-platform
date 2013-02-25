@@ -68,11 +68,11 @@
       <h2>Estoque & vendas</h2>
 
       <% if @inventory_entries.size == 0 %>
-        <% # render partial: "show_no_entry" %>
+        <%= render partial: "show_no_entry" %>
       <% elsif @inventory_entries.size == 1 %>
-        <% # render partial: "show_one_entry" %>
+        <%= render partial: "show_one_entry" %>
       <% elsif @inventory_entries.size > 1 %>
-        <%# render partial: "show_more_entries" %>
+        <%= render partial: "show_more_entries" %>
       <% end %>
     </div>
 

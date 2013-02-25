@@ -1,15 +1,13 @@
 <% entry = @inventory_entries.first %>
 
 <p class="js_this_entry_status_on_sale">
-  Vendido atualmente por
-  <span data-observe="inventory_price.price"><%= @item.price %></span>.
-  Possui ainda
-  <%= entry.quantity %>
+  Este item possui apenas uma entrada no estoque (um lote)
+  sendo vendido atualmente. Possui ainda <%= entry.quantity %>
   unidades em estoque.
 </p>
 
 <p class="js_this_entry_status_not_on_sale" style="display: none">
-  O preço de venda deste item é <%= entry.price %>, mas ele não está à venda
+  Este item possui um lote no estoque, mas ele não está à venda
   neste momento. Ainda há <%= entry.quantity %> unidades no estoque. Recomece
   a venda deste item no botão abaixo.
 </p>
