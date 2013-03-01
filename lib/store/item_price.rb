@@ -5,7 +5,8 @@ module Store
     end
 
     def price
-      @item.prices.last.value
+      price = @item.prices.last
+      price.present? ? price.value : 0
     end
   end
 end

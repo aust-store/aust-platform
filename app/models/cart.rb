@@ -38,12 +38,12 @@ class Cart < ActiveRecord::Base
   end
 
   def item_already_in_cart(inventory_entry)
-    items.where("price = ?", inventory_entry.price).first
+    items.where("price = ?", inventory_entry.inventory_item.price).first
   end
 
   def create_item_into_cart(entry)
     item = OrderItem.new(
-      price: entry.price,
+      price: entry.inventory_item.price,
       quantity: 1,
       inventory_entry: entry,
       inventory_item: entry.inventory_item

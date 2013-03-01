@@ -5,7 +5,7 @@ feature "Inventory Item creation", js: true do
     @admin_user = FactoryGirl.create(:admin_user)
     @company = @admin_user.company
     @taxonomy = FactoryGirl.create(:taxonomy, name: "Shirt", store: @company)
-    @manufacturer = FactoryGirl.create(:manufacturer, name: "Nike", company: @company)
+    @manufacturer = FactoryGirl.create(:manufacturer, name: "Github", company: @company)
     login_into_admin
   end
 
@@ -18,8 +18,8 @@ feature "Inventory Item creation", js: true do
     scenario "As a store admin, I fill in the form and have my item created" do
 
       # fields used for searching existing items
+      fill_in "inventory_item_manufacturer_attributes_name", with: "Github"
       fill_in "inventory_item_taxonomy_attributes_name", with: "Shirt"
-      fill_in "inventory_item_manufacturer_attributes_name", with: "Nike"
       fill_in "inventory_item_year", with: "2013"
       fill_in "inventory_item_name", with: "Air Max"
 
@@ -38,6 +38,8 @@ feature "Inventory Item creation", js: true do
       # fields that are filled automatically with the id of the chosen taxonomy
       # and manufacturer in the search popup
       find("#inventory_item_taxonomy_id").value.should == "#{@taxonomy.id}"
+
+      # FIXME can't make the manufacturer be tested
       find("#inventory_item_manufacturer_id").value.should == "#{@manufacturer.id}"
 
       click_button "submit"
@@ -45,9 +47,9 @@ feature "Inventory Item creation", js: true do
       current_path.should == admin_inventory_items_path
       page.should have_content "Air Max"
 
-      created_item = InventoryItem.joins(:taxonomy, :manufacturer).last
+      created_item = InventoryItem.includes(:taxonomy).includes(:manufacturer).last
       created_item.taxonomy.name.should == "Shirt"
-      created_item.manufacturer.name.should == "Nike"
+      created_item.manufacturer.name.should == "Github"
       created_item.year.should == 2013
       created_item.name.should == "Air Max"
 

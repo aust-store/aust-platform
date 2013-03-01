@@ -32,19 +32,25 @@ class InventoryItem < ActiveRecord::Base
 
   validates :name, :admin_user_id, :company_id, presence: true
 
-  FIRST_ENTRY_FLAG = "min(id)"
-  LAST_ENTRY_FLAG  = "max(id)"
+  FIRST_ENTRY_FLAG = "min(inventory_entries.id)"
+  LAST_ENTRY_FLAG  = "max(inventory_entries.id)"
 
   scope :within_company, lambda { |company| where(company_id: company.id) }
-  scope :with_entry_for_sale, lambda {
-    joins(:prices).includes(:images).includes(:balances)
-    .where("inventory_entries.id = (
-      SELECT #{FIRST_ENTRY_FLAG}
-      FROM inventory_entries
-      WHERE inventory_entries.inventory_item_id=inventory_items.id
-      AND inventory_entries.quantity > 0
-      LIMIT 1)")
-    .where("inventory_item_images.cover = ?", true)
+  # FIXME two queries are being made whenever you want the entries
+  scope :with_entry_for_sale, ->{
+    joins(:shipping_box)
+      .joins(:images)
+      .joins(:prices)
+      .includes(:balances)
+      .where("inventory_entries.id IN (
+        SELECT #{FIRST_ENTRY_FLAG}
+        FROM inventory_entries
+        WHERE inventory_entries.inventory_item_id=inventory_items.id
+        AND inventory_entries.quantity > 0
+        AND inventory_entries.on_sale = ?
+        GROUP BY inventory_entries.inventory_item_id)", true)
+      .where("inventory_entries.on_sale = ?", true)
+      .where("inventory_item_images.cover = ?", true)
   }
 
   scope :detailed_item_for_sale, lambda {

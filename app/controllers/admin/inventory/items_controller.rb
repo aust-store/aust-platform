@@ -15,17 +15,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     end
   end
 
-  def new_item_or_entry
-    @item = current_company.items.new
-
-    # item has:
-    #
-    #   - taxonomy:     another table
-    #   - manufacturer: another table
-    #   - name:         same table
-    #@item.build_shipping_box
-  end
-
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
 
@@ -44,18 +33,15 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def new
     @item = current_company.items.new
-    @item.entries.build
-    @item.entries.build
-    @item.prices.build
-    @item.build_taxonomy
-    @item.build_manufacturer
-    @item.build_shipping_box
+
+    build_item_associations
   end
 
   def edit
     @item = current_company.items.includes(:shipping_box).find(params[:id])
     @item.build_shipping_box unless @item.shipping_box.present?
 
+    build_item_associations
     @item = DecorationBuilder.inventory_items(@item)
   end
 
@@ -107,5 +93,13 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def load_all_taxonomies
     @company_taxonomies = current_company.taxonomies.flat_hash_tree
+  end
+
+  def build_item_associations
+    @item.entries.build      if @item.entries.blank?
+    @item.prices.build       if @item.prices.blank?
+    @item.build_taxonomy     if @item.taxonomy.blank?
+    @item.build_manufacturer if @item.manufacturer.blank?
+    @item.build_shipping_box if @item.shipping_box.blank?
   end
 end

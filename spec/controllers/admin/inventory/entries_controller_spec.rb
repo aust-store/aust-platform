@@ -8,7 +8,7 @@ describe Admin::Inventory::EntriesController do
   let(:items) { double }
 
   before do
-    Store::Currency.stub(:to_float).with("R$ 20.0").and_return(20.0)
+    Store::Currency.stub(:to_float).with("12.34").and_return(20.0)
 
     item = double(balances: items)
     controller.stub_chain(:current_company, :items, :find) { item }
@@ -58,14 +58,14 @@ describe Admin::Inventory::EntriesController do
       items.should_receive(:balance_type=).with("in")
 
       controller.stub(:load_entries_summary)
-      post :create, item_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
+      post :create, item_id: 1, inventory_entry: { cost_per_unit: "12.34" }
       response.should redirect_to admin_inventory_item_entries_url(:item)
     end
 
     it "render form if not saving entry successfully" do
       items.stub(:save) { false }
       controller.stub(:load_entries_summary)
-      post :create, item_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
+      post :create, item_id: 1, inventory_entry: { cost_per_unit: "12.34" }
       response.should render_template "new"
       assigns(:entry).should == items
     end
@@ -75,7 +75,7 @@ describe Admin::Inventory::EntriesController do
       items.stub(:order).with("id desc") { items }
       items.stub(:last).with(6) { :items }
       Admin::InventoryEntryDecorator.stub(:decorate) { :item }
-      post :create, item_id: 1, inventory_entry: { cost_per_unit: "R$ 20.0" }
+      post :create, item_id: 1, inventory_entry: { cost_per_unit: "12.34" }
       assigns(:last_entries).should == :item
     end
   end

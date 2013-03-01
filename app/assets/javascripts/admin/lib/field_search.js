@@ -3,6 +3,7 @@ var Admin = {};
 Admin.FieldSearch = {
   lastResults:    null,
   selectedResult: null,
+  keypressTimer:  null,
 
   init: function() {
     var that = this;
@@ -11,25 +12,16 @@ Admin.FieldSearch = {
     $('.popup_result').click(function(e) { e.stopPropagation(); });
 
     $('input[data-search-url]').keyup(function(e){
-      var input = $(this);
+      clearTimeout(that.keypressTimer);
 
-      if ($('.popup_result a').length) {
-        if (e.keyCode == 40 || e.keyCode == 38) {
-
-          that._verticalSelection(e);
-          return false;
-        }
-      }
+      that.keypressTimer = setTimeout(function() {
+        that.processKeyPress(e)
+      }, 5);
 
       if (e.keyCode == 13) {
         that.userPressesEnter(e);
         return false;
       }
-
-      that.selectedResult = null;
-
-      that.clearId(input);
-      that._searchRequest(input);
     });
 
     $('input[data-search-url]').keydown(function(e){
@@ -41,6 +33,23 @@ Admin.FieldSearch = {
         that.removePopup();
       }
     });
+  },
+
+  processKeyPress: function(e) {
+    var input = $(e.target);
+
+    if ($('.popup_result a').length) {
+      if (e.keyCode == 40 || e.keyCode == 38) {
+
+        this._verticalSelection(e);
+        return false;
+      }
+    }
+
+    this.selectedResult = null;
+
+    this.clearId(input);
+    this._searchRequest(input);
   },
 
   removePopup: function() {

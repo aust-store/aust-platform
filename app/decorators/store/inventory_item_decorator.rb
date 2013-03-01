@@ -10,7 +10,7 @@ module Store
     end
 
     def price
-      inventory_item.price
+      to_currency(inventory_item.price)
     end
 
     private

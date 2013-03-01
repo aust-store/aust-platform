@@ -9,7 +9,8 @@ class Admin::InventoryEntryDecorator < ApplicationDecorator
   end
 
   def quantity
-    inventory_entry.quantity.to_i
+    quantity = inventory_entry.quantity
+    quantity ? quantity.to_i : nil
   end
 
   def total_cost

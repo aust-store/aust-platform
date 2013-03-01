@@ -12,7 +12,7 @@ FactoryGirl.define do
     factory :inventory_item do
       association :shipping_box
 
-      # inventory_entry
+      # inventory_entry_price
       after(:create) do |item, evaluator|
         FactoryGirl.create(:inventory_item_price,
                            value: "12.34",
@@ -22,7 +22,8 @@ FactoryGirl.define do
       # inventory_entry
       after(:create) do |item, evaluator|
         FactoryGirl.create_list(:inventory_entry, 3,
-                                inventory_item: item)
+                                inventory_item: item,
+                                store_id: item.company.id)
       end
 
       # images

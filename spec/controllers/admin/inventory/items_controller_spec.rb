@@ -71,7 +71,11 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "#edit" do
-    let(:item) { double(shipping_box: :shipping_box) }
+    let(:item) { double(entries:      :entries,
+                        prices:       :prices,
+                        taxonomy:     :taxonomy,
+                        manufacturer: :manufacturer,
+                        shipping_box: :shipping_box) }
     let(:items) { double }
 
     before do

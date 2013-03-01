@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Adding Inventory Entries", js: true, search: true do
+feature "Adding Inventory Entries" do
   before do
     login_into_admin
     FactoryGirl.create(:inventory_item, company: @company)
@@ -11,48 +11,18 @@ feature "Adding Inventory Entries", js: true, search: true do
 
   context "existent inventory items" do
     scenario "As a store admin, I'd like to create inventory entries" do
-      visit new_item_or_entry_admin_inventory_items_path
+      visit admin_inventory_item_path(@item)
 
-      fill_in "search_inventory_items", with: @item.name
-      wait_until { page.has_content?(@item.name) }
-
-      click_link @item.name
+      click_link "add_item_entry"
 
       fill_in "inventory_entry_quantity", with: "4"
       fill_in "inventory_entry_cost_per_unit", with: "11"
-      fill_in "inventory_entry_price", with: "14"
 
-      click_button "Cadastrar entrada no estoque"
+      click_button "submit_entry"
       page.should have_content "R$ 11,00"
-      page.should have_content "R$ 14,00"
-    end
-  end
 
-  context "inexistent inventory items" do
-    scenario "As a store admin, I'd like add new item to the inventory" do
-      click_link "Estoque"
-      click_link "Adicionar item"
-
-      fill_in "search_inventory_items", with: "My backpack"
-      find("#search_inventory_items").value.should == "My backpack"
-
-      wait_until(30) { page.has_content?("Criar um novo item") }
-      click_link "Criar um novo item"
-      wait_until(30) { page.has_content?("Nome do item ou mercadoria") }
-
-      fill_in "inventory_item_name", with: "Chocolate Cookies"
-      fill_in "inventory_item_description", with: "Yammy Cookies"
-      fill_in "inventory_item_merchandising", with: "The Chookiest"
-      fill_in "inventory_item_reference", with: "192837465"
-
-      fill_in "inventory_item_shipping_box_attributes_length", with: 25
-      fill_in "inventory_item_shipping_box_attributes_height", with: 25
-      fill_in "inventory_item_shipping_box_attributes_width", with: 25
-      fill_in "inventory_item_shipping_box_attributes_weight", with: 25
-
-      click_button "Salvar item"
-
-      page.should have_content "Chocolate Cookies"
+      # pre-existing entry
+      page.should have_content "R$ 20,00"
     end
   end
 end
