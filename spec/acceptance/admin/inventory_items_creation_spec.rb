@@ -1,6 +1,7 @@
+# encoding: utf-8
 require 'acceptance_spec_helper'
 
-feature "Inventory Item creation", js: true do
+feature "Inventory Item creation" do
   before do
     @admin_user = FactoryGirl.create(:admin_user)
     @company = @admin_user.company
@@ -15,7 +16,7 @@ feature "Inventory Item creation", js: true do
       click_link "Adicionar item"
     end
 
-    scenario "As a store admin, I fill in the form and have my item created" do
+    scenario "As a store admin, I fill in the form and have my item created", js: true do
 
       # fields used for searching existing items
       fill_in "inventory_item_manufacturer_attributes_name", with: "Github"
@@ -57,6 +58,23 @@ feature "Inventory Item creation", js: true do
 
       created_item.description.should == "Item description"
       created_item.price.should == 12.34
+    end
+
+    scenario "As a store admin, I see validation errors if I miss some field" do
+
+      # leaves all fields blank
+      click_button "submit"
+
+      current_path.should == admin_inventory_items_path
+
+      page.should_not have_content "taxonomy_id"
+      page.should_not have_content "manufacturer_id"
+      page.should have_content "Categoria não pode ser vazia"
+      page.should have_content "Fabricante deve estar presente"
+      page.should have_content "Nome não pode ficar em branco"
+      page.should have_content "Preço não pode ficar em branco"
+      page.should have_content "Você deve especificar a Quantidade"
+      page.should have_content "Você deve especificar o Custo unitário"
     end
   end
 end

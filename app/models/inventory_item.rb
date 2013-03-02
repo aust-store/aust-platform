@@ -20,6 +20,11 @@ class InventoryItem < ActiveRecord::Base
   has_one :shipping_box
   has_one :properties, class_name: "InventoryItemProperty"
 
+  before_validation :remove_empty_shipping_box
+
+  validates :name, :admin_user_id, :company_id, presence: true
+  validates :taxonomy_id, :manufacturer_id, presence: true
+
   accepts_nested_attributes_for :shipping_box
   accepts_nested_attributes_for :balances
   accepts_nested_attributes_for :images
@@ -27,10 +32,6 @@ class InventoryItem < ActiveRecord::Base
   accepts_nested_attributes_for :prices
   accepts_nested_attributes_for :taxonomy
   accepts_nested_attributes_for :manufacturer
-
-  before_validation :remove_empty_shipping_box
-
-  validates :name, :admin_user_id, :company_id, presence: true
 
   FIRST_ENTRY_FLAG = "min(inventory_entries.id)"
   LAST_ENTRY_FLAG  = "max(inventory_entries.id)"

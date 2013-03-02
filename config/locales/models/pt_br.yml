@@ -10,6 +10,8 @@ pt_br:
         city:         "Cidade"
         state:        "Estado"
         country:      "País"
+      inventory_item:
+        name: "Nome"
       user:
         first_name:   "Nome"
         last_name:    "Sobrenome"
@@ -32,6 +34,8 @@ pt_br:
       company:
         name: "Nome da empresa"
         domain: "Domínio"
+      inventory_item_price:
+        value: "Preço"
       inventory_entry:
         description:   "Descrição"
         cost_per_unit: "Custo unitário"
@@ -81,6 +85,22 @@ pt_br:
               blank: "%{attribute} não pode ficar em branco"
             country:
               blank: "%{attribute} não pode ficar em branco"
+        inventory_item:
+          attributes:
+            name:
+              blank: "%{attribute} não pode ficar em branco"
+        inventory_item_price:
+          attributes:
+            value:
+              blank: "%{attribute} não pode ficar em branco"
+        taxonomy:
+          attributes:
+            name:
+              blank: "Categoria não pode ser vazia"
+        manufacturer:
+          attributes:
+            name:
+              blank: "Fabricante deve estar presente"
         user:
           attributes:
             first_name:

@@ -22,7 +22,6 @@ feature "Inventory Item edition", js: true do
   context "new inventory item" do
     before do
       visit edit_admin_inventory_item_path(@item)
-      #click_link "edit_item"
     end
 
     scenario "As a store admin, I fill in the form and have my item updated" do
@@ -40,13 +39,8 @@ feature "Inventory Item edition", js: true do
       find("#inventory_item_shipping_box_attributes_width").value.should  == "14.5cm"
       find("#inventory_item_shipping_box_attributes_weight").value.should == "10kg"
 
-      within(".entry_1") do
-        find("#inventory_item_entries_attributes_0_quantity").value.should == "8"
-        find("#inventory_item_entries_attributes_0_cost_per_unit").value.should == "R$ 20,00"
-      end
-
-      page.should have_selector(".entry_2")
-      page.should have_selector(".entry_3")
+      page.should_not have_selector(".entry_1")
+      page.should_not have_selector(".entry_2")
 
       # Editing
       #
@@ -62,11 +56,6 @@ feature "Inventory Item edition", js: true do
       fill_in "inventory_item_shipping_box_attributes_height", with: "4cm"
       fill_in "inventory_item_shipping_box_attributes_width" , with: "15cm"
       fill_in "inventory_item_shipping_box_attributes_weight", with: "9kg"
-
-      within(".entry") do
-        fill_in "inventory_item_entries_attributes_0_quantity", with: "50"
-        fill_in "inventory_item_entries_attributes_0_cost_per_unit", with: "R$ 6,12"
-      end
 
       # fields that are filled automatically with the id of the chosen taxonomy
       find("#inventory_item_taxonomy_id").value.should == "#{@taxonomy2.id}"

@@ -34,7 +34,10 @@
 <div class="secondary_fields">
   <%= item.input :description %>
   <%= item.simple_fields_for :prices do |price| %>
-    <%= price.input :value, as: :string, input_html: { value: @item.price } %>
+    <%= price.input :value,
+      as: :string,
+      required: false,
+      input_html: { value: @item.price } %>
   <% end %>
 
   <section>
@@ -60,21 +63,25 @@
     </fieldset>
   </section>
 
-  <% lot_counter = 1 %>
-  <section>
-    <%= item.simple_fields_for :entries do |entries, index| %>
-      <%= render "form_entries", entries: entries, lot_counter: lot_counter %>
+  <% if @show_entry_fields.nil? || @show_entry_fields != false %>
+    <% lot_counter = 1 %>
+    <section>
+      <%= item.simple_fields_for :entries do |entries, index| %>
+        <%= render "form_entries", entries: entries, lot_counter: lot_counter %>
 
-      <% lot_counter+= 1 %>
-    <% end %>
-  </section>
-  <div class="js_add_entry">
-    <%= small_button "#",
-          text: "Adicionar lote",
-          image: 'admin/icons/plus_16.png',
-          class: "round_icon js_clone_fieldset",
-          data: { fieldset_to_clone: "entry" } %>
-  </div>
+        <% lot_counter+= 1 %>
+      <% end %>
+    </section>
+
+    <div class="js_add_entry">
+      <%= small_button "#",
+            text: "Adicionar lote",
+            image: 'admin/icons/plus_16.png',
+            class: "round_icon js_clone_fieldset",
+            data: { fieldset_to_clone: "entry" } %>
+    </div>
+  <% end %>
+
 </div>
 
 <%= item.submit id: "submit" %>

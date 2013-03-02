@@ -33,24 +33,32 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def new
     @item = current_company.items.new
+    @item.entries.build if @item.entries.blank?
 
     build_item_associations
   end
 
   def edit
+    @show_entry_fields = false
     @item = current_company.items.includes(:shipping_box).find(params[:id])
-    @item.build_shipping_box unless @item.shipping_box.present?
 
     build_item_associations
     @item = DecorationBuilder.inventory_items(@item)
   end
 
   def create
-    @item = Store::InventoryItemCreation.new(self)
-    if @item.create(params[:inventory_item])
+    params[:inventory_item].delete(:taxonomy_attributes)
+    params[:inventory_item].delete(:manufacturer_attributes)
+
+    @item = current_company.items.new(params[:inventory_item].merge(user: current_user))
+    build_item_associations
+    build_nested_fields_errors
+
+    if @item.save(params[:inventory_item])
       redirect_to admin_inventory_items_url
     else
-      @item = @item.active_record_item
+      build_nested_fields_errors
+      @item = DecorationBuilder.inventory_items(@item)
       render "new"
     end
   end
@@ -58,7 +66,10 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def update
     params[:inventory_item].delete(:taxonomy_attributes)
     params[:inventory_item].delete(:manufacturer_attributes)
+
     @item = current_company.items.find params[:id]
+    build_item_associations
+
     if @item.update_attributes params[:inventory_item]
       if remotipart_submitted?
         @item_images = @item.images.dup
@@ -66,6 +77,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       end
       redirect_to admin_inventory_item_url(@item)
     else
+      build_item_associations
+      build_nested_fields_errors
+      @item = DecorationBuilder.inventory_items(@item)
       render "edit"
     end
   end
@@ -96,10 +110,18 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def build_item_associations
-    @item.entries.build      if @item.entries.blank?
     @item.prices.build       if @item.prices.blank?
     @item.build_taxonomy     if @item.taxonomy.blank?
     @item.build_manufacturer if @item.manufacturer.blank?
     @item.build_shipping_box if @item.shipping_box.blank?
+  end
+
+  def build_nested_fields_errors
+    @item.taxonomy.errors.add(:name, :blank)     if @item.taxonomy_id    .blank?
+    @item.manufacturer.errors.add(:name, :blank) if @item.manufacturer_id.blank?
+
+    @item.valid?
+    @item.errors.messages.delete(:taxonomy_id)
+    @item.errors.messages.delete(:manufacturer_id)
   end
 end

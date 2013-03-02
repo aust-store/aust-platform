@@ -5,6 +5,8 @@ class Manufacturer < ActiveRecord::Base
 
   belongs_to :company
 
+  validates :name, presence: true
+
   def self.search_for(query)
     search do
       fields :name
