@@ -21,10 +21,11 @@ function modelObserver(){}
 
 var observer = new modelObserver();
 modelObserver.prototype.update = function(jsonData){
-  for(callback in observerCallbacks.callbacksList) {
-    //observerCallbacks.run(observing, currentValue);
-  }
 
+  /**
+    This checks all callbacks that were set up to be called, and run them
+    whenever a related JSON comes from the server.
+   */
   for(observing in observerCallbacks.callbacksList) {
     var currentValue = observer.currentValue(observing, jsonData);
 
@@ -32,6 +33,11 @@ modelObserver.prototype.update = function(jsonData){
       observerCallbacks.run(observing, currentValue);
   }
 
+  /**
+    This does two things, first runs the callbacks for each element in the DOM
+    that expects a particular value from the Ajax JSON response, and also
+    updates the DOM with those values.
+   */
   $("[data-observe]").each(function(index){
     var observing = $(this).data("observe");
     var currentValue = observer.currentValue(observing, jsonData);

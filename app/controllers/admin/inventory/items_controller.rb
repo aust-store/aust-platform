@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Admin::Inventory::ItemsController < Admin::ApplicationController
-  before_filter :load_item, only: [:show, :edit, :destroy]
+  before_filter :load_item,           only: [:show, :edit, :destroy]
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index

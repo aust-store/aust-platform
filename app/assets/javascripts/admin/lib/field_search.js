@@ -1,5 +1,37 @@
 var Admin = {};
 
+/**
+  This was created to support the Inventory Item form search.
+
+  Whenever the user types something in the Category (taxonomy) or Manufacturer
+  field, we do a search via Ajax for that term and get a response from the
+  server. We then either:
+
+    a) show results for the user to choose
+    b) show one existing result and also populate a hidden field with the
+       corresponding ID of the searched and matched resource
+
+  In case of more then one result, we give the option for the user to choose.
+  Based on that, we execute b.
+
+  This code will work on any input that satisfies the following criteria:
+
+    * has data-search-url containing the URL in which we should search for
+      whenever the user types something
+    * has data-result-id containing the ID of the input in which it should
+      populate with the matching result.
+
+  Example:
+
+    The user searches for Nike. One unique result comes back from the server,
+    in JSON format. We then get the corresponding ID and populate another
+    input, usually hidden, which will then be sent to the server when the form
+    is submitted.
+ */
+$(document).ready(function(){
+  Admin.FieldSearch.init()
+});
+
 Admin.FieldSearch = {
   lastResults:    null,
   selectedResult: null,
@@ -12,12 +44,22 @@ Admin.FieldSearch = {
     $('.popup_result').click(function(e) { e.stopPropagation(); });
 
     $('input[data-search-url]').keyup(function(e){
+
+      /**
+        Whenever the user types, we wait 600 miling seconds before doing the
+        search. If the user types again in that period, we search again.
+
+        That way, we avoid making unnecessary requests to the server.
+       */
       clearTimeout(that.keypressTimer);
 
       that.keypressTimer = setTimeout(function() {
         that.processKeyPress(e)
-      }, 5);
+      }, 600);
 
+      /**
+        13 is the key code for Enter.
+       */
       if (e.keyCode == 13) {
         that.userPressesEnter(e);
         return false;
@@ -28,6 +70,9 @@ Admin.FieldSearch = {
       if (e.keyCode == 13)
         return false;
 
+      /**
+        9 stands for Tab.
+       */
       if (e.keyCode == 9) {
         that.userPressesEnter(e);
         that.removePopup();
@@ -35,6 +80,9 @@ Admin.FieldSearch = {
     });
   },
 
+  /**
+    Whenever the user types something, this is called.
+   */
   processKeyPress: function(e) {
     var input = $(e.target);
 
@@ -141,10 +189,6 @@ Admin.FieldSearch = {
     }
   }
 }
-
-$(document).ready(function(){
-  Admin.FieldSearch.init()
-});
 
 Admin.FieldSearch.ResultsPopup = {
   showResults: function(input) {
