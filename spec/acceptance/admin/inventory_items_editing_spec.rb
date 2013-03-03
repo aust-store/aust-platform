@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Inventory Item edition", js: true do
+feature "Inventory Item edition" do
   before do
     @admin_user    = FactoryGirl.create(:admin_user)
     @company       = @admin_user.company
@@ -58,7 +58,7 @@ feature "Inventory Item edition", js: true do
       fill_in "inventory_item_shipping_box_attributes_weight", with: "9kg"
 
       # fields that are filled automatically with the id of the chosen taxonomy
-      find("#inventory_item_taxonomy_id").value.should == "#{@taxonomy2.id}"
+      find("#inventory_item_taxonomy_id").set "#{@taxonomy2.id}"
 
       click_button "submit"
 
