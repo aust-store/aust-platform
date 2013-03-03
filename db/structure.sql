@@ -558,7 +558,8 @@ CREATE TABLE manufacturers (
     name character varying(255),
     company_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    admin_user_id integer
 );
 
 
@@ -1436,6 +1437,13 @@ CREATE INDEX index_inventory_items_on_taxonomy_id ON inventory_items USING btree
 
 
 --
+-- Name: index_manufacturers_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_manufacturers_on_admin_user_id ON manufacturers USING btree (admin_user_id);
+
+
+--
 -- Name: index_manufacturers_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1771,3 +1779,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130220182904');
 INSERT INTO schema_migrations (version) VALUES ('20130220200724');
 
 INSERT INTO schema_migrations (version) VALUES ('20130220200955');
+
+INSERT INTO schema_migrations (version) VALUES ('20130303065958');

@@ -14,7 +14,7 @@
   <% end %>
 
   <%= item.input :manufacturer_id, as: :hidden %>
-  <%= item.simple_fields_for :manufacturer do |m| %>
+  <%= item.simple_fields_for :manufacturer, include_id: false do |m| %>
     <%= m.input :name,
       required: false,
       input_html: {

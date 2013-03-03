@@ -6,7 +6,10 @@ feature "Inventory Item creation" do
     @admin_user = FactoryGirl.create(:admin_user)
     @company = @admin_user.company
     @taxonomy = FactoryGirl.create(:taxonomy, name: "Shirt", store: @company)
-    @manufacturer = FactoryGirl.create(:manufacturer, name: "Github", company: @company)
+    @manufacturer = FactoryGirl.create(:manufacturer,
+                                       name: "Github",
+                                       admin_user: @admin_user,
+                                       company: @company)
     login_into_admin
   end
 
@@ -57,9 +60,10 @@ feature "Inventory Item creation" do
       created_item.description.should == "Item description"
       created_item.price.should == 12.34
 
-      manufacturers = Manufacturer.all.map(&:name)
-      manufacturers.should include("Github")
-      manufacturers.should include("My custom manufacturer")
+      manufacturers = Manufacturer.all
+      manufacturers.map(&:name)         .should == ["Github", "My custom manufacturer"]
+      manufacturers.map(&:company_id)   .should == [@company.id, @company.id]
+      manufacturers.map(&:admin_user_id).should == [@admin_user.id, @admin_user.id]
     end
 
     scenario "As a store admin, I see validation errors if I miss some field" do

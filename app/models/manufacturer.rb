@@ -1,9 +1,10 @@
 class Manufacturer < ActiveRecord::Base
   extend ModelExtensions::FullTextSearch
 
-  attr_accessible :company_id, :name
+  attr_accessible :admin_user_id, :company_id, :name
 
   belongs_to :company
+  belongs_to :admin_user
 
   validates :name, presence: true
 

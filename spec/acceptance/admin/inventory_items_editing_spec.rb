@@ -7,8 +7,10 @@ feature "Inventory Item edition" do
 
     @taxonomy      = FactoryGirl.create(:taxonomy,     name: "Shirt",  store: @company)
     @taxonomy2     = FactoryGirl.create(:taxonomy,     name: "Tennis", store: @company)
-    @manufacturer  = FactoryGirl.create(:manufacturer, name: "Nike",   company: @company)
-    @manufacturer2 = FactoryGirl.create(:manufacturer, name: "Asics",  company: @company)
+    @manufacturer  = FactoryGirl.create(:manufacturer,
+                                        name: "Nike",
+                                        admin_user: @admin_user,
+                                        company: @company)
     @item          = FactoryGirl.create(:inventory_item,
                                         taxonomy: @taxonomy,
                                         manufacturer: @manufacturer,
@@ -46,7 +48,7 @@ feature "Inventory Item edition" do
       #
       # fields used for searching existing items
       fill_in "inventory_item_taxonomy_attributes_name", with: "tennis"
-      fill_in "inventory_item_manufacturer_attributes_name", with: "asics"
+      fill_in "inventory_item_manufacturer_attributes_name", with: "Olympikus"
       fill_in "inventory_item_year", with: "2013"
       fill_in "inventory_item_name", with: "Air Max 2"
 
@@ -64,6 +66,11 @@ feature "Inventory Item edition" do
 
       current_path.should == admin_inventory_item_path(@item.id)
       page.should have_content "Air Max"
+
+      manufacturers = Manufacturer.all
+      manufacturers.map(&:name)         .should == ["Nike", "Olympikus"]
+      manufacturers.map(&:company_id)   .should == [@company.id, @company.id]
+      manufacturers.map(&:admin_user_id).should == [@admin_user.id, @admin_user.id]
     end
   end
 end
