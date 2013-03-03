@@ -23,7 +23,7 @@ class InventoryItem < ActiveRecord::Base
   before_validation :remove_empty_shipping_box
 
   validates :name, :admin_user_id, :company_id, presence: true
-  validates :taxonomy_id, :manufacturer_id, presence: true
+  validates :taxonomy_id, presence: true
 
   accepts_nested_attributes_for :shipping_box
   accepts_nested_attributes_for :balances

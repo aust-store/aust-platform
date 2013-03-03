@@ -47,8 +47,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def create
-    params[:inventory_item].delete(:taxonomy_attributes)
-    params[:inventory_item].delete(:manufacturer_attributes)
+    delete_params_before_saving
 
     @item = current_company.items.new(params[:inventory_item].merge(user: current_user))
     build_item_associations
@@ -64,8 +63,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def update
-    params[:inventory_item].delete(:taxonomy_attributes)
-    params[:inventory_item].delete(:manufacturer_attributes)
+    delete_params_before_saving
 
     @item = current_company.items.find params[:id]
     build_item_associations
@@ -118,10 +116,21 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def build_nested_fields_errors
     @item.taxonomy.errors.add(:name, :blank)     if @item.taxonomy_id    .blank?
-    @item.manufacturer.errors.add(:name, :blank) if @item.manufacturer_id.blank?
+    if @item.manufacturer_id.blank? && @item.manufacturer.name.blank?
+      @item.manufacturer.errors.add(:name, :blank)
+    end
 
     @item.valid?
     @item.errors.messages.delete(:taxonomy_id)
     @item.errors.messages.delete(:manufacturer_id)
+  end
+
+  def delete_params_before_saving
+    params[:inventory_item].delete(:taxonomy_attributes)
+    if params[:inventory_item][:manufacturer_id].present?
+      params[:inventory_item].delete(:manufacturer_attributes)
+    else
+      params[:inventory_item][:manufacturer_id].delete(:manufacturer_attributes)
+    end
   end
 end
