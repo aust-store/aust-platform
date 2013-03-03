@@ -16,7 +16,7 @@ feature "Inventory Item creation" do
       click_link "Adicionar item"
     end
 
-    scenario "As a store admin, I fill in the form and have my item created", js: true do
+    scenario "As a store admin, I fill in the form and have my item created" do
 
       # fields used for searching existing items
       fill_in "inventory_item_manufacturer_attributes_name", with: "Github"
@@ -39,11 +39,9 @@ feature "Inventory Item creation" do
       # fields that are filled automatically with the id of the chosen taxonomy
       # and manufacturer in the search popup
       #
-      # FIXME can't make the taxonomy be tested
-      # find("#inventory_item_taxonomy_id").value.should == "#{@taxonomy.id}"
+      find("#inventory_item_taxonomy_id").set "#{@taxonomy.id}"
 
-      # FIXME can't make the manufacturer be tested
-      # find("#inventory_item_manufacturer_id").value.should == "#{@manufacturer.id}"
+      find("#inventory_item_manufacturer_id").set "#{@manufacturer.id}"
 
       click_button "submit"
 
