@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130220200955) do
+ActiveRecord::Schema.define(:version => 20130303065958) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -199,10 +199,12 @@ ActiveRecord::Schema.define(:version => 20130220200955) do
   create_table "manufacturers", :force => true do |t|
     t.string   "name"
     t.integer  "company_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "admin_user_id"
   end
 
+  add_index "manufacturers", ["admin_user_id"], :name => "index_manufacturers_on_admin_user_id"
   add_index "manufacturers", ["company_id"], :name => "index_manufacturers_on_company_id"
 
   create_table "order_items", :force => true do |t|
