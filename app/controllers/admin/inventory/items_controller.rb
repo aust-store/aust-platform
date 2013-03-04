@@ -5,7 +5,10 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def index
     respond_to do |format|
-      format.html { @items = current_company.items.last(50) }
+      format.html do
+        items  = current_company.items.last(50)
+        @items = DecorationBuilder.inventory_items(items)
+      end
 
       format.js do
         @items = current_company.items.limit(3)
