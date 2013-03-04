@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe CompanySetting do
+  before do
+    stub_correios
+  end
+
   describe "validations" do
     context "when valid resource" do
       it { ensure_length_of(:zipcode) }
@@ -28,15 +32,19 @@ describe CompanySetting do
   end
 
   describe "valid_zipcode?" do
-    specify "returns true if there's a valid zipcode" do
+    it "returns true if there's a valid zipcode" do
       @settings.valid_zipcode?.should == true
     end
 
-    specify "adds an error message if there's not a valid zipcode" do
+    it "adds an error message if there's not a valid zipcode" do
+      ::Store::Shipping::Correios::ZipcodeValidation
+        .any_instance
+        .stub(:invalid_origin_zipcode?) { true }
+
       @settings.errors.size.should == 0
 
       @settings.zipcode = 1237
-      @settings.valid_zipcode?
+      @settings.valid?
 
       @settings.errors.size.should_not == 0
     end

@@ -1,10 +1,16 @@
 <%= render partial: "layouts/admin/nav_history",
-           locals: { back_to: admin_inventory_items_path } %>
+           locals: { back_to: admin_inventory_item_path(@item) } %>
 
 <header>
   <h1><%= @item.name %></h1>
 </header>
 
 <div class="main_container">
-  <%= render partial: 'form' %>
+  <div class="new_item_or_entries form">
+
+  <%= simple_form_for([:admin, @item]) do |f| %>
+    <%= render 'form', item: f %>
+  <% end %>
+
+  </div>
 </div>

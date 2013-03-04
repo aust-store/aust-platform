@@ -54,7 +54,7 @@ group :test do
 end
 
 gem 'inherited_resources'
-gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
+gem "active_model_serializers", "0.6.0"
 gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
 gem 'ember-rails'
 

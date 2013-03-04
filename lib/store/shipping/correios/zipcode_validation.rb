@@ -15,7 +15,7 @@ module Store
           @correios_response.error == -33
         end
 
-        def unexpected_error?          
+        def unexpected_error?
           ![0, -33, -2].include?(@correios_response.error)
         end
 

@@ -1,3 +1,3 @@
 class TaxonomySerializer < ActiveModel::Serializer
-  attributes :id, :name, :parent_id, :created_at
+  attributes :id, :name, :parent_id
 end

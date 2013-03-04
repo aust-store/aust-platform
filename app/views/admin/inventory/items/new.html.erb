@@ -1,7 +1,7 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: {
-             back_to: new_item_or_entry_admin_inventory_items_path,
-             text: "Voltar à busca por itens"
+             back_to: admin_inventory_items_path,
+             text: "Voltar à listagem de itens"
            } %>
 
 <header>
@@ -9,9 +9,11 @@
 </header>
 
 <div class="main_container">
+  <div class="new_item_or_entries form">
 
-  <div class="form">
-    <%= render 'form' %>
+    <%= simple_form_for([:admin, @item]) do |f| %>
+      <%= render 'form', item: f %>
+    <% end %>
+
   </div>
-
 </div>

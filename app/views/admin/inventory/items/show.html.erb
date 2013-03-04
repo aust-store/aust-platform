@@ -9,7 +9,10 @@
     <h1>
       <%= @item.name %>
     </h1>
-    <%= small_button edit_admin_inventory_item_path(@item), text: "Editar este item", :image => 'admin/icons/edit_16.png' %>
+    <%= small_button edit_admin_inventory_item_path(@item),
+      text: "Editar este item",
+      id: "edit_item",
+      image: 'admin/icons/edit_16.png' %>
   </div>
   <p>
     <% if @taxonomy.present? %>

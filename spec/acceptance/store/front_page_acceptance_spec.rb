@@ -6,9 +6,9 @@ feature "Store's front-page" do
     @company = FactoryGirl.create(:company)
     stub_subdomain(@company)
 
-    inventory_entry_one   = FactoryGirl.create(:inventory_entry, price: 11.0)
-    inventory_entry_two   = FactoryGirl.create(:inventory_entry, price: 23.0)
-    inventory_entry_three = FactoryGirl.create(:inventory_entry, price: 12.0)
+    inventory_entry_one   = FactoryGirl.create(:inventory_entry)
+    inventory_entry_two   = FactoryGirl.create(:inventory_entry)
+    inventory_entry_three = FactoryGirl.create(:inventory_entry)
     @item = FactoryGirl.create(:inventory_item, company: @company, balances: [
                                  inventory_entry_one,
                                  inventory_entry_two,
@@ -28,14 +28,14 @@ feature "Store's front-page" do
 
       # the correct price is shown
       page.should have_content @item.name
-      page.should have_content "R$ 23,00"
+      page.should have_content "R$ 12,34"
     end
   end
 
   describe "Showing highlight products in the main page" do
     scenario "As a customer, I see a list of highlight products, max 12 results" do
       12.times do |i|
-        inventory_entry = FactoryGirl.create(:inventory_entry, price: 20.0)
+        inventory_entry = FactoryGirl.create(:inventory_entry)
         FactoryGirl.create(:inventory_item, name: "Item #{i}", company: @company, balances: [inventory_entry])
       end
 
@@ -47,7 +47,7 @@ feature "Store's front-page" do
         within(".product_#{p}") do
           page.should have_content "Item #{n}"
           page.has_css?("image_#{p}")
-          page.should have_content "R$ 20,00"
+          page.should have_content "R$ 12,34"
         end
         n -= 1
       end

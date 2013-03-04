@@ -40,15 +40,16 @@ describe Cart do
 
   describe "#create_item_into_cart" do
     let(:cart) { Cart.new }
+    let(:inventory_item) { double(price: 10) }
 
     it "creates the given item into the cart" do
-      entry = double(price: 1, inventory_item: :inventory_item)
+      entry = double(inventory_item: inventory_item)
 
       OrderItem.should_receive(:new)
-               .with(price: 1,
+               .with(price: 10,
                      quantity: 1,
                      inventory_entry: entry,
-                     inventory_item: :inventory_item)
+                     inventory_item: inventory_item)
                .and_return(:new_item)
 
 
@@ -71,7 +72,7 @@ describe Cart do
 
   describe "#item_already_in_cart" do
     let(:cart)  { Cart.new }
-    let(:entry) { double(price: 10) }
+    let(:entry) { double(inventory_item: double(price: 10)) }
     let(:items) { double }
 
     before do

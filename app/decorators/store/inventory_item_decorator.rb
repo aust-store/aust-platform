@@ -10,7 +10,7 @@ module Store
     end
 
     def price
-      balances.first.price
+      to_currency(inventory_item.price)
     end
 
     private

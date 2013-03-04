@@ -3,6 +3,7 @@ require "acceptance_spec_helper"
 
 feature "Store cart" do
   before do
+    stub_correios
     @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
@@ -47,7 +48,7 @@ feature "Store cart" do
 
       # price
       within ".items_total .total_price" do
-        page.should have_content "R$ 60,00"
+        page.should have_content "R$ 37,02" # 3 x R$ 12,34
       end
 
       # then
@@ -61,7 +62,7 @@ feature "Store cart" do
 
       # price was changed
       within ".items_total .total_price" do
-        page.should have_content "R$ 80,00"
+        page.should have_content "R$ 49,36"
       end
 
       # cart status at the top of the page

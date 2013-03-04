@@ -1,8 +1,12 @@
 class Taxonomy < ActiveRecord::Base
+  extend ModelExtensions::FullTextSearch
+
   acts_as_tree order: 'id'
 
   belongs_to :store, foreign_key: 'store_id', class_name: "Company"
   attr_accessible :name, :parent_id, :store_id
+
+  validates :name, presence: true
 
   def self.hash_tree_for_homepage(depth = 2)
     self.hash_tree(limit_depth: depth)
@@ -29,5 +33,12 @@ class Taxonomy < ActiveRecord::Base
       end
     end
     result
+  end
+
+  def self.search_for(query)
+    search do
+      fields :name
+      keywords query
+    end
   end
 end

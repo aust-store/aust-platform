@@ -21,7 +21,7 @@ describe Admin::Api::InventoryItemsController do
           { "id"                => item.id,
             "name"              => item.name,
             "description"       => item.description,
-            "price"             => "20.0",
+            "price"             => "12.34",
             "entry_for_sale_id" => item.entry_for_sale.id,
             "on_sale"           => true }
         ]

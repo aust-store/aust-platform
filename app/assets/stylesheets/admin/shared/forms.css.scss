@@ -42,13 +42,11 @@ form {
   }
 
   div.field_with_errors {
-    border-left: 4px solid lighten(red, 40%);
-    padding-left: 10px;
 
     label { color: red; }
     span.error {
       color: red;
-      margin: 5px 0 10px 0;
+      margin: 5px 0 10px 3px;
       display: block;
       font-size: 0.9em;
     }

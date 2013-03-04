@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213041013) do
+ActiveRecord::Schema.define(:version => 20130303065958) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -136,11 +136,10 @@ ActiveRecord::Schema.define(:version => 20130213041013) do
     t.decimal  "moving_average_cost"
     t.decimal  "total_quantity"
     t.decimal  "total_cost"
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "on_sale",             :default => true
     t.integer  "store_id"
-    t.decimal  "price",               :precision => 8, :scale => 2
-    t.boolean  "on_sale",                                           :default => true
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
@@ -159,21 +158,54 @@ ActiveRecord::Schema.define(:version => 20130213041013) do
   add_index "inventory_item_images", ["cover"], :name => "index_good_images_on_cover"
   add_index "inventory_item_images", ["inventory_item_id"], :name => "index_good_images_on_good_id"
 
+  create_table "inventory_item_prices", :force => true do |t|
+    t.integer  "inventory_item_id"
+    t.decimal  "value",             :precision => 8, :scale => 2
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "inventory_item_prices", ["inventory_item_id"], :name => "index_inventory_item_prices_on_inventory_item_id"
+
+  create_table "inventory_item_properties", :force => true do |t|
+    t.integer  "inventory_item_id"
+    t.hstore   "properties"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "inventory_item_properties", ["inventory_item_id"], :name => "index_inventory_item_properties_on_inventory_item_id"
+  add_index "inventory_item_properties", ["properties"], :name => "item_properties"
+
   create_table "inventory_items", :force => true do |t|
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
     t.text     "merchandising"
     t.integer  "taxonomy_id"
+    t.integer  "year"
+    t.integer  "manufacturer_id"
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
+  add_index "inventory_items", ["manufacturer_id"], :name => "index_inventory_items_on_manufacturer_id"
   add_index "inventory_items", ["taxonomy_id"], :name => "index_inventory_items_on_taxonomy_id"
+
+  create_table "manufacturers", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "admin_user_id"
+  end
+
+  add_index "manufacturers", ["admin_user_id"], :name => "index_manufacturers_on_admin_user_id"
+  add_index "manufacturers", ["company_id"], :name => "index_manufacturers_on_company_id"
 
   create_table "order_items", :force => true do |t|
     t.integer  "inventory_item_id"

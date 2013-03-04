@@ -1,0 +1,19 @@
+<fieldset class="entry <%= "entry_#{lot_counter}" %>">
+  <h2>Lote <span class="js_increment"><%= lot_counter %></span>:</h2>
+  <div class="fields">
+    <%  entry = entries.object %>
+    <%= entries.input :quantity,
+      as: :string,
+      required: false,
+      input_html: { value: entry.quantity } %>
+    <%= entries.input :cost_per_unit,
+      as: :string,
+      required: false,
+      input_html: { value: entry.cost_per_unit } %>
+  </div>
+  <div class="explanations">
+    <p>
+      Um lote é um entrada no estoque deste item.
+    </p>
+  </div>
+</fieldset>

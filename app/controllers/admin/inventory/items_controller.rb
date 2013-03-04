@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Admin::Inventory::ItemsController < Admin::ApplicationController
-  before_filter :load_item, only: [:show, :edit, :destroy]
+  before_filter :load_item,           only: [:show, :edit, :destroy]
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
@@ -14,8 +14,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       end
     end
   end
-
-  def new_item_or_entry; end
 
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
@@ -34,29 +32,44 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def new
-    @item = current_company.items.new(name: params[:new_item_name])
-    @item.build_shipping_box
+    @item = current_company.items.new
+    @item.entries.build if @item.entries.blank?
+
+    build_item_associations
   end
 
   def edit
+    @show_entry_fields = false
     @item = current_company.items.includes(:shipping_box).find(params[:id])
-    @item.build_shipping_box unless @item.shipping_box.present?
 
+    build_item_associations
     @item = DecorationBuilder.inventory_items(@item)
   end
 
   def create
-    @item = Store::InventoryItemCreation.new(self)
-    if @item.create(params[:inventory_item])
+    delete_params_before_saving
+    set_company_and_admin_to_new_manufacturer
+
+    @item = current_company.items.new(params[:inventory_item].merge(user: current_user))
+    build_item_associations
+    build_nested_fields_errors
+
+    if @item.save(params[:inventory_item])
       redirect_to admin_inventory_items_url
     else
-      @item = @item.active_record_item
+      build_nested_fields_errors
+      @item = DecorationBuilder.inventory_items(@item)
       render "new"
     end
   end
 
   def update
+    delete_params_before_saving
+    set_company_and_admin_to_new_manufacturer
+
     @item = current_company.items.find params[:id]
+    build_item_associations
+
     if @item.update_attributes params[:inventory_item]
       if remotipart_submitted?
         @item_images = @item.images.dup
@@ -64,6 +77,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       end
       redirect_to admin_inventory_item_url(@item)
     else
+      build_item_associations
+      build_nested_fields_errors
+      @item = DecorationBuilder.inventory_items(@item)
       render "edit"
     end
   end
@@ -91,5 +107,39 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def load_all_taxonomies
     @company_taxonomies = current_company.taxonomies.flat_hash_tree
+  end
+
+  def build_item_associations
+    @item.prices.build       if @item.prices.blank?
+    @item.build_taxonomy     if @item.taxonomy.blank?
+    @item.build_manufacturer if @item.manufacturer.blank?
+    @item.build_shipping_box if @item.shipping_box.blank?
+  end
+
+  def set_company_and_admin_to_new_manufacturer
+    if params[:inventory_item][:manufacturer_attributes][:name].present?
+      params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id
+      params[:inventory_item][:manufacturer_attributes][:admin_user_id] = current_admin_user.id
+    end
+  end
+
+  def build_nested_fields_errors
+    @item.taxonomy.errors.add(:name, :blank) if @item.taxonomy_id.blank?
+    if @item.manufacturer_id.blank? && @item.manufacturer.name.blank?
+      @item.manufacturer.errors.add(:name, :blank)
+    end
+
+    @item.valid?
+    @item.errors.messages.delete(:taxonomy_id)
+    @item.errors.messages.delete(:manufacturer_id)
+  end
+
+  def delete_params_before_saving
+    params[:inventory_item].delete(:taxonomy_attributes)
+    if params[:inventory_item][:manufacturer_attributes][:name].present?
+      params[:inventory_item].delete(:manufacturer_id)
+    elsif params[:inventory_item][:manufacturer_id].present?
+      params[:inventory_item].delete(:manufacturer_attributes)
+    end
   end
 end

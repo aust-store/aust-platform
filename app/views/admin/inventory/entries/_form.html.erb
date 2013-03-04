@@ -20,9 +20,6 @@
     <%= f.input :cost_per_unit,
           input_html: { value: @entry.cost_per_unit } %>
 
-    <%= f.input :price,
-          input_html: { value: @entry.price } %>
-
     <%= f.submit "Cadastrar entrada no estoque", id: "submit_entry" %> ou
     <%= link_to "cancelar", "javascript: history.back()" %>
   <% end %>
@@ -30,13 +27,12 @@
 
 <div class="entries_summary">
   <% if @last_entries.present? %>
-    <h2>Últimas entradas</h2>
+    <h2>Entradas atuais</h2>
     <ul>
       <% @last_entries.each do |entry| %>
         <li>
           <%= "#{entry.created_at}:" %>
-          <%= "preço a #{entry.price}, " %>
-          <%= "#{entry.quantity} un." %>
+          <%= "#{entry.quantity} unidades no estoque" %>
         </li>
       <% end %>
     </ul>

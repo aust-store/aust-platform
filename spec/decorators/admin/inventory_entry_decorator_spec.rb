@@ -28,13 +28,6 @@ describe Admin::InventoryEntryDecorator do
     end
   end
 
-  describe "#price" do
-    it "should return converted to R$" do
-      @presenter.should_receive(:to_currency).and_return "R$ 14,14"
-      @presenter.price.should == "R$ 14,14"
-    end
-  end
-
   describe "#total_cost" do
     it "should return converted to R$" do
       @presenter.should_receive(:to_currency).and_return "R$ 14,14"

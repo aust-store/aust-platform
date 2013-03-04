@@ -26,4 +26,12 @@ describe Taxonomy do
       nodes[3].should == ben
     end
   end
+
+  describe ".search" do
+    it "searches for items" do
+      item = FactoryGirl.create(:taxonomy, name: "my item")
+      Taxonomy.search_for("item").all.should include item
+      Taxonomy.search_for("taxonomy").all.should_not include item
+    end
+  end
 end

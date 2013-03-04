@@ -10,29 +10,22 @@ describe InventoryItem do
         FactoryGirl.create(:inventory_item)
 
         items = InventoryItem.order("id ASC").first(2)
-        items[0].balances.first.update_attribute(:on_sale, false)
-        items[1].balances.first.update_attribute(:on_sale, false)
+        items[0].balances.first .update_attribute(:on_sale, false)
+        items[0].balances.second.update_attribute(:on_sale, false)
+        items[1].balances.first .update_attribute(:on_sale, false)
+        items[1].balances.second.update_attribute(:on_sale, false)
 
         result = InventoryItem.with_entry_for_sale.limit(2).order("inventory_items.id ASC")
-
-        result[0].id.should == items.first.id
-        result[0].balances.first.id.should == items[0].balances.second.id
-        result[0].balances.first.on_sale.should == true
-
-        result[1].id.should == items.second.id
-        result[1].balances.first.id.should == items[1].balances.second.id
-        result[1].balances.first.on_sale.should == true
+        result[0].entry_for_sale.id.should == items[0].balances.last.id
+        result[1].entry_for_sale.id.should == items[1].balances.last.id
       end
     end
   end
 
   describe "#search_for" do
-    let(:search) { double(search: double(includes: :search)) }
-
-    it "results the correct words by name" do
-      Store::ItemsSearch.should_receive(:new).with(InventoryItem, :item) { search }
-
-      InventoryItem.search_for(:item).should == :search
+    it "searches for items" do
+      item = FactoryGirl.create(:inventory_item, name: "my item")
+      InventoryItem.search_for("item").all.should include item
     end
   end
 

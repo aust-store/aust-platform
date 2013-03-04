@@ -21,22 +21,43 @@ function modelObserver(){}
 
 var observer = new modelObserver();
 modelObserver.prototype.update = function(jsonData){
+
+  /**
+    This checks all callbacks that were set up to be called, and run them
+    whenever a related JSON comes from the server.
+   */
+  for(observing in observerCallbacks.callbacksList) {
+    var currentValue = observer.currentValue(observing, jsonData);
+
+    if (typeof currentValue != "undefined")
+      observerCallbacks.run(observing, currentValue);
+  }
+
+  /**
+    This does two things, first runs the callbacks for each element in the DOM
+    that expects a particular value from the Ajax JSON response, and also
+    updates the DOM with those values.
+   */
   $("[data-observe]").each(function(index){
     var observing = $(this).data("observe");
-    var observedResources = observing.split(".");
-
-    var currentValue = jsonData;
-    $.each(observedResources, function(index, value){
-      if (currentValue[value] || typeof currentValue[value] == "string")
-        currentValue = currentValue[value];
-      else
-        return false;
-    });
-
-    if (typeof currentValue == "string"){
+    var currentValue = observer.currentValue(observing, jsonData);
+    if (typeof currentValue == "string") {
       observerCallbacks.run(observing, currentValue);
       $(this).html(currentValue);
     }
-
   });
 };
+
+modelObserver.prototype.currentValue = function(observing, jsonData) {
+  var observedResources = observing.split("."),
+      currentValue = jsonData;
+
+  $.each(observedResources, function(index, value){
+    if (currentValue[value] || typeof currentValue[value] != "undefined")
+      currentValue = currentValue[value];
+    else
+      currentValue = undefined;
+  });
+
+  return currentValue;
+}
