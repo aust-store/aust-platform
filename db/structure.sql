@@ -379,13 +379,9 @@ CREATE TABLE inventory_entries (
     id integer NOT NULL,
     inventory_item_id integer,
     admin_user_id integer,
-    balance_type character varying(255),
     description text,
     quantity numeric,
     cost_per_unit numeric,
-    moving_average_cost numeric,
-    total_quantity numeric,
-    total_cost numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     on_sale boolean DEFAULT true,
@@ -526,7 +522,8 @@ CREATE TABLE inventory_items (
     merchandising text,
     taxonomy_id integer,
     year integer,
-    manufacturer_id integer
+    manufacturer_id integer,
+    moving_average_cost numeric(8,2)
 );
 
 
@@ -1781,3 +1778,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130220200724');
 INSERT INTO schema_migrations (version) VALUES ('20130220200955');
 
 INSERT INTO schema_migrations (version) VALUES ('20130303065958');
+
+INSERT INTO schema_migrations (version) VALUES ('20130304002307');
+
+INSERT INTO schema_migrations (version) VALUES ('20130304003040');

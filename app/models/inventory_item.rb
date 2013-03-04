@@ -79,7 +79,7 @@ class InventoryItem < ActiveRecord::Base
   end
 
   def total_quantity
-    balances.sum(:quantity)
+    entries.sum(:quantity)
   end
 
   def price

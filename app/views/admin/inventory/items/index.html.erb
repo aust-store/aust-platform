@@ -17,7 +17,7 @@
       <% @items.each do |item| %>
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
-        <td><%= item.last_balance.try(:total_quantity) %></td>
+        <td><%= item.total_quantity %></td>
       </tr>
       <% end %>
     <% end %>

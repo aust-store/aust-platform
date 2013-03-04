@@ -4,8 +4,15 @@ FactoryGirl.define do
     quantity 4
 
     factory :order_item do
-      association :inventory_item
-      association :inventory_entry
+
+      after(:build) do |item, evaluator|
+        entry          = FactoryGirl.attributes_for(:inventory_entry)
+        inventory_item = FactoryGirl.create(:inventory_item_without_associations,
+                                            entries_attributes: [entry])
+        item.inventory_item  = inventory_item
+        item.inventory_entry = inventory_item.entries.first
+        item.save
+      end
     end
   end
 end
