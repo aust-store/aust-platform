@@ -31,7 +31,7 @@ describe PostgresSearch::Search do
 
     it "returns the ARel object" do
       model.stub_chain(:where, :order) { :arel }
-      described_class.new(model, options).search
+      described_class.new(model, options).search.should == :arel
     end
   end
 end
