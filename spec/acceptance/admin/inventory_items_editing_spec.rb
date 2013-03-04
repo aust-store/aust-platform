@@ -21,7 +21,7 @@ feature "Inventory Item edition" do
     login_into_admin
   end
 
-  context "new inventory item" do
+  context "existing inventory item" do
     before do
       visit edit_admin_inventory_item_path(@item)
     end
