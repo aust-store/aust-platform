@@ -6,15 +6,8 @@ feature "Store's front-page" do
     @company = FactoryGirl.create(:company)
     stub_subdomain(@company)
 
-    inventory_entry_one   = FactoryGirl.create(:inventory_entry)
-    inventory_entry_two   = FactoryGirl.create(:inventory_entry)
-    inventory_entry_three = FactoryGirl.create(:inventory_entry)
-    @item = FactoryGirl.create(:inventory_item, company: @company, balances: [
-                                 inventory_entry_one,
-                                 inventory_entry_two,
-                                 inventory_entry_three
-                               ])
-    inventory_entry_one.update_attribute(:quantity, 0)
+    @item = FactoryGirl.create(:inventory_item, company: @company)
+    @item.entries.first.update_attribute(:quantity, 0)
   end
 
   describe "Accessing a company's store" do
@@ -35,8 +28,11 @@ feature "Store's front-page" do
   describe "Showing highlight products in the main page" do
     scenario "As a customer, I see a list of highlight products, max 12 results" do
       12.times do |i|
-        inventory_entry = FactoryGirl.create(:inventory_entry)
-        FactoryGirl.create(:inventory_item, name: "Item #{i}", company: @company, balances: [inventory_entry])
+        inventory_entry = FactoryGirl.attributes_for(:inventory_entry)
+        FactoryGirl.create(:inventory_item,
+                           name: "Item #{i}",
+                           company: @company,
+                           entries_attributes: [inventory_entry])
       end
 
       visit root_path

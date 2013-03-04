@@ -8,28 +8,36 @@ feature "Inventory Item Management" do
 
     @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
-    @other_item = FactoryGirl.create(:inventory_item, name: "Other item", user: @other_user, company: @other_company)
+    @other_item = FactoryGirl.create(:inventory_item,
+                                     name: "Other item",
+                                     user: @other_user,
+                                     company: @other_company)
 
-    Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
-      @inventory_entry_one = FactoryGirl.create(:inventory_entry, on_sale: true)
-    end
-    Timecop.travel(Time.local(2012, 04, 21, 11, 0, 0)) do
-      @inventory_entry_two = FactoryGirl.create(:inventory_entry, on_sale: true)
-    end
-    Timecop.travel(Time.local(2012, 04, 21, 12, 0, 0)) do
-      @inventory_entry_three = FactoryGirl.create(:inventory_entry, on_sale: true)
-    end
-
-    @item = FactoryGirl.create(:inventory_item,
+    @item = FactoryGirl.create(:inventory_item_for_sale_without_entry,
                                name: "My item",
                                user: @admin_user,
-                               company: @company,
-                               balances: [
-                                 @inventory_entry_one,
-                                 @inventory_entry_two,
-                                 @inventory_entry_three
-                               ])
-    @inventory_entry_one.update_attribute(:quantity, 0)
+                               company: @company)
+
+    Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
+      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
+                                                     store_id: @company.id,
+                                                     on_sale: true)
+      @item.save
+    end
+    Timecop.travel(Time.local(2012, 04, 21, 11, 0, 0)) do
+      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
+                                                     store_id: @company.id,
+                                                     on_sale: true)
+      @item.save
+    end
+    Timecop.travel(Time.local(2012, 04, 21, 12, 0, 0)) do
+      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
+                                                     store_id: @company.id,
+                                                     on_sale: true)
+      @item.save
+    end
+
+    @item.entries.first.update_attribute(:quantity, 0)
   end
 
   describe "show page" do
@@ -66,8 +74,8 @@ feature "Inventory Item Management" do
 
           # deselects the entry with price R$ 12,00
           visit admin_inventory_item_path(@item)
-          find(".inventory_entry_on_sale.on_sale_#{@inventory_entry_two.id}").click
-          page.should have_selector(".inventory_entry_on_sale.on_sale_#{@inventory_entry_two.id}")
+          find(".inventory_entry_on_sale.on_sale_#{@item.entries.second.id}").click
+          page.should have_selector(".inventory_entry_on_sale.on_sale_#{@item.entries.second.id}")
 
           visit root_path
           page.should have_content "R$ 12,34"
@@ -113,7 +121,7 @@ feature "Inventory Item Management" do
         page.should_not have_content "My item"
       end
 
-      scenario "items without a cover image, do not appears on mais page " do
+      scenario "items without a cover image, do not appears on mais page" do
         visit root_path
         page.should have_content "My item"
 

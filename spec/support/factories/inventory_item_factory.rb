@@ -8,9 +8,9 @@ FactoryGirl.define do
     association :company
     association :taxonomy
     association :manufacturer
+    association :shipping_box
 
-    factory :inventory_item do
-      association :shipping_box
+    factory :inventory_item_for_sale_without_entry do
 
       # inventory_entry_price
       after(:create) do |item, evaluator|
@@ -19,18 +19,31 @@ FactoryGirl.define do
                            inventory_item_id: item.id)
       end
 
-      # inventory_entry
-      after(:create) do |item, evaluator|
-        FactoryGirl.create_list(:inventory_entry, 3,
-                                inventory_item: item,
-                                store_id: item.company.id)
-      end
-
       # images
       after(:create) do |item, evaluator|
         item.images << FactoryGirl.build(:inventory_item_cover_image)
         item.images << FactoryGirl.build(:inventory_item_image)
         item.save
+      end
+
+      factory :inventory_item_for_sale do
+        after(:create) do |item, evaluator|
+          FactoryGirl.create(:inventory_entry,
+                             inventory_item: item,
+                             store_id: item.company.id)
+        end
+      end
+
+      # this has 3 entries
+      factory :inventory_item do
+
+        # inventory_entry
+        after(:create) do |item, evaluator|
+          FactoryGirl.create_list(:inventory_entry, 3,
+                                  inventory_item: item,
+                                  store_id: item.company.id)
+        end
+
       end
     end
   end

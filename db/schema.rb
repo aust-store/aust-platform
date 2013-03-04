@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130303065958) do
+ActiveRecord::Schema.define(:version => 20130304003040) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -129,16 +129,12 @@ ActiveRecord::Schema.define(:version => 20130303065958) do
   create_table "inventory_entries", :force => true do |t|
     t.integer  "inventory_item_id"
     t.integer  "admin_user_id"
-    t.string   "balance_type"
     t.text     "description"
     t.decimal  "quantity"
     t.decimal  "cost_per_unit"
-    t.decimal  "moving_average_cost"
-    t.decimal  "total_quantity"
-    t.decimal  "total_cost"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.boolean  "on_sale",             :default => true
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "on_sale",           :default => true
     t.integer  "store_id"
   end
 
@@ -181,8 +177,8 @@ ActiveRecord::Schema.define(:version => 20130303065958) do
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
@@ -190,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20130303065958) do
     t.integer  "taxonomy_id"
     t.integer  "year"
     t.integer  "manufacturer_id"
+    t.decimal  "moving_average_cost", :precision => 8, :scale => 2
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"

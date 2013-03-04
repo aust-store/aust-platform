@@ -16,6 +16,10 @@ module Admin
       inventory_item.images.present?
     end
 
+    def total_quantity
+      inventory_item.total_quantity.to_i
+    end
+
     def total_quantity_summing_inventory_entries
       total = total_quantity.to_i
       if total > 0
