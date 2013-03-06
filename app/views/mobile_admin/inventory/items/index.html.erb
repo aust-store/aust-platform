@@ -1,0 +1,7 @@
+<ul>
+  <% @items.each do |item| %>
+    <li>
+      <%= link_to item.name, admin_inventory_item_path(item) %>
+    </li>
+  <% end %>
+</ul>

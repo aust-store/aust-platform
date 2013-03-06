@@ -1,3 +1,5 @@
+require "router_constraints"
+
 Store::Application.routes.draw do
   api_actions = [:index, :create, :update, :show]
 
@@ -7,11 +9,23 @@ Store::Application.routes.draw do
     root :to => 'home#index'
   end
 
-  devise_for :admin_users,
-    controllers: {
-      registrations: "admin/devise/registrations",
-      sessions: "admin/devise/sessions"
-    }
+  constraints RouterConstraints::Default.new do
+    devise_for :admin_users,
+      path: "admin",
+      controllers: {
+        registrations: "admin/devise/registrations",
+        sessions: "admin/devise/sessions"
+      }
+  end
+
+  constraints RouterConstraints::Iphone.new do
+    devise_for :admin_users,
+      path: "admin",
+      controllers: {
+        registrations: "mobile_admin/devise/registrations",
+        sessions: "mobile_admin/devise/sessions"
+      }
+  end
 
   devise_for :users,
     controllers: {
@@ -35,60 +49,83 @@ Store::Application.routes.draw do
         resources :manufacturers,   only: [:index]
       end
     end
+  end
 
-    resource :dashboard, controller: "dashboard" do
-      get 'index' => 'dashboard#index'
-    end
-
-    resources :orders, only: [:index, :show, :update, :create]
-
-    resource :settings, only: [:show, :update] do
-      resource :payment_methods, controller: 'payment_methods', only: :show, module: 'settings' do
-        resource :pagseguro_wizard, only: [:show, :update], controller: 'payment_methods/pagseguro_wizard'
+  constraints RouterConstraints::Default.new do
+    namespace :admin do
+      resource :dashboard, controller: "dashboard" do
+        get 'index' => 'dashboard#index'
       end
-    end
 
-    resources :taxonomies, only: [:index, :create, :update, :delete]
+      resources :orders, only: [:index, :show, :update, :create]
 
-    resource :inventory do
-      resources :items, controller: 'inventory/items' do
-        collection do
-          get 'new_item_or_entry'
+      resource :settings, only: [:show, :update] do
+        resource :payment_methods,
+          controller: 'payment_methods', only: :show, module: 'settings' do
 
-          resource :search, controller: 'inventory/items/search', only: [] do
-            post "index"
-            post "for_adding_entry"
-          end
+          resource :pagseguro_wizard,
+            only: [:show, :update],
+            controller: 'payment_methods/pagseguro_wizard'
         end
-
-        resources :entries, controller: 'inventory/entries',
-          only: [:index, :new, :create, :update]
-
-        resources :images, controller: 'inventory/items/images',
-          only: [:index, :destroy, :create, :update]
       end
+
+      resources :taxonomies, only: [:index, :create, :update, :delete]
+
+      resource :inventory do
+        resources :items, controller: 'inventory/items' do
+          collection do
+            resource :search, controller: 'inventory/items/search', only: [] do
+              post "index"
+              post "for_adding_entry"
+            end
+          end
+
+          resources :entries, controller: 'inventory/entries',
+            only: [:index, :new, :create, :update]
+
+          resources :images, controller: 'inventory/items/images',
+            only: [:index, :destroy, :create, :update]
+        end
+      end
+
+      resources :customers do
+        resources :account_receivables, controller: 'financial/account_receivables'
+      end
+
+      namespace :financial do
+        resources :account_receivables
+      end
+
+      namespace :store do
+        get 'dashboard' => 'dashboard#index'
+      end
+
+      resources :users
+
+      namespace :offline, module: "offline" do
+        resources :sales, only: :new
+        root :to => 'sales#new'
+      end
+
+      root :to => 'dashboard#index'
     end
+  end
 
-    resources :customers do
-      resources :account_receivables, controller: 'financial/account_receivables'
+  constraints RouterConstraints::Iphone.new do
+    namespace :admin, module: "mobile_admin" do
+      resource :dashboard, controller: "dashboard" do
+        get 'index' => 'dashboard#index'
+      end
+
+      resource :inventory do
+        resources :items, controller: 'inventory/items' do
+          resources :images, controller: 'inventory/items/images',
+            only: [:index, :destroy, :create, :update]
+        end
+      end
+
+      root to: 'inventory/items#index'
     end
-
-    namespace :financial do
-      resources :account_receivables
-    end
-
-    namespace :store do
-      get 'dashboard' => 'dashboard#index'
-    end
-
-    resources :users
-
-    namespace :offline, module: "offline" do
-      resources :sales, only: :new
-      root :to => 'sales#new'
-    end
-
-    root :to => 'dashboard#index'
   end
 
   resource :cart, only: [:show, :update], controller: "store/cart" do

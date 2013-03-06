@@ -1,0 +1,5 @@
+/*
+ *= require ./shared/defaults
+ *= require ./controllers/devise/sessions
+ *= require_self
+ */
