@@ -1,4 +1,4 @@
-module Admin
+module MobileAdmin
   module Inventory
     module Items
       class ImagesController < Admin::ApplicationController

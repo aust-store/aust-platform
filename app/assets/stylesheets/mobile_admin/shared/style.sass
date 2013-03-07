@@ -6,9 +6,12 @@ a
   color: #000
   text-decoration: none
 
+h2
+  font-size: 1.2em
+
 #global
   background: #fafafa
-  margin: 0 auto 0 auto
+  margin: 10px auto 0 auto
   width: 300px
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1)
 
@@ -27,9 +30,22 @@ a
 
   & > ul
     display: block
-    li
-      padding: 10px
+
+    li.buttons
+      border-top: 1px solid #fff
       border-bottom: 1px solid #eee
+
+      a
+        padding: 10px
+        width: 280px
+        display: table
+        text-shadow: 1px 1px 0px white
+        /* Safari 5.1, Chrome 10+ */
+        background: -webkit-linear-gradient(top, #fcfcfc, #f8f8f8)
 
     li:last-child
       border-bottom: 0
+
+.thumbs_gallery
+  .box.image
+    padding: 2px

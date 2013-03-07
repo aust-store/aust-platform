@@ -3,27 +3,29 @@
 <head>
   <title>Admin</title>
   <%= stylesheet_link_tag "mobile_admin/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "mobile_admin/application_manifest" %>
   <%= csrf_meta_tags %>
 
-  <meta name="viewport" content="width=320; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+  <meta name="viewport" content="width=320, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
 
-<div id="global">
-  <div class="global_container">
-    <div id="main">
-      <% if notice.present? %>
-        <p class="notice"><%= notice %></p>
-      <% end %>
+  <div id="global">
+    <div class="global_container">
+      <div id="main">
+        <% if notice.present? %>
+          <p class="notice"><%= notice %></p>
+        <% end %>
 
-      <% if alert.present? %>
-        <p class="alert"><%= alert %></p>
-      <% end %>
+        <% if alert.present? %>
+          <p class="alert"><%= alert %></p>
+        <% end %>
 
-      <%= yield %>
+        <%= yield %>
+      </div>
     </div>
   </div>
-</div>
 
+  <%= render "shared/context_menu_placeholder" %>
 </body>
 </html>
