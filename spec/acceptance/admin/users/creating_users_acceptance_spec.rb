@@ -2,7 +2,6 @@
 require 'acceptance_spec_helper'
 
 feature "Managing collaborators" do
-
   before do
     login_into_admin
     stub_subdomain(@admin_user.company)
