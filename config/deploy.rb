@@ -13,7 +13,7 @@ set :scm, :git
 
 set :use_sudo, false
 set :scm, :git
-set :branch, :master
+set :branch, "master"
 set :deploy_via, :remote_cache
 set :scm_verbose, true
 #set :domain, "example.com"

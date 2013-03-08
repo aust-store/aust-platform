@@ -12,7 +12,21 @@
 
   <div id="global">
     <div class="global_container">
-      <div id="main">
+      <section id="search">
+        <div class="search_container">
+          <div class="search_input">
+            <input
+              name="search"
+              data-results=".search_results"
+              data-url="<%= admin_api_inventory_items_url %>"
+              autocomplete="off" />
+          </div>
+          <div class="search_results" data-show-url-prefix="<%= admin_inventory_items_url %>">
+          </div>
+        </div>
+        <%= image_tag "mobile_admin/icons/search.png", class: "magnifying_glass" %>
+      </section>
+      <section id="main">
         <% if notice.present? %>
           <p class="notice"><%= notice %></p>
         <% end %>
@@ -22,10 +36,11 @@
         <% end %>
 
         <%= yield %>
-      </div>
+      </section>
     </div>
   </div>
 
   <%= render "shared/context_menu_placeholder" %>
+  <%= render "mobile_admin/shared/search_results_template" %>
 </body>
 </html>

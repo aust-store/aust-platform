@@ -6,7 +6,7 @@ class MobileAdmin::Inventory::ItemsController < MobileAdmin::ApplicationControll
   def index
     respond_to do |format|
       format.html do
-        items  = current_company.items.last(50)
+        items  = current_company.items.order('id desc').limit(6)
         @items = DecorationBuilder.inventory_items(items)
       end
 
