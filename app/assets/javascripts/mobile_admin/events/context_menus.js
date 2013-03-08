@@ -17,4 +17,8 @@ $(document).ready(function(){
   $("#js_image_management").on("mouseleave", "div.box.image", function(e){
     contextMenu.hide();
   });
+
+  $('html').on("click mouseenter", function() {
+    contextMenu.hide();
+  });
 });
