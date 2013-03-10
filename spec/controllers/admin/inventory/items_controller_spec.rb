@@ -28,7 +28,7 @@ describe Admin::Inventory::ItemsController do
       subject.stub_chain(:current_company, :items, :find) { item }
       Store::Policy::ItemOnSale.stub_chain(:new, :on_sale?) { :on_sale }
       item.stub(:taxonomy) { taxonomy }
-      item.stub_chain(:images, :order, :limit, :dup) { :images }
+      item.stub_chain(:images, :default_order, :limit, :dup) { :images }
       item.stub(:all_entries_available_for_sale)
     end
 
