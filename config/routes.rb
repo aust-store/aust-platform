@@ -113,10 +113,6 @@ Store::Application.routes.draw do
 
   constraints RouterConstraints::Iphone.new do
     namespace :admin, module: "mobile_admin" do
-      resource :dashboard, controller: "dashboard" do
-        get 'index' => 'dashboard#index'
-      end
-
       resource :inventory do
         resources :items, controller: 'inventory/items' do
           resources :images, controller: 'inventory/items/images',
