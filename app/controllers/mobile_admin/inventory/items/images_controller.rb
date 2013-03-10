@@ -38,7 +38,7 @@ module MobileAdmin
         end
 
         def load_item_images
-          @item.images.order("id desc, cover desc").dup
+          @item.images.default_order.dup
         end
       end
     end

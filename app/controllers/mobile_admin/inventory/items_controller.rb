@@ -21,7 +21,7 @@ class MobileAdmin::Inventory::ItemsController < MobileAdmin::ApplicationControll
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
 
-    @item_images       = @item.images.order("cover desc").dup
+    @item_images       = @item.images.default_order.dup
 
     @inventory_entries = @item.all_entries_available_for_sale
     @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)
