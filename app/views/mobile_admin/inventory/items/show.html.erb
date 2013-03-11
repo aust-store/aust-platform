@@ -13,7 +13,7 @@
         remote: true
   ) do |f| %>
     <%= f.simple_fields_for :images, @item.images.last do |image| %>
-      <%= image.file_field :image %>
+      <%= image.file_field :image, accept: "image/*" %>
       <br /><br />
       <%= f.submit  'Enviar arquivo' %>
     <% end %>
