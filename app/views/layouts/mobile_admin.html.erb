@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin</title>
+  <%= stylesheet_link_tag "mobile_admin/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "mobile_admin/application_manifest" %>
+  <%= csrf_meta_tags %>
+
+  <meta name="viewport" content="width=320, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
+
+  <div id="global">
+    <div class="global_container">
+      <section id="search">
+        <div class="search_container">
+          <div class="search_input">
+            <input
+              name="search"
+              data-results=".search_results"
+              data-url="<%= admin_api_inventory_items_url %>"
+              placeholder="Pesquisar items"
+              autocomplete="off" />
+          </div>
+          <div class="search_results" data-show-url-prefix="<%= admin_inventory_items_url %>">
+          </div>
+        </div>
+        <%= image_tag "mobile_admin/icons/search.png", class: "magnifying_glass" %>
+      </section>
+      <section id="main">
+        <% if notice.present? %>
+          <p class="notice"><%= notice %></p>
+        <% end %>
+
+        <% if alert.present? %>
+          <p class="alert"><%= alert %></p>
+        <% end %>
+
+        <%= yield %>
+      </section>
+    </div>
+  </div>
+
+  <%= render "shared/context_menu_placeholder" %>
+</body>
+</html>

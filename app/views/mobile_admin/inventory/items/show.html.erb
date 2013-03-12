@@ -1,0 +1,27 @@
+<section>
+  <h1>
+    <%= @item.name %>
+  </h1>
+
+  <%= simple_form_for(
+        :item,
+        url: admin_inventory_item_images_path(item_id: @item.id),
+        html: { multipart: true,
+                class: "form-upload image",
+                data: { update: ".images" }
+        },
+        remote: true
+  ) do |f| %>
+    <%= f.simple_fields_for :images, @item.images.last do |image| %>
+      <%= image.file_field :image, accept: "image/*" %>
+      <br /><br />
+      <%= f.submit  'Enviar arquivo' %>
+    <% end %>
+  <% end %>
+  <span class="images_container_for_ajax" id="js_image_management">
+    <div class='images'>
+      <%= render partial: "shared/images", locals: { images: @item_images } %>
+    </div>
+  </div>
+
+</section>

@@ -18,6 +18,12 @@ describe Admin::Api::InventoryItemsController do
       json = ActiveSupport::JSON.decode(response.body)
       json.should == {
         "inventory_items" => [
+          { "id"                => item_not_on_sale.id,
+            "name"              => item_not_on_sale.name,
+            "description"       => item_not_on_sale.description,
+            "price"             => 0,
+            "entry_for_sale_id" => nil,
+            "on_sale"           => false },
           { "id"                => item.id,
             "name"              => item.name,
             "description"       => item.description,

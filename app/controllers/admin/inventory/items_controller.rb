@@ -21,7 +21,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
 
-    @item_images       = @item.images.order("cover desc").limit(10).dup
+    @item_images       = @item.images.default_order.limit(10).dup
 
     @inventory_entries = @item.all_entries_available_for_sale
     @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)

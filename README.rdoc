@@ -1,7 +1,5 @@
 This project is an e-commerce in a SaaS model.
 
-== Installing
-
 === Using subdomains locally
 
 The app requires subdomains. To be able to develop in the local machine, follow
@@ -18,8 +16,8 @@ these steps:
 127.0.0.1 www.store.i
 127.0.0.1 mystore.store.i
 127.0.0.1 choose_a_store_name.store.i
-127.0.0.1 petshop.com.br
-127.0.0.1 www.petshop.com.br
+127.0.0.1 petshop.com
+127.0.0.1 www.petshop.com
 ```
 
 The first line above is going to tunnel `http://store.i:3000` to `http://localhost:3000`.
@@ -40,6 +38,28 @@ the subdomain with the store you have locally.
 
 On Rails, you can read the current subdomain in a controller via
 `request.subdomain`.
+
+=== Accessing the mobile site on Chrome
+
+On Google Chrome web browser, go to the menu View -> Developer -> Developer
+Tools (Alt+Cmd+I on Mac). On the bottom right of the developer tools panel,
+click on the gear icon (settings).
+
+1) Open the tab called `Override`
+
+2) Check `User Agent` and select `Other...`. Paste the following in the text
+input:
+
+`Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3`
+
+(note iPhone 6_0 in the string; that's the important part)
+
+3) Now, check `Device metrics` and enter the following values:
+
+```
+Screen resolution: 320x470
+Font scale factor: 1
+```
 
 === Environments
 

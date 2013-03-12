@@ -1,0 +1,10 @@
+<h1 class="index">
+  Últimos itens
+</h1>
+<ul>
+  <% @items.each do |item| %>
+    <li class="buttons">
+      <%= link_to item.name, admin_inventory_item_path(item) %>
+    </li>
+  <% end %>
+</ul>

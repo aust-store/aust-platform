@@ -1,0 +1,17 @@
+<div class="main_container section">
+  <h2>Imagens atuais</h2>
+
+  <div class="thumbs_gallery">
+    <% images.each do |image| %>
+      <div class="box image">
+        <div class="image_container">
+          <%= image_tag image.image.url(:medium), width: 60 %>
+        </div>
+
+        <% if false && image.cover? %>
+          <div class="cover">Capa</div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
