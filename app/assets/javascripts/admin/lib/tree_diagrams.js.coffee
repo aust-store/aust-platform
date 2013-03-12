@@ -73,7 +73,6 @@ class window.TreeDiagrams
     _that = _this
     @tree_dom_element().on 'click', '.node.js_node > .box', (e) =>
       _this = $(e.currentTarget)
-      console.log _this.html()
 
       node_content = _this.html()
       _this.attr('data-original-content', node_content)

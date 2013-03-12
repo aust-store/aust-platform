@@ -13,6 +13,7 @@
 #= require_tree ./templates/
 
 window.App = Ember.Application.create
+  LOG_TRANSITIONS: true
   ready: ->
     console.log "App is running"
     console.log Ember.TEMPLATES

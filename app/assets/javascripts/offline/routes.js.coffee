@@ -5,6 +5,7 @@ App.Router.reopen
 App.Router.map ->
   this.resource 'carts', ->
     this.route 'new'
+  this.resource 'orders', ->
 
 App.CartsIndexRoute = Ember.Route.extend
   model: ->
@@ -17,3 +18,7 @@ App.CartsNewRoute = Ember.Route.extend
 
   setupController: (controller, model) ->
     controller.set('content', model)
+
+App.OrdersIndexRoute = Ember.Route.extend
+  model: ->
+    App.Order.find environment: "offline"

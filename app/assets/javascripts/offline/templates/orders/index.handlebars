@@ -1,0 +1,19 @@
+<h1>Todos os pedidos</h1>
+
+<table class="listing orders">
+
+  <thead>
+    <th>Valor</th>
+    <th></th>
+  </thead>
+
+  <tbody>
+    {{#each controller}}
+      <tr class="even">
+        <td>R$ {{total}}</td>
+        <td>{{humanDate created_at}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+
+</table>

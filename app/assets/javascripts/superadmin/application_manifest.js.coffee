@@ -14,8 +14,7 @@
 
 window.App = Ember.Application.create(
   autoinit: false,
-  ready: ->
-
+  LOG_TRANSITIONS: false
 )
 
 App.store = DS.Store.create(

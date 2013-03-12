@@ -17,7 +17,6 @@ describe 'TreeDiagrams', ->
       node.find('.box').trigger(event)
 
       box = node.find('.box')
-      console.log node.html()
       box.find('input').hasClass('js_edit_node_input').should.equal(true)
       box.find('input').val().should.equal('Fluminense')
 
