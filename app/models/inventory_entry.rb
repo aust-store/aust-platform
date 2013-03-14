@@ -14,6 +14,7 @@ class InventoryEntry < ActiveRecord::Base
     numericality: { greater_than: 0 }, on: :create
 
   before_create :define_new_balance_values
+  before_create :define_company_on_create
 
   scope :on_sale, lambda {
     where("inventory_entries.on_sale = ?", true).all_entries_available_for_sale
@@ -28,5 +29,11 @@ class InventoryEntry < ActiveRecord::Base
 
   def define_new_balance_values
     Context::ItemMovingAverageCostDefinition.new(self).define
+  end
+
+  private
+
+  def define_company_on_create
+    self.store_id = self.inventory_item.company_id
   end
 end

@@ -44,5 +44,29 @@ describe InventoryEntry do
         @item.reload
       end
     end
+
+    describe "#define_company_id on before_create" do
+      context "when creating a new item with an embedded new entry" do
+        it "sets entry's company the same as the item" do
+          @entry1 = FactoryGirl.attributes_for(:inventory_entry,
+                                               quantity: 14, cost_per_unit: 40)
+          @item = FactoryGirl.create(:inventory_item_without_associations,
+                                     entries_attributes: [@entry1])
+          @item.reload
+          @item.entries.first.store_id.should == @item.company.id
+        end
+      end
+
+      context "when adding to existing item" do
+        it "has the correct values" do
+          @item = FactoryGirl.create(:inventory_item_without_associations)
+          FactoryGirl.create(:inventory_entry, inventory_item: @item)
+          InventoryEntry.last.store_id.should == @item.company.id
+        end
+      end
+
+      def create_entry(item, quantity, cost_per_unit)
+      end
+    end
   end
 end

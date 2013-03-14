@@ -74,10 +74,6 @@ class InventoryItem < ActiveRecord::Base
     self.balances.all_entries_available_for_sale.all
   end
 
-  def associate_with_inventory
-    self.inventory = self.company.inventory
-  end
-
   def total_quantity
     entries.sum(:quantity)
   end
@@ -98,5 +94,11 @@ class InventoryItem < ActiveRecord::Base
       self.shipping_box.destroy unless self.shipping_box.dependent_fields_present?
     end
     true
+  end
+
+  private
+
+  def associate_with_inventory
+    self.inventory = self.company.inventory
   end
 end
