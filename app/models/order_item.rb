@@ -30,32 +30,34 @@ class OrderItem < ActiveRecord::Base
   def update_quantity(quantity)
     quantity = 0 if quantity < 0
     quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
-    
     quantity = quantity.to_s.to_i
 
-    if quantity > 0
-      if quantity > (children.count + 1)
-        create_order_items_chidren(quantity)
-      elsif quantity < (children.count + 1)
-        ((children.count + 1) - quantity).times do
-          children.last.destroy
+    if quantity != self.quantity
+      if quantity > 0
+        if quantity > self.quantity
+          create_order_items_chidren(quantity)
+        elsif quantity < self.quantity
+          (self.quantity - quantity).times do
+            children.last.destroy
+          end
         end
+      else
+        delete_all_children
+        self.quantity = 0
       end
-    else
-      delete_all_order_items
     end
   end
 
   def create_order_items_chidren(quantity)
     parent_attributes = self.attributes
-    (quantity - 1).times do
+    parent_attributes.delete("updated_at")
+    (quantity - self.quantity).times do
       children << children.build(parent_attributes)
     end
   end
 
-  def delete_all_order_items
+  def delete_all_children
     children.destroy_all
-    self.destroy
   end
 
   def name
@@ -67,7 +69,11 @@ class OrderItem < ActiveRecord::Base
   end
 
   def quantity
-    super.to_i
+    children.count + 1
+  end
+
+  def only_parents
+    where(related_id: nil).all
   end
 
   def self.statuses

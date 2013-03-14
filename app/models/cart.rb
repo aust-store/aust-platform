@@ -16,8 +16,12 @@ class Cart < ActiveRecord::Base
     create(params.merge(environment: :offline))
   end
 
+  def all_items
+    self.items.where(related_id: nil).all
+  end
+
   def total
-    Store::Order::PriceCalculation.calculate(items)
+    Store::Order::PriceCalculation.calculate(all_items)
   end
 
   def current_inventory_entry(id)
@@ -38,7 +42,8 @@ class Cart < ActiveRecord::Base
   end
 
   def item_already_in_cart(inventory_entry)
-    items.where("price = ?", inventory_entry.inventory_item.price).first
+    products = items.where("price = ?", inventory_entry.inventory_item.price)
+    product  = products.where(related_id: nil).first
   end
 
   def create_item_into_cart(entry)
@@ -59,7 +64,6 @@ class Cart < ActiveRecord::Base
   end
 
   def update_item_quantity(item, quantity)
-    #product = item_already_in_cart(item.inventory_entry)
     item.update_quantity(quantity) if quantity.present?
   end
 

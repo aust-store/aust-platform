@@ -62,70 +62,77 @@ describe OrderItem do
     end
   end
 
-  describe "#update_quantity", wip: true do
+  describe "#update_quantity" do
     let(:item) { OrderItem.new }
 
     before do
-      item.stub_chain(:inventory_entry, :quantity) { 5 }
+      item.stub_chain(:inventory_entry, :quantity) { 10 }
+
+      @order = FactoryGirl.create(:order)
+      @item  = @order.items.first
     end
 
-    it "clones an existing order item with the same attributes" do
-      order = FactoryGirl.create(:order)
-      item  = order.items.first
-      item.price = 12
-      item.save
+    context "given a higher quantity than an existent" do
+      it "creates children with the same attributes of an existing order item" do
+        @item.price = 12
+        @item.save
 
-      item.update_quantity(3)
+        @item.update_quantity(3)
 
-      # There's 4 diferent order items already created by order factory.
-      item.children.count.should == 2
-      order.items.count.should   == 6
+        # There's another 3 different order items already created by order factory.
+        @item.children.count.should == 2
+        @order.items  .count.should == 6
 
-      last_items = order.items.first(3)
-      last_items.each do |item|
-        item.price.to_s.should == "12.0"
+        changed_items = @order.items.first(3)
+        changed_items.each do |item|
+          item.price.to_s.should == "12.0"
+        end
+      end
+
+      it "limits the number of children to the same quantity in the inventory, parent is included in the calculation" do
+        @item.inventory_entry.update_attribute(:quantity, 10)
+
+        @item.update_quantity(15)
+
+        # There's another 3 different order items already created by order factory.
+        @order.items  .count.should == 13
+        @item.children.count.should == 9
+      end
+
+      it "limits the order item's quantity to 1, even when a higher number is given" do
+        @item.update_quantity(15)
+        @item.quantity.should == 1
       end
     end
 
-    it "destroys all order_items when quantity is zero" do
-      order = FactoryGirl.create(:order)
-      item  = order.items.first
+    context "given a lower number than an existent, including zero" do
+      it "destroys last created children when quantity is less than a existent quantity given before" do
+        @order.items.count.should   == 4
 
-      item.update_quantity(0)
+        @item.update_quantity(4)
+        @item.children.count.should == 3
+        @order.items  .count.should == 7
 
-      # There's 4 diferent order items already created by order factory.
-      order.items.count.should == 3
+        # There's 4 diferent order items already created by order factory.
+        @item.update_quantity(1)
+        @item.children.count.should == 0
+        @order.items  .count.should == 4
+      end
 
-    end
+      it "destroys all order item's children and sets its quantity to zero when the quantity is zero" do
+        @item.quantity.should == 4
 
-    it "destroys last created children when quantity is less than a existent quantity given before" do
-      order = FactoryGirl.create(:order)
-      item  = order.items.first
-      item.inventory_entry.update_attribute(:quantity, 10)
+        @item.update_quantity(4)
+        @item.children.count.should == 3
+        @order.items  .count.should == 7
 
-      order.items.count.should   == 4
-      item.update_quantity(4)
-      item.children.count.should == 3
-      order.items.count.should   == 7
+        # There's 4 diferent order items already created by order factory
+        @item.update_quantity(0)
 
-      # There's 4 diferent order items already created by order factory.
-      item.update_quantity(0)
-      item.children.count.should == 0
-      order.items.count.should   == 3
-
-      item.update_quantity(1)
-      item.children.count.should == 0
-      order.items.count.should   == 4
-    end
-
-    it "limits the number of clones to the same quantity in the inventory" do
-      order = FactoryGirl.create(:order)
-      item  = order.items.first
-
-      item.inventory_entry.update_attribute(:quantity, 5)
-
-      item.update_quantity(15)
-      order.items.count.should == 8
+        @item.children.count.should == 0
+        @order.items  .count.should == 4
+        @item.quantity      .should == 0
+      end
     end
   end
 end

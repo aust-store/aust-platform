@@ -31,7 +31,7 @@ module Store
     end
 
     def all_items
-      persistence.items.all
+      persistence.all_items
     end
 
     def total_items_quantity

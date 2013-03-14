@@ -63,7 +63,6 @@
         <tr>
           <th>ID</th>
           <th>Nome</th>
-          <th>Quantidade</th>
           <th>Preço unitário</th>
           <th>Opções</th>
         </tr>
@@ -73,7 +72,6 @@
         <tr class="<%= cycle('odd', 'even') %>">
           <td> <%= item_form.object.id %> </td>
           <td> <%= item_form.object.name %> </td>
-          <td> <%= item_form.object.quantity %> </td>
           <td> <%= item_form.object.price %> </td>
           <td class="options">
             <%= item_form.input :status,
