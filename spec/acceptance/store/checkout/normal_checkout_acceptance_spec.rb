@@ -13,9 +13,7 @@ feature "Store cart" do
 
     # bypass the gateway step, leading the user directly from the
     # "finish order" to the success page
-    Store::Payment::Pagseguro::Checkout.stub(:new) { pagseguro }
-    pagseguro.stub(:create_transaction)
-    pagseguro.stub(:payment_url) { checkout_success_path }
+    ::PagSeguro::Payment.any_instance.stub(:checkout_payment_url) { checkout_success_path }
   end
 
   describe "checkout process" do
@@ -41,6 +39,7 @@ feature "Store cart" do
 
       page.should have_content I18n.t('store.checkout.shipping.show.page_title')
 
+      # Final button before user goes to PagSeguro
       within(".edit_cart") do
         find("[name='place_order']").click
       end

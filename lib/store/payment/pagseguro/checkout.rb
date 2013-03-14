@@ -11,14 +11,14 @@ module Store
         end
 
         def create_transaction
-          @payment = PagSeguro::Payment.new(
+          @payment = ::PagSeguro::Payment.new(
             gateway_email,
             gateway_token,
             id: order.id,
             redirect_url: @controller.after_payment_return_url(:pagseguro))
 
           set_sender
-          set_shipping if order.shipping_options.present?
+          set_shipping if order.shipping_details.present?
           set_items
 
           @payment_url = payment.checkout_payment_url
@@ -37,7 +37,7 @@ module Store
         end
 
         def set_shipping
-          shipping_type = case order.shipping_options.service_type
+          shipping_type = case order.shipping_details.service_type
                           when 'pac'
                             PagSeguro::Shipping::PAC
                           when 'sedex'
@@ -48,7 +48,7 @@ module Store
 
           payment.shipping = PagSeguro::Shipping.new(
             type:        shipping_type,
-            cost:        order.shipping_options.price.to_s("F"),
+            cost:        order.shipping_details.price.to_s("F"),
             state:       order.shipping_address.state,
             city:        order.shipping_address.city,
             postal_code: order.shipping_address.zipcode,
@@ -59,7 +59,7 @@ module Store
         end
 
         def set_items
-          order.all_items.each do |item|
+          order.items.each do |item|
             payment.items << PagSeguro::Item.new(
               id:          item.id,
               description: item.name,

@@ -8,7 +8,7 @@ module Store
         flush_cart
         pagseguro = Store::Payment::Pagseguro::Checkout.new(self, order)
         pagseguro.create_transaction
-        redirect_to pagseguro.payment_url and return
+        redirect_to pagseguro.payment_url
       end
 
       def after_payment_return_url(gateway)
