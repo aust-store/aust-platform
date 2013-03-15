@@ -98,7 +98,7 @@ describe Store::Cart do
       persisted_cart = double(id: 1)
       subject.stub(:persistence) { persisted_cart }
 
-      persisted_cart.stub_chain(:items, :all) { [:items] }
+      persisted_cart.stub_chain(:all_items) { [:items] }
       subject.all_items.should == [:items]
     end
   end

@@ -17,7 +17,7 @@ class Cart < ActiveRecord::Base
   end
 
   def all_items
-    self.items.where(related_id: nil).all
+    self.items.all_parent_items
   end
 
   def total
@@ -43,7 +43,7 @@ class Cart < ActiveRecord::Base
 
   def item_already_in_cart(inventory_entry)
     products = items.where("price = ?", inventory_entry.inventory_item.price)
-    product  = products.where(related_id: nil).first
+    product  = products.all_parent_items.first
   end
 
   def create_item_into_cart(entry)

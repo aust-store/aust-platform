@@ -33,38 +33,27 @@ feature "Orders Management" do
         click_link "Adicionar ao carrinho"
       end
 
-      order_items = OrderItem.all
-
       page.should have_content "Goodyear"
 
       OrderItem.count.should == 3
 
-      # cart status at the top of the page
       within ".cart_status" do
         page.should have_content "Você possui 3 itens no carrinho."
       end
 
-      # then
-      #
-      # changes the quantity
       order_item_id = OrderItem.where(related_id: nil).first.id
       fill_in "cart[item_quantities][#{order_item_id}]", with: "4"
       click_button "Atualizar carrinho"
 
       OrderItem.count.should == 4
 
-      order_items = OrderItem.all
-
-
-      # quantity field has a 3
-      
-      #find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "3"
-      
-      # price
       within ".items_total .total_price" do
         page.should have_content "R$ 49,36" # 4 x R$ 12,34
       end
 
+      #admin
+
+      order_items = OrderItem.all
       login_into_admin
 
       order = FactoryGirl.create(:order, store_id: @company.id)
@@ -72,26 +61,12 @@ feature "Orders Management" do
       order_items.each { |item| order.items << item }
       order.save
 
-      visit admin_order_path(order.id)
-
-      within "table.listing" do
-        page.should have_content "Goodyear"
-      end
-
-      puts OrderItem.all.each { |item| puts item.status }
-      
-      select "Enviado", from: "order_items_attributes_#{order.items.first.id}_status"
-      
-      click_button "Atualizar pedido"
-
-      puts Order.all.each { |order| puts order.items.inspect  }
-      puts "=============="
-
-      order.save
-
-      puts order.items.each { |item| puts item.status }
+      visit admin_order_path(order)
 
       save_and_open_page
+      select "Enviado", from: "order_items_attributes_0_status"
+      
+      click_button "Atualizar pedido"
     end
   end
 end

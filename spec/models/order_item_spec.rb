@@ -99,9 +99,11 @@ describe OrderItem do
         @item.children.count.should == 9
       end
 
-      it "limits the order item's quantity to 1, even when a higher number is given" do
-        @item.update_quantity(15)
-        @item.quantity.should == 1
+      it "the order item's quantity should be the equal the sum of it's children + 1" do
+        @item.inventory_entry.update_attribute(:quantity, 10)
+        @item.update_quantity(10)
+        @item.quantity.should == 10
+        @item.children.count.should == 9
       end
     end
 
@@ -109,9 +111,9 @@ describe OrderItem do
       it "destroys last created children when quantity is less than a existent quantity given before" do
         @order.items.count.should   == 4
 
-        @item.update_quantity(4)
-        @item.children.count.should == 3
-        @order.items  .count.should == 7
+        @item.update_quantity(3)
+        @item.children.count.should == 2
+        @order.items  .count.should == 6
 
         # There's 4 diferent order items already created by order factory.
         @item.update_quantity(1)
@@ -120,7 +122,8 @@ describe OrderItem do
       end
 
       it "destroys all order item's children and sets its quantity to zero when the quantity is zero" do
-        @item.quantity.should == 4
+        @item.quantity = 1
+        @item.quantity.should == 1
 
         @item.update_quantity(4)
         @item.children.count.should == 3

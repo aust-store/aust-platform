@@ -5,7 +5,7 @@ describe Cart do
     it "returns the result of a price calculation" do
       cart = Cart.new
       Store::Order::PriceCalculation.stub(:calculate).with(:items) { :total }
-      cart.stub(:items) { :items }
+      cart.stub_chain(:items, :all_parent_items) { :items }
       expect(cart.total).to eq :total
     end
   end
@@ -80,12 +80,13 @@ describe Cart do
     end
 
     it "returns true if item already exists in the cart with same price" do
-      cart.items.stub(:where).with("price = ?", 10) { double(first: :item) }
+      items.stub_chain(:all_parent_items) { :item }
+      cart.items.stub(:where).with("price = ?", 10) { double(all_parent_items: double(first: :item)) }
       cart.item_already_in_cart(entry).should == :item
     end
 
     it "returns false if item is not in the cart" do
-      cart.items.stub(:where).with("price = ?", 10) { double(first: []) }
+      cart.items.stub(:where).with("price = ?", 10) { double(all_parent_items: double(first:[])) }
       cart.item_already_in_cart(entry).should == []
     end
   end
@@ -168,7 +169,7 @@ describe Cart do
 
   describe "#convert_into_order" do
     it "creates an order based on the cart" do
-      cart = FactoryGirl.create(:cart, environment: :offline)
+      cart = FactoryGirl.create(:offline_cart)
       returned_value = cart.convert_into_order
       order = Order.where(cart_id: cart.id).first
 
@@ -178,9 +179,9 @@ describe Cart do
 
       # order attributes should match the cart's
       order.environment.should == "offline"
-      order.cart_id.should == cart.id
-      order.user_id.should == cart.user_id
-      order.store.should   == cart.company
+      order.cart_id    .should == cart.id
+      order.user_id    .should == cart.user_id
+      order.store      .should == cart.company
 
       # cart items are copied as well
       cart.items.each do |item|

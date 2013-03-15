@@ -5,13 +5,17 @@ FactoryGirl.define do
     end
 
     association :shipping_address, factory: :address
-    association :shipping_details, factory: :order_shipping
     association :user
     environment :website
 
     # order_item
     after(:create) do |order, evaluator|
-      evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }
+      #evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }n
+      4.times do
+        item = FactoryGirl.create(:order_item)
+        item.quantity = 4
+        order.items << item
+      end
       order.save
     end
 
@@ -24,6 +28,7 @@ FactoryGirl.define do
     end
 
     factory :order do
+      association :shipping_details, factory: :order_shipping
       association :store, factory: :company
     end
 
