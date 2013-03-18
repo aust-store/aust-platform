@@ -31,6 +31,8 @@ pt_br:
       admin_user:
         password: "Senha"
         password_confirmation: "Confirmação de senha"
+      page:
+        title: "Título"
       company:
         name: "Nome da empresa"
         domain: "Domínio"
@@ -133,6 +135,10 @@ pt_br:
               blank: "Você deve inserir seu número residencial ou celular."
             mobile_area_number:
               blank: "Insira o DDD."
+        page:
+          attributes:
+            title:
+              blank: "%{attribute} não pode ser vazio."
         admin_user:
           attributes:
             name:

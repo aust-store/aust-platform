@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304003040) do
+ActiveRecord::Schema.define(:version => 20130309232957) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -134,8 +134,8 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
     t.decimal  "cost_per_unit"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
-    t.boolean  "on_sale",           :default => true
     t.integer  "store_id"
+    t.boolean  "on_sale",           :default => true
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
@@ -214,12 +214,14 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.string   "status"
+    t.integer  "related_id"
   end
 
   add_index "order_items", ["cart_id"], :name => "index_order_items_on_cart_id"
   add_index "order_items", ["inventory_entry_id"], :name => "index_order_items_on_inventory_entry_id"
   add_index "order_items", ["inventory_item_id"], :name => "index_order_items_on_inventory_item_id"
   add_index "order_items", ["order_id"], :name => "index_order_items_on_order_id"
+  add_index "order_items", ["related_id"], :name => "index_order_items_on_related_id"
   add_index "order_items", ["status"], :name => "index_order_items_on_status"
 
   create_table "order_shippings", :force => true do |t|
@@ -250,6 +252,16 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
   add_index "orders", ["environment"], :name => "index_orders_on_environment"
   add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+
+  create_table "pages", :force => true do |t|
+    t.text     "title"
+    t.text     "body"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "pages", ["company_id"], :name => "index_pages_on_company_id"
 
   create_table "payment_gateways", :force => true do |t|
     t.integer  "store_id"

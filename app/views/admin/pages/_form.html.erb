@@ -1,0 +1,11 @@
+<div class="main_container">
+
+  <%= simple_form_for [:admin, @page] do |f| %>
+
+    <%= f.input :title, as: :string, required: false %>
+
+    <%= f.submit "Salvar" %>
+
+  <% end %>
+
+</div>

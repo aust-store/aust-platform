@@ -341,6 +341,43 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 
 
 --
+-- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_entries (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    admin_user_id integer,
+    description text,
+    quantity numeric,
+    cost_per_unit numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    store_id integer,
+    on_sale boolean DEFAULT true
+);
+
+
+--
+-- Name: good_balances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE good_balances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: good_balances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE good_balances_id_seq OWNED BY inventory_entries.id;
+
+
+--
 -- Name: inventories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -369,43 +406,6 @@ CREATE SEQUENCE inventories_id_seq
 --
 
 ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
-
-
---
--- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE inventory_entries (
-    id integer NOT NULL,
-    inventory_item_id integer,
-    admin_user_id integer,
-    description text,
-    quantity numeric,
-    cost_per_unit numeric,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    on_sale boolean DEFAULT true,
-    store_id integer
-);
-
-
---
--- Name: inventory_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE inventory_entries_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: inventory_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 
 
 --
@@ -593,7 +593,8 @@ CREATE TABLE order_items (
     order_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status character varying(255)
+    status character varying(255),
+    related_id integer
 );
 
 
@@ -685,6 +686,40 @@ CREATE SEQUENCE orders_id_seq
 --
 
 ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
+
+
+--
+-- Name: pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pages (
+    id integer NOT NULL,
+    title text,
+    body text,
+    company_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    admin_user_id integer
+);
+
+
+--
+-- Name: pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
@@ -966,7 +1001,7 @@ ALTER TABLE ONLY inventories ALTER COLUMN id SET DEFAULT nextval('inventories_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('inventory_entries_id_seq'::regclass);
+ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('good_balances_id_seq'::regclass);
 
 
 --
@@ -1023,6 +1058,13 @@ ALTER TABLE ONLY order_shippings ALTER COLUMN id SET DEFAULT nextval('order_ship
 --
 
 ALTER TABLE ONLY orders ALTER COLUMN id SET DEFAULT nextval('orders_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regclass);
 
 
 --
@@ -1125,6 +1167,14 @@ ALTER TABLE ONLY customers
 
 
 --
+-- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1146,14 +1196,6 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
-
-
---
--- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1205,6 +1247,14 @@ ALTER TABLE ONLY orders
 
 
 --
+-- Name: pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: payment_gateways_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1249,6 +1299,20 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
+
+
+--
+-- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
+
+
+--
+-- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
@@ -1476,6 +1540,13 @@ CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id)
 
 
 --
+-- Name: index_order_items_on_related_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_items_on_related_id ON order_items USING btree (related_id);
+
+
+--
 -- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1522,6 +1593,20 @@ CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
 --
 
 CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
+
+
+--
+-- Name: index_pages_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pages_on_admin_user_id ON pages USING btree (admin_user_id);
+
+
+--
+-- Name: index_pages_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pages_on_company_id ON pages USING btree (company_id);
 
 
 --
@@ -1759,6 +1844,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130209072541');
 
 INSERT INTO schema_migrations (version) VALUES ('20130213041013');
 
+INSERT INTO schema_migrations (version) VALUES ('20130215020517');
+
 INSERT INTO schema_migrations (version) VALUES ('20130217201429');
 
 INSERT INTO schema_migrations (version) VALUES ('20130217202510');
@@ -1782,3 +1869,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130303065958');
 INSERT INTO schema_migrations (version) VALUES ('20130304002307');
 
 INSERT INTO schema_migrations (version) VALUES ('20130304003040');
+
+INSERT INTO schema_migrations (version) VALUES ('20130309232957');
+
+INSERT INTO schema_migrations (version) VALUES ('20130317211352');
