@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
   end
 
   def items_quantity
-    items.map(&:quantity).reduce(:+)
+    items.all_parent_items.map(&:quantity).reduce(:+)
   end
 
   def summary

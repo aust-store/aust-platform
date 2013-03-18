@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe OrderItem do
+  before do
+    @order = FactoryGirl.create(:order)
+    @item  = @order.items.first
+    @item.stub_chain(:inventory_entry, :quantity) { 10 }
+  end
+
   describe "callbacks" do
     describe "#set_status_as_pending on before_validation" do
       it "sets the status field to pending" do
@@ -62,16 +68,27 @@ describe OrderItem do
     end
   end
 
-  describe "#update_quantity" do
-    let(:item) { OrderItem.new }
+  describe "#quantity_with_children" do
+    it "returns a the sum of children count + 1(parent)" do
+      @item.update_quantity(5)
 
-    before do
-      item.stub_chain(:inventory_entry, :quantity) { 10 }
+      @item.children.count.should == 4
+      @item.quantity_with_children.should == 5
+    end
+  end
 
-      @order = FactoryGirl.create(:order)
-      @item  = @order.items.first
+  describe "#sanitize_quantity" do
+    it "returns 0 if the given quantity is inferior to zero" do
+      @item.sanitize_quantity(-1).should == 0
     end
 
+    it "returns remaining entries in stock if the given quantity is higher than that" do
+      # There's 10 remaining entries in stock already stubbed before.
+      @item.sanitize_quantity(11).should == 10
+    end
+  end
+
+  describe "#update_quantity" do
     context "given a higher quantity than an existent" do
       it "creates children with the same attributes of an existing order item" do
         @item.price = 12
@@ -83,15 +100,14 @@ describe OrderItem do
         @item.children.count.should == 2
         @order.items  .count.should == 6
 
-        changed_items = @order.items.first(3)
+        changed_items = @order.items.where(related_id: !nil)
         changed_items.each do |item|
           item.price.to_s.should == "12.0"
         end
       end
 
       it "limits the number of children to the same quantity in the inventory, parent is included in the calculation" do
-        @item.inventory_entry.update_attribute(:quantity, 10)
-
+        # There's 10 remaining entries in stock already stubbed before.
         @item.update_quantity(15)
 
         # There's another 3 different order items already created by order factory.
@@ -100,7 +116,6 @@ describe OrderItem do
       end
 
       it "the order item's quantity should be the equal the sum of it's children + 1" do
-        @item.inventory_entry.update_attribute(:quantity, 10)
         @item.update_quantity(10)
         @item.quantity.should == 10
         @item.children.count.should == 9

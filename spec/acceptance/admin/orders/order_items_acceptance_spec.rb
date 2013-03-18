@@ -63,7 +63,6 @@ feature "Orders Management" do
 
       visit admin_order_path(order)
 
-      save_and_open_page
       select "Enviado", from: "order_items_attributes_0_status"
       
       click_button "Atualizar pedido"

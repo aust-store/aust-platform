@@ -27,10 +27,16 @@ class OrderItem < ActiveRecord::Base
     inventory_entry.quantity
   end
 
-  def update_quantity(quantity)
+  def sanitize_quantity(quantity)
     quantity = 0 if quantity < 0
     quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
     quantity = quantity.to_s.to_i
+
+    quantity
+  end
+
+  def update_quantity(quantity)
+    quantity = sanitize_quantity(quantity)
 
     if quantity != self.quantity
       if quantity > 0
@@ -80,12 +86,12 @@ class OrderItem < ActiveRecord::Base
     end
   end
 
-  def self.all_parent_items
-    self.where(related_id: nil).all
-  end
-
   def has_children?
     children.count > 0
+  end
+
+  def self.all_parent_items
+    self.where(related_id: nil).all
   end
 
   def self.statuses
