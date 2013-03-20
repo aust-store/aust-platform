@@ -7,28 +7,43 @@ describe Admin::Api::InventoryItemsController do
   it_obeys_the "Decoration Builder contract"
 
   describe "GET index" do
-    it "assigns all items as @items" do
+    before do
+      @item             = FactoryGirl.create(:inventory_item, company: @company)
+      @item_not_on_sale = FactoryGirl.create(:inventory_item_without_associations,
+                                             company: @company)
+    end
 
-      item = FactoryGirl.create(:inventory_item, company: @company)
-      item_not_on_sale = FactoryGirl.create(:inventory_item_without_associations,
-                                            company: @company)
-
+    it "returns all inventory items" do
       xhr :get, :index
 
-      json = ActiveSupport::JSON.decode(response.body)
-      json.should == {
+      ActiveSupport::JSON.decode(response.body).should == {
         "inventory_items" => [
-          { "id"                => item_not_on_sale.id,
-            "name"              => item_not_on_sale.name,
-            "description"       => item_not_on_sale.description,
+          { "id"                => @item_not_on_sale.id,
+            "name"              => @item_not_on_sale.name,
+            "description"       => @item_not_on_sale.description,
             "price"             => 0,
             "entry_for_sale_id" => nil,
             "on_sale"           => false },
-          { "id"                => item.id,
-            "name"              => item.name,
-            "description"       => item.description,
+          { "id"                => @item.id,
+            "name"              => @item.name,
+            "description"       => @item.description,
             "price"             => "12.34",
-            "entry_for_sale_id" => item.entry_for_sale.id,
+            "entry_for_sale_id" => @item.entry_for_sale.id,
+            "on_sale"           => true }
+        ]
+      }
+    end
+
+    it "returns only items on sale" do
+      xhr :get, :index, on_sale: true
+
+      ActiveSupport::JSON.decode(response.body).should == {
+        "inventory_items" => [
+          { "id"                => @item.id,
+            "name"              => @item.name,
+            "description"       => @item.description,
+            "price"             => "12.34",
+            "entry_for_sale_id" => @item.entry_for_sale.id,
             "on_sale"           => true }
         ]
       }

@@ -22,3 +22,17 @@ App.CartsNewRoute = Ember.Route.extend
 App.OrdersIndexRoute = Ember.Route.extend
   model: ->
     App.Order.find environment: "offline"
+
+  setupController: (controller, model) ->
+    controller.set('content', model)
+
+    orders_statistics = App.OrdersStatistics.find({period: "today"})
+    this.controllerFor("orders_statistics").set("content", orders_statistics)
+
+  renderTemplate: ->
+    this.render()
+    this.render 'orders_statistics',
+      outlet: 'orders_statistics'
+      controller: 'orders_statistics'
+
+

@@ -47,6 +47,9 @@ Store::Application.routes.draw do
         resources :carts,           only: api_actions
         resources :taxonomies,      only: [:index]
         resources :manufacturers,   only: [:index]
+        namespace :reports do
+          resource :orders_statistics, only: [:show]
+        end
       end
     end
   end
