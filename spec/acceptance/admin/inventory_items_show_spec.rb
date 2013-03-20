@@ -83,6 +83,7 @@ feature "Inventory Item Management" do
       end
     end
 
+    # FIXME why is this spec here? It's not admin related.
     describe "last products created are shown first in main page" do
       context "only the first defined entry will be shown per item" do
         scenario  "As an admin, I want the last product created to be displayed first in my store's main page listing" do
@@ -106,7 +107,7 @@ feature "Inventory Item Management" do
     end
 
     describe "products not shown for sale on main page" do
-      scenario "items without a valid shipping box, do not appears on mais page" do
+      scenario "items without a valid shipping box, do not appears on main page" do
         visit root_path
         page.should have_content "My item"
 
@@ -117,11 +118,15 @@ feature "Inventory Item Management" do
         fill_in "inventory_item_shipping_box_attributes_weight", with: ""
         click_button "Salvar item"
 
+        # Item's show page
+        page.current_path.should == admin_inventory_item_path(@item)
+        page.should have_content "Motivo: Não possui caixa para frete definida"
+
         visit root_path
         page.should_not have_content "My item"
       end
 
-      scenario "items without a cover image, do not appears on mais page" do
+      scenario "items without a cover image, do not appears on main page" do
         visit root_path
         page.should have_content "My item"
 
@@ -130,6 +135,9 @@ feature "Inventory Item Management" do
           img.cover = false
           new_item.save
         end
+
+        visit admin_inventory_item_path(@item)
+        page.should have_content "Motivo: Não possui imagem de capa"
 
         visit root_path
         page.should_not have_content "My item"

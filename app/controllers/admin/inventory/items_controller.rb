@@ -20,6 +20,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
+    @reasons_why_not_on_sale = Store::OnlineSales::ReasonForItemNotOnSale.new(@item).reasons
 
     @item_images       = @item.images.default_order.limit(10).dup
 

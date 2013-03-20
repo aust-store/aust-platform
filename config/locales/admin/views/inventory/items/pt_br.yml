@@ -12,6 +12,12 @@ pt_br:
         show:
           category: "Categoria"
           undefined_category: "Sem categoria definida"
+          reason: "Motivo"
+          reasons_why_not_on_sale:
+            has_no_price: "Não possui um preço definido"
+            has_no_entry_on_sale: "Não possui quantidade suficiente em estoque"
+            has_no_cover_image: "Não possui imagem de capa"
+            has_no_shipping_box: "Não possui caixa para frete definida"
         shipping_box:
           title: "Frete"
           box_dimensions: "Dimensões do pacote"

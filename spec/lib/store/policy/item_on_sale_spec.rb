@@ -1,4 +1,7 @@
-require "spec_helper"
+require "store/online_sales/reason_for_item_not_on_sale"
+require "store/policy/item_on_sale"
+require "store/online_sales/item_requirements_for_sale"
+require "active_support/all"
 
 describe Store::Policy::ItemOnSale do
   let(:item) { double }
@@ -7,6 +10,7 @@ describe Store::Policy::ItemOnSale do
 
   describe "#on_sale?" do
     before do
+      stub_const("Store::ItemPrice", Class.new)
       Store::ItemPrice.stub_chain(:new, :price) { 10 }
       item.stub_chain(:images, :has_cover?) { true }
       item.stub(:entry_for_sale) { 3 }

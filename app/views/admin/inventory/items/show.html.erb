@@ -37,7 +37,18 @@
 
       <span class="text not_on_sale <%= "current" unless @item_on_sale %>">
         Este item não está sendo vendido atualmente.
+
+        <div class="reason">
+          <% @reasons_why_not_on_sale.each do |reason| %>
+            <div>
+              <%= t(".reason") %>:
+              <%= t(".reasons_why_not_on_sale.#{reason}") %>
+            </div>
+          <% end %>
+        </div>
       </span>
+
+
       <span class="text on_sale <%= "current" if @item_on_sale %>">
         Vendido atualmente por
         <span data-observe="inventory_item.price"><%= @item.price %></span>.
