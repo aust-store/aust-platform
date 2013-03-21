@@ -62,21 +62,58 @@ feature "Inventory Item Management" do
       page.should have_content "#{I18n.t("#{translations}.box_weight")}: 10kg"
     end
 
-    describe "defining what entries should be on sale", js: true do
+    describe "defining what entries should be on sale" do
       context "when item has many entries" do
         scenario "As a store admin, I want to configure which entries are on sale" do
+          visit root_path
+          page.should have_content "R$ 12,34"
+
           # entries with quantity 0 should not appear
           visit admin_inventory_item_path(@item)
-          page.should have_content     "R$ 12,34"
-
-          visit root_path
-          page.should have_content     "R$ 12,34"
+          page.should have_content "R$ 12,34"
 
           # deselects the entry with price R$ 12,00
-          visit admin_inventory_item_path(@item)
-          find(".inventory_entry_on_sale.on_sale_#{@item.entries.second.id}").click
-          page.should have_selector(".inventory_entry_on_sale.on_sale_#{@item.entries.second.id}")
+          find("#inventory_item_entries_attributes_0_on_sale").set(false)
+          find("#inventory_item_entries_attributes_1_on_sale").set(false)
+          find("#inventory_item_entries_attributes_2_on_sale").set(false)
+          within "#entries_on_sale" do
+            click_button "Salvar modificações"
+          end
 
+          @item.entries.pluck(:on_sale).should == [false, false, false]
+
+          visit root_path
+          page.should_not have_content "R$ 12,34"
+        end
+      end
+
+      context "when item has one entry" do
+        scenario "As a store admin, I want to configure which entries are on sale" do
+          first_entry = @item.entries.all_entries_available_for_sale.first
+          @item.entries.where("inventory_entries.id NOT IN (?)", first_entry.id).destroy_all
+
+          visit root_path
+          page.should have_content "R$ 12,34"
+
+          # admin, item's page
+          visit admin_inventory_item_path(@item)
+          @item.entries.reload.pluck(:on_sale).should == [true]
+          # deselects the only entry
+          click_button "switch_on_sale"
+
+          @item.entries.pluck(:on_sale).should == [false]
+
+          # stop showing up in the store
+          visit root_path
+          page.should_not have_content "R$ 12,34"
+
+          # admin, item's page again
+          visit admin_inventory_item_path(@item)
+          # deselects the only entry
+          click_button "switch_on_sale"
+          @item.entries.reload.pluck(:on_sale).should == [true]
+
+          # shows up in the store again
           visit root_path
           page.should have_content "R$ 12,34"
         end
@@ -111,6 +148,12 @@ feature "Inventory Item Management" do
         visit root_path
         page.should have_content "My item"
 
+        # Removes all cover images from the DB
+        InventoryItem.find_by_name(@item.name).images.cover.all.each do |e|
+          e.update_attributes(cover: false)
+        end
+
+        # Removes the current item's shipping box
         visit edit_admin_inventory_item_path(@item)
         fill_in "inventory_item_shipping_box_attributes_length", with: ""
         fill_in "inventory_item_shipping_box_attributes_width",  with: ""
@@ -121,26 +164,7 @@ feature "Inventory Item Management" do
         # Item's show page
         page.current_path.should == admin_inventory_item_path(@item)
         page.should have_content "Motivo: Não possui caixa para frete definida"
-
-        visit root_path
-        page.should_not have_content "My item"
-      end
-
-      scenario "items without a cover image, do not appears on main page" do
-        visit root_path
-        page.should have_content "My item"
-
-        new_item = InventoryItem.find_by_name("My item")
-        new_item.images.each do |img|
-          img.cover = false
-          new_item.save
-        end
-
-        visit admin_inventory_item_path(@item)
         page.should have_content "Motivo: Não possui imagem de capa"
-
-        visit root_path
-        page.should_not have_content "My item"
       end
     end
   end
