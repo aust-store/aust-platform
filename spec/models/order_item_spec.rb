@@ -98,7 +98,7 @@ describe OrderItem do
         @item.children.count.should == 2
         @order.items  .count.should == 15
 
-        changed_items = @order.items.where(related_id: !nil)
+        changed_items = @order.items.where(parent_id: !nil)
         changed_items.each do |item|
           item.price.to_s.should == "12.0"
         end
