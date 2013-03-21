@@ -1,28 +1,26 @@
 <% entry = @inventory_entries.first %>
 
-<p class="js_this_entry_status_on_sale">
-  Este item possui apenas uma entrada no estoque (um lote)
-  sendo vendido atualmente. Possui ainda <%= entry.quantity %>
-  unidades em estoque.
-</p>
-
-<p class="js_this_entry_status_not_on_sale" style="display: none">
-  Este item possui um lote no estoque, mas ele não está à venda
-  neste momento. Ainda há <%= entry.quantity %> unidades no estoque. Recomece
-  a venda deste item no botão abaixo.
-</p>
+<% if entry.on_sale? %>
+  <p class="js_this_entry_status_on_sale">
+    Este item possui apenas uma entrada no estoque (um lote)
+    sendo vendido atualmente. Possui ainda <%= entry.quantity %>
+    unidades em estoque.
+  </p>
+<% else %>
+  <p class="js_this_entry_status_not_on_sale">
+    Este item possui um lote no estoque, mas ele não está à venda
+    neste momento. Ainda há <%= entry.quantity %> unidades no estoque. Recomece
+    a venda deste item no botão abaixo.
+  </p>
+<% end %>
 
 <div>
-  <%= small_button "javascript: void(0)",
-    text: "Parar a venda deste item",
-    id: "stop_selling_item",
-    data: {
-      on_sale: (entry.on_sale? ? "1" : "0"),
-      url:     admin_inventory_item_entry_url(item_id: @item, id: entry.id),
-      on_sale_text: "Parar a venda deste item",
-      not_on_sale_text: "Começar a venda deste item"
-    }
-  %>
+  <%= simple_form_for entry, url: admin_inventory_item_entry_path(@item, entry) do |f| %>
+    <%= f.input :on_sale, as: :hidden, input_html: { value: !entry.on_sale? } %>
+    <input type="hidden" name="redirect_to" value="<%= url_for %>" />
+    <% label = entry.on_sale? ? "Parar a venda deste item" : "Começar a venda deste item" %>
+    <%= small_button "javascript: void(0)", text: label, id: "submit_link" %>
+  <% end %>
 </div>
 
 <br clear="both" />
