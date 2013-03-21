@@ -18,17 +18,8 @@ feature "Orders Management" do
       end
 
       inventory_entry = @product.balances.first
-      Timecop.travel(Time.local(2012, 04, 20, 10, 0, 0)) do
-        visit product_path(inventory_entry)
-        click_link "Adicionar ao carrinho"
-      end
 
-      Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
-        visit product_path(inventory_entry)
-        click_link "Adicionar ao carrinho"
-      end
-
-      Timecop.travel(Time.local(2012, 04, 22, 10, 0, 0)) do
+      3.times do
         visit product_path(inventory_entry)
         click_link "Adicionar ao carrinho"
       end
@@ -41,7 +32,7 @@ feature "Orders Management" do
         page.should have_content "Você possui 3 itens no carrinho."
       end
 
-      order_item_id = OrderItem.where(related_id: nil).first.id
+      order_item_id = OrderItem.parent_items.first.id
       fill_in "cart[item_quantities][#{order_item_id}]", with: "4"
       click_button "Atualizar carrinho"
 
@@ -52,7 +43,6 @@ feature "Orders Management" do
       end
 
       #admin
-
       order_items = OrderItem.all
       login_into_admin
 
@@ -62,10 +52,13 @@ feature "Orders Management" do
       order.save
 
       visit admin_order_path(order)
-
       select "Enviado", from: "order_items_attributes_0_status"
-      
+
       click_button "Atualizar pedido"
+      visit admin_dashboard_path
+
+      visit admin_order_path(order)
+      page.should have_select("order_items_attributes_0_status", selected: "Enviado")
     end
   end
 end

@@ -1,8 +1,8 @@
 class OrderItem < ActiveRecord::Base
   belongs_to :order
-  has_many   :children, class_name: "OrderItem",
-    foreign_key: :related_id, dependent: :destroy
   belongs_to :cart
+  has_many :children, class_name: "OrderItem",
+    foreign_key: :parent_id, dependent: :destroy
   belongs_to :inventory_item
   belongs_to :inventory_entry
 
@@ -23,42 +23,54 @@ class OrderItem < ActiveRecord::Base
     true
   end
 
+  def update_quantity(new_quantity)
+    new_quantity = sanitize_quantity(new_quantity)
+    
+    if new_quantity > current_quantity
+      create_children(new_quantity)
+    else
+      destroy_exceeding_children(new_quantity)
+    end
+  end
+
+  def sanitize_quantity(new_quantity)
+    new_quantity = 0 if new_quantity < 0
+    new_quantity = remaining_entries_in_stock if new_quantity > remaining_entries_in_stock
+
+    new_quantity.to_i
+  end
+
   def remaining_entries_in_stock
     inventory_entry.quantity
   end
 
-  def sanitize_quantity(quantity)
-    quantity = 0 if quantity < 0
-    quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
-    quantity = quantity.to_s.to_i
-
-    quantity
+  def current_quantity
+    self.quantity
   end
 
-  def update_quantity(quantity)
-    quantity = sanitize_quantity(quantity)
-
-    if quantity != self.quantity
-      if quantity > 0
-        if quantity > quantity_with_children
-          create_order_items_children(quantity)
-        elsif quantity < quantity_with_children
-          (quantity_with_children - quantity).times do
-            children.last.destroy
-          end
-        end
-      else
-        delete_all_children
-        self.quantity = 0
-      end
+  def create_children(new_quantity)
+    (new_quantity - current_quantity).times do
+      children << children.create(inherited_attributes)
     end
   end
 
-  def create_order_items_children(quantity)
+  def inherited_attributes
     parent_attributes = self.attributes
+    parent_attributes.delete("created_at")
     parent_attributes.delete("updated_at")
-    (quantity - quantity_with_children).times do
-      children << children.build(parent_attributes)
+    parent_attributes.delete("status")
+
+    parent_attributes
+  end
+
+  def destroy_exceeding_children(new_quantity)
+    if new_quantity <= 0
+      delete_all_children
+      self.quantity = 0
+    else
+      (current_quantity - new_quantity).times do
+        children.last.destroy
+      end
     end
   end
 
@@ -74,24 +86,19 @@ class OrderItem < ActiveRecord::Base
     inventory_item.description
   end
 
-  def quantity_with_children
-    children.count + 1
-  end
-
   def quantity
-    if has_children?
-      quantity_with_children
-    else
-      super.to_i
-    end
+    children.count + super.to_i
   end
 
-  def has_children?
-    children.count > 0
+  def self.scoped_parent_items(inventory_entry)
+    self  
+      .where("inventory_entry_id = ?", inventory_entry.id)
+      .where("price = ?", inventory_entry.inventory_item.price)
+      .parent_items
   end
 
-  def self.all_parent_items
-    self.where(related_id: nil).all
+  def self.parent_items
+    self.where(parent_id: nil).all
   end
 
   def self.statuses

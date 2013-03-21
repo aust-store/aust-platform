@@ -30,11 +30,11 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    Store::Order::PriceCalculation.calculate(items)
+    Store::Order::PriceCalculation.calculate(items.parent_items)
   end
 
   def items_quantity
-    items.all_parent_items.map(&:quantity).reduce(:+)
+    items.parent_items.map(&:quantity).reduce(:+)
   end
 
   def summary

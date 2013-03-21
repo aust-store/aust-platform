@@ -13,8 +13,8 @@ FactoryGirl.define do
       #evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }n
       4.times do
         item = FactoryGirl.create(:order_item)
-        item.quantity = 4
         order.items << item
+        item.update_quantity(4)
       end
       order.save
     end

@@ -5,7 +5,7 @@ describe Cart do
     it "returns the result of a price calculation" do
       cart = Cart.new
       Store::Order::PriceCalculation.stub(:calculate).with(:items) { :total }
-      cart.stub_chain(:items, :all_parent_items) { :items }
+      cart.stub_chain(:items, :parent_items) { :items }
       expect(cart.total).to eq :total
     end
   end
@@ -52,7 +52,6 @@ describe Cart do
                      inventory_item: inventory_item)
                .and_return(:new_item)
 
-
       items = double
       cart.stub(:items) { items }
       items.should_receive(:<<).with(:new_item)
@@ -72,8 +71,9 @@ describe Cart do
 
   describe "#item_already_in_cart" do
     let(:cart)  { Cart.new }
-    let(:entry) { double(inventory_item: double(price: 10)) }
+    let(:entry) { double(inventory_item: double(price: 10), id: 1) }
     let(:items) { double }
+    let(:i_items) { double }
 
     before do
       cart.stub(:items) { items }
@@ -81,12 +81,12 @@ describe Cart do
 
     it "returns true if item already exists in the cart with same price" do
       items.stub_chain(:all_parent_items) { :item }
-      cart.items.stub(:where).with("price = ?", 10) { double(all_parent_items: double(first: :item)) }
+      cart.items.stub(:scoped_parent_items).with(entry) { double(first: :item) }
       cart.item_already_in_cart(entry).should == :item
     end
 
     it "returns false if item is not in the cart" do
-      cart.items.stub(:where).with("price = ?", 10) { double(all_parent_items: double(first:[])) }
+      cart.items.stub(:scoped_parent_items).with(entry) { double(first:[]) }
       cart.item_already_in_cart(entry).should == []
     end
   end

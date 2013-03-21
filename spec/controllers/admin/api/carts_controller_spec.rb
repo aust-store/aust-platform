@@ -52,7 +52,7 @@ describe Admin::Api::CartsController do
         "id"    => cart.id,
         "cart" => {
           "items" => [
-            { "id"    => cart.items.first.id,
+            { "id"    => cart.items.parent_items.first.id,
               "price" => 50,
               "inventory_item_id" => inventory_item.id },
 

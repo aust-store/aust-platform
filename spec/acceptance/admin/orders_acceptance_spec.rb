@@ -32,14 +32,5 @@ feature "Orders Management" do
         page.should have_content "16 itens"
       end
     end
-
-    scenario "the items' quantity count should not include children's quantities" do
-      @pending_order.items.first.update_quantity(6)
-      visit admin_orders_path
-
-      within "#order_card_#{@pending_order.id}" do
-        page.should have_content "18 itens"
-      end
-    end
   end
 end
