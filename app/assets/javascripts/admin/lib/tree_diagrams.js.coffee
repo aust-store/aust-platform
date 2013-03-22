@@ -71,7 +71,7 @@ class window.TreeDiagrams
 
   _bind_edit_node_form: ->
     _that = _this
-    @tree_dom_element().on 'click', '.node.js_node > .box', (e) =>
+    @tree_dom_element().on 'click', '.node.js_node[data-node-id] > .box:not([data-original-content])', (e) =>
       _this = $(e.currentTarget)
       console.log _this.html()
 
