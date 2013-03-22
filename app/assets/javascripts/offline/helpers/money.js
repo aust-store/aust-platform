@@ -1,3 +1,12 @@
+/**
+  Converts a float into a proper currency string.
+
+  Example:
+
+    13.4 => 13,40 (for R$, brazilian currency)
+
+  Returns a string
+ */
 var money = function(value) {
   var decimal = ",";
 
