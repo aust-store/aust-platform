@@ -20,6 +20,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def show
     @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
+    @reasons_why_not_on_sale = Store::OnlineSales::ReasonForItemNotOnSale.new(@item).reasons
 
     @item_images       = @item.images.default_order.limit(10).dup
 
@@ -120,9 +121,11 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def set_company_and_admin_to_new_manufacturer
-    if params[:inventory_item][:manufacturer_attributes][:name].present?
-      params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id
-      params[:inventory_item][:manufacturer_attributes][:admin_user_id] = current_admin_user.id
+    if params[:inventory_item][:manufacturer_attributes].present?
+      if params[:inventory_item][:manufacturer_attributes][:name].present?
+        params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id
+        params[:inventory_item][:manufacturer_attributes][:admin_user_id] = current_admin_user.id
+      end
     end
   end
 
@@ -139,8 +142,11 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def delete_params_before_saving
     params[:inventory_item].delete(:taxonomy_attributes)
-    if params[:inventory_item][:manufacturer_attributes][:name].present?
-      params[:inventory_item].delete(:manufacturer_id)
+
+    if params[:inventory_item][:manufacturer_attributes].present?
+      if params[:inventory_item][:manufacturer_attributes][:name].present?
+        params[:inventory_item].delete(:manufacturer_id)
+      end
     elsif params[:inventory_item][:manufacturer_id].present?
       params[:inventory_item].delete(:manufacturer_attributes)
     end

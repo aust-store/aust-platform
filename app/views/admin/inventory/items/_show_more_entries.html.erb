@@ -3,28 +3,30 @@
 </p>
 
 <p>
-  <table class="sub_listing listing">
-    <% @inventory_entries.each do |entry| %>
-      <tr>
-        <td>
-          <%= check_box_tag :on_sale,
-            1,
-            entry.on_sale?,
-            class: "inventory_entry_on_sale on_sale_#{entry.id}",
-            data: {
-              url: admin_inventory_item_entry_url(item_id: @item,
-                                                  id: entry.id)
-            } %>
-        </td>
-        <td>
-          <%= entry.created_at %>
-        </td>
-        <td>
-          <%= entry.quantity %> un.
-        </td>
-      </tr>
-    <% end %>
-  </table>
+  <%= simple_form_for [:admin, @item], html: {id: "entries_on_sale"} do |f| %>
+    <input type="hidden" name="redirect_to" value="<%= url_for %>" />
+
+    <table class="sub_listing listing">
+      <%= f.simple_fields_for :entries do |e| %>
+        <tr>
+          <td>
+            <%= e.input :on_sale, label: false, wrapper: :checkbox_inline %>
+          </td>
+          <td>
+            <%= e.object.created_at %>
+          </td>
+          <td>
+            <%= e.object.quantity %> un.
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= small_button "#", text: "Salvar modificações", id: "submit_link" %>
+    <input type="submit" value="Salvar modificações">
+
+    <br />
+    <br />
+  <% end %>
 </p>
 
 <%= small_button new_admin_inventory_item_entry_path(@item),

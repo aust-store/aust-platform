@@ -49,4 +49,26 @@ feature "Store's front-page" do
       end
     end
   end
+
+  describe "products not shown for sale on main page" do
+    scenario "items without a valid shipping box, do not appears on main page" do
+      visit root_path
+      page.should have_content @item.name
+      @item.update_attributes(shipping_box: nil)
+      visit root_path
+      page.should_not have_content @item.name
+    end
+
+    scenario "items without a cover image, do not appears on main page" do
+      visit root_path
+      page.should have_content @item.name
+
+      InventoryItem.find_by_name(@item.name).images.cover.all.each do |e|
+        e.update_attributes(cover: false)
+      end
+
+      visit root_path
+      page.should_not have_content @item.name
+    end
+  end
 end
