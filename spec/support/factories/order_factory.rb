@@ -1,12 +1,16 @@
 FactoryGirl.define do
   factory :order_without_store, class: "Order" do
+    ignore do
+      total_items 4
+    end
+
     association :shipping_address, factory: :address
     association :user
     environment :website
 
     # order_item
     after(:create) do |order, evaluator|
-      4.times { order.items << FactoryGirl.create(:order_item) }
+      evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }
       order.save
     end
 
@@ -20,6 +24,11 @@ FactoryGirl.define do
 
     factory :order do
       association :store, factory: :company
+    end
+
+    factory :offline_order do
+      association :store, factory: :company
+      environment :offline
     end
 
     factory :cart, class: "Cart" do

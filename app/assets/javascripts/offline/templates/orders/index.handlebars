@@ -1,17 +1,19 @@
+<h1>Todos os pedidos</h1>
+
+{{render 'orders_statistics'}}
+
 <table class="listing orders">
 
   <thead>
-    <th>ID do pedido</th>
-    <th>Status</th>
     <th>Valor</th>
+    <th></th>
   </thead>
 
   <tbody>
     {{#each controller}}
       <tr class="even">
-        <td>{{id}}</td>
-        <td>Pago</td>
         <td>R$ {{money total}}</td>
+        <td>{{humanDate created_at}}</td>
       </tr>
     {{/each}}
   </tbody>

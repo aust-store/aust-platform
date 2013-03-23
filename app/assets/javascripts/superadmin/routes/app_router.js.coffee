@@ -1,6 +1,6 @@
 App.Router = Ember.Router.extend(
   location: 'hash'
-  enableLogging: true
+  enableLogging: false
 
   root: Ember.Route.extend(
     home: Ember.Route.transitionTo('index')

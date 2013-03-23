@@ -7,12 +7,18 @@ class Admin::Api::OrdersController < Admin::ApplicationController
       .orders
       .includes(:payment_statuses)
       .order('id desc')
-      .last(50)
+      .limit(50)
+
+    orders = orders.created_offline        if params[:environment] == "offline"
+    orders = orders.created_on_the_website if params[:environment] == "website"
+    orders = orders.all
 
     render json: orders
   end
 
   def create
+    # Rails demands embedded keys to have _attributes suffix. This class does
+    # that for requests coming from other frameworks, e.g. Ember.js
     params[:order] = JsonRequestParser.new(params).add_attributes_suffix["order"]
 
     cart_id = current_company.carts.find(params[:order][:cart_attributes][:id])

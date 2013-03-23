@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :items
 
   scope :created_on_the_website, where(environment: "website")
+  scope :created_offline, where(environment: "offline")
 
   def self.create_offline(params)
     create(params.merge(environment: :offline))

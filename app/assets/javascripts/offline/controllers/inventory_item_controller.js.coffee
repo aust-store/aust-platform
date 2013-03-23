@@ -8,7 +8,10 @@ App.InventoryItemController = Ember.ArrayController.extend
 
     value = this.get('searchQuery')
     if typeof value == "string" and value.length > 0
-      this.set('content', App.InventoryItem.find({search: this.searchQuery}))
+      this.set('content', App.InventoryItem.find
+        search: this.searchQuery
+        on_sale: true
+      )
     else
       this.set('content', null)
   ).observes("searchQuery")
