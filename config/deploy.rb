@@ -49,3 +49,6 @@ end
 after "deploy:finalize_update", "symlinks:database"
 after "deploy:finalize_update", "symlinks:uploads"
 after "setup_database:symlink_config", "deploy:migrate"
+
+        require './config/boot'
+        require 'airbrake/capistrano'

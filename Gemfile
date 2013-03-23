@@ -69,3 +69,4 @@ gem 'wicked', '~> 0.3'
 gem 'closure_tree', github: 'mceachen/closure_tree'
 
 gem 'capistrano', '2.13.5'
+gem "airbrake"
