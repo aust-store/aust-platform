@@ -12,7 +12,6 @@
 <table class="listing carts">
   <thead>
     <th>Nome</th>
-    <th>Referência</th>
     <th>Valor</th>
   </thead>
 
@@ -22,7 +21,6 @@
     {{#each controller.items}}
       <tr class="even">
         <td>{{inventory_item.name}}</td>
-        <td></td>
         <td>R$ {{money price}}</td>
       </tr>
     {{/each}}
@@ -30,12 +28,11 @@
     {{#if subtotal}}
       <tr class="even cart_total">
         <td>Total do pedido</td>
-        <td></td>
         <td>R$ {{money subtotal}}</td>
       </tr>
     {{else}}
       <tr class="">
-        <td colspan="3">Sem items no carrinho de compras</td>
+        <td colspan="2">Sem items no carrinho de compras</td>
       </tr>
     {{/if}}
   </tbody>

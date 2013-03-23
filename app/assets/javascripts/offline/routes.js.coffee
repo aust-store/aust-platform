@@ -7,6 +7,10 @@ App.Router.map ->
     this.route 'new'
   this.resource 'orders', ->
 
+App.IndexRoute = Ember.Route.extend
+  redirect: ->
+    this.transitionTo('carts.new')
+
 App.CartsIndexRoute = Ember.Route.extend
   model: ->
     App.Cart.find()
