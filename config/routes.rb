@@ -1,6 +1,7 @@
 require "router_constraints"
 
 Store::Application.routes.draw do
+
   api_actions = [:index, :create, :update, :show]
 
   namespace :consultor do
@@ -71,8 +72,10 @@ Store::Application.routes.draw do
             controller: 'payment_methods/pagseguro_wizard'
         end
       end
-
       resources :taxonomies, only: [:index, :create, :update, :delete]
+      resources :pages, except: [:show]
+
+      resources :marketing, only: [:index]
 
       resource :inventory do
         resources :items, controller: 'inventory/items' do

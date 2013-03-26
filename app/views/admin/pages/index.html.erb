@@ -1,0 +1,36 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_marketing_index_path,
+             text: "Voltar à página de marketing"
+           } %>
+
+<header>
+  <h1>Crie um novo item</h1>
+</header>
+
+<div class="main_container">
+  <table class="listing">
+    <thead>
+      <tr>
+        <th><%= "Nome da Página" %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @pages.present? %>
+      <% @pages.each do |page| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to page.title, edit_admin_page_path(page) %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= small_button new_admin_page_path,
+        text: "Criar Página",
+        image: 'admin/icons/plus_16.png',
+        title: "create_page",
+        class: "round_icon" %>
+</div>

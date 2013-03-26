@@ -1,0 +1,14 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_root_path,
+             text: "Voltar ao painel"
+           } %>
+
+<header>
+   <h1>Marketing</h1>
+</header>
+
+<div class="main_container">
+  <%= link_to "Gerenciar páginas", admin_pages_path, title: "manage_pages" %>
+</div>
+
