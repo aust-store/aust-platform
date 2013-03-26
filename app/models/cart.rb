@@ -16,12 +16,12 @@ class Cart < ActiveRecord::Base
     create(params.merge(environment: :offline))
   end
 
-  def all_items
+  def parent_items
     self.items.parent_items
   end
 
   def total
-    Store::Order::PriceCalculation.calculate(all_items)
+    Store::Order::PriceCalculation.calculate(parent_items)
   end
 
   def current_inventory_entry(id)
@@ -43,7 +43,7 @@ class Cart < ActiveRecord::Base
 
   def item_already_in_cart(inventory_entry)
     item = items
-      .scoped_parent_items(inventory_entry)
+      .same_line_items(inventory_entry)
       .first
   end
 
@@ -96,7 +96,7 @@ class Cart < ActiveRecord::Base
       shipping_details: self.shipping
     }
 
-    order = Order.create(serialized_fields)
+    order = Order.find_or_create_by_cart_id(serialized_fields)
     items.each { |item| order.items << item }
     order.save
     order

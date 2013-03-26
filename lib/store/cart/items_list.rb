@@ -7,7 +7,7 @@ module Store
       end
 
       def list
-        @cart.all_items.each do |e|
+        @cart.parent_items.each do |e|
           @items << Store::Cart::Item.new(e)
         end
         @items

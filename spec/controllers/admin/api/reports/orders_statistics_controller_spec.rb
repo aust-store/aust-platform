@@ -15,6 +15,8 @@ describe Admin::Api::Reports::OrdersStatisticsController do
 
       Timecop.travel(Time.local(2013, 10, 10, 10, 10, 10)) do
         order = FactoryGirl.create(:order, store: @company, total_items: 2)
+        order.items.each { |item| item.update_quantity(1) }
+        order.save
       end
     end
 

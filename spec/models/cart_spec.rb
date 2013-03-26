@@ -73,20 +73,19 @@ describe Cart do
     let(:cart)  { Cart.new }
     let(:entry) { double(inventory_item: double(price: 10), id: 1) }
     let(:items) { double }
-    let(:i_items) { double }
 
     before do
       cart.stub(:items) { items }
     end
 
     it "returns true if item already exists in the cart with same price" do
-      items.stub_chain(:all_parent_items) { :item }
-      cart.items.stub(:scoped_parent_items).with(entry) { double(first: :item) }
+      items.stub_chain(:parent_items) { :item }
+      cart.items.stub(:same_line_items).with(entry) { double(first: :item) }
       cart.item_already_in_cart(entry).should == :item
     end
 
     it "returns false if item is not in the cart" do
-      cart.items.stub(:scoped_parent_items).with(entry) { double(first:[]) }
+      cart.items.stub(:same_line_items).with(entry) { double(first:[]) }
       cart.item_already_in_cart(entry).should == []
     end
   end

@@ -81,7 +81,7 @@ describe OrderItem do
     end
 
     it "returns remaining entries in stock if the given quantity is higher than that" do
-      # There's 10 remaining entries in stock already stubbed before.
+      @item.stub(:remaining_entries_in_stock) { 10 }
       @item.sanitize_quantity(11).should == 10
     end
   end

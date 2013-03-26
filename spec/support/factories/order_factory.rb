@@ -10,11 +10,10 @@ FactoryGirl.define do
 
     # order_item
     after(:create) do |order, evaluator|
-      #evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }n
-      4.times do
+      evaluator.total_items.times do
         item = FactoryGirl.create(:order_item)
         order.items << item
-        item.update_quantity(4)
+        item.update_quantity(evaluator.total_items)
       end
       order.save
     end

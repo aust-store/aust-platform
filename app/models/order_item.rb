@@ -13,6 +13,14 @@ class OrderItem < ActiveRecord::Base
   before_validation :set_status_as_pending
   before_validation :set_quantity_to_one
 
+  scope :parent_items, ->{ where(parent_id: nil) }
+
+  scope :same_line_items, ->(inventory_entry) {
+    where("inventory_entry_id = ?", inventory_entry.id)
+      .where("price = ?", inventory_entry.inventory_item.price)
+      .parent_items
+  }
+
   # callbacks
   def set_status_as_pending
     self.status = "pending" unless self.status.present?
@@ -54,15 +62,6 @@ class OrderItem < ActiveRecord::Base
     end
   end
 
-  def inherited_attributes
-    parent_attributes = self.attributes
-    parent_attributes.delete("created_at")
-    parent_attributes.delete("updated_at")
-    parent_attributes.delete("status")
-
-    parent_attributes
-  end
-
   def destroy_exceeding_children(new_quantity)
     if new_quantity <= 0
       delete_all_children
@@ -88,17 +87,6 @@ class OrderItem < ActiveRecord::Base
 
   def quantity
     children.count + super.to_i
-  end
-
-  def self.scoped_parent_items(inventory_entry)
-    self  
-      .where("inventory_entry_id = ?", inventory_entry.id)
-      .where("price = ?", inventory_entry.inventory_item.price)
-      .parent_items
-  end
-
-  def self.parent_items
-    self.where(parent_id: nil).all
   end
 
   def self.statuses
@@ -127,5 +115,16 @@ class OrderItem < ActiveRecord::Base
 
   def self.all_cancelled?
     statuses.all? { |status| status == :cancelled }
+  end
+
+  private
+
+  def inherited_attributes
+    parent_attributes = self.attributes
+    parent_attributes.delete("created_at")
+    parent_attributes.delete("updated_at")
+    parent_attributes.delete("status")
+
+    parent_attributes
   end
 end
