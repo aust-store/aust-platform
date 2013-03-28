@@ -6,7 +6,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def index
     respond_to do |format|
       format.html do
-        items  = current_company.items.last(50)
+        items  = current_company.items.order("updated_at desc").last(50)
         @items = DecorationBuilder.inventory_items(items)
       end
 
