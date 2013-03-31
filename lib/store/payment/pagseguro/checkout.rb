@@ -2,7 +2,7 @@ module Store
   module Payment
     module Pagseguro
       class Checkout
-        attr_reader :payment_url
+        attr_reader :payment_url, :payment
 
         def initialize(controller, order)
           @order       = order
@@ -26,7 +26,7 @@ module Store
 
         private
 
-        attr_accessor :order, :payment
+        attr_accessor :order
 
         def set_sender
           payment.sender = PagSeguro::Sender.new(
@@ -59,7 +59,7 @@ module Store
         end
 
         def set_items
-          order.items.each do |item|
+          order.items.parent_items.each do |item|
             payment.items << PagSeguro::Item.new(
               id:          item.id,
               description: item.name,

@@ -10,26 +10,29 @@ feature "Orders Management" do
 
   describe "the index page" do
     before do
-      @pending_order = FactoryGirl.create(:order, store: @company)
-      @paid_order    = FactoryGirl.create(:paid_order, store: @company)
+      Timecop.travel(Time.local(2013, 03, 30, 10, 10, 10)) do
+        @pending_order = FactoryGirl.create(:order, store: @company, total_items: 3)
+        @paid_order    = FactoryGirl.create(:paid_order, store: @company, total_items: 5)
+      end
     end
 
     scenario "As a store admin, I want to see the basic item's details" do
       visit admin_orders_path
 
       within "#order_card_#{@pending_order.id}" do
-        page.should have_content "Aguardando pgto."
-        page.should have_content "R$ 223,04"
-        page.should have_content @pending_order.created_at.strftime("%d/%m/%Y %H:%M")
-        page.should have_content "16 itens"
+        within(".shipping_status") { page.should have_content "" }
+        within(".payment_status")  { page.should have_content "Aguardando pgto." }
+        within(".items_quantity")  { page.should have_content "3 itens" }
+        within(".total")           { page.should have_content "R$ 41,82" }
+        within(".purchase_date")   { page.should have_content "30/03/2013 13:10" }
       end
 
       within "#order_card_#{@paid_order.id}" do
-        page.should have_content "Pagamento Completo"
-        page.should have_content "Itens enviados"
-        page.should have_content "R$ 223,04"
-        page.should have_content @paid_order.created_at.strftime("%d/%m/%Y %H:%M")
-        page.should have_content "16 itens"
+        within(".shipping_status") { page.should have_content "Itens enviados" }
+        within(".payment_status")  { page.should have_content "Pagamento Completo" }
+        within(".items_quantity")  { page.should have_content "5 itens" }
+        within(".total")           { page.should have_content "R$ 69,70" }
+        within(".purchase_date")   { page.should have_content "30/03/2013 13:10" }
       end
     end
   end

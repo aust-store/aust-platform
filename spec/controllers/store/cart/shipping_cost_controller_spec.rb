@@ -10,8 +10,8 @@ describe Store::Cart::ShippingCostController do
     before do
       @items = [ double(inventory_item: item, quantity: 1),
                  double(inventory_item: item, quantity: 1) ]
-      controller.stub_chain(:cart, :all_items) { @items }
-      controller.stub_chain(:cart, :total_items_quantity) { :quantity }
+      controller.stub_chain(:cart, :persistence, :items) { @items }
+      controller.stub_chain(:cart, :total_unique_items) { :quantity }
     end
 
     it "responds to items" do

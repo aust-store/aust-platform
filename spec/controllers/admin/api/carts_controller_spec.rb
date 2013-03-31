@@ -69,11 +69,11 @@ describe Admin::Api::CartsController do
 
       json["cart"].should include(
         { "id"    => cart.id,
-          "total" => "427.28" }
+          "total" => "151.82" }
       )
 
       # returns all items, not only the ones that were sent via PUT
-      cart.items.each do |item|
+      cart.items.parent_items.each do |item|
         json["cart"]["items"].should include(
           { "id"                 => item.id,
             "name"               => item.name,

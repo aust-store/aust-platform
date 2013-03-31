@@ -31,11 +31,11 @@ module Store
     end
 
     def parent_items
-      persistence.parent_items
+      persistence.items.parent_items
     end
 
-    def total_items_quantity
-      parent_items.map(&:quantity).reduce(:+) || 0
+    def total_unique_items
+      persistence.items.count
     end
 
     def total_price

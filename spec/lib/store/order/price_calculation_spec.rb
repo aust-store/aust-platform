@@ -8,9 +8,9 @@ describe Store::Order::PriceCalculation do
 
   it "calculates the price of all given items" do
     items = [
-      double(price: BigDecimal("10.10"), quantity: 1),
-      double(price: BigDecimal("11.00"), quantity: 2) ]
-    described_class.calculate(items).should == BigDecimal("32.10")
+      double(price: BigDecimal("10.10")),
+      double(price: BigDecimal("11.00")) ]
+    described_class.calculate(items).should == BigDecimal("21.10")
   end
 
   it "returns 0 if no items are given" do

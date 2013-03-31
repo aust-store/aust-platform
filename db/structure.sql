@@ -171,7 +171,7 @@ ALTER SEQUENCE admin_dashboards_id_seq OWNED BY admin_dashboards.id;
 CREATE TABLE admin_users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
@@ -384,8 +384,8 @@ CREATE TABLE inventory_entries (
     cost_per_unit numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    store_id integer,
-    on_sale boolean DEFAULT true
+    on_sale boolean DEFAULT true,
+    store_id integer
 );
 
 
@@ -1167,14 +1167,6 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1196,6 +1188,14 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1299,20 +1299,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
-
-
---
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
-
-
---
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --

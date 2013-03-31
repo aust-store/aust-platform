@@ -16,12 +16,8 @@ class Cart < ActiveRecord::Base
     create(params.merge(environment: :offline))
   end
 
-  def parent_items
-    self.items.parent_items
-  end
-
   def total
-    Store::Order::PriceCalculation.calculate(parent_items)
+    Store::Order::PriceCalculation.calculate(items)
   end
 
   def current_inventory_entry(id)
@@ -38,41 +34,6 @@ class Cart < ActiveRecord::Base
       increase_item_quantity(existing_item, quantity)
     else
       create_item_into_cart(entry)
-    end
-  end
-
-  def item_already_in_cart(inventory_entry)
-    item = items
-      .same_line_items(inventory_entry)
-      .first
-  end
-
-  def create_item_into_cart(entry)
-    item = OrderItem.new(
-      price: entry.inventory_item.price,
-      quantity: 1,
-      inventory_entry: entry,
-      inventory_item: entry.inventory_item
-    )
-
-    items << item
-    save
-  end
-
-  def increase_item_quantity(item, quantity_to_sum)
-    quantity = item.quantity + quantity_to_sum
-    update_item_quantity(item, quantity)
-  end
-
-  def update_item_quantity(item, quantity)
-    item.update_quantity(quantity) if quantity.present?
-  end
-
-  def update_quantities_in_batch(quantities)
-    items.each do |item|
-      if quantities.has_key?(item.id.to_s)
-        item.update_quantity(quantities[item.id.to_s].to_i)
-      end
     end
   end
 
@@ -96,9 +57,32 @@ class Cart < ActiveRecord::Base
       shipping_details: self.shipping
     }
 
-    order = Order.find_or_create_by_cart_id(serialized_fields)
+    order = Order.create(serialized_fields)
     items.each { |item| order.items << item }
     order.save
     order
+  end
+
+  private
+
+  def create_item_into_cart(entry)
+    item = OrderItem.new(
+      price: entry.inventory_item.price,
+      quantity: 1,
+      inventory_entry: entry,
+      inventory_item: entry.inventory_item
+    )
+
+    items << item
+    save
+  end
+
+  def increase_item_quantity(item, quantity_to_sum)
+    quantity = item.quantity + quantity_to_sum
+    item.update_quantity(quantity) if quantity.present?
+  end
+
+  def item_already_in_cart(inventory_entry)
+    items.same_line_items(inventory_entry).first
   end
 end

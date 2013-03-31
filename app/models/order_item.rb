@@ -32,49 +32,7 @@ class OrderItem < ActiveRecord::Base
   end
 
   def update_quantity(new_quantity)
-    new_quantity = sanitize_quantity(new_quantity)
-    
-    if new_quantity > current_quantity
-      create_children(new_quantity)
-    else
-      destroy_exceeding_children(new_quantity)
-    end
-  end
-
-  def sanitize_quantity(new_quantity)
-    new_quantity = 0 if new_quantity < 0
-    new_quantity = remaining_entries_in_stock if new_quantity > remaining_entries_in_stock
-
-    new_quantity.to_i
-  end
-
-  def remaining_entries_in_stock
-    inventory_entry.quantity
-  end
-
-  def current_quantity
-    self.quantity
-  end
-
-  def create_children(new_quantity)
-    (new_quantity - current_quantity).times do
-      children << children.create(inherited_attributes)
-    end
-  end
-
-  def destroy_exceeding_children(new_quantity)
-    if new_quantity <= 0
-      delete_all_children
-      self.quantity = 0
-    else
-      (current_quantity - new_quantity).times do
-        children.last.destroy
-      end
-    end
-  end
-
-  def delete_all_children
-    children.destroy_all
+    ::Persistence::OrderItemQuantity.new(self).change(new_quantity)
   end
 
   def name
@@ -117,14 +75,11 @@ class OrderItem < ActiveRecord::Base
     statuses.all? { |status| status == :cancelled }
   end
 
-  private
-
   def inherited_attributes
     parent_attributes = self.attributes
     parent_attributes.delete("created_at")
     parent_attributes.delete("updated_at")
     parent_attributes.delete("status")
-
     parent_attributes
   end
 end

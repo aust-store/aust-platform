@@ -18,7 +18,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
 
   def cart_items_dimensions
     shipping_boxes = []
-    cart.all_items.each do |e|
+    cart.persistence.items.each do |e|
       e.quantity.to_i.times do |t|
         shipping_boxes << e.inventory_item.shipping_box
       end

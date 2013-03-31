@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.11'
   gem 'thin'
   gem 'pry'
+  gem 'pry-debugger'
   gem 'poltergeist'
   gem 'konacha'
   gem 'ejs'
@@ -45,7 +46,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'shoulda', '3.3.2'
   gem 'shoulda-matchers', '1.4.2'
   gem 'factory_girl', '~> 4'
   gem 'launchy', '2.0.5'

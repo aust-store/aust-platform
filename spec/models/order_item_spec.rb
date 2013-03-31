@@ -1,12 +1,6 @@
 require "spec_helper"
 
 describe OrderItem do
-  before do
-    @order = FactoryGirl.create(:order)
-    @item = @order.items.parent_items.first
-    @item.stub_chain(:inventory_entry, :quantity) { 10 }
-  end
-
   describe "callbacks" do
     describe "#set_status_as_pending on before_validation" do
       it "sets the status field to pending" do
@@ -53,15 +47,12 @@ describe OrderItem do
     end
   end
 
-  describe "#remaining_entries_in_stock" do
-    it "returns the quantity still in stock" do
-      item = OrderItem.new
-      item.stub_chain(:inventory_entry, :quantity) { 10 }
-      item.remaining_entries_in_stock.should == 10
-    end
-  end
-
   describe "#quantity" do
+    before do
+      @order = FactoryGirl.create(:order)
+      @item = @order.items.parent_items.first
+    end
+
     it "returns a integer" do
       item = OrderItem.new(quantity: 2)
       expect(item.quantity).to equal(2)
@@ -75,86 +66,56 @@ describe OrderItem do
     end
   end
 
-  describe "#sanitize_quantity" do
-    it "returns 0 if the given quantity is inferior to zero" do
-      @item.sanitize_quantity(-1).should == 0
-    end
-
-    it "returns remaining entries in stock if the given quantity is higher than that" do
-      @item.stub(:remaining_entries_in_stock) { 10 }
-      @item.sanitize_quantity(11).should == 10
-    end
-  end
-
   describe "#update_quantity" do
-    context "given a higher quantity than an existent" do
-      it "creates children with the same attributes of an existing order item" do
-        @item.price = 12
+    context "when it's meant to increase the quantity" do
+      before do
+        @order = FactoryGirl.create(:order, total_items: 1)
+        @item = @order.items.first
+      end
+
+      it "creates children with the same attributes" do
+        @item.inventory_entry.update_attributes(quantity: 3)
+        @item.price = 12.0
         @item.save
+        @item.update_quantity(30)
 
-        @item.update_quantity(3)
-
-        # There's another 12 different order items already created by order factory.
+        # There are other 2 different existing order items
         @item.children.count.should == 2
-        @order.items  .count.should == 15
+        @order.items  .count.should == 3
+        @item.quantity.should       == 3
 
-        changed_items = @order.items.where(parent_id: !nil)
-        changed_items.each do |item|
-          item.price.to_s.should == "12.0"
-        end
-      end
-
-      it "limits the number of children to the same quantity in the inventory, parent is included in the calculation" do
-        # There's 10 remaining entries in stock already stubbed before.
-        @item.update_quantity(15)
-
-        # There's another 12 different order items already created by order factory.
-        @order.items  .count.should == 22
-        @item.children.count.should == 9
-      end
-
-      it "the order item's quantity should be the equal the sum of it's children + 1" do
-        @item.update_quantity(10)
-
-        @item.quantity.should == 10
-        @item.children.count.should == 9
-      end
-
-      it "doesn't creates or destroys any children when the given quantity is equal to the current" do
-        @item.quantity.should == 4
-        @item.children.count.should == 3
-
-        @item.update_quantity(4)
-
-        @item.quantity.should == 4
-        @item.children.count.should == 3
+        prices = @order.items.all.map { |i| i.price.to_s }
+        prices.all? { |price| price == "12.0" }.should be_true
       end
     end
 
     context "given a lower number than an existent, including zero" do
-      it "destroys last created children when quantity is less than a existent quantity given before" do
-        # The current quantity for each item is 4 (1 parent, 3 chidren).
-        @order.items.count.should == 16
-
-        # One children shall be reduced (1 parent, 2 children).
-        @item.update_quantity(3)
-        @item.children.count.should == 2
-
-        # Only the parent item should remain (1 parent, 0 children).
-        @item.update_quantity(1)
-        @item.children.count.should == 0
-        @order.items.count.should == 13
+      before do
+        @order = FactoryGirl.create(:order, total_items: 5)
+        @item = @order.items.parent_items.first
       end
 
-      it "destroys all order item's children and sets its quantity to zero when the quantity is zero" do
-        @order.items.count.should == 16
+      it "destroys last created children when quantity is less than a existent quantity given before" do
+        @order.items.count.should == 5
+        @item.quantity.should     == 5
 
-        # Only parent item should remains with its quantity zero.
+        @item.update_quantity(3)
+        @item.children.count.should == 2
+        @item.quantity.should       == 3
+        @order.items.count.should   == 3
+
+        @item.update_quantity(1)
+        @item.children.count.should == 0
+        @item.quantity.should       == 1
+        @order.items.count.should   == 1
+      end
+
+      it "sets quantity to zero without destroying the parent item" do
         @item.update_quantity(0)
 
-        @item.quantity.should == 0
+        @item.quantity.should       == 0
         @item.children.count.should == 0
-        @order.items.count.should == 13
+        @order.items.count.should   == 1
       end
     end
   end
