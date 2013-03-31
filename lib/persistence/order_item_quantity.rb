@@ -4,6 +4,7 @@ module Persistence
       @item = order_item
     end
 
+    # FIXME improve tests
     def change(new_quantity)
       new_quantity = sanitize_quantity(new_quantity)
 
