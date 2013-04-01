@@ -19,6 +19,7 @@ module Store
           delivery_type: :correios, service_type: type,
           zipcode: zipcode, cart: cart
         )
+
         result
       end
 

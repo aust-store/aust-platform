@@ -10,7 +10,7 @@ module ControllersExtensions
     end
 
     def cart_items_quantity
-      @cart_items_quantity = cart.total_items_quantity
+      @cart_items_quantity = cart.total_unique_items
     end
   end
 end

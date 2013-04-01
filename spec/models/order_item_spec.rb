@@ -47,41 +47,76 @@ describe OrderItem do
     end
   end
 
-  describe "#remaining_entries_in_stock" do
-    it "returns the quantity still in stock" do
-      item = OrderItem.new
-      item.stub_chain(:inventory_entry, :quantity) { 10 }
-      item.remaining_entries_in_stock.should == 10
-    end
-  end
-
   describe "#quantity" do
+    before do
+      @order = FactoryGirl.create(:order)
+      @item = @order.items.parent_items.first
+    end
+
     it "returns a integer" do
       item = OrderItem.new(quantity: 2)
       expect(item.quantity).to equal(2)
     end
+
+    it "returns a the sum of children count + 1(parent)" do
+      @item.update_quantity(5)
+
+      @item.quantity.should == 5
+      @item.children.count.should == 4
+    end
   end
 
   describe "#update_quantity" do
-    let(:item) { OrderItem.new }
+    context "when it's meant to increase the quantity" do
+      before do
+        @order = FactoryGirl.create(:order, total_items: 1)
+        @item = @order.items.first
+      end
 
-    before do
-      item.stub_chain(:inventory_entry, :quantity) { 5 }
+      it "creates children with the same attributes" do
+        @item.inventory_entry.update_attributes(quantity: 3)
+        @item.price = 12.0
+        @item.save
+        @item.update_quantity(30)
+
+        # There are other 2 different existing order items
+        @item.children.count.should == 2
+        @order.items  .count.should == 3
+        @item.quantity.should       == 3
+
+        prices = @order.items.all.map { |i| i.price.to_s }
+        prices.all? { |price| price == "12.0" }.should be_true
+      end
     end
 
-    it "updates the quantity" do
-      item.should_receive(:update_attributes).with(quantity: 3)
-      item.update_quantity(3)
-    end
+    context "given a lower number than an existent, including zero" do
+      before do
+        @order = FactoryGirl.create(:order, total_items: 5)
+        @item = @order.items.parent_items.first
+      end
 
-    it "updates the quantity to zero if negative number is given" do
-      item.should_receive(:update_attributes).with(quantity: 0)
-      item.update_quantity(-1)
-    end
+      it "destroys last created children when quantity is less than a existent quantity given before" do
+        @order.items.count.should == 5
+        @item.quantity.should     == 5
 
-    it "limits the available quantity to the same quantity in the inventory" do
-      item.should_receive(:update_attributes).with(quantity: 5)
-      item.update_quantity(10)
+        @item.update_quantity(3)
+        @item.children.count.should == 2
+        @item.quantity.should       == 3
+        @order.items.count.should   == 3
+
+        @item.update_quantity(1)
+        @item.children.count.should == 0
+        @item.quantity.should       == 1
+        @order.items.count.should   == 1
+      end
+
+      it "sets quantity to zero without destroying the parent item" do
+        @item.update_quantity(0)
+
+        @item.quantity.should       == 0
+        @item.children.count.should == 0
+        @order.items.count.should   == 1
+      end
     end
   end
 end

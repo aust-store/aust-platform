@@ -1,6 +1,8 @@
 class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :cart
+  has_many :children, class_name: "OrderItem",
+    foreign_key: :parent_id, dependent: :destroy
   belongs_to :inventory_item
   belongs_to :inventory_entry
 
@@ -10,6 +12,14 @@ class OrderItem < ActiveRecord::Base
 
   before_validation :set_status_as_pending
   before_validation :set_quantity_to_one
+
+  scope :parent_items, ->{ where(parent_id: nil) }
+
+  scope :same_line_items, ->(inventory_entry) {
+    where("inventory_entry_id = ?", inventory_entry.id)
+      .where("price = ?", inventory_entry.inventory_item.price)
+      .parent_items
+  }
 
   # callbacks
   def set_status_as_pending
@@ -21,14 +31,8 @@ class OrderItem < ActiveRecord::Base
     true
   end
 
-  def remaining_entries_in_stock
-    inventory_entry.quantity
-  end
-
-  def update_quantity(quantity)
-    quantity = remaining_entries_in_stock if quantity > remaining_entries_in_stock
-    quantity = 0 if quantity < 0
-    update_attributes(quantity: quantity)
+  def update_quantity(new_quantity)
+    ::Persistence::OrderItemQuantity.new(self).change(new_quantity)
   end
 
   def name
@@ -40,7 +44,7 @@ class OrderItem < ActiveRecord::Base
   end
 
   def quantity
-    super.to_i
+    children.count + super.to_i
   end
 
   def self.statuses
@@ -69,5 +73,13 @@ class OrderItem < ActiveRecord::Base
 
   def self.all_cancelled?
     statuses.all? { |status| status == :cancelled }
+  end
+
+  def inherited_attributes
+    parent_attributes = self.attributes
+    parent_attributes.delete("created_at")
+    parent_attributes.delete("updated_at")
+    parent_attributes.delete("status")
+    parent_attributes
   end
 end

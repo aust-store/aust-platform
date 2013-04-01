@@ -22,9 +22,9 @@ shared_examples "cart contract" do
       end.to_not raise_error NoMethodError
     end
 
-    it "responds to all_items" do
+    it "responds to parent_items" do
       expect do
-        cart.all_items
+        cart.parent_items
       end.to_not raise_error NoMethodError
     end
 

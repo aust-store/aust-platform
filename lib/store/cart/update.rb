@@ -17,7 +17,12 @@ module Store
       end
 
       def update_quantities(params)
-        persistence.update_quantities_in_batch(params["item_quantities"])
+        quantities = params["item_quantities"]
+        persistence.items.each do |item|
+          if quantities.has_key?(item.id.to_s)
+            item.update_quantity(quantities[item.id.to_s].to_i)
+          end
+        end
       end
 
       def sanitize_quantities(params)

@@ -34,7 +34,7 @@ feature "Store cart" do
         click_link "Adicionar ao carrinho"
       end
 
-      OrderItem.count.should == 1
+      OrderItem.count.should == 3
       page.should have_content "Goodyear"
 
       # cart status at the top of the page

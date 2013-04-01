@@ -30,16 +30,16 @@ module Store
       Store::Cart::ItemsList.new(self).list
     end
 
-    def all_items
-      persistence.items.all
+    def parent_items
+      persistence.items.parent_items
     end
 
-    def total_items_quantity
-      all_items.map(&:quantity).reduce(:+) || 0
+    def total_unique_items
+      persistence.items.count
     end
 
     def total_price
-      Store::Order::PriceCalculation.calculate(all_items)
+      Store::Order::PriceCalculation.calculate(parent_items)
     end
 
     def total_price_by_item(item)

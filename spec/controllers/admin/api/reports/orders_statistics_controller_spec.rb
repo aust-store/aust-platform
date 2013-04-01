@@ -9,12 +9,12 @@ describe Admin::Api::Reports::OrdersStatisticsController do
   describe "GET show" do
     before do
       Timecop.travel(Time.local(2013, 8, 10, 10, 10, 10)) do
-        order = FactoryGirl.create(:order, store: @company, total_items: 1)
-        order = FactoryGirl.create(:order, store: nil, total_items: 1)
+        FactoryGirl.create(:order, store: @company, total_items: 1)
+        FactoryGirl.create(:order, store: nil, total_items: 1)
       end
 
       Timecop.travel(Time.local(2013, 10, 10, 10, 10, 10)) do
-        order = FactoryGirl.create(:order, store: @company, total_items: 2)
+        FactoryGirl.create(:order, store: @company, total_items: 2)
       end
     end
 
@@ -25,7 +25,7 @@ describe Admin::Api::Reports::OrdersStatisticsController do
         end
       end
 
-      it "returns the all-time statistics" do
+      it "returns the all-time statistics", focus: true do
         json = ActiveSupport::JSON.decode(response.body)
 
         json.should == {

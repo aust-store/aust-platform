@@ -12,7 +12,7 @@ describe Store::Cart::ItemsList do
         double(inventory_entry_id: 3, quantity: 2.2) ]
     end
 
-    let(:cart) { double(all_items: items) }
+    let(:cart) { double(parent_items: items) }
 
     it "instantiate items setting the quantity where appropriate" do
       list = Store::Cart::ItemsList.new(cart).list

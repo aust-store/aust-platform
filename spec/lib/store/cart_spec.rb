@@ -98,8 +98,8 @@ describe Store::Cart do
       persisted_cart = double(id: 1)
       subject.stub(:persistence) { persisted_cart }
 
-      persisted_cart.stub_chain(:items, :all) { [:items] }
-      subject.all_items.should == [:items]
+      persisted_cart.stub_chain(:items, :parent_items) { [:items] }
+      subject.parent_items.should == [:items]
     end
   end
 
@@ -121,22 +121,17 @@ describe Store::Cart do
     end
   end
 
-  describe "#total_items_quantity" do
+  describe "#total_unique_items" do
     it "returns the total quantity of items in the cart" do
-      subject.stub(:all_items) { [double(quantity: 2), double(quantity: 3)] }
-      expect(subject.total_items_quantity).to eq 5
-    end
-
-    it "returns 0 if there are no items in the cart" do
-      subject.stub(:all_items) { [] }
-      expect(subject.total_items_quantity).to eq 0
+      subject.stub_chain(:persistence, :items) { [double, double] }
+      expect(subject.total_unique_items).to eq 2
     end
   end
 
   describe "#total_price" do
     it "returns the total amount of the cart" do
-      subject.stub(:all_items) { :all_items }
-      Store::Order::PriceCalculation.stub(:calculate).with(:all_items) { :total }
+      subject.stub(:parent_items) { :parent_items }
+      Store::Order::PriceCalculation.stub(:calculate).with(:parent_items) { :total }
       expect(subject.total_price).to eq :total
     end
   end
@@ -176,5 +171,4 @@ describe Store::Cart do
       subject.convert_into_order
     end
   end
-
 end

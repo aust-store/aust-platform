@@ -52,7 +52,7 @@ describe Admin::Api::CartsController do
         "id"    => cart.id,
         "cart" => {
           "items" => [
-            { "id"    => cart.items.first.id,
+            { "id"    => cart.items.parent_items.first.id,
               "price" => 50,
               "inventory_item_id" => inventory_item.id },
 
@@ -64,16 +64,16 @@ describe Admin::Api::CartsController do
       }
       xhr :put, :update, json_request
 
-      cart         = Cart.first
-      json         = ActiveSupport::JSON.decode(response.body)
+      cart = Cart.first
+      json = ActiveSupport::JSON.decode(response.body)
 
       json["cart"].should include(
         { "id"    => cart.id,
-          "total" => "427.28" }
+          "total" => "151.82" }
       )
 
       # returns all items, not only the ones that were sent via PUT
-      cart.items.each do |item|
+      cart.items.parent_items.each do |item|
         json["cart"]["items"].should include(
           { "id"                 => item.id,
             "name"               => item.name,

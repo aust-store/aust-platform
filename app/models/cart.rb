@@ -37,39 +37,6 @@ class Cart < ActiveRecord::Base
     end
   end
 
-  def item_already_in_cart(inventory_entry)
-    items.where("price = ?", inventory_entry.inventory_item.price).first
-  end
-
-  def create_item_into_cart(entry)
-    item = OrderItem.new(
-      price: entry.inventory_item.price,
-      quantity: 1,
-      inventory_entry: entry,
-      inventory_item: entry.inventory_item
-    )
-
-    items << item
-    save
-  end
-
-  def increase_item_quantity(item, quantity_to_sum)
-    quantity = item.quantity + quantity_to_sum
-    update_item_quantity(item, quantity)
-  end
-
-  def update_item_quantity(item, quantity)
-    item.update_quantity(quantity) if quantity.present?
-  end
-
-  def update_quantities_in_batch(quantities)
-    items.each do |item|
-      if quantities.has_key?(item.id.to_s)
-        item.update_quantity(quantities[item.id.to_s].to_i)
-      end
-    end
-  end
-
   def reset_shipping
     shipping.destroy if shipping
   end
@@ -90,9 +57,32 @@ class Cart < ActiveRecord::Base
       shipping_details: self.shipping
     }
 
-    order = Order.find_or_create_by_cart_id(serialized_fields)
+    order = Order.create(serialized_fields)
     items.each { |item| order.items << item }
     order.save
     order
+  end
+
+  private
+
+  def create_item_into_cart(entry)
+    item = OrderItem.new(
+      price: entry.inventory_item.price,
+      quantity: 1,
+      inventory_entry: entry,
+      inventory_item: entry.inventory_item
+    )
+
+    items << item
+    save
+  end
+
+  def increase_item_quantity(item, quantity_to_sum)
+    quantity = item.quantity + quantity_to_sum
+    item.update_quantity(quantity) if quantity.present?
+  end
+
+  def item_already_in_cart(inventory_entry)
+    items.same_line_items(inventory_entry).first
   end
 end

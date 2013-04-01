@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
                   :user, :store, :shipping_address, :shipping_details
 
   belongs_to :user
+  belongs_to :cart
   belongs_to :store, class_name: "Company"
   has_many :items, class_name: "OrderItem"
   has_many :payment_statuses, order: "id asc"
@@ -34,7 +35,7 @@ class Order < ActiveRecord::Base
   end
 
   def items_quantity
-    items.map(&:quantity).reduce(:+)
+    items.parent_items.map(&:quantity).reduce(:+)
   end
 
   def summary

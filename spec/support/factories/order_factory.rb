@@ -10,7 +10,9 @@ FactoryGirl.define do
 
     # order_item
     after(:create) do |order, evaluator|
-      evaluator.total_items.times { order.items << FactoryGirl.create(:order_item) }
+      item = FactoryGirl.create(:order_item)
+      order.items << item
+      item.update_quantity(evaluator.total_items) if evaluator.total_items > 1
       order.save
     end
 
@@ -23,6 +25,7 @@ FactoryGirl.define do
     end
 
     factory :order do
+      association :shipping_details, factory: :order_shipping
       association :store, factory: :company
     end
 
