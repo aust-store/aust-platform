@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "acceptance_spec_helper"
 
-feature "Store cart" do
+feature "Normal checkout" do
   let(:pagseguro) { double }
 
   background do
@@ -19,8 +19,19 @@ feature "Store cart" do
   describe "checkout process" do
     scenario "As a signed out user, I want to checkout", js: true do
 
+      # we check the current state of the inventory/stock
+      @product.entries.first.quantity.should  == 8
+      @product.entries.second.quantity.should == 8
+      @product.entries.last.quantity.should   == 8
+      @product.entries.size.should            == 3
+
+      entry_for_purchase = @product.entries.first
       # user adds item to the cart
-      visit product_path(@product.balances.first)
+      visit product_path(entry_for_purchase)
+      click_link "Adicionar ao carrinho"
+
+      # adds the same item again
+      visit product_path(entry_for_purchase)
       click_link "Adicionar ao carrinho"
 
       # user defines shipping details
@@ -50,6 +61,14 @@ feature "Store cart" do
       Order.first.cart_id.should == cart.id
 
       page.should have_content "Sucesso"
+
+      # we check the current state of the inventory/stock
+      @product.entries.reload
+      @product.entries.first.quantity.should  == 6 # 2 items left this lot
+      @product.entries.second.quantity.should == 8
+      @product.entries.last.quantity.should   == 8
+      @product.entries.size.should            == 3
+
 
       # checks if the cart has been really flushed
       visit cart_path

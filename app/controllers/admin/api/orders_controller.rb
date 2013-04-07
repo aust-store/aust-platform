@@ -23,10 +23,10 @@ class Admin::Api::OrdersController < Admin::ApplicationController
 
     cart_id = current_company.carts.find(params[:order][:cart_attributes][:id])
     cart = current_company.carts.find(cart_id)
-    order = cart.convert_into_order
 
-    respond_to do |format|
-      format.js { render json: order }
-    end
+    sale = Store::Sale.new(cart)
+    sale.close
+
+    render json: sale.order
   end
 end

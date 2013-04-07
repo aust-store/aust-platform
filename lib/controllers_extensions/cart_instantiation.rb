@@ -6,7 +6,7 @@ module ControllersExtensions
       @cart
     end
 
-    def flush_cart
+    def reset_cart
       session[:cart_id] = nil
     end
   end

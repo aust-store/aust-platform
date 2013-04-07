@@ -48,19 +48,7 @@ class Cart < ActiveRecord::Base
   end
 
   def convert_into_order
-    serialized_fields = {
-      cart_id:          self.id,
-      environment:      self.environment,
-      user:             self.user,
-      store:            self.company,
-      shipping_address: self.shipping_address,
-      shipping_details: self.shipping
-    }
-
-    order = Order.create(serialized_fields)
-    items.each { |item| order.items << item }
-    order.save
-    order
+    Store::Order::CreationFromCart.new(self).convert_cart_into_order
   end
 
   private

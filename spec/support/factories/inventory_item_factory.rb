@@ -43,7 +43,6 @@ FactoryGirl.define do
                                   inventory_item: item,
                                   store_id: item.company.id)
         end
-
       end
     end
   end

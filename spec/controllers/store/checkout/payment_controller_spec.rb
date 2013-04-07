@@ -5,12 +5,14 @@ describe Store::Checkout::PaymentController do
 
   login_user
 
-  let(:cart)     { double.as_null_object }
+  let(:sale)     { double(order: :order).as_null_object }
+  let(:cart)     { double(persistence: :cart_persistence).as_null_object }
   let(:checkout) { double(payment_url: 'http://payment_url').as_null_object }
 
   before do
     controller.stub(:cart) { cart }
-    Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, cart) { checkout }
+    Store::Sale.stub(:new).with(:cart_persistence) { sale }
+    Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, :order) { checkout }
   end
 
   describe "GET show" do
@@ -21,7 +23,12 @@ describe Store::Checkout::PaymentController do
     end
 
     it "converts the current cart into an order" do
-      cart.should_receive(:convert_into_order)
+      sale.should_receive(:close)
+      get :show
+    end
+
+    it "resets the cart" do
+      controller.should_receive(:reset_cart)
       get :show
     end
   end
