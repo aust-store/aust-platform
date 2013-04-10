@@ -36,10 +36,13 @@ FactoryGirl.define do
 
       # this has 3 entries
       factory :inventory_item do
+        ignore do
+          total_entries 3
+        end
 
         # inventory_entry
         after(:create) do |item, evaluator|
-          FactoryGirl.create_list(:inventory_entry, 3,
+          FactoryGirl.create_list(:inventory_entry, evaluator.total_entries,
                                   inventory_item: item,
                                   store_id: item.company.id)
         end

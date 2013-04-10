@@ -1,0 +1,5 @@
+pt_br:
+  store:
+    errors:
+      checkout:
+        entry_with_negative_quantity: "Sentimos muito, mas um dos itens do seu carrinho possui maior quantidade do que temos disponível no estoque. Por favor, conclua seu pedido novamente."

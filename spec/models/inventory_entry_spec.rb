@@ -64,8 +64,15 @@ describe InventoryEntry do
           InventoryEntry.last.store_id.should == @item.company.id
         end
       end
+    end
 
-      def create_entry(item, quantity, cost_per_unit)
+    describe "#observe_negative_stock on before_save" do
+      it "raises InventoryEntry::NegativeStock when new quantity is less than 0" do
+        item = FactoryGirl.create(:inventory_item, total_entries: 1)
+        entry = item.entries.first
+        expect {
+          entry.update_attributes(quantity: -1)
+        }.to raise_error InventoryEntry::NegativeQuantity
       end
     end
   end

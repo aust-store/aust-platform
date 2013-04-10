@@ -27,8 +27,8 @@ describe Store::Sale do
       Store::Order::CreationFromCart.stub_chain(:new, :convert_cart_into_order) { :order }
 
       stock_subtraction = double
-      Store::Stock::DecrementAfterOrder.stub(:new) { stock_subtraction }
-      stock_subtraction.should_receive(:subtract).with(:order)
+      Store::Stock::DecrementAfterOrder.stub(:new).with(:order) { stock_subtraction }
+      stock_subtraction.should_receive(:subtract)
 
       subject.close
     end
