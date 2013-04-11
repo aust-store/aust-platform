@@ -108,7 +108,7 @@ feature "Store cart" do
     end
   end
 
-  describe "policies" do
+  describe "Policies" do
     background do
       inventory_entry = @product.balances.first
       visit product_path(inventory_entry)

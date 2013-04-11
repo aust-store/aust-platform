@@ -67,9 +67,9 @@ describe User do
     it "returns the default address" do
       user = FactoryGirl.create(:user)
       user.addresses << FactoryGirl.build(:address, address_1: 'Angel Grove')
-      user.addresses << FactoryGirl.build(:address, address_1: 'Baker Street')
-      user.addresses.where(address_1: "Baker Street").first.update_attribute(:default, true)
-      expect(user.default_address.address_1).to eq('Baker Street')
+      user.addresses << FactoryGirl.build(:address, address_1: 'Baker Streetfighter')
+      user.addresses.where(address_1: "Baker Streetfighter").first.update_attribute(:default, true)
+      expect(user.default_address.address_1).to eq('Baker Streetfighter')
     end
   end
 

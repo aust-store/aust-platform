@@ -17,9 +17,9 @@ module Store
       @company
     end
 
-    def add_item(inventory_entry_id, quantity = 1)
+    def add_item(inventory_entry, quantity = 1)
       persistence.reset_shipping
-      persistence.add_item(inventory_entry_id, quantity)
+      persistence.add_item(inventory_entry, quantity)
     end
 
     def remove_item(id)

@@ -28,11 +28,15 @@ feature "Store products" do
 
   describe "adding a product to the cart" do
     scenario "As an user, I can add a product to the cart" do
-      visit product_path(@product.balances.first)
+      entry_in_cart = @product.entries.first
+      visit product_path(entry_in_cart)
 
       click_link "Adicionar ao carrinho"
       current_path.should == cart_path
       page.should have_content @product.name
+
+      # The id used in the product page to add to the cart the inventory_entry
+      OrderItem.first.inventory_entry_id.should == entry_in_cart.id
     end
   end
 end

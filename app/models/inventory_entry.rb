@@ -1,4 +1,6 @@
 class InventoryEntry < ActiveRecord::Base
+  class NegativeQuantity < StandardError; end
+
   belongs_to :store, foreign_key: "store_id", class_name: "Company"
   belongs_to :inventory_item
   belongs_to :admin_user
@@ -13,6 +15,7 @@ class InventoryEntry < ActiveRecord::Base
   validates :quantity, presence: true,
     numericality: { greater_than: 0 }, on: :create
 
+  before_validation :observe_negative_quantity, on: :update
   before_create :define_new_balance_values
   before_create :define_company_on_create
 
@@ -35,5 +38,9 @@ class InventoryEntry < ActiveRecord::Base
 
   def define_company_on_create
     self.store_id = self.inventory_item.company_id
+  end
+
+  def observe_negative_quantity
+    raise InventoryEntry::NegativeQuantity if self.quantity < 0
   end
 end
