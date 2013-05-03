@@ -1,0 +1,11 @@
+default: &local_defaults
+  adapter: postgresql
+  encoding: utf8
+
+development:
+  <<: *local_defaults
+  database: store_development
+
+test:
+  <<: *local_defaults
+  database: store_test
