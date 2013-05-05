@@ -24,3 +24,4 @@ public/uploads/*
 public/assets/*
 zeus*
 .sass-cache/*
+.rvmrc
