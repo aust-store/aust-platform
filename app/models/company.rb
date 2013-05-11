@@ -35,6 +35,10 @@ class Company < ActiveRecord::Base
     Store::CompanyStatistics.new(self).statistics
   end
 
+  def currency
+    "R$"
+  end
+
   def include_statistics
     @include_statistics = true
     self

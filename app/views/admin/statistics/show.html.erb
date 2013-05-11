@@ -1,0 +1,17 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1><%= t('.title') %></h1>
+</header>
+
+<div class="main_container">
+  <p>
+    <strong><%= t(".sales_today") %>:</strong> <%= @today.humanize %>
+  </p>
+  <p>
+    <strong><%= t(".sales_this_month") %>:</strong> <%= @this_month.humanize %>
+  </p>
+  <p>
+    <strong><%= t(".sales_last_third_days") %>:</strong> <%= @last_thirty_days.humanize %>
+  </p>
+</div>

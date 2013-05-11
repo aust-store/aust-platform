@@ -10,15 +10,18 @@ FactoryGirl.define do
 
     # order_item
     after(:create) do |order, evaluator|
-      item = FactoryGirl.create(:order_item)
-      order.items << item
-      item.update_quantity(evaluator.total_items) if evaluator.total_items > 1
-      order.save
+      # if no items were manually added
+      if evaluator.items.blank?
+        item = FactoryGirl.create(:order_item)
+        order.items << item
+        item.update_quantity(evaluator.total_items) if evaluator.total_items > 1
+        order.save
+      end
     end
 
     factory :paid_order do
       after(:create) do |order, evaluator|
-        order.items.each { |item| item.update_attributes(status: "shipped") }
+        order.items.update_all(status: "shipped")
         order.payment_statuses.build(status: :approved, order_id: order.id)
         order.save
       end
