@@ -136,35 +136,6 @@ describe Store::Cart do
     end
   end
 
-  pending "#total_price_by_item"
-
-  describe "#set_shipping_address" do
-    let(:persistence)  { double.as_null_object }
-    let(:user_address) { double(copied: :user_address_copied).as_null_object }
-
-    before do
-      subject.stub(:persistence) { persistence }
-      user.stub(:default_address) { user_address }
-    end
-
-    it "deletes the previous shipping_address" do
-      shipping_address = double
-      persistence.stub(:shipping_address) { shipping_address }
-      shipping_address.should_receive(:destroy)
-      subject.set_shipping_address
-    end
-
-    it "deletes the previous shipping_address" do
-      persistence.should_receive(:build_shipping_address).with(:user_address_copied)
-      subject.set_shipping_address
-    end
-
-    it "deletes the previous shipping_address" do
-      persistence.should_receive(:save)
-      subject.set_shipping_address
-    end
-  end
-
   describe "#convert_into_order" do
     it "should persist a new order based on this cart" do
       subject.persistence.should_receive(:convert_into_order)

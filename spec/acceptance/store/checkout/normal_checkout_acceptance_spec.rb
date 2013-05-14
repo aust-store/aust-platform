@@ -36,7 +36,7 @@ feature "Normal checkout", js: true do
         click_link "Adicionar ao carrinho"
       end
 
-      user_defines_shipping_details
+      user_defines_cart_shipping_zipcode
       click_on "checkout_button"
 
       user_signs_in
@@ -44,16 +44,20 @@ feature "Normal checkout", js: true do
       page.should have_content I18n.t('store.checkout.shipping.show.page_title')
 
       # Final button before user goes to PagSeguro
-      within(".edit_cart") do
-        find("[name='place_order']").click
-      end
+      click_button "place_order_with_default_address"
+
+      # it goes to checkout_payment_url and then to
+      current_path.should == checkout_success_path
 
       # given we flush the cart after the checkout, a new one is generated
       ::Cart.count.should == 2
       cart = Cart.first
-      Order.first.cart_id.should == cart.id
+      order = Order.first
+      order.cart_id.should == cart.id
 
       page.should have_content "Sucesso"
+
+      assert_address(order.shipping_address, @user.default_address)
 
       # we check the current state of the inventory/stock
       @entries.reload
@@ -68,43 +72,87 @@ feature "Normal checkout", js: true do
       page.should_not have_content "R$ 12,34"
     end
 
-    scenario "As an user, I'm redirected to the cart if an item is out of stock" do
-      @product.entries.second.destroy
-      @product.entries.last.destroy
-
-      4.times do
+    describe "variances" do
+      scenario "As an user, I checkout defining a custom shipping address" do
         # user adds item to the cart
         visit product_path(@entry_for_purchase)
         click_link "Adicionar ao carrinho"
+
+        user_defines_cart_shipping_zipcode
+        click_on "checkout_button"
+
+        user_signs_in
+
+        page.should have_content I18n.t('store.checkout.shipping.show.page_title')
+
+        prefix = "cart_shipping_address_attributes"
+        fill_in "#{prefix}_address_1",    with: "300 E Street SW"
+        fill_in "#{prefix}_address_2",    with: "x"
+        fill_in "#{prefix}_number",       with: "123"
+        fill_in "#{prefix}_neighborhood", with: "Center"
+        fill_in "#{prefix}_zipcode",      with: "20024-321"
+        fill_in "#{prefix}_city",         with: "Washington DC"
+        fill_in "#{prefix}_state",        with: "RS"
+
+        # Final button before user goes to PagSeguro
+        click_button "place_order_with_custom_shipping_address"
+
+        # given we flush the cart after the checkout, a new one is generated
+        ::Cart.count.should == 2
+        cart = Cart.first
+        order = Order.first
+        order.cart_id.should == cart.id
+
+        page.should have_content "Sucesso"
+
+        order_address = Address.last
+        order_address.address_1.should == "300 E Street SW"
+        order_address.address_2.should == "x"
+        order_address.number.should == "123"
+        order_address.neighborhood.should == "Center"
+        order_address.zipcode.should == "20024-321"
+        order_address.city.should == "Washington DC"
+        order_address.state.should == "RS"
+        order_address.country.should == "BR"
+        order_address.addressable.should == order
       end
 
-      order_item_id = OrderItem.parent_items.first.id
-      find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "4"
-      user_defines_shipping_details
-      click_on "checkout_button"
+      scenario "As an user, I'm redirected to the cart if an item is out of stock" do
+        @product.entries.second.destroy
+        @product.entries.last.destroy
 
-      user_signs_in
+        4.times do
+          # user adds item to the cart
+          visit product_path(@entry_for_purchase)
+          click_link "Adicionar ao carrinho"
+        end
 
-      page.should have_content I18n.t('store.checkout.shipping.show.page_title')
+        order_item_id = OrderItem.parent_items.first.id
+        find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "4"
+        user_defines_cart_shipping_zipcode
+        click_on "checkout_button"
 
-      @entry_for_purchase.update_attributes(quantity: 2)
+        user_signs_in
 
-      # Final button before user goes to PagSeguro
-      within(".edit_cart") do
-        find("[name='place_order']").click
+        page.should have_content I18n.t('store.checkout.shipping.show.page_title')
+
+        @entry_for_purchase.update_attributes(quantity: 2)
+
+        # Final button before user goes to PagSeguro
+        click_button "place_order_with_default_address"
+
+        current_path.should == cart_path
+
+        find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "2"
+
+        # we check the current state of the inventory/stock
+        @product.entries.reload
+        @product.entries.first.quantity.should  == 2 # 2 items left this lot
       end
-
-      current_path.should == cart_path
-
-      find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "2"
-
-      # we check the current state of the inventory/stock
-      @product.entries.reload
-      @product.entries.first.quantity.should  == 2 # 2 items left this lot
     end
   end
 
-  def user_defines_shipping_details
+  def user_defines_cart_shipping_zipcode
     within(".js_service_selection") { choose("type_pac") }
     fill_in "zipcode", with: "96360000"
 
@@ -117,5 +165,13 @@ feature "Normal checkout", js: true do
     fill_in "user_email", with: @user.email
     fill_in "user_password", with: "123456"
     click_on "sign_in"
+  end
+
+  def assert_address(address1, address2)
+    address1.address_1.should == address2.address_1
+    address1.address_2.should == address2.address_2
+    address1.city.should      == address2.city
+    address1.zipcode.should   == address2.zipcode
+    address1.country.should   == address2.country
   end
 end

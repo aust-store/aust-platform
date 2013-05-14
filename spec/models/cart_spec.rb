@@ -38,6 +38,16 @@ describe Cart do
     end
   end
 
+  describe "#set_user" do
+    let(:user) { double }
+
+    it "updates the user of the cart" do
+      cart = Cart.new
+      cart.should_receive(:update_attributes).with(user: user)
+      cart.set_user(user)
+    end
+  end
+
   describe "#current_inventory_entry" do
     it "returns the current inventory_entry" do
       cart = Cart.new

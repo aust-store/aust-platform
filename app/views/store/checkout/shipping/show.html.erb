@@ -1,9 +1,53 @@
 <div>
   <h1><%= t('.page_title') %></h1>
 
-  <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+  <div class="choose_custom_shipping_address">
+    <p>
+      Selecione o seu endereço de entrega:
+    </p>
+    <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+      <input type="hidden" name="place_order_with_custom_shipping_address" value="1" />
+      <%= f.fields_for :shipping_address do |s| %>
+        <%= s.input :address_1, as: :string %>
+        <%= s.input :address_2, as: :string %>
+        <%= s.input :number, as: :string %>
+        <%= s.input :neighborhood, as: :string %>
+        <%= s.input :zipcode, as: :string %>
+        <%= s.input :state, as: :string %>
+        <%= s.input :city, as: :string %>
 
-    <%= f.submit name: "place_order" %>
-  <% end %>
+        <div class="country">
+          <strong>País:</strong> Brasil
+        </div>
+      <% end %>
+
+      <%= f.submit "Usar este endereço para entrega",
+        id: "place_order_with_custom_shipping_address" %>
+    <% end %>
+  </div>
+
+  <div class="use_customer_default_address">
+    <p>
+      Ou use seu endereço de entrega padrão
+    </p>
+    <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+      <p>
+        <strong>Endereço 1:</strong> <%= @customer_address.address_1 %>
+        <br />
+        <strong>Endereço 2:</strong> <%= @customer_address.address_2 %>
+        <br />
+        <strong>Bairro:</strong> <%= @customer_address.neighborhood %>
+        <br />
+        <strong>CEP:</strong> <%= @customer_address.zipcode %>
+        <br />
+        <strong>Cidade:</strong> <%= @customer_address.city %>
+        <br />
+        <strong>País:</strong> <%= @customer_address.country %>
+      </p>
+
+      <%= f.submit "Usar seu endereço padrão",
+        id: "place_order_with_default_address" %>
+    <% end %>
+  </div>
 
 </div>

@@ -4,4 +4,4 @@ pt_br:
     checkout:
       shipping:
         show:
-          page_title: "Entrega"
+          page_title: "Endereço de entrega"
