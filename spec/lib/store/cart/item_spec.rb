@@ -1,5 +1,5 @@
 require "unit_spec_helper"
-require "store/money"
+require "money"
 require "store/cart/item"
 
 describe Store::Cart::Item do

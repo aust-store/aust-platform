@@ -1,0 +1,16 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    navigation:
+      inventory:     "Estoque"
+      orders:        "Pedidos"
+      marketing:     "Marketing"
+      customers:     "Clientes"
+      taxonomies:    "Categorias"
+      colaborators:  "Colaboradores"
+      settings:      "Configurações"
+      statistics:    "Estatísticas"
+      offline_sales: "Vendas offline"
+      point_of_sale: "Ponto de venda"
+      more:          "Mais"
+      sign_out:      "Sair"

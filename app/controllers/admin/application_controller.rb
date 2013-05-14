@@ -16,6 +16,10 @@ class Admin::ApplicationController < ApplicationController
     current_user.company
   end
 
+  def currency
+    current_company.currency
+  end
+
   private
 
   def define_layout
@@ -25,6 +29,7 @@ class Admin::ApplicationController < ApplicationController
   def navigation_namespace
     @nav_namespace = case request.url
     when /admin\/inventory/  ; "inventory"
+    when /admin\/statistics/ ; "statistics"
     when /admin\/users/      ; "users"
     when /admin\/store/      ; "store"
     when /admin\/settings/   ; "settings"

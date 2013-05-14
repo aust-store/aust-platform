@@ -11,3 +11,9 @@ pt_br:
 
           Para editar uma categoria, clique sobre seu nome para ver seu campo de texto.
         greatfather_node: "Categorias de produtos"
+    statistics:
+      show:
+        title: "Estatísticas"
+        sales_today: "Vendas hoje"
+        sales_this_month: "Vendas este mês"
+        sales_last_third_days: "Vendas últimos 30 dias"

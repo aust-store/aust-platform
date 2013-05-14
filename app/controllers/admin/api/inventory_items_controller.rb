@@ -4,7 +4,7 @@ class Admin::Api::InventoryItemsController < Admin::ApplicationController
     # The mobile admin site (iPhone) requires seeing all the inventory items.
     # The offline sales page requires seeing only inventory items on sale
     # This should return all items
-    @items = current_company.items
+    @items = current_company.items.order("inventory_items.id desc")
 
     if params[:on_sale].present?
       @items = @items.items_on_sale

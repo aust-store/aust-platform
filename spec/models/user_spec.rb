@@ -65,11 +65,25 @@ describe User do
 
   describe "#default_address" do
     it "returns the default address" do
+      # user already has 'Baker street' address
       user = FactoryGirl.create(:user)
-      user.addresses << FactoryGirl.build(:address, address_1: 'Angel Grove')
-      user.addresses << FactoryGirl.build(:address, address_1: 'Baker Streetfighter')
-      user.addresses.where(address_1: "Baker Streetfighter").first.update_attribute(:default, true)
-      expect(user.default_address.address_1).to eq('Baker Streetfighter')
+      first_address = user.addresses.first
+      expect(user.default_address).to eq(first_address)
+
+      gotham = FactoryGirl.build(:address)
+      user.addresses << gotham
+      expect(user.default_address).to eq(first_address)
+
+      gotham.update_attribute(:default, true)
+      expect(first_address.reload).to_not be_default
+      expect(user.default_address).to eq(gotham)
+
+      angel_grove = FactoryGirl.build(:address, default: true)
+      user.addresses << angel_grove
+      expect(user.default_address).to eq(angel_grove)
+
+      user.addresses.reload
+      user.addresses.one? { |a| a.default == true }.should be_true
     end
   end
 
