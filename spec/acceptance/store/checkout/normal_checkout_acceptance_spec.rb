@@ -19,12 +19,13 @@ feature "Normal checkout", js: true do
   describe "checkout process" do
     background do
       # we check the current state of the inventory/stock
-      @product.entries.first.quantity.should  == 8
-      @product.entries.second.quantity.should == 8
-      @product.entries.last.quantity.should   == 8
-      @product.entries.size.should            == 3
+      @entries = @product.entries.order('id asc')
+      @entries.first.quantity.should  == 8
+      @entries.second.quantity.should == 8
+      @entries.last.quantity.should   == 8
+      @entries.size.should            == 3
 
-      @entry_for_purchase = @product.entries.first
+      @entry_for_purchase = @entries.first
     end
 
     scenario "As a signed out user, I want to checkout" do
@@ -55,11 +56,11 @@ feature "Normal checkout", js: true do
       page.should have_content "Sucesso"
 
       # we check the current state of the inventory/stock
-      @product.entries.reload
-      @product.entries.first.quantity.should  == 6 # 2 items left this lot
-      @product.entries.second.quantity.should == 8
-      @product.entries.last.quantity.should   == 8
-      @product.entries.size.should            == 3
+      @entries.reload
+      @entries.first.quantity.should  == 6 # 2 items left this lot
+      @entries.second.quantity.should == 8
+      @entries.last.quantity.should   == 8
+      @entries.size.should            == 3
 
 
       # checks if the cart has been really flushed
