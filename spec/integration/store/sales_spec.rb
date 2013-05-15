@@ -11,10 +11,11 @@ describe "Integrated store sale" do
     it "creates an order and decreases the product stock" do
 
       # Prepares
-      @product.entries.first.quantity.should  == 8
-      @product.entries.second.quantity.should == 8
-      @product.entries.last.quantity.should   == 8
-      @product.entries.size.should            == 3
+      entries = @product.entries.order('id asc')
+      entries.first.quantity.should  == 8
+      entries.second.quantity.should == 8
+      entries.last.quantity.should   == 8
+      entries.size.should            == 3
 
       Order.count.should == 0
 
@@ -28,11 +29,11 @@ describe "Integrated store sale" do
       Store::Sale.new(cart).close
 
       # Asserts
-      @product.reload
-      @product.entries.first.quantity.should  == 8
-      @product.entries.second.quantity.should == 7
-      @product.entries.last.quantity.should   == 8
-      @product.entries.size.should            == 3
+      entries.reload
+      entries.first.quantity.should  == 8
+      entries.second.quantity.should == 7
+      entries.last.quantity.should   == 8
+      entries.size.should            == 3
 
       Order.count.should == 1
     end
