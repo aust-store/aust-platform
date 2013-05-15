@@ -44,7 +44,8 @@ FactoryGirl.define do
         after(:create) do |item, evaluator|
           FactoryGirl.create_list(:inventory_entry, evaluator.total_entries,
                                   inventory_item: item,
-                                  store_id: item.company.id)
+                                  store_id: item.company.id,
+                                  admin_user_id: item.user.id)
         end
       end
     end

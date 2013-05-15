@@ -21,6 +21,7 @@ module Admin
         load_item
         @entry = @item.balances.build params[:inventory_entry]
         @entry.store_id = current_company.id
+        @entry.admin_user_id = current_user.id
         if @entry.save
           redirect_to admin_inventory_item_entries_url(@entry.inventory_item)
         else
