@@ -65,7 +65,7 @@ CREATE TABLE account_receivables (
     company_id integer,
     admin_user_id integer,
     customer_id integer,
-    value numeric(10,2) DEFAULT 0.0 NOT NULL,
+    value numeric,
     description text,
     due_to date,
     paid boolean,
@@ -380,8 +380,8 @@ CREATE TABLE inventory_entries (
     inventory_item_id integer,
     admin_user_id integer,
     description text,
-    quantity numeric(10,2) DEFAULT 0.0 NOT NULL,
-    cost_per_unit numeric(10,2) DEFAULT 0.0 NOT NULL,
+    quantity numeric,
+    cost_per_unit numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     on_sale boolean DEFAULT true,
@@ -448,7 +448,7 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 CREATE TABLE inventory_item_prices (
     id integer NOT NULL,
     inventory_item_id integer,
-    value numeric(10,2) DEFAULT 0.0 NOT NULL,
+    value numeric(8,2) DEFAULT NULL::numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -523,7 +523,7 @@ CREATE TABLE inventory_items (
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
-    moving_average_cost numeric(10,2) DEFAULT 0.0 NOT NULL
+    moving_average_cost numeric(8,2) DEFAULT NULL::numeric
 );
 
 
@@ -586,8 +586,8 @@ ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
 CREATE TABLE order_items (
     id integer NOT NULL,
     inventory_item_id integer,
-    price numeric(10,2) DEFAULT 0.0 NOT NULL,
-    quantity numeric(10,2) DEFAULT 0.0 NOT NULL,
+    price numeric,
+    quantity numeric,
     inventory_entry_id integer,
     cart_id integer,
     order_id integer,
@@ -625,7 +625,7 @@ CREATE TABLE order_shippings (
     id integer NOT NULL,
     cart_id integer,
     order_id integer,
-    price numeric(10,2) DEFAULT 0.0 NOT NULL,
+    price numeric,
     delivery_days integer,
     delivery_type text,
     service_type text,
@@ -911,8 +911,7 @@ CREATE TABLE users (
     home_area_number character varying(255),
     work_area_number character varying(255),
     mobile_area_number character varying(255),
-    store_id integer,
-    environment character varying(255)
+    store_id integer
 );
 
 
@@ -1674,13 +1673,6 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_environment ON users USING btree (environment);
-
-
---
 -- Name: index_users_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1734,34 +1726,6 @@ CREATE INDEX taxonomies_name ON taxonomies USING gin (to_tsvector('english'::reg
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
--- Name: user_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX user_email ON users USING gin (to_tsvector('english'::regconfig, (email)::text));
-
-
---
--- Name: user_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX user_first_name ON users USING gin (to_tsvector('english'::regconfig, first_name));
-
-
---
--- Name: user_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX user_last_name ON users USING gin (to_tsvector('english'::regconfig, first_name));
-
-
---
--- Name: user_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX user_social_security_number ON users USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
 
 
 --
@@ -1895,9 +1859,3 @@ INSERT INTO schema_migrations (version) VALUES ('20130304003040');
 INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
-
-INSERT INTO schema_migrations (version) VALUES ('20130414161633');
-
-INSERT INTO schema_migrations (version) VALUES ('20130504194549');
-
-INSERT INTO schema_migrations (version) VALUES ('20130514232652');
