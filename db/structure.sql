@@ -65,7 +65,7 @@ CREATE TABLE account_receivables (
     company_id integer,
     admin_user_id integer,
     customer_id integer,
-    value numeric,
+    value numeric(10,2) DEFAULT 0.0 NOT NULL,
     description text,
     due_to date,
     paid boolean,
@@ -171,7 +171,7 @@ ALTER SEQUENCE admin_dashboards_id_seq OWNED BY admin_dashboards.id;
 CREATE TABLE admin_users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
@@ -180,11 +180,7 @@ CREATE TABLE admin_users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip character varying(255),
     last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
+    password_salt character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     company_id integer,
@@ -384,12 +380,12 @@ CREATE TABLE inventory_entries (
     inventory_item_id integer,
     admin_user_id integer,
     description text,
-    quantity numeric,
-    cost_per_unit numeric,
+    quantity numeric(10,2) DEFAULT 0.0 NOT NULL,
+    cost_per_unit numeric(10,2) DEFAULT 0.0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    store_id integer,
-    on_sale boolean DEFAULT true
+    on_sale boolean DEFAULT true,
+    store_id integer
 );
 
 
@@ -452,7 +448,7 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 CREATE TABLE inventory_item_prices (
     id integer NOT NULL,
     inventory_item_id integer,
-    value numeric,
+    value numeric(10,2) DEFAULT 0.0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -527,7 +523,7 @@ CREATE TABLE inventory_items (
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
-    moving_average_cost numeric
+    moving_average_cost numeric(10,2) DEFAULT 0.0 NOT NULL
 );
 
 
@@ -590,8 +586,8 @@ ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
 CREATE TABLE order_items (
     id integer NOT NULL,
     inventory_item_id integer,
-    price numeric,
-    quantity numeric,
+    price numeric(10,2) DEFAULT 0.0 NOT NULL,
+    quantity numeric(10,2) DEFAULT 0.0 NOT NULL,
     inventory_entry_id integer,
     cart_id integer,
     order_id integer,
@@ -629,7 +625,7 @@ CREATE TABLE order_shippings (
     id integer NOT NULL,
     cart_id integer,
     order_id integer,
-    price numeric,
+    price numeric(10,2) DEFAULT 0.0 NOT NULL,
     delivery_days integer,
     delivery_type text,
     service_type text,
@@ -915,7 +911,8 @@ CREATE TABLE users (
     home_area_number character varying(255),
     work_area_number character varying(255),
     mobile_area_number character varying(255),
-    store_id integer
+    store_id integer,
+    environment character varying(255)
 );
 
 
@@ -1171,14 +1168,6 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1200,6 +1189,14 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1303,20 +1300,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
-
-
---
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
-
-
---
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
@@ -1691,6 +1674,13 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
+-- Name: index_users_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_environment ON users USING btree (environment);
+
+
+--
 -- Name: index_users_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1744,6 +1734,34 @@ CREATE INDEX taxonomies_name ON taxonomies USING gin (to_tsvector('english'::reg
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: user_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_email ON users USING gin (to_tsvector('english'::regconfig, (email)::text));
+
+
+--
+-- Name: user_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_first_name ON users USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: user_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_last_name ON users USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: user_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_social_security_number ON users USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
 
 
 --
@@ -1877,3 +1895,9 @@ INSERT INTO schema_migrations (version) VALUES ('20130304003040');
 INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
+
+INSERT INTO schema_migrations (version) VALUES ('20130414161633');
+
+INSERT INTO schema_migrations (version) VALUES ('20130504194549');
+
+INSERT INTO schema_migrations (version) VALUES ('20130514232652');

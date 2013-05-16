@@ -11,18 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130504194549) do
+ActiveRecord::Schema.define(:version => 20130514232652) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
     t.integer  "admin_user_id"
     t.integer  "customer_id"
-    t.decimal  "value"
+    t.decimal  "value",         :precision => 10, :scale => 2, :default => 0.0, :null => false
     t.text     "description"
     t.date     "due_to"
     t.boolean  "paid"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                                                    :null => false
+    t.datetime "updated_at",                                                    :null => false
   end
 
   add_index "account_receivables", ["admin_user_id"], :name => "index_account_receivables_on_admin_user_id"
@@ -130,11 +130,11 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
     t.integer  "inventory_item_id"
     t.integer  "admin_user_id"
     t.text     "description"
-    t.decimal  "quantity"
-    t.decimal  "cost_per_unit"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.boolean  "on_sale",           :default => true
+    t.decimal  "quantity",          :precision => 10, :scale => 2, :default => 0.0,  :null => false
+    t.decimal  "cost_per_unit",     :precision => 10, :scale => 2, :default => 0.0,  :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
+    t.boolean  "on_sale",                                          :default => true
     t.integer  "store_id"
   end
 
@@ -156,9 +156,9 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
 
   create_table "inventory_item_prices", :force => true do |t|
     t.integer  "inventory_item_id"
-    t.decimal  "value",             :precision => 8, :scale => 2
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.decimal  "value",             :precision => 10, :scale => 2, :default => 0.0, :null => false
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
   end
 
   add_index "inventory_item_prices", ["inventory_item_id"], :name => "index_inventory_item_prices_on_inventory_item_id"
@@ -177,8 +177,8 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
     t.integer  "taxonomy_id"
     t.integer  "year"
     t.integer  "manufacturer_id"
-    t.decimal  "moving_average_cost", :precision => 8, :scale => 2
+    t.decimal  "moving_average_cost", :precision => 10, :scale => 2, :default => 0.0, :null => false
   end
 
   add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
@@ -206,13 +206,13 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
 
   create_table "order_items", :force => true do |t|
     t.integer  "inventory_item_id"
-    t.decimal  "price",              :precision => 8, :scale => 2
-    t.decimal  "quantity",           :precision => 8, :scale => 2
+    t.decimal  "price",              :precision => 10, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "quantity",           :precision => 10, :scale => 2, :default => 0.0, :null => false
     t.integer  "inventory_entry_id"
     t.integer  "cart_id"
     t.integer  "order_id"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
     t.string   "status"
     t.integer  "parent_id"
   end
@@ -227,13 +227,13 @@ ActiveRecord::Schema.define(:version => 20130504194549) do
   create_table "order_shippings", :force => true do |t|
     t.integer  "cart_id"
     t.integer  "order_id"
-    t.decimal  "price"
+    t.decimal  "price",         :precision => 10, :scale => 2, :default => 0.0, :null => false
     t.integer  "delivery_days"
     t.text     "delivery_type"
     t.text     "service_type"
     t.text     "zipcode"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                                                    :null => false
+    t.datetime "updated_at",                                                    :null => false
   end
 
   add_index "order_shippings", ["cart_id"], :name => "index_order_shippings_on_cart_id"
