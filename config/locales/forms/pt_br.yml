@@ -31,8 +31,9 @@ pt_br:
         create: "Salvar"
       order:
         update: "Atualizar pedido"
-      order:
-        update: "Atualizar pedido"
+      page:
+        create: "Salvar"
+        update: "Salvar"
       payment_gateway:
         create: "Salvar e prosseguir"
         update: "Salvar e prosseguir"

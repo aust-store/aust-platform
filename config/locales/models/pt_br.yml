@@ -33,6 +33,7 @@ pt_br:
         password_confirmation: "Confirmação de senha"
       page:
         title: "Título"
+        body: "Texto"
       company:
         name: "Nome da empresa"
         domain: "Domínio"
@@ -138,6 +139,8 @@ pt_br:
         page:
           attributes:
             title:
+              blank: "%{attribute} não pode ser vazio."
+            body:
               blank: "%{attribute} não pode ser vazio."
         admin_user:
           attributes:

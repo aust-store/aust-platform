@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe Page do
   describe "validations" do
-    it "validates titles" do
-      subject.should     allow_value("something").for(:title)
-      subject.should_not allow_value("").for(:title)
-    end
+    it { should validate_presence_of (:company) }
+    it { should validate_presence_of (:title) }
+    it { should validate_presence_of (:body) }
   end
 end

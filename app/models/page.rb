@@ -3,6 +3,5 @@ class Page < ActiveRecord::Base
 
   belongs_to :company
 
-  validates :company_id, presence: true
-  validates :title, presence: true
+  validates :company, :title, :body, presence: true
 end

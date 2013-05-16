@@ -1,0 +1,15 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    pages:
+      index:
+        delete: "Excluir"
+        pages: "Páginas"
+        page_name: "Nome da Página"
+      new:
+        previous_page_navigation: "Voltar para listagem"
+      edit:
+        previous_page_navigation: "Voltar para listagem"
+      button:
+        previous_page_navigation: "Voltar à página de marketing"
+        create_page: "Criar Página"

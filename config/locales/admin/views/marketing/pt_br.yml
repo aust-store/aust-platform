@@ -1,0 +1,7 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    marketing:
+      index:
+        previous_page_navigation: "Voltar ao painel"
+        manage_pages: "Gerenciar páginas"
