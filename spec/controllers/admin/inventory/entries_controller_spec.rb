@@ -45,8 +45,10 @@ describe Admin::Inventory::EntriesController do
     before do
       items.stub(:build).and_return(items)
       items.stub(:store_id=)
+      items.stub(:admin_user_id=)
 
       controller.current_company.stub(:id) { 1 }
+      controller.current_user.stub(:id) { 1 }
     end
 
     it "redirects if saving balance successfully" do
@@ -54,6 +56,7 @@ describe Admin::Inventory::EntriesController do
       items.stub(:save) { true }
 
       items.should_receive(:store_id=).with(1)
+      items.should_receive(:admin_user_id=).with(1)
 
       controller.stub(:load_entries_summary)
       post :create, item_id: 1, inventory_entry: { cost_per_unit: "12.34" }

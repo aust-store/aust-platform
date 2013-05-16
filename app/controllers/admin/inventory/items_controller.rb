@@ -53,6 +53,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def create
     delete_params_before_saving
     set_company_and_admin_to_new_manufacturer
+    set_store_and_admin_user_to_entries
 
     @item = current_company.items.new(params[:inventory_item].merge(user: current_user))
     build_item_associations
@@ -70,6 +71,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def update
     delete_params_before_saving
     set_company_and_admin_to_new_manufacturer
+    set_store_and_admin_user_to_entries
 
     @item = current_company.items.find params[:id]
     build_item_associations
@@ -120,11 +122,20 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item.build_shipping_box if @item.shipping_box.blank?
   end
 
+  def set_store_and_admin_user_to_entries
+    if params[:inventory_item][:entries_attributes].present?
+      params[:inventory_item][:entries_attributes].each do |key, value|
+        params[:inventory_item][:entries_attributes][key][:admin_user_id] = current_user.id
+        params[:inventory_item][:entries_attributes][key][:store_id] = current_company.id
+      end
+    end
+  end
+
   def set_company_and_admin_to_new_manufacturer
     if params[:inventory_item][:manufacturer_attributes].present?
       if params[:inventory_item][:manufacturer_attributes][:name].present?
         params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id
-        params[:inventory_item][:manufacturer_attributes][:admin_user_id] = current_admin_user.id
+        params[:inventory_item][:manufacturer_attributes][:admin_user_id] = current_user.id
       end
     end
   end
@@ -151,4 +162,5 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       params[:inventory_item].delete(:manufacturer_attributes)
     end
   end
+
 end
