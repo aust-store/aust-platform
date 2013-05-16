@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304003040) do
+ActiveRecord::Schema.define(:version => 20130504194549) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -54,19 +54,19 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
   end
 
   create_table "admin_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                         :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "password_salt"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
     t.integer  "company_id"
     t.string   "role"
     t.string   "name"
@@ -134,8 +134,8 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
     t.decimal  "cost_per_unit"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
-    t.integer  "store_id"
     t.boolean  "on_sale",           :default => true
+    t.integer  "store_id"
   end
 
   add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
@@ -253,6 +253,18 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
   add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
 
+  create_table "pages", :force => true do |t|
+    t.text     "title"
+    t.text     "body"
+    t.integer  "company_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "admin_user_id"
+  end
+
+  add_index "pages", ["admin_user_id"], :name => "index_pages_on_admin_user_id"
+  add_index "pages", ["company_id"], :name => "index_pages_on_company_id"
+
   create_table "payment_gateways", :force => true do |t|
     t.integer  "store_id"
     t.string   "name"
@@ -337,11 +349,13 @@ ActiveRecord::Schema.define(:version => 20130304003040) do
     t.string   "work_area_number"
     t.string   "mobile_area_number"
     t.integer  "store_id"
+    t.string   "environment"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["environment"], :name => "index_users_on_environment"
   add_index "users", ["receive_newsletter"], :name => "index_users_on_receive_newsletter"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
   add_index "users", ["store_id"], :name => "index_users_on_store_id"
