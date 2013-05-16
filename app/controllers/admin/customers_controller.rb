@@ -1,6 +1,6 @@
 class Admin::CustomersController < Admin::ApplicationController
   def index
-    @customers = current_company.customers.all
+    @customers = current_company.customers.order('first_name', 'last_name').page(params[:page])
   end
 
   def show
@@ -18,7 +18,21 @@ class Admin::CustomersController < Admin::ApplicationController
       redirect_to admin_customers_url
     else
       @customer = @customer.ar_instance
-      render "new"
+      render :new
+    end
+  end
+
+  def edit
+    @customer = current_company.customers.find(params[:id])
+  end
+
+  def update
+    @customer = current_company.customers.find(params[:id])
+
+    if @customer.update_attributes(params[:customer])
+      redirect_to admin_customer_url(@customer)
+    else
+      render :edit
     end
   end
 end

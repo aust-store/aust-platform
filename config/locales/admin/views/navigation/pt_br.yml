@@ -2,6 +2,7 @@
 pt_br:
   admin:
     navigation:
+      management:    "Gerenciamento"
       inventory:     "Estoque"
       orders:        "Pedidos"
       marketing:     "Marketing"

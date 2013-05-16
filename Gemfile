@@ -67,6 +67,7 @@ gem 'brazilian-rails'
 gem 'pag_seguro', '~> 0.4', git: "git://github.com/kurko/pag_seguro.git", branch: "add_shipping_cost"
 gem 'wicked', '~> 0.3'
 gem 'closure_tree', github: 'mceachen/closure_tree'
+gem 'kaminari'
 
 gem 'capistrano', '2.13.5'
 gem "airbrake"

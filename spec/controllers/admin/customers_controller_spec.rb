@@ -3,12 +3,9 @@ require "spec_helper"
 describe Admin::CustomersController do
   login_admin
 
-  #it_obeys_the "Customer contract"
-  #it_obeys_the "CustomerCreation contract"
-
-  describe "GET index" do
+  describe "GET #index" do
     it "assigns all customers as @customers" do
-      controller.stub_chain(:current_company, :customers, :all)
+      controller.stub_chain(:current_company, :customers, :order, :page)
         .and_return(:customers)
 
       get :index
@@ -16,7 +13,7 @@ describe Admin::CustomersController do
     end
   end
 
-  describe "GET show" do
+  describe "GET #show" do
     let(:customers) { double }
 
     it "assigns the customer found by id" do
@@ -28,7 +25,7 @@ describe Admin::CustomersController do
     end
   end
 
-  describe "GET new" do
+  describe "GET #new" do
     it "assigns a new customer with company from current user" do
       Customer.stub(:new).with(company: controller.current_company) { :customer }
       get :new
@@ -36,7 +33,7 @@ describe Admin::CustomersController do
     end
   end
 
-  describe "POST create" do
+  describe "POST #create" do
     let(:customer) { double }
 
     before do
@@ -62,6 +59,48 @@ describe Admin::CustomersController do
       post :create, customer: :customer
       response.should render_template "new"
       assigns(:customer).should == :active_record_instance
+    end
+  end
+
+  describe "GET #edit" do
+    let(:customers) { double }
+
+    it "assigns the customer found by id" do
+      controller.current_company.stub(:customers) { customers }
+      customers.stub(:find).with("1") { :customers }
+
+      get :edit, id: 1
+      assigns(:customer).should == :customers
+    end
+  end
+
+  describe "PUT #update" do
+    let(:customers) { double(find: customer) }
+    let(:customer)  { double(update_attributes: nil) }
+
+    before { controller.current_company.stub(:customers) { customers } }
+
+    it "updates the customer's attributes" do
+      customer.should_receive(:update_attributes).with("customer") { true }
+      put :update, id: '1', customer: :customer
+    end
+
+    context "when the attributes are successfully updated" do
+      before { customer.stub(update_attributes: true) }
+
+      it "redirects to the admin_customer_url" do
+        put :update, id: '1'
+        response.should redirect_to admin_customer_url(customer)
+      end
+    end
+
+    context "when the attributes are not updated" do
+      before { customer.stub(update_attributes: false) }
+
+      it "redirects to the admin_customer_url" do
+        put :update, id: '1'
+        response.should render_template :edit
+      end
     end
   end
 end

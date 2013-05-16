@@ -2,19 +2,19 @@
 
   <%= f.input :first_name,
       hint: "",
-      placeholder: "ex.: João" %>
+      placeholder: t('admin.customers.form.first_name_example') %>
 
     <%= f.input :last_name,
       hint: "",
-      placeholder: "ex.: Silva" %>
+      placeholder: t('admin.customers.form.last_name_example') %>
 
-  
+
     <%= f.input :description,
       hint: "",
-        placeholder: "ex.: Cliente da padaria." %>
+        placeholder: t('admin.customers.form.description_example') %>
 
-    <%= f.submit "Salvar cliente",id: "salvar_cliente" %> ou
-    
-    <%= link_to "cancelar", "javascript: history.back()" %>
-   
+    <%= f.submit t('admin.customers.form.save'),id: "salvar_cliente" %> ou
+
+    <%= link_to t('admin.customers.form.cancel'), "javascript: history.back()" %>
+
 <% end %>

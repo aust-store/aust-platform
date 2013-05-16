@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-feature "Customers" do
+feature "Managing customers" do
 
-  before do
+  background do
     login_into_admin
-    @customer = FactoryGirl.build(:customer)
+    @customer     = FactoryGirl.build(:customer)
     @old_customer = FactoryGirl.create(:customer, first_name: "Rafael", last_name: "Oliveira", company_id: '2')
   end
 

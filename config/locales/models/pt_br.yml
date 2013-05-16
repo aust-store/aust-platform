@@ -202,3 +202,12 @@ pt_br:
               wrong_length:         "O Cep deve conter exatos 8 dígitos"
               unexpected_error:     "Um erro inesperado ocorreu. Favor tentar mais tarde"
               correios_unavailable: "Sistema dos Correios temporariamente fora do ar. Favor tentar mais tarde"
+        customer:
+          attributes:
+            first_name:
+              blank: "O campo não pode ser deixado em branco"
+            last_name:
+              blank: "O campo não pode ser deixado em branco"
+            description:
+              blank: "O campo não pode ser deixado em branco"
+

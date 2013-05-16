@@ -11,6 +11,7 @@ describe AdminUser do
       it { should validate_uniqueness_of(:email) }
       it { should allow_value(123456).for(:password) }
       it { should validate_confirmation_of(:password) }
+      it { should validate_confirmation_of(:password) }
     end
 
     context "when invalid resource" do

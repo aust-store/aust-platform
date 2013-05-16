@@ -1,0 +1,28 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    customers:
+      index:
+        title: "Clientes"
+        new_customer: "Novo cliente"
+        name: "Nome"
+        actions: "Ações"
+      new:
+        title: "Crie um cliente"
+      show:
+        name: "Nome:"
+        description: "Descrição:"
+        edit: "Editar"
+        accounts_receivable: "Contas a receber"
+        new_debt: "Nova dívida"
+        last_purchased_products: "Últimos produtos comprados"
+        back_to_stock: "Voltar ao estoque"
+      form:
+        first_name_example: "ex.: João"
+        last_name_example: "ex.: Silva"
+        description_example: "ex.: Cliente da padaria"
+        save: "Salvar cliente"
+        cancel: "Cancelar"
+
+
+
