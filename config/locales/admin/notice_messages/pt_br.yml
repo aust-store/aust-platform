@@ -1,0 +1,11 @@
+pt_bt:
+  admin:
+    default_messages:
+      delete:
+        success: "Item excluído com sucesso."
+      create:
+        success: "Item criado com sucesso."
+        failure: "Não foi possível criar um novo item."
+      update:
+        success: "Item salvo com sucesso."
+        failure: "Não foi possível atualizar este item."

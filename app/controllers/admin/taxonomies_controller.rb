@@ -1,33 +1,31 @@
 class Admin::TaxonomiesController < Admin::ApplicationController
   def index
     @taxonomies = current_company.taxonomies.hash_tree
+    @taxonomy = Taxonomy.new
   end
 
   def create
-    @taxonomy = current_company.taxonomies.build(parent_id: params[:parent_id],
-                                                 name:      params[:name])
-    if @taxonomy.save
-      render json: @taxonomy, status: 200
-    else
-      render nothing: true, status: 406
-    end
+    @taxonomy = current_company.taxonomies.new(params[:taxonomy])
+    flash = if @taxonomy.save
+              { notice: I18n.t("admin.default_messages.create.success") }
+            else
+              { alert: I18n.t("admin.default_messages.create.failure") }
+            end
+    redirect_to admin_taxonomies_path, flash
   end
 
   def update
     @taxonomy = current_company.taxonomies.find(params[:id])
-    if @taxonomy.update_attributes(name: params[:name])
-      render nothing: true, status: 204
-    else
-      render nothing: true, status: 406
-    end
+    flash = if @taxonomy.update_attributes(params[:taxonomy])
+              { notice: I18n.t("admin.default_messages.update.success") }
+            else
+              { alert: I18n.t("admin.default_messages.update.failure") }
+            end
+    redirect_to admin_taxonomies_path, flash
   end
 
-  def delete
-    @taxonomy = current_company.taxonomies.find(params[:id])
-    if @taxonomy.destroy
-      render nothing: true, status: 204
-    else
-      render nothing: true, status: 406
-    end
+  def destroy
+    current_company.taxonomies.find(params[:id]).destroy
+    redirect_to admin_taxonomies_path, notice: I18n.t("admin.default_messages.delete.success")
   end
 end

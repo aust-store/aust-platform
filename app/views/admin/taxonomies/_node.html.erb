@@ -1,0 +1,47 @@
+<div class="node js_node" data-node-id="<%= node.id %>">
+
+  <% # the node itself %>
+  <div class="box name">
+    <%= node.name %>
+  </div>
+
+  <% # the options when you hover a node %>
+  <div class="node_options">
+    <div class="button js_show_edit_node_form">
+      <%= link_to image_tag("admin/icons/edit_16.png"), "", id: "show_edit_node_form" %>
+    </div>
+    <div class="button js_show_new_node_form">
+      <%= link_to image_tag("admin/icons/plus_16.png"), "", id: "show_new_node_form" %>
+    </div>
+    <div class="button delete_category">
+      <%= link_to image_tag("admin/icons/trash.png"),
+        admin_taxonomy_path(node),
+        confirm: t("admin.generic.confirm"),
+        method: :delete %>
+    </div>
+  </div>
+
+  <% # form for new node %>
+  <div class="node_form js_new_node_form">
+    <%= simple_form_for [:admin, @taxonomy] do |f| %>
+      <%= f.input :parent_id, as: :hidden, input_html: { value: node.id } %>
+      <%= f.input :name,
+        as: :string,
+        label: "#{t(".new_subcategory_label")} #{node.name}",
+        required: false,
+        hint: false %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+
+  <% # form for updating the node %>
+  <div class="node_form js_edit_node_form">
+    <%= simple_form_for [:admin, node] do |f| %>
+      <%= f.input :name,
+        as: :string,
+        required: false,
+        hint: false %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+</div>

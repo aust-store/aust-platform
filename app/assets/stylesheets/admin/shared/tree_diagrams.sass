@@ -9,9 +9,11 @@ $node-box-background: #ebebeb
   .node
     display: table
     margin-left: -15px
-    position: relative
     background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
     background-position: 0 11px
+
+    .box.name
+      float: left
     .box
       display: table
       background: $node-box-background
@@ -59,7 +61,7 @@ $node-box-background: #ebebeb
       background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
       background-position: 0 -7px
 
-    > .node.candidate:last-child
+    > .node_options:last-child
       background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
       background-position: 0 -15px
       margin-top: 7px
@@ -69,16 +71,28 @@ $node-box-background: #ebebeb
         left: 36px
 
   .node
-    .node.candidate
+    .node_options
       background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
       background-position: 0 4px !important
-      position: absolute !important
       right: -54px
       top: 0px
-      margin-left: -15px
+      margin: 3px 0 0 10px
+      display: none
+      .button
+        margin: 0 7px 0 0
+        display: table
+        float: left
       .plus
         right: 0 !important
         top: -4px
+
+    .node_form
+      background: #eee
+      padding: 10px
+      border-radius: 5px
+      display: none
+      margin: 30px 0 5px 20px
+      clear: both
 
     .node.candidate_input
       background: image-url('admin/layout/taxonomies/taxonomy_horizontal.png') no-repeat
@@ -86,7 +100,9 @@ $node-box-background: #ebebeb
       position: absolute !important
       right: -150px
 
-  .node.candidate
+  .node_options
+    display:block
+    float: left
     .box
       min-width: 40px
       background: lighten($node-box-background, 1%)
@@ -123,9 +139,11 @@ $node-box-background: #ebebeb
       display: block
       padding-top: 0
       padding-bottom: 0
-  input
-    width: 110px
-    height: 17px
+
+  div.string
+    input
+      width: 200px
+      height: 17px
 
   .hoverable_end
     background: transparent

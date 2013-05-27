@@ -72,7 +72,7 @@ Store::Application.routes.draw do
             controller: 'payment_methods/pagseguro_wizard'
         end
       end
-      resources :taxonomies, only: [:index, :create, :update, :delete]
+      resources :taxonomies, only: [:index, :create, :update, :destroy]
       resource  :statistics, only: :show
       resources :pages, except: [:show]
 

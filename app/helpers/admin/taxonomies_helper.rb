@@ -16,7 +16,7 @@ module Admin::TaxonomiesHelper
     nodes.each do |father, children|
       has_children = children.present? ? 'has_children' : ''
       node_html = content_tag :div, class: 'node js_node', data: { node_id: father.id } do
-        content_tag :div, class: 'box' do
+        content_tag :div, class: 'box name' do
           father.name
         end
       end
@@ -38,13 +38,9 @@ module Admin::TaxonomiesHelper
     has_children = ""
     node_html = ""
 
-    nodes.each do |father, children|
+    nodes.each do |node, children|
       has_children = children.present? ? 'has_children' : ''
-      node_html+= content_tag :div, class: 'node js_node', data: { node_id: father.id } do
-        content_tag :div, class: 'box' do
-          father.name
-        end
-      end
+      node_html += render("admin/taxonomies/node", node: node)
 
       if children.present?
         node_html+= render_nodes_recursively(children)
