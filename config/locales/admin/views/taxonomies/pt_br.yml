@@ -1,0 +1,7 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    taxonomies:
+      node:
+        new_subcategory_label: "Nova subcategoria de"
+        edit_subcategory_label: "Mudar o nome da categoria"

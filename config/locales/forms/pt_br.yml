@@ -9,6 +9,7 @@ pt_br:
       form_failure: "Não foi possível salvar seus dados."
   admin:
     generic:
+      confirm: "Você tem certeza disto?"
       or:     "ou"
       cancel: "Cancelar"
       back:   "Voltar"
@@ -30,9 +31,14 @@ pt_br:
         create: "Salvar"
       order:
         update: "Atualizar pedido"
+      order:
+        update: "Atualizar pedido"
       payment_gateway:
         create: "Salvar e prosseguir"
         update: "Salvar e prosseguir"
+      taxonomy:
+        create: "Salvar"
+        update: "Atualizar categoria"
   simple_form:
     labels:
       defaults:
