@@ -93,6 +93,7 @@ Taxonomy.Node.EditForm = function(node) {
 
   this.show = function() {
     this.element().show();
+    this.element().find("input:visible:first").focus();
   }
 }
 
