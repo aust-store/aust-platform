@@ -121,14 +121,18 @@ feature "Normal checkout", js: true do
         @product.entries.second.destroy
         @product.entries.last.destroy
 
-        4.times do
+        @product.entries.count.should == 1
+        @product.entries.first.quantity.should > 3
+        3.times do
           # user adds item to the cart
-          visit product_path(@entry_for_purchase)
-          click_link "Adicionar ao carrinho"
+          visit root_path
+          click_link "product_show_page_#{@product.id}"
+          click_link "add_to_cart"
         end
 
         order_item_id = OrderItem.parent_items.first.id
-        find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "4"
+        # cart quantity field
+        find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "3"
         user_defines_cart_shipping_zipcode
         click_on "checkout_button"
 
@@ -136,7 +140,7 @@ feature "Normal checkout", js: true do
 
         page.should have_content I18n.t('store.checkout.shipping.show.page_title')
 
-        @entry_for_purchase.update_attributes(quantity: 2)
+        @product.entries.first.update_attributes(quantity: 2)
 
         # Final button before user goes to PagSeguro
         click_button "place_order_with_default_address"

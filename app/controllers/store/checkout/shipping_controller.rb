@@ -4,7 +4,6 @@ module Store
       before_filter :define_cart_persistence
 
       def show
-        # TODO test cart has user
         @cart.set_user(current_user)
         prepare_show_view
       end

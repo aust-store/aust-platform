@@ -8,7 +8,8 @@
         <div class="text">
           <div class="title">
             <%= link_to item.name,
-                product_path(id: item.entry_for_sale.id) %>
+              product_path(id: item.entry_for_sale.id),
+              id: "product_show_page_#{item.id}" %>
           </div>
           <div class="price">
             <%= item.price %>
