@@ -1,9 +1,60 @@
 <div>
   <h1><%= t('.page_title') %></h1>
 
-  <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+  <div class="choose_custom_shipping_address">
+    <p>
+      <%= t(".description.choose_custom_shipping_address") %>
+    </p>
+    <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+      <input type="hidden" name="place_order_with_custom_shipping_address" value="1" />
+      <%= f.fields_for :shipping_address do |s| %>
+        <%= s.input :address_1, as: :string %>
+        <%= s.input :address_2, as: :string %>
+        <%= s.input :number, as: :string %>
+        <%= s.input :neighborhood, as: :string %>
+        <%= s.input :zipcode, as: :string %>
+        <%= s.input :state, as: :string %>
+        <%= s.input :city, as: :string %>
 
-    <%= f.submit name: "place_order" %>
-  <% end %>
+        <div class="country">
+          <strong><%= t("activerecord.attributes.address.country") %>:</strong>
+          <%= t("country_names.brazil") %>
+        </div>
+      <% end %>
+
+      <%= f.submit t(".buttons.choose_custom_shipping_address"),
+        id: "place_order_with_custom_shipping_address" %>
+    <% end %>
+  </div>
+
+  <div class="use_customer_default_address">
+    <p>
+      <%= t(".description.use_default_shipping_address") %>
+    </p>
+    <%= simple_form_for @cart, url: checkout_shipping_path do |f| %>
+      <p>
+        <strong><%= t("activerecord.attributes.address.address_1") %>:</strong>
+        <%= @customer_address.address_1 %>
+        <br />
+        <strong><%= t("activerecord.attributes.address.address_2") %>:</strong>
+        <%= @customer_address.address_2 %>
+        <br />
+        <strong><%= t("activerecord.attributes.address.neighborhood") %>:</strong>
+        <%= @customer_address.neighborhood %>
+        <br />
+        <strong><%= t("activerecord.attributes.address.zipcode") %>:</strong>
+        <%= @customer_address.zipcode %>
+        <br />
+        <strong><%= t("activerecord.attributes.address.city") %>:</strong>
+        <%= @customer_address.city %>
+        <br />
+        <strong><%= t("activerecord.attributes.address.country") %>:</strong>
+        <%= @customer_address.country %>
+      </p>
+
+      <%= f.submit t(".buttons.use_default_shipping_address"),
+        id: "place_order_with_default_address" %>
+    <% end %>
+  </div>
 
 </div>

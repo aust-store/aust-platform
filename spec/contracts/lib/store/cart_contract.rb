@@ -45,11 +45,5 @@ shared_examples "cart contract" do
         cart.update(double)
       end.to_not raise_error NoMethodError
     end
-
-    it "responds to set_shipping_address" do
-      expect do
-        cart.set_shipping_address
-      end.to_not raise_error NoMethodError
-    end
   end
 end

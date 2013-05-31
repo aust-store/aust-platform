@@ -37,6 +37,10 @@ class Cart < ActiveRecord::Base
     end
   end
 
+  def set_user(user)
+    self.update_attributes(user: user)
+  end
+
   def reset_shipping
     shipping.destroy if shipping
   end

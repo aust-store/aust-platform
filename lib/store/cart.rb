@@ -63,16 +63,6 @@ module Store
       persistence.shipping
     end
 
-    def set_shipping_address
-      address = persistence.shipping_address and address.destroy
-      persistence.build_shipping_address(user.default_address.copied)
-      persistence.save
-    end
-
-    def set_user
-      persistence.update_attributes(user: @user)
-    end
-
     def convert_into_order
       persistence.convert_into_order
     end

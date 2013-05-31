@@ -11,12 +11,10 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "GET index" do
-    context "HTML request" do
-      it "assigns all items as @items" do
-        subject.stub_chain(:current_company, :items, :order, :last) { 123 }
-        get :index
-        assigns(:items).should == 123
-      end
+    it "assigns all items as @items" do
+      subject.stub_chain(:current_company, :items, :order, :last) { 123 }
+      get :index
+      assigns(:items).should == 123
     end
   end
 

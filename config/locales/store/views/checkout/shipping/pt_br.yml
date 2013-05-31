@@ -4,4 +4,10 @@ pt_br:
     checkout:
       shipping:
         show:
-          page_title: "Entrega"
+          page_title: "Endereço de entrega"
+          description:
+            choose_custom_shipping_address: "Selecione o seu endereço de entrega:"
+            use_default_shipping_address: "Ou use seu endereço de entrega padrão:"
+          buttons:
+            choose_custom_shipping_address: "Usar este endereço para entrega"
+            use_default_shipping_address: "Usar seu endereço padrão"
