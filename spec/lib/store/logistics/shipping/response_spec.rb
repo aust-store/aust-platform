@@ -1,6 +1,6 @@
-require "store/shipping/calculation_result"
+require "store/logistics/shipping/response"
 
-describe Store::Shipping::CalculationResult do
+describe Store::Logistics::Shipping::Response do
   let(:result_one) { double(cost: 12.0, days: 4, success?: true) }
   let(:result_two) { double(cost: 17.55, days: 7, success?: true) }
 

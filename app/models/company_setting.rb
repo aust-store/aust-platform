@@ -21,7 +21,7 @@ class CompanySetting < ActiveRecord::Base
 
   def valid_zipcode?
     if zipcode.present?
-      validation = ::Store::Shipping::Correios::ZipcodeValidation.new(company_zipcode)
+      validation = ::ShippingCalculation::Correios::ZipcodeValidation.new(company_zipcode)
       if validation.invalid_origin_zipcode?
         errors.add(:zipcode, :invalid)
       elsif validation.correios_system_unavailable?

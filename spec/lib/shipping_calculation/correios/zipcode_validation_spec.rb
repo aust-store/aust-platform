@@ -1,4 +1,5 @@
-require "store/shipping/correios/zipcode_validation"
+require "shipping_calculation/correios/zipcode_validation"
+
 class DummyCorreios
   class Servico
     PAC   = :pac
@@ -6,24 +7,15 @@ class DummyCorreios
   end
 end
 
-module DummyStore
-  module Shipping
-    module Correios
-      class Response
-      end
-    end
-  end
-end
-
-describe Store::Shipping::Correios::ZipcodeValidation do
+describe ShippingCalculation::Correios::ZipcodeValidation do
   let(:correios_response) { double }
   let(:correios) { double(calcular_frete: correios_response)}
 
   before do
     stub_const("Correios", DummyCorreios)
-    stub_const("Store", DummyStore)
+    stub_const("ShippingCalculation::Correios::Item", Class.new)
     DummyCorreios.stub(:new).with(96360000, 96360000) { correios }
-    DummyStore::Shipping::Correios::Response.stub(:new) { correios_response }
+    ShippingCalculation::Correios::Item.stub(:new) { correios_response }
   end
 
   describe "#invalid_origin_zipcode?" do

@@ -1,17 +1,15 @@
 require "spec_helper"
 
 describe Store::CartController do
-  it_obeys_the "cart contract"
   it_should_behave_like "loading taxonomy"
 
+  let(:store) { double.as_null_object }
   let(:cart) { double(id: 1, current_items: :items, persistence: :persistence).as_null_object }
 
   before do
     # TODO contract test - does cart has #items?
     controller.stub(:cart) { cart }
-    @shipping_calculation = double(enabled?: true)
-    Store::Shipping::Calculation.stub(:new).with(controller) { @shipping_calculation }
-    controller.stub(:current_store) { double.as_null_object }
+    controller.stub(:current_store) { store }
   end
 
   describe "GET show" do
@@ -40,12 +38,13 @@ describe Store::CartController do
 
     describe "sets the shipping calculation status" do
       it "has true value if the shipping calculation is enabled" do
+        store.stub(:has_zipcode?) { true }
         get :show, store_id: "store_name"
         assigns(:shipping_calculation_enabled).should == true
       end
 
       it "has false value if the shipping calculation is enabled" do
-        @shipping_calculation = double(enabled?: false)
+        store.stub(:has_zipcode?) { false }
         get :show, store_id: "store_name"
         assigns(:shipping_calculation_enabled).should == false
       end

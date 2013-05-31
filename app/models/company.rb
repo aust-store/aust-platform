@@ -35,6 +35,10 @@ class Company < ActiveRecord::Base
     Store::CompanyStatistics.new(self).statistics
   end
 
+  def country
+    "BR"
+  end
+
   def currency
     "R$"
   end

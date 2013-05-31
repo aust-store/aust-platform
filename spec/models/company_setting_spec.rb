@@ -37,7 +37,7 @@ describe CompanySetting do
     end
 
     it "adds an error message if there's not a valid zipcode" do
-      ::Store::Shipping::Correios::ZipcodeValidation
+      ::ShippingCalculation::Correios::ZipcodeValidation
         .any_instance
         .stub(:invalid_origin_zipcode?) { true }
 
