@@ -4,18 +4,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
-    respond_to do |format|
-      format.html do
-        items  = current_company.items.order("updated_at desc").last(50)
-        @items = DecorationBuilder.inventory_items(items)
-      end
-
-      format.js do
-        @items = current_company.items.limit(3)
-        @items = @items.search_for(params[:search]) if params[:search].present?
-        render json: @items, root: 'inventory_items'
-      end
-    end
+    items  = current_company.items.order("updated_at desc").last(50)
+    @items = DecorationBuilder.inventory_items(items)
   end
 
   def show
@@ -77,10 +67,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     build_item_associations
 
     if @item.update_attributes params[:inventory_item]
-      if remotipart_submitted?
-        @item_images = @item.images.dup
-        return render partial: "shared/images", layout: false
-      end
       redirect_to admin_inventory_item_url(@item)
     else
       build_item_associations
@@ -162,5 +148,4 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       params[:inventory_item].delete(:manufacturer_attributes)
     end
   end
-
 end
