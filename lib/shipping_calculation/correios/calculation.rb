@@ -1,6 +1,6 @@
-# Using the Correios gem
+# Using the Correios-Frete gem
 #
-#  => https://github.com/brunofrank/correios
+#  => https://github.com/prodis/correios-frete
 module ShippingCalculation
   module Correios
     class Calculation
@@ -10,10 +10,12 @@ module ShippingCalculation
       #   => { source_zipcode:      "111",
       #        destination_zipcode: "222",
       #        items:               items,
-      #        shipping_type:       "BR" }
+      #        shipping_type:       :pac }
       #
       #  `items` is an array of items responding to weight, length, height and
       #  width.
+      #
+      #  :pac is a shipping type in Correios (Brazil)
       #
       def initialize(options)
         @source_zipcode      = options[:source_zipcode]
@@ -23,38 +25,31 @@ module ShippingCalculation
       end
 
       def calculate
-        correios = ::Correios.new(source_zipcode, destination_zipcode)
-
-        calculations = []
-        # TODO
-        # we can improve these calculations by assuming Correios limits
-        # instead of just calculating a value for each item
-        #
-        # e.g the store own could use one box to have more than one item
-        items.each do |e|
-          calculations << correios.calcular_frete(types[shipping_type.to_s],
-                                                  e.weight.to_i,
-                                                  e.length.to_i,
-                                                  e.height.to_i,
-                                                  e.width.to_i)
-        end
-
-        calculation_results(calculations)
+        calculation = ::Correios::Frete::Calculador.new(
+          cep_origem:  source_zipcode,
+          cep_destino: destination_zipcode,
+          encomenda:   package
+        )
+        result = calculation.calcular(shipping_type.to_sym)
+        ::ShippingCalculation::Correios::Response.new(result)
       end
 
       private
 
       attr_reader :source_zipcode, :destination_zipcode, :items, :shipping_type
 
-      def calculation_results(results_for_each_item)
-        results = results_for_each_item.map do |result|
-          ::ShippingCalculation::Correios::Item.new(result)
+      def package
+        package = ::Correios::Frete::Pacote.new
+        items.map do |item|
+          item_package = ::Correios::Frete::PacoteItem.new(
+            peso:        item.weight,
+            comprimento: item.length.to_i,
+            largura:     item.width.to_i,
+            altura:      item.height.to_i
+          )
+          package.add_item(item_package)
         end
-        ::Store::Logistics::Shipping::Response.new(results)
-      end
-
-      def types
-        { "pac" => ::Correios::Servico::PAC, "sedex" => ::Correios::Servico::SEDEX }
+        package
       end
     end
   end

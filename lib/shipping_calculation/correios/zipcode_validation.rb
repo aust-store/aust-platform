@@ -21,9 +21,18 @@ module ShippingCalculation
       private
 
       def correios_response
-        resource = ::Correios.new(@company_zipcode, 96360000)
-          .calcular_frete(::Correios::Servico::PAC, 0.4, 23, 23, 23)
-        ::ShippingCalculation::Correios::Item.new(resource)
+        options = {
+          source_zipcode:      @company_zipcode,
+          destination_zipcode: 96360000,
+          items:               [fake_item],
+          shipping_type:       :pac
+        }
+        ::ShippingCalculation::Correios::Calculation.new(options).calculate
+      end
+
+      def fake_item
+        item = Struct.new(:weight, :length, :width, :height)
+        item.new(0.4, 23, 23, 23)
       end
     end
   end

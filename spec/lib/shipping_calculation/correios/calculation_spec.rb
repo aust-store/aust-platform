@@ -1,6 +1,5 @@
 require "unit_spec_helper"
 require "shipping_calculation/correios/calculation"
-require "shipping_calculation/correios/item"
 
 class DummyCorreios
   class Servico
@@ -12,10 +11,11 @@ end
 describe ShippingCalculation::Correios::Calculation do
   it_should_behave_like "shipping processor"
 
-  let(:item)     { double(length: 1, width: 2, height: 3, weight: 4) }
-  let(:items)    { [item, item] }
-  let(:pac)      { double }
-  let(:correios) { double }
+  let(:item)         { double(length: 1, width: 2, height: 3, weight: 4) }
+  let(:items)        { [item, item] }
+  let(:correios)     { double }
+  let(:package)      { double }
+  let(:item_package) { double }
   let(:options) do
     { source_zipcode:      "123",
       destination_zipcode: "456",
@@ -26,29 +26,37 @@ describe ShippingCalculation::Correios::Calculation do
   subject { described_class.new(options) }
 
   before do
-    stub_const("Correios", Class.new)
-    stub_const("Correios::Servico::PAC",   pac)
-    stub_const("Correios::Servico::SEDEX", Class.new)
-    stub_const("Store::Logistics::Shipping::Response", Class.new)
-    Correios.stub(:new).with("123", "456") { correios }
-    correios.stub(:calcular_frete)
+    stub_const("Correios::Frete",             Class.new)
+    stub_const("Correios::Frete::Calculador", Class.new)
+    stub_const("Correios::Frete::Pacote",     Class.new)
+    stub_const("Correios::Frete::PacoteItem", Class.new)
+    stub_const("ShippingCalculation::Correios::Response", Class.new)
+    Correios::Frete::Pacote.stub(:new) { package }
+    Correios::Frete::PacoteItem
+      .stub(:new)
+      .with({peso: 4, comprimento: 1, largura: 2, altura: 3})
+      .and_return(item_package)
   end
 
   describe "#calculate" do
     it "returns an instance of the result wrapper" do
-      correios
-        .stub(:calcular_frete)
-        .with(pac, 4, 1, 3, 2)
-        .and_return(:result)
+      package.should_receive(:add_item).with(item_package).twice
 
-      ::ShippingCalculation::Correios::Item
+      Correios::Frete::Calculador
         .stub(:new)
-        .with(:result)
+        .with({cep_origem:  "123",
+               cep_destino: "456",
+               encomenda:   package})
         .and_return(correios)
 
-      ::Store::Logistics::Shipping::Response
+      correios
+        .stub(:calcular)
+        .with(:pac)
+        .and_return(:result)
+
+      ShippingCalculation::Correios::Response
         .should_receive(:new)
-        .with([correios, correios])
+        .with(:result)
         .and_return(:result_wrapper)
 
       subject.calculate.should == :result_wrapper
