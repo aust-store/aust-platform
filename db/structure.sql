@@ -631,7 +631,12 @@ CREATE TABLE order_shippings (
     service_type text,
     zipcode text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    description text,
+    package_width integer,
+    package_height integer,
+    package_length integer,
+    package_weight numeric(8,2)
 );
 
 
@@ -1859,3 +1864,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130304003040');
 INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
+
+INSERT INTO schema_migrations (version) VALUES ('20130601221654');

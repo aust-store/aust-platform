@@ -31,7 +31,7 @@ module ShippingCalculation
           encomenda:   package
         )
         result = calculation.calcular(shipping_type.to_sym)
-        ::ShippingCalculation::Correios::Response.new(result)
+        ::ShippingCalculation::Correios::Response.new(result, calculation.encomenda)
       end
 
       private

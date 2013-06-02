@@ -1,8 +1,9 @@
 module ShippingCalculation
   module Correios
     class Response
-      def initialize(result)
-        @result = result
+      def initialize(result, package)
+        @result  = result
+        @package = package
       end
 
       def total
@@ -15,6 +16,22 @@ module ShippingCalculation
 
       def success?
         @result.sucesso?
+      end
+
+      def width
+        @package.largura
+      end
+
+      def height
+        @package.altura
+      end
+
+      def length
+        @package.comprimento
+      end
+
+      def weight
+        @package.peso
       end
 
       def error

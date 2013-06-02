@@ -1,9 +1,10 @@
 require "shipping_calculation/correios/response"
 
 describe ShippingCalculation::Correios::Response do
-  let(:result) { double }
+  let(:result)  { double }
+  let(:package) { double }
 
-  subject { described_class.new(result) }
+  subject { described_class.new(result, package) }
 
   describe "#total" do
     it "returns the result amount" do
@@ -47,5 +48,25 @@ describe ShippingCalculation::Correios::Response do
       subject.stub(:success?) { true }
       subject.error_message.should == false
     end
+  end
+
+  describe "#weight" do
+    before { package.stub(:peso) { 2 } }
+    its(:weight) { should == 2 }
+  end
+
+  describe "#length" do
+    before { package.stub(:comprimento) { 3 } }
+    its(:length) { should == 3 }
+  end
+
+  describe "#height" do
+    before { package.stub(:altura) { 4 } }
+    its(:height) { should == 4 }
+  end
+
+  describe "#width" do
+    before { package.stub(:largura) { 5 } }
+    its(:width) { should == 5 }
   end
 end

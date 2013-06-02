@@ -6,7 +6,15 @@ describe Store::Cart::ShippingCalculation do
 
   let(:params)       { {zipcode: "456", type: :pac} }
   let(:calculation)  { double(calculate: calc_results) }
-  let(:calc_results) { double(days: 4, total: 12.0, success?: false) }
+  let(:calc_results) do
+    double(days: 4,
+           total: 12.0,
+           success?: false,
+           width:    :width,
+           length:   :length,
+           height:   :height,
+           weight:   :weight)
+  end
   let(:controller) do
     double(cart: double(persisted_cart: :cart),
            cart_items_dimensions: :items,
@@ -46,9 +54,16 @@ describe Store::Cart::ShippingCalculation do
         calc_results.stub(:success?) { true }
         OrderShipping
           .should_receive(:create_for_cart)
-          .with({price: 12.0, delivery_days: 4,
-                 delivery_type: :correios, service_type: :pac,
-                 zipcode: "456", cart: :cart})
+          .with({price: 12.0,
+                 delivery_days: 4,
+                 delivery_type: :correios,
+                 service_type: :pac,
+                 zipcode: "456",
+                 cart: :cart,
+                 package_width:  :width,
+                 package_length: :length,
+                 package_height: :height,
+                 package_weight: :weight})
         subject.create
       end
 

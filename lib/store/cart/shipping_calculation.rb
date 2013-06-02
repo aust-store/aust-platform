@@ -18,14 +18,21 @@ module Store
           shipping_type:       type,
           country:             @country
         }
-        calculation = Store::Logistics::Shipping::Calculation.new(options)
+        calculation = ::Store::Logistics::Shipping::Calculation.new(options)
         result = calculation.calculate
 
         if result.success?
           OrderShipping.create_for_cart(
-            price: result.total, delivery_days: result.days,
-            delivery_type: :correios, service_type: type,
-            zipcode: destination_zipcode, cart: cart
+            price:          result.total,
+            delivery_days:  result.days,
+            delivery_type:  :correios,
+            service_type:   type,
+            zipcode:        destination_zipcode,
+            cart:           cart,
+            package_width:  result.width,
+            package_length: result.length,
+            package_height: result.height,
+            package_weight: result.weight
           )
         end
 

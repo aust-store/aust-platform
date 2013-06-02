@@ -13,7 +13,7 @@ describe ShippingCalculation::Correios::Calculation do
 
   let(:item)         { double(length: 1, width: 2, height: 3, weight: 4) }
   let(:items)        { [item, item] }
-  let(:correios)     { double }
+  let(:correios)     { double(encomenda: :package) }
   let(:package)      { double }
   let(:item_package) { double }
   let(:options) do
@@ -56,7 +56,7 @@ describe ShippingCalculation::Correios::Calculation do
 
       ShippingCalculation::Correios::Response
         .should_receive(:new)
-        .with(:result)
+        .with(:result, :package)
         .and_return(:result_wrapper)
 
       subject.calculate.should == :result_wrapper
