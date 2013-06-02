@@ -14,40 +14,53 @@
 
     <table class="properties">
       <tbody>
-        <tr class="even">
-          <td>Resumo:<br /></td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".summary") %>:<br /></td>
           <td class="summary <%= @order.model.summary %>">
             <%= @order.summary_long_text %>
           </td>
         </tr>
-        <tr class="odd">
-          <td>Pedido feito em:<br /></td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".created_at") %>:<br /></td>
           <td>
             <%= @order.created_at %>
           </td>
         </tr>
-        <tr class="even">
-          <td>Status do pagamento:</td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".payment_status") %>:<br /></td>
           <td class="payment_status <%= @order.current_payment_status %>">
             <%= @order.payment_status_with_datetime %>
           </td>
         </tr>
-        <tr class="odd">
-          <td>Detalhes do frete:</td>
-          <td><%= @order.shipping_details.complete_details %></td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".shipping_details") %>:<br /></td>
+          <td>
+            <%= @order.shipping_details.complete_details %>
+          </td>
         </tr>
-        <tr class="even">
-          <td>Endereço de entrega:</td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td></td>
+          <td>
+            <%= t('.package') %>:
+            <%= @order.shipping_details.package_width %>cm,
+            <%= @order.shipping_details.package_length %>cm,
+            <%= @order.shipping_details.package_height %>cm,
+            <%= @order.shipping_details.package_weight %>kg
+            <%= t('.package_legend') %>
+          </td>
+        </tr>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".shipping_address") %>:<br /></td>
           <td>
             <%= @order.shipping_address.complete_address %>
           </td>
         </tr>
-        <tr class="odd">
-          <td> Valor total:</td>
-          <td> <%= @order.total %> (sem frete) </td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".total_amount") %>:<br /></td>
+          <td> <%= @order.total %> (<%= t(".excluding_shipping") %>) </td>
         </tr>
-        <tr class="even">
-          <td>Cliente:</td>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td><%= t(".client") %>:</td>
           <td>
             <%= @order.user.full_name %>,
             <%= @order.user.email %>

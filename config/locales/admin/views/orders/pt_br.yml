@@ -7,6 +7,16 @@ pt_br:
         set_order_as_shipped: "Marcar todos os itens como enviados"
         set_item_as_shipped: "Marcar como enviado"
         set_item_as_cancelled: "Cancelar"
+        summary:          "Resumo"
+        created_at:       "Pedido feito em"
+        payment_status:   "Status do pagamento"
+        shipping_details: "Detalhes do frete"
+        package:          "Pacote"
+        package_legend:   "(largura, comprimento, altura e peso)"
+        shipping_address: "Endereço de entrega"
+        total_amount:     "Valor total"
+        excluding_shipping: "excluindo frete"
+        client:           "Cliente"
       index:
         title: "Pedidos"
       order_card:
