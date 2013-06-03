@@ -1,7 +1,7 @@
 <%= render partial: "layouts/admin/nav_history",
            locals: {
              back_to: admin_root_path,
-             text: "Voltar ao painel"
+             text: t(".previous_page_navigation")
            } %>
 
 <header>
@@ -9,6 +9,6 @@
 </header>
 
 <div class="main_container">
-  <%= link_to "Gerenciar páginas", admin_pages_path, title: "manage_pages" %>
+  <%= link_to t(".manage_pages"), admin_pages_path, title: "manage_pages" %>
 </div>
 

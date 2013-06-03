@@ -16,6 +16,7 @@ feature "Managing Pages" do
 
     current_path.should == new_admin_page_path
     fill_in "page_title", with: "título da nova página"
+    fill_in "page_body", with: "texto da nova página"
     click_button "Salvar"
 
     current_path.should == admin_pages_path
@@ -28,8 +29,10 @@ feature "Managing Pages" do
     click_link "manage_pages"
     click_link mypage.title
 
-    find("#page_title").value.should == mypage.title
     fill_in "page_title", with: "Página editada"
+    fill_in "page_body", with: "Texto editado"
+    find_field('Título').value.should == "Página editada"
+    find_field('Texto').value.should == "Texto editado"
 
     click_button "Salvar"
 
