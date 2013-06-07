@@ -37,6 +37,11 @@ class Cart < ActiveRecord::Base
     end
   end
 
+  def update_shipping(shipping)
+    self.shipping.destroy if self.shipping
+    self.shipping = self.build_shipping.create_for_cart(shipping)
+  end
+
   def set_user(user)
     self.update_attributes(user: user)
   end

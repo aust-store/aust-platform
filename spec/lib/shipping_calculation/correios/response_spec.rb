@@ -4,7 +4,7 @@ describe ShippingCalculation::Correios::Response do
   let(:result)  { double }
   let(:package) { double }
 
-  subject { described_class.new(result, package) }
+  subject { described_class.new(result, package, :shipping_type, :destination_zipcode) }
 
   describe "#total" do
     it "returns the result amount" do
@@ -50,23 +50,23 @@ describe ShippingCalculation::Correios::Response do
     end
   end
 
-  describe "#weight" do
+  describe "#package_weight" do
     before { package.stub(:peso) { 2 } }
-    its(:weight) { should == 2 }
+    its(:package_weight) { should == 2 }
   end
 
-  describe "#length" do
+  describe "#package_length" do
     before { package.stub(:comprimento) { 3 } }
-    its(:length) { should == 3 }
+    its(:package_length) { should == 3 }
   end
 
-  describe "#height" do
+  describe "#package_height" do
     before { package.stub(:altura) { 4 } }
-    its(:height) { should == 4 }
+    its(:package_height) { should == 4 }
   end
 
-  describe "#width" do
+  describe "#package_width" do
     before { package.stub(:largura) { 5 } }
-    its(:width) { should == 5 }
+    its(:package_width) { should == 5 }
   end
 end

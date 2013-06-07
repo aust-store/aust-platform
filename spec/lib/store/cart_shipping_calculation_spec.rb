@@ -1,11 +1,12 @@
 require "unit_spec_helper"
-require "store/cart/shipping_calculation"
+require "store/cart_shipping_calculation"
 
-describe Store::Cart::ShippingCalculation do
+describe Store::CartShippingCalculation do
   it_obeys_the "cart contract"
 
   let(:params)       { {zipcode: "456", type: :pac} }
   let(:calculation)  { double(calculate: calc_results) }
+  let(:cart)         { double }
   let(:calc_results) do
     double(days: 4,
            total: 12.0,
@@ -16,7 +17,7 @@ describe Store::Cart::ShippingCalculation do
            weight:   :weight)
   end
   let(:controller) do
-    double(cart: double(persisted_cart: :cart),
+    double(cart: double(persisted_cart: cart),
            cart_items_dimensions: :items,
            current_store: double(zipcode: "123"),
            params: params)
@@ -33,7 +34,6 @@ describe Store::Cart::ShippingCalculation do
 
   before do
     stub_const("Store::Logistics::Shipping::Calculation", Class.new)
-    stub_const("OrderShipping", double)
   end
 
   describe "#create" do
@@ -52,24 +52,13 @@ describe Store::Cart::ShippingCalculation do
     describe "result persistence" do
       it "should save the shipping price if result is successful" do
         calc_results.stub(:success?) { true }
-        OrderShipping
-          .should_receive(:create_for_cart)
-          .with({price: 12.0,
-                 delivery_days: 4,
-                 delivery_type: :correios,
-                 service_type: :pac,
-                 zipcode: "456",
-                 cart: :cart,
-                 package_width:  :width,
-                 package_length: :length,
-                 package_height: :height,
-                 package_weight: :weight})
+        cart.should_receive(:update_shipping).with(calc_results)
         subject.create
       end
 
       it "should not save the shipping price if result is not success" do
         calc_results.stub(:success?) { false }
-        OrderShipping.should_not_receive(:create_for_cart)
+        cart.should_not_receive(:update_shipping)
         subject.create
       end
     end

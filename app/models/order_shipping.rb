@@ -5,8 +5,19 @@ class OrderShipping < ActiveRecord::Base
                   :zipcode,
                   :package_width, :package_height, :package_weight, :package_length
 
-  def self.create_for_cart(options = {})
-    destroy_all(cart_id: options[:cart].id)
-    create(options)
+  def create_for_cart(shipping)
+    options = {
+      price:          shipping.total,
+      delivery_days:  shipping.days,
+      delivery_type:  shipping.company_name,
+      service_type:   shipping.type,
+      zipcode:        shipping.destination_zipcode,
+      package_width:  shipping.package_width,
+      package_length: shipping.package_length,
+      package_height: shipping.package_height,
+      package_weight: shipping.package_weight,
+    }
+    self.update_attributes(options)
+    self
   end
 end

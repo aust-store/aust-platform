@@ -1,9 +1,12 @@
 module ShippingCalculation
   module Correios
     class Response
-      def initialize(result, package)
+      attr_reader :shipping_type, :destination_zipcode
+      def initialize(result, package, shipping_type, destination_zipcode)
         @result  = result
         @package = package
+        @shipping_type = shipping_type
+        @destination_zipcode = destination_zipcode
       end
 
       def total
@@ -18,24 +21,32 @@ module ShippingCalculation
         @result.sucesso?
       end
 
-      def width
+      def package_width
         @package.largura
       end
 
-      def height
+      def package_height
         @package.altura
       end
 
-      def length
+      def package_length
         @package.comprimento
       end
 
-      def weight
+      def package_weight
         @package.peso
       end
 
       def error
         @result.erro.to_i
+      end
+
+      def type
+        @shipping_type
+      end
+
+      def company_name
+        :correios
       end
 
       def error_message

@@ -1,13 +1,6 @@
 require "unit_spec_helper"
 require "shipping_calculation/correios/calculation"
 
-class DummyCorreios
-  class Servico
-    PAC   = :pac
-    SEDEX = :sedex
-  end
-end
-
 describe ShippingCalculation::Correios::Calculation do
   it_should_behave_like "shipping processor"
 
@@ -56,7 +49,7 @@ describe ShippingCalculation::Correios::Calculation do
 
       ShippingCalculation::Correios::Response
         .should_receive(:new)
-        .with(:result, :package)
+        .with(:result, :package, :pac, "456")
         .and_return(:result_wrapper)
 
       subject.calculate.should == :result_wrapper

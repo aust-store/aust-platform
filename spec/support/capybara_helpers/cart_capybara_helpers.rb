@@ -3,10 +3,13 @@ module CapybaraHelpers
     def stub_shipping
       stubbed_shipping = double(success?: true,
                                 total:  12.34,
-                                weight: 0.4,
-                                height: 23,
-                                width:  23,
-                                length: 23,
+                                package_weight: 0.4,
+                                package_height: 23,
+                                package_width:  23,
+                                package_length: 23,
+                                type: :pac,
+                                company_name: :correios,
+                                destination_zipcode: "86960000",
                                 days:   3)
       ::Store::Logistics::Shipping::Calculation
         .any_instance.stub(:calculate) { stubbed_shipping }
