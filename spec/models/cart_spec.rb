@@ -38,6 +38,22 @@ describe Cart do
     end
   end
 
+  describe "#update_shipping" do
+    let(:shipping) { double }
+    let(:build_shipping) { double }
+
+    it "updates the user of the cart" do
+      build_shipping.should_receive(:create_for_cart).with(shipping) { :persisted }
+      cart = Cart.new
+      cart.stub(:shipping) { shipping }
+      shipping.should_receive(:destroy)
+      cart.stub(:build_shipping) { build_shipping }
+      cart.should_receive(:shipping=).with(:persisted)
+
+      cart.update_shipping(shipping)
+    end
+  end
+
   describe "#set_user" do
     let(:user) { double }
 

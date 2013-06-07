@@ -15,7 +15,7 @@ describe Store::Cart::ShippingCostController do
     end
 
     it "responds to items" do
-      Store::Shipping::CartCalculation.stub(:create) { double.as_null_object }
+      Store::CartShippingCalculation.stub(:create) { double.as_null_object }
       post :create, store_id: "my_store", zipcode: "123456", type: :pac
       controller.cart_items_dimensions.should == [ shipping_box, shipping_box ]
     end

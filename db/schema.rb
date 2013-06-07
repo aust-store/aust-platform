@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130317211352) do
+ActiveRecord::Schema.define(:version => 20130601221654) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -232,8 +232,13 @@ ActiveRecord::Schema.define(:version => 20130317211352) do
     t.text     "delivery_type"
     t.text     "service_type"
     t.text     "zipcode"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.text     "description"
+    t.integer  "package_width"
+    t.integer  "package_height"
+    t.integer  "package_length"
+    t.decimal  "package_weight", :precision => 8, :scale => 2
   end
 
   add_index "order_shippings", ["cart_id"], :name => "index_order_shippings_on_cart_id"

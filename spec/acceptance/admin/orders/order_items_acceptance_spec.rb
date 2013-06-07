@@ -3,6 +3,7 @@ require 'acceptance_spec_helper'
 
 feature "Orders Management" do
   before do
+    stub_shipping
     stub_correios
     @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)

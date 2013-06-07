@@ -5,7 +5,7 @@ class Store::CartController < Store::ApplicationController
     @checkout_enabled = Store::Policy::Checkout.new(self).enabled?
     @cart_items       = cart.current_items
     @cart             = DecorationBuilder.cart(cart.persistence)
-    @shipping_calculation_enabled = Store::Shipping::Calculation.new(self).enabled?
+    @shipping_calculation_enabled = current_store.has_zipcode?
 
     render "empty" and return if @cart_items.blank?
   end
