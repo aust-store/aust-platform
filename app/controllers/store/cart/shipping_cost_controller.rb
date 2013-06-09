@@ -2,7 +2,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
   skip_before_filter :load_taxonomies
 
   def create
-    result = ::Store::CartShippingCalculation.create(self)
+    result = ::Store::CartShippingCalculation.create(self, shipping_options)
     if result.success?
       render json: {
         zipcode: {
@@ -14,5 +14,12 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
     else
       render status: 422, json: { errors: [result.error_message] }
     end
+  end
+
+  private
+
+  def shipping_options
+    { destination_zipcode: params[:zipcode],
+      type:                params[:type] }
   end
 end

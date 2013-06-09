@@ -46,8 +46,17 @@ class Cart < ActiveRecord::Base
     self.update_attributes(user: user)
   end
 
+  def preliminar_shipping_address
+
+  end
+
   def zipcode_mismatch?
-    shipping.zipcode != user.default_address.zipcode
+    zipcode = if shipping_address.nil?
+                user.default_address.zipcode
+              else
+                shipping_address.zipcode
+              end
+    shipping.nil? || shipping.zipcode != zipcode
   end
 
   def reset_shipping

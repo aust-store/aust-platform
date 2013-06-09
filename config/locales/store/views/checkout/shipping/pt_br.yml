@@ -13,3 +13,5 @@ pt_br:
             use_default_shipping_address: "Usar seu endereço padrão"
           notices:
             zipcode_doesnt_match: "O CEP escolhido no carrinho de compras não é o mesmo do seu endereço. Ao prosseguir, ele será recalculado."
+
+          shipping_will_be_recalculate_if_new_zipcode: "O custo do frete será recalculado se você selecionar um CEP diferente do que você usou no carrinho de compras."
