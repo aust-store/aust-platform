@@ -12,6 +12,7 @@ class Store::CartController < Store::ApplicationController
 
   def update
     cart.update(params[:cart])
+    ::Store::CartShippingCalculation.create(self)
     redirect_to cart_url
   end
 end

@@ -52,8 +52,17 @@
         <%= @customer_address.country %>
       </p>
 
-      <%= f.submit t(".buttons.use_default_shipping_address"),
-        id: "place_order_with_default_address" %>
+      <p>
+        <%= f.submit t(".buttons.use_default_shipping_address"),
+          id: "place_order_with_default_address" %>
+      </p>
+    <% end %>
+
+    <% # in case the custom address zipcode is not the same as the cart's %>
+    <% if @zipcode_mismatch %>
+      <p class="warning_box zipcode_match_status">
+        <%= t(".notices.zipcode_doesnt_match") %>
+      </p>
     <% end %>
   </div>
 

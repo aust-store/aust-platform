@@ -22,6 +22,8 @@ RSpec.configure do |config|
   config.include AcceptanceSteps
   config.include CapybaraHelpers::DomainHelpers
   config.include CapybaraHelpers::CartHelpers
+  config.include CapybaraHelpers::CheckoutHelpers
+  config.include CapybaraHelpers::CheckoutStubsHelpers
   config.include CapybaraHelpers::StubsHelpers
 
   config.before(:suite) do

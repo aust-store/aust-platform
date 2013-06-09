@@ -46,6 +46,10 @@ class Cart < ActiveRecord::Base
     self.update_attributes(user: user)
   end
 
+  def zipcode_mismatch?
+    shipping.zipcode != user.default_address.zipcode
+  end
+
   def reset_shipping
     shipping.destroy if shipping
   end
@@ -58,6 +62,16 @@ class Cart < ActiveRecord::Base
 
   def convert_into_order
     Store::Order::CreationFromCart.new(self).convert_cart_into_order
+  end
+
+  def items_shipping_boxes
+    shipping_boxes = []
+    items.each do |item|
+      item.quantity.to_i.times do |t|
+        shipping_boxes << item.shipping_box
+      end
+    end
+    shipping_boxes
   end
 
   private

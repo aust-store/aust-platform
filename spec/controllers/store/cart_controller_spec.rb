@@ -54,10 +54,12 @@ describe Store::CartController do
   describe "PUT update" do
     before do
       Store::Cart.stub(:new) { cart }
+      Store::CartShippingCalculation.stub(:create)
     end
 
     it "updates the cart" do
       cart.should_receive(:update).with("cart_params")
+      Store::CartShippingCalculation.should_receive(:create)
       put :update, store_id: "store_name", cart: "cart_params"
     end
 

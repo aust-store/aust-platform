@@ -128,4 +128,17 @@ describe Cart do
       order.shipping_details.should == cart.shipping
     end
   end
+
+  describe "#items_shipping_boxes" do
+    let(:shipping_box1) { double }
+    let(:shipping_box2) { double }
+    let(:item1) { double(quantity: 1, shipping_box: shipping_box1) }
+    let(:item2) { double(quantity: 2, shipping_box: shipping_box2) }
+
+    it "returns all the shipping boxes for transport cost calculation" do
+      cart = Cart.new
+      cart.stub(:items) { [item1, item2] }
+      cart.items_shipping_boxes.should == [shipping_box1, shipping_box2, shipping_box2]
+    end
+  end
 end

@@ -5,6 +5,7 @@ module Store
 
       def show
         @cart.set_user(current_user)
+        @zipcode_mismatch = @cart.zipcode_mismatch?
         prepare_show_view
       end
 

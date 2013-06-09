@@ -15,14 +15,4 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
       render status: 422, json: { errors: [result.error_message] }
     end
   end
-
-  def cart_items_dimensions
-    shipping_boxes = []
-    cart.persistence.items.each do |e|
-      e.quantity.to_i.times do |t|
-        shipping_boxes << e.inventory_item.shipping_box
-      end
-    end
-    shipping_boxes
-  end
 end

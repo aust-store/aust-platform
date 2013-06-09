@@ -35,6 +35,10 @@ class OrderItem < ActiveRecord::Base
     ::Persistence::OrderItemQuantity.new(self).change(new_quantity)
   end
 
+  def shipping_box
+    inventory_item.shipping_box
+  end
+
   def name
     inventory_item.name
   end

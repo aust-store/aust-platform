@@ -2,8 +2,6 @@
 require "acceptance_spec_helper"
 
 feature "Normal checkout", js: true do
-  let(:pagseguro) { double }
-
   background do
     @company = FactoryGirl.create(:company_with_zipcode)
     @product = FactoryGirl.create(:inventory_item, company: @company)
@@ -13,7 +11,7 @@ feature "Normal checkout", js: true do
 
     # bypass the gateway step, leading the user directly from the
     # "finish order" to the success page
-    ::PagSeguro::Payment.any_instance.stub(:checkout_payment_url) { checkout_success_path }
+    stub_payment_gateway
   end
 
   describe "checkout process" do

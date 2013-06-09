@@ -22,8 +22,10 @@ describe Store::Checkout::ShippingController do
       cart_model.should_receive(:set_user).with(:current_user)
       cart_model.should_receive(:build_shipping_address)
       cart_model.stub_chain(:user, :default_address) { :default_address }
+      cart_model.stub(:zipcode_mismatch?) { :zipcode_mismatch }
       get :show
       assigns(:cart).should == cart_model
+      assigns(:zipcode_mismatch).should == :zipcode_mismatch
       assigns(:customer_address).should == :default_address
     end
   end

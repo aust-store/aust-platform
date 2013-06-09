@@ -22,6 +22,7 @@ feature "Store cart" do
              "my cart, then I can change the quantities and later remove " + \
              "them" do
 
+      stub_shipping
       visit cart_path
       # cart status at the top of the page
       within ".cart_status" do
@@ -43,7 +44,7 @@ feature "Store cart" do
       end
 
       # quantity field has a 3
-      order_item_id = OrderItem.first.id
+      order_item_id = OrderItem.order('id asc').first.id
       find("[name='cart[item_quantities][#{order_item_id}]']").value.should == "3"
 
       # price
@@ -79,11 +80,12 @@ feature "Store cart" do
     end
   end
 
-  describe "shipping calculations", js: true do
-    scenario "As an user, I enter my zipcode to calculate the shipping price" do
+  describe "shipping calculations" do
+    let(:inventory_entry) { @product.balances.first }
+
+    scenario "As an user, my shipping price is calculated as I type my zipcode", js: true do
       stub_shipping
 
-      inventory_entry = @product.balances.first
       visit product_path(inventory_entry)
       click_link "Adicionar ao carrinho"
 
@@ -92,19 +94,33 @@ feature "Store cart" do
       end
       fill_in "zipcode", with: "96360000"
 
-      page.should have_content "R$ 12,34"
+      page.should have_content "R$ 111,23"
       page.should have_content "entrega em 3 dias úteis"
     end
 
     scenario "As an user, I see a message when shipping is not available" do
       @company.settings.update_attributes(zipcode: "")
-
-      inventory_entry = @product.balances.first
       visit product_path(inventory_entry)
 
       click_link "Adicionar ao carrinho"
 
       page.should have_content "#{I18n.t("store.cart.show.shipping_disabled_message")}"
+    end
+
+    scenario "As an user, I can update the shipping cost by clicking the update button" do
+      stub_shipping
+      visit product_path(inventory_entry)
+      click_link "Adicionar ao carrinho"
+
+      page.should_not have_content "R$ 111,23"
+      page.should_not have_content "entrega em 3 dias úteis"
+
+      within(".js_service_selection") { choose("type_pac") }
+      fill_in "zipcode", with: "96360000"
+      click_button "update_cart"
+
+      page.should have_content "R$ 111,23"
+      page.should have_content "entrega em 3 dias úteis"
     end
   end
 

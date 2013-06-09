@@ -32,7 +32,7 @@ module Store
     end
 
     def items
-      @controller.cart_items_dimensions
+      cart.items_shipping_boxes
     end
 
     def source_zipcode

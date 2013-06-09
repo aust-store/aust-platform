@@ -21,7 +21,7 @@ module ShippingCalculation
         @source_zipcode      = options[:source_zipcode]
         @destination_zipcode = options[:destination_zipcode]
         @items               = options[:items]
-        @shipping_type       = options[:shipping_type]
+        @shipping_type       = options[:shipping_type] || ""
       end
 
       def calculate
