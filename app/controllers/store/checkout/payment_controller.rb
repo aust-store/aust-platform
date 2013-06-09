@@ -4,6 +4,10 @@ module Store
       skip_before_filter :load_taxonomies
 
       def show
+        if cart.persistence.zipcode_mismatch?
+          ::Store::CartShippingCalculation.create(self, shipping_options)
+        end
+
         sale = Store::Sale.new(cart.persistence)
         sale.close
 
@@ -19,6 +23,13 @@ module Store
 
       def after_payment_return_url(gateway)
         { pagseguro: checkout_success_url }[gateway]
+      end
+
+      private
+
+      def shipping_options
+        { destination_zipcode: cart.persistence.shipping.zipcode,
+          type:                cart.persistence.shipping.service_type }
       end
     end
   end

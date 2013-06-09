@@ -22,6 +22,10 @@
         </div>
       <% end %>
 
+      <p>
+        <%= t(".shipping_will_be_recalculate_if_new_zipcode") %>
+      </p>
+
       <%= f.submit t(".buttons.choose_custom_shipping_address"),
         id: "place_order_with_custom_shipping_address" %>
     <% end %>
@@ -51,9 +55,17 @@
         <strong><%= t("activerecord.attributes.address.country") %>:</strong>
         <%= @customer_address.country %>
       </p>
+      <p>
+        <%= f.submit t(".buttons.use_default_shipping_address"),
+          id: "place_order_with_default_address" %>
+      </p>
+    <% end %>
 
-      <%= f.submit t(".buttons.use_default_shipping_address"),
-        id: "place_order_with_default_address" %>
+    <% # in case the custom address zipcode is not the same as the cart's %>
+    <% if @zipcode_mismatch %>
+      <p class="warning_box zipcode_match_status">
+        <%= t(".notices.zipcode_doesnt_match") %>
+      </p>
     <% end %>
   </div>
 

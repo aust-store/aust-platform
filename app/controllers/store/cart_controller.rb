@@ -12,6 +12,14 @@ class Store::CartController < Store::ApplicationController
 
   def update
     cart.update(params[:cart])
+    ::Store::CartShippingCalculation.create(self, shipping_options)
     redirect_to cart_url
+  end
+
+  private
+
+  def shipping_options
+    { destination_zipcode: params[:zipcode],
+      type:                params[:type] }
   end
 end

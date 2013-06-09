@@ -1,23 +1,23 @@
 module Store
   class CartShippingCalculation
-    def initialize(controller, country = "BR")
+    def initialize(controller, options)
       @controller = controller
-      @country = country
+      @options    = options
     end
 
-    def self.create(controller, country = "BR")
-      new(controller, country).create
+    def self.create(controller, options)
+      new(controller, options).create
     end
 
     def create
-      options = {
+      params = {
         source_zipcode:      source_zipcode,
-        destination_zipcode: destination_zipcode,
+        destination_zipcode: options[:destination_zipcode],
         items:               items,
-        shipping_type:       type,
-        country:             @country
+        shipping_type:       options[:type],
+        country:             country
       }
-      calculation = ::Store::Logistics::Shipping::Calculation.new(options)
+      calculation = ::Store::Logistics::Shipping::Calculation.new(params)
       result = calculation.calculate
 
       cart.update_shipping(result) if result.success?
@@ -27,24 +27,22 @@ module Store
 
     private
 
+    attr_reader :options
+
     def cart
       @controller.cart.persisted_cart
     end
 
     def items
-      @controller.cart_items_dimensions
+      cart.items_shipping_boxes
     end
 
     def source_zipcode
       @controller.current_store.zipcode
     end
 
-    def destination_zipcode
-      @controller.params[:zipcode]
-    end
-
-    def type
-      @controller.params[:type]
+    def country
+      @controller.current_store.country
     end
   end
 end

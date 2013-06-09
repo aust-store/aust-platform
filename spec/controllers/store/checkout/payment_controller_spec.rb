@@ -6,17 +6,36 @@ describe Store::Checkout::PaymentController do
   login_user
 
   let(:sale)     { double(order: :order).as_null_object }
-  let(:cart)     { double(persistence: :cart_persistence).as_null_object }
+  let(:cart)     { double(persistence: cart_model).as_null_object }
+  let(:cart_model) { double(zipcode_mismatch?: false) }
   let(:checkout) { double(payment_url: 'http://payment_url').as_null_object }
 
   before do
     controller.stub(:cart) { cart }
-    Store::Sale.stub(:new).with(:cart_persistence) { sale }
+    Store::Sale.stub(:new).with(cart_model) { sale }
     Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, :order) { checkout }
+
+    cart_model.stub(:shipping) { double(zipcode: 1, service_type: 2) }
   end
 
   describe "GET show" do
     describe "normal flow" do
+      describe "shipping cost recalculation" do
+        it "recalculates the shipping cost if there's a zipcode mismatch" do
+          cart_model.should_receive(:zipcode_mismatch?) { true }
+          ::Store::CartShippingCalculation
+            .should_receive(:create)
+            .with(controller, {destination_zipcode: 1, type: 2})
+          get :show
+        end
+
+        it "recalculates the shipping cost if there's a zipcode mismatch" do
+          cart_model.should_receive(:zipcode_mismatch?) { false }
+          ::Store::CartShippingCalculation.should_not_receive(:create)
+          get :show
+        end
+      end
+
       it "redirects to the payment gateway" do
         checkout.should_receive(:create_transaction)
         get :show

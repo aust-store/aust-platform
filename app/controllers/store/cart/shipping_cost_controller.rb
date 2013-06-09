@@ -2,7 +2,7 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
   skip_before_filter :load_taxonomies
 
   def create
-    result = ::Store::CartShippingCalculation.create(self)
+    result = ::Store::CartShippingCalculation.create(self, shipping_options)
     if result.success?
       render json: {
         zipcode: {
@@ -16,13 +16,10 @@ class Store::Cart::ShippingCostController < Store::ApplicationController
     end
   end
 
-  def cart_items_dimensions
-    shipping_boxes = []
-    cart.persistence.items.each do |e|
-      e.quantity.to_i.times do |t|
-        shipping_boxes << e.inventory_item.shipping_box
-      end
-    end
-    shipping_boxes
+  private
+
+  def shipping_options
+    { destination_zipcode: params[:zipcode],
+      type:                params[:type] }
   end
 end

@@ -6,7 +6,7 @@ describe Store::CartShippingCalculation do
 
   let(:params)       { {zipcode: "456", type: :pac} }
   let(:calculation)  { double(calculate: calc_results) }
-  let(:cart)         { double }
+  let(:cart)         { double(items_shipping_boxes: :items) }
   let(:calc_results) do
     double(days: 4,
            total: 12.0,
@@ -18,8 +18,7 @@ describe Store::CartShippingCalculation do
   end
   let(:controller) do
     double(cart: double(persisted_cart: cart),
-           cart_items_dimensions: :items,
-           current_store: double(zipcode: "123"),
+           current_store: double(country: "BR", zipcode: "123"),
            params: params)
   end
   let(:options) do
@@ -29,8 +28,12 @@ describe Store::CartShippingCalculation do
       shipping_type:       :pac,
       country:             "BR" }
   end
+  let(:pre_options) do
+    { destination_zipcode: "456",
+      type:                :pac }
+  end
 
-  subject { result = described_class.new(controller) }
+  subject { result = described_class.new(controller, pre_options) }
 
   before do
     stub_const("Store::Logistics::Shipping::Calculation", Class.new)

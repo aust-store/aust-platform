@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Cart do
+  subject { Cart.new }
+
   describe "#total" do
     it "returns the result of a price calculation" do
       cart = Cart.new
@@ -126,6 +128,57 @@ describe Cart do
 
       # shipping options are copied as well
       order.shipping_details.should == cart.shipping
+    end
+  end
+
+  describe "#items_shipping_boxes" do
+    let(:shipping_box1) { double }
+    let(:shipping_box2) { double }
+    let(:item1) { double(quantity: 1, shipping_box: shipping_box1) }
+    let(:item2) { double(quantity: 2, shipping_box: shipping_box2) }
+
+    it "returns all the shipping boxes for transport cost calculation" do
+      cart = Cart.new
+      cart.stub(:items) { [item1, item2] }
+      cart.items_shipping_boxes.should == [shipping_box1, shipping_box2, shipping_box2]
+    end
+  end
+
+  describe "#zipcode_mismatch?" do
+    before { subject.stub(:shipping) { double(zipcode: 1) } }
+
+    context "no shipping details exist" do
+      it "returns true if the zipcode wasn't yet defined" do
+        subject.stub_chain(:user, :default_address, :zipcode) { 1 }
+        subject.stub(:shipping) { nil } # no zipcode exists at all
+        subject.zipcode_mismatch?.should be_true
+      end
+    end
+
+    context "shipping address is absent" do
+      before { subject.stub(:shipping_address) { nil } }
+
+      it "returns false if the user's zipcode matches the cart's" do
+        subject.stub_chain(:user, :default_address, :zipcode) { 1 }
+        subject.zipcode_mismatch?.should be_false
+      end
+
+      it "returns true if the user's zipcode doesn't match the cart's" do
+        subject.stub_chain(:user, :default_address, :zipcode) { 2 }
+        subject.zipcode_mismatch?.should be_true
+      end
+    end
+
+    context "shipping address is present" do
+      it "returns false if the shipping address' zipcode matches the cart's" do
+        subject.stub(:shipping_address) { double(zipcode: 1) }
+        subject.zipcode_mismatch?.should be_false
+      end
+
+      it "returns true if the shipping address' zipcode doesn't match the cart's" do
+        subject.stub(:shipping_address) { double(zipcode: 2) }
+        subject.zipcode_mismatch?.should be_true
+      end
     end
   end
 end
