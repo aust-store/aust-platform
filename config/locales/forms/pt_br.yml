@@ -43,6 +43,8 @@ pt_br:
   simple_form:
     labels:
       defaults:
+        first_name: "Nome"
+        last_name: "Sobrenome"
         description: "Descrição"
       user:
         receive_newsletter: "Desejo receber novidades e anúncios relevantes."

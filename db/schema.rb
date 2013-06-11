@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130601221654) do
+ActiveRecord::Schema.define(:version => 20130605171558) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -110,10 +110,10 @@ ActiveRecord::Schema.define(:version => 20130601221654) do
   add_index "company_settings", ["settings"], :name => "company_settings_gist_settings"
 
   create_table "customers", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "description"
-    t.integer  "company_id"
+    t.string   "first_name",  :null => false
+    t.string   "last_name",   :null => false
+    t.string   "description", :null => false
+    t.integer  "company_id",  :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

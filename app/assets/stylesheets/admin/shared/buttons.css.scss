@@ -109,13 +109,17 @@ a.css_button_anchor.big {
   text-align: center;
   display: inline-block;
   float: none;
-  
+
+  .customers {
+    float: right;
+  }
+
   .css_button {
     height: 30px;
     font-size: 1.1em;
     min-width: 100%;
     background-position: 9px 3px !important;
-    .css_button_container { 
+    .css_button_container {
       margin: 0 auto;
       width: 150px;
       padding: 0;

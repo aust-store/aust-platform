@@ -1,7 +1,7 @@
 <%= render partial: "layouts/admin/nav_history",
-           locals: { 
+           locals: {
              back_to: admin_customers_path,
-             text: "Voltar ao estoque"
+             text: t('admin.customers.show.back_to_stock')
            } %>
 
 <header>
@@ -12,18 +12,24 @@
   <p id="notice"><%= notice %></p>
 
   <p>
-    <b>Nome:</b>
+    <b><%= t('admin.customers.show.name') %></b>
     <%= @customer.name %>
   </p>
 
-  <%= small_button "#", text: "Editar" %>
-  <%= small_button admin_customer_account_receivables_path(@customer), text: "Contas a receber" %>
-  <%= small_button new_admin_customer_account_receivable_path(@customer), text: "Nova dívida" %>
+  <p>
+    <b><%= t('admin.customers.show.description') %></b>
+    <%= @customer.description %>
+  </p>
+
+  <%= small_button edit_admin_customer_path(@customer), text: t('admin.customers.show.edit') %>
+  <%= small_button admin_customer_path(@customer), text: t('admin.customers.show.delete'), method: :delete %>
+  <%= small_button admin_customer_account_receivables_path(@customer), text: t('admin.customers.show.accounts_receivable') %>
+  <%= small_button new_admin_customer_account_receivable_path(@customer), text: t('admin.customers.show.new_debt') %>
 </div>
 <div class="main_container section">
 
   <div class="thumbs_gallery">
-    <h2>Últimos produtos comprados</h2>
+    <h2><%= t('admin.customers.show.last_purchased_products') %></h2>
     <% 2.times do |m| %>
       <% 5.times do |t| %>
         <% t += 1 %>
@@ -33,7 +39,6 @@
       <% end %>
     <% end %>
   </div>
-
 </div>
 
 

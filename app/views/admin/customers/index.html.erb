@@ -1,32 +1,35 @@
 <%= render "layouts/admin/nav_history" %>
 
 <header>
-  <h1>Clientes</h1>
+  <h1><%= t('admin.customers.index.title') %></h1>
 </header>
 
 <div class="main_container">
+  <div>
+    <%= small_button new_admin_customer_path, text: t('admin.customers.index.new_customer'), image: 'admin/icons/plus_16.png', class: "round_icon.customers" %>
+    <%= paginate @customers %>
+  </div>
   <table class="listing">
     <thead>
       <tr>
-        <th>Nome</th>
-        <th></th>
-        <th></th>
+        <th><%= t('admin.customers.index.name') %></th>
       </tr>
     </thead>
     <tbody>
       <% if @customers %>
         <% @customers.each do |customer| %>
-        <td><%= link_to customer.name, admin_customer_path(customer) %> </td>
-        <td></td>
-        <td></td>
-      
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td>
+              <%= link_to customer.name, admin_customer_path(customer) %>
+            </td>
+          </tr>
         <% end %>
-      
       <% end %>
     </tbody>
   </table>
-
   <br />
-
-  <%= small_button new_admin_customer_path, :text => "Novo cliente", :image => 'admin/icons/plus_16.png', class: "round_icon" %>
+  <div>
+    <%= paginate @customers %>
+    <%= small_button new_admin_customer_path, text: t('admin.customers.index.new_customer'), image: 'admin/icons/plus_16.png', class: "round_icon.customers" %>
+  </div>
 </div>
