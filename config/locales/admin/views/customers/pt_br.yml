@@ -13,6 +13,7 @@ pt_br:
         name: "Nome:"
         description: "Descrição:"
         edit: "Editar"
+        delete: "Excluir"
         accounts_receivable: "Contas a receber"
         new_debt: "Nova dívida"
         last_purchased_products: "Últimos produtos comprados"
@@ -23,6 +24,8 @@ pt_br:
         description_example: "ex.: Cliente da padaria"
         save: "Salvar cliente"
         cancel: "Cancelar"
+      notice:
+        delete: "Cliente excluído com sucesso."
 
 
 

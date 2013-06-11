@@ -35,4 +35,10 @@ class Admin::CustomersController < Admin::ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    @customer = current_company.customers.find(params[:id])
+    @customer.destroy
+    redirect_to admin_customers_url, notice: I18n.t('admin.customers.notice.delete')
+  end
 end

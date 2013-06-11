@@ -103,4 +103,22 @@ describe Admin::CustomersController do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    let(:customer)  { double }
+    let(:customers) { double(find: customer) }
+
+    before { controller.current_company.stub(:customers) { customers } }
+
+    it "destroys the customer" do
+      customer.should_receive(:destroy)
+      delete :destroy, id: 1
+    end
+
+    it "redirects to the admin_customer_path" do
+      customer.stub(:destroy)
+      delete :destroy, id: 1
+      response.should redirect_to admin_customers_url
+    end
+  end
 end

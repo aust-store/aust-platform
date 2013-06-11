@@ -22,6 +22,7 @@
   </p>
 
   <%= small_button edit_admin_customer_path(@customer), text: t('admin.customers.show.edit') %>
+  <%= small_button admin_customer_path(@customer), text: t('admin.customers.show.delete'), method: :delete %>
   <%= small_button admin_customer_account_receivables_path(@customer), text: t('admin.customers.show.accounts_receivable') %>
   <%= small_button new_admin_customer_account_receivable_path(@customer), text: t('admin.customers.show.new_debt') %>
 </div>
