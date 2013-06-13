@@ -89,5 +89,8 @@ module Store
     config.assets.version = '1.0'
 
     config.ember.variant = :production
+
+    # does web request to the shipping service
+    config.auto_validate_company_zipcode = true
   end
 end

@@ -64,6 +64,10 @@ class Company < ActiveRecord::Base
     settings.zipcode
   end
 
+  def store_theme
+    settings.store_theme
+  end
+
   def has_zipcode?
     zipcode.present?
   end

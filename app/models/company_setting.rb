@@ -2,14 +2,20 @@ class CompanySetting < ActiveRecord::Base
   belongs_to :company
 
   store_accessor :settings, :zipcode
+  store_accessor :settings, :store_theme
 
-  before_validation :valid_zipcode?
+  before_validation :valid_zipcode?, if: ->{ Store::Application.config.auto_validate_company_zipcode }
+  after_save :set_default_store_theme, on: :create
 
   validates :zipcode, numericality: { allow_blank: true },
                       length:       { allow_blank: true, is: 8 }
 
+  def set_default_store_theme
+    self.store_theme = "overblue"
+  end
+
   # defines hstore fields
-  ["zipcode"].each do |key|
+  ["zipcode", "store_theme"].each do |key|
     attr_accessible key
 
     define_method(key) { settings && settings[key] }
@@ -17,6 +23,10 @@ class CompanySetting < ActiveRecord::Base
     define_method("#{key}=") do |value|
       self.settings = (settings || {}).merge(key => value)
     end
+  end
+
+  def store_theme
+    self.settings["store_theme"] || "overblue"
   end
 
   def valid_zipcode?

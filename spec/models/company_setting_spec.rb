@@ -23,11 +23,25 @@ describe CompanySetting do
   end
 
   describe "hstore methods" do
-    specify "zipcode" do
+    specify "#zipcode" do
       @settings.zipcode.should == 96360000
 
       @settings.zipcode         = 1234567
       @settings.zipcode.should == 1234567
+    end
+
+    specify "#store_theme" do
+      @settings.store_theme.should == "overblue" # default store_theme
+
+      @settings.store_theme         = "overblue2"
+      @settings.save
+      @settings.reload
+      @settings.store_theme.should == "overblue2"
+
+      @settings.store_theme         = nil
+      @settings.save
+      @settings.reload
+      @settings.store_theme.should == "overblue"
     end
   end
 

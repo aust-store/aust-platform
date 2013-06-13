@@ -19,6 +19,14 @@ describe Company do
     end
   end
 
+  describe "#store_theme" do
+    it "returns the company store theme" do
+      company = Company.new
+      company.stub(:settings) { double(store_theme: "overblue") }
+      company.store_theme.should == "overblue"
+    end
+  end
+
   describe "#has_zipcode?" do
     it "returns true when a zipcode is present" do
       company = Company.new
