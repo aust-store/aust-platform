@@ -1,2 +1,3 @@
 set :deploy_to, "/var/rails/#{application}"
-#set :rails_env, "production"
+set :rails_env, "staging"
+set :user, "deployer"

@@ -1,4 +1,4 @@
-unless Rails.env.production?
+unless Rails.env.production? || Rails.env.staging?
   require 'ostruct'
   require 'rubygems'
   require 'bundler/setup'

@@ -5,9 +5,8 @@ load "deploy/assets"
 set :application, "store"
 set :repository,  "git@github.com:kurko/store.git"
 set :deploy_to, proc { "/var/rails/#{application}" }
-set :user, "deployer"
-#set :stages, %w(staging production)
-#set :default_stage, "staging"
+set :stages, %w(staging production)
+set :default_stage, "staging"
 
 set :scm, :git
 
@@ -16,11 +15,6 @@ set :scm, :git
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :scm_verbose, true
-#set :domain, "example.com"
-
-set :default_environment, {
-  #'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
-}
 
 default_run_options[:pty] = true
 role :web, "50.116.3.20"                          # Your HTTP server, Apache/etc
