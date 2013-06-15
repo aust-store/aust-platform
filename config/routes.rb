@@ -2,6 +2,12 @@ require "router_constraints"
 
 Store::Application.routes.draw do
 
+  devise_for :super_admins,
+    path: "super_admin",
+    controllers: {
+      sessions: "super_admin/sessions"
+    }
+
   api_actions = [:index, :create, :update, :show]
 
   namespace :consultor do
@@ -34,10 +40,11 @@ Store::Application.routes.draw do
       sessions: "store/devise/sessions"
     }
 
-  namespace :superadmin do
-    resource :dashboard, controller: 'dashboard'
-    resources :companies, controller: 'companies'
-    root :to => 'companies#index'
+  namespace :super_admin do
+    resource :dashboard, controller: 'dashboard', only: [:show]
+    resources :themes, controller: 'themes'
+
+    root :to => 'dashboard#show'
   end
 
   namespace :admin do

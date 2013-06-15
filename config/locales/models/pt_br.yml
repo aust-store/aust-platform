@@ -46,6 +46,10 @@ pt_br:
         price:         "Preço"
       payment_gateway:
         token: "Token de segurança"
+      theme:
+        name:        "Nome"
+        description: "Descrição"
+        path:        "Endereço"
     values:
       order:
         summary:
@@ -70,6 +74,9 @@ pt_br:
         refunded:  "Reembolsado"
         undefined: "Aguardando"
     errors:
+      messages:
+        blank: "%{attribute} não pode ficar em branco"
+        taken: "%{attribute} já foi selecionado"
       models:
         address:
           attributes:
@@ -77,25 +84,9 @@ pt_br:
               blank: "Não pode ficar em branco"
             number:
               blank: "Não deixe em branco"
-            neighborhood:
-              blank: "%{attribute} não pode ficar em branco"
             zipcode:
               blank:   "%{attribute} não pode ficar em branco"
               invalid: "%{attribute} não é válido (ex.: 12345-000)"
-            city:
-              blank: "%{attribute} não pode ficar em branco"
-            state:
-              blank: "%{attribute} não pode ficar em branco"
-            country:
-              blank: "%{attribute} não pode ficar em branco"
-        inventory_item:
-          attributes:
-            name:
-              blank: "%{attribute} não pode ficar em branco"
-        inventory_item_price:
-          attributes:
-            value:
-              blank: "%{attribute} não pode ficar em branco"
         taxonomy:
           attributes:
             name:
@@ -106,12 +97,7 @@ pt_br:
               blank: "Fabricante deve estar presente"
         user:
           attributes:
-            first_name:
-              blank: "%{attribute} não pode ficar em branco"
-            last_name:
-              blank: "%{attribute} não pode ficar em branco"
             email:
-              blank:   "%{attribute} não pode ser em branco"
               invalid: "Formato de email incorreto! (Ex: email@email.com)"
               taken:   "Já utilizado, escolha outro!"
             password:
@@ -136,19 +122,11 @@ pt_br:
               blank: "Você deve inserir seu número residencial ou celular."
             mobile_area_number:
               blank: "Insira o DDD."
-        page:
-          attributes:
-            title:
-              blank: "%{attribute} não pode ser vazio."
-            body:
-              blank: "%{attribute} não pode ser vazio."
         admin_user:
           attributes:
             name:
-              blank: "%{attribute} não pode ser em branco"
               taken: "já utilizado, escolha outro!"
             email:
-              blank:   "%{attribute} não pode ser em branco"
               invalid: "Formato de email incorreto! (Ex: email@email.com)"
               taken:   "já utilizado, escolha outro!"
             password:
@@ -158,17 +136,12 @@ pt_br:
         account_receivable:
           attributes:
             value:
-              blank:        "%{attribute} não pode ser em branco"
               greater_than: "%{attribute} deve ter um valor válido"
         inventory_entry:
           attributes:
-            cost_per_unit:
-              blank:        "Você deve especificar o %{attribute}"
             quantity:
-              blank:        "Você deve especificar a %{attribute}"
               greater_than: "Você deve especificar um número maior que zero"
             price:
-              blank:        "Você deve especificar o %{attribute}"
               greater_than: "%{attribute} deve ter um valor válido"
         shipping_box:
           attributes:

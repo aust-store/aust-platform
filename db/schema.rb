@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605171558) do
+ActiveRecord::Schema.define(:version => 20130616190239) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -94,10 +94,12 @@ ActiveRecord::Schema.define(:version => 20130605171558) do
     t.datetime "updated_at", :null => false
     t.string   "handle"
     t.text     "domain"
+    t.integer  "theme_id"
   end
 
   add_index "companies", ["domain"], :name => "index_companies_on_domain"
   add_index "companies", ["handle"], :name => "index_companies_on_handle"
+  add_index "companies", ["theme_id"], :name => "index_companies_on_theme_id"
 
   create_table "company_settings", :force => true do |t|
     t.integer  "company_id"
@@ -110,10 +112,10 @@ ActiveRecord::Schema.define(:version => 20130605171558) do
   add_index "company_settings", ["settings"], :name => "company_settings_gist_settings"
 
   create_table "customers", :force => true do |t|
-    t.string   "first_name",  :null => false
-    t.string   "last_name",   :null => false
-    t.string   "description", :null => false
-    t.integer  "company_id",  :null => false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "description"
+    t.integer  "company_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -304,6 +306,24 @@ ActiveRecord::Schema.define(:version => 20130605171558) do
 
   add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
 
+  create_table "super_admins", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "super_admins", ["email"], :name => "index_super_admins_on_email", :unique => true
+  add_index "super_admins", ["reset_password_token"], :name => "index_super_admins_on_reset_password_token", :unique => true
+
   create_table "taxonomies", :force => true do |t|
     t.text     "name"
     t.integer  "parent_id"
@@ -323,6 +343,15 @@ ActiveRecord::Schema.define(:version => 20130605171558) do
 
   add_index "taxonomy_hierarchies", ["ancestor_id", "descendant_id"], :name => "index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id", :unique => true
   add_index "taxonomy_hierarchies", ["descendant_id"], :name => "index_taxonomy_hierarchies_on_descendant_id"
+
+  create_table "themes", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "path"
+    t.boolean  "public",      :default => true
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

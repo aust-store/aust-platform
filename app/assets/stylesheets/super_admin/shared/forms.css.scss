@@ -1,0 +1,61 @@
+form {
+  .alert {
+    color: red;
+    margin: 15px 0;
+  }
+}
+
+div.input {
+  display: table;
+  margin: 0 0 10px 0;
+
+  label {
+    display: block;
+    margin: 0 0 3px 0;
+  }
+
+  input, textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 3px;
+    width: 300px;
+  }
+
+  textarea {
+    height: 70px;
+  }
+
+  span.hint {
+    display: table;
+    font-size: 0.9em;
+    color: #777;
+    margin: 3px 0 0 0;
+  }
+
+  &.hidden {
+    margin: 0;
+  }
+}
+
+form {
+  span.success {
+    color: green;
+    display: block;
+    font-size: 0.9em;
+  }
+
+  div.error_explanation {
+    color: red;
+  }
+
+  div.field_with_errors {
+
+    label { color: red; }
+    span.error {
+      color: red;
+      margin: 5px 0 10px 3px;
+      display: block;
+      font-size: 0.9em;
+    }
+  }
+}

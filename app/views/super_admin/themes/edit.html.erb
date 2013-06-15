@@ -1,0 +1,9 @@
+<h1><%= t(".title") %> <%= @theme.name %></h1>
+
+<%= render 'form' %>
+
+<br />
+
+<h1>Preview</h1>
+
+<%= image_tag "/themes/#{@theme.path}/preview.png" %>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Super Admin</title>
+  <%= stylesheet_link_tag "super_admin/application_manifest", :media => "all" %>
+  <%= airbrake_javascript_notifier %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><%= link_to "Principal", super_admin_root_path %></li>
+      <li><%= link_to "Temas", super_admin_themes_path %></li>
+    </ul>
+  </nav>
+
+  <div class="application">
+    <div class="navigation">
+      <%= yield :history_navigation %>
+    </div>
+
+    <div class="body">
+      <%= yield %>
+    </div>
+  </div>
+
+</body>
+</html>
