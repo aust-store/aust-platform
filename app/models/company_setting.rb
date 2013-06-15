@@ -30,6 +30,7 @@ class CompanySetting < ActiveRecord::Base
   end
 
   def valid_zipcode?
+    puts "1"
     if zipcode.present?
       validation = ::ShippingCalculation::Correios::ZipcodeValidation.new(company_zipcode)
       if validation.invalid_origin_zipcode?
