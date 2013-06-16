@@ -313,10 +313,10 @@ ALTER SEQUENCE company_settings_id_seq OWNED BY company_settings.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    first_name character varying(255),
-    last_name character varying(255),
-    description character varying(255),
-    company_id integer,
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    company_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1992,6 +1992,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
 
 INSERT INTO schema_migrations (version) VALUES ('20130601221654');
+
+INSERT INTO schema_migrations (version) VALUES ('20130605171558');
 
 INSERT INTO schema_migrations (version) VALUES ('20130613001445');
 

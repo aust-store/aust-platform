@@ -10,7 +10,7 @@
 <div class="main_container">
   <div class="themes">
     <% @themes.each do |theme| %>
-      <div class="theme <%= "current" if current_theme(theme) %>">
+      <div class="theme <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
         <div class="image">
           <%= image_tag "/themes/#{theme.path}/preview.png" %>
         </div>
