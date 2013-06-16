@@ -14,3 +14,5 @@ pt_br:
         title: "Novo tema"
       edit:
         title: "Editando"
+        delete_theme: "Excluir este tema"
+        delete_confirm: "Você tem certeza que quer excluir este tema?"

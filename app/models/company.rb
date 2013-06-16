@@ -13,9 +13,12 @@ class Company < ActiveRecord::Base
   has_one :payment_gateway, foreign_key: :store_id
   has_one :settings, class_name: "CompanySetting"
 
+  belongs_to :theme
+
   accepts_nested_attributes_for :admin_users
 
   before_create :create_inventory
+  before_validation :set_default_theme, on: :create
   before_validation :sanitize_domain
 
   def create_inventory
@@ -64,11 +67,14 @@ class Company < ActiveRecord::Base
     settings.zipcode
   end
 
-  def store_theme
-    settings.store_theme
-  end
-
   def has_zipcode?
     zipcode.present?
+  end
+
+  private
+
+  def set_default_theme
+    self.theme = Theme.default_theme.first if self.theme.blank?
+    true
   end
 end

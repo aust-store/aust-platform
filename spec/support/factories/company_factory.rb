@@ -6,6 +6,10 @@ FactoryGirl.define do
     sequence(:handle) { |i| "handle_#{i}" }
     sequence(:domain) { |i| "petshop#{i}.com" }
 
+    before(:create) do |company, evaluator|
+      FactoryGirl.create(:theme)
+    end
+
     after(:create) do |company, evaluator|
       company.build_payment_gateway(email: "gateway@example.com",
                                     token: "1234",

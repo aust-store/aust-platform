@@ -3,7 +3,7 @@
 <head>
   <title><%= @company.name %> Store</title>
   <%= stylesheet_link_tag "store/application_manifest", :media => "all" %>
-  <%= stylesheet_link_tag "/themes/#{@company.store_theme}/style", :media => "all" %>
+  <%= stylesheet_link_tag "/themes/#{@company.theme.path}/style", :media => "all" %>
 
   <%= javascript_include_tag "store/application_manifest" %>
   <%= airbrake_javascript_notifier %>

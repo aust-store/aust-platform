@@ -1,4 +1,4 @@
-pt_bt:
+pt_br:
   admin:
     default_messages:
       delete:
@@ -9,3 +9,6 @@ pt_bt:
       update:
         success: "Item salvo com sucesso."
         failure: "Não foi possível atualizar este item."
+    notices:
+      store_themes:
+        update: "Tema alterado com sucesso."

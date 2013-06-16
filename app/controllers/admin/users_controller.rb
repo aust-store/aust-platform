@@ -32,6 +32,7 @@ class Admin::UsersController < Admin::ApplicationController
     authorize! :update, @user
 
     if @user.update_attributes params[:admin_user]
+      sign_in(@user, bypass: true)
       redirect_to admin_users_url
     else
       render "edit"

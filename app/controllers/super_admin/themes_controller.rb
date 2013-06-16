@@ -39,6 +39,6 @@ class SuperAdmin::ThemesController < SuperAdmin::ApplicationController
     @theme = Theme.find(params[:id])
     @theme.destroy
 
-    redirect_to super_admin_themes_url
+    redirect_to super_admin_themes_url, notice: I18n.t("admin.default_messages.delete.success")
   end
 end

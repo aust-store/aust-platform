@@ -81,7 +81,8 @@ Store::Application.routes.draw do
       end
       resources :taxonomies, only: [:index, :create, :update, :destroy]
       resource  :statistics, only: :show
-      resources :pages, except: [:show]
+      resources :pages,  except: [:show]
+      resources :store_themes, only: [:index, :update]
 
       resources :marketing, only: [:index]
 

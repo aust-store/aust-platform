@@ -111,8 +111,8 @@ feature "Managing collaborators" do
       fill_in "admin_user_password_confirmation", with: "12345678"
 
       click_button "Salvar"
-      
-      current_path.should == new_admin_user_session_path
+
+      current_path.should == admin_users_path
 
       user = AdminUser.find_by_email("ezekiel@example.com")
       user.name.should == "Ezekiel"

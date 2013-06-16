@@ -1,0 +1,38 @@
+$theme-width: 160px
+
+div.themes
+  display: table
+  width: #{($theme-width + 10) * 4}
+
+  div.theme
+    float: left
+    width: $theme-width
+    min-height: 197px
+    margin: 0 10px 15px 0
+    background: #fbfbfb
+
+    &.current
+      background: #c7ffc7
+
+    .image
+      width: 160px
+      height: 120px
+      margin: 0 0 10px 0
+      overflow: hidden
+
+      img
+        width: 160px
+
+    .details
+      div
+        text-align: center
+        display: block
+        width: #{$theme-width - 10}
+        margin: 0 5px 15px 5px
+
+        &.title
+          padding: 0 3px
+
+        a.css_button_anchor
+          margin: 0 auto
+          float: none

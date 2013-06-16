@@ -12,3 +12,6 @@ super_admin = SuperAdmin.first_or_create(
   email:    "superadmin@example.com",
   password: "123456"
 )
+
+Theme.where(path: "overblue").first_or_create!(name: "Overblue", public: true)
+Theme.where(path: "flat_pink").first_or_create!(name: "Flat Pink", public: true)
