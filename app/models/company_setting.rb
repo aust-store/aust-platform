@@ -1,6 +1,7 @@
 class CompanySetting < ActiveRecord::Base
   belongs_to :company
 
+  serialize :settings, ActiveRecord::Coders::Hstore
   store_accessor :settings, :zipcode
 
   before_validation :valid_zipcode?, if: ->{ Store::Application.config.auto_validate_company_zipcode }
