@@ -1,10 +1,11 @@
-div.sign_up
+$inline-inputs-normal-size: 203px
+
 div.inline_inputs
   display: table
 
   .input
     input
-      width: 160px
+      width: $inline-inputs-normal-size
 
   .smaller
     input
@@ -37,10 +38,11 @@ div.inline_inputs
         display: table
         margin: 3px 0 0 0
     &.big
-      width: 130px
+      width: $inline-inputs-normal-size
       display: table
       input
         margin-left: 3px
+        width: 100%
       .hint
         display: table
         margin: 3px 0 0 0
