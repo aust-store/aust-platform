@@ -20,12 +20,12 @@ Store::Application.routes.draw do
   end
 
   constraints RouterConstraints::Iphone.new do
-    devise_for :admin_users,
-      path: "admin",
-      controllers: {
-        registrations: "mobile_admin/devise/registrations",
-        sessions: "mobile_admin/devise/sessions"
-      }
+    #devise_for :admin_users,
+      #path: "admin",
+      #controllers: {
+        #registrations: "mobile_admin/devise/registrations",
+        #sessions: "mobile_admin/devise/sessions"
+      #}
   end
 
   devise_for :users,
@@ -119,16 +119,16 @@ Store::Application.routes.draw do
   end
 
   constraints RouterConstraints::Iphone.new do
-    namespace :admin, module: "mobile_admin" do
-      resource :inventory do
-        resources :items, controller: 'inventory/items' do
-          resources :images, controller: 'inventory/items/images',
-            only: [:index, :destroy, :create, :update]
-        end
-      end
+    #namespace :admin, module: "mobile_admin" do
+      #resource :inventory do
+        #resources :items, controller: 'inventory/items' do
+          #resources :images, controller: 'inventory/items/images',
+            #only: [:index, :destroy, :create, :update]
+        #end
+      #end
 
-      root to: 'inventory/items#index'
-    end
+      #root to: 'inventory/items#index'
+    #end
   end
 
   resource :cart, only: [:show, :update], controller: "store/cart" do

@@ -25,7 +25,7 @@ describe InventoryItem do
   describe "#search_for" do
     it "searches for items" do
       item = FactoryGirl.create(:inventory_item, name: "my item")
-      InventoryItem.search_for("item").all.should include item
+      InventoryItem.search_for("item").to_a.should include item
     end
   end
 

@@ -1,6 +1,6 @@
 class Admin::SettingsController < Admin::ApplicationController
   def show
-    @settings = CompanySetting.find_or_create_by_company_id(current_company.id)
+    @settings = CompanySetting.where(company_id: current_company.id).first_or_create
     @company  = current_company
   end
 
@@ -15,7 +15,7 @@ class Admin::SettingsController < Admin::ApplicationController
     end
 
     if success
-      redirect_to admin_settings_url, notice: t(".admin.notices.form_success")
+      redirect_to admin_settings_url, notice: I18n.t("admin.default_messages.update.success")
     else
       render "show"
     end

@@ -3,6 +3,6 @@ class Store::HomeController < Store::ApplicationController
 
   def index
     items = Store::ItemsForSale.new(self).items_for_main_page
-    @items = Store::InventoryItemDecorator.decorate(items)
+    @items = Store::InventoryItemDecorator.decorate_collection(items)
   end
 end

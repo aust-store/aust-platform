@@ -17,7 +17,6 @@ class AdminUser < ActiveRecord::Base
   validates_confirmation_of :password, on: :create
   validates_length_of :password, within: Devise.password_length, allow_blank: true
 
-
   belongs_to :company
   accepts_nested_attributes_for :company
 

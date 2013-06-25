@@ -8,7 +8,7 @@ module Admin
         # TODO load_item has no tests (e.g mock item.where)
 
         load_item
-        @entries = Admin::InventoryEntryDecorator.decorate(@item.balances)
+        @entries = Admin::InventoryEntryDecorator.decorate_collection(@item.balances)
       end
 
       def new

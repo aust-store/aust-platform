@@ -2,6 +2,7 @@ require 'acceptance_spec_helper'
 
 feature "Inventory Items' images management", js: true, search: true do
   let(:image_path) { "#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png" }
+
   before do
     login_into_admin
     FactoryGirl.create(:inventory_item, company: @company)
@@ -14,10 +15,14 @@ feature "Inventory Items' images management", js: true, search: true do
     click_link @item.name
 
     click_link "Gerenciar imagens"
+    current_path.should == admin_inventory_item_images_path(@item)
     within('.form-upload') do
       attach_file("item[images][image]",image_path)
       click_button "Enviar arquivos"
     end
+
+    sleep(1)
+
     visit admin_inventory_item_images_path(@item)
     page.should have_content "Imagens atuais"
   end

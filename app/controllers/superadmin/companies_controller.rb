@@ -2,7 +2,7 @@ class Superadmin::CompaniesController < Superadmin::ApplicationController
   layout "superadmin"
 
   def index
-    @companies = Company.all
+    @companies = Company.to_a
     @companies.each { |c| c.include_statistics }
     respond_to do |format|
       format.html { render }

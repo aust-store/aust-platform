@@ -3,7 +3,7 @@ class Admin::UsersController < Admin::ApplicationController
   authorize_resource :admin_user
 
   def index
-    @users = current_company.admin_users.all
+    @users = current_company.admin_users.to_a
   end
 
   def new

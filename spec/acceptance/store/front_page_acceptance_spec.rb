@@ -63,7 +63,7 @@ feature "Store's front-page" do
       visit root_path
       page.should have_content @item.name
 
-      InventoryItem.find_by_name(@item.name).images.cover.all.each do |e|
+      InventoryItem.find_by_name(@item.name).images.cover.to_a.each do |e|
         e.update_attributes(cover: false)
       end
 

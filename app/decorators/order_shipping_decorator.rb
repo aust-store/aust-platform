@@ -4,7 +4,7 @@ class OrderShippingDecorator < ApplicationDecorator
   include ::ActionView::Helpers::NumberHelper
 
   def price
-    to_currency order_shipping.price
+    to_currency model.price
   end
 
   private

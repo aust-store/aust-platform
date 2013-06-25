@@ -14,7 +14,7 @@ describe Admin::Api::OrdersController do
         xhr :get, :index
 
         order = Order.first
-        items = order.items.all
+        items = order.items.to_a
         json  = ActiveSupport::JSON.decode(response.body)
 
         json.should == {
@@ -44,7 +44,7 @@ describe Admin::Api::OrdersController do
         xhr :get, :index, environment: "offline"
 
         order = Order.first
-        items = order.items.all
+        items = order.items.to_a
         json  = ActiveSupport::JSON.decode(response.body)
 
         json.should == {

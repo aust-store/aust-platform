@@ -5,20 +5,20 @@ class Admin::InventoryEntryDecorator < ApplicationDecorator
   include ::ActionView::Helpers::NumberHelper
 
   def cost_per_unit
-    to_currency inventory_entry.cost_per_unit
+    to_currency object.cost_per_unit
   end
 
   def quantity
-    quantity = inventory_entry.quantity
+    quantity = object.quantity
     quantity ? quantity.to_i : nil
   end
 
   def total_cost
-    to_currency inventory_entry.total_cost
+    to_currency object.total_cost
   end
 
   def created_at
-    inventory_entry.created_at.strftime("%d/%m")
+    object.created_at.strftime("%d/%m")
   end
 
   private

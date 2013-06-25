@@ -19,12 +19,12 @@ class SignInForm
 
   _bindSubmitToSignInOrUp: ->
     $(".js_sign_in #new_user").submit ->
-      if $("#has_no_password").attr("checked")
+      if $("#has_no_password:checked").length
         sign_up = $(this).data('sign-up')
         current_email = $(this).find("#user_email").val()
         window.location = "#{sign_up}?email=#{current_email}"
         return false
-      else if $("#has_password").attr("checked")
+      else if $("#has_password:checked").length
         return true
 
 $ ->
