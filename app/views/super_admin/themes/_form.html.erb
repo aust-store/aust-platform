@@ -9,6 +9,8 @@
     <%= f.input :name, required: false %>
     <%= f.input :description, required: false %>
     <%= f.input :path, as: :string, required: false %>
+    <%= f.input :public %>
+    <%= f.input :company_id, collection: select_for_companies %>
   </div>
 
   <div class="form-actions">

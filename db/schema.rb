@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616190239) do
+ActiveRecord::Schema.define(:version => 20130625133338) do
 
   create_table "account_receivables", :force => true do |t|
     t.integer  "company_id"
@@ -306,7 +306,7 @@ ActiveRecord::Schema.define(:version => 20130616190239) do
 
   add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
 
-  create_table "super_admins", :force => true do |t|
+  create_table "super_admin_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
@@ -321,8 +321,8 @@ ActiveRecord::Schema.define(:version => 20130616190239) do
     t.datetime "updated_at",                             :null => false
   end
 
-  add_index "super_admins", ["email"], :name => "index_super_admins_on_email", :unique => true
-  add_index "super_admins", ["reset_password_token"], :name => "index_super_admins_on_reset_password_token", :unique => true
+  add_index "super_admin_users", ["email"], :name => "index_super_admin_users_on_email", :unique => true
+  add_index "super_admin_users", ["reset_password_token"], :name => "index_super_admin_users_on_reset_password_token", :unique => true
 
   create_table "taxonomies", :force => true do |t|
     t.text     "name"
@@ -351,7 +351,10 @@ ActiveRecord::Schema.define(:version => 20130616190239) do
     t.boolean  "public",      :default => true
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+    t.integer  "company_id"
   end
+
+  add_index "themes", ["company_id"], :name => "index_themes_on_company_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

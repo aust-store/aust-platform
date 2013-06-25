@@ -50,6 +50,8 @@ pt_br:
         name:        "Nome"
         description: "Descrição"
         path:        "Endereço"
+        public:      "Público"
+        company_id:  "Empresa"
     values:
       order:
         summary:

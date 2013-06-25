@@ -127,6 +127,8 @@ pt_br:
         domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
       theme:
         name: "Obrigatório."
+        public: "Temas públicos podem ser selecionados por qualquer empresa."
+        company_id: "Caso este tema pertença a uma empresa/loja em particular."
     placeholders:
       company_setting:
         zipcode: |

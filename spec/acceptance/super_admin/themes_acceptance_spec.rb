@@ -4,6 +4,8 @@ require 'acceptance_spec_helper'
 feature "Super admin themes management" do
   background do
     login_into_super_admin
+    @company1 = FactoryGirl.create(:company)
+    @company2 = FactoryGirl.create(:company)
   end
 
   scenario "As a super admin, I'm able to create and edit themes" do
@@ -16,6 +18,7 @@ feature "Super admin themes management" do
       fill_in "theme_name",        with: "My theme"
       fill_in "theme_description", with: "description"
       fill_in "theme_path",        with: "my_theme"
+      check   "theme_public"
       click_button "commit"
     end
 
@@ -23,7 +26,10 @@ feature "Super admin themes management" do
     current_path.should == super_admin_themes_path
     page.should have_content "My theme"
     page.should have_content "my_theme"
+    page.should have_content "Público"
     page.should_not have_content "description"
+    page.should_not have_content @company1.name
+    page.should_not have_content @company2.name
 
     click_link "My theme"
 
@@ -36,6 +42,8 @@ feature "Super admin themes management" do
       fill_in "theme_name",        with: "My theme2"
       fill_in "theme_description", with: "description"
       fill_in "theme_path",        with: "my_theme2"
+      uncheck "theme_public"
+      select @company2.name,       from: "theme_company_id"
       click_button "commit"
     end
 
@@ -43,6 +51,11 @@ feature "Super admin themes management" do
     current_path.should == super_admin_themes_path
     page.should have_content "My theme2"
     page.should have_content "my_theme2"
+    page.should have_content "Tema privado"
+    page.should have_content @company2.name
+    page.should_not have_content @company1.name
     page.should_not have_content "description"
+
+    Theme.last.company.should == @company2
   end
 end

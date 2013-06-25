@@ -1,7 +1,7 @@
 <h1><%= t(".title") %> <%= @theme.name %></h1>
 <p><%= link_to t(".delete_theme"),
   super_admin_theme_path,
-  confirm: t(".delete_confirm"),
+  data: {confirm: t(".delete_confirm") },
   method: :delete %> </p>
 
 <%= render 'form' %>

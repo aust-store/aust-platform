@@ -934,7 +934,8 @@ CREATE TABLE themes (
     path text,
     public boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    company_id integer
 );
 
 
@@ -1783,6 +1784,13 @@ CREATE INDEX index_taxonomy_hierarchies_on_descendant_id ON taxonomy_hierarchies
 
 
 --
+-- Name: index_themes_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_themes_on_company_id ON themes USING btree (company_id);
+
+
+--
 -- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2000,3 +2008,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130613001445');
 INSERT INTO schema_migrations (version) VALUES ('20130613005952');
 
 INSERT INTO schema_migrations (version) VALUES ('20130616190239');
+
+INSERT INTO schema_migrations (version) VALUES ('20130625133338');
