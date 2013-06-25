@@ -2,7 +2,7 @@ require "router_constraints"
 
 Store::Application.routes.draw do
 
-  devise_for :super_admins,
+  devise_for :super_admin_user,
     path: "super_admin",
     controllers: {
       sessions: "super_admin/sessions"
@@ -40,8 +40,9 @@ Store::Application.routes.draw do
       sessions: "store/devise/sessions"
     }
 
-  namespace :super_admin do
+  namespace :super_admin, path: "super_admin" do
     resource :dashboard, controller: 'dashboard', only: [:show]
+    resources :stores, only: [:index]
     resources :themes, controller: 'themes'
 
     root :to => 'dashboard#show'

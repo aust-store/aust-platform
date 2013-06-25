@@ -1,0 +1,26 @@
+<% content_for :history_navigation do %>
+  <%= back(super_admin_themes_path) %>
+<% end %>
+
+<h1><%= t(".title") %></h1>
+
+<table class="listing">
+  <thead>
+    <tr>
+      <th><%= t(".name") %></th>
+      <th><%= t(".handle") %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stores.each do |store| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= store.name %>
+        <td><%= store.handle %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+

@@ -840,10 +840,10 @@ ALTER SEQUENCE shipping_boxes_id_seq OWNED BY shipping_boxes.id;
 
 
 --
--- Name: super_admins; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: super_admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE super_admins (
+CREATE TABLE super_admin_users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -861,10 +861,10 @@ CREATE TABLE super_admins (
 
 
 --
--- Name: super_admins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: super_admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE super_admins_id_seq
+CREATE SEQUENCE super_admin_users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -873,10 +873,10 @@ CREATE SEQUENCE super_admins_id_seq
 
 
 --
--- Name: super_admins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: super_admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE super_admins_id_seq OWNED BY super_admins.id;
+ALTER SEQUENCE super_admin_users_id_seq OWNED BY super_admin_users.id;
 
 
 --
@@ -1172,7 +1172,7 @@ ALTER TABLE ONLY shipping_boxes ALTER COLUMN id SET DEFAULT nextval('shipping_bo
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY super_admins ALTER COLUMN id SET DEFAULT nextval('super_admins_id_seq'::regclass);
+ALTER TABLE ONLY super_admin_users ALTER COLUMN id SET DEFAULT nextval('super_admin_users_id_seq'::regclass);
 
 
 --
@@ -1373,11 +1373,11 @@ ALTER TABLE ONLY shipping_boxes
 
 
 --
--- Name: super_admins_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: super_admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY super_admins
-    ADD CONSTRAINT super_admins_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY super_admin_users
+    ADD CONSTRAINT super_admin_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1741,17 +1741,17 @@ CREATE INDEX index_shipping_boxes_on_inventory_item_id ON shipping_boxes USING b
 
 
 --
--- Name: index_super_admins_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_super_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_super_admins_on_email ON super_admins USING btree (email);
+CREATE UNIQUE INDEX index_super_admin_users_on_email ON super_admin_users USING btree (email);
 
 
 --
--- Name: index_super_admins_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_super_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_super_admins_on_reset_password_token ON super_admins USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_super_admin_users_on_reset_password_token ON super_admin_users USING btree (reset_password_token);
 
 
 --

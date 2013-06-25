@@ -1,6 +1,5 @@
 <% content_for :a do %>
   <%= back(super_admin_themes_path) %>
-  oij
 <% end %>
 
 <%= simple_form_for [:super_admin, @theme] do |f| %>
@@ -13,7 +12,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, id: "commit" %>
     <%= t("or") %>
     <%= link_to t("cancel"), super_admin_themes_path %>
   </div>

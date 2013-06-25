@@ -1,5 +1,5 @@
 <% content_for :history_navigation do %>
-  <%= back(super_admin_themes_path) %>
+  <%= back(super_admin_root_path) %>
 <% end %>
 
 <h1><%= t(".title") %></h1>
@@ -26,4 +26,4 @@
 
 <br />
 
-<%= link_to t(".new_theme"), new_super_admin_theme_path %>
+<%= link_to t(".new_theme"), new_super_admin_theme_path, id: "new_theme" %>

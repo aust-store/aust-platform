@@ -3,10 +3,6 @@ class SuperAdmin::ThemesController < SuperAdmin::ApplicationController
     @themes = Theme.all
   end
 
-  def show
-    @theme = Theme.find(params[:id])
-  end
-
   def new
     @theme = Theme.new
   end

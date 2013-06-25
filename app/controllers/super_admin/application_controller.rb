@@ -1,6 +1,6 @@
 class SuperAdmin::ApplicationController < ActionController::Base
   protect_from_forgery
-  layout "super_admin"
+  before_filter :authenticate_super_admin_user!
 
-  before_filter :authenticate_super_admin!
+  layout "super_admin"
 end

@@ -8,7 +8,7 @@ if Rails.env.development?
                                     company_id: store.id)
 end
 
-super_admin = SuperAdmin.first_or_create(
+super_admin = SuperAdminUser.first_or_create(
   email:    "superadmin@example.com",
   password: "123456"
 )

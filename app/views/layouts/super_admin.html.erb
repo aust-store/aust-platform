@@ -12,10 +12,11 @@
   <nav>
     <ul>
       <li><%= link_to "Principal", super_admin_root_path %></li>
+      <li><%= link_to "Lojas", super_admin_stores_path %></li>
       <li><%= link_to "Temas", super_admin_themes_path %></li>
       <li>
         <br />
-        <%= link_to "Sair", destroy_super_admin_session_path, method: :delete %>
+        <%= link_to "Sair", destroy_super_admin_user_session_path, method: :delete %>
       </li>
     </ul>
   </nav>

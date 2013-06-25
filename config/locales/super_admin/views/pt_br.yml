@@ -16,3 +16,14 @@ pt_br:
         title: "Editando"
         delete_theme: "Excluir este tema"
         delete_confirm: "Você tem certeza que quer excluir este tema?"
+    stores:
+      index:
+        title: "Lojas"
+        name:  "Nome"
+        handle: "Login"
+      new:
+        title: "Novo tema"
+      edit:
+        title: "Editando"
+        delete_theme: "Excluir este tema"
+        delete_confirm: "Você tem certeza que quer excluir este tema?"
