@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |i| "Super Company ##{i}" }
     association :inventory
     sequence(:handle) { |i| "handle_#{i}" }
+    sequence(:domain) { |i| "petshop#{i}.com" }
 
     after(:create) do |company, evaluator|
       company.build_payment_gateway(email: "gateway@example.com",

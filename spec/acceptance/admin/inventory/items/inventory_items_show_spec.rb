@@ -149,7 +149,7 @@ feature "Inventory Item Management" do
         page.should have_content "My item"
 
         # Removes all cover images from the DB
-        InventoryItem.find_by_name(@item.name).images.cover.all.each do |e|
+        InventoryItem.find_by_name(@item.name).images.cover.to_a.each do |e|
           e.update_attributes(cover: false)
         end
 

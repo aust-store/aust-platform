@@ -11,7 +11,7 @@ class Admin::Api::OrdersController < Admin::ApplicationController
 
     orders = orders.created_offline        if params[:environment] == "offline"
     orders = orders.created_on_the_website if params[:environment] == "website"
-    orders = orders.all
+    orders = orders.to_a
 
     render json: orders
   end

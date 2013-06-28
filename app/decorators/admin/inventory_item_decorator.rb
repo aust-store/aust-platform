@@ -9,15 +9,15 @@ module Admin
     include ::ActionView::Helpers::OutputSafetyHelper
 
     def description
-      raw inventory_item.description.gsub("\n", "<br />")
+      raw object.description.gsub("\n", "<br />")
     end
 
     def has_image?
-      inventory_item.images.present?
+      object.images.present?
     end
 
     def total_quantity
-      inventory_item.total_quantity.to_i
+      object.total_quantity.to_i
     end
 
     def total_quantity_summing_inventory_entries
@@ -30,7 +30,7 @@ module Admin
     end
 
     def price
-      to_currency inventory_item.price
+      to_currency object.price
     end
 
     private

@@ -6,7 +6,7 @@ module Admin
     include ::ActionView::Helpers::OutputSafetyHelper
 
     def value
-      to_currency inventory_item_price.value
+      to_currency object.value
     end
 
     private

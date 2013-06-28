@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
   belongs_to :cart
   belongs_to :store, class_name: "Company"
   has_many :items, class_name: "OrderItem"
-  has_many :payment_statuses, order: "id asc"
+  has_many :payment_statuses, ->{ order("id asc") }
   has_one :shipping_details, class_name: "OrderShipping"
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
@@ -19,8 +19,8 @@ class Order < ActiveRecord::Base
 
   accepts_nested_attributes_for :items
 
-  scope :created_on_the_website, where(environment: "website")
-  scope :created_offline, where(environment: "offline")
+  scope :created_on_the_website, ->{ where(environment: "website") }
+  scope :created_offline, ->{ where(environment: "offline") }
 
   def self.create_offline(params)
     create(params.merge(environment: :offline))

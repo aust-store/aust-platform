@@ -5,11 +5,11 @@ module Admin
     include ::ActionView::Helpers::NumberHelper
 
     def price
-      to_currency(order_item.price)
+      to_currency(model.price)
     end
 
     def status
-      I18n.t("activerecord.values.order_item.status.#{order_item.status}")
+      I18n.t("activerecord.values.order_item.status.#{model.status}")
     end
 
     private

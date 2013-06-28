@@ -9,18 +9,18 @@ module Admin
     include ::ActionView::Helpers::NumberHelper
 
     def total
-      to_currency(order.total)
+      to_currency(object.total)
     end
 
     def payment_status
-      I18n.t("activerecord.values.payment_status.#{order.current_payment_status}")
+      I18n.t("activerecord.values.payment_status.#{object.current_payment_status}")
     end
 
     def payment_status_with_datetime
-      status = I18n.t("activerecord.values.payment_status.#{order.current_payment_status}")
+      status = I18n.t("activerecord.values.payment_status.#{object.current_payment_status}")
 
-      if order.paid?
-        payment_status = order.payment_statuses.paid_status.first
+      if object.paid?
+        payment_status = object.payment_statuses.paid_status.first
         status << ", pago em " + payment_status.created_at.strftime("%d/%m/%Y, às %H:%M")
       end
 
@@ -28,15 +28,15 @@ module Admin
     end
 
     def created_at
-      order.created_at.strftime("%d/%m/%Y, às %H:%M")
+      object.created_at.strftime("%d/%m/%Y, às %H:%M")
     end
 
     def summary_long_text
-      I18n.t("activerecord.values.order.summary.#{order.summary}")
+      I18n.t("activerecord.values.order.summary.#{object.summary}")
     end
 
     def purchase_date
-      order.created_at.strftime("%d/%m/%Y %H:%M")
+      object.created_at.strftime("%d/%m/%Y %H:%M")
     end
 
     private

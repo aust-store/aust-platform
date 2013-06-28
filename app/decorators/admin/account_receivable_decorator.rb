@@ -3,24 +3,20 @@ module Admin
     decorates :account_receivable
     decorates :customer
 
-    allows :id, :description, :value, :due_to, :paid, :created_at
-    allows :customer
-    allows :errors
-
     include ::ActionView::Helpers::NumberHelper
 
     def value
-      to_currency(account_receivable.value)
+      to_currency(model.value)
     end
 
     def due_to
-      unless account_receivable.due_to.nil? 
-        account_receivable.due_to.strftime("%d/%m/%Y") 
+      unless model.due_to.nil?
+        model.due_to.strftime("%d/%m/%Y")
       end
     end
 
     def status
-      if account_receivable.paid?
+      if model.paid?
         "pago"
       else
         "pendente"

@@ -1,10 +1,10 @@
 class Taxonomy < ActiveRecord::Base
   extend ModelExtensions::FullTextSearch
 
-  acts_as_tree order: 'id'
+  acts_as_tree order: "id"
 
   belongs_to :store, foreign_key: 'store_id', class_name: "Company"
-  attr_accessible :name, :parent_id, :store_id
+  attr_accessible :name, :parent_id, :store_id, :parent
 
   validates :name, presence: true
 

@@ -16,7 +16,7 @@ describe Admin::Inventory::EntriesController do
 
   describe "GET index" do
     it "loads item's entries" do
-      Admin::InventoryEntryDecorator.stub(:decorate).with(items) { :items }
+      Admin::InventoryEntryDecorator.stub(:decorate_collection).with(items) { :items }
       get :index, item_id: 1
       assigns(:entries).should == :items
     end

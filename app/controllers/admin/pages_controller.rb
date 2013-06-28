@@ -1,6 +1,6 @@
 class Admin::PagesController < Admin::ApplicationController
   def index
-    @pages = current_company.pages.order("created_at").all
+    @pages = current_company.pages.order("created_at").to_a
   end
 
   def new

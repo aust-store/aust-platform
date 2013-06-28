@@ -6,7 +6,7 @@ class Admin::OrdersController < Admin::ApplicationController
       .created_on_the_website
       .order('id desc')
       .last(50)
-    @orders = Admin::OrderDecorator.decorate(orders)
+    @orders = Admin::OrderDecorator.decorate_collection(orders)
   end
 
   def show

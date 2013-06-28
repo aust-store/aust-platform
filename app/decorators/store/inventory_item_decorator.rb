@@ -6,11 +6,11 @@ module Store
     include ::ActionView::Helpers::NumberHelper
 
     def images
-      inventory_item.images
+      model.images
     end
 
     def price
-      to_currency(inventory_item.price)
+      to_currency(model.price)
     end
 
     private

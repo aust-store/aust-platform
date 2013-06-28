@@ -8,15 +8,16 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :taxonomy
 
   has_many :prices,
-    class_name: "InventoryItemPrice",
-    order: "inventory_item_prices.id asc"
+    ->{ order("inventory_item_prices.id asc").references(:inventory_item_prices) },
+    class_name: "InventoryItemPrice"
 
   has_many :entries, class_name: "InventoryEntry"
 
   # TODO remove balances
-  has_many :balances, class_name: "InventoryEntry", order: "inventory_entries.created_at asc, inventory_entries.id asc"
+  has_many :balances,
+    ->{ order("inventory_entries.created_at asc, inventory_entries.id asc").references(:inventory_entries) },
+    class_name: "InventoryEntry"
   has_many :images, class_name: "InventoryItemImage"
-  has_one :last_balance, class_name: "InventoryEntry", order: "updated_at desc", readonly: true
   has_one :shipping_box
   has_one :properties, class_name: "InventoryItemProperty"
 
@@ -52,6 +53,8 @@ class InventoryItem < ActiveRecord::Base
         GROUP BY inventory_entries.inventory_item_id)", true)
       .where("inventory_entries.on_sale = ?", true)
       .where("inventory_item_images.cover = ?", true)
+      .references(:inventory_entries)
+      .references(:inventory_item_images)
   }
 
   scope :detailed_item_for_sale, lambda {
@@ -71,7 +74,7 @@ class InventoryItem < ActiveRecord::Base
   end
 
   def all_entries_available_for_sale
-    self.balances.all_entries_available_for_sale.all
+    self.balances.all_entries_available_for_sale.to_a
   end
 
   def total_quantity

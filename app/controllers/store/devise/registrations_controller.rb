@@ -1,5 +1,6 @@
 class Store::Devise::RegistrationsController < Devise::RegistrationsController
   layout "store"
+  before_filter :configure_permitted_parameters
 
   include ControllersExtensions::CartInstantiation
 
@@ -13,7 +14,7 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    build_resource
+    self.resource = build_resource(sign_up_params)
 
     resource.store_id = current_store.id
     if resource.save
@@ -41,6 +42,31 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
       path
     else
       super(resource)
+    end
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit(:first_name,
+               :email,
+               :last_name,
+               :password,
+               :password_confirmation,
+               :social_security_number,
+               :home_area_number,
+               :home_number,
+               :mobile_area_number,
+               :mobile_number,
+               :receive_newsletter,
+               addresses_attributes: [
+                 :address_1,
+                 :address_2,
+                 :number,
+                 :neighborhood,
+                 :zipcode,
+                 :city,
+                 :state
+               ])
     end
   end
 end

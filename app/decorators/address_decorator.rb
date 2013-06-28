@@ -3,13 +3,13 @@ class AddressDecorator < ApplicationDecorator
 
   def complete_address
     complete = []
-    complete << address.address_1
-    complete << address.address_2
-    complete << address.number
-    complete << address.neighborhood
-    complete << address.city
-    complete << address.state
-    complete << "CEP #{address.zipcode}" if address.zipcode.present?
+    complete << model.address_1
+    complete << model.address_2
+    complete << model.number
+    complete << model.neighborhood
+    complete << model.city
+    complete << model.state
+    complete << "CEP #{model.zipcode}" if model.zipcode.present?
     complete.join(", ")
   end
 end

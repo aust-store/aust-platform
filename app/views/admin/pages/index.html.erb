@@ -20,7 +20,7 @@
       <% @pages.each do |page| %>
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= link_to page.title, edit_admin_page_path(page) %></td>
-        <td><%= link_to t(".delete"), admin_page_path(page), :confirm => t('admin.index.confirm'), method: :delete %></td>
+        <td><%= link_to t(".delete"), admin_page_path(page), data: {confirm: t('admin.index.confirm')}, method: :delete %></td>
       </tr>
       <% end %>
     <% end %>

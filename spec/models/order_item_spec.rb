@@ -84,7 +84,7 @@ describe OrderItem do
         @order.items  .count.should == 3
         @item.quantity.should       == 3
 
-        prices = @order.items.all.map { |i| i.price.to_s }
+        prices = @order.items.to_a.map { |i| i.price.to_s }
         prices.all? { |price| price == "12.0" }.should be_true
       end
     end

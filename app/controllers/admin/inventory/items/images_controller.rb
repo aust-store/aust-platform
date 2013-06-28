@@ -2,6 +2,8 @@ module Admin
   module Inventory
     module Items
       class ImagesController < Admin::ApplicationController
+        skip_before_filter :verify_authenticity_token
+
         def index
           @item = current_company.items.find(params[:item_id])
           @item_images = load_item_images

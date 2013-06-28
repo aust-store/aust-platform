@@ -3,28 +3,28 @@ Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
 
-gem 'rails', '~>3.2.11'
+gem 'rails', '~>4'
+
+# rails 4 compatibility
+gem 'protected_attributes'
+gem 'activerecord-deprecated_finders'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'
-gem 'devise'
+gem 'devise', '~> 3.0.0.rc'
 gem 'cancan'
 
-gem 'simple_form', "~> 2.0.0"
-gem 'draper', '0.18.0'
+gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
+gem 'draper', '~> 1.2.1'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+gem 'sass-rails'
+gem 'coffee-rails'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'libv8', '3.11.8.3'
-  gem 'therubyracer', '0.11.0beta8'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'libv8', '3.11.8.3'
+gem 'therubyracer', '0.11.0beta8'
 
-  gem 'uglifier', '~> 1.3.0'
-end
+gem 'uglifier', '~> 1.3.0'
 
 gem 'jquery-rails'
 
@@ -35,7 +35,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.11'
+  gem 'rspec-rails', '~> 2.13'
   gem 'thin'
   gem 'pry'
   gem 'pry-nav'
@@ -62,11 +62,10 @@ gem 'ember-rails'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.0'
-gem 'emerald-rails', "~> 0.0.5"
 gem 'brazilian-rails'
-gem 'pag_seguro', '~> 0.4', git: "git://github.com/kurko/pag_seguro.git", branch: "add_shipping_cost"
+gem 'pag_seguro'
 gem 'wicked', '~> 0.3'
-gem 'closure_tree', github: 'mceachen/closure_tree'
+gem 'closure_tree', "4.2.4"
 gem 'kaminari'
 
 gem 'capistrano', '2.13.5'

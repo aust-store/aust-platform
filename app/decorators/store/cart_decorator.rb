@@ -6,23 +6,23 @@ module Store
     include ::ActionView::Helpers::NumberHelper
 
     def shipping_price
-      shipping.price if cart.shipping
+      shipping.price if model.shipping
     end
 
     def shipping_days
-      shipping.delivery_days if cart.shipping
+      shipping.delivery_days if model.shipping
     end
 
     def shipping_type
-      shipping.service_type if cart.shipping
+      shipping.service_type if model.shipping
     end
 
     def shipping_zipcode
-      shipping.zipcode if cart.shipping
+      shipping.zipcode if model.shipping
     end
 
     def total
-      to_currency cart.total
+      to_currency model.total
     end
 
     private

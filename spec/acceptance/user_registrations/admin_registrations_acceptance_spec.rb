@@ -22,12 +22,12 @@ feature "Admin User registration", js: true do
 
     click_button "sign_up"
     current_path.should == admin_dashboard_path
-    admin_user = AdminUser.find_by_email("admin_user@example.com")
+    admin_user = AdminUser.where(email: "admin_user@example.com").first
     admin_user.should be_true
     admin_user.name.should == "admin_user"
     admin_user.role.should == "founder"
-    Company.find_by_name("Petshop Store").inventory.should be_true
-    Company.find_by_handle("mypet").should be_true
+    Company.where(name: "Petshop Store").first.inventory.should be_true
+    Company.where(handle: "mypet").to_a.should be_true
 
     page.should_not have_content "You have signed up successfully."
   end

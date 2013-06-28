@@ -23,7 +23,7 @@ module Context
     attr_accessor :new_entry
 
     def item_entries
-      new_entry.inventory_item.entries.where("quantity > 0").all
+      new_entry.inventory_item.entries.where("quantity > 0").to_a
     end
 
     module AverageCostCalculator
