@@ -4,4 +4,4 @@ pt_br:
     products:
       show:
         price_merchan: "Apenas "
-        add_to_cart_link: "Adicionar ao carrinho"
+        add_to_cart_link: "Comprar"

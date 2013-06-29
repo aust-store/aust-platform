@@ -13,5 +13,8 @@ super_admin = SuperAdminUser.first_or_create(
   password: "123456"
 )
 
+
+# Themes
 Theme.where(path: "overblue").first_or_create!(name: "Overblue", public: true)
 Theme.where(path: "flat_pink").first_or_create!(name: "Flat Pink", public: true)
+Theme.where(path: "minimalism").first_or_create!(name: "Minimalism", vertical_taxonomy_menu: true, public: true)
