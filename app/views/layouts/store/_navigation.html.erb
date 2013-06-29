@@ -1,15 +1,10 @@
 <ul>
-  <li><%= link_to "Principal", root_path, class: "current" %></li>
+  <li><%= link_to "Principal", root_path, class: current_page_class(root_path) %></li>
 
-  <% if @taxonomies.present? %>
-    <li><%= link_to "Departamentos", "javascript: void(0)", id: "departments_context_menu_trigger" %>
-      <div class="departments_context_menu js_departments_context_menu">
-        <%= taxonomies_navigation @taxonomies %>
-      </div>
-    </li>
+  <% unless @theme.has_feature?(:vertical_taxonomy_menu) %>
+    <%= render "store/theme_features/taxonomy_with_button_menu" %>
   <% end %>
 
-  <li><%= link_to "Carrinho de compras", cart_path %></li>
+  <li><%= link_to "Carrinho de compras", cart_path, class: current_page_class("store/cart") %></li>
   <li><%= link_to "Contato", root_path %></li>
 </ul>
-

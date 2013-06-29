@@ -5,6 +5,7 @@ describe Store::Checkout::PaymentController do
 
   login_user
 
+  let(:company)  { double.as_null_object }
   let(:sale)     { double(order: :order).as_null_object }
   let(:cart)     { double(persistence: cart_model).as_null_object }
   let(:cart_model) { double(zipcode_mismatch?: false) }
@@ -12,6 +13,7 @@ describe Store::Checkout::PaymentController do
 
   before do
     controller.stub(:cart) { cart }
+    Company.stub_chain(:where, :first) { company }
     Store::Sale.stub(:new).with(cart_model) { sale }
     Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, :order) { checkout }
 

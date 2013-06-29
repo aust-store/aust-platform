@@ -19,7 +19,7 @@ feature "Store products" do
       page.should have_content @product.images.first.image
       page.should have_content @product.images.last.image
 
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
       current_path.should == cart_path
       page.should have_content @product.name
 
@@ -31,7 +31,7 @@ feature "Store products" do
       entry_in_cart = @product.entries.first
       visit product_path(entry_in_cart)
 
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
       current_path.should == cart_path
       page.should have_content @product.name
 

@@ -22,7 +22,7 @@ feature "Orders Management" do
 
       3.times do
         visit product_path(inventory_entry)
-        click_link "Adicionar ao carrinho"
+        click_link I18n.t("store.products.show.add_to_cart_link")
       end
 
       page.should have_content "Goodyear"

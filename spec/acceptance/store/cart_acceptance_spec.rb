@@ -32,7 +32,7 @@ feature "Store cart" do
       inventory_entry = @product.balances.first
       3.times do
         visit product_path(inventory_entry)
-        click_link "Adicionar ao carrinho"
+        click_link I18n.t("store.products.show.add_to_cart_link")
       end
 
       OrderItem.count.should == 3
@@ -87,7 +87,7 @@ feature "Store cart" do
       stub_shipping
 
       visit product_path(inventory_entry)
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
 
       within(".js_service_selection") do
         choose("type_pac")
@@ -102,7 +102,7 @@ feature "Store cart" do
       @company.settings.update_attributes(zipcode: "")
       visit product_path(inventory_entry)
 
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
 
       page.should have_content "#{I18n.t("store.cart.show.shipping_disabled_message")}"
     end
@@ -110,7 +110,7 @@ feature "Store cart" do
     scenario "As an user, I can update the shipping cost by clicking the update button" do
       stub_shipping
       visit product_path(inventory_entry)
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
 
       page.should_not have_content "R$ 111,23"
       page.should_not have_content "entrega em 3 dias úteis"
@@ -128,7 +128,7 @@ feature "Store cart" do
     background do
       inventory_entry = @product.balances.first
       visit product_path(inventory_entry)
-      click_link "Adicionar ao carrinho"
+      click_link I18n.t("store.products.show.add_to_cart_link")
     end
 
     scenario "As an user, I can see a checkout button if a payment gateway was configured" do
