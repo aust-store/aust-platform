@@ -1,5 +1,6 @@
 class Theme < ActiveRecord::Base
-  attr_accessible :description, :name, :path, :public, :company_id
+  attr_accessible :description, :name, :path, :public, :company_id,
+                  :vertical_taxonomy_menu
 
   belongs_to :company
 
