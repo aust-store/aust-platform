@@ -9,7 +9,7 @@ class Address < ActiveRecord::Base
   validates :state, inclusion: { in: Geography::BrazilianStates.states_codes }
 
   before_validation :set_country_to_brazil
-  after_save :set_default_address
+  before_save :set_default_address
 
   def copied
     attributes.reject do |key, value|
@@ -30,14 +30,15 @@ class Address < ActiveRecord::Base
   end
 
   def set_default_address
-    if same_level_addresses.size >= 1 && self.default?
+    if same_level_addresses.size == 0
+      self.default = true
+    elsif same_level_addresses.size >= 1 && self.default?
       same_level_addresses.update_all(default: false)
     end
   end
 
   def same_level_addresses
     @same_level_addresses ||= Address
-      .where("id NOT IN(?)", self.id)
       .where("addressable_id = ? AND addressable_type = ?",
              self.addressable_id, self.addressable_type)
   end

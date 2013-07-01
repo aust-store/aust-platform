@@ -5,6 +5,7 @@ pt_br:
       address:
         address_1:    "Endereço 1"
         address_2:    "Endereço 2"
+        number:       "Número"
         neighborhood: "Bairro"
         zipcode:      "CEP"
         city:         "Cidade"
@@ -52,6 +53,10 @@ pt_br:
         path:        "Endereço"
         public:      "Público"
         company_id:  "Empresa"
+      contact:
+        phone_1: "Telefone 1"
+        phone_2: "Telefone 2"
+        email:   "Email de contato"
     values:
       order:
         summary:
@@ -80,6 +85,13 @@ pt_br:
         blank: "%{attribute} não pode ficar em branco"
         taken: "%{attribute} já foi selecionado"
       models:
+        contact:
+          attributes:
+            phone_1:
+              blank: "Não pode ficar em branco"
+            email:
+              blank: "Não pode ficar em branco"
+              invalid: "Digite um endereço de email válido"
         address:
           attributes:
             address_1:

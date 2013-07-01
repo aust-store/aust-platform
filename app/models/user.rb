@@ -30,12 +30,6 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :addresses, :store
 
-  before_save :set_default_address
-
-  def set_default_address
-    addresses.first.default = true if addresses.size == 1
-  end
-
   def default_address
     if addresses.present?
       addresses.where(default: true).first

@@ -9,13 +9,15 @@ class Company < ActiveRecord::Base
   has_many :manufacturers
   has_many :pages
 
+  has_one :address, as: :addressable
+  has_one :contact, as: :contactable
   has_one :inventory
   has_one :payment_gateway, foreign_key: :store_id
   has_one :settings, class_name: "CompanySetting"
 
   belongs_to :theme
 
-  accepts_nested_attributes_for :admin_users
+  accepts_nested_attributes_for :admin_users, :address, :contact
 
   before_create :create_inventory
   before_validation :set_default_theme, on: :create

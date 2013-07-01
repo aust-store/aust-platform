@@ -4,7 +4,7 @@ class AddressDecorator < ApplicationDecorator
   def complete_address
     complete = []
     complete << model.address_1
-    complete << model.address_2
+    complete << model.address_2 if model.address_2.present?
     complete << model.number
     complete << model.neighborhood
     complete << model.city
