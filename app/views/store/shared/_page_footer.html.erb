@@ -1,1 +1,2 @@
 <%= @company.name %> - <%= @company.complete_address %>
+<%= " - Fone: #{@company.complete_contact}" if @company.complete_contact.present? %>
