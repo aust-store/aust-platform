@@ -2,7 +2,12 @@ module ControllersExtensions
   module LoadingGlobalInformations
     def self.included(base)
       base.before_filter :load_taxonomies
+      base.before_filter :load_pages
       base.before_filter :cart_items_quantity
+    end
+
+    def load_pages
+      @pages = current_store.pages.to_a
     end
 
     def load_taxonomies

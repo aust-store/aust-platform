@@ -153,6 +153,7 @@ Store::Application.routes.draw do
   end
 
   resources :products, only: [:show], controller: "store/products"
+  resources :pages,    only: [:show], controller: "store/pages"
 
   namespace :gateway_notifications, module: 'store/gateway_notifications' do
     resource :pagseguro, only: :create, controller: "pagseguro"

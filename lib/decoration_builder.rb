@@ -15,6 +15,10 @@ class DecorationBuilder
     decorate(Store::CartDecorator, resources)
   end
 
+  def self.pages(resources)
+    decorate(PageDecorator, resources)
+  end
+
   private
 
   def self.decorate(decorator, resource)

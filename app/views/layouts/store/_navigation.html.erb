@@ -5,6 +5,10 @@
     <%= render "store/theme_features/taxonomy_with_button_menu" %>
   <% end %>
 
+  <% @pages.each do |page| %>
+    <li><%= link_to page.title, page_path(page), class: current_page_class(page_path(page)) %></li>
+  <% end %>
+
   <li><%= link_to "Carrinho de compras", cart_path, class: current_page_class("store/cart") %></li>
   <li><%= link_to "Contato", root_path %></li>
 </ul>
