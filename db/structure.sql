@@ -935,7 +935,8 @@ CREATE TABLE themes (
     public boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    company_id integer
+    company_id integer,
+    vertical_taxonomy_menu boolean
 );
 
 
@@ -1871,6 +1872,8 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('20120215233120');
 
 INSERT INTO schema_migrations (version) VALUES ('20120221230738');
@@ -2010,3 +2013,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130613005952');
 INSERT INTO schema_migrations (version) VALUES ('20130616190239');
 
 INSERT INTO schema_migrations (version) VALUES ('20130625133338');
+
+INSERT INTO schema_migrations (version) VALUES ('20130629135556');

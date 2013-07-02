@@ -9,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625133338) do
+ActiveRecord::Schema.define(version: 20130629135556) do
 
-  create_table "account_receivables", :force => true do |t|
+  create_table "account_receivables", force: true do |t|
     t.integer  "company_id"
     t.integer  "admin_user_id"
     t.integer  "customer_id"
@@ -21,15 +21,15 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.text     "description"
     t.date     "due_to"
     t.boolean  "paid"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  add_index "account_receivables", ["admin_user_id"], :name => "index_account_receivables_on_admin_user_id"
-  add_index "account_receivables", ["company_id"], :name => "index_account_receivables_on_company_id"
-  add_index "account_receivables", ["customer_id"], :name => "index_account_receivables_on_customer_id"
+  add_index "account_receivables", ["admin_user_id"], name: "index_account_receivables_on_admin_user_id", using: :btree
+  add_index "account_receivables", ["company_id"], name: "index_account_receivables_on_company_id", using: :btree
+  add_index "account_receivables", ["customer_id"], name: "index_account_receivables_on_customer_id", using: :btree
 
-  create_table "addresses", :force => true do |t|
+  create_table "addresses", force: true do |t|
     t.integer  "addressable_id"
     t.string   "addressable_type"
     t.text     "address_1"
@@ -39,148 +39,148 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.string   "state"
     t.string   "country"
     t.boolean  "default"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.string   "neighborhood"
     t.string   "number"
   end
 
-  add_index "addresses", ["addressable_id", "addressable_type"], :name => "index_addresses_on_addressable_id_and_addressable_type"
-  add_index "addresses", ["default"], :name => "index_addresses_on_default"
+  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
+  add_index "addresses", ["default"], name: "index_addresses_on_default", using: :btree
 
-  create_table "admin_dashboards", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "admin_dashboards", force: true do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "admin_users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+  create_table "admin_users", force: true do |t|
+    t.string   "email",                              default: "", null: false
+    t.string   "encrypted_password",     limit: 128, default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "password_salt"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.integer  "company_id"
     t.string   "role"
     t.string   "name"
   end
 
-  add_index "admin_users", ["company_id"], :name => "index_admin_users_on_company_id"
-  add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
-  add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
+  add_index "admin_users", ["company_id"], name: "index_admin_users_on_company_id", using: :btree
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "carts", :force => true do |t|
+  create_table "carts", force: true do |t|
     t.integer  "user_id"
     t.integer  "company_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "environment"
   end
 
-  add_index "carts", ["company_id"], :name => "index_carts_on_company_id"
-  add_index "carts", ["environment"], :name => "index_carts_on_environment"
-  add_index "carts", ["user_id"], :name => "index_carts_on_user_id"
+  add_index "carts", ["company_id"], name: "index_carts_on_company_id", using: :btree
+  add_index "carts", ["environment"], name: "index_carts_on_environment", using: :btree
+  add_index "carts", ["user_id"], name: "index_carts_on_user_id", using: :btree
 
-  create_table "companies", :force => true do |t|
+  create_table "companies", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "handle"
     t.text     "domain"
     t.integer  "theme_id"
   end
 
-  add_index "companies", ["domain"], :name => "index_companies_on_domain"
-  add_index "companies", ["handle"], :name => "index_companies_on_handle"
-  add_index "companies", ["theme_id"], :name => "index_companies_on_theme_id"
+  add_index "companies", ["domain"], name: "index_companies_on_domain", using: :btree
+  add_index "companies", ["handle"], name: "index_companies_on_handle", using: :btree
+  add_index "companies", ["theme_id"], name: "index_companies_on_theme_id", using: :btree
 
-  create_table "company_settings", :force => true do |t|
+  create_table "company_settings", force: true do |t|
     t.integer  "company_id"
     t.hstore   "settings"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "company_settings", ["company_id"], :name => "index_company_settings_on_company_id"
-  add_index "company_settings", ["settings"], :name => "company_settings_gist_settings"
+  add_index "company_settings", ["company_id"], name: "index_company_settings_on_company_id", using: :btree
+  add_index "company_settings", ["settings"], name: "company_settings_gist_settings", using: :gist
 
-  create_table "customers", :force => true do |t|
-    t.string   "first_name",  :null => false
-    t.string   "last_name",   :null => false
-    t.string   "description", :null => false
-    t.integer  "company_id",  :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "customers", force: true do |t|
+    t.string   "first_name",  null: false
+    t.string   "last_name",   null: false
+    t.string   "description", null: false
+    t.integer  "company_id",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  add_index "customers", ["company_id"], :name => "index_customers_on_company_id"
+  add_index "customers", ["company_id"], name: "index_customers_on_company_id", using: :btree
 
-  create_table "inventories", :force => true do |t|
+  create_table "inventories", force: true do |t|
     t.integer  "company_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "inventory_entries", :force => true do |t|
+  create_table "inventory_entries", force: true do |t|
     t.integer  "inventory_item_id"
     t.integer  "admin_user_id"
     t.text     "description"
     t.decimal  "quantity"
     t.decimal  "cost_per_unit"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.boolean  "on_sale",           :default => true
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "on_sale",           default: true
     t.integer  "store_id"
   end
 
-  add_index "inventory_entries", ["admin_user_id"], :name => "index_good_balances_on_admin_user_id"
-  add_index "inventory_entries", ["inventory_item_id"], :name => "index_good_balances_on_good_id"
-  add_index "inventory_entries", ["on_sale"], :name => "index_inventory_entries_on_on_sale"
-  add_index "inventory_entries", ["store_id"], :name => "index_inventory_entries_on_store_id"
+  add_index "inventory_entries", ["admin_user_id"], name: "index_good_balances_on_admin_user_id", using: :btree
+  add_index "inventory_entries", ["inventory_item_id"], name: "index_good_balances_on_good_id", using: :btree
+  add_index "inventory_entries", ["on_sale"], name: "index_inventory_entries_on_on_sale", using: :btree
+  add_index "inventory_entries", ["store_id"], name: "index_inventory_entries_on_store_id", using: :btree
 
-  create_table "inventory_item_images", :force => true do |t|
+  create_table "inventory_item_images", force: true do |t|
     t.integer  "inventory_item_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "image"
-    t.boolean  "cover",             :default => false
+    t.boolean  "cover",             default: false
   end
 
-  add_index "inventory_item_images", ["cover"], :name => "index_good_images_on_cover"
-  add_index "inventory_item_images", ["inventory_item_id"], :name => "index_good_images_on_good_id"
+  add_index "inventory_item_images", ["cover"], name: "index_good_images_on_cover", using: :btree
+  add_index "inventory_item_images", ["inventory_item_id"], name: "index_good_images_on_good_id", using: :btree
 
-  create_table "inventory_item_prices", :force => true do |t|
+  create_table "inventory_item_prices", force: true do |t|
     t.integer  "inventory_item_id"
-    t.decimal  "value",             :precision => 8, :scale => 2
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.decimal  "value",             precision: 8, scale: 2
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
-  add_index "inventory_item_prices", ["inventory_item_id"], :name => "index_inventory_item_prices_on_inventory_item_id"
+  add_index "inventory_item_prices", ["inventory_item_id"], name: "index_inventory_item_prices_on_inventory_item_id", using: :btree
 
-  create_table "inventory_item_properties", :force => true do |t|
+  create_table "inventory_item_properties", force: true do |t|
     t.integer  "inventory_item_id"
     t.hstore   "properties"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
-  add_index "inventory_item_properties", ["inventory_item_id"], :name => "index_inventory_item_properties_on_inventory_item_id"
-  add_index "inventory_item_properties", ["properties"], :name => "item_properties"
+  add_index "inventory_item_properties", ["inventory_item_id"], name: "index_inventory_item_properties_on_inventory_item_id", using: :btree
+  add_index "inventory_item_properties", ["properties"], name: "item_properties", using: :gin
 
-  create_table "inventory_items", :force => true do |t|
+  create_table "inventory_items", force: true do |t|
     t.integer  "company_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.integer  "inventory_id"
     t.string   "reference"
     t.integer  "admin_user_id"
@@ -188,45 +188,45 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.integer  "taxonomy_id"
     t.integer  "year"
     t.integer  "manufacturer_id"
-    t.decimal  "moving_average_cost", :precision => 8, :scale => 2
+    t.decimal  "moving_average_cost", precision: 8, scale: 2
   end
 
-  add_index "inventory_items", ["company_id"], :name => "index_goods_on_company_id"
-  add_index "inventory_items", ["manufacturer_id"], :name => "index_inventory_items_on_manufacturer_id"
-  add_index "inventory_items", ["taxonomy_id"], :name => "index_inventory_items_on_taxonomy_id"
+  add_index "inventory_items", ["company_id"], name: "index_goods_on_company_id", using: :btree
+  add_index "inventory_items", ["manufacturer_id"], name: "index_inventory_items_on_manufacturer_id", using: :btree
+  add_index "inventory_items", ["taxonomy_id"], name: "index_inventory_items_on_taxonomy_id", using: :btree
 
-  create_table "manufacturers", :force => true do |t|
+  create_table "manufacturers", force: true do |t|
     t.string   "name"
     t.integer  "company_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "admin_user_id"
   end
 
-  add_index "manufacturers", ["admin_user_id"], :name => "index_manufacturers_on_admin_user_id"
-  add_index "manufacturers", ["company_id"], :name => "index_manufacturers_on_company_id"
+  add_index "manufacturers", ["admin_user_id"], name: "index_manufacturers_on_admin_user_id", using: :btree
+  add_index "manufacturers", ["company_id"], name: "index_manufacturers_on_company_id", using: :btree
 
-  create_table "order_items", :force => true do |t|
+  create_table "order_items", force: true do |t|
     t.integer  "inventory_item_id"
     t.decimal  "price"
     t.decimal  "quantity"
     t.integer  "inventory_entry_id"
     t.integer  "cart_id"
     t.integer  "order_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "status"
     t.integer  "parent_id"
   end
 
-  add_index "order_items", ["cart_id"], :name => "index_order_items_on_cart_id"
-  add_index "order_items", ["inventory_entry_id"], :name => "index_order_items_on_inventory_entry_id"
-  add_index "order_items", ["inventory_item_id"], :name => "index_order_items_on_inventory_item_id"
-  add_index "order_items", ["order_id"], :name => "index_order_items_on_order_id"
-  add_index "order_items", ["parent_id"], :name => "index_order_items_on_parent_id"
-  add_index "order_items", ["status"], :name => "index_order_items_on_status"
+  add_index "order_items", ["cart_id"], name: "index_order_items_on_cart_id", using: :btree
+  add_index "order_items", ["inventory_entry_id"], name: "index_order_items_on_inventory_entry_id", using: :btree
+  add_index "order_items", ["inventory_item_id"], name: "index_order_items_on_inventory_item_id", using: :btree
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
+  add_index "order_items", ["parent_id"], name: "index_order_items_on_parent_id", using: :btree
+  add_index "order_items", ["status"], name: "index_order_items_on_status", using: :btree
 
-  create_table "order_shippings", :force => true do |t|
+  create_table "order_shippings", force: true do |t|
     t.integer  "cart_id"
     t.integer  "order_id"
     t.decimal  "price"
@@ -234,135 +234,136 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.text     "delivery_type"
     t.text     "service_type"
     t.text     "zipcode"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.text     "description"
     t.integer  "package_width"
     t.integer  "package_height"
     t.integer  "package_length"
-    t.decimal  "package_weight", :precision => 8, :scale => 2
+    t.decimal  "package_weight", precision: 8, scale: 2
   end
 
-  add_index "order_shippings", ["cart_id"], :name => "index_order_shippings_on_cart_id"
-  add_index "order_shippings", ["order_id"], :name => "index_order_shippings_on_order_id"
+  add_index "order_shippings", ["cart_id"], name: "index_order_shippings_on_cart_id", using: :btree
+  add_index "order_shippings", ["order_id"], name: "index_order_shippings_on_order_id", using: :btree
 
-  create_table "orders", :force => true do |t|
+  create_table "orders", force: true do |t|
     t.integer  "cart_id"
     t.integer  "user_id"
     t.integer  "store_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "environment"
   end
 
-  add_index "orders", ["cart_id"], :name => "index_orders_on_cart_id"
-  add_index "orders", ["environment"], :name => "index_orders_on_environment"
-  add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
-  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+  add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
+  add_index "orders", ["environment"], name: "index_orders_on_environment", using: :btree
+  add_index "orders", ["store_id"], name: "index_orders_on_store_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
-  create_table "pages", :force => true do |t|
+  create_table "pages", force: true do |t|
     t.text     "title"
     t.text     "body"
     t.integer  "company_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "admin_user_id"
   end
 
-  add_index "pages", ["admin_user_id"], :name => "index_pages_on_admin_user_id"
-  add_index "pages", ["company_id"], :name => "index_pages_on_company_id"
+  add_index "pages", ["admin_user_id"], name: "index_pages_on_admin_user_id", using: :btree
+  add_index "pages", ["company_id"], name: "index_pages_on_company_id", using: :btree
 
-  create_table "payment_gateways", :force => true do |t|
+  create_table "payment_gateways", force: true do |t|
     t.integer  "store_id"
     t.string   "name"
     t.string   "email"
     t.text     "token"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "payment_gateways", ["store_id"], :name => "index_payment_gateways_on_store_id"
+  add_index "payment_gateways", ["store_id"], name: "index_payment_gateways_on_store_id", using: :btree
 
-  create_table "payment_statuses", :force => true do |t|
+  create_table "payment_statuses", force: true do |t|
     t.integer  "order_id"
     t.string   "status"
     t.text     "notification_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  add_index "payment_statuses", ["order_id"], :name => "index_payment_statuses_on_order_id"
-  add_index "payment_statuses", ["status"], :name => "index_payment_statuses_on_status"
+  add_index "payment_statuses", ["order_id"], name: "index_payment_statuses_on_order_id", using: :btree
+  add_index "payment_statuses", ["status"], name: "index_payment_statuses_on_status", using: :btree
 
-  create_table "shipping_boxes", :force => true do |t|
-    t.decimal  "length",            :precision => 8, :scale => 2
-    t.decimal  "width",             :precision => 8, :scale => 2
-    t.decimal  "height",            :precision => 8, :scale => 2
-    t.decimal  "weight",            :precision => 8, :scale => 2
+  create_table "shipping_boxes", force: true do |t|
+    t.decimal  "length",            precision: 8, scale: 2
+    t.decimal  "width",             precision: 8, scale: 2
+    t.decimal  "height",            precision: 8, scale: 2
+    t.decimal  "weight",            precision: 8, scale: 2
     t.integer  "inventory_item_id"
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
-  add_index "shipping_boxes", ["inventory_item_id"], :name => "index_shipping_boxes_on_inventory_item_id"
+  add_index "shipping_boxes", ["inventory_item_id"], name: "index_shipping_boxes_on_inventory_item_id", using: :btree
 
-  create_table "super_admin_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+  create_table "super_admin_users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
-  add_index "super_admin_users", ["email"], :name => "index_super_admin_users_on_email", :unique => true
-  add_index "super_admin_users", ["reset_password_token"], :name => "index_super_admin_users_on_reset_password_token", :unique => true
+  add_index "super_admin_users", ["email"], name: "index_super_admin_users_on_email", unique: true, using: :btree
+  add_index "super_admin_users", ["reset_password_token"], name: "index_super_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "taxonomies", :force => true do |t|
+  create_table "taxonomies", force: true do |t|
     t.text     "name"
     t.integer  "parent_id"
     t.integer  "store_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "taxonomies", ["parent_id"], :name => "index_taxonomies_on_parent_id"
-  add_index "taxonomies", ["store_id"], :name => "index_taxonomies_on_store_id"
+  add_index "taxonomies", ["parent_id"], name: "index_taxonomies_on_parent_id", using: :btree
+  add_index "taxonomies", ["store_id"], name: "index_taxonomies_on_store_id", using: :btree
 
-  create_table "taxonomy_hierarchies", :id => false, :force => true do |t|
-    t.integer "ancestor_id",   :null => false
-    t.integer "descendant_id", :null => false
-    t.integer "generations",   :null => false
+  create_table "taxonomy_hierarchies", id: false, force: true do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
   end
 
-  add_index "taxonomy_hierarchies", ["ancestor_id", "descendant_id"], :name => "index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id", :unique => true
-  add_index "taxonomy_hierarchies", ["descendant_id"], :name => "index_taxonomy_hierarchies_on_descendant_id"
+  add_index "taxonomy_hierarchies", ["ancestor_id", "descendant_id"], name: "index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id", unique: true, using: :btree
+  add_index "taxonomy_hierarchies", ["descendant_id"], name: "index_taxonomy_hierarchies_on_descendant_id", using: :btree
 
-  create_table "themes", :force => true do |t|
+  create_table "themes", force: true do |t|
     t.string   "name"
     t.text     "description"
     t.text     "path"
-    t.boolean  "public",      :default => true
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.boolean  "public",                 default: true
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "company_id"
+    t.boolean  "vertical_taxonomy_menu"
   end
 
-  add_index "themes", ["company_id"], :name => "index_themes_on_company_id"
+  add_index "themes", ["company_id"], name: "index_themes_on_company_id", using: :btree
 
-  create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -372,8 +373,8 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "authentication_token"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.text     "first_name"
     t.text     "last_name"
     t.string   "social_security_number"
@@ -388,11 +389,11 @@ ActiveRecord::Schema.define(:version => 20130625133338) do
     t.integer  "store_id"
   end
 
-  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["receive_newsletter"], :name => "index_users_on_receive_newsletter"
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-  add_index "users", ["store_id"], :name => "index_users_on_store_id"
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["receive_newsletter"], name: "index_users_on_receive_newsletter", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["store_id"], name: "index_users_on_store_id", using: :btree
 
 end

@@ -3,7 +3,7 @@
 <head>
   <title><%= @company.name %> Store</title>
   <%= stylesheet_link_tag "store/application_manifest", :media => "all" %>
-  <%= stylesheet_link_tag "/themes/#{@company.theme.path}/style", :media => "all" %>
+  <%= stylesheet_link_tag "/themes/#{@theme.path}/style", :media => "all" %>
 
   <%= javascript_include_tag "store/application_manifest" %>
   <%= airbrake_javascript_notifier %>
@@ -19,15 +19,21 @@
     <%= render "shared/top_cart_summary" %>
   </div>
 
-  <div id="global">
+  <div id="global"
+    class="<%= @theme.feature_as_class(:vertical_taxonomy_menu) if @layout_constraints.should_show_vertical_taxonomy_menu? %>">
     <div id="navigation">
       <%= render "layouts/store/navigation" %>
     </div>
+
+    <% if @theme.has_feature?(:vertical_taxonomy_menu) %>
+      <% if @layout_constraints.should_show_vertical_taxonomy_menu? %>
+        <%= render "store/theme_features/taxonomy_as_vertical_menu" %>
+      <% end %>
+    <% end %>
+
     <div id="main">
       <div class="main_container">
-        <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
-        <%= content_tag(:div, flash[:alert], :id => "flash_alert") if flash[:alert] %>
-        <div id="error" data-observe="error"></div>
+        <%= render "store/shared/error_messages" %>
         <%= yield %>
       </div>
     </div>

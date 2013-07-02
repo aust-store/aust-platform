@@ -31,7 +31,7 @@ feature "Normal checkout", js: true do
       2.times do
         # user adds item to the cart
         visit product_path(@entry_for_purchase)
-        click_link "Adicionar ao carrinho"
+        click_link I18n.t("store.products.show.add_to_cart_link")
       end
 
       user_defines_cart_shipping_zipcode
@@ -74,7 +74,7 @@ feature "Normal checkout", js: true do
       scenario "As an user, I checkout defining a custom shipping address" do
         # user adds item to the cart
         visit product_path(@entry_for_purchase)
-        click_link "Adicionar ao carrinho"
+        click_link I18n.t("store.products.show.add_to_cart_link")
 
         user_defines_cart_shipping_zipcode
         click_on "checkout_button"

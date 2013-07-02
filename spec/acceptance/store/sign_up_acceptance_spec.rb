@@ -15,7 +15,7 @@ feature "Store Sign Up" do
     # Product page
     inventory_entry = @product.balances.first
     visit product_path(inventory_entry)
-    click_link "Adicionar ao carrinho"
+    click_link I18n.t("store.products.show.add_to_cart_link")
 
     # Cart page
     within(".js_service_selection") { choose("type_pac") }

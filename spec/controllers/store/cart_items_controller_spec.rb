@@ -4,10 +4,15 @@ describe Store::CartItemsController do
   it_obeys_the "items for sale contract"
   it_obeys_the "cart contract"
 
+  let(:company) { double.as_null_object }
+
+  before do
+    Company.stub_chain(:where, :first) { company }
+  end
+
   describe "POST create" do
     let(:cart) { double(id: nil).as_null_object }
     let(:items_for_sale) { double(item_for_cart: :item) }
-    let(:company) { double }
 
     before do
       Company.stub(:find_by_handle).with("store_name") { company }
@@ -28,7 +33,6 @@ describe Store::CartItemsController do
 
   describe "DELETE destroy" do
     let(:cart) { double(id: nil).as_null_object }
-    let(:company) { double }
 
     before do
       Company.stub(:find_by_handle).with("store_name") { company }

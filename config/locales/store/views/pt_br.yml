@@ -1,0 +1,10 @@
+# encoding: utf-8
+pt_br:
+  store:
+    front_page:
+      titles:
+        taxonomy: "Categorias"
+    products:
+      show:
+        price_merchan: "Apenas "
+        add_to_cart_link: "Comprar"

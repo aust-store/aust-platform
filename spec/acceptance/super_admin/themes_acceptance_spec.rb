@@ -18,9 +18,13 @@ feature "Super admin themes management" do
       fill_in "theme_name",        with: "My theme"
       fill_in "theme_description", with: "description"
       fill_in "theme_path",        with: "my_theme"
+      check   "theme_vertical_taxonomy_menu"
       check   "theme_public"
       click_button "commit"
     end
+
+    theme = Theme.order("id").last
+    theme.vertical_taxonomy_menu.should be_true
 
     # user goes to index
     current_path.should == super_admin_themes_path
@@ -43,6 +47,7 @@ feature "Super admin themes management" do
       fill_in "theme_description", with: "description"
       fill_in "theme_path",        with: "my_theme2"
       uncheck "theme_public"
+      uncheck "theme_vertical_taxonomy_menu"
       select @company2.name,       from: "theme_company_id"
       click_button "commit"
     end
@@ -56,6 +61,8 @@ feature "Super admin themes management" do
     page.should_not have_content @company1.name
     page.should_not have_content "description"
 
-    Theme.last.company.should == @company2
+    theme.reload
+    theme.company.should == @company2
+    theme.vertical_taxonomy_menu.should be_false
   end
 end
