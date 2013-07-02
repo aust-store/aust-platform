@@ -23,7 +23,7 @@ describe CompanySetting do
   end
 
   describe "hstore methods" do
-    specify "zipcode" do
+    specify "#zipcode" do
       @settings.zipcode.should == 96360000
 
       @settings.zipcode         = 1234567

@@ -9,6 +9,24 @@ describe Company do
         expect(company.domain).to eq "domain.com"
       end
     end
+
+    describe "set_default_theme on creation" do
+      it "sets the theme to overblue" do
+        FactoryGirl.create(:theme)
+        company = Company.new
+        company.valid?
+        expect(company.theme.name).to eq "Overblue"
+      end
+
+      it "doesn't set the theme to overblue if it already has one" do
+        FactoryGirl.create(:theme)
+        flat_pink = FactoryGirl.create(:theme, :flat_pink)
+        company = FactoryGirl.create(:company, theme: flat_pink)
+        expect(company.theme).to eq flat_pink
+        company.valid?
+        expect(company.theme).to eq flat_pink
+      end
+    end
   end
 
   describe "#zipcode" do

@@ -1,0 +1,21 @@
+<% content_for :a do %>
+  <%= back(super_admin_themes_path) %>
+<% end %>
+
+<%= simple_form_for [:super_admin, @theme] do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, required: false %>
+    <%= f.input :description, required: false %>
+    <%= f.input :path, as: :string, required: false %>
+    <%= f.input :public %>
+    <%= f.input :company_id, collection: select_for_companies %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, id: "commit" %>
+    <%= t("or") %>
+    <%= link_to t("cancel"), super_admin_themes_path %>
+  </div>
+<% end %>

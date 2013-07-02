@@ -42,20 +42,33 @@ describe Admin::UsersController do
       @user = double
       controller.current_company.stub(:admin_users) { @user }
       @user.stub(:find).with("1").and_return(@user)
+      controller.stub(:sign_in)
       controller.stub(:authorize!)
     end
 
     describe "PUT update" do
-      it "updates the chosen user" do
-        @user.should_receive(:update_attributes) { true }
-        put :update, id: 1, admin_user: { name: "name" }
-        response.should redirect_to admin_users_url
+      context "successfully updating the user" do
+        before do
+          @user.should_receive(:update_attributes) { true }
+        end
+
+        it "updates the chosen user" do
+          put :update, id: 1, admin_user: { name: "name" }
+          response.should redirect_to admin_users_url
+        end
+
+        it "force sign the chosen user again" do
+          controller.should_receive(:sign_in).with(@user, bypass: true)
+          put :update, id: 1, admin_user: { name: "name" }
+        end
       end
 
-      it "renders the form again" do
-        @user.should_receive(:update_attributes) { false }
-        put :update, id: 1, admin_user: { name: "name" }
-        response.should render_template "edit"
+      context "failing to update the user" do
+        it "renders the form again" do
+          @user.should_receive(:update_attributes) { false }
+          put :update, id: 1, admin_user: { name: "name" }
+          response.should render_template "edit"
+        end
       end
     end
 

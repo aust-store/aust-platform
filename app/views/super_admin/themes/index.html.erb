@@ -1,0 +1,31 @@
+<% content_for :history_navigation do %>
+  <%= back(super_admin_root_path) %>
+<% end %>
+
+<h1><%= t(".title") %></h1>
+
+<table class="listing">
+  <thead>
+    <tr>
+      <th><%= t(".fields.name") %></th>
+      <th><%= t(".fields.path") %></th>
+      <th><%= t(".fields.status") %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @themes.each do |theme| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to theme.name, edit_super_admin_theme_path(theme) %></td>
+        <td><%= theme.path %></td>
+        <td>
+          <%= [t(".fields.public_#{theme.public}"), theme.company_name].compact.join(", ") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to t(".new_theme"), new_super_admin_theme_path, id: "new_theme" %>

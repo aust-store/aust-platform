@@ -1,0 +1,13 @@
+<h1><%= t(".title") %> <%= @theme.name %></h1>
+<p><%= link_to t(".delete_theme"),
+  super_admin_theme_path,
+  data: {confirm: t(".delete_confirm") },
+  method: :delete %> </p>
+
+<%= render 'form' %>
+
+<br />
+
+<h1>Preview</h1>
+
+<%= image_tag "/themes/#{@theme.path}/preview.png" %>

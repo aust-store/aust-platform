@@ -1,0 +1,29 @@
+# encoding: utf-8
+pt_br:
+  super_admin:
+    themes:
+      index:
+        title: "Temas"
+        fields:
+          name:         "Nome"
+          path:         "Endereço"
+          public_true:  "Público" # Public
+          public_false: "Tema privado" # Private
+        new_theme: "Adicionar tema"
+      new:
+        title: "Novo tema"
+      edit:
+        title: "Editando"
+        delete_theme: "Excluir este tema"
+        delete_confirm: "Você tem certeza que quer excluir este tema?"
+    stores:
+      index:
+        title: "Lojas"
+        name:  "Nome"
+        handle: "Login"
+      new:
+        title: "Novo tema"
+      edit:
+        title: "Editando"
+        delete_theme: "Excluir este tema"
+        delete_confirm: "Você tem certeza que quer excluir este tema?"

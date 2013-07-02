@@ -1,0 +1,9 @@
+# encoding: utf-8
+pt_br:
+  admin:
+    store_themes:
+      index:
+        title: "Temas"
+        description: "Páginas"
+        select_theme_button: "Selecionar tema"
+        current: "atual"

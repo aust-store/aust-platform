@@ -12,7 +12,7 @@ module ApplicationHelper
       image_styling = 'style="background-image: url('+ asset_path(options[:image]) +')"'
       has_image_class = 'has_image'
     end
-    
+
     # has_text
     unless options[:text].blank?
       text = options[:text]

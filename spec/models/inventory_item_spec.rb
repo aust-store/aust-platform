@@ -47,7 +47,7 @@ describe InventoryItem do
     end
 
     it "loads the first entry for sale" do
-      entries = @item.balances.order("id asc")
+      entries = @item.balances.order("id asc").to_a
       @item.entry_for_sale.should == entries.first
       InventoryEntry.first.update_attribute(:on_sale, false)
       @item.entry_for_sale.should == entries.second

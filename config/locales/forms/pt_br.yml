@@ -7,6 +7,10 @@ pt_br:
     javascript:
       form_success: "Os dados foram salvos com sucesso."
       form_failure: "Não foi possível salvar seus dados."
+  or:     "ou"
+  cancel: "Cancelar"
+  back:   "Voltar"
+  saved_successfully: "Item salvo com sucesso."
   admin:
     generic:
       confirm: "Você tem certeza disto?"
@@ -40,6 +44,9 @@ pt_br:
       taxonomy:
         create: "Salvar"
         update: "Atualizar categoria"
+      theme:
+        create: "Salvar"
+        update: "Atualizar tema"
   simple_form:
     labels:
       defaults:
@@ -118,6 +125,10 @@ pt_br:
         weight: "Entre o valor em quilos (kg)."
       company:
         domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
+      theme:
+        name: "Obrigatório."
+        public: "Temas públicos podem ser selecionados por qualquer empresa."
+        company_id: "Caso este tema pertença a uma empresa/loja em particular."
     placeholders:
       company_setting:
         zipcode: |

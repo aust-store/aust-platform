@@ -25,6 +25,7 @@ RSpec.configure do |config|
   config.include CapybaraHelpers::CheckoutHelpers
   config.include CapybaraHelpers::CheckoutStubsHelpers
   config.include CapybaraHelpers::StubsHelpers
+  config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

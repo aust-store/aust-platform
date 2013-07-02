@@ -1,0 +1,39 @@
+<%= render partial: "layouts/admin/nav_history",
+           locals: {
+             back_to: admin_marketing_index_path,
+             text: t("admin.pages.button.previous_page_navigation")
+           } %>
+<header>
+  <h1><%= t(".title") %></h1>
+</header>
+
+<div class="main_container">
+  <div class="themes">
+    <% @themes.each do |theme| %>
+      <div class="theme <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
+        <div class="image">
+          <%= image_tag "/themes/#{theme.path}/preview.png" %>
+        </div>
+
+        <div class="details">
+          <div class="title">
+            <%= theme.name %>
+            <%= "(#{t(".current")})" if current_theme(theme) %>
+          </div>
+
+          <% unless current_theme(theme) %>
+            <div class="">
+              <%= small_button(admin_store_theme_path(theme),
+                text: t(".select_theme_button"),
+                method: :put,
+                title: "select_theme") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <br />
+
+</div>

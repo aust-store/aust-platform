@@ -7,13 +7,14 @@ class Admin::ApplicationController < ApplicationController
   layout :define_layout
   before_filter :authenticate_admin_user!
   before_filter :navigation_namespace
+  before_filter :current_company
 
   def current_user
     current_admin_user
   end
 
   def current_company
-    current_user.company
+    @current_company = current_user.company
   end
 
   def currency

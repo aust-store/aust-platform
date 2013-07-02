@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Super Admin</title>
+  <%= stylesheet_link_tag "super_admin/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "super_admin/application_manifest" %>
+  <%= airbrake_javascript_notifier %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><%= link_to "Principal", super_admin_root_path %></li>
+      <li><%= link_to "Lojas", super_admin_stores_path %></li>
+      <li><%= link_to "Temas", super_admin_themes_path %></li>
+      <li>
+        <br />
+        <%= link_to "Sair", destroy_super_admin_user_session_path, method: :delete %>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="application">
+    <div class="navigation">
+      <%= yield :history_navigation %>
+    </div>
+
+    <div class="body">
+      <%= yield %>
+    </div>
+  </div>
+
+</body>
+</html>

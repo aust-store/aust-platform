@@ -251,7 +251,8 @@ CREATE TABLE companies (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     handle character varying(255),
-    domain text
+    domain text,
+    theme_id integer
 );
 
 
@@ -341,43 +342,6 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 
 
 --
--- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE inventory_entries (
-    id integer NOT NULL,
-    inventory_item_id integer,
-    admin_user_id integer,
-    description text,
-    quantity numeric,
-    cost_per_unit numeric,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    store_id integer,
-    on_sale boolean DEFAULT true
-);
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE good_balances_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: good_balances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE good_balances_id_seq OWNED BY inventory_entries.id;
-
-
---
 -- Name: inventories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -406,6 +370,43 @@ CREATE SEQUENCE inventories_id_seq
 --
 
 ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
+
+
+--
+-- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE inventory_entries (
+    id integer NOT NULL,
+    inventory_item_id integer,
+    admin_user_id integer,
+    description text,
+    quantity numeric,
+    cost_per_unit numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    on_sale boolean DEFAULT true,
+    store_id integer
+);
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE inventory_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: inventory_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 
 
 --
@@ -448,7 +449,7 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 CREATE TABLE inventory_item_prices (
     id integer NOT NULL,
     inventory_item_id integer,
-    value numeric(8,2),
+    value numeric(8,2) DEFAULT NULL::numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -523,7 +524,7 @@ CREATE TABLE inventory_items (
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
-    moving_average_cost numeric(8,2)
+    moving_average_cost numeric(8,2) DEFAULT NULL::numeric
 );
 
 
@@ -586,15 +587,14 @@ ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
 CREATE TABLE order_items (
     id integer NOT NULL,
     inventory_item_id integer,
-    price numeric(8,2),
-    quantity numeric(8,2),
+    price numeric,
+    quantity numeric,
     inventory_entry_id integer,
     cart_id integer,
     order_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     status character varying(255),
-    related_id integer,
     parent_id integer
 );
 
@@ -840,6 +840,46 @@ ALTER SEQUENCE shipping_boxes_id_seq OWNED BY shipping_boxes.id;
 
 
 --
+-- Name: super_admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE super_admin_users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: super_admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE super_admin_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: super_admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE super_admin_users_id_seq OWNED BY super_admin_users.id;
+
+
+--
 -- Name: taxonomies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -881,6 +921,41 @@ CREATE TABLE taxonomy_hierarchies (
     descendant_id integer NOT NULL,
     generations integer NOT NULL
 );
+
+
+--
+-- Name: themes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE themes (
+    id integer NOT NULL,
+    name character varying(255),
+    description text,
+    path text,
+    public boolean DEFAULT true,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    company_id integer
+);
+
+
+--
+-- Name: themes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE themes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: themes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE themes_id_seq OWNED BY themes.id;
 
 
 --
@@ -1007,7 +1082,7 @@ ALTER TABLE ONLY inventories ALTER COLUMN id SET DEFAULT nextval('inventories_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('good_balances_id_seq'::regclass);
+ALTER TABLE ONLY inventory_entries ALTER COLUMN id SET DEFAULT nextval('inventory_entries_id_seq'::regclass);
 
 
 --
@@ -1098,7 +1173,21 @@ ALTER TABLE ONLY shipping_boxes ALTER COLUMN id SET DEFAULT nextval('shipping_bo
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY super_admin_users ALTER COLUMN id SET DEFAULT nextval('super_admin_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY taxonomies ALTER COLUMN id SET DEFAULT nextval('taxonomies_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY themes ALTER COLUMN id SET DEFAULT nextval('themes_id_seq'::regclass);
 
 
 --
@@ -1173,14 +1262,6 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1202,6 +1283,14 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1285,11 +1374,27 @@ ALTER TABLE ONLY shipping_boxes
 
 
 --
+-- Name: super_admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY super_admin_users
+    ADD CONSTRAINT super_admin_users_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: taxonomies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY taxonomies
     ADD CONSTRAINT taxonomies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: themes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY themes
+    ADD CONSTRAINT themes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1305,20 +1410,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
-
-
---
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
-
-
---
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
@@ -1410,6 +1501,13 @@ CREATE INDEX index_companies_on_domain ON companies USING btree (domain);
 --
 
 CREATE INDEX index_companies_on_handle ON companies USING btree (handle);
+
+
+--
+-- Name: index_companies_on_theme_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_companies_on_theme_id ON companies USING btree (theme_id);
 
 
 --
@@ -1553,13 +1651,6 @@ CREATE INDEX index_order_items_on_parent_id ON order_items USING btree (parent_i
 
 
 --
--- Name: index_order_items_on_related_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_order_items_on_related_id ON order_items USING btree (related_id);
-
-
---
 -- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1651,6 +1742,20 @@ CREATE INDEX index_shipping_boxes_on_inventory_item_id ON shipping_boxes USING b
 
 
 --
+-- Name: index_super_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_super_admin_users_on_email ON super_admin_users USING btree (email);
+
+
+--
+-- Name: index_super_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_super_admin_users_on_reset_password_token ON super_admin_users USING btree (reset_password_token);
+
+
+--
 -- Name: index_taxonomies_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1676,6 +1781,13 @@ CREATE UNIQUE INDEX index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id 
 --
 
 CREATE INDEX index_taxonomy_hierarchies_on_descendant_id ON taxonomy_hierarchies USING btree (descendant_id);
+
+
+--
+-- Name: index_themes_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_themes_on_company_id ON themes USING btree (company_id);
 
 
 --
@@ -1857,8 +1969,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130209072541');
 
 INSERT INTO schema_migrations (version) VALUES ('20130213041013');
 
-INSERT INTO schema_migrations (version) VALUES ('20130215020517');
-
 INSERT INTO schema_migrations (version) VALUES ('20130217201429');
 
 INSERT INTO schema_migrations (version) VALUES ('20130217202510');
@@ -1892,3 +2002,11 @@ INSERT INTO schema_migrations (version) VALUES ('20130317211352');
 INSERT INTO schema_migrations (version) VALUES ('20130601221654');
 
 INSERT INTO schema_migrations (version) VALUES ('20130605171558');
+
+INSERT INTO schema_migrations (version) VALUES ('20130613001445');
+
+INSERT INTO schema_migrations (version) VALUES ('20130613005952');
+
+INSERT INTO schema_migrations (version) VALUES ('20130616190239');
+
+INSERT INTO schema_migrations (version) VALUES ('20130625133338');

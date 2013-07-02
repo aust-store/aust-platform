@@ -79,8 +79,8 @@ feature "Inventory Item creation" do
       page.should have_content "Categoria não pode ser vazia"
       page.should have_content "Nome não pode ficar em branco"
       page.should have_content "Preço não pode ficar em branco"
-      page.should have_content "Você deve especificar a Quantidade"
-      page.should have_content "Você deve especificar o Custo unitário"
+      page.should have_content "Quantidade não pode ficar em branco"
+      page.should have_content "Custo unitário não pode ficar em branco"
     end
   end
 end
