@@ -29,6 +29,7 @@ gem 'uglifier', '~> 1.3.0'
 gem 'jquery-rails'
 
 group :development do
+  gem 'rvm-capistrano'
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller', '0.7.2'
