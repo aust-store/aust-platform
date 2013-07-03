@@ -1,4 +1,5 @@
 require 'capistrano/ext/multistage'
+require 'bundler/capistrano'
 load "deploy/assets"
 
 set :application, "store"
@@ -11,7 +12,7 @@ set :use_sudo, false
 set :scm, :git
 set :branch, "master"
 set :deploy_via, :remote_cache
-set :scm_verbose, true
+set :scm_verbose, false
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do

@@ -20,9 +20,7 @@ gem 'draper', '~> 1.2.1'
 gem 'sass-rails'
 gem 'coffee-rails'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'libv8', '3.11.8.3'
-gem 'therubyracer', '0.11.0beta8'
+gem 'therubyracer', '0.11.4'
 
 gem 'uglifier', '~> 1.3.0'
 
