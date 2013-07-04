@@ -2,6 +2,7 @@ module ControllersExtensions
   module LoadingStore
     def self.included(base)
       base.before_filter :load_store_information
+      base.before_filter :redirect_to_marketing_page_if_no_store_url
     end
 
     def current_store
@@ -29,6 +30,14 @@ module ControllersExtensions
 
     def current_subdomain
       request.subdomains.first if request.subdomains.present?
+    end
+
+    def redirect_to_marketing_page_if_no_store_url
+      if current_subdomain.present? && current_store.blank?
+        message = "Redirecting with :redirect_to_marketing_page_if_no_store_url"
+        Rails.logger.info message
+        redirect_to marketing_root_url(subdomain: false) and return
+      end
     end
 
     private

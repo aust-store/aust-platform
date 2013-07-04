@@ -1,9 +1,8 @@
 require 'acceptance_spec_helper'
 
 feature "Admin User registration", js: true do
-
   scenario "As a user, I'd like to register a new store" do
-    visit new_admin_user_registration_path
+    visit subscription_path
 
     page.should have_selector "input#admin_user_name"
     page.should have_selector "input#admin_user_email"

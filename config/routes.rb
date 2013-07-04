@@ -19,10 +19,17 @@ Store::Application.routes.draw do
   constraints RouterConstraints::Default.new do
     devise_for :admin_users,
       path: "admin",
+      path_names: {
+        sign_up: false
+      },
       controllers: {
         registrations: "admin/devise/registrations",
         sessions: "admin/devise/sessions"
       }
+
+    devise_scope :admin_user do
+      get "subscription" => "admin/devise/registrations#new", as: :subscription
+    end
   end
 
   constraints RouterConstraints::Iphone.new do
@@ -156,6 +163,12 @@ Store::Application.routes.draw do
 
   namespace :gateway_notifications, module: 'store/gateway_notifications' do
     resource :pagseguro, only: :create, controller: "pagseguro"
+  end
+
+  namespace :marketing do
+    resources :home, only: [:index]
+
+    root :to => 'home#index'
   end
 
   root :to => 'store/home#index'
