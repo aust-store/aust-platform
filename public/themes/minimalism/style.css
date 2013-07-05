@@ -232,6 +232,17 @@ a:hover {
     display: table;
   }
 
+footer.global {
+  font-size: 0.9em;
+  color: #666;
+  margin: 10px auto;
+  padding: 5px 20px;
+  display: table;
+  text-align: center;
+  width: 960px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 .products_list { }
   .products_list .product {
     float:         left;
@@ -240,7 +251,7 @@ a:hover {
     width:         170px;
   }
 
-  .products_list .product  .image {
+  .products_list .product .image {
     width:      170px;
     height:     127px;
     margin:     0px auto;

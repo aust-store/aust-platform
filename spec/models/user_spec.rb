@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe User do
+  it_should_behave_like "addressable", :user
+
   describe "validations" do
     it "validates emails" do
       subject.should     allow_value("user@example.com").for(:email)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130629135556) do
+ActiveRecord::Schema.define(version: 20130630215009) do
 
   create_table "account_receivables", force: true do |t|
     t.integer  "company_id"
@@ -110,6 +110,19 @@ ActiveRecord::Schema.define(version: 20130629135556) do
 
   add_index "company_settings", ["company_id"], name: "index_company_settings_on_company_id", using: :btree
   add_index "company_settings", ["settings"], name: "company_settings_gist_settings", using: :gist
+
+  create_table "contacts", force: true do |t|
+    t.string   "phone_1"
+    t.string   "phone_2"
+    t.string   "email"
+    t.integer  "contactable_id"
+    t.string   "contactable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "contacts", ["contactable_id"], name: "index_contacts_on_contactable_id", using: :btree
+  add_index "contacts", ["contactable_type"], name: "index_contacts_on_contactable_type", using: :btree
 
   create_table "customers", force: true do |t|
     t.string   "first_name",  null: false

@@ -1,5 +1,6 @@
 # encoding: utf-8
 pt_br:
+  back: "Voltar"
   admin:
     history_navigation:
       back:

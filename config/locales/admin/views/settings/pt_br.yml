@@ -4,7 +4,6 @@ pt_br:
     settings:
       show:
         title: "Configurações"
-      form:
         shipping:
           title: "Entrega"
         company:
@@ -12,6 +11,9 @@ pt_br:
         payment_gateway:
           title: "Meios de pagamento"
           configure: "Configurar meios de pagamento"
+        company_contact:
+          title: "Informações de contato"
+          configure: "Configurar informações de contato da sua loja"
       payment_methods:
         continue: "Prosseguir"
         show:

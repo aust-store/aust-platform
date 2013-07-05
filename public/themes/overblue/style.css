@@ -215,6 +215,15 @@ a:hover {
     display: table;
   }
 
+footer.global {
+  font-size: 0.9em;
+  color: #999;
+  margin: 5px auto;
+  display: table;
+  padding: 0px 20px;
+  width: 920px;
+}
+
 .products_list { }
   .products_list .product {
     float:         left;

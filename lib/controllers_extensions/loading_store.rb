@@ -35,9 +35,11 @@ module ControllersExtensions
 
     def load_store_information
       Rails.logger.info "Visiting with subdomain: #{current_subdomain} - domain: #{current_domain}"
-      @company ||= Company.where("handle = ? OR domain = ?",
-                                 current_subdomain,
-                                 current_domain).first
+      @company ||= ::Store::CompanyDecorator.decorate(
+        Company.where("handle = ? OR domain = ?",
+                      current_subdomain,
+                      current_domain).first
+      )
     end
 
     def valid_domain_suffixes

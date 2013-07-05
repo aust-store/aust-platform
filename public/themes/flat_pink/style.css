@@ -187,6 +187,15 @@ li {
     display: table;
 }
 
+footer.global {
+  font-size: 0.9em;
+  color: #888;
+  padding: 5px 20px;
+  width: 920px;
+  margin: 0 auto;
+  display: table;
+}
+
 .products_list .product {
   float:         left;
   margin:        0 10px 15px 0;

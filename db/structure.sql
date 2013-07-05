@@ -308,6 +308,41 @@ ALTER SEQUENCE company_settings_id_seq OWNED BY company_settings.id;
 
 
 --
+-- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE contacts (
+    id integer NOT NULL,
+    phone_1 character varying(255),
+    phone_2 character varying(255),
+    email character varying(255),
+    contactable_id integer,
+    contactable_type character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1069,6 +1104,13 @@ ALTER TABLE ONLY company_settings ALTER COLUMN id SET DEFAULT nextval('company_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -1252,6 +1294,14 @@ ALTER TABLE ONLY companies
 
 ALTER TABLE ONLY company_settings
     ADD CONSTRAINT company_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
 
 
 --
@@ -1516,6 +1566,20 @@ CREATE INDEX index_companies_on_theme_id ON companies USING btree (theme_id);
 --
 
 CREATE INDEX index_company_settings_on_company_id ON company_settings USING btree (company_id);
+
+
+--
+-- Name: index_contacts_on_contactable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contacts_on_contactable_id ON contacts USING btree (contactable_id);
+
+
+--
+-- Name: index_contacts_on_contactable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contacts_on_contactable_type ON contacts USING btree (contactable_type);
 
 
 --
@@ -2015,3 +2079,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130616190239');
 INSERT INTO schema_migrations (version) VALUES ('20130625133338');
 
 INSERT INTO schema_migrations (version) VALUES ('20130629135556');
+
+INSERT INTO schema_migrations (version) VALUES ('20130630215009');
