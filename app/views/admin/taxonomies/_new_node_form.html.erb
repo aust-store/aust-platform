@@ -1,0 +1,15 @@
+<div class="node_form js_new_node_form">
+  <%= simple_form_for [:admin, taxonomy] do |f| %>
+    <% if node.present? %>
+      <%= f.input :parent_id, as: :hidden, input_html: { value: node.id } %>
+    <% end %>
+
+    <% label = node.present? ? "#{t(".new_subcategory_label")} #{node.name}" : t(".new_category_label") %>
+    <%= f.input :name,
+      as: :string,
+      label: label,
+      required: false,
+      hint: false %>
+    <%= f.submit %>
+  <% end %>
+</div>

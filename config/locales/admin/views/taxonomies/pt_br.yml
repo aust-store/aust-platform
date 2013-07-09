@@ -3,5 +3,7 @@ pt_br:
   admin:
     taxonomies:
       node:
-        new_subcategory_label: "Nova subcategoria de"
         edit_subcategory_label: "Mudar o nome da categoria"
+      new_node_form:
+        new_subcategory_label: "Nova subcategoria de"
+        new_category_label: "Nova categoria"

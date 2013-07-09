@@ -16,23 +16,13 @@
     <div class="button delete_category">
       <%= link_to image_tag("admin/icons/trash.png"),
         admin_taxonomy_path(node),
-        confirm: t("admin.generic.confirm"),
+        data: {confirm: t("admin.generic.confirm")},
         method: :delete %>
     </div>
   </div>
 
   <% # form for new node %>
-  <div class="node_form js_new_node_form">
-    <%= simple_form_for [:admin, @taxonomy] do |f| %>
-      <%= f.input :parent_id, as: :hidden, input_html: { value: node.id } %>
-      <%= f.input :name,
-        as: :string,
-        label: "#{t(".new_subcategory_label")} #{node.name}",
-        required: false,
-        hint: false %>
-      <%= f.submit %>
-    <% end %>
-  </div>
+  <%= render "new_node_form", taxonomy: @taxonomy, node: node %>
 
   <% # form for updating the node %>
   <div class="node_form js_edit_node_form">

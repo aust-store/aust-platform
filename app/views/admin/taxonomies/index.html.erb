@@ -23,9 +23,18 @@
           <div class="box"><%= t('.greatfather_node') %></div>
         </div>
 
-        <%= render "tree", taxonomies: @taxonomies %>
+        <%= render_taxonomies(@taxonomies) %>
 
-        <div class="hoverable_end"></div>
+
+        <div class="node js_node" data-node-id="">
+          <% # the node itself %>
+          <div class="box name">
+            <%= link_to image_tag("admin/icons/plus_16.png"), "", id: "show_new_node_form" %>
+          </div>
+
+          <% # form for new node %>
+          <%= render "new_node_form", taxonomy: @taxonomy, node: nil %>
+        </div>
       </div>
     </div>
   </div>
