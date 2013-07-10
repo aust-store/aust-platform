@@ -105,7 +105,7 @@ a:hover {
     color: #555;
     float: right;
     display: table;
-    background: url('/assets/store/icons/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
+    background: url('/themes_shared_resources/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
     border-top: 1px solid white;
     border-bottom: 1px solid #ccc;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.07);
@@ -318,7 +318,7 @@ footer.global {
       color: #555;
       float: right;
       display: table;
-      background: url('/assets/store/icons/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
+      background: url('/themes_shared_resources/top_empty_cart.png') 7px 4px #f6f6f6 no-repeat;
       border-top: 1px solid white;
       border-bottom: 1px solid #ccc;
       box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.07)

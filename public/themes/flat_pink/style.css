@@ -95,7 +95,7 @@ li {
   font-size: 0.9em;
   float: right;
   display: table;
-  background: url('/assets/store/icons/top_empty_cart.png') 7px 4px white no-repeat;
+  background: url('/themes_shared_resources/top_empty_cart.png') 7px 4px white no-repeat;
 }
 
 #global {
