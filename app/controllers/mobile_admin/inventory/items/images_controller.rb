@@ -1,7 +1,9 @@
 module MobileAdmin
   module Inventory
     module Items
-      class ImagesController < Admin::ApplicationController
+      class ImagesController < MobileAdmin::ApplicationController
+        skip_before_filter :verify_authenticity_token
+
         def index
           @item = current_company.items.find(params[:item_id])
           @item_images = load_item_images
@@ -23,12 +25,12 @@ module MobileAdmin
             load_item.images.update_all(cover: false)
             load_item.images.find(params[:id]).update_attributes(cover: true)
           end
-          redirect_to admin_inventory_item_images_path
+          redirect_to mobile_admin_inventory_item_images_path
         end
 
         def destroy
           load_item.images.find(params[:id]).destroy
-          redirect_to admin_inventory_item_images_path
+          redirect_to mobile_admin_inventory_item_images_path
         end
 
         private

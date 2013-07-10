@@ -16,29 +16,18 @@ Store::Application.routes.draw do
     root :to => 'home#index'
   end
 
-  constraints RouterConstraints::Default.new do
-    devise_for :admin_users,
-      path: "admin",
-      path_names: {
-        sign_up: false
-      },
-      controllers: {
-        registrations: "admin/devise/registrations",
-        sessions: "admin/devise/sessions"
-      }
+  devise_for :admin_users,
+    path: "admin",
+    path_names: {
+      sign_up: false
+    },
+    controllers: {
+      registrations: "admin/devise/registrations",
+      sessions: "admin/devise/sessions"
+    }
 
-    devise_scope :admin_user do
-      get "subscription" => "admin/devise/registrations#new", as: :subscription
-    end
-  end
-
-  constraints RouterConstraints::Iphone.new do
-    #devise_for :admin_users,
-      #path: "admin",
-      #controllers: {
-        #registrations: "mobile_admin/devise/registrations",
-        #sessions: "mobile_admin/devise/sessions"
-      #}
+  devise_scope :admin_user do
+    get "subscription" => "admin/devise/registrations#new", as: :subscription
   end
 
   devise_for :users,
@@ -70,82 +59,78 @@ Store::Application.routes.draw do
     end
   end
 
-  constraints RouterConstraints::Default.new do
-    namespace :admin do
-      resource :dashboard, controller: "dashboard" do
-        get 'index' => 'dashboard#index'
-      end
-
-      resources :orders, only: [:index, :show, :update, :create]
-
-      resource :settings, only: [:show, :update] do
-        resource :payment_methods,
-          controller: 'payment_methods', only: :show, module: 'settings' do
-
-          resource :pagseguro_wizard,
-            only: [:show, :update],
-            controller: 'payment_methods/pagseguro_wizard'
-        end
-      end
-      resources :taxonomies, only: [:index, :create, :update, :destroy]
-      resource  :statistics, only: :show
-      resources :store_themes, only: [:index, :update]
-      resources :pages, except: [:show]
-      resource  :company_contact, only: [:edit, :update]
-
-      resources :marketing, only: [:index]
-
-      resource :inventory do
-        resources :items, controller: 'inventory/items' do
-          collection do
-            resource :search, controller: 'inventory/items/search', only: [] do
-              post "index"
-              post "for_adding_entry"
-            end
-          end
-
-          resources :entries, controller: 'inventory/entries',
-            only: [:index, :new, :create, :update]
-
-          resources :images, controller: 'inventory/items/images',
-            only: [:index, :destroy, :create, :update]
-        end
-      end
-
-      resources :customers do
-        resources :account_receivables, controller: 'financial/account_receivables'
-      end
-
-      namespace :financial do
-        resources :account_receivables
-      end
-
-      namespace :store do
-        get 'dashboard' => 'dashboard#index'
-      end
-
-      resources :users
-
-      namespace :offline, module: "offline" do
-        resources :sales, only: :new
-        root :to => 'sales#new'
-      end
-
-      root :to => 'dashboard#index'
+  namespace :admin do
+    resource :dashboard, controller: "dashboard" do
+      get 'index' => 'dashboard#index'
     end
+
+    resources :orders, only: [:index, :show, :update, :create]
+
+    resource :settings, only: [:show, :update] do
+      resource :payment_methods,
+        controller: 'payment_methods', only: :show, module: 'settings' do
+
+        resource :pagseguro_wizard,
+          only: [:show, :update],
+          controller: 'payment_methods/pagseguro_wizard'
+      end
+    end
+    resources :taxonomies, only: [:index, :create, :update, :destroy]
+    resource  :statistics, only: :show
+    resources :store_themes, only: [:index, :update]
+    resources :pages, except: [:show]
+    resource  :company_contact, only: [:edit, :update]
+
+    resources :marketing, only: [:index]
+
+    resource :inventory do
+      resources :items, controller: 'inventory/items' do
+        collection do
+          resource :search, controller: 'inventory/items/search', only: [] do
+            post "index"
+            post "for_adding_entry"
+          end
+        end
+
+        resources :entries, controller: 'inventory/entries',
+          only: [:index, :new, :create, :update]
+
+        resources :images, controller: 'inventory/items/images',
+          only: [:index, :destroy, :create, :update]
+      end
+    end
+
+    resources :customers do
+      resources :account_receivables, controller: 'financial/account_receivables'
+    end
+
+    namespace :financial do
+      resources :account_receivables
+    end
+
+    namespace :store do
+      get 'dashboard' => 'dashboard#index'
+    end
+
+    resources :users
+
+    namespace :offline, module: "offline" do
+      resources :sales, only: :new
+      root :to => 'sales#new'
+    end
+
+    root :to => 'dashboard#index'
   end
 
-  constraints RouterConstraints::Iphone.new do
-    #namespace :admin, module: "mobile_admin" do
-      #resource :inventory do
-        #resources :items, controller: 'inventory/items' do
-          #resources :images, controller: 'inventory/items/images',
-            #only: [:index, :destroy, :create, :update]
-        #end
-      #end
+  namespace :mobile_admin, module: "mobile_admin" do
+    resource :inventory do
+      resources :items, controller: 'inventory/items' do
+        resources :images, controller: 'inventory/items/images',
+          only: [:index, :destroy, :create, :update]
+      end
+    end
 
-      #root to: 'inventory/items#index'
-    #end
+    root to: 'inventory/items#index'
   end
 
   resource :cart, only: [:show, :update], controller: "store/cart" do

@@ -4,7 +4,7 @@
 <ul>
   <% @items.each do |item| %>
     <li class="buttons">
-      <%= link_to item.name, admin_inventory_item_path(item) %>
+      <%= link_to item.name, mobile_admin_inventory_item_path(item) %>
     </li>
   <% end %>
 </ul>

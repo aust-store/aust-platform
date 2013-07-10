@@ -4,6 +4,8 @@ class Admin::ApplicationController < ApplicationController
     redirect_to admin_users_url, :alert => exception.message
   end
 
+  before_filter :mobile_layout
+
   layout :define_layout
   before_filter :authenticate_admin_user!
   before_filter :navigation_namespace
@@ -37,6 +39,12 @@ class Admin::ApplicationController < ApplicationController
     when /admin\/taxonomies/ ; "taxonomies"
     when /admin\/order/      ; "orders"
     else nil
+    end
+  end
+
+  def mobile_layout
+    if RouterConstraints::Iphone.new.matches?(request) && !request.xhr?
+      redirect_to mobile_admin_root_url
     end
   end
 end

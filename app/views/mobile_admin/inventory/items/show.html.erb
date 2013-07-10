@@ -5,7 +5,7 @@
 
   <%= simple_form_for(
         :item,
-        url: admin_inventory_item_images_path(item_id: @item.id),
+        url: mobile_admin_inventory_item_images_path(item_id: @item.id),
         html: { multipart: true,
                 class: "form-upload image",
                 data: { update: ".images" }

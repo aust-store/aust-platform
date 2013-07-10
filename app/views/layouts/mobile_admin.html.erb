@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin</title>
+  <title>Mobile Admin</title>
   <%= stylesheet_link_tag "mobile_admin/application_manifest", :media => "all" %>
   <%= javascript_include_tag "mobile_admin/application_manifest" %>
   <%= airbrake_javascript_notifier %>
@@ -23,7 +23,7 @@
               placeholder="Pesquisar items"
               autocomplete="off" />
           </div>
-          <div class="search_results" data-show-url-prefix="<%= admin_inventory_items_url %>">
+          <div class="search_results" data-show-url-prefix="<%= mobile_admin_inventory_items_url %>">
           </div>
         </div>
         <%= image_tag "mobile_admin/icons/search.png", class: "magnifying_glass" %>
