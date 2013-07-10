@@ -75,7 +75,7 @@ feature "Inventory Item creation" do
 
       page.should_not have_content "taxonomy_id"
       page.should_not have_content "manufacturer_id"
-      page.should have_content "Fabricante deve estar presente"
+      page.should_not have_content "Fabricante deve estar presente"
       page.should have_content "Categoria não pode ser vazia"
       page.should have_content "Nome não pode ficar em branco"
       page.should have_content "Preço não pode ficar em branco"

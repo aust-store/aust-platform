@@ -1,5 +1,5 @@
 # encoding: utf-8
-class ImageGoodUploader < CarrierWave::Uploader::Base
+class ImageItemUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   storage :file

@@ -4,7 +4,7 @@ FactoryGirl.define do
     association :theme
     association :inventory
     association :settings, factory: :company_setting
-    sequence(:handle) { |i| "handle_#{i}" }
+    sequence(:handle) { |i| "handle#{i}" }
     sequence(:domain) { |i| "petshop#{i}.com" }
 
     after(:create) do |company, evaluator|

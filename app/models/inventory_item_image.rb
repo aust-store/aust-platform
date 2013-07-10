@@ -1,7 +1,7 @@
 class InventoryItemImage < ActiveRecord::Base
   belongs_to :inventory_item
 
-  mount_uploader :image, ImageGoodUploader
+  mount_uploader :image, ImageItemUploader
 
   attr_accessible :cover, :image
 

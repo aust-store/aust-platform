@@ -30,6 +30,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item.entries.build if @item.entries.blank?
 
     build_item_associations
+    @item.build_manufacturer if @item.manufacturer.blank?
   end
 
   def edit
@@ -37,6 +38,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item = current_company.items.includes(:shipping_box).find(params[:id])
 
     build_item_associations
+    @item.build_manufacturer if @item.manufacturer.blank?
     @item = DecorationBuilder.inventory_items(@item)
   end
 
@@ -53,6 +55,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       redirect_to admin_inventory_items_url
     else
       build_nested_fields_errors
+      @item.build_manufacturer if @item.manufacturer.blank?
       @item = DecorationBuilder.inventory_items(@item)
       render "new"
     end
@@ -70,6 +73,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       redirect_to admin_inventory_item_url(@item)
     else
       build_item_associations
+      @item.build_manufacturer if @item.manufacturer.blank?
       build_nested_fields_errors
       @item = DecorationBuilder.inventory_items(@item)
       render "edit"
@@ -104,7 +108,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def build_item_associations
     @item.prices.build       if @item.prices.blank?
     @item.build_taxonomy     if @item.taxonomy.blank?
-    @item.build_manufacturer if @item.manufacturer.blank?
     @item.build_shipping_box if @item.shipping_box.blank?
   end
 
@@ -128,9 +131,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def build_nested_fields_errors
     @item.taxonomy.errors.add(:name, :blank) if @item.taxonomy_id.blank?
-    if @item.manufacturer_id.blank? && @item.manufacturer.name.blank?
-      @item.manufacturer.errors.add(:name, :blank)
-    end
 
     @item.valid?
     @item.errors.messages.delete(:taxonomy_id)
@@ -140,12 +140,13 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def delete_params_before_saving
     params[:inventory_item].delete(:taxonomy_attributes)
 
-    if params[:inventory_item][:manufacturer_attributes].present?
-      if params[:inventory_item][:manufacturer_attributes][:name].present?
-        params[:inventory_item].delete(:manufacturer_id)
-      end
+    if params[:inventory_item][:manufacturer_attributes].present? && params[:inventory_item][:manufacturer_attributes][:name].present?
+      params[:inventory_item].delete(:manufacturer_id)
     elsif params[:inventory_item][:manufacturer_id].present?
       params[:inventory_item].delete(:manufacturer_attributes)
+    else
+      params[:inventory_item].delete(:manufacturer_attributes)
+      params[:inventory_item].delete(:manufacturer_id)
     end
   end
 end

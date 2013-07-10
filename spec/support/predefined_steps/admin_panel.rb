@@ -3,7 +3,7 @@ module AcceptanceSteps
     @admin_user ||= FactoryGirl.create(:admin_user)
     @company = @admin_user.company
     stub_subdomain(@company)
-    visit "/admin/sign_in"
+    visit new_admin_user_session_path
 
     within("form#new_admin_user") do
       fill_in "admin_user_email", with: @admin_user.email
