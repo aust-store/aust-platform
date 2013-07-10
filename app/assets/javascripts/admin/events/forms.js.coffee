@@ -23,7 +23,7 @@ class Forms
        $('.form-upload').find('input[type="file"]').val("")
 
   show_loading_on_form_submit: ->
-    $("form[data-remote='true']").on "submit", ->
+    $("form[data-remote='true'], .form-upload").on "submit", ->
       page_loading = new PageLoading
       page_loading.show($(this).parents(".form_loading_section"))
 

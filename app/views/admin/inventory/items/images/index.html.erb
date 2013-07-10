@@ -25,7 +25,7 @@
             url: admin_inventory_item_images_path,
             html: { multipart: true,
                     class: "form-upload image" },
-            remote: true
+            remote: false
       ) do |f| %>
         <%= f.simple_fields_for :images, @item.images.last do |image_form| %>
           <%= image_form.file_field :image %>

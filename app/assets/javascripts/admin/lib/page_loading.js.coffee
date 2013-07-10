@@ -14,8 +14,4 @@ class window.PageLoading
     setTimeout (->
       $element.find(".text").hide()
       $element.find(".text.timeout").show()
-      setTimeout (->
-        page_loading = new PageLoading
-        page_loading.hide()
-      ), 4000
     ), 15000

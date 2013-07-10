@@ -14,9 +14,13 @@ module Admin
           @item = current_company.items.find params[:item_id]
           @item.images << InventoryItemImage.new(params[:item][:images])
           if @item.save
-            return render partial: "shared/images",
-              layout: false,
-              locals: { images: load_item_images }
+            if request.xhr?
+              return render partial: "shared/images",
+                layout: false,
+                locals: { images: load_item_images }
+            else
+              redirect_to admin_inventory_item_images_url, notice: I18n.t("admin.default_messages.update.success")
+            end
           end
         end
 
