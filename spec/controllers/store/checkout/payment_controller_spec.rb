@@ -5,8 +5,9 @@ describe Store::Checkout::PaymentController do
 
   login_user
 
+  let(:order)    { double(id: 2) }
   let(:company)  { double.as_null_object }
-  let(:sale)     { double(order: :order).as_null_object }
+  let(:sale)     { double(order: order).as_null_object }
   let(:cart)     { double(persistence: cart_model).as_null_object }
   let(:cart_model) { double(zipcode_mismatch?: false) }
   let(:checkout) { double(payment_url: 'http://payment_url').as_null_object }
@@ -15,7 +16,7 @@ describe Store::Checkout::PaymentController do
     controller.stub(:cart) { cart }
     Company.stub_chain(:where, :first) { company }
     Store::Sale.stub(:new).with(cart_model) { sale }
-    Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, :order) { checkout }
+    Store::Payment::Pagseguro::Checkout.stub(:new).with(controller, order) { checkout }
 
     cart_model.stub(:shipping) { double(zipcode: 1, service_type: 2) }
   end

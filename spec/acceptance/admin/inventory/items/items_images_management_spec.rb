@@ -1,7 +1,7 @@
 require 'acceptance_spec_helper'
 
 feature "Inventory Items' images management", js: true, search: true do
-  let(:image_path) { "#{Rails.root.to_s}/app/assets/images/store/icons/top_empty_cart.png" }
+  let(:image_path) { "#{Rails.root.to_s}/spec/support/fixtures/image.png" }
 
   before do
     login_into_admin

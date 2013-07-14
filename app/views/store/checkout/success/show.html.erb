@@ -1,3 +1,17 @@
-<div>
-  Sucesso
-</div>
+<h1>Parabéns! Seu pedido foi concluído com sucesso.</h1>
+
+<p class="order_status">
+  Seu pedido de número
+  <strong class="order_number">
+    <%= @order_id %>
+  </strong>
+  foi realizado com sucesso.
+  Agora aguardaremos a confirmação do pagamento junto à instituição financeira.
+</p>
+
+<% if @company.complete_contact.present? %>
+  <p class="contact_info">
+    Se precisar entrar em contato, use um dos seguintes telefones:
+    <%= @company.complete_contact %>
+  </p>
+<% end %>

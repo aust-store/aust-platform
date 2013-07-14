@@ -53,7 +53,9 @@ feature "Normal checkout", js: true do
       order = Order.first
       order.cart_id.should == cart.id
 
-      page.should have_content "Sucesso"
+      # Success page
+      page.should have_content "Parabéns"
+      page.should have_content "pedido de número #{order.id}"
 
       assert_address(order.shipping_address, @user.default_address)
 
@@ -101,7 +103,9 @@ feature "Normal checkout", js: true do
         order = Order.first
         order.cart_id.should == cart.id
 
-        page.should have_content "Sucesso"
+        # Success page
+        page.should have_content "Parabéns"
+        page.should have_content "pedido de número #{order.id}"
 
         order_address = Address.last
         order_address.address_1.should == "300 E Street SW"

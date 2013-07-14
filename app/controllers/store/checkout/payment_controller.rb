@@ -12,6 +12,7 @@ module Store
         sale.close
 
         reset_cart
+        session[:last_order_id] = sale.order.id
         pagseguro = Store::Payment::Pagseguro::Checkout.new(self, sale.order)
         pagseguro.create_transaction
 
