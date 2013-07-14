@@ -11,20 +11,42 @@ gem 'activerecord-deprecated_finders'
 
 gem 'pg', '0.14.0'
 gem 'pg_search'
-gem 'devise', '~> 3.0.0.rc'
-gem 'cancan'
 
-gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
-gem 'draper', '~> 1.2.1'
+# Model extensions
+  gem 'closure_tree', "4.2.4"
+  gem 'brazilian-rails'
+  gem 'remotipart', '~> 1.0'
+  gem 'carrierwave'
+  gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
 
-gem 'sass-rails'
-gem 'coffee-rails'
+# Presenters and objects for simplifying internal workflows
+  gem 'draper', '~> 1.2.1'
+  gem 'inherited_resources'
+  gem "active_model_serializers", "0.6.0"
 
-gem 'therubyracer', '0.11.4'
+# Components for forms and widgets
+  gem 'devise', '~> 3.0.0.rc'
+  gem 'cancan'
+  gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
+  gem 'kaminari'
+  gem 'wicked', '~> 0.3' # wizard-like views
+  gem 'mini_magick'
 
-gem 'uglifier', '~> 1.3.0'
+# Assets and client stuff
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'therubyracer', '0.11.4'
+  gem 'uglifier', '~> 1.3.0'
+  gem 'jquery-rails'
+  gem 'ember-rails'
 
-gem 'jquery-rails'
+# Third-party connections
+  gem "correios-frete", "~> 1.8.0"
+  gem 'pag_seguro'
+
+# Sysops
+  gem 'capistrano', '2.13.5'
+  gem "airbrake"
 
 group :development do
   gem 'rvm-capistrano'
@@ -52,23 +74,3 @@ group :test do
   gem 'database_cleaner'
   gem 'timecop'
 end
-
-gem 'inherited_resources'
-gem "active_model_serializers", "0.6.0"
-gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
-gem 'ember-rails'
-
-gem 'mini_magick'
-gem 'carrierwave'
-gem 'remotipart', '~> 1.0'
-gem 'brazilian-rails'
-gem 'pag_seguro'
-gem 'wicked', '~> 0.3'
-gem 'closure_tree', "4.2.4"
-gem 'kaminari'
-
-gem 'capistrano', '2.13.5'
-gem "airbrake"
-
-# shipping
-gem "correios-frete", "~> 1.8.0"
