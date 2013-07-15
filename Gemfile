@@ -6,11 +6,12 @@ source 'https://rubygems.org'
 gem 'rails', '~>4'
 
 # rails 4 compatibility
-gem 'protected_attributes'
-gem 'activerecord-deprecated_finders'
+  gem 'protected_attributes'
+  gem 'activerecord-deprecated_finders'
 
-gem 'pg', '0.14.0'
-gem 'pg_search'
+# Database
+  gem 'pg', '0.14.0'
+  gem 'pg_search'
 
 # Model extensions
   gem 'closure_tree', "4.2.4"
@@ -31,6 +32,7 @@ gem 'pg_search'
   gem 'kaminari'
   gem 'wicked', '~> 0.3' # wizard-like views
   gem 'mini_magick'
+  gem 'mail_form', github: 'plataformatec/mail_form', ref: '9eb221a9c5e3f6dad6'
 
 # Assets and client stuff
   gem 'sass-rails'
@@ -43,6 +45,7 @@ gem 'pg_search'
 # Third-party connections
   gem "correios-frete", "~> 1.8.0"
   gem 'pag_seguro'
+  gem 'postmark-rails'
 
 # Sysops
   gem 'capistrano', '2.13.5'
@@ -73,4 +76,7 @@ group :test do
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
   gem 'timecop'
+
+  # testing email deliveries
+  gem 'capybara-email'
 end

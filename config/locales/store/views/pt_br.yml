@@ -8,3 +8,6 @@ pt_br:
       show:
         price_merchan: "Apenas "
         add_to_cart_link: "Comprar"
+    contact:
+      success:
+        message: "Seu email foi enviado. Responderemos o mais rápido possível."

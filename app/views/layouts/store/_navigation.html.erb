@@ -10,5 +10,7 @@
   <% end %>
 
   <li><%= link_to "Carrinho de compras", cart_path, class: current_page_class("store/cart") %></li>
-  <li><%= link_to "Contato", root_path %></li>
+  <% if @company.contact_email.present? %>
+    <li><%= link_to "Contato", new_contact_path, class: current_page_class("store/contact"), id: "contact_path" %></li>
+  <% end %>
 </ul>

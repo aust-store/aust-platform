@@ -14,6 +14,5 @@ class Admin::CompanyContactsController < Admin::ApplicationController
       flash[:alert] = I18n.t("admin.default_messages.update.failure")
       render :edit
     end
-
   end
 end

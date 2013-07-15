@@ -50,4 +50,16 @@ describe Company do
       company.has_zipcode?.should == false
     end
   end
+
+  describe "#contact_email" do
+    it "returns the contact email" do
+      company = FactoryGirl.create(:company, contact: create(:contact, email: "rock@star.com"))
+      company.contact_email.should == "rock@star.com"
+    end
+
+    it "returns nil if company has no contact configured" do
+      company = FactoryGirl.create(:company, contact: nil)
+      company.contact_email.should be_nil
+    end
+  end
 end

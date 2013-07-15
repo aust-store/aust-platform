@@ -34,6 +34,7 @@ feature "Company contact" do
     page.should have_content I18n.t("admin.default_messages.update.success")
     address = @company.address
     contact = @company.contact
+    contact.reload
 
     address.address_1.should    == "Baker street"
     address.address_2.should    == "I don't know"

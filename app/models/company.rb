@@ -48,6 +48,10 @@ class Company < ActiveRecord::Base
     "R$"
   end
 
+  def contact_email
+    self.contact and self.contact.email
+  end
+
   def include_statistics
     @include_statistics = true
     self

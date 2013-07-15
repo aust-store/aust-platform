@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :company do
     sequence(:name) { |i| "Super Company ##{i}" }
+    association :contact
     association :theme
     association :inventory
     association :settings, factory: :company_setting

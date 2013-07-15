@@ -1,6 +1,6 @@
 require "acceptance_spec_helper"
 
-feature "Store products" do
+feature "Static pages" do
   before do
     @company = FactoryGirl.create(:company_with_zipcode)
     stub_subdomain(@company)

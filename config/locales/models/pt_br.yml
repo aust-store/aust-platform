@@ -57,6 +57,10 @@ pt_br:
         phone_1: "Telefone 1"
         phone_2: "Telefone 2"
         email:   "Email de contato"
+      contact_form:
+        name: "Seu nome"
+        email: "Seu email"
+        message: "Mensagem"
     values:
       order:
         summary:
@@ -197,4 +201,25 @@ pt_br:
               blank: "O campo não pode ser deixado em branco"
             description:
               blank: "O campo não pode ser deixado em branco"
-
+  mail_form:
+    models:
+      contact_form: "Form de contact"
+    attributes:
+      contact_form:
+        name:    "Nome"
+        email:   "Email"
+        message: "Mensagem"
+    request:
+      title: "Informações técnicas sobre o usuário"
+      remote_ip: "Endereço de IP"
+      user_agent: "Navegador"
+    errors:
+      models:
+        contact_form:
+          attributes:
+            name:
+              blank: "Você precisa escrever seu nome"
+            email:
+              invalid: "Você precisa escrever seu email"
+            message:
+              blank: "Você precisa escrever uma mensagem para nós"

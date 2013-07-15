@@ -1,7 +1,6 @@
 require "router_constraints"
 
 Store::Application.routes.draw do
-
   devise_for :super_admin_user,
     path: "super_admin",
     controllers: {
@@ -147,6 +146,9 @@ Store::Application.routes.draw do
 
   resources :products, only: [:show], controller: "store/products"
   resources :pages,    only: [:show], controller: "store/pages"
+  resource  :contact,  only: [:new, :create], controller: "store/contact" do
+    get :success
+  end
 
   namespace :gateway_notifications, module: 'store/gateway_notifications' do
     resource :pagseguro, only: :create, controller: "pagseguro"
