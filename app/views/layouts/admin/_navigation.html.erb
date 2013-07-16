@@ -3,16 +3,20 @@
   <li <%= current_nav_namespace("inventory") %>>
     <%= link_to t("admin.navigation.inventory"), admin_inventory_items_path %>
   </li>
-
   <li <%= current_nav_namespace("orders") %>>
     <%= link_to t("admin.navigation.orders"), admin_orders_path %>
   </li>
   <li <%= current_nav_namespace("marketing") %>>
     <%= link_to t("admin.navigation.marketing"), admin_marketing_index_path %>
   </li>
-  <li <%= current_nav_namespace("customers") %>>
-    <%= link_to t("admin.navigation.customers"), admin_customers_path %>
-  </li>
+
+  <% Feature.pre_alpha do %>
+    <% # pre-alpha %>
+    <li <%= current_nav_namespace("customers") %>>
+      <%=  %><%= link_to t("admin.navigation.customers"), admin_customers_path %>
+    </li>
+  <% end %>
+
   <li <%= current_nav_namespace("statistics") %>>
     <%= link_to t("admin.navigation.statistics"), admin_statistics_path %>
   </li>
@@ -26,18 +30,22 @@
     <%= link_to t("admin.navigation.settings"), admin_settings_path %>
   </li>
 </ul>
-<!--
-<h2>Loja</h2>
-<ul>
-  <li <%= current_nav_namespace("store") %>>
-    <%= link_to "Produtos", admin_store_dashboard_path %>
-  </li>
-</ul>
--->
-<h2><%= t("admin.navigation.offline_sales") %></h2>
-<ul>
-  <li><%= link_to t("admin.navigation.point_of_sale"), admin_offline_root_path %></li>
-</ul>
+
+<% Feature.pre_alpha do %>
+  <% # pre-alpha %>
+  <!--
+  <h2>Loja</h2>
+  <ul>
+    <li <%= current_nav_namespace("store") %>>
+      <%= link_to "Produtos", admin_store_dashboard_path %>
+    </li>
+  </ul>
+  -->
+  <h2><%= t("admin.navigation.offline_sales") %></h2>
+  <ul>
+    <li><%= link_to t("admin.navigation.point_of_sale"), admin_offline_root_path %></li>
+  </ul>
+<% end %>
 
 <h2><%= t("admin.navigation.more") %></h2>
 <ul>
