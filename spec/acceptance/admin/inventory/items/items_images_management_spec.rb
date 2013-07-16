@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Inventory Items' images management", js: true, search: true do
+feature "Inventory Items' images management" do
   let(:image_path) { "#{Rails.root.to_s}/spec/support/fixtures/image.png" }
 
   before do
@@ -24,6 +24,6 @@ feature "Inventory Items' images management", js: true, search: true do
     sleep(1)
 
     visit admin_inventory_item_images_path(@item)
-    page.should have_content "Imagens atuais"
+    page.should have_content /Imagens atuais/i
   end
 end

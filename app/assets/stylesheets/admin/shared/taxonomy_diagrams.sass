@@ -1,7 +1,7 @@
 $node-box-background: #ebebeb
 
 .tree_diagrams
-  margin: 15px 0 0 0
+  margin: 15px 0 0 5px
   display: table
   clear: both
   width: 100%
@@ -56,6 +56,10 @@ $node-box-background: #ebebeb
       height: 16px
       width: auto
       display: table
+
+    .node.last
+      background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat
+      background-position: 0 -7px
 
     > .node.candidate_input:last-child
       background: image-url('admin/layout/taxonomies/taxonomy_last_item.png') no-repeat

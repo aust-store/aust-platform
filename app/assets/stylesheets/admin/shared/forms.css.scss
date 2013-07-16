@@ -1,4 +1,6 @@
-div.form {
+input, textarea, select {
+  font-size: 1em;
+  color: #333;
 }
 
 div.input {
@@ -13,8 +15,12 @@ div.input {
   input, textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 5px 3px;
+    padding: 5px 5px;
     width: 300px;
+  }
+
+  input {
+    height: 25px
   }
 
   textarea {

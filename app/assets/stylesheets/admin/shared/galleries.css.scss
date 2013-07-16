@@ -14,8 +14,7 @@
     }
 
     .image_container {
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
-      border-radius: 3px;
+      background: #eee;
       overflow: hidden;
       display: block;
       width: 60px;
@@ -38,7 +37,6 @@
       right: 0;
       font-size: 0.7em;
       text-transform: uppercase;
-      border-radius: 3px;
     }
 
     .cover {

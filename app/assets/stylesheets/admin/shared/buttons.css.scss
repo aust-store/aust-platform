@@ -1,5 +1,6 @@
+/* #encoding: utf-8 */
 /* Buttons */
-$gradient-top: #f3f3f3;
+$gradient-top: #ebebeb;
 $gradient-bottom: #ddd;
 $red-gradient-top: darken(red, 6%);
 $red-gradient-bottom: darken(red, 17%);
@@ -13,27 +14,19 @@ a.css_button_anchor {
 
   overflow: hidden;
   border-radius: 50px;
-  border-top: 1px solid white;
-  border-bottom: 1px solid #c3c3c3;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+  border-top: 0px solid #fbfbfb;
+  border-bottom: 0px solid #ddd;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.02);
 
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$gradient-top', endColorstr='$gradient-bottom'); /* for IE */
-  background: -webkit-gradient(linear, left bottom, left top, from($gradient-bottom), to($gradient-top)); /* for webkit browsers */
-  background: -moz-linear-gradient(bottom, $gradient-bottom, $gradient-top); /* for firefox 3.6+ */
+  background: $gradient-top;
 
   &.red {
     color: white;
-    border-top: 1px solid lighten($red-gradient-top, 30%);
-    border-bottom: 1px solid darken($red-gradient-bottom, 3%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$red-gradient-top', endColorstr='$red-gradient-bottom'); /* for IE */
-    background: -webkit-gradient(linear, left bottom, left top, from($red-gradient-bottom), to($red-gradient-top)); /* for webkit browsers */
-    background: -moz-linear-gradient(bottom, $red-gradient-bottom, $red-gradient-top); /* for firefox 3.6+ */
+    background: $red-gradient-top;
 
 
     &:hover {
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($red-gradient-bottom, 3%)', endColorstr='lighten($red-gradient-bottom, 3%)'); /* for IE */
-      background: -webkit-gradient(linear, left bottom, left top, from( lighten($red-gradient-bottom, 3%)), to( darken($red-gradient-top, 3%) )); /* for webkit browsers */
-      background: -moz-linear-gradient(bottom, lighten($red-gradient-bottom, 3%), darken($red-gradient-top, 3%)); /* for firefox 3.6+ */
+      background: lighten($red-gradient-top, 3%);
       text-decoration: none;
     }
     .css_button {
@@ -43,7 +36,7 @@ a.css_button_anchor {
   }
 
   &.round_icon .css_button {
-    background-position: 4px center;
+    background-position: 7px center;
   }
 
   .css_button {
@@ -61,29 +54,27 @@ a.css_button_anchor {
       background-position: center 2px;
     }
     .css_button_container {
-      margin: 0px auto 0px auto;
+      margin: 0px auto 5px auto;
       padding-left: 11px;
       display: inline-block;
       min-width: 0px;
+      height: 23px;
       &.text {
-        top: 3px;
+        top: 6px;
         position: relative;
         padding-right: 11px;
       }
     }
 
     &.has_image .css_button_container, &.has_image_only .css_button_container {
-      margin: 0px 0px 3px 26px;
+      margin: 0px 0px 5px 28px;
       padding-left: 0px;
-      top: 2px;
-      height: 17px;
+      height: 23px;
       display: inline-block;
     }
   }
   &:hover {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($gradient-bottom, 3%)', endColorstr='lighten($gradient-bottom, 3%)'); /* for IE */
-    background: -webkit-gradient(linear, left bottom, left top, from( lighten($gradient-bottom, 3%)), to( darken($gradient-top, 3%) )); /* for webkit browsers */
-    background: -moz-linear-gradient(bottom, lighten($gradient-bottom, 3%), darken($gradient-top, 3%)); /* for firefox 3.6+ */
+    background: darken($gradient-top, 3%);
     text-decoration: none;
   }
 }
@@ -95,9 +86,8 @@ a.css_button_anchor {
 
 a.css_button_anchor.small {
   .css_button {
-    font-size: 0.9em;
+    font-size: 1em;
     &.has_image .css_button_container.text {
-      top: 3px;
     }
   }
 }

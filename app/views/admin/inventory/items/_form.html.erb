@@ -51,6 +51,7 @@
           <%= s.input :weight, as: :string, input_html: { value: @item.shipping_box.weight } %>
         <% end %>
       </div>
+      <% Feature.pre_alpha do %>
       <div class="explanations">
         <p class="use_default">
           <input type="checkbox" disabled="disabled" /> Usar tamanho de caixa padrão
@@ -60,6 +61,7 @@
         são realmente aceitas pelos Correios.
         </p>
       </div>
+      <% end %>
     </fieldset>
   </section>
 

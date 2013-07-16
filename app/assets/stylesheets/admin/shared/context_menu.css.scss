@@ -9,8 +9,8 @@
   .context_menu {
     position: absolute;
     bottom: 80%;
-    width: 155px;
-    background: #f6f6f6;
+    width: 175px;
+    background: #fbfbfb;
     border-radius: 3px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
     border: 8px solid rgba(1, 1, 1, 0.1);
@@ -29,7 +29,7 @@
       display: table;
       text-align: center;
 
-      a.css_button_anchor { width: 125px; }
+      a.css_button_anchor { width: 145px; }
       .css_button { margin: 0 auto; }
     }
   }

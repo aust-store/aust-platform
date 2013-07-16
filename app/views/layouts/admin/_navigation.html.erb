@@ -12,7 +12,7 @@
   <% Feature.pre_alpha do %>
     <% # pre-alpha %>
     <li <%= current_nav_namespace("customers") %>>
-      <%=  %><%= link_to t("admin.navigation.customers"), admin_customers_path %>
+      <%= link_to t("admin.navigation.customers"), admin_customers_path %>
     </li>
   <% end %>
   <li <%= current_nav_namespace("banners") %>>
@@ -47,7 +47,7 @@
   </ul>
 <% end %>
 
-<h2><%= t("admin.navigation.more") %></h2>
+<br />
 <ul>
   <li><%= link_to t("admin.navigation.sign_out"), destroy_admin_user_session_path, method: :delete %></li>
 </ul>

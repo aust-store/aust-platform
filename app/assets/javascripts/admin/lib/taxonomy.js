@@ -1,6 +1,7 @@
 var Taxonomy = {
   initialize: function() {
     Taxonomy.Nodes.Events.initialize();
+    Taxonomy.Nodes.CustomClasses.initialize();
   },
   containerElement: ".js_tree_diagrams"
 }
@@ -39,6 +40,15 @@ Taxonomy.Nodes.Events = {
       e.stopPropagation();
       return false;
     });
+  }
+}
+
+/**
+ * Adds classes for CSS formating
+ */
+Taxonomy.Nodes.CustomClasses = {
+  initialize: function() {
+    $(".child", Taxonomy.containerElement).find(".node:last").addClass("last");
   }
 }
 
