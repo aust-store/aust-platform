@@ -8,6 +8,7 @@ class Company < ActiveRecord::Base
   has_many :taxonomies, foreign_key: "store_id"
   has_many :manufacturers
   has_many :pages
+  has_many :banners
 
   has_one :address, as: :addressable
   has_one :contact, as: :contactable
@@ -75,6 +76,10 @@ class Company < ActiveRecord::Base
 
   def has_zipcode?
     zipcode.present?
+  end
+
+  def elegible_for_lateral_banners?
+    Store::Policy::Company::LateralBanners.new(self).elegible?
   end
 
   private

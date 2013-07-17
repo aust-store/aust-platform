@@ -1,0 +1,34 @@
+<%= render "layouts/admin/nav_history" %>
+
+<header>
+  <h1><%= t('admin.banners.index.title') %></h1>
+</header>
+
+<div class="main_container">
+
+  <div>
+    <%= new_banner_button(@company) %>
+  </div>
+
+  <table class="listing">
+
+    <thead>
+      <th><%= t('admin.banners.index.title') %></th>
+      <th><%= t('admin.banners.index.image') %></th>
+    </thead>
+
+    <tbody>
+      <% if @banners %>
+        <%= render @banners %>
+      <% end %>
+    </tbody>
+
+  </table>
+  <br />
+
+  <div>
+    <%= new_banner_button(@company) %>
+  </div>
+  <br />
+
+</div>

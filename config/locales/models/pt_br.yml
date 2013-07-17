@@ -61,6 +61,10 @@ pt_br:
         name: "Seu nome"
         email: "Seu email"
         message: "Mensagem"
+      banner:
+        title: "Titulo"
+        url:   "Link"
+        image: "Imagem"
     values:
       order:
         summary:
@@ -201,6 +205,24 @@ pt_br:
               blank: "O campo não pode ser deixado em branco"
             description:
               blank: "O campo não pode ser deixado em branco"
+        contact_form:
+          attributes:
+            name:
+              blank: "Você precisa escrever seu nome"
+            email:
+              invalid: "Você precisa escrever seu email"
+            message:
+              blank: "Você precisa escrever uma mensagem para nós"
+
+        banner:
+          attributes:
+            title:
+              blank: "O campo não pode ser deixado em branco"
+            url:
+              blank: "O campo não pode ser deixado em branco"
+              invalid: "Formato inválido da url"
+            image:
+              blank: "O campo não pode ser deixado em branco"
   mail_form:
     models:
       contact_form: "Form de contact"
@@ -213,13 +235,3 @@ pt_br:
       title: "Informações técnicas sobre o usuário"
       remote_ip: "Endereço de IP"
       user_agent: "Navegador"
-    errors:
-      models:
-        contact_form:
-          attributes:
-            name:
-              blank: "Você precisa escrever seu nome"
-            email:
-              invalid: "Você precisa escrever seu email"
-            message:
-              blank: "Você precisa escrever uma mensagem para nós"

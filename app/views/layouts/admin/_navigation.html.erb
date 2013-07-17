@@ -9,14 +9,15 @@
   <li <%= current_nav_namespace("marketing") %>>
     <%= link_to t("admin.navigation.marketing"), admin_marketing_index_path %>
   </li>
-
   <% Feature.pre_alpha do %>
     <% # pre-alpha %>
     <li <%= current_nav_namespace("customers") %>>
       <%=  %><%= link_to t("admin.navigation.customers"), admin_customers_path %>
     </li>
   <% end %>
-
+  <li <%= current_nav_namespace("banners") %>>
+    <%= link_to t("admin.navigation.banners"), admin_banners_path %>
+  </li>
   <li <%= current_nav_namespace("statistics") %>>
     <%= link_to t("admin.navigation.statistics"), admin_statistics_path %>
   </li>

@@ -1,0 +1,19 @@
+<%= simple_form_for([:admin,@banner]) do |f| %>
+
+  <%= f.input :title,
+      hint: "",
+      placeholder: "" %>
+
+  <%= f.input :url,
+     hint: "Url",
+     placeholder: "" %>
+
+  <%= f.input :position,  collection: [[t('admin.banners.position.right'),"main_right"]], include_blank: false %>
+
+  <%= f.input :image %>
+  <%= f.hidden_field :image_cache %>
+
+  <%= f.submit t('admin.banners.form.save') %> ou
+  <%= link_to t('admin.banners.form.cancel'), "javascript: history.back()" %>
+
+<% end %>
