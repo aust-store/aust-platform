@@ -2,7 +2,7 @@ class Banner < ActiveRecord::Base
   belongs_to :company
   mount_uploader :image, ImageBannerUploader
 
-  validates :title, :image, :position, presence: true
+  validates :image, :position, presence: true
   validate :url_validate_format
 
   def image_url
@@ -11,10 +11,6 @@ class Banner < ActiveRecord::Base
 
   def url_validate_format
     return true if url.blank?
-
-    unless UrlValidator::Url.validate(url)
-      errors.add(:url , :invalid)
-    end
+    errors.add(:url , :invalid) unless CommonTools::Url.new(url).valid?
   end
-
 end

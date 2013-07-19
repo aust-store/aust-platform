@@ -1,19 +1,19 @@
 # encoding: utf-8
 require 'acceptance_spec_helper'
 
-feature "Company banners" do
-
+feature "Company ad banners" do
   let(:image_path) { "#{Rails.root.to_s}/spec/support/fixtures/image.png"  }
+
   before do
     login_into_admin
     stub_subdomain(@admin_user.company)
+
+    visit admin_settings_path
   end
 
-
-  scenario "As an Admin, I want to add banners to my company" do
-    visit admin_settings_path
+  scenario "As an admin, I want to add banners to my store" do
     click_link I18n.t("admin.navigation.banners")
-    page.first(:link,I18n.t("admin.banners.index.new_banner")).click
+    page.first(:link, I18n.t("admin.banners.index.new_banner")).click
 
     fill_in I18n.t("activerecord.attributes.banner.title"),    with: "My good banner"
     fill_in I18n.t("activerecord.attributes.banner.url"),      with: "http://www.google.com/"
@@ -24,8 +24,7 @@ feature "Company banners" do
     page.should have_content("My good banner")
   end
 
-  scenario "As an Admin, I shouldnt be able to add a invalid banner" do
-    visit admin_settings_path
+  scenario "As an Admin, I shouldn't be able to add a invalid banner" do
     click_link I18n.t("admin.navigation.banners")
     page.first(:link,I18n.t("admin.banners.index.new_banner")).click
 
@@ -37,19 +36,16 @@ feature "Company banners" do
     page.should have_content(I18n.t("activerecord.errors.models.banner.attributes.title.blank"))
   end
 
-  scenario "As an Admin, I cant add more than 3 banners" do
+  scenario "As an Admin, I can't add more than 3 banners" do
     3.times do
       create(:banner, company: @admin_user.company)
     end
-
-    visit admin_settings_path
 
     click_link I18n.t("admin.navigation.banners")
     page.should have_content(I18n.t("admin.banners.message.full"))
   end
 
   scenario "As an Admin, I want to edit a banner" do
-    visit admin_settings_path
     banner = create(:banner, company: @admin_user.company)
 
     click_link I18n.t("admin.navigation.banners")

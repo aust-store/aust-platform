@@ -125,6 +125,11 @@ pt_br:
         weight: "Entre o valor em quilos (kg)."
       company:
         domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
+      banner:
+        title:    "Preencha um título para sua organizar (aparece quando você posiciona o mouse sobre o banner)"
+        url:      "Se você preencher um valor, o usuário poderá clicar no banner"
+        position: "Selecione a posição onde o banner aparecerá na loja"
+        image:    "Seu banner será mostrando com largura de 200 pixels"
       theme:
         name: "Obrigatório."
         public: "Temas públicos podem ser selecionados por qualquer empresa."

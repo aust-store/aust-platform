@@ -1,34 +1,51 @@
 <%= render "layouts/admin/nav_history" %>
 
 <header>
-  <h1><%= t('admin.banners.index.title') %></h1>
+  <h1><%= t('.title') %></h1>
 </header>
 
 <div class="main_container">
 
+  <% if @banners.present? %>
+    <table class="listing">
+      <thead>
+        <th><%= t('.title_field') %></th>
+        <th><%= t('.image') %></th>
+        <th></th>
+      </thead>
+
+      <tbody>
+        <% @banners.each do |banner| %>
+          <tr class="<%= cycle('odd','even') %>">
+            <td>
+              <%= link_to banner.title, edit_admin_banner_path(banner) %>
+            </td>
+            <td>
+              <%= link_to image_tag(banner.image_url, height: "60"),
+                edit_admin_banner_path(banner)
+              %>
+            </td>
+            <td>
+              <%= link_to image_tag("store/buttons/check_no.png"),
+                admin_banner_path(banner),
+                data: { confirm: "Tem certeza?" },
+                method: :delete,
+                class: "erase"
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+
+    </table>
+    <br />
+  <% else %>
+    <p>
+      Você ainda não possui banners de propaganda na sua loja.
+    </p>
+  <% end %>
+
   <div>
     <%= new_banner_button(@company) %>
   </div>
-
-  <table class="listing">
-
-    <thead>
-      <th><%= t('admin.banners.index.title') %></th>
-      <th><%= t('admin.banners.index.image') %></th>
-    </thead>
-
-    <tbody>
-      <% if @banners %>
-        <%= render @banners %>
-      <% end %>
-    </tbody>
-
-  </table>
-  <br />
-
-  <div>
-    <%= new_banner_button(@company) %>
-  </div>
-  <br />
-
 </div>

@@ -69,8 +69,8 @@ CREATE TABLE account_receivables (
     description text,
     due_to date,
     paid boolean,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -108,8 +108,8 @@ CREATE TABLE addresses (
     state character varying(255),
     country character varying(255),
     "default" boolean,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     neighborhood character varying(255),
     number character varying(255)
 );
@@ -140,8 +140,8 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 CREATE TABLE admin_dashboards (
     id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -171,7 +171,7 @@ ALTER SEQUENCE admin_dashboards_id_seq OWNED BY admin_dashboards.id;
 CREATE TABLE admin_users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
@@ -180,13 +180,9 @@ CREATE TABLE admin_users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip character varying(255),
     last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    password_salt character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     company_id integer,
     role character varying(255),
     name character varying(255)
@@ -255,8 +251,8 @@ CREATE TABLE carts (
     id integer NOT NULL,
     user_id integer,
     company_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     environment character varying(255)
 );
 
@@ -287,8 +283,8 @@ ALTER SEQUENCE carts_id_seq OWNED BY carts.id;
 CREATE TABLE companies (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     handle character varying(255),
     domain text,
     theme_id integer
@@ -322,8 +318,8 @@ CREATE TABLE company_settings (
     id integer NOT NULL,
     company_id integer,
     settings hstore,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -391,8 +387,8 @@ CREATE TABLE customers (
     last_name character varying(255) NOT NULL,
     description character varying(255) NOT NULL,
     company_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -422,8 +418,8 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 CREATE TABLE inventories (
     id integer NOT NULL,
     company_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -457,10 +453,10 @@ CREATE TABLE inventory_entries (
     description text,
     quantity numeric,
     cost_per_unit numeric,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    store_id integer,
-    on_sale boolean DEFAULT true
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    on_sale boolean DEFAULT true,
+    store_id integer
 );
 
 
@@ -490,8 +486,8 @@ ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 CREATE TABLE inventory_item_images (
     id integer NOT NULL,
     inventory_item_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     image character varying(255),
     cover boolean DEFAULT false
 );
@@ -523,9 +519,9 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 CREATE TABLE inventory_item_prices (
     id integer NOT NULL,
     inventory_item_id integer,
-    value numeric(8,2),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    value numeric(8,2) DEFAULT NULL::numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -556,8 +552,8 @@ CREATE TABLE inventory_item_properties (
     id integer NOT NULL,
     inventory_item_id integer,
     properties hstore,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -589,8 +585,8 @@ CREATE TABLE inventory_items (
     company_id integer,
     name character varying(255),
     description text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     inventory_id integer,
     reference character varying(255),
     admin_user_id integer,
@@ -598,7 +594,7 @@ CREATE TABLE inventory_items (
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
-    moving_average_cost numeric(8,2)
+    moving_average_cost numeric(8,2) DEFAULT NULL::numeric
 );
 
 
@@ -629,8 +625,8 @@ CREATE TABLE manufacturers (
     id integer NOT NULL,
     name character varying(255),
     company_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     admin_user_id integer
 );
 
@@ -661,13 +657,13 @@ ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
 CREATE TABLE order_items (
     id integer NOT NULL,
     inventory_item_id integer,
-    price numeric(8,2),
-    quantity numeric(8,2),
+    price numeric,
+    quantity numeric,
     inventory_entry_id integer,
     cart_id integer,
     order_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     status character varying(255),
     parent_id integer
 );
@@ -705,8 +701,8 @@ CREATE TABLE order_shippings (
     delivery_type text,
     service_type text,
     zipcode text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     description text,
     package_width integer,
     package_height integer,
@@ -743,8 +739,8 @@ CREATE TABLE orders (
     cart_id integer,
     user_id integer,
     store_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     environment character varying(255)
 );
 
@@ -777,8 +773,8 @@ CREATE TABLE pages (
     title text,
     body text,
     company_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     admin_user_id integer
 );
 
@@ -812,8 +808,8 @@ CREATE TABLE payment_gateways (
     name character varying(255),
     email character varying(255),
     token text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -845,8 +841,8 @@ CREATE TABLE payment_statuses (
     order_id integer,
     status character varying(255),
     notification_id text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -889,8 +885,8 @@ CREATE TABLE shipping_boxes (
     height numeric(8,2),
     weight numeric(8,2),
     inventory_item_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -929,8 +925,8 @@ CREATE TABLE super_admin_users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip character varying(255),
     last_sign_in_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -962,8 +958,8 @@ CREATE TABLE taxonomies (
     name text,
     parent_id integer,
     store_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1007,10 +1003,10 @@ CREATE TABLE themes (
     description text,
     path text,
     public boolean DEFAULT true,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     company_id integer,
-    vertical_taxonomy_menu boolean DEFAULT false
+    vertical_taxonomy_menu boolean
 );
 
 
@@ -1054,8 +1050,8 @@ CREATE TABLE users (
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying(255),
     authentication_token character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     first_name text,
     last_name text,
     social_security_number character varying(255),
@@ -1367,14 +1363,6 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1396,6 +1384,14 @@ ALTER TABLE ONLY inventory_items
 
 ALTER TABLE ONLY inventories
     ADD CONSTRAINT inventories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1515,20 +1511,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
-
-
---
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
-
-
---
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
@@ -1665,17 +1647,38 @@ CREATE INDEX index_customers_on_company_id ON customers USING btree (company_id)
 
 
 --
--- Name: index_inventory_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_good_balances_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_inventory_entries_on_admin_user_id ON inventory_entries USING btree (admin_user_id);
+CREATE INDEX index_good_balances_on_admin_user_id ON inventory_entries USING btree (admin_user_id);
 
 
 --
--- Name: index_inventory_entries_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_good_balances_on_good_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_inventory_entries_on_inventory_item_id ON inventory_entries USING btree (inventory_item_id);
+CREATE INDEX index_good_balances_on_good_id ON inventory_entries USING btree (inventory_item_id);
+
+
+--
+-- Name: index_good_images_on_cover; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_good_images_on_cover ON inventory_item_images USING btree (cover);
+
+
+--
+-- Name: index_good_images_on_good_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_good_images_on_good_id ON inventory_item_images USING btree (inventory_item_id);
+
+
+--
+-- Name: index_goods_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_goods_on_company_id ON inventory_items USING btree (company_id);
 
 
 --
@@ -1693,20 +1696,6 @@ CREATE INDEX index_inventory_entries_on_store_id ON inventory_entries USING btre
 
 
 --
--- Name: index_inventory_item_images_on_cover; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_inventory_item_images_on_cover ON inventory_item_images USING btree (cover);
-
-
---
--- Name: index_inventory_item_images_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_inventory_item_images_on_inventory_item_id ON inventory_item_images USING btree (inventory_item_id);
-
-
---
 -- Name: index_inventory_item_prices_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1718,13 +1707,6 @@ CREATE INDEX index_inventory_item_prices_on_inventory_item_id ON inventory_item_
 --
 
 CREATE INDEX index_inventory_item_properties_on_inventory_item_id ON inventory_item_properties USING btree (inventory_item_id);
-
-
---
--- Name: index_inventory_items_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_inventory_items_on_company_id ON inventory_items USING btree (company_id);
 
 
 --

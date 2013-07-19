@@ -62,8 +62,9 @@ pt_br:
         email: "Seu email"
         message: "Mensagem"
       banner:
-        title: "Titulo"
+        title: "Título"
         url:   "Link"
+        position: "Posição"
         image: "Imagem"
     values:
       order:

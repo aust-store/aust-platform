@@ -1,17 +1,17 @@
 pt_br:
- admin:
-   banners:
-     index:
-       title:      "Anúncios"
-       new_banner: "Novo Anúncio"
-       image:      "Imagem"
-     new:
-       title: "Novo Anúncio"
-       
-     message:
-       full: "Sua loja pode ter no máximo 3 banners de propaganda. Para adicionar outro, primeiro exclua um banner"
-     form:
-       save: "Salvar Banner"
-       cancel: "Cancelar"
-     position:
-       right: "Lateral Direita"
+  admin:
+    banners:
+      message:
+        full: "Sua loja pode ter no máximo 3 banners de propaganda. Para adicionar outro, primeiro exclua um banner"
+      index:
+        title:       "Banners de propaganda"
+        title_field: "Título"
+        new_banner:  "Novo banner"
+        image:       "Imagem"
+      new:
+        title: "Novo banner"
+      form:
+        save: "Salvar banner"
+        cancel: "Cancelar"
+        positions:
+          all_pages_right: "Em todas as páginas, à direita"
