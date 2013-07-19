@@ -47,6 +47,9 @@ pt_br:
       theme:
         create: "Salvar"
         update: "Atualizar tema"
+      banner:
+        create: "Salvar banner"
+        update: "Salvar banner"
   simple_form:
     labels:
       defaults:

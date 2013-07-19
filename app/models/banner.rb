@@ -5,6 +5,8 @@ class Banner < ActiveRecord::Base
   validates :image, :position, presence: true
   validate :url_validate_format
 
+  scope :all_pages_right, ->{ where(position: "all_pages_right") }
+
   def image_url
     image.url
   end

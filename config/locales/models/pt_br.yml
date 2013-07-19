@@ -66,6 +66,7 @@ pt_br:
         url:   "Link"
         position: "Posição"
         image: "Imagem"
+    # activerecord.values
     values:
       order:
         summary:
@@ -89,6 +90,9 @@ pt_br:
         cancelled: "Cancelado"
         refunded:  "Reembolsado"
         undefined: "Aguardando"
+      banner:
+        position:
+          all_pages_right: "Em todas as páginas, à direita"
     errors:
       messages:
         blank: "%{attribute} não pode ficar em branco"

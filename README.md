@@ -1,7 +1,6 @@
-# Oliver
+# Aust
 
 This project is an e-commerce in a SaaS model.
-
 
 ### Using subdomains locally
 
@@ -67,3 +66,5 @@ These are the available environments right now:
 When you setup your store, go to the configurations page and define a Zipcode. When you're checking out, the shipping zipcode (defined in the cart) should be different so that the shipping cost is properly calculated.
 
 Valid zipcode (CEP): 91260000, 96360000.
+
+* Banners: use this image for ad banner, ![](http://f.cl.ly/items/232c123s361Y2r2m0r3O/banner_side_1_200x.jpg) (for all pages, right position)

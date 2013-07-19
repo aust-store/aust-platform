@@ -2,12 +2,12 @@
   <%= f.input :title %>
   <%= f.input :url %>
   <%= f.input :position,
-    collection: [[t('.positions.all_pages_right'), "all_pages_right"]],
+    collection: [[t('activerecord.values.banner.position.all_pages_right'), "all_pages_right"]],
     include_blank: false %>
 
   <%= f.input :image %>
   <%= f.hidden_field :image_cache %>
 
-  <%= f.submit t('admin.banners.form.save') %> ou
+  <%= f.submit id: "submit" %> ou
   <%= link_to t('cancel'), "javascript: history.back()" %>
 <% end %>

@@ -2,7 +2,7 @@
 require 'acceptance_spec_helper'
 
 feature "Company ad banners" do
-  let(:image_path) { "#{Rails.root.to_s}/spec/support/fixtures/image.png"  }
+  let(:image_path) { "#{Rails.root.to_s}/spec/support/fixtures/image.png" }
 
   before do
     login_into_admin
@@ -15,23 +15,31 @@ feature "Company ad banners" do
     click_link I18n.t("admin.navigation.banners")
     page.first(:link, I18n.t("admin.banners.index.new_banner")).click
 
-    fill_in I18n.t("activerecord.attributes.banner.title"),    with: "My good banner"
-    fill_in I18n.t("activerecord.attributes.banner.url"),      with: "http://www.google.com/"
+    fill_in I18n.t("activerecord.attributes.banner.title"),     with: "My good banner"
+    fill_in I18n.t("activerecord.attributes.banner.url"),       with: "http://www.google.com/"
     attach_file I18n.t("activerecord.attributes.banner.image"), image_path
 
-    click_button I18n.t('admin.banners.form.save')
+    click_button "submit"
 
     page.should have_content("My good banner")
+    page.should have_content I18n.t('activerecord.values.banner.position.all_pages_right')
+    Banner.first.image.url.should_not == ""
+
+    # The banner is added to the store's homepage
+    visit root_path
+    within ".ad_banners" do
+      find("img")[:src].should == Banner.first.image.url
+    end
   end
 
   scenario "As an Admin, I shouldn't be able to add a invalid banner" do
     click_link I18n.t("admin.navigation.banners")
     page.first(:link,I18n.t("admin.banners.index.new_banner")).click
 
-    fill_in I18n.t("activerecord.attributes.banner.title"),    with: ""
-    fill_in I18n.t("activerecord.attributes.banner.url"),      with: "invalid"
+    fill_in I18n.t("activerecord.attributes.banner.title"), with: ""
+    fill_in I18n.t("activerecord.attributes.banner.url"),   with: "invalid"
 
-    click_button I18n.t('admin.banners.form.save')
+    click_button "submit"
 
     page.should have_content(I18n.t("activerecord.errors.models.banner.attributes.title.blank"))
   end
@@ -51,9 +59,8 @@ feature "Company ad banners" do
     click_link I18n.t("admin.navigation.banners")
     click_link banner.title
     fill_in I18n.t("activerecord.attributes.banner.title"),    with: "My good banner edited"
-    click_button I18n.t('admin.banners.form.save')
+    click_button "submit"
 
     page.should have_content("My good banner edited")
   end
-
 end

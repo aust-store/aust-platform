@@ -6,12 +6,10 @@ pt_br:
       index:
         title:       "Banners de propaganda"
         title_field: "Título"
+        position:    "Posição"
         new_banner:  "Novo banner"
         image:       "Imagem"
       new:
         title: "Novo banner"
-      form:
-        save: "Salvar banner"
-        cancel: "Cancelar"
-        positions:
-          all_pages_right: "Em todas as páginas, à direita"
+      edit:
+        title: "Editando banner"
