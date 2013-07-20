@@ -8,7 +8,7 @@ feature "Company ad banners" do
     login_into_admin
     stub_subdomain(@admin_user.company)
 
-    visit admin_settings_path
+    visit admin_marketing_index_path
   end
 
   describe "Banners" do

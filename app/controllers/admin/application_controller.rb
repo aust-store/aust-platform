@@ -30,10 +30,12 @@ class Admin::ApplicationController < ApplicationController
   end
 
   def navigation_namespace
+    Rails.logger.info request.url
     @nav_namespace = case request.url
     when /admin\/inventory/  ; "inventory"
     when /admin\/statistics/ ; "statistics"
     when /admin\/users/      ; "users"
+    when /admin\/(marketing|pages|banner|store_theme)/ ; "marketing"
     when /admin\/store/      ; "store"
     when /admin\/settings/   ; "settings"
     when /admin\/taxonomies/ ; "taxonomies"

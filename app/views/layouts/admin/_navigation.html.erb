@@ -1,4 +1,5 @@
 <h2><%= t("admin.navigation.management") %></h2>
+
 <ul>
   <li <%= current_nav_namespace("inventory") %>>
     <%= link_to t("admin.navigation.inventory"), admin_inventory_items_path %>
@@ -15,9 +16,6 @@
       <%= link_to t("admin.navigation.customers"), admin_customers_path %>
     </li>
   <% end %>
-  <li <%= current_nav_namespace("banners") %>>
-    <%= link_to t("admin.navigation.banners"), admin_banners_path %>
-  </li>
   <li <%= current_nav_namespace("statistics") %>>
     <%= link_to t("admin.navigation.statistics"), admin_statistics_path %>
   </li>
