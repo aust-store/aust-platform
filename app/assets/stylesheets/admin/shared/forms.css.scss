@@ -12,14 +12,21 @@ div.input {
     margin: 0 0 3px 0;
   }
 
-  input, textarea {
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
+  input[type='url'],
+  textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 5px;
     width: 300px;
   }
 
-  input {
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
+  input[type='url'] {
     height: 25px
   }
 
