@@ -78,10 +78,6 @@ class Company < ActiveRecord::Base
     zipcode.present?
   end
 
-  def elegible_for_lateral_banners?
-    Store::Policy::Company::LateralBanners.new(self).elegible?
-  end
-
   private
 
   def set_default_theme

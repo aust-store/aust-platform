@@ -219,7 +219,6 @@ pt_br:
               invalid: "Você precisa escrever seu email"
             message:
               blank: "Você precisa escrever uma mensagem para nós"
-
         banner:
           attributes:
             title:
@@ -229,6 +228,8 @@ pt_br:
               invalid: "Formato inválido da url"
             image:
               blank: "O campo não pode ser deixado em branco"
+            position:
+              quantity: "Você ultrapassou o limite permitido de banners nesta posição"
   mail_form:
     models:
       contact_form: "Form de contact"

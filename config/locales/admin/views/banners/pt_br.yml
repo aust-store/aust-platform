@@ -1,8 +1,6 @@
 pt_br:
   admin:
     banners:
-      message:
-        full: "Sua loja pode ter no máximo 3 banners de propaganda. Para adicionar outro, primeiro exclua um banner"
       index:
         title:       "Banners de propaganda"
         title_field: "Título"
@@ -13,3 +11,5 @@ pt_br:
         title: "Novo banner"
       edit:
         title: "Editando banner"
+      form:
+        no_more_slots_available: "número máximo de banners nesta posição já foi atingido"

@@ -34,6 +34,22 @@ describe Banner do
         end
       end
     end
+
+    describe "max slots per position" do
+      before do
+        @company = create(:company)
+      end
+
+      it "accepts positions with available slots" do
+        create(:banner, company: @company, position: "all_pages_right")
+        new_banner = build(:banner,  company: @company.reload, position: "all_pages_right")
+        new_banner.should be_valid
+
+        create(:banner, company: @company, position: "all_pages_right")
+        new_banner = build(:banner,  company: @company.reload, position: "all_pages_right")
+        new_banner.should_not be_valid
+      end
+    end
   end
 
   describe "#image_url" do

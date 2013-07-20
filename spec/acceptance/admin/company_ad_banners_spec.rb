@@ -31,7 +31,7 @@ feature "Company ad banners" do
       select I18n.t('activerecord.values.banner.position.main_page_central_rotative'), from: "banner[position]"
 
       click_button "submit"
-      assert_banner("main_page_central_rotative", ".main_page_central_rotative")
+      assert_banner("main_page_central_rotative", ".main_page_central_transitional_banners")
     end
 
     # checks the banners list in the admin and then visits the store to check
@@ -49,6 +49,34 @@ feature "Company ad banners" do
     end
   end
 
+  describe "Max banners allowed per position" do
+    scenario "As an Admin, I can't add more than 3 banners" do
+      3.times do
+        create(:banner, company: @admin_user.company, position: "all_pages_right")
+      end
+
+      visit new_admin_banner_path
+      attach_file I18n.t("activerecord.attributes.banner.image"), image_path
+
+      # selects <option> by value
+      find("option[value='all_pages_right']").click
+
+      click_button "submit"
+      page.should have_content I18n.t("activerecord.errors.models.banner.attributes.position.quantity")
+    end
+  end
+
+  scenario "As an Admin, I want to edit a banner" do
+    banner = create(:banner, company: @admin_user.company)
+
+    click_link I18n.t("admin.navigation.banners")
+    click_link banner.title
+    fill_in I18n.t("activerecord.attributes.banner.title"), with: "My good banner edited"
+    click_button "submit"
+
+    page.should have_content("My good banner edited")
+  end
+
   scenario "As an Admin, I shouldn't be able to add an invalid banner" do
     click_link I18n.t("admin.navigation.banners")
     page.first(:link,I18n.t("admin.banners.index.new_banner")).click
@@ -59,25 +87,5 @@ feature "Company ad banners" do
     click_button "submit"
 
     page.should have_content(I18n.t("activerecord.errors.models.banner.attributes.title.blank"))
-  end
-
-  scenario "As an Admin, I can't add more than 3 banners" do
-    3.times do
-      create(:banner, company: @admin_user.company)
-    end
-
-    click_link I18n.t("admin.navigation.banners")
-    page.should have_content(I18n.t("admin.banners.message.full"))
-  end
-
-  scenario "As an Admin, I want to edit a banner" do
-    banner = create(:banner, company: @admin_user.company)
-
-    click_link I18n.t("admin.navigation.banners")
-    click_link banner.title
-    fill_in I18n.t("activerecord.attributes.banner.title"),    with: "My good banner edited"
-    click_button "submit"
-
-    page.should have_content("My good banner edited")
   end
 end
