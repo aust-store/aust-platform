@@ -67,4 +67,7 @@ When you setup your store, go to the configurations page and define a Zipcode. W
 
 Valid zipcode (CEP): 91260000, 96360000.
 
-* Banners: use this image for ad banner, ![](http://f.cl.ly/items/232c123s361Y2r2m0r3O/banner_side_1_200x.jpg) (for all pages, right position)
+*Banners*
+
+* lateral (200px wide): use this image for ad banner, ![](http://f.cl.ly/items/232c123s361Y2r2m0r3O/banner_side_1_200x.jpg) (for all pages, right position)
+* central (700px wide): http://f.cl.ly/items/3W0P3C0Z2A3W2z2u3B13/natalie_banner.jpg

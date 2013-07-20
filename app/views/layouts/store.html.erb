@@ -32,9 +32,15 @@
     <% end %>
 
     <div id="content">
-      <div class="main_page_central_rotative">
-        <%= banners(:main_page_central_rotative) %>
-      </div>
+      <% if banners?(:main_page_central_rotative) %>
+        <div class="main_page_central_transitional_banners">
+          <%= banners(:main_page_central_rotative) %>
+        </div>
+        <% if banners_amount(:main_page_central_rotative) > 1 %>
+          <div class='main_page_central_transitional_banners_navigation'>
+          </div>
+        <% end %>
+      <% end %>
 
       <div id="main">
         <div class="main_container">

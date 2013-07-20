@@ -197,13 +197,31 @@ a:hover {
     margin-left: 10px;
   }
 
-.main_page_central_rotative {
-  background: pink;
+.main_page_central_transitional_banners {
   margin: 10px 0 0 10px;
   width: 770px;
+  height: 370px;
   display: table;
   font-size: 0;
 }
+  .main_page_central_transitional_banners_navigation {
+    text-align: right;
+    position: relative;
+    top: -22px;
+    margin-right: 5px;
+    z-index: 9999;
+  }
+    .main_page_central_transitional_banners_navigation a {
+      background: white;
+      margin: 0 2px;
+      padding: 4px 7px;
+      border-radius: 50px;
+      box-shadow: 0 0 1px black;
+    }
+    .main_page_central_transitional_banners_navigation a.active {
+      background: #eee;
+      color: black;
+    }
 
 #content {
   float: left;
