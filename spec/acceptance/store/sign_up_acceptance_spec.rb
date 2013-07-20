@@ -27,9 +27,9 @@ feature "Store Sign Up" do
 
     # Sign in page
     fill_in "user_email", with: "user@example.com"
-    choose("has_no_password")
+    page.should have_selector "#has_no_password"
+    choose(I18n.t('session.new.labels.has_no_password'))
     click_on "sign_in"
-
     # Sign up page
     page.should have_content "Nova conta"
 
