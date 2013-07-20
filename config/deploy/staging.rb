@@ -3,7 +3,7 @@ require 'bundler/capistrano'
 
 set :deploy_to, "/var/rails/#{application}"
 set :rails_env, "staging"
-set :branch, "new_admin_design"
+set :branch, "master"
 set :user, "deployer"
 
 default_run_options[:pty] = true
