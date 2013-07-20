@@ -11,28 +11,45 @@ feature "Company ad banners" do
     visit admin_settings_path
   end
 
-  scenario "As an admin, I want to add banners to my store" do
-    click_link I18n.t("admin.navigation.banners")
-    page.first(:link, I18n.t("admin.banners.index.new_banner")).click
+  describe "Banners" do
+    background do
+      click_link I18n.t("admin.navigation.banners")
+      page.first(:link, I18n.t("admin.banners.index.new_banner")).click
+      fill_in I18n.t("activerecord.attributes.banner.title"),     with: "My good banner"
+      fill_in I18n.t("activerecord.attributes.banner.url"),       with: "http://www.google.com/"
+      attach_file I18n.t("activerecord.attributes.banner.image"), image_path
+    end
 
-    fill_in I18n.t("activerecord.attributes.banner.title"),     with: "My good banner"
-    fill_in I18n.t("activerecord.attributes.banner.url"),       with: "http://www.google.com/"
-    attach_file I18n.t("activerecord.attributes.banner.image"), image_path
+    scenario "As an admin, I want to add all_pages_right banners" do
+      select I18n.t('activerecord.values.banner.position.all_pages_right'), from: "banner[position]"
 
-    click_button "submit"
+      click_button "submit"
+      assert_banner("all_pages_right", ".all_pages_right_ad_banners")
+    end
 
-    page.should have_content("My good banner")
-    page.should have_content I18n.t('activerecord.values.banner.position.all_pages_right')
-    Banner.first.image.url.should_not == ""
+    scenario "As an admin, I want to add main_page_central_rotative banners" do
+      select I18n.t('activerecord.values.banner.position.main_page_central_rotative'), from: "banner[position]"
 
-    # The banner is added to the store's homepage
-    visit root_path
-    within ".ad_banners" do
-      find("img")[:src].should == Banner.first.image.url
+      click_button "submit"
+      assert_banner("main_page_central_rotative", ".main_page_central_rotative")
+    end
+
+    # checks the banners list in the admin and then visits the store to check
+    # if the banner is there
+    def assert_banner(position, store_position_class)
+      page.should have_content("My good banner")
+      page.should have_content I18n.t("activerecord.values.banner.position.#{position}")
+      Banner.first.image.url.should_not == ""
+
+      # The banner is added to the store's homepage
+      visit root_path
+      within(store_position_class) do
+        find("img")[:src].should == Banner.first.image.url
+      end
     end
   end
 
-  scenario "As an Admin, I shouldn't be able to add a invalid banner" do
+  scenario "As an Admin, I shouldn't be able to add an invalid banner" do
     click_link I18n.t("admin.navigation.banners")
     page.first(:link,I18n.t("admin.banners.index.new_banner")).click
 

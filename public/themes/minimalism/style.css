@@ -197,6 +197,20 @@ a:hover {
     margin-left: 10px;
   }
 
+.main_page_central_rotative {
+  background: pink;
+  margin: 10px 0 0 10px;
+  width: 770px;
+  display: table;
+  font-size: 0;
+}
+
+#content {
+  float: left;
+  background: white;
+  display: table;
+}
+
 #main {
   float: left;
   width: 740px;

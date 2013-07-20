@@ -20,6 +20,20 @@ describe Banner do
         build(:banner, url: "http://tonystark.com").should be_valid
       end
     end
+
+    describe "positions" do
+      it "accepts only the entered positions" do
+        Banner::POSITIONS.each do |position|
+          build(:banner, position: position).should be_valid
+        end
+      end
+
+      it "doesn't accept invalid positions" do
+        Banner::POSITIONS.each do |position|
+          build(:banner, position: "_#{position}").should_not be_valid
+        end
+      end
+    end
   end
 
   describe "#image_url" do

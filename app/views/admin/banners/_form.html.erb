@@ -2,7 +2,10 @@
   <%= f.input :title %>
   <%= f.input :url %>
   <%= f.input :position,
-    collection: [[t('activerecord.values.banner.position.all_pages_right'), "all_pages_right"]],
+    collection: [
+      [ t('activerecord.values.banner.position.all_pages_right'), "all_pages_right" ],
+      [ t('activerecord.values.banner.position.main_page_central_rotative'), "main_page_central_rotative" ]
+    ],
     include_blank: false %>
 
   <%= f.input :image %>

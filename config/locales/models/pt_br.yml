@@ -93,6 +93,7 @@ pt_br:
       banner:
         position:
           all_pages_right: "Em todas as páginas, à direita"
+          main_page_central_rotative: "Página principal, rotativa"
     errors:
       messages:
         blank: "%{attribute} não pode ficar em branco"
