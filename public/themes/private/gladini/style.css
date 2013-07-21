@@ -119,6 +119,7 @@ a:hover {
     border-radius: 50px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     background: url('/themes_shared_resources/top_empty_cart.png') 7px 4px no-repeat white;
+    color: #333;
   }
 
     #header .user_and_cart_status .cart_status a {
@@ -298,7 +299,7 @@ footer.global {
   .products_list .product {
     float:         left;
     margin:        0 18px 15px 0;
-    background:    #FDD7E9;
+    background:    #FFF0F7;
     width:         170px;
   }
 

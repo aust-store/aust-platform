@@ -4,6 +4,8 @@ module Store
       class Banners
         def initialize(company)
           @company = company
+          Rails.logger.info @company.inspect
+          Rails.logger.info @company.banners.inspect
           @banners = company.banners
         end
 
