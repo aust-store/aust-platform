@@ -9,7 +9,6 @@
     <li><%= link_to page.title, page_path(page), class: current_page_class(page_path(page)) %></li>
   <% end %>
 
-  <li><%= link_to "Carrinho de compras", cart_path, class: current_page_class("store/cart") %></li>
   <% if @company.contact_email.present? %>
     <li><%= link_to "Contato", new_contact_path, class: current_page_class("store/contact"), id: "contact_path" %></li>
   <% end %>

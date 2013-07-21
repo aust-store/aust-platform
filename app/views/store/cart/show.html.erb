@@ -1,3 +1,4 @@
+<h1>Carrinho de compras</h1>
 <%= simple_form_for :cart, url: cart_path, html: { method: :put } do |form| %>
 
   <div class="cart">
@@ -82,7 +83,7 @@
       <% if @checkout_enabled %>
         <div class="line">
           <div class="checkout">
-            <%= link_to "", checkout_shipping_path, id: "checkout_button" %>
+            <%= link_to "Finalizar compra", checkout_shipping_path, id: "checkout_button" %>
           </div>
         </div>
       <% end %>

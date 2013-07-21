@@ -33,9 +33,16 @@ namespace :symlinks do
   end
 end
 
+namespace :custom do
+  task :db_seed do
+    run "cd #{release_path} && RAILS_ENV=#{rails_env} bundle exec rake db:seed"
+  end
+end
+
 after "deploy:finalize_update", "symlinks:database"
 after "deploy:finalize_update", "symlinks:uploads"
 after "setup_database:symlink_config", "deploy:migrate"
+after "deploy:migrate", "custom:db_seed"
 
 require './config/boot'
 require 'airbrake/capistrano'

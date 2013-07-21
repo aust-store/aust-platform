@@ -113,11 +113,10 @@ body.store_cart.show {
 
       a#checkout_button {
         margin: 0 60px 0 0;
-        width: 175px;
-        height: 34px;
         float: right;
+        font-size: 1.4em;
+        padding: 8px 15px;
         display: table;
-        background-image: image-url("store/buttons/button_done_buying.png");
 
         &:hover {
           background-position: 0 -34px;

@@ -12,47 +12,52 @@
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
   <div id="header">
-    <div class="title">
-      <h1><%= @company.name %></h1>
-      <p>Caring about your workplace.</p>
-    </div>
+    <%= link_to root_path do %>
+      <div class="title">
+        <h1><%= @company.name %></h1>
+        <p>Caring about your workplace.</p>
+      </div>
+    <% end %>
     <%= render "shared/top_cart_summary" %>
   </div>
 
   <div id="global"
     class="<%= @theme.feature_as_class(:vertical_taxonomy_menu) if @layout_constraints.should_show_vertical_taxonomy_menu? %>">
+
     <div id="navigation">
       <%= render "layouts/store/navigation" %>
     </div>
 
-    <% if @theme.has_feature?(:vertical_taxonomy_menu) %>
-      <% if @layout_constraints.should_show_vertical_taxonomy_menu? %>
-        <%= render "store/theme_features/taxonomy_as_vertical_menu" %>
-      <% end %>
-    <% end %>
-
-    <div id="content">
-      <% if banners?(:main_page_central_rotative) %>
-        <div class="main_page_central_transitional_banners">
-          <%= banners(:main_page_central_rotative) %>
-        </div>
-        <% if banners_amount(:main_page_central_rotative) > 1 %>
-          <div class='main_page_central_transitional_banners_navigation'>
-          </div>
+    <div class="site_body">
+      <% if @theme.has_feature?(:vertical_taxonomy_menu) %>
+        <% if @layout_constraints.should_show_vertical_taxonomy_menu? %>
+          <%= render "store/theme_features/taxonomy_as_vertical_menu" %>
         <% end %>
       <% end %>
 
-      <div id="main">
-        <div class="main_container">
-          <%= render "store/shared/error_messages" %>
-          <%= yield %>
-        </div>
-      </div>
+      <div id="content">
+        <% if banners?(:main_page_central_rotative) %>
+          <div class="main_page_central_transitional_banners">
+            <%= banners(:main_page_central_rotative) %>
+          </div>
+          <% if banners_amount(:main_page_central_rotative) > 1 %>
+            <div class='main_page_central_transitional_banners_navigation'>
+            </div>
+          <% end %>
+        <% end %>
 
-      <div id="complementary_content">
-        <div class="complementary_content_container">
-          <div class="all_pages_right_ad_banners">
-            <%= banners(:all_pages_right, width: 200) %>
+        <div id="main">
+          <div class="main_container">
+            <%= render "store/shared/error_messages" %>
+            <%= yield %>
+          </div>
+        </div>
+
+        <div id="complementary_content">
+          <div class="complementary_content_container">
+            <div class="all_pages_right_ad_banners">
+              <%= banners(:all_pages_right, width: 200) %>
+            </div>
           </div>
         </div>
       </div>
