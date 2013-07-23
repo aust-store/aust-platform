@@ -10,15 +10,19 @@
     <% unless @product.images.blank? %>
       <div class="images">
         <div class="cover">
-          <%= image_tag @product.images.first.image.url(:big), class:
-              "image" %>
+          <%= link_to(image_tag(@product.images.first.image.url(:cover_big), class: "image"), @product.images.first.image.url(:natural), class: "fancybox", rel: "product_images_group") %>
         </div>
         <% if @product.images.count > 1 %>
           <div class="small_images">
+
             <% @product.images.each do |image| %>
-              <%= image_tag image.image.url(:thumb),
-                  class: "image" unless image.cover == true %>
+              <% next if image.cover? %>
+              <%= link_to(image_tag(image.image.url(:thumb), class: "image"),
+                          image.image.url(:natural),
+                          class: "fancybox",
+                          rel: "product_images_group") %>
             <% end %>
+
           </div>
         <% end %>
       </div>

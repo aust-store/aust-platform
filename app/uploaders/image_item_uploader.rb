@@ -8,19 +8,23 @@ class ImageItemUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  version :thumb do
-    process resize_to_limit: [60,45]
+  version :thumb, from: :cover_standard do
+    process resize_to_fit: [60, 45]
   end
 
   version :medium do
-    process resize_to_limit: [170,127]
+    process resize_to_limit: [170, 127]
   end
 
-  version :cover_standard do
-    process resize_to_fill:  [170,127]
+  version :cover_standard, from: :cover_big do
+    process resize_to_limit:  [170, 127]
   end
 
-  version :big do
-    process resize_to_limit: [350,262]
+  version :cover_big, from: :natural do
+    process resize_to_limit: [350, 262]
+  end
+
+  version :natural do
+    process resize_to_limit: [1200, 800]
   end
 end
