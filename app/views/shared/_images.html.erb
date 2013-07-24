@@ -5,7 +5,7 @@
     <% images.each do |image| %>
       <div class="box image">
         <div class="image_container">
-          <%= image_tag image.image.url(:medium), width: 60 %>
+          <%= image_tag image.image.url(:thumb), width: 60 %>
         </div>
 
         <% if image.cover? %>
