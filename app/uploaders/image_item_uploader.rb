@@ -14,8 +14,8 @@ class ImageItemUploader < CarrierWave::Uploader::Base
   #                  while retaining the aspect ratio of the original image.
   #                  If necessary, crop the image in the larger dimension.
 
-  version :thumb, from: :cover_standard do
-    process resize_to_fit: [60, 45]
+  version :thumb do
+    process resize_to_fill: [60, 45]
   end
 
   version :cover_standard, from: :natural do

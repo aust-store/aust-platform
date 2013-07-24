@@ -15,26 +15,30 @@
       <p id="notice"><%= notice %></p>
     <% end %>
 
-    <div>
-      <p>
-        Envia uma nova imagem para este item. As imagens aparecem automaticamente
-        na sua loja virtual.
-      </p>
-      <%= simple_form_for(
-            :item,
-            url: admin_inventory_item_images_path,
-            html: { multipart: true,
-                    class: "form-upload image" },
-            remote: false
+    <p>
+      Envia uma nova imagem para este item. As imagens aparecem automaticamente
+      na sua loja virtual.
+    </p>
+    <%= simple_form_for(
+          :item,
+          url: admin_inventory_item_images_path,
+          html: { multipart: true,
+                  class: "form-upload image" },
+          remote: false
       ) do |f| %>
-        <%= f.simple_fields_for :images, @item.images.last do |image_form| %>
-          <%= image_form.file_field :image %>
-          <br /><br />
-          <%= f.submit  'Enviar arquivos' %>
-        <% end %>
+      <%= f.simple_fields_for :images, @item.images.last do |image_form| %>
+        <%= image_form.file_field :image %>
+        <br /><br />
+        <%= f.submit  'Enviar arquivos' %>
       <% end %>
+    <% end %>
 
-    </div>
+    <br />
+    <p class="hint">
+      <strong>Dica:</strong> A imagem de capa é redimensionada para 170x127
+      pixels (aspecto 4:3). Se você usar uma imagem com aspecto 3:2, uma parte
+      será cortada.
+    </p>
 
   </div>
 
