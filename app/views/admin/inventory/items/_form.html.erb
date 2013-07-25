@@ -33,6 +33,16 @@
 
 <div class="secondary_fields">
   <%= item.input :description %>
+
+  <% if item.object.new_record? %>
+    <%= item.simple_fields_for :images do |image_form| %>
+      <%= image_form.input :image,
+        as: :file,
+        hint: t(".image_upload_hint")
+      %>
+    <% end %>
+  <% end %>
+
   <%= item.simple_fields_for :prices do |price| %>
     <%= price.input :value,
       as: :string,

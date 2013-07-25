@@ -27,7 +27,7 @@
           remote: false
       ) do |f| %>
       <%= f.simple_fields_for :images, @item.images.last do |image_form| %>
-        <%= image_form.file_field :image %>
+        <%= image_form.input :image, as: :file %>
         <br /><br />
         <%= f.submit  'Enviar arquivos' %>
       <% end %>

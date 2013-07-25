@@ -11,7 +11,7 @@
 <div class="main_container">
   <div class="new_item_or_entries form">
 
-    <%= simple_form_for([:admin, @item]) do |f| %>
+    <%= simple_form_for([:admin, @item], html: { multipart: true }) do |f| %>
       <%= render 'form', item: f %>
     <% end %>
 

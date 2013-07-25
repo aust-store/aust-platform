@@ -25,6 +25,7 @@ module View
         if model.new_record?
           model.entries.build      if model.entries.blank?
           model.build_manufacturer if model.manufacturer.blank?
+          model.images.build       if model.images.blank?
         end
 
         model.prices.build       if model.prices.blank?

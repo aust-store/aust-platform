@@ -37,3 +37,4 @@ pt_br:
               precisamos saber o tamanho da caixa que será despachada
               pelos Correios.
             tip: "Se você não definir as dimensões da caixa, o produto não será posto à venda."
+          image_upload_hint: "Acrescenta uma imagem de capa. Redimensionará para 170x127 pixels (aspect 4:3)."

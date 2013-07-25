@@ -2,6 +2,9 @@ input, textarea, select {
   font-size: 1em;
   color: #333;
 }
+input[type="file"] {
+  font-size: 0.9em;
+}
 
 div.input {
   display: table;

@@ -13,6 +13,8 @@ pt_br:
         country:      "País"
       inventory_item:
         name: "Nome"
+      inventory_item_image:
+        image: "Imagem"
       user:
         first_name:   "Nome"
         last_name:    "Sobrenome"
