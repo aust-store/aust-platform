@@ -26,26 +26,20 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def new
-    @item = current_company.items.new
-    @item.entries.build if @item.entries.blank?
+    item = current_company.items.new
 
-    build_item_associations
-    @item.build_manufacturer if @item.manufacturer.blank?
+    @item = View::Form::InventoryItem.new(self).form_object(item)
   end
 
   def edit
     @show_entry_fields = false
-    @item = current_company.items.includes(:shipping_box).find(params[:id])
+    item = current_company.items.includes(:shipping_box).find(params[:id])
 
-    build_item_associations
-    @item.build_manufacturer if @item.manufacturer.blank?
-    @item = DecorationBuilder.inventory_items(@item)
+    @item = View::Form::InventoryItem.new(self).form_object(item)
   end
 
   def create
-    delete_params_before_saving
-    set_company_and_admin_to_new_manufacturer
-    set_store_and_admin_user_to_entries
+    cleanup_params_before_saving
 
     @item = current_company.items.new(params[:inventory_item].merge(user: current_user))
     build_item_associations
@@ -55,16 +49,13 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       redirect_to admin_inventory_items_url
     else
       build_nested_fields_errors
-      @item.build_manufacturer if @item.manufacturer.blank?
-      @item = DecorationBuilder.inventory_items(@item)
+      @item = View::Form::InventoryItem.new(self).form_object(@item)
       render "new"
     end
   end
 
   def update
-    delete_params_before_saving
-    set_company_and_admin_to_new_manufacturer
-    set_store_and_admin_user_to_entries
+    cleanup_params_before_saving
 
     @item = current_company.items.find params[:id]
     build_item_associations
@@ -72,10 +63,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     if @item.update_attributes params[:inventory_item]
       redirect_to admin_inventory_item_url(@item)
     else
-      build_item_associations
-      @item.build_manufacturer if @item.manufacturer.blank?
       build_nested_fields_errors
-      @item = DecorationBuilder.inventory_items(@item)
+      @item = View::Form::InventoryItem.new(self).form_object(@item)
       render "edit"
     end
   end
@@ -111,16 +100,29 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item.build_shipping_box if @item.shipping_box.blank?
   end
 
-  def set_store_and_admin_user_to_entries
+  def cleanup_params_before_saving
+    # deletes params that are invalid e shouldn't be used to generate a
+    # resource
+    params[:inventory_item].delete(:taxonomy_attributes)
+
+    if params[:inventory_item][:manufacturer_attributes].present? && params[:inventory_item][:manufacturer_attributes][:name].present?
+      params[:inventory_item].delete(:manufacturer_id)
+    elsif params[:inventory_item][:manufacturer_id].present?
+      params[:inventory_item].delete(:manufacturer_attributes)
+    else
+      params[:inventory_item].delete(:manufacturer_attributes)
+      params[:inventory_item].delete(:manufacturer_id)
+    end
+
+    #def set_store_and_admin_user_to_entries
     if params[:inventory_item][:entries_attributes].present?
       params[:inventory_item][:entries_attributes].each do |key, value|
         params[:inventory_item][:entries_attributes][key][:admin_user_id] = current_user.id
         params[:inventory_item][:entries_attributes][key][:store_id] = current_company.id
       end
     end
-  end
 
-  def set_company_and_admin_to_new_manufacturer
+    # def set_company_and_admin_into_new_manufacturer
     if params[:inventory_item][:manufacturer_attributes].present?
       if params[:inventory_item][:manufacturer_attributes][:name].present?
         params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id
@@ -135,18 +137,5 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item.valid?
     @item.errors.messages.delete(:taxonomy_id)
     @item.errors.messages.delete(:manufacturer_id)
-  end
-
-  def delete_params_before_saving
-    params[:inventory_item].delete(:taxonomy_attributes)
-
-    if params[:inventory_item][:manufacturer_attributes].present? && params[:inventory_item][:manufacturer_attributes][:name].present?
-      params[:inventory_item].delete(:manufacturer_id)
-    elsif params[:inventory_item][:manufacturer_id].present?
-      params[:inventory_item].delete(:manufacturer_attributes)
-    else
-      params[:inventory_item].delete(:manufacturer_attributes)
-      params[:inventory_item].delete(:manufacturer_id)
-    end
   end
 end
