@@ -13,7 +13,7 @@ feature "Company Settings", js: true do
       page.should have_content I18n.t("simple_form.labels.company_setting.zipcode")
       fill_in "company_setting_zipcode", with: "12345678"
 
-      click_button I18n.t("helpers.submit.company_setting.update")
+      click_link I18n.t("helpers.submit.company_setting.update")
       page.should have_content I18n.t("admin.default_messages.update.success")
     end
   end

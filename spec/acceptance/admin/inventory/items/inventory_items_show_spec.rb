@@ -73,11 +73,11 @@ feature "Inventory Item Management" do
           page.should have_content "R$ 12,34"
 
           # deselects the entry with price R$ 12,00
-          find("#inventory_item_entries_attributes_0_on_sale").set(false)
-          find("#inventory_item_entries_attributes_1_on_sale").set(false)
-          find("#inventory_item_entries_attributes_2_on_sale").set(false)
+          uncheck("inventory_item_entries_attributes_0_on_sale")
+          uncheck("inventory_item_entries_attributes_1_on_sale")
+          uncheck("inventory_item_entries_attributes_2_on_sale")
           within "#entries_on_sale" do
-            click_button "Salvar modificações"
+            click_on "submit"
           end
 
           @item.entries.pluck(:on_sale).should == [false, false, false]
