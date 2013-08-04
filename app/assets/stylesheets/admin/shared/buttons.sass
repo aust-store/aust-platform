@@ -1,0 +1,27 @@
+/* #encoding: utf-8 */
+/* Buttons */
+$btn_background: #ebebeb
+$red_button: lighten(red, 17%)
+
+a.btn
+  display: inline-block
+  text-decoration: none !important
+  outline: none
+  border-radius: 50px
+  background: $btn_background
+  padding: 4px 10px 5px 10px
+  color: #595959
+  font-weight: bold
+
+  &:hover
+    background: lighten($btn_background, 3%)
+    color: green
+  &:active
+    background: darken($btn_background, 7%)
+    color: green
+
+  &.has_image
+    background-repeat: no-repeat
+    padding-left: 26px
+    background-position: 6px 5px
+

@@ -2,11 +2,16 @@
   <div class="context_menu">
     <div class="context_menu_container">
       <div class="button">
-        <%= small_button admin_inventory_item_image_path(@item, image, set_cover: true), text: "Definir como capa", method: :put %>
+        <%= small_button "Definir como capa",
+          admin_inventory_item_image_path(@item, image, set_cover: true),
+          method: :put %>
       </div>
 
       <div class="button delete">
-        <%= small_button admin_inventory_item_image_path(@item, image), text: "Excluir", class: "red", method: :delete %>
+        <%= small_button "Excluir",
+          admin_inventory_item_image_path(@item, image),
+          class: "red",
+          method: :delete %>
       </div>
     </div>
   </div>

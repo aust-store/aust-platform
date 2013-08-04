@@ -21,16 +21,15 @@
     <%= f.input :on_sale, as: :hidden, input_html: { value: !entry.on_sale? } %>
     <input type="hidden" name="redirect_to" value="<%= url_for %>" />
     <% label = entry.on_sale? ? "Parar a venda deste item" : "Começar a venda deste item" %>
-    <%= small_button "javascript: void(0)", text: label, id: "submit_link" %>
+    <%= small_button label, "javascript: void(0)", id: "submit_link" %>
     <input type="submit" id="switch_on_sale" value="Salvar modificações">
   <% end %>
 </div>
 
 <br clear="both" />
 <br clear="both" />
-<%= small_button new_admin_inventory_item_entry_path(@item),
-      text:  "Nova entrada no estoque",
-      image: 'admin/icons/plus_16.png',
-      id:    'add_item_entry',
-      class: "round_icon"
+<%= small_button "Nova entrada no estoque",
+  new_admin_inventory_item_entry_path(@item),
+  image: 'admin/icons/plus_16.png',
+  id:    'add_item_entry',
 %>

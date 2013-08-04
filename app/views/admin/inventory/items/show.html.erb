@@ -9,8 +9,7 @@
     <h1>
       <%= @item.name %>
     </h1>
-    <%= small_button edit_admin_inventory_item_path(@item),
-      text: "Editar este item",
+    <%= small_button "Editar este item", edit_admin_inventory_item_path(@item),
       id: "edit_item",
       image: 'admin/icons/edit_16.png' %>
   </div>
@@ -89,7 +88,7 @@
       <div class="subsection">
         <%= render partial: "show_images", locals: { images: @item_images } %>
       </div>
-      <%= small_button admin_inventory_item_images_path(@item), text: "Gerenciar imagens", id: "manage_images" %>
+      <%= small_button "Gerenciar imagens", admin_inventory_item_images_path(@item), id: "manage_images" %>
     </div>
   </div>
 

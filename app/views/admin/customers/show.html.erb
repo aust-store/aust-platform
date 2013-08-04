@@ -21,10 +21,10 @@
     <%= @customer.description %>
   </p>
 
-  <%= small_button edit_admin_customer_path(@customer), text: t('admin.customers.show.edit') %>
-  <%= small_button admin_customer_path(@customer), text: t('admin.customers.show.delete'), method: :delete %>
-  <%= small_button admin_customer_account_receivables_path(@customer), text: t('admin.customers.show.accounts_receivable') %>
-  <%= small_button new_admin_customer_account_receivable_path(@customer), text: t('admin.customers.show.new_debt') %>
+  <%= small_button t('admin.customers.show.edit'), edit_admin_customer_path(@customer) %>
+  <%= small_button t('admin.customers.show.delete'), admin_customer_path(@customer), method: :delete %>
+  <%= small_button t('admin.customers.show.accounts_receivable'), admin_customer_account_receivables_path(@customer) %>
+  <%= small_button t('admin.customers.show.new_debt'), new_admin_customer_account_receivable_path(@customer) %>
 </div>
 <div class="main_container section">
 

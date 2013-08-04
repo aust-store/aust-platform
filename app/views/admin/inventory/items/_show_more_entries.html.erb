@@ -21,20 +21,15 @@
         </tr>
       <% end %>
     </table>
-    <%= small_button "#", text: "Salvar modificações", id: "submit_link" %>
-    <input type="submit" value="Salvar modificações">
+    <%= small_button "Salvar modificações", "#", id: "submit_link" %>
 
     <br />
     <br />
   <% end %>
 </p>
 
-<%= small_button new_admin_inventory_item_entry_path(@item),
-  text:  'Nova entrada',
+<%= small_button 'Nova entrada', new_admin_inventory_item_entry_path(@item),
   image: 'admin/icons/plus_16.png',
-  id:    'add_item_entry',
-  class: "round_icon"
+  id:    'add_item_entry'
 %>
-<%= small_button admin_inventory_item_entries_path(@item),
-  text: "Ver estoque"
-%>
+<%= small_button "Ver estoque", admin_inventory_item_entries_path(@item) %>

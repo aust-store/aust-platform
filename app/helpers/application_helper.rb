@@ -5,45 +5,24 @@ module ApplicationHelper
   end
 
   # BUTTONS & ELEMENTS
-  def small_button routing_resource, options
-    has_image_class, image_styling = '', ''
+  def small_button(text, routing_resource, options = {})
+    button_classes = []
+
     # has_image
     unless options[:image].blank?
-      image_styling = 'style="background-image: url('+ asset_path(options[:image]) +')"'
-      has_image_class = 'has_image'
+      options[:style] = "background-image: url(#{asset_path(options[:image])})"
+      button_classes << 'has_image'
     end
 
-    # has_text
-    unless options[:text].blank?
-      text = options[:text]
-      text_styling = 'text'
-    end
+    # has no text
+    button_classes << "no_text" if text.blank?
 
-    # has_image but no text
-    if options[:text].blank? && !options[:image].blank?
-      has_image_class = 'has_image_only'
-    end
-    
-    options.delete(:text) unless options[:text].blank?
     options.delete(:image) unless options[:image].blank?
 
     options[:class] = "" unless options.has_key?(:class)
-    options[:class] << ' css_button_anchor'
-    if options.include?(:big)
-      options[:class] << ' big round'
-    else
-      options[:class] << ' small'
-    end
-    
-    button_content = '<span class="css_button '+ has_image_class +'" '+ image_styling +'>'
-    button_content << '<span class="css_button_container '+ (text_styling || '') +'">'+ (text || '') +'</span>'
-    button_content << '</span>'
-    
-    button = raw link_to(raw(button_content), routing_resource, options )
-  end
-  
-  def big_button routing_resource, options
-    options[:big] = true
-    small_button routing_resource, options
+    options[:class] << " #{button_classes.join(" ")}"
+    options[:class] << " btn"
+
+    raw link_to(raw(text), routing_resource, options)
   end
 end

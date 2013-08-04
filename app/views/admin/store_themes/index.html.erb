@@ -23,8 +23,8 @@
 
           <% unless current_theme(theme) %>
             <div class="">
-              <%= small_button(admin_store_theme_path(theme),
-                text: t(".select_theme_button"),
+              <%= small_button t(".select_theme_button"),
+                admin_store_theme_path(theme),
                 method: :put,
                 title: "select_theme") %>
             </div>

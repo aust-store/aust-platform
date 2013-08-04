@@ -26,6 +26,6 @@
   <br />
   <div>
     <%= paginate @customers %>
-    <%= small_button new_admin_customer_path, text: t('admin.customers.index.new_customer'), image: 'admin/icons/plus_16.png', class: "round_icon.customers" %>
+    <%= small_button t('admin.customers.index.new_customer'), new_admin_customer_path, image: 'admin/icons/plus_16.png' %>
   </div>
 </div>

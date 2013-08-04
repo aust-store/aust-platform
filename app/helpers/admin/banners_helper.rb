@@ -3,10 +3,10 @@ module Admin::BannersHelper
     unless Store::Policy::Company::Banners.new(@company).eligible?
       "<p style='color:red'>#{t('admin.banners.message.full')}</p>".html_safe
     else
-      small_button new_admin_banner_path,
-        text: t('admin.banners.index.new_banner'),
+      small_button t('admin.banners.index.new_banner'),
+        new_admin_banner_path,
         image: 'admin/icons/plus_16.png',
-        class: "round_icon.banners"
+        class: "banners"
     end
   end
 

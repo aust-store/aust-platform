@@ -4,9 +4,8 @@
   para começar a venda deste produto.
 </p>
 
-<%= small_button new_admin_inventory_item_entry_path(@item),
-      text:  "Nova entrada no estoque",
-      image: 'admin/icons/plus_16.png',
-      id:    'add_item_entry',
-      class: "round_icon"
+<%= small_button "Nova entrada no estoque",
+  new_admin_inventory_item_entry_path(@item),
+  image: 'admin/icons/plus_16.png',
+  id:    'add_item_entry',
 %>

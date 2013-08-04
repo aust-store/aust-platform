@@ -34,6 +34,8 @@
   <br />
 
   <% if can? :manage, AdminUser %>
-    <%= small_button new_admin_user_path, :text => "Adicionar usuário", :image => 'admin/icons/plus_16.png', class: "round_icon" %>
+    <%= small_button "Adicionar usuário",
+      new_admin_user_path,
+      image: 'admin/icons/plus_16.png' %>
   <% end %>
 </div>
