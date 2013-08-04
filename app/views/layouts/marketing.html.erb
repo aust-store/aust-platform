@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aust Lojas</title>
+  <%= stylesheet_link_tag "marketing/application_manifest", :media => "all" %>
+  <%= javascript_include_tag "marketing/application_manifest" %>
+  <%= airbrake_javascript_notifier %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
+
+  <div id="header">
+    <div class="header_container">
+      <div class="row">
+        <div class="span5 title">
+          <h1>
+            <%= image_tag "marketing/aust_logo.png" %>
+          </h1>
+          <p>
+            Lojas nas internet
+          </p>
+        </div>
+        <div class="span7 links">
+          <ul>
+            <li>
+              <%= link_to "Planos", "" %>
+            </li>
+            <li>
+              <%= link_to "Contato", "" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="central_body">
+    <div id="merchan">
+      <div class="merchan_container">
+        <div class="merchan_image">
+          <div class="main_page_central_transitional_banners" data-cycle-timeout="7000">
+            <%= image_tag "marketing/aust_sales_merchan.jpg" %>
+            <%= image_tag "marketing/aust_sales_merchan2.jpg" %>
+
+          </div>
+        </div>
+
+        <div class="span5 intro_details">
+          <div class="intro_container">
+            <h1>Venda pela internet</h1>
+
+            <p>
+              Administre sua própria loja na internet. Aumente seu
+              faturamento com planos mensais sob medida.
+            </p>
+
+            <ul>
+              <li><span class="arrow">►</span> Compras com boleto e cartão de crédito</li>
+              <li><span class="arrow">►</span> Carrinho de compras automatizado</li>
+              <li><span class="arrow">►</span> Controle de estoque</li>
+              <li><span class="arrow">►</span> Envie imagens do seu celular</li>
+              <li><span class="arrow">►</span> Controle de estoque</li>
+            </ul>
+            <p>
+              <%= link_to "Ver planos", "#", class: "btn green merchan" %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div class="main_container">
+
+        <div class="screenshot row">
+          <div class="span5 images">
+            <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
+          </div>
+          <div class="span5 text">
+            haaa
+          </div>
+        </div>
+
+        <!-- Begin MailChimp Signup Form -->
+        <div id="mc_embed_signup">
+          <form action="http://austapp.us7.list-manage.com/subscribe/post?u=62a1f517788a8ef31207a53ee&amp;id=2f84d0c7d7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <h3>Entre seu email para receber convites para a versão betão</h3>
+            <div class="mc-field-group">
+              <label for="mce-EMAIL">Email Address </label>
+              <input type="email" value="" name="EMAIL" class="required   email" id="mce-EMAIL">
+            </div>
+            <div class="mc-field-group">
+              <label for=for"mce-FNAME">First Name </label>
+              <input type="text" value="" name="FNAMEE" class="" id="mce-FNAME">
+            </div>
+            <div class="mc-field-group">
+              <label for="mce-LNAME">Last Name </label>
+              <input type="text" value="" name="nameLNAME" class="" id="mce-LNAME">
+            </div>
+            <div id="mce-responses" class="classclear">
+              <div class="response" id="mce-error-response" style="display:stylenone"></div>
+              <div class="response" id="mce-success-response" style="displayisplay:none"></div>
+            </div><div class="clear"><input type="submit" validateue="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+          </form>
+        </div>
+
+        <!--End mc_embed_signup-->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

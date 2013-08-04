@@ -79,6 +79,9 @@ module Store
     config.assets.precompile += ["offline/application_manifest.js"]
     config.assets.precompile += ["offline/application_manifest.css"]
 
+    config.assets.precompile += ["marketing/application_manifest.js"]
+    config.assets.precompile += ["marketing/application_manifest.css"]
+
     config.assets.precompile += ["mobile_admin/application_manifest.js"]
     config.assets.precompile += ["mobile_admin/application_manifest.css"]
     config.assets.precompile += ["mobile_admin/sign_in_manifest.css"]
