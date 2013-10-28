@@ -10,7 +10,7 @@ gem 'rails', '~>4'
   gem 'activerecord-deprecated_finders'
 
 # Database
-  gem 'pg', '0.14.0'
+  gem 'pg', '0.17.0'
   gem 'pg_search'
 
 # Model extensions
