@@ -1,19 +1,13 @@
 require "router_constraints"
 
 Store::Application.routes.draw do
+  api_actions = [:index, :create, :update, :show]
+
   devise_for :super_admin_user,
     path: "super_admin",
     controllers: {
       sessions: "super_admin/sessions"
     }
-
-  api_actions = [:index, :create, :update, :show]
-
-  namespace :consultor do
-    resources :home, only: [:index]
-
-    root :to => 'home#index'
-  end
 
   devise_for :admin_users,
     path: "admin",
@@ -34,6 +28,12 @@ Store::Application.routes.draw do
       registrations: "store/devise/registrations",
       sessions: "store/devise/sessions"
     }
+
+  namespace :consultor do
+    resources :home, only: [:index]
+
+    root :to => 'home#index'
+  end
 
   namespace :super_admin, path: "super_admin" do
     resource :dashboard, controller: 'dashboard', only: [:show]
@@ -134,33 +134,43 @@ Store::Application.routes.draw do
     root to: 'inventory/items#index'
   end
 
-  resource :cart, only: [:show, :update], controller: "store/cart" do
-    resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
+  #
+  # MAIN STORE PAGE
+  #
+  constraints RouterConstraints::Store.new do
+    resource :cart, only: [:show, :update], controller: "store/cart" do
+      resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
+    end
+
+    resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
+
+    namespace :checkout, module: 'store/checkout' do
+      resource :shipping, only: [:show, :update], controller: "shipping"
+      resource :payment,  only: [:show], controller: "payment"
+      resource :success,  only: [:show], controller: "success"
+    end
+
+    resources :products, only: [:show], controller: "store/products"
+    resources :pages,    only: [:show], controller: "store/pages"
+    resource  :contact,  only: [:new, :create], controller: "store/contact" do
+      get :success
+    end
+
+    namespace :gateway_notifications, module: 'store/gateway_notifications' do
+      resource :pagseguro, only: :create, controller: "pagseguro"
+    end
+
+    root :to => 'store/home#index', as: "root"
   end
 
-  resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
+  #
+  # MARKETING PAGE
+  #
+  constraints RouterConstraints::Marketing.new do
+    namespace :marketing do
+      resources :home, only: [:index]
 
-  namespace :checkout, module: 'store/checkout' do
-    resource :shipping, only: [:show, :update], controller: "shipping"
-    resource :payment,  only: [:show], controller: "payment"
-    resource :success,  only: [:show], controller: "success"
+    end
+    root :to => 'marketing/home#index', as: nil
   end
-
-  resources :products, only: [:show], controller: "store/products"
-  resources :pages,    only: [:show], controller: "store/pages"
-  resource  :contact,  only: [:new, :create], controller: "store/contact" do
-    get :success
-  end
-
-  namespace :gateway_notifications, module: 'store/gateway_notifications' do
-    resource :pagseguro, only: :create, controller: "pagseguro"
-  end
-
-  namespace :marketing do
-    resources :home, only: [:index]
-
-    root :to => 'home#index'
-  end
-
-  root :to => 'store/home#index'
 end

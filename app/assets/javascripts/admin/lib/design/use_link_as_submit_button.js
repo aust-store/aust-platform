@@ -16,9 +16,10 @@ $(document).ready(function() {
   });
 
   $('form input').keypress(function (e) {
-    if (e.which == 13)
+    if (e.which == 13) {
       $(this).closest('form').submit();
+    }
 
-    e.preventDefault();
+    return true;
   });
 });

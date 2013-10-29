@@ -9,7 +9,7 @@ describe Store::GatewayNotifications::PagseguroController do
       token: "1234"
     )
     @store.save
-    stub_subdomain(@store)
+    controller.stub(:current_store) { @store }
   end
 
   describe "POST create" do
