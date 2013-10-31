@@ -11,7 +11,8 @@ body
   margin: 0
   padding: 0
   background: #efefef
-  // background: #1a7bb0
+  background: #1a7bb0
+  background: #0A3C57
   color: #222
   font-size: 87%
   font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans", "Verdana", sans-serif
@@ -175,6 +176,7 @@ li
   .merchan_container
     margin: 0 auto
     width: 960px
+    height: 500px
     display: table
     background: white
     position: relative
@@ -188,10 +190,37 @@ li
       font-size: 0
       width: 960px
 
+  .cycle-pager
+    text-align: center
+    width: 100%
+    z-index: 500
+    position: absolute
+    bottom: 10px
+    // overflow: hidden
+
+    span
+      font-family: arial
+      font-size: 50px
+      width: 16px
+      height: 16px
+      display: inline-block
+      color: #fff
+      cursor: pointer
+      text-shadow: 0 0 2px black
+      margin: 1px
+      opacity: 0.7
+
+    span.cycle-pager-active
+      color: lighten(#165c85, 30%)
+      opacity: 1
+
+    > *
+      cursor: pointer
+
   .intro_details
     border-radius: 2px
     position: absolute
-    bottom: 30px
+    bottom: 0px
     left: 20px
     z-index: 6000
     background: #efefef

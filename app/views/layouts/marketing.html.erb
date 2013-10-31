@@ -38,35 +38,63 @@
   <div class="central_body">
     <div id="merchan">
       <div class="merchan_container">
-        <div class="merchan_image">
-          <div class="main_page_central_transitional_banners" data-cycle-timeout="7000">
-            <%= image_tag "marketing/aust_sales_merchan.jpg" %>
-            <%= image_tag "marketing/aust_sales_merchan2.jpg" %>
+        <div class="main_page_central_transitional_banners cycle-slideshow"
+          data-cycle-timeout="10000"
+          data-cycle-fx="scrollHorz"
+          data-cycle-swipe="true"
+          data-cycle-slides="div.slide">
+          <!-- empty element for pager links -->
+          <div class="cycle-pager"></div>
 
+          <div class="slide">
+            <div class="merchan_image">
+              <%= image_tag "marketing/merchan_admin.jpg" %>
+            </div>
+          </div>
+
+          <div class="slide">
+            <!--
+            <div class="span5 intro_details">
+              <div class="intro_container">
+                <h1>Venda pela internet</h1>
+
+                <p>
+                  Administre sua própria loja na internet. Aumente seu
+                  faturamento com planos mensais sob medida.
+                </p>
+
+                <ul>
+                  <li><span class="arrow">►</span> Compras com boleto e cartão de crédito</li>
+                  <li><span class="arrow">►</span> Carrinho de compras automatizado</li>
+                  <li><span class="arrow">►</span> Controle de estoque</li>
+                  <li><span class="arrow">►</span> Envie imagens do seu celular</li>
+                  <li><span class="arrow">►</span> Controle de estoque</li>
+                </ul>
+                <p>
+                  <%= link_to "Ver planos", "#", class: "btn green merchan" %>
+                </p>
+              </div>
+            </div>
+            -->
+
+            <div class="merchan_image">
+              <%= image_tag "marketing/aust_sales_merchan.jpg" %>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="merchan_image">
+              <%= image_tag "marketing/merchan_crowd.jpg" %>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="merchan_image">
+              <%= image_tag "marketing/merchan_money.jpg" %>
+            </div>
           </div>
         </div>
 
-        <div class="span5 intro_details">
-          <div class="intro_container">
-            <h1>Venda pela internet</h1>
-
-            <p>
-              Administre sua própria loja na internet. Aumente seu
-              faturamento com planos mensais sob medida.
-            </p>
-
-            <ul>
-              <li><span class="arrow">►</span> Compras com boleto e cartão de crédito</li>
-              <li><span class="arrow">►</span> Carrinho de compras automatizado</li>
-              <li><span class="arrow">►</span> Controle de estoque</li>
-              <li><span class="arrow">►</span> Envie imagens do seu celular</li>
-              <li><span class="arrow">►</span> Controle de estoque</li>
-            </ul>
-            <p>
-              <%= link_to "Ver planos", "#", class: "btn green merchan" %>
-            </p>
-          </div>
-        </div>
       </div>
     </div>
 
