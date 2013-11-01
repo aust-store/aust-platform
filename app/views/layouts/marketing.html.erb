@@ -17,7 +17,7 @@
             <%= image_tag "marketing/aust_logo.png" %>
           </h1>
           <p>
-            Lojas nas internet
+            Sua porta para a internet
           </p>
         </div>
         <div class="span7 links">
@@ -43,6 +43,7 @@
           data-cycle-fx="scrollHorz"
           data-cycle-swipe="true"
           data-cycle-slides="div.slide">
+
           <!-- empty element for pager links -->
           <div class="cycle-pager"></div>
 
@@ -53,30 +54,6 @@
           </div>
 
           <div class="slide">
-            <!--
-            <div class="span5 intro_details">
-              <div class="intro_container">
-                <h1>Venda pela internet</h1>
-
-                <p>
-                  Administre sua própria loja na internet. Aumente seu
-                  faturamento com planos mensais sob medida.
-                </p>
-
-                <ul>
-                  <li><span class="arrow">►</span> Compras com boleto e cartão de crédito</li>
-                  <li><span class="arrow">►</span> Carrinho de compras automatizado</li>
-                  <li><span class="arrow">►</span> Controle de estoque</li>
-                  <li><span class="arrow">►</span> Envie imagens do seu celular</li>
-                  <li><span class="arrow">►</span> Controle de estoque</li>
-                </ul>
-                <p>
-                  <%= link_to "Ver planos", "#", class: "btn green merchan" %>
-                </p>
-              </div>
-            </div>
-            -->
-
             <div class="merchan_image">
               <%= image_tag "marketing/aust_sales_merchan.jpg" %>
             </div>
@@ -106,34 +83,95 @@
             <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
           </div>
           <div class="span5 text">
-            haaa
+            <h1>Mais que uma loja</h1>
+
+            <p>
+              Em 2013, o total em faturamento ultrapassou os 4 bilhões de reais.
+              Esse número vem crescendo em média 30% nos últimos 5 anos.
+            </p>
+            <!-- http://www.ebit.com.br/webshoppers -->
+            <p>
+              Para empresas, ter uma loja na internet em breve será como ter um
+              telefone.
+            </p>
           </div>
         </div>
+      </div>
 
-        <!-- Begin MailChimp Signup Form -->
-        <div id="mc_embed_signup">
-          <form action="http://austapp.us7.list-manage.com/subscribe/post?u=62a1f517788a8ef31207a53ee&amp;id=2f84d0c7d7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-            <h3>Entre seu email para receber convites para a versão betão</h3>
-            <div class="mc-field-group">
-              <label for="mce-EMAIL">Email Address </label>
-              <input type="email" value="" name="EMAIL" class="required   email" id="mce-EMAIL">
-            </div>
-            <div class="mc-field-group">
-              <label for=for"mce-FNAME">First Name </label>
-              <input type="text" value="" name="FNAMEE" class="" id="mce-FNAME">
-            </div>
-            <div class="mc-field-group">
-              <label for="mce-LNAME">Last Name </label>
-              <input type="text" value="" name="nameLNAME" class="" id="mce-LNAME">
-            </div>
-            <div id="mce-responses" class="classclear">
-              <div class="response" id="mce-error-response" style="display:stylenone"></div>
-              <div class="response" id="mce-success-response" style="displayisplay:none"></div>
-            </div><div class="clear"><input type="submit" validateue="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-          </form>
+      <div class="features">
+
+        <div class="feature">
+          <h2>Controle de estoque</h2>
+          <%= image_tag "marketing/feature_inventory.png" %>
+          <p>
+            Venda de mercadorias cessa automaticamente caso preciso.
+          </p>
         </div>
 
-        <!--End mc_embed_signup-->
+        <div class="feature">
+          <h2>Gestão de temas</h2>
+          <%= image_tag "marketing/feature_themes.jpg" %>
+          <p>
+            Escolha temas prontos ou opte por um design
+            customizado.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h2>Segurança</h2>
+          <%= image_tag "marketing/feature_safety.jpg" %>
+          <p>
+            Criptografia SSL, a mesma usada em sites de bancos.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h2>Suporte</h2>
+          <%= image_tag "marketing/feature_support.jpg" %>
+          <p>
+            Nosso sucesso depende do seu.
+            Bom atendimento é nossa meta.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="main_container beta">
+
+        <div class="row">
+          <div class="span4">
+            <br />
+            <%= image_tag "marketing/beta.jpg" %>
+          </div>
+          <div class="span6">
+            <!-- Begin MailChimp Signup Form -->
+            <div id="mc_embed_signup">
+              <form action="http://austapp.us7.list-manage.com/subscribe/post?u=62a1f517788a8ef31207a53ee&amp;id=2f84d0c7d7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                <h3>
+                  Entre seu email para receber convites para a versão beta
+                </h3>
+
+                <div class="mc-field-group">
+                  <label for="mce-EMAIL">Seu email: </label>
+                  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+                </div>
+                <div class="mc-field-group">
+                  <label for=for"mce-FNAME">Nome: </label>
+                  <input type="text" value="" name="FNAMEE" class="" id="mce-FNAME">
+                </div>
+                <div class="mc-field-group">
+                  <label for="mce-LNAME">Last Name </label>
+                  <input type="text" value="" name="nameLNAME" class="" id="mce-LNAME">
+                </div>
+                <div id="mce-responses" class="classclear">
+                  <div class="response" id="mce-error-response" style="display:stylenone"></div>
+                  <div class="response" id="mce-success-response" style="displayisplay:none"></div>
+                </div><div class="clear"><input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+              </form>
+            </div>
+
+            <!--End mc_embed_signup-->
+          </div>
       </div>
     </div>
   </div>
