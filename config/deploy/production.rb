@@ -1,6 +1,7 @@
 
 set :deploy_to, "/var/www/#{application}"
 set :rails_env, "production"
+set :branch, "production"
 set :user, "deploy"
 
 default_run_options[:pty] = true
