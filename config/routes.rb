@@ -171,6 +171,6 @@ Store::Application.routes.draw do
       resources :home, only: [:index]
 
     end
-    root :to => 'marketing/home#index', as: nil
+    root :to => 'marketing/home#index', as: :marketing_root
   end
 end

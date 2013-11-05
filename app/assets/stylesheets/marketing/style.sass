@@ -13,6 +13,7 @@ body
   background: #efefef
   background: #1a7bb0
   background: #0A3C57
+  background: image-url('marketing/body_bg_top.jpg') repeat-x #f7f7f7
   color: #222
   font-size: 87%
   font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans", "Verdana", sans-serif
@@ -109,9 +110,9 @@ li
 
 .central_body
   width: 960px
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2)
-  margin: 0 auto
-  background: red
+  padding-bottom: 5px
+  //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2)
+  margin: 0 auto 0 auto
 
 #header
   width: 100%
@@ -135,7 +136,7 @@ li
     p
       font-size: 0.8em
       left: 18px
-      top: -1px
+      top: -2px
       position: relative
       color: #777
 
@@ -149,7 +150,7 @@ li
 
     li
       float: left
-      padding: 20px 0 0 0
+      padding: 14px 0 0 0
     a
       padding: 5px 12px
       margin: 0 5px
@@ -157,7 +158,7 @@ li
       font-size: 1.4em
       &:hover
         text-decoration: none
-        background: #fbfbfb
+        background: #f3f3f3
         border-radius: 50px
 
 #merchan
@@ -262,19 +263,32 @@ a.btn
 #main
   margin: 0 auto
   margin-bottom: 25px
-  padding-top: 15px
+  padding-top: 0
   width: 960px
   display: table
   background: white
 
   .main_container
-    margin: 10px
+    margin: 30px 0
+    width: 960px
     display: table
 
   .screenshot
+    width: 900px
     padding: 0 30px 0 30px
     img.admin
       width: 400px
+
+  .nfe
+    width: 900px
+    border-top: 1px solid #eee
+    padding: 30px 30px 0 30px
+    .image, .text
+      float: left
+    .image
+      width: 100px
+    .text
+      margin-top: 10px
 
   .features
     padding: 15px 10px
@@ -299,7 +313,41 @@ a.btn
         padding: 0 3px
         font-size: 1em
   .beta
+    width: 900px
+    border-top: 1px solid #eee
     padding: 30px
+    margin-bottom: 0
+    color: white
+    background: image-url("marketing/beta_bg.jpg") repeat-x #295e84
 
-    h3
+    h2
       font-weight: normal
+      color: white
+
+    div.email_field, div.submit
+      float: left
+
+    div.email_field
+      width: 615px
+      label
+        margin-top: 10px
+        font-size: 1.6em
+        width: 170px
+      input
+        height: 42px
+        width: 400px
+        margin: 0 0 0 8px
+        padding: 0 10px
+        font-size: 1.6em
+      .hint
+        margin: 0 0 0 185px
+        font-size: 0.8em
+        color: #ddd
+
+    input.button
+      background: image-url("marketing/beta_submit.png") no-repeat
+      height: 44px
+      width: 159px
+      border: 0
+      font-size: 1.8em
+      color: white

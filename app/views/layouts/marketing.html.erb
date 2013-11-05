@@ -7,7 +7,7 @@
   <%= airbrake_javascript_notifier %>
   <%= csrf_meta_tags %>
 </head>
-<body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
+<body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %> marketing_page">
 
   <div id="header">
     <div class="header_container">
@@ -21,6 +21,7 @@
           </p>
         </div>
         <div class="span7 links">
+          <!--
           <ul>
             <li>
               <%= link_to "Planos", "" %>
@@ -29,6 +30,7 @@
               <%= link_to "Contato", "" %>
             </li>
           </ul>
+          -->
         </div>
       </div>
 
@@ -39,7 +41,7 @@
     <div id="merchan">
       <div class="merchan_container">
         <div class="main_page_central_transitional_banners cycle-slideshow"
-          data-cycle-timeout="10000"
+          data-cycle-timeout="16000"
           data-cycle-fx="scrollHorz"
           data-cycle-swipe="true"
           data-cycle-slides="div.slide">
@@ -55,12 +57,6 @@
 
           <div class="slide">
             <div class="merchan_image">
-              <%= image_tag "marketing/aust_sales_merchan.jpg" %>
-            </div>
-          </div>
-
-          <div class="slide">
-            <div class="merchan_image">
               <%= image_tag "marketing/merchan_crowd.jpg" %>
             </div>
           </div>
@@ -70,36 +66,21 @@
               <%= image_tag "marketing/merchan_money.jpg" %>
             </div>
           </div>
+
+          <!--
+          <div class="slide">
+            <div class="merchan_image">
+              <%= image_tag "marketing/aust_sales_merchan.jpg" %>
+            </div>
+          </div>
+          -->
         </div>
 
       </div>
     </div>
 
     <div id="main">
-      <div class="main_container">
-
-        <div class="screenshot row">
-          <div class="span5 images">
-            <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
-          </div>
-          <div class="span5 text">
-            <h1>Mais que uma loja</h1>
-
-            <p>
-              Em 2013, o total em faturamento ultrapassou os 4 bilhões de reais.
-              Esse número vem crescendo em média 30% nos últimos 5 anos.
-            </p>
-            <!-- http://www.ebit.com.br/webshoppers -->
-            <p>
-              Para empresas, ter uma loja na internet em breve será como ter um
-              telefone.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div class="features">
-
         <div class="feature">
           <h2>Controle de estoque</h2>
           <%= image_tag "marketing/feature_inventory.png" %>
@@ -136,37 +117,80 @@
 
       </div>
 
-      <div class="main_container beta">
-
-        <div class="row">
-          <div class="span4">
-            <br />
-            <%= image_tag "marketing/beta.jpg" %>
+      <div class="main_container">
+        <div class="screenshot row">
+          <div class="span5 images">
+            <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
           </div>
-          <div class="span6">
+          <div class="span5 text">
+            <h1>De olho no futuro</h1>
+
+            <p>
+              Em 2012, o faturamento total em e-commerce no Brasil atingiu a
+              marca dos 23 bilhões de reais. Esse número vem crescendo em
+              média 30% nos últimos 5 anos.
+            </p>
+            <!-- http://www.ebit.com.br/webshoppers -->
+            <p>
+              Para empresas de qualquer tamanho,
+              ter uma loja na internet em breve será como ter um
+              telefone. Micro negócios podem competir de igual para igual com
+              grandes empresas.
+            </p>
+
+            <p>
+              Modernize sua empresa e tenha um vendedor trabalhando
+              24h por dia, 7 dias por semana.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="main_container">
+        <div class="nfe row">
+          <div class="image">
+            <%= image_tag "marketing/nfe_brasil.jpg", class: "admin" %>
+          </div>
+          <div class="text">
+            <p>
+              <strong>Nota Fiscal Eletrônica:</strong>
+              conexão com a Secretaria da Fazenda do seu estado automaticamente
+              após cada venda.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="main_container beta">
+        <div class="row">
+          <div class="span11">
+            <h2>Inscreva-se</h2>
+            <p>
+              Receba um convite para usar o Aust. Entre seu email abaixo
+              para entrar na lista de espera. Estamos liberando convites
+              gradualmente para novos clientes.
+            </p>
+
             <!-- Begin MailChimp Signup Form -->
             <div id="mc_embed_signup">
               <form action="http://austapp.us7.list-manage.com/subscribe/post?u=62a1f517788a8ef31207a53ee&amp;id=2f84d0c7d7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                <h3>
-                  Entre seu email para receber convites para a versão beta
-                </h3>
 
-                <div class="mc-field-group">
-                  <label for="mce-EMAIL">Seu email: </label>
-                  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-                </div>
-                <div class="mc-field-group">
-                  <label for=for"mce-FNAME">Nome: </label>
-                  <input type="text" value="" name="FNAMEE" class="" id="mce-FNAME">
-                </div>
-                <div class="mc-field-group">
-                  <label for="mce-LNAME">Last Name </label>
-                  <input type="text" value="" name="nameLNAME" class="" id="mce-LNAME">
-                </div>
                 <div id="mce-responses" class="classclear">
                   <div class="response" id="mce-error-response" style="display:stylenone"></div>
                   <div class="response" id="mce-success-response" style="displayisplay:none"></div>
-                </div><div class="clear"><input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                </div>
+
+                <div class="email_field mc-field-group">
+                  <label for="mce-EMAIL">Seu email: </label>
+                  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+                  <br />
+                  <span class="hint">
+                    Não compartilharemos seu email com terceiros.
+                  </span>
+
+                </div>
+                <div class="submit">
+                  <input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
               </form>
             </div>
 
