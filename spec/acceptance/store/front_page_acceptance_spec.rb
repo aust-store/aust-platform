@@ -6,6 +6,9 @@ feature "Store's front-page" do
     @company = FactoryGirl.create(:company)
     stub_subdomain(@company)
 
+    # adding data to be able to test it
+    FactoryGirl.create(:inventory_item, company: @company)
+
     @item = FactoryGirl.create(:inventory_item, company: @company)
     @item.entries.first.update_attribute(:quantity, 0)
   end
@@ -39,14 +42,20 @@ feature "Store's front-page" do
       page.should have_content(@company.name)
 
       n = 11
-      12.times do |p|
-        within(".product_#{p}") do
-          page.should have_content "Item #{n}"
-          page.has_css?("image_#{p}")
+      12.times do |index|
+        within(".product_#{index}") do
+          page.should have_content "Item #{n}" # order of products :)
+          page.has_css?("image_#{index}")
           page.should have_content "R$ 12,34"
         end
         n -= 1
       end
+    end
+
+    scenario "As customer, I see the cover images in products" do
+      cover_image = @item.images.cover.first
+      visit root_path
+      page.should have_selector ".image_#{cover_image.id}"
     end
   end
 

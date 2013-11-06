@@ -3,9 +3,10 @@
     <div class="product product_<%= index %>">
       <%= link_to product_path(id: item.entry_for_sale.id) do %>
         <div class="image">
-          <%= image_tag(item.images.first.image.url(:cover_standard),
+          <% image = item.images.cover.first %>
+          <%= image_tag(image.image.url(:cover_standard),
                         with: 170,
-              class: "image_#{ index }") unless item.images.blank? %>
+              class: "image_#{ image.id }") unless image.blank? %>
         </div>
 
         <div class="text">
