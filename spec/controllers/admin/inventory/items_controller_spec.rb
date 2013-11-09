@@ -23,7 +23,7 @@ describe Admin::Inventory::ItemsController do
     let(:taxonomy) { double(self_and_ancestors: [1, 2, 3]) }
 
     before do
-      subject.stub_chain(:current_company, :items, :find) { item }
+      subject.stub_chain(:current_company, :items, :friendly, :find) { item }
       Store::Policy::ItemOnSale.stub_chain(:new, :on_sale?) { :on_sale }
       Store::OnlineSales::ReasonForItemNotOnSale.any_instance.stub(:reasons)
       item.stub(:taxonomy) { taxonomy }
@@ -32,7 +32,7 @@ describe Admin::Inventory::ItemsController do
     end
 
     it "should return a single item" do
-      subject.stub_chain(:current_company, :items, :find).with("123") { item }
+      subject.stub_chain(:current_company, :items, :friendly, :find).with("123") { item }
     end
 
     it "should return a single item" do

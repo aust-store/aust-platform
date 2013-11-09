@@ -18,10 +18,8 @@ feature "Orders Management" do
         page.should have_content "Seu carrinho está vazio."
       end
 
-      inventory_entry = @product.balances.first
-
       3.times do
-        visit product_path(inventory_entry)
+        visit product_path(@product)
         click_link I18n.t("store.products.show.add_to_cart_link")
       end
 

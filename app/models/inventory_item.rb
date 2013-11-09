@@ -1,6 +1,9 @@
 class InventoryItem < ActiveRecord::Base
   extend ModelExtensions::FullTextSearch
 
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   belongs_to :inventory
   belongs_to :manufacturer
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'

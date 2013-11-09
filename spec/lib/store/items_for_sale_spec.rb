@@ -34,13 +34,12 @@ describe Store::ItemsForSale do
   end
 
   describe "#item_for_cart" do
-    it "returns an inventory entry given an id" do
-      entries_model = double
-      entries_model.stub(:find).with(2) { :entry }
-      @store.stub(:inventory_entries) { entries_model }
-      @controller.stub(:params) { {id: 2} }
+    let(:item) { double }
 
-      items = Store::ItemsForSale.new(@controller).item_for_cart
+    it "returns an inventory entry given an id" do
+      item.stub(:entry_for_sale) { :entry }
+
+      items = Store::ItemsForSale.new(@controller).item_for_cart(item)
       items.should == :entry
     end
   end
@@ -53,10 +52,10 @@ describe Store::ItemsForSale do
       item = double(id: :id)
 
       @store.stub(:inventory_entries) { entries_model }
-      entries_model.stub(:find).with(2) { entry }
+      entries_model.stub(:find).with(:slug) { entry }
       entry.stub(:inventory_item) { item }
-      @store.stub(:detailed_item).with(:id) { product }
-      @controller.stub(:params) { {id: 2} }
+      @store.stub(:detailed_item).with(:slug) { product }
+      @controller.stub(:params) { {id: :slug} }
 
       detailed_item = Store::ItemsForSale.new(@controller).detailed_item_for_show_page
       detailed_item.should == product

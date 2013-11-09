@@ -148,7 +148,7 @@ feature "Inventory Item form" do
 
       click_button "submit"
 
-      current_path.should == admin_inventory_item_path(@item.id)
+      current_path.should == admin_inventory_item_path(@item)
       page.should have_content "Air Max"
 
       # Assert edited item

@@ -29,9 +29,8 @@ feature "Store cart" do
         page.should have_content "Seu carrinho está vazio."
       end
 
-      inventory_entry = @product.balances.first
       3.times do
-        visit product_path(inventory_entry)
+        visit product_path(@product)
         click_link I18n.t("store.products.show.add_to_cart_link")
       end
 
@@ -86,7 +85,7 @@ feature "Store cart" do
     scenario "As an user, my shipping price is calculated as I type my zipcode", js: true do
       stub_shipping
 
-      visit product_path(inventory_entry)
+      visit product_path(@product)
       click_link I18n.t("store.products.show.add_to_cart_link")
 
       within(".js_service_selection") do
@@ -100,7 +99,7 @@ feature "Store cart" do
 
     scenario "As an user, I see a message when shipping is not available" do
       @company.settings.update_attributes(zipcode: "")
-      visit product_path(inventory_entry)
+      visit product_path(@product)
 
       click_link I18n.t("store.products.show.add_to_cart_link")
 
@@ -109,7 +108,7 @@ feature "Store cart" do
 
     scenario "As an user, I can update the shipping cost by clicking the update button" do
       stub_shipping
-      visit product_path(inventory_entry)
+      visit product_path(@product)
       click_link I18n.t("store.products.show.add_to_cart_link")
 
       page.should_not have_content "R$ 111,23"
@@ -127,7 +126,7 @@ feature "Store cart" do
   describe "Policies" do
     background do
       inventory_entry = @product.balances.first
-      visit product_path(inventory_entry)
+      visit product_path(@product)
       click_link I18n.t("store.products.show.add_to_cart_link")
     end
 

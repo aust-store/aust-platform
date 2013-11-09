@@ -12,7 +12,7 @@ describe Admin::Inventory::Items::ImagesController do
 
       item.stub_chain(:images, :order, :dup) { :images }
       item.stub_chain(:images, :build)
-      items.should_receive(:find).with("12") { item }
+      items.stub_chain(:friendly, :find).with("12") { item }
 
       get :index, item_id: 12
       assigns(:item).should == item
@@ -28,7 +28,7 @@ describe Admin::Inventory::Items::ImagesController do
 
     it "deletes an image" do
       controller.current_company.stub(:items) { items }
-      items.should_receive(:find).with("1") { item }
+      items.stub_chain(:friendly, :find).with("1") { item }
 
       item.stub(:images) { images }
       images.should_receive(:find).with("12") { image }
@@ -38,7 +38,7 @@ describe Admin::Inventory::Items::ImagesController do
     end
 
     it "redirects to the images index" do
-      controller.current_company.stub_chain(:items, :find) { item }
+      controller.current_company.stub_chain(:items, :friendly, :find) { item }
       item.stub_chain(:images, :find, :destroy)
 
       delete :destroy, item_id: 1, id: 12
@@ -52,7 +52,7 @@ describe Admin::Inventory::Items::ImagesController do
     let(:image) { double }
 
     it "updates the image cover attribute" do
-      controller.current_company.stub_chain(:items, :find) { item }
+      controller.current_company.stub_chain(:items, :friendly, :find) { item }
       images.should_receive(:update_all).with(cover: false)
       image.should_receive(:update_attributes).with(cover: true)
       put :update, item_id: 1, id: 2, set_cover: true

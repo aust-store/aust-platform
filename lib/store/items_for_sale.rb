@@ -12,8 +12,8 @@ module Store
       current_store.items_on_sale_in_category(entry_id)
     end
 
-    def item_for_cart
-      inventory_entry
+    def item_for_cart(inventory_item)
+      inventory_item.entry_for_sale
     end
 
     def inventory_entry
@@ -21,7 +21,7 @@ module Store
     end
 
     def detailed_item_for_show_page
-      current_store.detailed_item(item_id)
+      current_store.detailed_item(entry_id)
     end
 
   private
@@ -32,10 +32,6 @@ module Store
 
     def entry_id
       @controller.params[:id]
-    end
-
-    def item_id
-      inventory_entry.inventory_item.id
     end
   end
 end

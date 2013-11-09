@@ -10,7 +10,7 @@ feature "Store products" do
 
   describe "products details" do
     scenario "As an user, I can see a products' details" do
-      visit product_path(@product.balances.first)
+      visit product_path(@product)
 
       page.should have_content @product.name
       page.should have_content @product.merchandising
@@ -29,7 +29,7 @@ feature "Store products" do
   describe "adding a product to the cart" do
     scenario "As an user, I can add a product to the cart" do
       entry_in_cart = @product.entries.first
-      visit product_path(entry_in_cart)
+      visit product_path(@product)
 
       click_link I18n.t("store.products.show.add_to_cart_link")
       current_path.should == cart_path

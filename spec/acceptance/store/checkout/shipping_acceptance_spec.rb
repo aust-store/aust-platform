@@ -18,7 +18,7 @@ feature "Store cart" do
 
     before do
       stub_shipping(total: 111.23)
-      add_item_to_cart(inventory_entry)
+      add_item_to_cart(@product)
     end
 
     scenario "As an user, I'm notified that my shipping address' zipcode doesn't " + \

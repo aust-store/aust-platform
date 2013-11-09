@@ -30,7 +30,7 @@ feature "Normal checkout", js: true do
 
       2.times do
         # user adds item to the cart
-        visit product_path(@entry_for_purchase)
+        visit product_path(@product)
         click_link I18n.t("store.products.show.add_to_cart_link")
       end
 
@@ -75,7 +75,7 @@ feature "Normal checkout", js: true do
     describe "variances" do
       scenario "As an user, I checkout defining a custom shipping address" do
         # user adds item to the cart
-        visit product_path(@entry_for_purchase)
+        visit product_path(@product)
         click_link I18n.t("store.products.show.add_to_cart_link")
 
         user_defines_cart_shipping_zipcode

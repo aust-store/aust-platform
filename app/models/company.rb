@@ -67,7 +67,7 @@ class Company < ActiveRecord::Base
   end
 
   def detailed_item(id)
-    self.items.detailed_item_for_sale.find(id)
+    self.items.detailed_item_for_sale.friendly.find(id)
   end
 
   def to_param

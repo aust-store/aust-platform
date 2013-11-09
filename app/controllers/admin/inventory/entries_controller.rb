@@ -31,7 +31,7 @@ module Admin
       end
 
       def update
-        item = current_company.items.find(params[:item_id])
+        item = current_company.items.friendly.find(params[:item_id])
         entry = item.balances.find(params[:id])
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
@@ -49,7 +49,7 @@ module Admin
     private
 
       def load_item
-        @item ||= current_company.items.find(params[:item_id])
+        @item ||= current_company.items.friendly.find(params[:item_id])
         raise "This doesn't belong to you" if @item.nil?
         @item
       end

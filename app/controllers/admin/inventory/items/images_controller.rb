@@ -5,13 +5,13 @@ module Admin
         skip_before_filter :verify_authenticity_token
 
         def index
-          @item = current_company.items.find(params[:item_id])
+          @item = current_company.items.friendly.find(params[:item_id])
           @item_images = load_item_images
           @item.images.build
         end
 
         def create
-          @item = current_company.items.find params[:item_id]
+          @item = current_company.items.friendly.find params[:item_id]
           @item.images << InventoryItemImage.new(params[:item][:images])
           if @item.save
             if request.xhr?
@@ -40,7 +40,7 @@ module Admin
         private
 
         def load_item
-          current_company.items.find(params[:item_id])
+          current_company.items.friendly.find(params[:item_id])
         end
 
         def load_item_images

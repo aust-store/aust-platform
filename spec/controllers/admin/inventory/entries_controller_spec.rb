@@ -11,7 +11,7 @@ describe Admin::Inventory::EntriesController do
     Store::Currency.stub(:to_float).with("12.34").and_return(20.0)
 
     item = double(balances: items)
-    controller.stub_chain(:current_company, :items, :find) { item }
+    controller.stub_chain(:current_company, :items, :friendly, :find) { item }
   end
 
   describe "GET index" do
@@ -86,7 +86,7 @@ describe Admin::Inventory::EntriesController do
 
     before do
       @item = FactoryGirl.create(:inventory_item, company: @company)
-      controller.stub_chain(:current_company, :items, :find) { @item }
+      controller.stub_chain(:current_company, :items, :friendly, :find) { @item }
     end
 
     it "updates an inventory entry" do

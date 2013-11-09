@@ -13,8 +13,7 @@ feature "Store Sign Up" do
     stub_shipping
 
     # Product page
-    inventory_entry = @product.balances.first
-    visit product_path(inventory_entry)
+    visit product_path(@product)
     click_link I18n.t("store.products.show.add_to_cart_link")
 
     # Cart page

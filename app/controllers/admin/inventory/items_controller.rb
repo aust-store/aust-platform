@@ -33,7 +33,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def edit
     @show_entry_fields = false
-    item = current_company.items.includes(:shipping_box).find(params[:id])
+    item = current_company.items.includes(:shipping_box).friendly.find(params[:id])
 
     @item = View::Form::InventoryItem.new(self).form_object(item)
   end
@@ -57,7 +57,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   def update
     cleanup_params_before_saving
 
-    @item = current_company.items.find params[:id]
+    @item = current_company.items.friendly.find params[:id]
     build_item_associations
 
     if @item.update_attributes params[:inventory_item]
@@ -70,7 +70,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def destroy
-    @item = current_company.items.find params[:id]
+    @item = current_company.items.friendly.find params[:id]
     if @item.destroy
       redirect_to admin_inventory_items_url
     else
@@ -81,7 +81,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   private
 
   def load_item
-    @item = current_company.items.find params[:id]
+    @item = current_company.items.friendly.find params[:id]
   end
 
   def has_images item

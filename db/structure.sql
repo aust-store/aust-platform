@@ -632,7 +632,8 @@ CREATE TABLE inventory_items (
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
-    moving_average_cost numeric(8,2)
+    moving_average_cost numeric(8,2),
+    slug character varying(255)
 );
 
 
@@ -1813,6 +1814,13 @@ CREATE INDEX index_inventory_items_on_manufacturer_id ON inventory_items USING b
 
 
 --
+-- Name: index_inventory_items_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_slug ON inventory_items USING btree (slug);
+
+
+--
 -- Name: index_inventory_items_on_taxonomy_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2249,3 +2257,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131109185749');
 INSERT INTO schema_migrations (version) VALUES ('20131109190457');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109191443');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109193957');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109194043');
