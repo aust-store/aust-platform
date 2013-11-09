@@ -4,6 +4,13 @@ input[type='text'], input[type='password'], input[type='email'], textarea
   width: 250px
   height: 25px
 
+.narrower
+  label
+    &.text, &.string, &.password, &.email, &.textarea, &.select
+      width: 100px
+  input[type='text'], input[type='password'], input[type='email'], textarea
+    width: 190px
+
 textarea
   height: 140px
 
