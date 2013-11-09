@@ -64,7 +64,7 @@ class InventoryItem < ActiveRecord::Base
   }
 
   scope :by_category, ->(id) {
-    where(taxonomy_id: Taxonomy.find(id).self_and_descendants.pluck(:id))
+    where(taxonomy_id: Taxonomy.friendly.find(id).self_and_descendants.pluck(:id))
   }
 
   before_create :associate_with_inventory

@@ -3,6 +3,9 @@ class Taxonomy < ActiveRecord::Base
 
   acts_as_tree order: "id"
 
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   belongs_to :store, foreign_key: 'store_id', class_name: "Company"
   attr_accessible :name, :parent, :parent_id, :store_id
 

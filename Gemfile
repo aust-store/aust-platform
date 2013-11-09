@@ -19,6 +19,7 @@ gem 'rails', '~>4'
   gem 'remotipart', '~> 1.0'
   gem 'carrierwave'
   gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
+  gem "friendly_id", "~> 5.0.1"
 
 # Presenters and objects for simplifying internal workflows
   gem 'draper', '~> 1.2.1'

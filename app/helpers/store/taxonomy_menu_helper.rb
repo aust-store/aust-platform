@@ -7,10 +7,10 @@ module Store::TaxonomyMenuHelper
         content_tag :div, class: 'node_container' do
           css_class = []
           css_class << "category_#{node.id}"
-          if @current_category.present? && @current_category == node.id.to_s
+          if @current_category.present? && [node.id.to_s, node.slug].include?(@current_category)
             css_class << "current"
           end
-          link_to node.name, category_path(id: node.id), class: "#{css_class.join(" ")}"
+          link_to node.name, category_path(node), class: "#{css_class.join(" ")}"
         end
       end
 

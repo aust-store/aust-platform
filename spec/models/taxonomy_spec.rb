@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Taxonomy do
+  describe "slugs" do
+    it "creates slugs correclty" do
+      anakin = Taxonomy.create(name: "Anakin Skywalker")
+      anakin.slug.should == "anakin-skywalker"
+    end
+  end
+
   describe "basic correctness" do
     it "creates parents and children" do
       anakin = Taxonomy.create(name: "Anakin")
