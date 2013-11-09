@@ -4,8 +4,9 @@ module View
       @controller = controller
     end
 
-    def should_show_vertical_taxonomy_menu?
+    def show_vertical_taxonomy_menu?
       [ "store/product",
+        "store/categories",
         "store/home" ].include?(controller_name)
     end
 

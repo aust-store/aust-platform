@@ -142,18 +142,19 @@ Store::Application.routes.draw do
       resource :shipping_cost, only: [:create], controller: "store/cart/shipping_cost"
     end
 
+    resources :categories, only: [:show], controller: "store/categories"
+    resources :products, only: [:show], controller: "store/products"
+    resources :pages,    only: [:show], controller: "store/pages"
+    resource  :contact,  only: [:new, :create], controller: "store/contact" do
+      get :success
+    end
+
     resource :cart_items, only: [:create, :destroy], controller: "store/cart_items"
 
     namespace :checkout, module: 'store/checkout' do
       resource :shipping, only: [:show, :update], controller: "shipping"
       resource :payment,  only: [:show], controller: "payment"
       resource :success,  only: [:show], controller: "success"
-    end
-
-    resources :products, only: [:show], controller: "store/products"
-    resources :pages,    only: [:show], controller: "store/pages"
-    resource  :contact,  only: [:new, :create], controller: "store/contact" do
-      get :success
     end
 
     namespace :gateway_notifications, module: 'store/gateway_notifications' do

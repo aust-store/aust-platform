@@ -1,9 +1,11 @@
 FactoryGirl.define do
-  factory :taxonomy do
+  factory :single_taxonomy, class: "Taxonomy" do
     sequence(:name) { |i| "Category ##{i}" }
 
-    after(:create) do |taxonomy, evaluator|
-      Taxonomy.create(name: "#{taxonomy.name} son", parent: taxonomy)
+    factory :taxonomy do
+      after(:create) do |taxonomy, evaluator|
+        Taxonomy.create(name: "#{taxonomy.name} son", parent: taxonomy)
+      end
     end
   end
 end

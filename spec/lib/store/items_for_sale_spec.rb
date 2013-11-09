@@ -4,19 +4,32 @@ require "store/items_for_sale"
 describe Store::ItemsForSale do
   it_should_behave_like "loading store contract"
 
+  let(:params) { {} }
+
   before do
     @store = double
-    @controller = double(current_store: @store)
+    @controller = double(current_store: @store, params: params)
   end
 
   describe "#items_for_main_page" do
     # TODO define contracts with controller
     it "returns items from the current store" do
       @store.stub(:items_on_sale_on_main_page) { [1, 2, 3] }
-      @controller.stub(:current_store) { @store }
 
       items = Store::ItemsForSale.new(@controller).items_for_main_page
       items.should == [1, 2, 3]
+    end
+  end
+
+  describe "#items_for_category" do
+    # TODO define contracts with controller
+    let(:params) { {id: 1} }
+
+    it "returns items from the current store" do
+      @store.stub(:items_on_sale_in_category).with(1) { [:item1, :item2] }
+
+      items = Store::ItemsForSale.new(@controller).items_for_category
+      items.should == [:item1, :item2]
     end
   end
 

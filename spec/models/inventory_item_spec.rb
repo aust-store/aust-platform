@@ -20,6 +20,24 @@ describe InventoryItem do
         result[1].entry_for_sale.id.should == items[1].balances.last.id
       end
     end
+
+    describe "#by_category" do
+      let(:level1_category) { create(:single_taxonomy) }
+      let(:level2_category) { create(:single_taxonomy, parent: level1_category) }
+      let(:level3_category) { create(:single_taxonomy, parent: level2_category) }
+      let(:level4_category) { create(:single_taxonomy, parent: level3_category) }
+
+      it "returns only items in the given category and below" do
+        item1 = create(:inventory_item, taxonomy: level1_category)
+        item2 = create(:inventory_item, taxonomy: level2_category)
+        item3 = create(:inventory_item, taxonomy: level3_category)
+        item4 = create(:inventory_item, taxonomy: level4_category)
+
+        results = InventoryItem.by_category(level2_category.id)
+        results.should_not include item1
+        results.should include item2, item3, item4
+      end
+    end
   end
 
   describe "#search_for" do

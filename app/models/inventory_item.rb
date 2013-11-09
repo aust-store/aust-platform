@@ -63,14 +63,23 @@ class InventoryItem < ActiveRecord::Base
     .order("inventory_entries.created_at asc, inventory_entries.id asc")
   }
 
+  scope :by_category, ->(id) {
+    where(taxonomy_id: Taxonomy.find(id).self_and_descendants.pluck(:id))
+  }
+
   before_create :associate_with_inventory
 
   def entry_for_sale
     self.balances.on_sale.first
   end
 
+  # TODO -- these should be scopes
   def self.items_on_sale
     with_entry_for_sale.limit(12).order("inventory_items.created_at desc")
+  end
+
+  def self.items_on_sale_in_category(taxonomy_id)
+    with_entry_for_sale.by_category(taxonomy_id)
   end
 
   def all_entries_available_for_sale

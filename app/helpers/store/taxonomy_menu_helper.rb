@@ -5,7 +5,12 @@ module Store::TaxonomyMenuHelper
     nodes.each do |node, children|
       nodes_html = content_tag :div, class: "node taxonomy_level_#{level}" do
         content_tag :div, class: 'node_container' do
-          link_to node.name, ""
+          css_class = []
+          css_class << "category_#{node.id}"
+          if @current_category.present? && @current_category == node.id.to_s
+            css_class << "current"
+          end
+          link_to node.name, category_path(id: node.id), class: "#{css_class.join(" ")}"
         end
       end
 

@@ -25,9 +25,9 @@ module ControllersExtensions
     def load_store_information
       Rails.logger.info "Visiting with subdomain: #{current_subdomain} - domain: #{current_domain}"
       @company ||= ::Store::CompanyDecorator.decorate(
-        Company.where("handle = ? OR domain = ?",
-                      current_subdomain,
-                      current_domain).first
+        ::Company.where("handle = ? OR domain = ?",
+                        current_subdomain,
+                        current_domain).first
       )
     end
   end

@@ -22,7 +22,7 @@
   </div>
 
   <div id="global"
-    class="<%= @theme.feature_as_class(:vertical_taxonomy_menu) if @layout_constraints.should_show_vertical_taxonomy_menu? %>">
+    class="<%= @theme.feature_as_class(:vertical_taxonomy_menu) if @layout_constraints.show_vertical_taxonomy_menu? %>">
 
     <div id="navigation">
       <%= render "layouts/store/navigation" %>
@@ -30,7 +30,7 @@
 
     <div class="site_body">
       <% if @theme.has_feature?(:vertical_taxonomy_menu) %>
-        <% if @layout_constraints.should_show_vertical_taxonomy_menu? %>
+        <% if @layout_constraints.show_vertical_taxonomy_menu? %>
           <%= render "store/theme_features/taxonomy_as_vertical_menu" %>
         <% end %>
       <% end %>

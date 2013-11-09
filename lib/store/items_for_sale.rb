@@ -8,6 +8,10 @@ module Store
       current_store.items_on_sale_on_main_page
     end
 
+    def items_for_category
+      current_store.items_on_sale_in_category(entry_id)
+    end
+
     def item_for_cart
       inventory_entry
     end

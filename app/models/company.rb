@@ -37,6 +37,10 @@ class Company < ActiveRecord::Base
     self.items.items_on_sale
   end
 
+  def items_on_sale_in_category(taxonomy_id)
+    self.items.items_on_sale_in_category(taxonomy_id)
+  end
+
   def statistics
     Store::CompanyStatistics.new(self).statistics
   end
