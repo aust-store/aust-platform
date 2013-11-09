@@ -33,7 +33,7 @@
       <h2>Contato</h2>
       <%= f.simple_fields_for :contact do |contact| %>
         <%= contact.input :phone_1, as: 'string', label: t("activerecord.attributes.contact.phone_1") %>
-        <%= contact.input :phone_2, label: t("activerecord.attributes.contact.phone_2")%>
+        <%= contact.input :phone_2, as: 'string', label: t("activerecord.attributes.contact.phone_2")%>
         <%= contact.input :email, label: t("activerecord.attributes.contact.email") %>
       <% end %>
     </div>
