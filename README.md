@@ -17,11 +17,16 @@ these steps:
   127.0.0.1 choose_a_store_name.store.i
   127.0.0.1 petshop.com
   127.0.0.1 www.petshop.com
+  127.0.0.1 test.petshop.com
+  127.0.0.1 lvh.com
+  127.0.0.1 example.com
   ````
 
   The first line above is going to tunnel `http://store.i:3000` to `http://localhost:3000`.
 
   The last two lines are a way to mimic more closely how a URL would be typed in the browser. For that case, you have to login into your store and enter `petshop.com.br` as an accepted login.
+
+  **Note:** don't forget about `example.com` and `lvh.com`. They're used by Capybara Javascript driver.
 
   3. If you're on a Mac, it might be necessary to run in some cases to flush the cache `$ dscacheutil -flushcache`
 
