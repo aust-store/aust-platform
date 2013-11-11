@@ -36,7 +36,7 @@
         <h2><%= t('.address') %></h2>
 
         <%= f.fields_for :addresses do |address| %>
-          <%= render partial: "shared/address_form", locals: { address: address } %>
+          <%= render partial: "shared/store_address_form", locals: { address: address } %>
         <% end %>
       </div>
       <div class="illustration">

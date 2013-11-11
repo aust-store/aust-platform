@@ -1,6 +1,6 @@
 module CapybaraHelpers
   module DomainHelpers
-    def stub_subdomain(subdomain = "mystore", domain = "example.com")
+    def stub_subdomain(subdomain = "mystore", domain = "lvh.me")
       subdomain = subdomain.handle unless subdomain.is_a?(String)
       switch_to_subdomain(subdomain)
     end

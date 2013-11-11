@@ -19,15 +19,18 @@ Store::Application.routes.draw do
       sessions: "admin/devise/sessions"
     }
 
-  devise_scope :admin_user do
-    get "subscription" => "admin/devise/registrations#new", as: :subscription
-  end
-
   devise_for :users,
     controllers: {
       registrations: "store/devise/registrations",
       sessions: "store/devise/sessions"
     }
+
+
+  devise_scope :admin_user do
+    get "subscription" => "admin/devise/registrations#new", as: :subscription
+  end
+
+  resource :subscription_wizard, only: [:show, :update], controller: "subscription_wizard"
 
   namespace :consultor do
     resources :home, only: [:index]

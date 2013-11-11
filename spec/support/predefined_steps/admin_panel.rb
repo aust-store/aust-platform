@@ -1,6 +1,10 @@
 module AcceptanceSteps
-  def login_into_admin
+  def login_into_admin(options = {})
+    custom_user = options[:as]
+    @admin_user = custom_user if custom_user.present?
+
     @admin_user ||= FactoryGirl.create(:admin_user)
+
     @company = @admin_user.company
     stub_subdomain(@company)
     visit new_admin_user_session_path

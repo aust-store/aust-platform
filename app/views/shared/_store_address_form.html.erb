@@ -1,6 +1,8 @@
 <span class="address_fields">
-  <%= address.input :address_1, as: 'string', wrapper_html: { class: 'input_with_label' } %>
-  <%= address.input :number, wrapper_html: { class: 'input_without_label smaller' } %>
+  <div class="input inline_inputs">
+    <%= address.input :address_1, as: 'string', wrapper_html: { class: 'input_with_label' } %>
+    <%= address.input :number, wrapper_html: { class: 'input_without_label smaller' }, label: false %>
+  </div>
   <%= address.input :address_2, as: 'string' %>
   <%= address.input :neighborhood, as: 'string' %>
   <%= address.input :zipcode, as: 'string' %>

@@ -10,7 +10,7 @@ class AdminUser < ActiveRecord::Base
                   :company_attributes, :role, :name, :company_id
 
   validates_presence_of :name, :email
-  validates_uniqueness_of :name, :scope => :company_id
+  validates_uniqueness_of :name, scope: :company_id
   validates_uniqueness_of :email, case_sensitive: false
   validates_format_of :email, with: Devise.email_regexp
   validates_presence_of :password, on: :create

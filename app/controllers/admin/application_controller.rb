@@ -4,6 +4,7 @@ class Admin::ApplicationController < ApplicationController
     redirect_to admin_users_url, :alert => exception.message
   end
 
+  before_filter :sign_out_if_incorrect_company
   before_filter :mobile_layout
 
   layout :define_layout
@@ -15,6 +16,7 @@ class Admin::ApplicationController < ApplicationController
     current_admin_user
   end
 
+  # FIXME -- this loads the user company, not the subdomain company
   def current_company
     @current_company = current_user.company
   end
@@ -47,6 +49,16 @@ class Admin::ApplicationController < ApplicationController
   def mobile_layout
     if RouterConstraints::Iphone.new.matches?(request) && !request.xhr?
       redirect_to mobile_admin_root_url
+    end
+  end
+
+  def sign_out_if_incorrect_company
+    return unless current_user.present?
+
+    if current_company_by_subdomain != current_user.company
+      Rails.logger.info "Current user's company not the same as subdomain's."
+      Rails.logger.info "Signing out automatically..."
+      sign_out current_user
     end
   end
 end

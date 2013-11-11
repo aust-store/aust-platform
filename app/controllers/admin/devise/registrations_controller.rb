@@ -1,7 +1,13 @@
 class Admin::Devise::RegistrationsController < Devise::RegistrationsController
   layout "admin/sign_up"
+  skip_before_filter :require_no_authentication, only: [:new]
   before_filter :set_user_as_founder, only: [:create]
   before_filter :configure_permitted_parameters, if: :devise_controller?
+
+  def new
+    sign_out current_user
+    super
+  end
 
   private
 
@@ -10,7 +16,8 @@ class Admin::Devise::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    admin_dashboard_url
+    # sessions are shared across multiple subdomains
+    admin_dashboard_url(subdomain: resource.company.handle)
   end
 
   def configure_permitted_parameters

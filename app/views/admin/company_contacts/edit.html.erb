@@ -16,14 +16,7 @@
     <div class="section">
       <h2>Endereço</h2>
       <%= f.simple_fields_for :address do |address| %>
-        <%= address.input :address_1, as: 'string', wrapper_html: { class: 'input_with_label' } %>
-        <%= address.input :number, wrapper_html: { class: 'input_without_label smaller' } %>
-        <%= address.input :address_2, as: 'string' %>
-        <%= address.input :neighborhood, as: 'string' %>
-        <%= address.input :zipcode, as: 'string' %>
-        <%= address.input :city, as: 'string' %>
-        <%= address.input :state, collection: Geography::BrazilianStates.states %>
-        <%= address.input :country, as: 'string', input_html: { value: "Brasil", disabled: "disabled" } %>
+        <%= render partial: "shared/address_form", locals: { address: address } %>
       <% end %>
     </div>
   </div>
@@ -32,9 +25,7 @@
     <div class="section">
       <h2>Contato</h2>
       <%= f.simple_fields_for :contact do |contact| %>
-        <%= contact.input :phone_1, as: 'string', label: t("activerecord.attributes.contact.phone_1") %>
-        <%= contact.input :phone_2, as: 'string', label: t("activerecord.attributes.contact.phone_2")%>
-        <%= contact.input :email, label: t("activerecord.attributes.contact.email") %>
+        <%= render partial: "shared/contact_form", locals: { contact: contact } %>
       <% end %>
     </div>
   </div>

@@ -8,6 +8,10 @@ module ControllersExtensions
       @company ||= load_store_information
     end
 
+    def current_company_by_subdomain
+      @company ||= load_store_information
+    end
+
     def current_domain
       rails_request.current_domain
     end
