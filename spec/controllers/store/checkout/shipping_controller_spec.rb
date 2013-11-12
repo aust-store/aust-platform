@@ -10,7 +10,7 @@ describe Store::Checkout::ShippingController do
 
   before do
     controller.stub(:cart) { cart }
-    controller.stub(:current_user) { :current_user }
+    controller.stub(:current_customer) { :current_customer }
     controller.stub(:current_store) { double.as_null_object }
   end
 
@@ -19,9 +19,9 @@ describe Store::Checkout::ShippingController do
 
     it "instantiates the cart model" do
       cart.stub(:persistence) { cart_model }
-      cart_model.should_receive(:set_user).with(:current_user)
+      cart_model.should_receive(:set_customer).with(:current_customer)
       cart_model.should_receive(:build_shipping_address)
-      cart_model.stub_chain(:user, :default_address) { :default_address }
+      cart_model.stub_chain(:customer, :default_address) { :default_address }
       cart_model.stub(:zipcode_mismatch?) { :zipcode_mismatch }
       get :show
       assigns(:cart).should == cart_model
@@ -47,13 +47,13 @@ describe Store::Checkout::ShippingController do
       it "renders the show view unless cart is updated" do
         cart_model.stub(:update_attributes).with("key" => "value") { false }
         cart_model.should_receive(:build_shipping_address)
-        cart_model.stub_chain(:user, :default_address) { :user_address }
+        cart_model.stub_chain(:customer, :default_address) { :customer_address }
         put :update, place_order_with_custom_shipping_address: "1", cart: {key: :value}
         response.should render_template :show
       end
     end
 
-    context "placing order with default user address" do
+    context "placing order with default customer address" do
       let(:cart_address) { double }
 
       before do
@@ -64,12 +64,12 @@ describe Store::Checkout::ShippingController do
       end
 
       it "sets the cart's shipping address" do
-        cart_address.should_receive(:use_users_default_address)
+        cart_address.should_receive(:use_customers_default_address)
         put :update
       end
 
       it "redirects to the payments controller" do
-        cart_address.stub(:use_users_default_address)
+        cart_address.stub(:use_customers_default_address)
         put :update
         response.should redirect_to checkout_payment_url
       end

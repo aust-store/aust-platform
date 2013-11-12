@@ -19,7 +19,7 @@ module Store
       def serialized_fields
         { cart_id:          cart.id,
           environment:      cart.environment,
-          user:             cart.user,
+          customer:         cart.customer,
           store:            cart.company,
           shipping_address: cart.shipping_address,
           shipping_details: cart.shipping }

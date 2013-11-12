@@ -4,7 +4,7 @@ module Store
 
     def initialize(controller)
       @company = controller.current_store
-      @user    = controller.current_user
+      @user    = controller.current_customer
       @cart_id = controller.session[:cart_id]
       persisted_cart
     end

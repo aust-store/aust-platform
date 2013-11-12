@@ -5,7 +5,7 @@
            } %>
 
 <header>
-  <h1><%= @customer.name %></h1>
+  <h1><%= @customer.first_name %></h1>
 </header>
 
 <div class="main_container">
@@ -13,19 +13,13 @@
 
   <p>
     <b><%= t('admin.customers.show.name') %></b>
-    <%= @customer.name %>
-  </p>
-
-  <p>
-    <b><%= t('admin.customers.show.description') %></b>
-    <%= @customer.description %>
+    <%= @customer.first_name %>
   </p>
 
   <%= small_button t('admin.customers.show.edit'), edit_admin_customer_path(@customer) %>
   <%= small_button t('admin.customers.show.delete'), admin_customer_path(@customer), method: :delete %>
-  <%= small_button t('admin.customers.show.accounts_receivable'), admin_customer_account_receivables_path(@customer) %>
-  <%= small_button t('admin.customers.show.new_debt'), new_admin_customer_account_receivable_path(@customer) %>
 </div>
+
 <div class="main_container section">
 
   <div class="thumbs_gallery">

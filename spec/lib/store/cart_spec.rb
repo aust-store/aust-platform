@@ -10,9 +10,9 @@ describe Store::Cart do
   it_obeys_the "loading store contract"
 
   let(:company)    { double }
-  let(:user)       { double }
+  let(:customer)   { double }
   let(:session)    { {cart_id: 2} }
-  let(:controller) { double(current_store: company, current_user: user, session: session) }
+  let(:controller) { double(current_store: company, current_customer: customer, session: session) }
   let(:cart_model) { double(find_or_create_cart: true) }
   let(:item)       { double(id: 1) }
 

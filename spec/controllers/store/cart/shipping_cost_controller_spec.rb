@@ -7,7 +7,7 @@ describe Store::Cart::ShippingCostController do
 
   before do
     controller.stub(:cart) { cart }
-    controller.stub(:current_user) { :current_user }
+    controller.stub(:current_customer) { :current_customer }
     controller.stub(:current_store) { double.as_null_object }
   end
 

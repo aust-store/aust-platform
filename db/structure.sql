@@ -58,43 +58,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: account_receivables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE account_receivables (
-    id integer NOT NULL,
-    company_id integer,
-    admin_user_id integer,
-    customer_id integer,
-    value numeric,
-    description text,
-    due_to date,
-    paid boolean,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: account_receivables_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE account_receivables_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: account_receivables_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE account_receivables_id_seq OWNED BY account_receivables.id;
-
-
---
 -- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -254,7 +217,7 @@ ALTER SEQUENCE banners_id_seq OWNED BY banners.id;
 
 CREATE TABLE carts (
     id integer NOT NULL,
-    user_id integer,
+    customer_id integer,
     company_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -388,12 +351,35 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    first_name character varying(255) NOT NULL,
-    last_name character varying(255) NOT NULL,
-    description character varying(255) NOT NULL,
-    company_id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying(255),
+    authentication_token character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    first_name text,
+    last_name text,
+    social_security_number character varying(255),
+    nationality character varying(255),
+    receive_newsletter boolean,
+    mobile_number character varying(255),
+    home_number character varying(255),
+    work_number character varying(255),
+    home_area_number character varying(255),
+    work_area_number character varying(255),
+    mobile_area_number character varying(255),
+    store_id integer
 );
 
 
@@ -776,7 +762,7 @@ ALTER SEQUENCE order_shippings_id_seq OWNED BY order_shippings.id;
 CREATE TABLE orders (
     id integer NOT NULL,
     cart_id integer,
-    user_id integer,
+    customer_id integer,
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -1070,70 +1056,6 @@ ALTER SEQUENCE themes_id_seq OWNED BY themes.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    first_name text,
-    last_name text,
-    social_security_number character varying(255),
-    nationality character varying(255),
-    receive_newsletter boolean,
-    mobile_number character varying(255),
-    home_number character varying(255),
-    work_number character varying(255),
-    home_area_number character varying(255),
-    work_area_number character varying(255),
-    mobile_area_number character varying(255),
-    store_id integer
-);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY account_receivables ALTER COLUMN id SET DEFAULT nextval('account_receivables_id_seq'::regclass);
-
-
---
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1323,21 +1245,6 @@ ALTER TABLE ONLY themes ALTER COLUMN id SET DEFAULT nextval('themes_id_seq'::reg
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Name: account_receivables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY account_receivables
-    ADD CONSTRAINT account_receivables_pkey PRIMARY KEY (id);
-
-
---
 -- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1399,14 +1306,6 @@ ALTER TABLE ONLY company_settings
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
-
-
---
--- Name: customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY customers
-    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1557,7 +1456,7 @@ ALTER TABLE ONLY themes
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY customers
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -1580,27 +1479,6 @@ CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english
 --
 
 CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
-
-
---
--- Name: index_account_receivables_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_account_receivables_on_admin_user_id ON account_receivables USING btree (admin_user_id);
-
-
---
--- Name: index_account_receivables_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_account_receivables_on_company_id ON account_receivables USING btree (company_id);
-
-
---
--- Name: index_account_receivables_on_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_account_receivables_on_customer_id ON account_receivables USING btree (customer_id);
 
 
 --
@@ -1653,17 +1531,17 @@ CREATE INDEX index_carts_on_company_id ON carts USING btree (company_id);
 
 
 --
+-- Name: index_carts_on_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_carts_on_customer_id ON carts USING btree (customer_id);
+
+
+--
 -- Name: index_carts_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_carts_on_environment ON carts USING btree (environment);
-
-
---
--- Name: index_carts_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_carts_on_user_id ON carts USING btree (user_id);
 
 
 --
@@ -1709,10 +1587,45 @@ CREATE INDEX index_contacts_on_contactable_type ON contacts USING btree (contact
 
 
 --
--- Name: index_customers_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_customers_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_customers_on_company_id ON customers USING btree (company_id);
+CREATE UNIQUE INDEX index_customers_on_authentication_token ON customers USING btree (authentication_token);
+
+
+--
+-- Name: index_customers_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_confirmation_token ON customers USING btree (confirmation_token);
+
+
+--
+-- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
+
+
+--
+-- Name: index_customers_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_receive_newsletter ON customers USING btree (receive_newsletter);
+
+
+--
+-- Name: index_customers_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_reset_password_token ON customers USING btree (reset_password_token);
+
+
+--
+-- Name: index_customers_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_store_id ON customers USING btree (store_id);
 
 
 --
@@ -1905,6 +1818,13 @@ CREATE INDEX index_orders_on_cart_id ON orders USING btree (cart_id);
 
 
 --
+-- Name: index_orders_on_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_customer_id ON orders USING btree (customer_id);
+
+
+--
 -- Name: index_orders_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1916,13 +1836,6 @@ CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 --
 
 CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
-
-
---
--- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
 
 
 --
@@ -2021,48 +1934,6 @@ CREATE INDEX index_taxonomy_hierarchies_on_descendant_id ON taxonomy_hierarchies
 --
 
 CREATE INDEX index_themes_on_company_id ON themes USING btree (company_id);
-
-
---
--- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (authentication_token);
-
-
---
--- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
-
-
---
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
--- Name: index_users_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_receive_newsletter ON users USING btree (receive_newsletter);
-
-
---
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
-
-
---
--- Name: index_users_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_store_id ON users USING btree (store_id);
 
 
 --
@@ -2261,3 +2132,9 @@ INSERT INTO schema_migrations (version) VALUES ('20131109191443');
 INSERT INTO schema_migrations (version) VALUES ('20131109193957');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109194043');
+
+INSERT INTO schema_migrations (version) VALUES ('20131112020049');
+
+INSERT INTO schema_migrations (version) VALUES ('20131112020339');
+
+INSERT INTO schema_migrations (version) VALUES ('20131112022336');

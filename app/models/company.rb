@@ -1,6 +1,6 @@
 class Company < ActiveRecord::Base
   has_many :admin_users
-  has_many :customers
+  has_many :customers, foreign_key: "store_id"
   has_many :items, class_name: "InventoryItem"
   has_many :carts
   has_many :orders, foreign_key: "store_id"

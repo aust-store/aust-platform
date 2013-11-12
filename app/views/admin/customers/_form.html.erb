@@ -1,17 +1,15 @@
-<%= simple_form_for([:admin,@customer]) do |f| %>
+<%= simple_form_for([:admin, @customer]) do |f| %>
 
+  <%= @customer.errors.inspect %>
   <%= f.input :first_name,
+      as: :string,
       hint: "",
       placeholder: t('admin.customers.form.first_name_example') %>
 
     <%= f.input :last_name,
+      as: :string,
       hint: "",
       placeholder: t('admin.customers.form.last_name_example') %>
-
-
-    <%= f.input :description,
-      hint: "",
-        placeholder: t('admin.customers.form.description_example') %>
 
     <%= f.submit t('admin.customers.form.save'),id: "salvar_cliente" %> ou
 

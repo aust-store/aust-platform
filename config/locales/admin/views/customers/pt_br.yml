@@ -11,7 +11,6 @@ pt_br:
         title: "Crie um cliente"
       show:
         name: "Nome:"
-        description: "Descrição:"
         edit: "Editar"
         delete: "Excluir"
         accounts_receivable: "Contas a receber"

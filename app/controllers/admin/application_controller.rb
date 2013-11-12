@@ -55,7 +55,7 @@ class Admin::ApplicationController < ApplicationController
   def sign_out_if_incorrect_company
     return unless current_user.present?
 
-    if current_company_by_subdomain != current_user.company
+    if current_company_by_subdomain != current_admin_user.company
       Rails.logger.info "Current user's company not the same as subdomain's."
       Rails.logger.info "Signing out automatically..."
       sign_out current_user

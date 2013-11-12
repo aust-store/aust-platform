@@ -9,15 +9,15 @@ module ControllerMacros
     end
   end
 
-  def login_user(user = true)
+  def login_user(customer = true)
     before do
-      if user.nil?
+      if customer.nil?
         request.env['warden'].stub(:authenticate!).
-          and_throw(:warden, {:scope => :user})
-        controller.stub :current_user => nil
+          and_throw(:warden, {:scope => :customer})
+        controller.stub :current_customer => nil
       else
-        request.env['warden'].stub :authenticate! => user
-        controller.stub :current_user => user
+        request.env['warden'].stub :authenticate! => customer
+        controller.stub current_customer: customer
       end
     end
   end

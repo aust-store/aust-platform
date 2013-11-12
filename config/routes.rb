@@ -19,12 +19,11 @@ Store::Application.routes.draw do
       sessions: "admin/devise/sessions"
     }
 
-  devise_for :users,
+  devise_for :customers,
     controllers: {
       registrations: "store/devise/registrations",
       sessions: "store/devise/sessions"
     }
-
 
   devise_scope :admin_user do
     get "subscription" => "admin/devise/registrations#new", as: :subscription
@@ -104,19 +103,12 @@ Store::Application.routes.draw do
       end
     end
 
-    resources :customers do
-      resources :account_receivables, controller: 'financial/account_receivables'
-    end
-
-    namespace :financial do
-      resources :account_receivables
-    end
-
     namespace :store do
       get 'dashboard' => 'dashboard#index'
     end
 
-    resources :users
+    resources :customers
+    resources :users # admin_users
 
     namespace :offline, module: "offline" do
       resources :sales, only: :new

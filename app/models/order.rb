@@ -1,9 +1,9 @@
 class Order < ActiveRecord::Base
-  attr_accessible :cart_id, :store_id, :user_id, :items_attributes, :items,
+  attr_accessible :cart_id, :store_id, :customer_id, :items_attributes, :items,
                   :environment,
-                  :user, :store, :shipping_address, :shipping_details
+                  :customer, :store, :shipping_address, :shipping_details
 
-  belongs_to :user
+  belongs_to :customer
   belongs_to :cart
   belongs_to :store, class_name: "Company"
   has_many :items, class_name: "OrderItem"

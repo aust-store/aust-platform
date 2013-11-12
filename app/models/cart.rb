@@ -1,5 +1,5 @@
 class Cart < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :customer
   belongs_to :company
   has_many :items, class_name: "OrderItem"
   has_one :shipping, class_name: "OrderShipping"
@@ -42,8 +42,8 @@ class Cart < ActiveRecord::Base
     self.shipping = self.build_shipping.create_for_cart(shipping)
   end
 
-  def set_user(user)
-    self.update_attributes(user: user)
+  def set_customer(customer)
+    self.update_attributes(customer: customer)
   end
 
   def preliminar_shipping_address
@@ -52,7 +52,7 @@ class Cart < ActiveRecord::Base
 
   def zipcode_mismatch?
     zipcode = if shipping_address.nil?
-                user.default_address.zipcode
+                customer.default_address.zipcode
               else
                 shipping_address.zipcode
               end

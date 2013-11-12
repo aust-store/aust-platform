@@ -30,10 +30,10 @@ module Store
 
         def set_sender
           payment.sender = PagSeguro::Sender.new(
-            name:         order.user.full_name,
-            email:        order.user.email,
-            phone_ddd:    order.user.first_phone_number[:area],
-            phone_number: order.user.first_phone_number[:phone])
+            name:         order.customer.full_name,
+            email:        order.customer.email,
+            phone_ddd:    order.customer.first_phone_number[:area],
+            phone_number: order.customer.first_phone_number[:phone])
         end
 
         def set_shipping

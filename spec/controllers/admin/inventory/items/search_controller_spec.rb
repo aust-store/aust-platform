@@ -5,10 +5,10 @@ describe Admin::Inventory::Items::SearchController do
   # TODO fix contracts
   #it_obeys_the "InventoryItem model contract"
   it_obeys_the "admin application controller contract"
-  
+
   before do
     InventoryItem.stub(:search_for).and_return("result")
-    subject.stub_chain(:current_user, :company_id) { 1 }
+    subject.stub_chain(:current_customer, :company_id) { 1 }
     subject.stub(:params) { {name: :name} }
   end
 

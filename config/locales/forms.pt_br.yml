@@ -31,7 +31,7 @@ pt_br:
         update: "Salvar configurações"
       company:
         update: "Salvar"
-      user:
+      customer:
         create: "Salvar"
       order:
         update: "Atualizar pedido"
@@ -56,7 +56,7 @@ pt_br:
         first_name: "Nome"
         last_name: "Sobrenome"
         description: "Descrição"
-      user:
+      customer:
         receive_newsletter: "Desejo receber novidades e anúncios relevantes."
         home_area_number:   "Telefone residencial"
         work_area_number:   "Telefone no trabalho"
@@ -89,7 +89,7 @@ pt_br:
         zipcode: "CEP do remetente"
         commit: "Salvar configurações"
     hints:
-      user:
+      customer:
         social_security_number: "No formato 000.000.000-00 ou apenas números."
         home_number:   ""
         work_number:   ""

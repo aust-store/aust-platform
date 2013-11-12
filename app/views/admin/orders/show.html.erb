@@ -62,8 +62,8 @@
         <tr class="<%= cycle('even', 'odd') %>">
           <td><%= t(".client") %>:</td>
           <td>
-            <%= @order.user.full_name %>,
-            <%= @order.user.email %>
+            <%= @order.customer.full_name %>,
+            <%= @order.customer.email %>
           </td>
         </tr>
       </tbody>

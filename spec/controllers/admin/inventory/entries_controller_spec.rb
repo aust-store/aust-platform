@@ -48,7 +48,7 @@ describe Admin::Inventory::EntriesController do
       items.stub(:admin_user_id=)
 
       controller.current_company.stub(:id) { 1 }
-      controller.current_user.stub(:id) { 1 }
+      controller.stub_chain(:current_user, :id) { 1 }
     end
 
     it "redirects if saving balance successfully" do

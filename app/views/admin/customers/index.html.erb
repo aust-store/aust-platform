@@ -16,7 +16,7 @@
         <% @customers.each do |customer| %>
           <tr class="<%= cycle('odd', 'even') %>">
             <td>
-              <%= link_to customer.name, admin_customer_path(customer) %>
+              <%= link_to customer.first_name, admin_customer_path(customer) %>
             </td>
           </tr>
         <% end %>

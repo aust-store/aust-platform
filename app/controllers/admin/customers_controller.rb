@@ -8,7 +8,7 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def new
-    @customer = Customer.new(company: current_company)
+    @customer = Customer.new(store: current_company)
   end
 
   def create

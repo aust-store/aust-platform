@@ -6,9 +6,9 @@ module Store
         @cart       = cart
       end
 
-      def use_users_default_address
+      def use_customers_default_address
         address = cart.shipping_address and address.destroy
-        cart.build_shipping_address(current_user.default_address.copied)
+        cart.build_shipping_address(current_customer.default_address.copied)
         cart.save
       end
 
@@ -16,8 +16,8 @@ module Store
 
       attr_accessor :cart, :controller
 
-      def current_user
-        controller.current_user
+      def current_customer
+        controller.current_customer
       end
     end
   end

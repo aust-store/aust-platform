@@ -5,7 +5,7 @@ FactoryGirl.define do
     end
 
     association :shipping_address, factory: :address
-    association :user
+    association :customer
     environment :website
 
     # order_item

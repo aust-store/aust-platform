@@ -5,7 +5,7 @@ class Admin::Devise::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   def new
-    sign_out current_user
+    sign_out current_admin_user
     super
   end
 

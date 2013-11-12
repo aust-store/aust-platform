@@ -44,7 +44,7 @@ describe Cart do
     let(:shipping) { double }
     let(:build_shipping) { double }
 
-    it "updates the user of the cart" do
+    it "updates the customer of the cart" do
       build_shipping.should_receive(:create_for_cart).with(shipping) { :persisted }
       cart = Cart.new
       cart.stub(:shipping) { shipping }
@@ -56,13 +56,13 @@ describe Cart do
     end
   end
 
-  describe "#set_user" do
-    let(:user) { double }
+  describe "#set_customer" do
+    let(:customer) { double }
 
-    it "updates the user of the cart" do
+    it "updates the customer of the cart" do
       cart = Cart.new
-      cart.should_receive(:update_attributes).with(user: user)
-      cart.set_user(user)
+      cart.should_receive(:update_attributes).with(customer: customer)
+      cart.set_customer(customer)
     end
   end
 
@@ -115,7 +115,7 @@ describe Cart do
       # order attributes should match the cart's
       order.environment.should == "offline"
       order.cart_id    .should == cart.id
-      order.user_id    .should == cart.user_id
+      order.customer_id.should == cart.customer_id
       order.store      .should == cart.company
 
       # cart items are copied as well
@@ -149,7 +149,7 @@ describe Cart do
 
     context "no shipping details exist" do
       it "returns true if the zipcode wasn't yet defined" do
-        subject.stub_chain(:user, :default_address, :zipcode) { 1 }
+        subject.stub_chain(:customer, :default_address, :zipcode) { 1 }
         subject.stub(:shipping) { nil } # no zipcode exists at all
         subject.zipcode_mismatch?.should be_true
       end
@@ -158,13 +158,13 @@ describe Cart do
     context "shipping address is absent" do
       before { subject.stub(:shipping_address) { nil } }
 
-      it "returns false if the user's zipcode matches the cart's" do
-        subject.stub_chain(:user, :default_address, :zipcode) { 1 }
+      it "returns false if the customer's zipcode matches the cart's" do
+        subject.stub_chain(:customer, :default_address, :zipcode) { 1 }
         subject.zipcode_mismatch?.should be_false
       end
 
-      it "returns true if the user's zipcode doesn't match the cart's" do
-        subject.stub_chain(:user, :default_address, :zipcode) { 2 }
+      it "returns true if the customer's zipcode doesn't match the cart's" do
+        subject.stub_chain(:customer, :default_address, :zipcode) { 2 }
         subject.zipcode_mismatch?.should be_true
       end
     end

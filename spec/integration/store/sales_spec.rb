@@ -2,9 +2,9 @@ require "spec_helper"
 
 describe "Integrated store sale" do
   before do
-    @company = FactoryGirl.create(:company_with_zipcode)
-    @product = FactoryGirl.create(:inventory_item, company: @company)
-    @user    = FactoryGirl.create(:user, store: @company)
+    @company  = FactoryGirl.create(:company_with_zipcode)
+    @product  = FactoryGirl.create(:inventory_item, company: @company)
+    @customer = FactoryGirl.create(:customer, store: @company)
   end
 
   describe "closing a sale" do

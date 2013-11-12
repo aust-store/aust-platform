@@ -4,7 +4,7 @@ module Store
       before_filter :define_cart_persistence
 
       def show
-        @cart.set_user(current_user)
+        @cart.set_customer(current_customer)
         @zipcode_mismatch = @cart.zipcode_mismatch?
         prepare_show_view
       end
@@ -18,7 +18,7 @@ module Store
             render :show
           end
         else
-          Store::Cart::AddressDefinition.new(self, @cart).use_users_default_address
+          Store::Cart::AddressDefinition.new(self, @cart).use_customers_default_address
           redirect_to checkout_payment_url and return
         end
       end
@@ -27,7 +27,7 @@ module Store
 
       def prepare_show_view
         @cart.build_shipping_address
-        @customer_address = @cart.user.default_address
+        @customer_address = @cart.customer.default_address
       end
 
       def use_custom_shipping_address?

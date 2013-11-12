@@ -15,7 +15,7 @@ pt_br:
         name: "Nome"
       inventory_item_image:
         image: "Imagem"
-      user:
+      customer:
         first_name:   "Nome"
         last_name:    "Sobrenome"
         password:     "Senha"
@@ -125,7 +125,7 @@ pt_br:
           attributes:
             name:
               blank: "Fabricante deve estar presente"
-        user:
+        customer:
           attributes:
             email:
               invalid: "Formato de email incorreto! (Ex: email@email.com)"

@@ -9,21 +9,23 @@ describe Store::Payment::Pagseguro::Checkout do
 
   let(:shipping_address) { FactoryGirl.build(:address) }
   let(:shipping_options) { double(service_type: 'pac', price: 8.0) }
-  let(:user)             { FactoryGirl.create(:user) }
+  let(:customer)         { FactoryGirl.create(:customer) }
   let(:items)            { [double(id: 1, name: "T-Shirt", price: 12.0, quantity: 2)] }
 
-  let(:payment_gateway)  { double(email: "chavedomundo@gmail.com", token: "F239F29FA4314E26A4A58D7D563E7E91") }
+  let(:payment_gateway)  { double(email: "chavedomundo@gmail.com", token: "CCC1DB502E84406187718F205517E665") }
   let(:store)            { double(payment_gateway: payment_gateway) }
   let(:controller)       { double(current_store: store) }
 
   let(:order)            { double(id:               2,
                                   shipping_address: shipping_address,
                                   shipping_options: shipping_options,
-                                  user:             user,
-                                  all_items:        items) }
+                                  shipping_details: nil,
+                                  customer:         customer,
+                                  items:            items) }
 
   before do
     controller.stub(:after_payment_return_url).with(:pagseguro) { "http://www.uol.com.br" }
+    items.stub(:parent_items) { items }
   end
 
   describe "#create_transaction" do

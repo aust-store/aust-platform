@@ -1,12 +1,12 @@
 <div class="user_and_cart_status">
   <div class="status_container">
     <div class="user_status">
-      <% if user_signed_in? %>
-        Olá, <%= current_user.first_name %>.
-        <%= link_to "Sair", destroy_user_session_path, method: :delete %>.
+      <% if customer_signed_in? %>
+        Olá, <%= current_customer.first_name %>.
+        <%= link_to "Sair", destroy_customer_session_path, method: :delete %>.
       <% else %>
         Olá. Já é cadastrado?
-        <%= link_to "Login", new_user_session_path %>.
+        <%= link_to "Login", new_customer_session_path %>.
       <% end %>
     </div>
 

@@ -15,11 +15,11 @@ module CapybaraHelpers
       click_on "checkout_button"
     end
 
-    def user_signs_in_during_checkout
-      @user ||= FactoryGirl.create(:user, store: @company)
+    def customer_signs_in_during_checkout
+      @customer ||= FactoryGirl.create(:customer, store: @company)
       page.should have_content "Login"
-      fill_in "user_email", with: @user.email
-      fill_in "user_password", with: "123456"
+      fill_in "customer_email", with: @customer.email
+      fill_in "customer_password", with: "123456"
       click_on "sign_in"
       current_path.should == checkout_shipping_path
     end

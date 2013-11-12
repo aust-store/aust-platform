@@ -1,5 +1,5 @@
-module Store::UserRegistrationHelper
-  def load_user_email
+module Store::CustomerRegistrationHelper
+  def load_customer_email
     params[:email].present? ? { value: params[:email] } : {}
   end
 end
