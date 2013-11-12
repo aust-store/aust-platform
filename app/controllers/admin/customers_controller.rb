@@ -1,35 +1,32 @@
 class Admin::CustomersController < Admin::ApplicationController
+  before_filter :fetch_customer, only: [:show, :edit, :update, :destroy]
+
   def index
-    @customers = current_company.customers.order('first_name', 'last_name').page(params[:page])
+    @customers = current_company
+     .customers
+     .order('first_name', 'last_name')
+     .page(params[:page])
+     .per(25)
   end
 
   def show
-    @customer = current_company.customers.find(params[:id])
-  end
-
-  def new
-    @customer = Customer.new(store: current_company)
-  end
-
-  def create
-    @customer = Store::CustomerCreation.new(self)
-
-    if @customer.create(params[:customer])
-      redirect_to admin_customers_url
-    else
-      @customer = @customer.ar_instance
-      render :new
-    end
+    @customer = CustomerDecorator.decorate(@customer)
   end
 
   def edit
-    @customer = current_company.customers.find(params[:id])
+    @customer.addresses.build unless @customer.addresses.present?
   end
 
   def update
-    @customer = current_company.customers.find(params[:id])
+    customer_params = params[:customer]
 
-    if @customer.update_attributes(params[:customer])
+    if customer_params[:password].blank?
+      customer_params.delete("password")
+      customer_params.delete("password_confirmation")
+    end
+
+    # if @customer.update_attributes(params[:customer])
+    if @customer.update_attributes(customer_params)
       redirect_to admin_customer_url(@customer)
     else
       render :edit
@@ -37,8 +34,13 @@ class Admin::CustomersController < Admin::ApplicationController
   end
 
   def destroy
-    @customer = current_company.customers.find(params[:id])
-    @customer.destroy
+    @customer.disable
     redirect_to admin_customers_url, notice: I18n.t('admin.customers.notice.delete')
+  end
+
+  private
+
+  def fetch_customer
+    @customer = current_company.customers.find(params[:id])
   end
 end

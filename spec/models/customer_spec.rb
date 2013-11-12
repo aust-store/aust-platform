@@ -89,6 +89,24 @@ describe Customer do
     end
   end
 
+  describe "#enabled" do
+    it "enables the customer" do
+      customer = create(:customer, enabled: false)
+      expect(customer).to_not be_enabled
+      customer.enable
+      expect(customer).to be_enabled
+    end
+  end
+
+  describe "#disable" do
+    it "disables the customer" do
+      customer = create(:customer)
+      expect(customer).to be_enabled
+      customer.disable
+      expect(customer).to_not be_enabled
+    end
+  end
+
   describe "#first_phone_number" do
     it "returns the home area and number if available" do
       customer = FactoryGirl.build(:customer)

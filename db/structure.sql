@@ -379,7 +379,8 @@ CREATE TABLE customers (
     home_area_number character varying(255),
     work_area_number character varying(255),
     mobile_area_number character varying(255),
-    store_id integer
+    store_id integer,
+    enabled boolean DEFAULT true
 );
 
 
@@ -1608,6 +1609,13 @@ CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
 
 
 --
+-- Name: index_customers_on_enabled; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_enabled ON customers USING btree (enabled);
+
+
+--
 -- Name: index_customers_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2138,3 +2146,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131112020049');
 INSERT INTO schema_migrations (version) VALUES ('20131112020339');
 
 INSERT INTO schema_migrations (version) VALUES ('20131112022336');
+
+INSERT INTO schema_migrations (version) VALUES ('20131112193300');
+
+INSERT INTO schema_migrations (version) VALUES ('20131112201449');

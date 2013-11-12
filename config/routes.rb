@@ -107,7 +107,7 @@ Store::Application.routes.draw do
       get 'dashboard' => 'dashboard#index'
     end
 
-    resources :customers
+    resources :customers, only: [:index, :show, :edit, :update, :destroy]
     resources :users # admin_users
 
     namespace :offline, module: "offline" do

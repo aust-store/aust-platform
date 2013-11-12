@@ -1,18 +1,63 @@
 <%= simple_form_for([:admin, @customer]) do |f| %>
 
-  <%= @customer.errors.inspect %>
-  <%= f.input :first_name,
-      as: :string,
-      hint: "",
-      placeholder: t('admin.customers.form.first_name_example') %>
+  <p><%= t('.compulsory_fields') %></p>
+  <fieldset class="personal_info">
+    <h2><%= t('.personal_info') %></h2>
+    <%= f.input :email, type: :email, input_html: {}.merge(load_customer_email) %>
+    <%= f.input :first_name, as: 'string' %>
+    <%= f.input :last_name, as: 'string' %>
+    <%= f.input :password,
+      hint: "Deixe em branco para não alterar a senha.",
+      input_html: { autocomplete: :off }
+    %>
+    <%= f.input :password_confirmation,
+      input_html: { autocomplete: :off }
+    %>
+    <%= f.input :social_security_number, as: 'string' %>
+  </fieldset>
 
-    <%= f.input :last_name,
-      as: :string,
-      hint: "",
-      placeholder: t('admin.customers.form.last_name_example') %>
+  <fieldset class="contact_info">
+    <div class="fields_with_illustration">
+      <h2><%= t(".phone_numbers") %></h2>
+      <div class="inline_inputs">
+        <div class="label">
+          <%= label_tag :customer_home_area_number,
+            t("activerecord.attributes.customer.home_number") %>
+        </div>
 
-    <%= f.submit t('admin.customers.form.save'),id: "salvar_cliente" %> ou
+        <%= f.input :home_area_number,   as: 'string', wrapper_html: { class: "input_with_label smaller" }, label: false %>
+        <%= f.input :home_number,        as: 'string', wrapper_html: { class: "input_without_label big" }, label: false %>
+      </div>
 
+      <div class="inline_inputs">
+        <div class="label">
+          <%= label_tag :customer_mobile_area_number,
+            t("activerecord.attributes.customer.mobile_number") %>
+        </div>
+
+        <%= f.input :mobile_area_number, as: 'string', wrapper_html: { class: "input_with_label smaller" }, label: false %>
+        <%= f.input :mobile_number,      as: 'string', wrapper_html: { class: "input_without_label big" }, label: false %>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="address">
+    <div class="fields_with_illustration">
+      <h2><%= t('.address') %></h2>
+
+      <%= f.fields_for :addresses do |address| %>
+        <%= render partial: "shared/address_form", locals: { address: address } %>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <%= f.input :receive_newsletter, wrapper: :checkbox_inline, input_html: { checked: 'false' } %>
+  </fieldset>
+
+  <div class="submit">
+    <%= f.submit id: 'submit' %> ou
     <%= link_to t('admin.customers.form.cancel'), "javascript: history.back()" %>
+  </div>
 
 <% end %>

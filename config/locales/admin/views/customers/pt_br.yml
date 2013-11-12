@@ -9,15 +9,22 @@ pt_br:
         actions: "Ações"
       new:
         title: "Crie um cliente"
+      edit:
+        title: "Editando cliente"
       show:
         name: "Nome:"
         edit: "Editar"
         delete: "Excluir"
+        disable: "Desativar"
         accounts_receivable: "Contas a receber"
         new_debt: "Nova dívida"
         last_purchased_products: "Últimos produtos comprados"
         back_to_stock: "Voltar ao estoque"
       form:
+        compulsory_fields: "Campos com asterísco (*) são obrigatórios."
+        personal_info: "Informações pessoais"
+        phone_numbers: "Telefones"
+        address: "Endereço"
         first_name_example: "ex.: João"
         last_name_example: "ex.: Silva"
         description_example: "ex.: Cliente da padaria"

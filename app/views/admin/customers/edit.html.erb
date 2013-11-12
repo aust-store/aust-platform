@@ -1,2 +1,19 @@
-<%= render "layouts/admin/nav_history" %>
-<%= render "form" %>
+<%= render partial: "layouts/admin/nav_history",
+    locals: {
+      back_to: admin_customer_path(@customer)
+    } %>
+
+<header>
+  <div class="inline_title">
+    <h1><%= t('admin.customers.edit.title') %></h1>
+  </div>
+  <p>
+    Editando <%= @customer.first_name %> <%= @customer.last_name %>
+  </p>
+</header>
+
+<div class="main_container">
+  <div class="form">
+    <%= render 'form' %>
+  </div>
+</div>

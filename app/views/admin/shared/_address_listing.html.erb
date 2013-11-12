@@ -1,0 +1,30 @@
+<table class="properties">
+
+  <tbody>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>Endereço 1:</td>
+      <td><%= "#{address.address_1} #{address.number}" %></td>
+    </tr>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>Endereço 2:</td>
+      <td><%= address.address_2 %></td>
+    </tr>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>Cidade:</td>
+      <td><%= address.city %></td>
+    </tr>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>CEP:</td>
+      <td><%= address.zipcode %></td>
+    </tr>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>Estado:</td>
+      <td><%= address.state %></td>
+    </tr>
+    <tr class="<%= cycle('even', 'odd') %>">
+      <td>País:</td>
+      <td><%= address.country %></td>
+    </tr>
+  </tbody>
+
+</table>
