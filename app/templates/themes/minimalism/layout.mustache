@@ -1,0 +1,69 @@
+<div id="header">
+  <a href="{{{root_path}}}">
+    <div class="title">
+      <h1>{{company_name}}</h1>
+      <p>Caring about your workplace.</p>
+    </div>
+  </a>
+
+  <div class="user_and_cart_status">
+    <div class="status_container">
+      <div class="user_status">
+        {{{ customer_status }}}.
+      </div>
+
+      <div class="cart_status">
+        {{{ cart_status }}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="global">
+
+  <div id="navigation">
+    <ul>
+      <li>
+        <a href="{{{root_path}}}" class="{{{current_root_path}}}">Principal</a>
+      </li>
+
+      {{#pages}}
+        <li>
+          <a href="{{{page_path}}}">{{{page_name}}}</a>
+        </li>
+      {{/pages}}
+
+      <li>
+        <a href="{{{new_contact_path}}}" id="contact_path">Contato</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="site_body">
+    <div name="taxonomy_menu" class="taxonomy_menu vertical_taxonomy_menu">
+      <h2>Categorias</h2>
+      {{{taxonomy}}}
+    </div>
+
+    <div id="content">
+      {{{ main_rotative_banners }}}
+
+      <div id="main">
+        <div class="main_container">
+          {{{ notices }}}
+          {{{ yield }}}
+        </div>
+      </div>
+
+      <div id="complementary_content">
+        <div class="complementary_content_container">
+          <div class="all_pages_right_ad_banners">
+            {{{ all_pages_right_banners }}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{{footer}}}

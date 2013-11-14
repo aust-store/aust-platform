@@ -8,6 +8,7 @@ class InventoryItemImage < ActiveRecord::Base
   before_save :set_as_cover_if_first
 
   scope :cover, ->{ where(cover: true) }
+  scope :non_cover, ->{ where(cover: false) }
   scope :default_order, ->{ order("cover desc, id desc") }
 
   def set_as_cover_if_first

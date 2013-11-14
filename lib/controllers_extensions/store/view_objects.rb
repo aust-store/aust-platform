@@ -6,8 +6,10 @@ module ControllersExtensions
       end
 
       def view_objects
-        @theme = View::StoreTheme.new(current_store.theme)
+        # TODO -  this var should be removed when we get rid of the ERB templates
+        @theme = View::Theme.new(current_store.theme)
         @layout_constraints = View::LayoutConstraints.new(self)
+        @store_view = View::Store.new(controller: self, company: @company)
       end
     end
   end

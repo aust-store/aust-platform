@@ -1,11 +1,11 @@
 <div class="products_list">
-  <% @items.each_with_index do |item, index| %>
+  <% items.each_with_index do |item, index| %>
     <div class="product product_<%= index %>">
       <%= link_to product_path(item) do %>
         <div class="image">
           <% image = item.images.cover.first %>
           <%= image_tag(image.image.url(:cover_standard),
-                        with: 170,
+                        width: 170,
               class: "image_#{ image.id }") unless image.blank? %>
         </div>
 

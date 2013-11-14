@@ -73,9 +73,9 @@ feature "Inventory Item form" do
       created_item.shipping_box.weight.should == 25
 
       manufacturers = Manufacturer.all
-      manufacturers.map(&:name)         .should == ["Github", "My custom manufacturer"]
-      manufacturers.map(&:company_id)   .should == [@company.id, @company.id]
-      manufacturers.map(&:admin_user_id).should == [@admin_user.id, @admin_user.id]
+      manufacturers.map(&:name)         .should =~ ["Github", "My custom manufacturer"]
+      manufacturers.map(&:company_id)   .should =~ [@company.id, @company.id]
+      manufacturers.map(&:admin_user_id).should =~ [@admin_user.id, @admin_user.id]
     end
 
     scenario "As a store admin, I see validation errors if I miss some field" do

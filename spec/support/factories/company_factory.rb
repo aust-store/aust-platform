@@ -15,6 +15,10 @@ FactoryGirl.define do
       company.save
     end
 
+    trait :minimalism_theme do
+      association :theme, :minimalism
+    end
+
     factory :company_with_zipcode do
       association :settings, factory: :company_setting
     end
