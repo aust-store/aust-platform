@@ -3,7 +3,7 @@ require "acceptance_spec_helper"
 feature "Store products" do
   before do
     stub_correios
-    @company = FactoryGirl.create(:company_with_zipcode)
+    @company = FactoryGirl.create(:company_with_zipcode, :minimalism_theme)
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end
@@ -19,7 +19,7 @@ feature "Store products" do
       page.should have_content @product.images.first.image
       page.should have_content @product.images.last.image
 
-      click_link I18n.t("store.products.show.add_to_cart_link")
+      click_link "Comprar"
       current_path.should == cart_path
       page.should have_content @product.name
 

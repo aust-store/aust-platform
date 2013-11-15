@@ -1,0 +1,22 @@
+<div class="products_list">
+  {{#products}}
+    <div class="product product_{{{index}}}">
+      <a href="{{{product_path}}}" id="product_show_page_{{{id}}}">
+        <div class="image">
+          {{#cover_image}}
+            <img src="{{{src}}}" width="170", class="{{{id}}}" />
+          {{/cover_image}}
+        </div>
+
+        <div class="text">
+          <div class="title">
+            {{{name}}}
+          </div>
+          <div class="price">
+            {{{price}}}
+          </div>
+        </div>
+      </a>
+    </div>
+  {{/products}}
+</div>

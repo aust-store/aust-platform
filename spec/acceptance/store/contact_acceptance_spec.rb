@@ -1,3 +1,4 @@
+# coding: utf-8
 require "acceptance_spec_helper"
 
 feature "Contact form" do
@@ -7,7 +8,15 @@ feature "Contact form" do
   end
 
   scenario "As an user, I can contact the company via email" do
-    @company = create(:company, contact: create(:contact, email: "contact@example.com"))
+    @company = create(:company,
+                      :minimalism_theme,
+                      contact: create(:contact, email: "contact@example.com"))
+
+    FactoryGirl.create(:inventory_item, company: @company)
+
+    @item = FactoryGirl.create(:inventory_item, company: @company)
+    @item.entries.first.update_attribute(:quantity, 0)
+
     stub_subdomain(@company)
 
     visit root_path

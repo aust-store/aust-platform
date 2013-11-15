@@ -1,6 +1,6 @@
-require "view/store_theme"
+require "view/theme"
 
-describe View::StoreTheme do
+describe View::Theme do
   let(:theme) { double }
 
   subject { described_class.new(theme) }

@@ -8,7 +8,7 @@ shared_examples "loading taxonomy" do
   describe "loading the store taxonomy" do
     describe "GET show" do
       it "should have the @taxonomy variable assigned" do
-        store.stub_chain(:taxonomies, :hash_tree_for_homepage) { :taxonomy }
+        store.stub_chain(:taxonomies_as_hash) { :taxonomy }
         get :show, id: 1
         assigns(:taxonomies).should == :taxonomy
       end

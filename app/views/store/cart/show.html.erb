@@ -1,74 +1,81 @@
 <h1>Carrinho de compras</h1>
 <%= simple_form_for :cart, url: cart_path, html: { method: :put } do |form| %>
 
-  <div class="cart">
-    <div class="cart_table">
-      <div class="columns_header">
-        <div class="column description">
+  <div class="cart_page">
+    <table class="cart">
+      <tr class="columns_header">
+        <td class="column description">
           <%= t(".header.column.item") %>
-        </div>
+        </td>
 
-        <div class="column quantity">
+        <td class="column quantity">
           <%= t(".header.column.quantity") %>
-        </div>
+        </td>
 
-        <div class="column total_price">
+        <td class="column total_price">
           <%= t(".header.column.total_price") %>
-        </div>
+        </td>
 
-        <div class="column item_options">
-        </div>
-      </div>
+        <td class="column item_options">
+        </td>
+      </tr>
 
-      <div class="products">
+      <tbody class="products">
         <% @cart_items.each_with_index do |item, index| %>
-        <div class="product order_item_<%= item.id %>">
-          <div class="column description">
+        <tr class="product order_item_<%= item.id %>">
+          <td class="column description">
             <%= link_to item.name, product_path(id: item.entry_id) %>
-          </div>
+          </td>
 
-          <div class="column quantity">
+          <td class="column quantity">
             <input type="text" value="<%= item.quantity %>" class="id_<%= item.id %>" name="<%= "cart[item_quantities][#{item.id}]" %>" />
-          </div>
+          </td>
 
-          <div class="column total_price">
+          <td class="column total_price">
             <%= item.price %>
-          </div>
+          </td>
 
-          <div class="column item_options">
+          <td class="column item_options">
             <%= link_to image_tag("store/buttons/check_no.png"),
                   cart_items_path(id: item.id),
                   method: :delete,
                   name: "remove_order_item" %>
-          </div>
-        </div>
+          </td>
+        </tr>
         <% end %>
-      </div>
 
-      <div class="items_total">
-        <div class="column description">
-          <%= t(".column.items_total") %>
-        </div>
+        <tr class="items_total">
+          <td class="column description">
+            <%= t(".column.items_total") %>
+          </td>
 
-        <div class="column quantity">
-        </div>
+          <td class="column quantity">
+          </td>
 
-        <div class="column total_price">
-          <%= @cart.total %>
-        </div>
+          <td class="column total_price">
+            <%= @cart.total %>
+          </td>
 
-        <div class="column options">
-        </div>
-      </div>
+          <td class="column options">
+          </td>
+        </tr>
 
-      <% if @shipping_calculation_enabled %>
-        <%= render "store/cart/shipping_calculation" %>
-      <% else %>
-        <p class="shipping_disabled">
-          <%= t(".shipping_disabled_message") %>
-        </p>
-      <% end %>
-    </div>
+      </tbody>
+      <tfoot>
+
+        <tr>
+          <td colspan="4">
+            <% if @shipping_calculation_enabled %>
+              <%= render "store/cart/shipping_calculation" %>
+            <% else %>
+              <p class="shipping_disabled">
+                <%= t(".shipping_disabled_message") %>
+              </p>
+            <% end %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
 
     <div class="actions">
       <div class="line">
@@ -83,7 +90,11 @@
       <% if @checkout_enabled %>
         <div class="line">
           <div class="checkout">
-            <%= link_to "Finalizar compra", checkout_shipping_path, id: "checkout_button" %>
+            <%= link_to "Finalizar compra",
+              checkout_shipping_path,
+              id: "checkout_button",
+              class: "btn positive_action_btn"
+            %>
           </div>
         </div>
       <% end %>

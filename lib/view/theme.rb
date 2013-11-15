@@ -1,5 +1,5 @@
 module View
-  class StoreTheme
+  class Theme
     def initialize(theme)
       @theme = theme
     end

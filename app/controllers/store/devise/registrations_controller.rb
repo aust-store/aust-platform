@@ -6,7 +6,7 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
   include ControllersExtensions::Store::ViewObjects
 
   # e. g loads taxonomies, cart item quantities
-  include ControllersExtensions::LoadingGlobalInformations
+  include ControllersExtensions::Resources
 
   def new
     resource = build_resource

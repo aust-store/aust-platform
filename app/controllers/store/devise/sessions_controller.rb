@@ -6,7 +6,7 @@ class Store::Devise::SessionsController < Devise::SessionsController
   include ControllersExtensions::Store::ViewObjects
 
   # e. g loads taxonomies, cart item quantities
-  include ControllersExtensions::LoadingGlobalInformations
+  include ControllersExtensions::Resources
 
   private
 

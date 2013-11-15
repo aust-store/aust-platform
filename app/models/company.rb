@@ -24,6 +24,10 @@ class Company < ActiveRecord::Base
   before_validation :set_default_theme, on: :create
   before_validation :sanitize_domain
 
+  def taxonomies_as_hash
+    self.taxonomies.hash_tree_for_homepage
+  end
+
   def create_inventory
     self.build_inventory
   end

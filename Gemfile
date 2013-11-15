@@ -25,6 +25,7 @@ gem 'rails', '~>4'
   gem 'draper', '~> 1.2.1'
   gem 'inherited_resources'
   gem "active_model_serializers", "0.6.0"
+  gem "mustache" # used in store themes
 
 # Components for forms and widgets
   gem 'devise', '~> 3.0.0.rc'

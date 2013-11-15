@@ -7,6 +7,7 @@
     <div class="merchandising">
       <h3><%= @product.merchandising %></h3>
     </div>
+
     <% unless @product.images.blank? %>
       <div class="images">
         <div class="cover">
@@ -40,8 +41,9 @@
       <%= link_to t(".add_to_cart_link"),
         cart_items_path(id: @product),
         method: :post,
-        class: "button",
-        id: "add_to_cart" %>
+        class: "btn positive_action_btn",
+        id: "add_to_cart"
+      %>
     </div>
   </div>
 </div>
