@@ -1,0 +1,22 @@
+pt_br:
+  admin:
+    setup_messages:
+      missing_zipcode:
+        title: CEP não configurado
+        call_to_action: Configurar
+
+      missing_taxonomy:
+        title: Não há categorias de mercadorias
+        call_to_action: Configurar
+
+      missing_products:
+        title: Não há mercadorias cadastradas
+        call_to_action: Configurar
+
+      missing_domain:
+        title: Domínio não configurado
+        call_to_action: Configurar
+
+      missing_payments:
+        title: Meios de pagamentos não definidos
+        call_to_action: Configurar

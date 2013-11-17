@@ -1,0 +1,20 @@
+<h2>Lista de tarefas</h2>
+<p>
+  Para sua loja ficar acessível e você poder vender,
+  você precisa configurar alguns itens. Veja
+  abaixo a lista do que você ainda precisa fazer.
+</p>
+
+<div class="setup_warning">
+  <% @commerce_website.missing_factors.each do |factor, setup_href| %>
+    <div class="warning">
+      <div class="title">
+        <span class="background"></span>
+        <%= t("admin.setup_messages.#{factor}.title") %>
+        <%= link_to t("admin.setup_messages.#{factor}.call_to_action"),
+          self.send(setup_href),
+          class: "call_to_action btn" %>
+      </div>
+    </div>
+  <% end %>
+</div>

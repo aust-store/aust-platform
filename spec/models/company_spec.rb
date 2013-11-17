@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Company do
+  subject { Company.new }
+
   describe "callbacks" do
     describe "sanitize_domain" do
       it "converts www.domain.com to domain.com" do
@@ -57,6 +59,12 @@ describe Company do
       company.stub(:settings) { double(zipcode: "123") }
       company.zipcode.should == "123"
     end
+
+    it "returns nil if no settings were set" do
+      company = Company.new
+      company.stub(:settings) { nil }
+      company.zipcode.should be_nil
+    end
   end
 
   describe "#has_zipcode?" do
@@ -70,6 +78,30 @@ describe Company do
       company = Company.new
       company.stub(:zipcode) { "" }
       company.has_zipcode?.should == false
+    end
+  end
+
+  describe "#has_domain?" do
+    it "returns true when a domain is present" do
+      subject.domain = "petshop.com"
+      subject.has_domain?.should == true
+    end
+
+    it "returns false when domain is empty" do
+      subject.domain = ""
+      subject.has_domain?.should == false
+    end
+  end
+
+  describe "#has_payment_gateway_configured?" do
+    it "returns true when a gateway is configured" do
+      subject.payment_gateway = build(:payment_gateway)
+      subject.has_payment_gateway_configured?.should == true
+    end
+
+    it "returns false when a gateway is configured" do
+      subject.payment_gateway = nil
+      subject.has_payment_gateway_configured?.should == false
     end
   end
 

@@ -1,21 +1,24 @@
-<div class="main_container">
-  <h2>Números</h2>
-  <div class="graphs">
-    
-    <div id="pie_chart" class="graph">
-      
-    </div><!-- / -->
+<header>
+  <% if @commerce_website.pending_setup? %>
+    <h1>Bem-vindo</h1>
+  <% else %>
+    <h1>Números</h1>
+  <% end %>
+</header>
 
-    <div id="pie_chart_two" class="graph">
-      
-    </div><!-- / -->
-
-    <div id="pie_chart_three" class="graph">
-      
-    </div><!-- / -->
+<% if @commerce_website.pending_setup? %>
+  <div class="main_container">
+    <p>
+      Este é o seu painel de controle. Nele você pode gerenciar mercadorias,
+      marketing, colaboradores e outros aspectos da sua loja. Lembre-se de
+      verificar constantemente se algum novo pedido foi feito.
+    </p>
   </div>
-  <h2>Últimos produtos cadastrados</h2>
-  <p>Nullam quis risus eget urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-
-  <h2></h2>
-</div>  
+  <div class="main_container section">
+    <%= render "setup_warning" %>
+  </div>
+<% else %>
+  <div class="main_container">
+    <%= render "graphs" %>
+  <% end %>
+</div>

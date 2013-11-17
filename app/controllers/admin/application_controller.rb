@@ -34,6 +34,7 @@ class Admin::ApplicationController < ApplicationController
   def navigation_namespace
     Rails.logger.info request.url
     @nav_namespace = case request.url
+    when /admin\/dashboard/  ; "dashboard"
     when /admin\/inventory/  ; "inventory"
     when /admin\/statistics/ ; "statistics"
     when /admin\/users/      ; "users"

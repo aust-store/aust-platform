@@ -79,11 +79,19 @@ class Company < ActiveRecord::Base
   end
 
   def zipcode
-    settings.zipcode
+    settings.zipcode if settings.present?
   end
 
   def has_zipcode?
     zipcode.present?
+  end
+
+  def has_domain?
+    self.domain.present?
+  end
+
+  def has_payment_gateway_configured?
+    self.payment_gateway.present?
   end
 
   private
