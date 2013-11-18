@@ -1,8 +1,4 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: {
-             back_to: admin_settings_path,
-             text: t("back")
-           } %>
+<%= view_header(back_to: admin_settings_path) %>
 
 <header class="continuous_bottom">
   <h1>Informações de contato</h1>
@@ -10,7 +6,7 @@
 
 <div class="main_container">
 
-  <%= simple_form_for [:admin, @company], url: admin_company_contact_path do |f| %>
+  <%= simple_form_for([:admin, @company], url: admin_company_contact_path) do |f| %>
 
   <div class="column_pane_half left">
     <div class="section">

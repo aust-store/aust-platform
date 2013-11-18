@@ -1,8 +1,4 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: {
-             back_to: admin_settings_path,
-             text: t("admin.history_navigation.back.dashboard")
-           } %>
+<%= view_header back_to: admin_settings_path %>
 
 <header>
   <h1><%= t ".title" %></h1>

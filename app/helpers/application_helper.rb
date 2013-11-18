@@ -25,4 +25,18 @@ module ApplicationHelper
 
     raw link_to(raw(text), routing_resource, options)
   end
+
+  def view_header(options = {})
+    back_to   = options.fetch(:back_to,   "javascript: history.back()")
+    back_text = options.fetch(:back_text, t("back"))
+
+    locals = {
+      back_to: back_to,
+      text:    back_text
+    }
+
+    result =  render(partial: "layouts/admin/nav_history", locals: locals)
+    result << render(partial: "layouts/admin/notices")
+    result
+  end
 end

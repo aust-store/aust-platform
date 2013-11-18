@@ -1,0 +1,37 @@
+body
+  font-size: 76%
+  font-family: "Lucida Grande", "Lucida Sans", "Verdana", sans-serif
+
+.green_background
+  background: lighten(green, 65%) !important
+
+.flash_notice, .flash_failure
+  padding: 8px 11px
+  &:empty
+    display: none
+
+.flash_notice
+  background-color: #E8FFE8
+  color: green
+  font-weight: bold
+
+.flash_failure
+  background-color: #FFF4F4
+  color: red
+  font-weight: bold
+
+form
+  .notice, .failure
+    padding: 5px 8px
+    margin: 0 0 10px 0
+    border-radius: 3px
+
+  .notice
+    background-color: #E8FFE8
+  .failure
+    background-color: #FFF4F4
+    color: red
+
+ul
+  margin-left: 0px
+  padding-left: 20px

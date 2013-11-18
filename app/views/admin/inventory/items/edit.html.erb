@@ -1,5 +1,4 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: { back_to: admin_inventory_item_path(@item) } %>
+<%= view_header back_to: admin_inventory_item_path(@item) %>
 
 <header>
   <h1><%= @item.name %></h1>

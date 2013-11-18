@@ -1,8 +1,4 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: {
-             back_to: admin_orders_path,
-             text: "Voltar aos pedidos"
-           } %>
+<%= view_header back_to: admin_orders_path %>
 
 <header>
   <h1><%= t('.title') %><%= @order.number %></h1>

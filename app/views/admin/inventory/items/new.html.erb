@@ -1,8 +1,5 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: {
-             back_to: admin_inventory_items_path,
-             text: "Voltar à listagem de itens"
-           } %>
+<%= view_header back_to: admin_inventory_items_path,
+                back_text: "Voltar à listagem de itens" %>
 
 <header>
   <h1>Crie um novo item</h1>

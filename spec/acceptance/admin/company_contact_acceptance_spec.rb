@@ -16,7 +16,6 @@ feature "Company contact" do
     click_on "submit"
     page.should have_content I18n.t("admin.default_messages.update.failure")
 
-
     fill_in "company_address_attributes_address_1",    with: "Baker street"
     fill_in "company_address_attributes_number",       with: "221B"
     fill_in "company_address_attributes_address_2",    with: "I don't know"

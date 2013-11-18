@@ -54,6 +54,8 @@ feature "Orders Management" do
       select "Enviado", from: "order_items_attributes_0_status"
 
       click_button "Atualizar pedido"
+      Order.all
+      OrderItem.all
       page.should have_select("order_items_attributes_0_status", selected: "Enviado")
     end
   end

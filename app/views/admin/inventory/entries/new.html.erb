@@ -1,8 +1,5 @@
-<%= render partial: "layouts/admin/nav_history",
-           locals: {
-             back_to: admin_inventory_item_entries_path(@item),
-             text: "Voltar às entradas no estoque de #{@item.name}"
-           } %>
+<%= view_header back_to: admin_inventory_item_entries_path(@item),
+                back_text: "Voltar às entradas no estoque de #{@item.name}"  %>
 
 <header>
   <h1><%= @entry.inventory_item.name %></h1>

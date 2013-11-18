@@ -1,7 +1,4 @@
-<%= render partial: "layouts/admin/nav_history",
-    locals: {
-      back_to: admin_customer_path(@customer)
-    } %>
+<%= view_header(back_to: admin_customer_path(@customer)) %>
 
 <header>
   <div class="inline_title">
