@@ -42,11 +42,21 @@ class Theme < ActiveRecord::Base
                          path:       "#{path}")
 
     if new_theme.valid?
-      FileUtils.cp_r(new_theme.default_theme_template_path,
-                     "#{new_theme.cloud_themes_path}/#{path}")
+      new_theme_full_path = "#{new_theme.cloud_themes_path}/#{path}"
+      FileUtils.cp_r(new_theme.default_theme_template_path, new_theme_full_path)
+      FileUtils.rm("#{new_theme_full_path}/preview.png", force: true)
+      FileUtils.rm("#{new_theme_full_path}/preview.jpg", force: true)
     end
     new_theme.save
     new_theme
+  end
+
+  def nature
+    CONFIG["themes"]["paths"].keys.find do |key|
+      themes_dir = CONFIG["themes"]["paths"][key]
+      hypothesis = Rails.root.join(themes_dir, self.path).to_s
+      Dir.exists?(hypothesis)
+    end
   end
 
   def default_theme_template_path
