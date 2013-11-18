@@ -3,12 +3,15 @@ FactoryGirl.define do
     sequence(:name) { |i| "Super Company ##{i}" }
     sequence(:handle) { |i| "handle#{i}" }
 
+    trait :minimalism_theme do
+      association :theme, :minimalism
+    end
+
     factory :company do
       association :contact
       association :theme
       association :inventory
       association :settings, factory: :company_setting
-      sequence(:handle) { |i| "handle#{i}" }
       sequence(:domain) { |i| "petshop#{i}.com" }
 
       after(:create) do |company, evaluator|
@@ -16,10 +19,6 @@ FactoryGirl.define do
                                       token: "1234",
                                       name:  "pagseguro")
         company.save
-      end
-
-      trait :minimalism_theme do
-        association :theme, :minimalism
       end
 
       factory :company_with_zipcode do

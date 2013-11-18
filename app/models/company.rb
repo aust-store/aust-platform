@@ -20,6 +20,8 @@ class Company < ActiveRecord::Base
 
   accepts_nested_attributes_for :admin_users, :address, :contact
 
+  validates :handle, uniqueness: true
+
   before_create :create_inventory
   before_validation :set_default_theme, on: :create
   before_validation :sanitize_domain

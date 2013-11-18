@@ -31,6 +31,18 @@ describe Company do
     end
   end
 
+  describe "validations" do
+    describe "handle uniqueness" do
+      it "doesn't allow companies with the same handle" do
+        create(:barebone_company, handle: "handle1")
+        company2 = build(:barebone_company, handle: "handle1")
+        company3 = build(:barebone_company, handle: "handle2")
+        expect(company2).to be_invalid
+        expect(company3).to be_valid
+      end
+    end
+  end
+
   describe "#items_on_sale_on_main_page" do
     let(:items) { double }
 

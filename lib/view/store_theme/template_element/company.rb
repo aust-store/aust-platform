@@ -22,8 +22,10 @@ module View
         def company
           company = view.company
           address = company.address || company.build_address
+          contact = company.contact || company.build_contact
 
-          { name: company.name,
+          {
+            name: company.name,
             address: {
               address_1:    address.address_1,
               address_2:    address.address_2,
@@ -33,9 +35,9 @@ module View
               zipcode:      address.zipcode
             },
             contact: {
-              phone_1: company.contact.phone_1,
-              phone_2: company.contact.phone_2,
-              email:   company.contact.email
+              phone_1: contact.phone_1,
+              phone_2: contact.phone_2,
+              email:   contact.email
             }
           }
         end

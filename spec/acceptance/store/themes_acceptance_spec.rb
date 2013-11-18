@@ -32,4 +32,17 @@ feature "Stores themes" do
       page.should_not have_selector ".taxonomy_menu.vertical_taxonomy_menu"
     end
   end
+
+  describe "edge cases" do
+    let(:company) { create(:barebone_company, :minimalism_theme) }
+
+    background do
+      stub_subdomain(company)
+    end
+
+    scenario "As a customer, I access a company without any data at all" do
+      visit root_path
+      page.should have_content(company.name)
+    end
+  end
 end
