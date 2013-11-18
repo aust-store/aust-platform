@@ -54,9 +54,6 @@ feature "Orders Management" do
       select "Enviado", from: "order_items_attributes_0_status"
 
       click_button "Atualizar pedido"
-      visit admin_dashboard_path
-
-      visit admin_order_path(order)
       page.should have_select("order_items_attributes_0_status", selected: "Enviado")
     end
   end
