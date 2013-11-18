@@ -5,9 +5,15 @@
 </header>
 
 <div class="main_container">
+  <p>
+    <%= form_tag admin_store_themes_path do |f| %>
+      <%= submit_tag "Novo tema para minha loja", id: "new_theme" %> 
+    <% end %>
+  </p>
+
   <div class="themes">
     <% @themes.each do |theme| %>
-      <div class="theme <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
+      <div class="theme theme_item <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
         <div class="image">
           <%= image_tag "/themes/#{theme.path}/preview.png" %>
         </div>
