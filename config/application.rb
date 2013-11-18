@@ -86,6 +86,8 @@ module Store
     config.assets.precompile += ["mobile_admin/application_manifest.css"]
     config.assets.precompile += ["mobile_admin/sign_in_manifest.css"]
 
+    config.assets.precompile += ["theme_editor/application.js"]
+    config.assets.precompile += ["theme_editor/application.css"]
     # Enable the asset pipeline
     config.assets.enabled = true
 

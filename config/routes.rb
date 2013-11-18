@@ -65,6 +65,8 @@ Store::Application.routes.draw do
       get 'index' => 'dashboard#index'
     end
 
+    resource :theme_editor, only: [:show], controller: "theme_editor"
+
     resources :orders, only: [:index, :show, :update, :create]
 
     resource :settings, only: [:show, :update] do
