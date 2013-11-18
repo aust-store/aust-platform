@@ -11,7 +11,7 @@
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
-  <% # this uses app/templates/ mustache files if present or %>
+  <% # this uses the themes' Mustache files if present or %>
   <% # simply loaded the normal ERB files %>
   <%= render_theme_layout(self) %>
 

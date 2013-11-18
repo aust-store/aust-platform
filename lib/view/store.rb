@@ -15,8 +15,13 @@ module View
       @theme ||= View::Theme.new(company.theme)
     end
 
+    # Returns the path of the
     def theme_path
-      "./app/templates/themes"
+      CONFIG["themes"]["paths"].keys.each do |key|
+        themes_dir = CONFIG["themes"]["paths"][key]
+        hypothesis = Rails.root.join(themes_dir, theme.path).to_s
+        return hypothesis if Dir.exists?(hypothesis)
+      end
     end
 
     def theme_name

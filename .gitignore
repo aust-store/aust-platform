@@ -21,6 +21,7 @@ tags
 /solr/pids
 .#*
 public/uploads/*
+public/themes/cloud/*
 public/assets/*
 zeus*
 .sass-cache/*
