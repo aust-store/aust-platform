@@ -17,11 +17,7 @@ module View
 
     # Returns the path of the
     def theme_path
-      CONFIG["themes"]["paths"].keys.each do |key|
-        themes_dir = CONFIG["themes"]["paths"][key]
-        hypothesis = Rails.root.join(themes_dir, theme.path).to_s
-        return hypothesis if Dir.exists?(hypothesis)
-      end
+      theme.full_path
     end
 
     def theme_name

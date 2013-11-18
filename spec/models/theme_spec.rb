@@ -18,7 +18,7 @@ describe Theme do
     it "creates a theme for a company" do
       new_theme = Theme.create_for_company(company)
       Theme.count.should == 1
-      new_theme.name.should == "#{company.name}"
+      new_theme.name.should == "#{company.name} v1"
       new_theme.path.should == "#{company.id}_company_2_v1"
       new_theme.company.should == company
       new_theme.public.should be_false
@@ -26,6 +26,34 @@ describe Theme do
       another_new_theme = Theme.create_for_company(company)
       Theme.count.should == 2
       another_new_theme.path.should == "#{company.id}_company_2_v2"
+
+      cloud_path = CONFIG["themes"]["paths"]["cloud"]
+      theme1_path = Rails.root.join(cloud_path, "#{company.id}_company_2_v1").to_s
+      theme2_path = Rails.root.join(cloud_path, "#{company.id}_company_2_v2").to_s
+      exists1 = Dir.exists?(theme1_path)
+      exists2 = Dir.exists?(theme2_path)
+      exists1.should be_true
+      exists2.should be_true
+      FileUtils.remove_dir(theme1_path)
+      FileUtils.remove_dir(theme2_path)
+    end
+  end
+
+  describe "#default_theme_template_path" do
+    it "returns a path" do
+      cloud_path = CONFIG["themes"]["paths"]["cloud"]
+      subject.default_theme_template_path
+        .should == Rails.root.join(cloud_path, "minimalism").to_s
+    end
+  end
+
+  describe "#full_path" do
+    let(:theme_path) { Rails.root.join(CONFIG["themes"]["paths"]["checked_out"]) }
+    let(:theme_name) { "minimalism" }
+    subject { build(:theme, :minimalism) }
+
+    it "finds what's the path of the theme" do
+      subject.full_path.should == "#{theme_path.to_s}/#{theme_name}"
     end
   end
 end

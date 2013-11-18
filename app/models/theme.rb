@@ -1,4 +1,6 @@
 class Theme < ActiveRecord::Base
+  DEFAULT_THEME_PATH = "minimalism"
+
   attr_accessible :description, :name, :path, :public, :company_id,
                   :vertical_taxonomy_menu
 
@@ -34,9 +36,32 @@ class Theme < ActiveRecord::Base
       end
     end
 
-    self.create(company_id: company.id,
-                public:     false,
-                name:       "#{company.name} v#{version}",
-                path:       "#{path}")
+    new_theme = self.new(company_id: company.id,
+                         public:     false,
+                         name:       "#{company.name} v#{version}",
+                         path:       "#{path}")
+
+    if new_theme.valid?
+      FileUtils.cp_r(new_theme.default_theme_template_path,
+                     "#{new_theme.cloud_themes_path}/#{path}")
+    end
+    new_theme.save
+    new_theme
+  end
+
+  def default_theme_template_path
+    Rails.root.join(CONFIG["themes"]["paths"]["checked_out"], DEFAULT_THEME_PATH).to_s
+  end
+
+  def full_path
+    CONFIG["themes"]["paths"].keys.each do |key|
+      themes_dir = CONFIG["themes"]["paths"][key]
+      hypothesis = Rails.root.join(themes_dir, self.path).to_s
+      return hypothesis if Dir.exists?(hypothesis)
+    end
+  end
+
+  def cloud_themes_path
+    Rails.root.join(CONFIG["themes"]["paths"]["cloud"]).to_s
   end
 end
