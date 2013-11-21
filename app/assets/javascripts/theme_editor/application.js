@@ -18,8 +18,6 @@
 //= require_tree ./routes
 //= require_tree ./lib
 
-Ember.LOG_VERSION = false;
-
 if (window.env == 'development') {
   Ember.LOG_VERSION = true;
   App = Ember.Application.create({
@@ -32,14 +30,5 @@ if (window.env == 'development') {
     currentRoute: '',
   });
 }
-
-App = Ember.Application.create({
-  resolver: Ember.DefaultResolver.extend({
-    resolveTemplate: function(parsedName) {
-      parsedName.fullNameWithoutType = "theme_editor/" + parsedName.fullNameWithoutType;
-      return this._super(parsedName);
-    }
-  })
-});
 
 //= require_tree .

@@ -69,9 +69,14 @@ class Theme < ActiveRecord::Base
       hypothesis = Rails.root.join(themes_dir, self.path).to_s
       return hypothesis if Dir.exists?(hypothesis)
     end
+    nil
   end
 
   def cloud_themes_path
     Rails.root.join(CONFIG["themes"]["paths"]["cloud"]).to_s
+  end
+
+  def files
+    ThemeFile.new(self)
   end
 end

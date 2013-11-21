@@ -12,6 +12,12 @@ development:
 
 test:
   <<: *global
+  themes:
+    paths:
+      test: "tmp/theme_files"
+      checked_out: "public/themes/checked_out"
+      private: "public/themes/private"
+      cloud: "public/themes/cloud"
 
 staging:
   <<: *global

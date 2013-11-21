@@ -4,9 +4,9 @@ describe Admin::ThemeEditorController do
 
   describe "GET 'show'" do
     it "returns http success" do
-      get 'show'
+      Theme.stub(:find).with("2")
+      get 'show', id: 2
       response.should be_success
     end
   end
-
 end

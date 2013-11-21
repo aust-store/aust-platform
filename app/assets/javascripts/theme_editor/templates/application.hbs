@@ -1,1 +1,13 @@
-{{outlet}}
+<div class="vertical_layout">
+  <div class="navigation">
+    Navigation
+  </div>
+
+  <div class="editor">
+    {{outlet editor}}
+  </div>
+
+  {{#view App.PreviewPaneView}}
+    {{outlet preview}}
+  {{/view}}
+</div>

@@ -1,0 +1,19 @@
+<div class="tabs">
+
+  {{controller}}
+  {{#each controller}}
+    {{#view App.TabView dataForId=id}}
+      {{name}}
+    {{/view}}
+  {{/each}}
+</div>
+
+<div class="textareas">
+  {{#each controller}}
+    <div class="textarea file_editor" {{bind-attr data-id=id}}>
+      <div class="textarea_container">
+        {{textarea valueBinding=body}}
+      </div>
+    </div>
+  {{/each}}
+</div>

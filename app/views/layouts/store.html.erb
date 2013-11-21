@@ -11,6 +11,10 @@
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
+  <% if session[:preview_theme_id] %>
+    <%= render "layouts/store/theme_preview_warning" %>
+  <% end %>
+
   <% # this uses the themes' Mustache files if present or %>
   <% # simply loaded the normal ERB files %>
   <%= render_theme_layout(self) %>

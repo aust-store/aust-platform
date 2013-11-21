@@ -1,0 +1,14 @@
+<div class="theme_preview_warning body_offset">
+</div>
+<div class="theme_preview_warning">
+  Você está visualizando outro tema que não o da sua loja.
+  <%= link_to "Clique para voltar ao tema original",
+    admin_theme_preview_index_path,
+    method: :delete
+  %>
+</div>
+<script type="text/javascript">
+  if (window.self !== window.top) {
+    $(".theme_preview_warning").hide();
+  }
+</script>

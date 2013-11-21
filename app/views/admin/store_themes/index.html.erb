@@ -21,7 +21,13 @@
         <div class="details">
           <div class="title">
             <%= theme.name %>
-            <%= "(#{t(".current")})" if current_theme(theme) %>
+            <% if current_theme(theme) %>
+              <br />
+              <%= "(#{t(".current")})" %>
+            <% elsif session[:preview_theme_id] == theme.id %>
+              <br />
+              (editando)
+            <% end %>
           </div>
 
           <% unless current_theme(theme) %>

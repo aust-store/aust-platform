@@ -1,5 +1,5 @@
 CustomRESTAdapter = DS.RESTAdapter.extend({
-  namespace: 'api',
+  namespace: 'admin/api/v1',
   pathForType: function(type) {
     var underscored = Ember.String.underscore(type)
     return Ember.String.pluralize(underscored);

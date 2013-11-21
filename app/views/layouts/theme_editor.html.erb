@@ -4,11 +4,12 @@
   <title>Editor the temas</title>
   <%= stylesheet_link_tag "theme_editor/application", :media => "all" %>
 
+  <script type="text/javascript">
+    var env     = '<%= Rails.env %>',
+        themeId = '<%= @theme.id %>';
+  </script>
   <%= javascript_include_tag "theme_editor/application" %>
   <%= airbrake_javascript_notifier %>
-  <script type="text/javascript">
-    window.env = '<%= Rails.env %>';
-  </script>
 </head>
 <body>
 

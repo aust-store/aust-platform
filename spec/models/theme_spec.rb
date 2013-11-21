@@ -41,9 +41,9 @@ describe Theme do
 
   describe "#default_theme_template_path" do
     it "returns a path" do
-      cloud_path = CONFIG["themes"]["paths"]["cloud"]
+      checked_out_path = CONFIG["themes"]["paths"]["checked_out"]
       subject.default_theme_template_path
-        .should == Rails.root.join(cloud_path, "minimalism").to_s
+        .should == Rails.root.join(checked_out_path, "minimalism").to_s
     end
   end
 

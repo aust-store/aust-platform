@@ -1,0 +1,15 @@
+pt_br:
+  admin:
+    theme_files:
+      layout_mustache:
+        name: "Layout"
+        description: "O arquivo layout contém o HTML que está presente em todas as páginas. Cada página, como detalhes do produto ou carrinho, é incluída neste arquivo, em {{{pagina}}. Assim você pode ter um só cabeçalho em todas as páginas."
+      home_mustache:
+        name: "Página principal"
+        description: "Este é o HTML da página principal que é carregado dentro do arquivo de layout."
+      product_mustache:
+        name: "Detalhes do produto"
+        description: "Este é o HTML carregado para mostrar a página de detalhes de um produto."
+      style_css:
+        name: "CSS"
+        description: "Este é o arquivo CSS da sua página."
