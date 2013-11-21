@@ -7,7 +7,11 @@
     method: :delete
   %>
 </div>
+
 <script type="text/javascript">
+  /**
+   * Hides the theme preview warning when inside an iFrame (like the editor)
+   */
   if (window.self !== window.top) {
     $(".theme_preview_warning").hide();
   }
