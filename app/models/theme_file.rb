@@ -11,7 +11,7 @@ class ThemeFile
   end
 
   def all
-    all_files.map do |filename|
+    all_files.sort.map do |filename|
       self.class.new(theme, filename)
     end
   end

@@ -1,0 +1,48 @@
+/* #encoding: utf-8 */
+/* Buttons */
+$btn_background: #ebebeb
+$red_button: lighten(red, 17%)
+$green_button_color: lighten(green, 5%) // lighten(#ccffcc, 5%) // lighten(green, 37%)
+
+a.btn
+  display: inline-block
+  text-decoration: none !important
+  outline: none
+  border-radius: 50px
+  background: $btn_background
+  padding: 5px 10px 5px 10px
+  color: #595959
+  font-weight: normal
+
+  &.with_icon
+    padding-left: 26px
+    img
+      position: absolute
+      margin-left: -18px
+      margin-top: -1px
+
+  &:hover
+    background: lighten($btn_background, 3%)
+    color: green
+  &:active
+    background: darken($btn_background, 7%)
+    color: green
+
+  &.has_image
+    background-repeat: no-repeat
+    padding-left: 26px
+    background-position: 6px 5px
+
+  &.red:hover
+    background: $red_button
+    color: white
+
+  &.green
+    background: $green_button_color
+    font-weight: bold
+    color: white
+    &:hover
+      background: lighten($green_button_color, 6%)
+    &:active
+      background: darken($green_button_color, 6%)
+      color: #fafafa

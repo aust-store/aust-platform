@@ -66,6 +66,7 @@ describe Admin::Api::ThemeFilesController do
       "description" => I18n.t("#{i18n}.description"),
       "filename" => filename,
       "body" => body,
+      "theme_id" => theme.id,
       "preview_url" => admin_theme_preview_url(theme, filename: filename) }
   end
 end

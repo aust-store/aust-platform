@@ -1,11 +1,11 @@
 <div class="tabs">
-
-  {{controller}}
-  {{#each controller}}
-    {{#view App.TabView dataForId=id}}
-      {{name}}
-    {{/view}}
-  {{/each}}
+  <div class="tabs_container">
+    {{#each controller}}
+      {{#view App.TabView dataForId=id}}
+        {{name}}
+      {{/view}}
+    {{/each}}
+  </div>
 </div>
 
 <div class="textareas">

@@ -23,7 +23,7 @@ describe ThemeFile do
     end
 
     it "finds what's the path of the theme" do
-      subject.all.map(&:to_json).should == [
+      subject.all.map(&:to_json).should =~ [
         file_content("home.mustache"),
         file_content("layout.mustache"),
         file_content("product.mustache"),

@@ -1,10 +1,16 @@
-{{#each item in controller}}
-  <div class="preview_iframe">
-    <div class="details">
+<div class="preview_iframe">
+  <div class="header">
+    <div class="text">
       Pré-visualizando tema.
     </div>
-    <div class="iframe">
-      {{previewIframe item}}
+    <div class="options">
+      <a href="javascript: void()" {{action refreshIframe}} class="btn with_icon green">
+        {{image_tag "refresh_icon"}}
+        Atualizar visualização
+      </a>
     </div>
   </div>
-{{/each}}
+  <div class="iframe">
+    {{previewIframe}}
+  </div>
+</div>

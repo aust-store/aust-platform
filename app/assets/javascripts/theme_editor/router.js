@@ -7,9 +7,6 @@ App.Router.map(function() {
 App.LoadingRoute = Ember.Route.extend();
 
 App.ApplicationRoute = Ember.Route.extend({
-  xrenderTemplate: function() {
-    this.render({outlet: "editor"});
-  }
 });
 
 App.IndexRoute = Ember.Route.extend({
@@ -63,7 +60,6 @@ App.EditorIndexRoute = Ember.Route.extend({
     Ember.run.next(function() {
       $("a.tab:first").addClass('current');
       $(".textarea.file_editor:first").show();
-      $(".preview_iframe:first").show();
     });
   }
 });

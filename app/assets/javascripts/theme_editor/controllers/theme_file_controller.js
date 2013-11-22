@@ -7,7 +7,16 @@ App.ThemeFileController = Ember.ObjectController.extend({
 
       clearTimeout(this.saveTimer);
       this.saveTimer = setTimeout(function() {
-        _this.get('model').save();
+        if (_this.get('isDirty')) {
+          _this.controllerFor("application").set("appStatus", "Salvando arquivo...");
+
+          _this.get('model').save().then(function() {
+            setTimeout(function() {
+              _this.controllerFor("application").set("appStatus", "");
+            }, 2000);
+          });
+
+        }
       }, 4000);
     }
   }.observes('body'),
