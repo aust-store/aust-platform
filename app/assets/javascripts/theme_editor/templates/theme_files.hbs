@@ -11,9 +11,7 @@
 <div class="textareas">
   {{#each controller}}
     <div class="textarea file_editor" {{bind-attr data-id=id}}>
-      <div class="textarea_container">
-        {{textarea valueBinding=body}}
-      </div>
+      <div class="textarea_container" {{bind-attr id=textareaId}}>{{unbound body}}</div>
     </div>
   {{/each}}
 </div>

@@ -12,6 +12,7 @@ App.TabView = Ember.View.extend({
       $(e.target).addClass("current");
       $(".textarea.file_editor").hide();
       $(".textarea.file_editor[data-id='"+fileId+"']").show();
+      Lib.UsableEditor.focusCursorOnEditor();
     });
 
     e.preventDefault();

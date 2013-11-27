@@ -17,6 +17,9 @@
 //= require ./router
 //= require_tree ./routes
 //= require_tree ./lib
+//
+//= require ./vendor/ace_editor/ace.min
+//= require_tree ./vendor/ace_editor
 
 if (window.env == 'development') {
   Ember.LOG_VERSION = true;
@@ -30,5 +33,7 @@ if (window.env == 'development') {
     currentRoute: '',
   });
 }
+
+Lib = {};
 
 //= require_tree .

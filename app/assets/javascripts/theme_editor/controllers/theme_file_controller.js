@@ -1,21 +1,31 @@
 App.ThemeFileController = Ember.ObjectController.extend({
+  textareaId: function() {
+    return this.get('filename').replace(/\./, "_");
+  }.property(),
+
   saveTimer: null,
 
   saveBody: function() {
     if (this.get('isDirty')) {
-      var _this = this;
+      var _this = this,
+          applicationController = _this.controllerFor("application");
 
       clearTimeout(this.saveTimer);
+
       this.saveTimer = setTimeout(function() {
         if (_this.get('isDirty')) {
-          _this.controllerFor("application").set("appStatus", "Salvando arquivo...");
+          applicationController.set("appStatus", "Salvando arquivo...");
 
-          _this.get('model').save().then(function() {
+          var ShowSuccessStatus = function() {
             setTimeout(function() {
-              _this.controllerFor("application").set("appStatus", "");
+              applicationController.set("appStatus", "");
             }, 2000);
-          });
+          }
+          var ShowErrorStatus = function() {
+            applicationController.set("appStatus", "Não foi possível salvar o arquivo.");
+          }
 
+          _this.get('model').save().then(ShowSuccessStatus, ShowErrorStatus);
         }
       }, 4000);
     }

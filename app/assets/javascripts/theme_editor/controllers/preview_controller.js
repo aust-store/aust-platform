@@ -4,6 +4,7 @@ App.PreviewController = Ember.ObjectController.extend({
       var savingFiles = Ember.A(),
           _this = this;
 
+      Lib.UsableEditor.focusCursorOnEditor();
 
       this.controllerFor("themeFiles").get('content').forEach(function(item) {
         if (item.get('isDirty')) {

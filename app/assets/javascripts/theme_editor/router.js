@@ -10,9 +10,6 @@ App.ApplicationRoute = Ember.Route.extend({
 });
 
 App.IndexRoute = Ember.Route.extend({
-  xredirect: function(e) {
-    this.transitionTo("editor.index");
-  }
 });
 
 App.EditorRoute = Ember.Route.extend({
@@ -57,9 +54,18 @@ App.EditorIndexRoute = Ember.Route.extend({
   },
 
   afterModel: function() {
+    var _this = this;
+
     Ember.run.next(function() {
       $("a.tab:first").addClass('current');
       $(".textarea.file_editor:first").show();
+
+      _this.controllerFor('themeFiles').get('content').forEach(function(item) {
+        Lib.CodeEditor.create({
+          filename: item.get("filename"),
+          emberRoute: _this,
+        });
+      });
     });
   }
 });
