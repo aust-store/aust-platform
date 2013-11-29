@@ -42,8 +42,8 @@ class Theme < ActiveRecord::Base
                          path:       "#{path}")
 
     if new_theme.valid?
-      new_theme_full_path = "#{new_theme.cloud_themes_path}/#{path}"
-      FileUtils.cp_r(new_theme.default_theme_template_path, new_theme_full_path)
+      new_theme_full_path = "#{new_theme.path_for_new_theme}/#{path}"
+      FileUtils.cp_r(::Theme.default_theme_template_path, new_theme_full_path)
       FileUtils.rm("#{new_theme_full_path}/preview.png", force: true)
       FileUtils.rm("#{new_theme_full_path}/preview.jpg", force: true)
     end
@@ -51,6 +51,12 @@ class Theme < ActiveRecord::Base
     new_theme
   end
 
+  # Nature is a synonynm to type here. It'll return a string with the type of
+  # theme, which could be:
+  #
+  #   - checked_out: created during development and present in git
+  #   - cloud: created by the admins and not present on git
+  #   - private: those that are in the /private directory
   def nature
     CONFIG["themes"]["paths"].keys.find do |key|
       themes_dir = CONFIG["themes"]["paths"][key]
@@ -59,24 +65,26 @@ class Theme < ActiveRecord::Base
     end
   end
 
-  def default_theme_template_path
+  # Used for cloning during cloud themes creation.
+  def self.default_theme_template_path
     Rails.root.join(CONFIG["themes"]["paths"]["checked_out"], DEFAULT_THEME_PATH).to_s
   end
 
+  # Returns something like /var/project/store/public/themes/cloud/minimalism
   def full_path
-    CONFIG["themes"]["paths"].keys.each do |key|
-      themes_dir = CONFIG["themes"]["paths"][key]
-      hypothesis = Rails.root.join(themes_dir, self.path).to_s
-      return hypothesis if Dir.exists?(hypothesis)
-    end
-    nil
-  end
-
-  def cloud_themes_path
-    Rails.root.join(CONFIG["themes"]["paths"]["cloud"]).to_s
+    theme_path = [CONFIG["themes"]["paths"][nature], self.path].join("/")
+    Rails.root.join(theme_path).to_s
   end
 
   def files
     ThemeFile.new(self)
+  end
+
+  def path_for_new_theme
+    Rails.root.join(CONFIG["themes"]["paths"]["cloud"]).to_s
+  end
+
+  def editable?
+     ["cloud", "test"].include?(self.nature.to_s)
   end
 end

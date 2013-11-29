@@ -7,13 +7,22 @@
 <div class="main_container">
   <p>
     <%= form_tag admin_store_themes_path do |f| %>
-      <%= submit_tag "Novo tema para minha loja", id: "new_theme" %> 
+      <%= submit_tag "Novo tema para minha loja", id: "new_theme" %>
     <% end %>
   </p>
+</div>
+
+<div class="main_container">
 
   <div class="themes">
+    <% themes_row_counter = 1 %>
     <% @themes.each do |theme| %>
-      <div class="theme theme_item <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
+      <% if themes_row_counter == 1 %>
+        <div class="row">
+      <% end %>
+
+
+      <div class="theme theme_item theme_<%= theme.id %> <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
         <div class="image">
           <%= image_tag "/themes/#{theme.path}/preview.png" %>
         </div>
@@ -32,14 +41,30 @@
 
           <% unless current_theme(theme) %>
             <div class="">
-              <%= small_button t(".select_theme_button"),
+              <%= small_button "Usar na loja",
                 admin_store_theme_path(theme),
                 method: :put,
                 title: "select_theme" %>
             </div>
           <% end %>
+
+          <% if theme.editable? %>
+            <div class="">
+              <%= link_to "Editar tema",
+                admin_theme_editor_path(theme),
+                target: "_blank",
+                class: "btn" %>
+            </div>
+          <% end %>
         </div>
       </div>
+
+      <% if themes_row_counter == 4 %>
+        </div>
+      <% end %>
+
+      <% themes_row_counter += 1 %>
+      <% themes_row_counter = 1 if themes_row_counter > 4 %>
     <% end %>
   </div>
 

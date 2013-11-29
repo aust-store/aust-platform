@@ -6,7 +6,7 @@ class Admin::StoreThemesController < Admin::ApplicationController
   def create
     Theme.create_for_company(current_company)
 
-    redirect_to admin_store_themes_url
+    redirect_to admin_store_themes_url, notice: "Tema criado com sucesso."
   end
 
   def update

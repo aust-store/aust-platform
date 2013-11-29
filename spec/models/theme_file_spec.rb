@@ -3,8 +3,7 @@ require 'spec_helper'
 describe ThemeFile do
   let(:theme) { create(:theme, :minimalism) }
   let(:filename) { nil }
-  let(:test_dir) { "#{Rails.root.join(CONFIG["themes"]["paths"]["test"])}" }
-  let(:test_theme_path) { "#{test_dir}/#{theme.path}" }
+  let(:test_theme_path) { "#{test_theme_dir}/#{theme.path}" }
 
   subject { described_class.new(theme, filename) }
 
@@ -105,9 +104,9 @@ describe ThemeFile do
 
   def copy_files_to_test_dir
     FileUtils.rm_rf(test_theme_path)
-    FileUtils.mkdir_p("#{test_dir}")
-    unless theme.full_path =~ /#{test_dir}/
-      FileUtils.cp_r(theme.full_path, test_dir)
+    FileUtils.mkdir_p("#{test_theme_dir}")
+    unless theme.full_path =~ /#{test_theme_dir}/
+      FileUtils.cp_r(theme.full_path, test_theme_dir)
     end
   end
 end

@@ -10,6 +10,9 @@ App.ApplicationRoute = Ember.Route.extend({
 });
 
 App.IndexRoute = Ember.Route.extend({
+  redirect: function() {
+    return this.transitionTo("editor");
+  }
 });
 
 App.EditorRoute = Ember.Route.extend({

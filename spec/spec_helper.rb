@@ -20,6 +20,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros
+  config.include Helpers::ThemeFiles
   config.include AcceptanceSteps
   config.include CapybaraHelpers::DomainHelpers
   config.include CapybaraHelpers::CartHelpers
