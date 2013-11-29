@@ -17,38 +17,7 @@ class Theme < ActiveRecord::Base
   end
 
   def self.create_for_company(company)
-    path = "#{company.id}_#{company.name.underscore}_v"
-    path = path.gsub(/\s/, "_")
-    # converts something like `3 Company #2` to `3_company_2`
-    path = path.gsub(/[^a-zA-Z0-9_]/, "").strip
-    path = path.gsub(/__/, "_").gsub(/__/, "_")
-
-    # Finds out what's the latest version and increments the number
-    unique_path = false
-    version = 1
-    while !unique_path && version < 100
-      matching_theme = Theme.where(path: "#{path}#{version}").first
-      if matching_theme.present?
-        version += 1
-      else
-        unique_path = true
-        path = "#{path}#{version}"
-      end
-    end
-
-    new_theme = self.new(company_id: company.id,
-                         public:     false,
-                         name:       "#{company.name} v#{version}",
-                         path:       "#{path}")
-
-    if new_theme.valid?
-      new_theme_full_path = "#{new_theme.path_for_new_theme}/#{path}"
-      FileUtils.cp_r(::Theme.default_theme_template_path, new_theme_full_path)
-      FileUtils.rm("#{new_theme_full_path}/preview.png", force: true)
-      FileUtils.rm("#{new_theme_full_path}/preview.jpg", force: true)
-    end
-    new_theme.save
-    new_theme
+    Store::CompanyEditableTheme.new(company).create
   end
 
   # Nature is a synonynm to type here. It'll return a string with the type of
