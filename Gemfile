@@ -66,7 +66,7 @@ group :development, :test do
   gem 'thin'
   gem 'pry'
   gem 'pry-nav'
-  gem 'poltergeist'
+  gem 'poltergeist', '1.4.1'
   gem 'konacha'
   gem 'ejs'
 end

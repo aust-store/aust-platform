@@ -7,10 +7,11 @@
   <script type="text/javascript">
     var env        = '<%= Rails.env %>',
         themeId    = '<%= @theme.id %>',
-        previewUrl = '<%= admin_theme_preview_url(@theme) %>';
-    var images = {
-      'refresh_icon': '<%= asset_path("theme_editor/refresh_icon.png") %>'
-    }
+        previewUrl = '<%= admin_theme_preview_url(@theme) %>',
+        currentTheme = <%= raw @theme.to_json(root: false, except: [:id, :company_id]) %>,
+        images     = {
+          'refresh_icon': '<%= asset_path("theme_editor/refresh_icon.png") %>'
+        };
   </script>
 
   <%= javascript_include_tag "theme_editor/application" %>

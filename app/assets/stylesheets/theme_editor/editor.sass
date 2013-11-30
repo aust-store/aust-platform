@@ -1,19 +1,25 @@
 .tabs
+  position: absolute
+  top: 33px
+  height: 30px
+
   background: #f6f6f6
   display: table
-  height: 30px
   width: 100%
   .tabs_container
-    margin-left: 10px
+    margin: 0 10px
 
-  .tab
+  a.tab
     height: 22px
     float: left
     padding: 8px 8px 0 8px
     text-decoration: none
     font-size: 1.1em
-    &.current
+    &:hover
       background: #eaeaea
+    &.current
+      background: lighten(#1783b6, 55%)
+      color: #666
 
 .textareas
   background: #f6f6f6
@@ -27,7 +33,7 @@
   display: block
   margin: 0
   padding: 0
-  margin-top: 30px
+  margin-top: 63px
 
   .textarea.file_editor
     width: 100%
@@ -42,6 +48,7 @@
       bottom: 5px
       right: 12px
       left: 10px
+      border-top: 1px solid lighten(#1783b6, 5%)
 /*
     textarea
       position: relative

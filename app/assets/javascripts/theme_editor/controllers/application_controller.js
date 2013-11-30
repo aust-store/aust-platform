@@ -1,4 +1,8 @@
 App.ApplicationController = Ember.ObjectController.extend({
+  themeName: function() {
+    return window.currentTheme.name;
+  }.property(),
+
   appStatus: "",
   appStatusTimer: null,
 
@@ -16,5 +20,13 @@ App.ApplicationController = Ember.ObjectController.extend({
       _this.set('appStatus', '');
     }, 10000);
 
-  }, "appStatus")
+  }, "appStatus"),
+
+  actions: {
+    closeEditor: function() {
+      if (confirm("Você quer realmente sair do editor?")) {
+        window.close();
+      }
+    }
+  }
 });

@@ -13,12 +13,57 @@ a
   z-index: 9999
   position: absolute
   top: 0
-  right: 0
-  padding: 5px 9px
-  background: lighten(orange, 20%)
+  left: 50%
   display: none
+  .centralizer
+    padding: 5px 9px
+    background: lighten(orange, 20%)
+    position: relative
+    left: -50%
 
 .vertical_layout, body > .ember-view
   width: 100%
   height: 100%
   display: table
+
+header.app_header
+  position: absolute
+  overflow: hidden
+  height: 30px
+  width: 100%
+  top: 0
+  left: 0
+  z-index: 5003
+  background: #165c85
+  color: white
+
+  a
+    color: white
+
+  .app_header_container
+    margin: 0 10px
+
+  .info, .links
+    float: left
+
+  .links
+    float: right
+    margin-right: 5px
+    ul
+      list-style: none
+      margin: 8px 0 0 0
+    li
+      float: left
+      margin-left: 7px
+      a
+        color: white
+        font-weight: bold
+
+  h1, p
+    display: inline
+
+  h1
+    font-weight: normal
+    margin: 0 5px 0 0
+    padding: 0
+

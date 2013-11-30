@@ -11,6 +11,8 @@ Lib.CodeEditor = Ember.Object.extend({
   init: function() {
     this.set("editor", ace.edit(this.domId()));
     this.get("editor").getSession().setUseWorker(false);
+    this.get("editor").getSession().setTabSize(2);
+    this.get("editor").getSession().setUseSoftTabs(true);
     this.defineLanguage();
     this.defineEvents();
   },
