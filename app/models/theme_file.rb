@@ -1,4 +1,12 @@
 class ThemeFile
+  FILES_WHITELIST = [
+    "layout.mustache",
+    "home.mustache",
+    "product.mustache",
+    "style.css",
+    "application.js"
+  ]
+
   def initialize(theme, filename = nil)
     @theme = theme
     @filename = filename
@@ -57,8 +65,9 @@ class ThemeFile
   attr_reader :theme
 
   def all_files
-    @all_files ||= Dir.glob("#{theme.full_path}/*").keep_if do |filename|
-      filename =~ /\.mustache|\.css|\.js/
+    @all_files ||= Dir.glob("#{theme.full_path}/*").keep_if do |full_path|
+      filename = full_path.split("/").last
+      FILES_WHITELIST.include?(filename)
     end.map do |file_path|
       file_path.split("/").last
     end
