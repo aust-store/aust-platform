@@ -16,5 +16,14 @@ App.TabView = Ember.View.extend({
     });
 
     e.preventDefault();
+  },
+
+  mouseEnter: function() {
+    $(".file_description").hide();
+    $(".file_description[data-id='" + this.get("dataForId") + "']").show();
+  },
+
+  mouseLeave: function() {
+    $(".file_description").hide();
   }
 });

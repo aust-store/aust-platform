@@ -4,6 +4,14 @@
       {{#view App.TabView dataForId=id}}
         {{name}}
       {{/view}}
+      <div class="file_description" {{bind-attr data-id=id}}">
+        <strong>Sobre este arquivo:</strong>
+
+        <br />
+        <br />
+
+        {{nl2br description}}
+      </div>
     {{/each}}
   </div>
 </div>

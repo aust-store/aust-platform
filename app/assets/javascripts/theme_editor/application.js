@@ -9,17 +9,17 @@
 
 
 //= require ./store
-//= require_tree ./models
-//= require_tree ./controllers
-//= require_tree ./views
-//= require_tree ./helpers
-//= require_tree ./templates
+//= require_tree ./models/
+//= require_tree ./controllers/
+//= require_tree ./views/
+//= require_tree ./helpers/
+//= require_tree ./templates/
 //= require ./router
-//= require_tree ./routes
-//= require_tree ./lib
+//= require_tree ./routes/
+//= require_tree ./lib/
 //
 //= require ./vendor/ace_editor/ace.min
-//= require_tree ./vendor/ace_editor
+//= require_tree ./vendor/ace_editor/
 
 if (window.env == 'development') {
   Ember.LOG_VERSION = true;
