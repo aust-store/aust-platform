@@ -16,6 +16,10 @@ class Theme < ActiveRecord::Base
     company and company.name
   end
 
+  def preview_image?
+    File.exists?([full_path, "preview.png"].join("/"))
+  end
+
   def self.create_for_company(company)
     Store::CompanyEditableTheme.new(company).create
   end

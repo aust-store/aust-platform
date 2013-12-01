@@ -23,13 +23,17 @@
 
 
       <div class="theme theme_item theme_<%= theme.id %> <%= "current" if current_theme(theme) %>" title="<%= theme.path %>">
-        <div class="image">
-          <%= image_tag "/themes/#{theme.path}/preview.png" %>
-        </div>
+        <% if theme.preview_image? %>
+          <div class="image">
+            <%= image_tag "/themes/#{theme.nature}/#{theme.path}/preview.png" %>
+          </div>
+        <% end %>
 
         <div class="details">
           <div class="title">
-            <%= theme.name %>
+            <strong>
+              <%= theme.name %>
+            </strong>
             <% if current_theme(theme) %>
               <br />
               <%= "(#{t(".current")})" %>

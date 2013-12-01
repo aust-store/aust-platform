@@ -9,6 +9,16 @@ describe Theme do
     it { should validate_uniqueness_of :path }
   end
 
+  describe "#preview_image?" do
+    it "returns true if the theme has a preview.png file" do
+      build(:theme, :minimalism).preview_image?.should be_true
+    end
+
+    it "returns false if the theme has a preview.png file" do
+      build(:theme, :minimalism, path: "lolol").preview_image?.should be_false
+    end
+  end
+
   describe "#create_for_company" do
     let(:company_theme) { double }
 
