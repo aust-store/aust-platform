@@ -1,9 +1,8 @@
-class Admin::ThemeEditorController < ApplicationController
+class Admin::ThemeEditorController < Admin::ApplicationController
   layout "theme_editor"
 
   def show
-    # FIXME
-    @theme = Theme.find(params[:id])
+    @theme = Theme.accessible_for_company(current_company).find(params[:id])
     render text: "", layout: true
   end
 end

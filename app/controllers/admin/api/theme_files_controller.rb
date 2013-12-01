@@ -19,8 +19,7 @@ class Admin::Api::ThemeFilesController < Admin::ApplicationController
   private
 
   def find_theme(theme_id)
-    # FIXME - company can't edit other company's theme
-    @theme ||= Theme.find(theme_id)
+    @theme ||= Theme.accessible_for_company(current_company).find(theme_id)
   end
 
   def add_hyperlink(file)

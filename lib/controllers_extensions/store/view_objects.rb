@@ -17,7 +17,7 @@ module ControllersExtensions
       # just by settings an id in session[:preview_theme_id].
       def current_theme
         @current_theme ||= if session[:preview_theme_id].present?
-                             Theme.find(session[:preview_theme_id])
+                             Theme.accessible_for_company(current_store).find(session[:preview_theme_id])
                            else
                              current_store.theme
                            end
