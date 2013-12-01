@@ -24,6 +24,10 @@ namespace :deploy do
 end
 
 namespace :symlinks do
+  task :themes do
+    run "ln -nfs #{shared_path}/themes/cloud #{release_path}/public/themes/cloud"
+  end
+
   task :database do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
