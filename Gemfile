@@ -28,7 +28,7 @@ gem 'rails', '~>4'
   gem "mustache" # used in store themes
 
 # Components for forms and widgets
-  gem 'devise', '~> 3.0.0.rc'
+  gem 'devise', '~> 3.2.2'
   gem 'cancan'
   gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
   gem 'kaminari'

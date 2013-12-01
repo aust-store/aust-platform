@@ -25,7 +25,7 @@ end
 
 namespace :symlinks do
   task :themes do
-    run "ln -nfs #{shared_path}/themes/cloud #{release_path}/public/themes/cloud"
+    run "ln -nfs #{shared_path}/themes/cloud/* #{release_path}/public/themes/cloud/"
   end
 
   task :database do
@@ -45,6 +45,7 @@ end
 
 after "deploy:finalize_update", "symlinks:database"
 after "deploy:finalize_update", "symlinks:uploads"
+after "deploy:finalize_update", "symlinks:themes"
 after "setup_database:symlink_config", "deploy:migrate"
 after "deploy:migrate", "custom:db_seed"
 
