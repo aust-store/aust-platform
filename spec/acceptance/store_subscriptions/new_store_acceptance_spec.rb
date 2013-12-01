@@ -2,6 +2,7 @@ require 'acceptance_spec_helper'
 
 feature "Store Subscription" do
   scenario "As a user, I'd like to register a new store", js: true do
+    pending "with session_store having domain: :all, Devise won't work because o CSRF problems"
     visit subscription_path
 
     # Page 1

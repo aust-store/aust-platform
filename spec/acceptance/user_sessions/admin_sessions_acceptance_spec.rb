@@ -79,4 +79,12 @@ feature "Admin User sessions" do
       current_url.should == new_admin_user_session_url(subdomain: company2.handle)
     end
   end
+
+  describe "loggin out" do
+    scenario "As signed in admin, I can sign out" do
+      login_into_admin(as: @admin_user)
+      click_link "sign_out"
+      current_url.should == new_admin_user_session_url(subdomain: @admin_user.company.handle, domain: "lvh.me")
+    end
+  end
 end
