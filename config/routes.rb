@@ -53,6 +53,7 @@ Store::Application.routes.draw do
         resources :carts,           only: api_actions
         resources :taxonomies,      only: [:index]
         resources :manufacturers,   only: [:index]
+        resources :theme_files,     only: [:index, :update]
         namespace :reports do
           resource :orders_statistics, only: [:show]
         end
@@ -63,6 +64,13 @@ Store::Application.routes.draw do
   namespace :admin do
     resource :dashboard, controller: "dashboard" do
       get 'index' => 'dashboard#index'
+    end
+
+    resources :theme_editor, only: [:show], controller: "theme_editor"
+    resources :theme_preview, only: [:show], controller: "theme_preview" do
+      collection do
+        delete :destroy
+      end
     end
 
     resources :orders, only: [:index, :show, :update, :create]
@@ -79,7 +87,7 @@ Store::Application.routes.draw do
     end
     resources :taxonomies, only: [:index, :create, :update, :destroy]
     resource  :statistics, only: :show
-    resources :store_themes, only: [:index, :update]
+    resources :store_themes, only: [:index, :update, :create]
     resources :pages, except: [:show]
     resource  :company_contact, only: [:edit, :update]
     resources :banners

@@ -20,6 +20,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros
+  config.include Helpers::ThemeFiles
   config.include AcceptanceSteps
   config.include CapybaraHelpers::DomainHelpers
   config.include CapybaraHelpers::CartHelpers
@@ -39,6 +40,8 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    test_dir = "#{Rails.root.join(CONFIG["themes"]["paths"]["test"])}"
+    FileUtils.rm_rf(test_dir)
     DatabaseCleaner.start
   end
 

@@ -86,6 +86,8 @@ module Store
     config.assets.precompile += ["mobile_admin/application_manifest.css"]
     config.assets.precompile += ["mobile_admin/sign_in_manifest.css"]
 
+    config.assets.precompile += ["theme_editor/application.js"]
+    config.assets.precompile += ["theme_editor/application.css"]
     # Enable the asset pipeline
     config.assets.enabled = true
 
@@ -93,6 +95,8 @@ module Store
     config.assets.version = '1.0'
 
     config.ember.variant = :production
+
+    config.handlebars.templates_root = ["theme_editor/templates"]
 
     # does web request to the shipping service
     config.auto_validate_company_zipcode = true

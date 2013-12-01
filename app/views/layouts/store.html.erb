@@ -3,7 +3,7 @@
 <head>
   <title><%= @company.name %> Store</title>
   <%= stylesheet_link_tag "store/application_manifest", :media => "all" %>
-  <%= stylesheet_link_tag "/themes/#{@theme.path}/style", :media => "all" %>
+  <%= stylesheet_link_tag "/themes/#{@theme.nature}/#{@theme.path}/style", :media => "all" %>
 
   <%= javascript_include_tag "store/application_manifest" %>
   <%= airbrake_javascript_notifier %>
@@ -11,7 +11,11 @@
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
-  <% # this uses app/templates/ mustache files if present or %>
+  <% if session[:preview_theme_id] %>
+    <%= render "layouts/store/theme_preview_warning" %>
+  <% end %>
+
+  <% # this uses the themes' Mustache files if present or %>
   <% # simply loaded the normal ERB files %>
   <%= render_theme_layout(self) %>
 

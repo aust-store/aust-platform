@@ -4,19 +4,17 @@ module View
   # etc).
   #
   class Store
-    attr_reader :controller
+    attr_reader :controller, :theme
 
     def initialize(args)
+      @args = args
       @company = args[:company]
       @controller = args[:controller]
     end
 
-    def theme
-      @theme ||= View::Theme.new(company.theme)
-    end
-
+    # Returns the path of the
     def theme_path
-      "./app/templates/themes"
+      theme.full_path
     end
 
     def theme_name
@@ -49,6 +47,12 @@ module View
 
     def contact_email?
       @company.contact_email.present?
+    end
+
+    def theme
+      # Allow us to use a another theme for preview purposes. If it's not
+      # present, uses the company's.
+      @theme ||= @args.fetch(:theme, View::Theme.new(@company.theme))
     end
   end
 end

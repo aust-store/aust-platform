@@ -3,14 +3,18 @@ require "acceptance_spec_helper"
 
 feature "Store Sign In" do
   before do
-    @company = FactoryGirl.create(:company)
+    @company = FactoryGirl.create(:company, :minimalism_theme)
     @product = FactoryGirl.create(:inventory_item, company: @company)
     stub_subdomain(@company)
   end
 
   scenario "As a customer, I can access a sign in form and go " + \
            "to the sign up page", js: true do
-    visit new_customer_session_path
+    visit root_path
+
+    within ".user_and_cart_status .user_status" do
+      click_on "Login"
+    end
 
     page.should have_selector "#customer_email"
     page.should have_selector "#customer_password"

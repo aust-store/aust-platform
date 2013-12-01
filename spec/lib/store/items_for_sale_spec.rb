@@ -1,5 +1,4 @@
-require "unit_spec_helper"
-require "store/items_for_sale"
+require "spec_helper"
 
 describe Store::ItemsForSale do
   it_should_behave_like "loading store contract"
@@ -45,19 +44,12 @@ describe Store::ItemsForSale do
   end
 
   describe "#detailed_item_for_show_page" do
+    let(:product) { double }
+
     it "returns a detailed item for a given id" do
-      entries_model = double
-      entry = double
-      product = double
-      item = double(id: :id)
+      @store.stub(:detailed_item).with(2) { product }
 
-      @store.stub(:inventory_entries) { entries_model }
-      entries_model.stub(:find).with(:slug) { entry }
-      entry.stub(:inventory_item) { item }
-      @store.stub(:detailed_item).with(:slug) { product }
-      @controller.stub(:params) { {id: :slug} }
-
-      detailed_item = Store::ItemsForSale.new(@controller).detailed_item_for_show_page
+      detailed_item = Store::ItemsForSale.new(@controller).detailed_item_for_show_page(2)
       detailed_item.should == product
     end
   end

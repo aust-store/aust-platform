@@ -1,5 +1,23 @@
 * { margin: 0; padding: 0; }
 
+.theme_preview_warning {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  padding: 5px 0px;
+  background: #333;
+  color: white;
+  a {
+    color: #eee;
+    text-decoration: underline;
+  }
+  &.body_offset {
+    height: 0px;
+    position: static;
+  }
+}
+
 #error, #flash_alert {
   color: darken(red, 2%);
   background: lighten(red, 47%);

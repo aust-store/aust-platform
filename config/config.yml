@@ -1,0 +1,26 @@
+global: &global
+  themes:
+    paths:
+      checked_out: "public/themes/checked_out"
+      private: "public/themes/private"
+      cloud: "public/themes/cloud"
+  notification_emails:
+    - contato@austapp.com
+
+development:
+  <<: *global
+
+test:
+  <<: *global
+  themes:
+    paths:
+      test: "tmp/theme_files"
+      checked_out: "public/themes/checked_out"
+      private: "public/themes/private"
+      cloud: "public/themes/cloud"
+
+staging:
+  <<: *global
+
+production:
+  <<: *global

@@ -1,0 +1,25 @@
+<div class="tabs">
+  <div class="tabs_container">
+    {{#each controller}}
+      {{#view App.TabView dataForId=id}}
+        {{name}}
+      {{/view}}
+      <div class="file_description" {{bind-attr data-id=id}}">
+        <strong>Sobre este arquivo:</strong>
+
+        <br />
+        <br />
+
+        {{nl2br description}}
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="textareas">
+  {{#each controller}}
+    <div class="textarea file_editor" {{bind-attr data-id=id}}>
+      <div class="textarea_container" {{bind-attr id=textareaId}}>{{unbound body}}</div>
+    </div>
+  {{/each}}
+</div>

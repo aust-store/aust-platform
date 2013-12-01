@@ -2,7 +2,7 @@
   <a href="{{{root_path}}}">
     <div class="title">
       <h1>{{company_name}}</h1>
-      <p>Caring about your workplace.</p>
+      <p>CCaring about your workplace.</p>
     </div>
   </a>
 
@@ -66,4 +66,22 @@
   </div>
 </div>
 
-{{{footer}}}
+<footer class="global">
+  {{#company}}
+    {{{name}}} -
+
+    {{#address}}
+      {{{address_1}}},
+      {{{address_2}}},
+      {{{neighborhood}}},
+      {{{city}}},
+      {{{state}}},
+      CEP {{{zipcode}}}
+    {{/address}} -
+
+    {{#contact}}
+      {{{phone_1}}}, {{{phone_2}}}
+    {{/contact}}
+
+  {{/company}}
+</footer>

@@ -28,7 +28,6 @@ module View
 
       def mustache_template_path
         path =  [@view.theme_path]
-        path << [@view.theme_name]
         path << ["layout.mustache"]
         path.join("/")
       end

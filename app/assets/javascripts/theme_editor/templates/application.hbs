@@ -1,0 +1,26 @@
+<div class="vertical_layout">
+  <div id="app_status"><div class="centralizer">{{appStatus}}</div></div>
+
+  <header class="app_header">
+    <div class="app_header_container">
+      <div class="info">
+        <h1>Editor de tema</h1>
+        <p>{{themeName}}</p>
+      </div>
+
+      <div class="links">
+        <ul>
+          <li><a href="javascript: void()" {{action closeEditor}}>Sair</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="editor">
+    {{outlet editor}}
+  </div>
+
+  {{#view App.PreviewPaneView}}
+    {{outlet preview}}
+  {{/view}}
+</div>

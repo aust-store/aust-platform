@@ -34,7 +34,6 @@ module View
     def mustache_template_path(element)
       path =  []
       path << view.theme_path
-      path << view.theme_name
       path << mustache_template_name(element)
       path.join("/")
     end

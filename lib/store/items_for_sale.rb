@@ -20,7 +20,7 @@ module Store
       current_store.inventory_entries.find(entry_id)
     end
 
-    def detailed_item_for_show_page
+    def detailed_item_for_show_page(entry_id)
       current_store.detailed_item(entry_id)
     end
 
