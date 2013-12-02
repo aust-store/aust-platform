@@ -2,7 +2,7 @@ module View
   module StoreTheme
     module TemplateElement
 
-      # All data regarding the current store is groups here.
+      # All data regarding the current store is grouped here.
       #
       # This module will be used in a mustache template. Consider that we have
       # the following hypothetical placeholder in a view (e.g `layout.mustache`):
@@ -14,10 +14,12 @@ module View
       # actual value.
       #
       module Company
+        extend TemplateElementsDocumentation
+
+        desc "company_name"
         def company_name
           view.company.name
         end
-
 
         def company
           company = view.company

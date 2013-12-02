@@ -1,0 +1,6 @@
+# encoding: utf-8
+pt_br:
+  mustache_commands:
+    company_name:
+      name: "nome_da_empresa"
+      description: "Escreve o nome da empresa."

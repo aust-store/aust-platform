@@ -40,12 +40,28 @@ module View
 
       def initialize(view)
         @view = view
+        @documentation = {}
 
         # FIXME - remove this var
         #
         # We're using it because we can't change BannersHelper right now
         # because other themes (non-mustache) are using it
         @banners = view.banners
+      end
+
+      # For resolving translated commands, like #company_name or #nome_da_empresa,
+      # we rely on I18n.
+      def respond_to?(method)
+        super || command_present?(method)
+      end
+
+      def method_missing(method, *args, &block)
+        if command_present?(method)
+          command_name = original_command_name(method)
+          self.public_send(command_name, *args, &block)
+        else
+          super
+        end
       end
 
     private
@@ -58,6 +74,18 @@ module View
 
       def controller_name
         controller.params[:controller]
+      end
+
+      def command_present?(command_name)
+        theme_documentation.has_command?(command_name)
+      end
+
+      def original_command_name(translated_command_name)
+        theme_documentation.original_method_name(translated_command_name)
+      end
+
+      def theme_documentation
+        @theme_documentation ||= ThemeDocumentation.new
       end
     end
   end
