@@ -28,6 +28,7 @@ module View
       # TemplateElement::Company, thus replacing the placeholder with the
       # actual value.
       #
+      include TemplateElement::LayoutAndRendering
       include TemplateElement::Company
       include TemplateElement::Cart
       include TemplateElement::Products
@@ -38,8 +39,9 @@ module View
       include TemplateElement::HtmlLinks
       include TemplateElement::RailsFlash
 
-      def initialize(view)
+      def initialize(view, content_for_layout = nil)
         @view = view
+        @content_for_layout = content_for_layout
         @documentation = {}
 
         # FIXME - remove this var
@@ -55,6 +57,9 @@ module View
         super || command_present?(method)
       end
 
+      # Say we have #company_name, in portuguese that would be #nome_da_empresa
+      # according to our I18n. So, this reroutes existing translated methods,
+      # such as {{{nome_da_empresa}}} to {{{company_name}}}.
       def method_missing(method, *args, &block)
         if command_present?(method)
           command_name = original_command_name(method)
@@ -66,7 +71,7 @@ module View
 
     private
 
-      attr_reader :view
+      attr_reader :view, :content_for_layout
 
       def controller
         view.controller

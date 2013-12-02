@@ -1,6 +1,125 @@
 # encoding: utf-8
 pt_br:
   mustache_commands:
+    # layout_and_rendering.rb
+    yield:
+      name: "pagina_atual"
+      description: |
+        Este elemento escreve na tela a página atual. Ele deve ser colocado dentro do arquivo chamado "Layout".
+
+        Por exemplo, se o usuário for para a página principal, devemos carregar o HTML da página principal. Nós carregaremos e colocaremos onde o código {{{pagina_atual}}} estiver.
+
+    # company.rb
     company_name:
       name: "nome_da_empresa"
       description: "Escreve o nome da empresa."
+    company:
+      name: "empresa"
+      description: |
+        Bloco onde você pode acessar várias informações da empresa, como nome, endereço e contato.
+      block:
+        name: nome
+        address: endereco
+        address_1: endereco_1
+        address_2: endereco_2
+        neighborhood: bairro
+        city: cidade
+        state: estado
+        zipcode: cep
+        contact: contato
+        phone_1: fone_1
+        phone_2: fone_2
+        email: email
+
+    # banner.rb
+    main_rotative_banners:
+      name: principal_banner_rotativo
+      description: description
+
+    all_pages_right_banners:
+      name: banners_lateral_direita_em_todas_paginas
+      description: description
+
+    # cart.rb
+    cart_status:
+      name: status_do_carrinho
+      description: |
+        Escreve uma das seguintes frases: "Você possui 1 item no carrinho.", "Você possui 10 itens no carrinho" ou "Seu carrinho está vazio".
+
+    # customer.rb
+    customer_status:
+      name: status_de_login_do_cliente
+      description: |
+        Escreve uma das seguintes frases: "Olá, João. Sair" (Sair é um link para logout), "Olá. Já é cadastrado? Login" (onde Login é um link para a tela de login).
+
+    # html_links.rb
+    root_path:
+      name: pagina_principal_href
+      description: |
+        Escreve o endereço da página principal. Use este comando desta forma:
+
+        <a href="{{{pagina_principal_href}}}">Página principal</a>, ou até mesmo <a href="{{{pagina_principal_href}}}">{{{nome_da_empresa}}}</a>
+    contact_path:
+      name: pagina_de_contato_href
+      description: |
+        Escreve o endereço da página de contato. Use este comando desta forma:
+
+        <a href="{{{pagina_de_contato_href}}}">Contato</a>
+
+    current_root_path:
+      name: pagina_principal_href_atualmente
+      description: |
+        Escreve "current" (sem aspas) caso a página atual seja a página principal. Você pode usar algo como <a href="{{{pagina_principal_href}}}" class="{{{pagina_principal_href_atualmente}}}">Principal</a>.
+
+    current_contact_path:
+      name: pagina_de_contato_href_atualmente
+      description: |
+        Escreve "current" (sem aspas) caso a página atual seja a página de contato. Você pode usar algo como <a href="{{{pagina_de_contato_href}}}" class="{{{pagina_de_contato_href_atualmente}}}">Contato</a>.
+
+    # pages.rb
+    pages:
+      name: "paginas"
+      description: |
+        Bloco onde você pode acessar todas as paginas estáticas da loja, como Quem Somos.
+      block:
+        name: nome
+        page_href: pagina_href
+        current_page: pagina_atual
+
+    # products.rb
+    product:
+      name: "produto"
+      description: |
+        Bloco com o produto da página atual.
+
+    products:
+      name: "produtos"
+      description: |
+        Bloco com a listagem de todos os produtos da página atual. Se for a página principal, os produtos de capa aparecerão. Se for uma página de categorias, os produtos daquela categoria aparecerão.
+      block:
+        cover_image: imagem_de_capa
+        id: id
+        name: nome
+        description: descricao
+        merchandising: frase_de_efeito_emocional
+        price: preco
+        price?: preco?
+        product_href: produto_href
+        src: src
+        big_image: imagem_grande
+        images: imagens
+        src_thumb: src_thumb
+        src_natural: src_natural
+        add_to_cart_btn: botao_adicionar_ao_carrinho
+
+    # rails_flash.rb
+    notices:
+      name: avisos
+      description: |
+        Escreve avisos como "Produto comprado com sucesso".
+
+    # taxonomy.rb
+    taxonomy:
+      name: categorias
+      description: |
+        Escreve toda a árvore de categorias. Inclui links para o usuário acessar as páginas de cada categoria.

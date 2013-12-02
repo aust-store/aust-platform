@@ -14,6 +14,8 @@ module View
       # actual value.
       #
       module Products
+        extend TemplateElementsDocumentation
+
         # Block for listing products.
         #
         # `view.products` should return the current page's product listing. On
@@ -22,37 +24,41 @@ module View
         # If you're in a category, that means the products in that category.
         # It's the controller the responsible for different products.
         #
+        desc "products", block: true
         def products
+          i18n_block = "mustache_commands.products.block"
           view.products.each_with_index.map do |product, index|
             small_cover_image = product.images.cover.first
 
             attributes = product_attributes(product)
             attributes.merge({
               index: index,
-              cover_image: {
-                id:  small_cover_image.id,
-                src: small_cover_image.image.url(:cover_standard)
+              I18n.t("#{i18n_block}.cover_image") => {
+                I18n.t("#{i18n_block}.id") =>  small_cover_image.id,
+                I18n.t("#{i18n_block}.src") => small_cover_image.image.url(:cover_standard)
               }
             })
           end
         end
 
+        desc "product", block: true
         def product
           resource = view.product
           big_cover_image = resource.images.first
 
+          i18n_block = "mustache_commands.products.block"
           attributes = product_attributes(resource)
           attributes.merge({
-            cover_image: {
-              id:  big_cover_image.id,
-              src: big_cover_image.image.url(:cover_big),
-              big_image: big_cover_image.image.url(:natural)
+            I18n.t("#{i18n_block}.cover_image") => {
+              I18n.t("#{i18n_block}.id")  =>  big_cover_image.id,
+              I18n.t("#{i18n_block}.src") => big_cover_image.image.url(:cover_big),
+              I18n.t("#{i18n_block}.big_image") => big_cover_image.image.url(:natural)
             },
-            images: resource.images.non_cover.map { |image|
-              { src_thumb:   image.image.url(:thumb),
-                src_natural: image.image.url(:natural) }
+            I18n.t("#{i18n_block}.images") => resource.images.non_cover.map { |image|
+              { I18n.t("#{i18n_block}.src_thumb") => image.image.url(:thumb),
+                I18n.t("#{i18n_block}.src_natural") => image.image.url(:natural) }
             },
-            add_to_cart_btn: add_to_cart_link(resource)
+            I18n.t("#{i18n_block}.add_to_cart_btn") => add_to_cart_link(resource)
           })
         end
 
@@ -69,13 +75,14 @@ module View
         end
 
         def product_attributes(product)
-          { id:            product.id,
-            name:          product.name,
-            description:   product.description,
-            merchandising: product.merchandising,
-            price:         product.price,
-            price?:        product.price.present?,
-            product_path:  controller.product_path(product) }
+          i18n_block = "mustache_commands.products.block"
+          { I18n.t("#{i18n_block}.id") => product.id,
+            I18n.t("#{i18n_block}.name") => product.name,
+            I18n.t("#{i18n_block}.description") => product.description,
+            I18n.t("#{i18n_block}.merchandising") => product.merchandising,
+            I18n.t("#{i18n_block}.price") => product.price,
+            I18n.t("#{i18n_block}.price?") => product.price.present?,
+            I18n.t("#{i18n_block}.product_href") => controller.product_path(product) }
         end
       end
     end

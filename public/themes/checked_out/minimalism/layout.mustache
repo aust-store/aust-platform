@@ -1,19 +1,19 @@
 <div id="header">
-  <a href="{{{root_path}}}">
+  <a href="{{{pagina_principal_href}}}">
     <div class="title">
-      <h1>{{company_name}}</h1>
-      <p>CCaring about your workplace.</p>
+      <h1>{{nome_da_empresa}}</h1>
+      <p>Caring about your workplace.</p>
     </div>
   </a>
 
   <div class="user_and_cart_status">
     <div class="status_container">
       <div class="user_status">
-        {{{ customer_status }}}.
+        {{{status_de_login_do_cliente}}}.
       </div>
 
       <div class="cart_status">
-        {{{ cart_status }}}
+        {{{status_do_carrinho}}}
       </div>
     </div>
   </div>
@@ -24,17 +24,17 @@
   <div id="navigation">
     <ul>
       <li>
-        <a href="{{{root_path}}}" class="{{{current_root_path}}}">Principal</a>
+        <a href="{{{pagina_principal_href}}}" class="{{{pagina_principal_href_atualmente}}}">Principal</a>
       </li>
 
-      {{#pages}}
+      {{#paginas}}
         <li>
-          <a href="{{{page_path}}}">{{{page_name}}}</a>
+          <a href="{{{pagina_href}}}" class="{{{pagina_atual}}}">{{{nome}}}</a>
         </li>
-      {{/pages}}
+      {{/paginas}}
 
       <li>
-        <a href="{{{new_contact_path}}}" id="contact_path">Contato</a>
+        <a href="{{{pagina_de_contato_href}}}" class="{{{pagina_de_contato_href_atualmente}}}" id="contact_path">Contato</a>
       </li>
     </ul>
   </div>
@@ -42,23 +42,23 @@
   <div class="site_body">
     <div name="taxonomy_menu" class="taxonomy_menu vertical_taxonomy_menu">
       <h2>Categorias</h2>
-      {{{taxonomy}}}
+      {{{categorias}}}
     </div>
 
     <div id="content">
-      {{{ main_rotative_banners }}}
+      {{{ principal_banner_rotativo }}}
 
       <div id="main">
         <div class="main_container">
-          {{{ notices }}}
-          {{{ yield }}}
+          {{{ avisos }}}
+          {{{ pagina_atual }}}
         </div>
       </div>
 
       <div id="complementary_content">
         <div class="complementary_content_container">
           <div class="all_pages_right_ad_banners">
-            {{{ all_pages_right_banners }}}
+            {{{ banners_lateral_direita_em_todas_paginas }}}
           </div>
         </div>
       </div>
@@ -67,21 +67,21 @@
 </div>
 
 <footer class="global">
-  {{#company}}
-    {{{name}}} -
+  {{#empresa}}
+    {{{nome}}} -
 
-    {{#address}}
-      {{{address_1}}},
-      {{{address_2}}},
-      {{{neighborhood}}},
-      {{{city}}},
-      {{{state}}},
-      CEP {{{zipcode}}}
-    {{/address}} -
+    {{#endereco}}
+      {{{endereco_1}}},
+      {{{endereco_2}}},
+      {{{bairro}}},
+      {{{cidade}}},
+      {{{estado}}},
+      CEP {{{cep}}}
+    {{/endereco}} -
 
-    {{#contact}}
-      {{{phone_1}}}, {{{phone_2}}}
-    {{/contact}}
+    {{#contato}}
+      {{{fone_1}}}, {{{fone_2}}}
+    {{/contato}}
 
-  {{/company}}
+  {{/empresa}}
 </footer>

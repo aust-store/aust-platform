@@ -14,6 +14,9 @@ module View
       # actual value.
       #
       module RailsFlash
+        extend TemplateElementsDocumentation
+
+        desc "notices"
         def notices
           result = ""
           result << content_tag(:div, controller.flash[:notice], id: "flash_notice") if controller.flash[:notice]

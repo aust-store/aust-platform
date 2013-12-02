@@ -14,39 +14,32 @@ module View
       # actual value.
       #
       module HtmlLinks
+        extend TemplateElementsDocumentation
+
+        desc "root_path"
         def root_path
           controller.root_path
         end
 
+        desc "contact_path"
         def contact_path
           controller.new_contact_path
         end
 
-        def method_missing(method, *args, &block)
-          # Check if method name is something like the following:
-          #
-          #   current_root_path
-          #
-          # If yes, returns `current` string. This allows users to use this in
-          # themes:
-          #
-          #   <a href="{{{root_path}}}" class="{{current_root_path}}}">Main</a>
-          #
-          if method.to_s =~ /\Acurrent_(.*_path)\Z/
-            route_name = $1.gsub(/_path\Z/, "_url")
-            current_path_class(route_name)
-          else
-            super
-          end
+        desc "current_root_path"
+        def current_root_path
+          current_path_class(:root_url)
+        end
+
+        desc "current_contact_path"
+        def current_contact_path
+          current_path_class(:new_contact_url)
         end
 
         private
 
         def current_path_class(path_id)
-          if controller.url_for == controller.send(path_id.to_sym) ||
-            controller_name == path_id
-            "current"
-          end
+          Controllers::Url.new(controller).current_if_same_url(path_id)
         end
       end
     end

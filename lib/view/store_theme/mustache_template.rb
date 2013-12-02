@@ -21,10 +21,6 @@ module View
         template_elements.send(method, *args, &block)
       end
 
-      def yield
-        raw content_for_layout
-      end
-
       def footer
         raw MustacheContentForLayout.new(view).content_for(:footer)
       end
@@ -55,7 +51,7 @@ module View
       end
 
       def template_elements
-        @template_elements ||= TemplateElements.new(view)
+        @template_elements ||= TemplateElements.new(view, content_for_layout)
       end
 
       class ThemeActionView < ActionView::Base

@@ -14,6 +14,9 @@ module View
       # actual value.
       #
       module Banners
+        extend TemplateElementsDocumentation
+
+        desc :main_rotative_banners
         def main_rotative_banners
           result = ""
           if banners?(:main_page_central_rotative)
@@ -28,6 +31,7 @@ module View
           raw(result)
         end
 
+        desc :all_pages_right_banners
         def all_pages_right_banners
           raw banners(:all_pages_right, width: 200)
         end

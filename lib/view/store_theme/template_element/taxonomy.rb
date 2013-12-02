@@ -14,6 +14,9 @@ module View
       # actual value.
       #
       module Taxonomy
+        extend TemplateElementsDocumentation
+
+        desc "taxonomy"
         def taxonomy
           raw taxonomies_navigation(view.taxonomy)
         end

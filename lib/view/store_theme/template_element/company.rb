@@ -21,25 +21,27 @@ module View
           view.company.name
         end
 
+        desc "company", block: true
         def company
           company = view.company
           address = company.address || company.build_address
           contact = company.contact || company.build_contact
 
+          i18n_block = "mustache_commands.company.block"
           {
-            name: company.name,
-            address: {
-              address_1:    address.address_1,
-              address_2:    address.address_2,
-              neighborhood: address.neighborhood,
-              city:         address.city,
-              state:        address.state,
-              zipcode:      address.zipcode
+            I18n.t("#{i18n_block}.name") => company.name,
+            I18n.t("#{i18n_block}.address") => {
+              I18n.t("#{i18n_block}.address_1")    => address.address_1,
+              I18n.t("#{i18n_block}.address_2")    => address.address_2,
+              I18n.t("#{i18n_block}.neighborhood") => address.neighborhood,
+              I18n.t("#{i18n_block}.city")         => address.city,
+              I18n.t("#{i18n_block}.state")        => address.state,
+              I18n.t("#{i18n_block}.zipcode")      => address.zipcode
             },
-            contact: {
-              phone_1: contact.phone_1,
-              phone_2: contact.phone_2,
-              email:   contact.email
+            I18n.t("#{i18n_block}.contact") => {
+              I18n.t("#{i18n_block}.phone_1") => contact.phone_1,
+              I18n.t("#{i18n_block}.phone_2") => contact.phone_2,
+              I18n.t("#{i18n_block}.email") =>   contact.email
             }
           }
         end

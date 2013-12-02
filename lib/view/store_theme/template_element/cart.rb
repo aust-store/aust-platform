@@ -14,6 +14,9 @@ module View
       # actual value.
       #
       module Cart
+        extend TemplateElementsDocumentation
+
+        desc :cart_status
         def cart_status
           result = if controller.cart_items_quantity == 1
             link_to("Você possui 1 item no carrinho.", controller.cart_path)

@@ -14,6 +14,9 @@ module View
       # actual value.
       #
       module Customer
+        extend TemplateElementsDocumentation
+
+        desc "customer_status"
         def customer_status
           result = ""
           if controller.customer_signed_in?

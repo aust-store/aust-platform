@@ -1,45 +1,45 @@
-{{#product}}
+{{#produto}}
   <div class="product_details">
     <div class="product">
       <div class="title">
-        <h1>{{{name}}}</h1>
+        <h1>{{{nome}}}</h1>
       </div>
 
       <div class="merchandising">
-        <h3>{{{merchandising}}}</h3>
+        <h3>{{{frase_de_efeito_emocional}}}</h3>
       </div>
 
       <div class="images">
-        {{#cover_image}}
+        {{#imagem_de_capa}}
           <div class="cover">
-            <a href="{{{big_image}}}" class="fancybox" rel="product_images_group">
+            <a href="{{{imagem_grande}}}" class="fancybox" rel="product_images_group">
               <img src="{{{src}}}" width="300" />
             </a>
           </div>
-        {{/cover_image}}
+        {{/imagem_de_capa}}
 
         <div class="small_images">
-          {{#images}}
+          {{#imagens}}
             <a href="{{{src_natural}}}" class="fancybox" rel="product_images_group">
               <img src="{{{src_thumb}}}" class="image" />
             </a>
-          {{/images}}
+          {{/imagens}}
         </div>
       </div>
 
       <div class="text">
         <div class="description">
-          {{{description}}}
+          {{{descricao}}}
         </div>
 
         <div class="price">
-          {{#price?}}
-            Apenas {{{price}}}
-          {{/price?}}
+          {{#preco?}}
+            Apenas {{{preco}}}
+          {{/preco?}}
         </div>
 
-        {{{add_to_cart_btn}}}
+        {{{botao_adicionar_ao_carrinho}}}
       </div>
     </div>
   </div>
-{{/product}}
+{{/produto}}
