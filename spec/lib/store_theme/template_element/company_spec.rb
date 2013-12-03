@@ -1,4 +1,4 @@
-require "view/store_theme/template_element/company"
+require "spec_helper"
 
 describe View::StoreTheme::TemplateElement::Company do
   class DummyCompany
@@ -40,19 +40,19 @@ describe View::StoreTheme::TemplateElement::Company do
   describe "{{{company}}}" do
     it "returns a hash with company's attributes" do
       expect(subject.company).to eq({
-        :name => "Company",
-        :address => {
-          :address_1    => :address_1,
-          :address_2    => :address_2,
-          :neighborhood => :neighborhood,
-          :city         => :city,
-          :state        => :state,
-          :zipcode      => :zipcode
+        "nome" => "Company",
+        "endereco" => {
+          "endereco_1" => :address_1,
+          "endereco_2" => :address_2,
+          "bairro"     => :neighborhood,
+          "cidade"     => :city,
+          "estado"     => :state,
+          "cep"        => :zipcode
         },
-        :contact => {
-          :phone_1 => :phone_1,
-          :phone_2 => :phone_2,
-          :email   => :email
+        "contato" => {
+          "fone_1" => :phone_1,
+          "fone_2" => :phone_2,
+          "email"  => :email
         }
       })
     end

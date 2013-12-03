@@ -9,15 +9,12 @@ describe View::StoreTheme::MustacheTemplate do
   subject { described_class.new(view, :content_for_layout) }
 
   before do
-    View::StoreTheme::TemplateElements.stub(:new).with(view) { template_elements }
+    View::StoreTheme::TemplateElements
+      .stub(:new)
+      .with(view, :content_for_layout)
+      .and_return(template_elements)
 
     template_elements.stub(:custom_method) { :working }
-  end
-
-  describe "#yield" do
-    it "return the content for the layout" do
-      subject.yield.should == "content_for_layout"
-    end
   end
 
   describe "#custom_method" do

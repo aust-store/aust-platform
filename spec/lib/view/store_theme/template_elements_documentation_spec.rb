@@ -12,7 +12,7 @@ describe View::StoreTheme::TemplateElementsDocumentation do
 
         method = DummyDoc.documentation["nome_da_empresa"]
         method.command.should == "{{{nome_da_empresa}}}"
-        method.original_name.should == :company_name
+        method.original_name.should == "company_name"
       end
     end
 
@@ -22,7 +22,7 @@ describe View::StoreTheme::TemplateElementsDocumentation do
 
         method = DummyDoc.documentation["nome_da_empresa"]
         method.command.should == "{{#nome_da_empresa}} HTML {{/nome_da_empresa}}"
-        method.original_name.should == :company_name
+        method.original_name.should == "company_name"
       end
     end
   end

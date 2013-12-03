@@ -8,9 +8,7 @@ describe Admin::Api::MustacheCommandsController do
       get :index
       json = ActiveSupport::JSON.decode(response.body)
 
-      json.should == {
-        "mustache_commands" => ThemeDocumentation.new.to_json
-      }
+      json["mustache_commands"].should =~ ThemeDocumentation.new.to_json
     end
   end
 end

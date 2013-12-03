@@ -27,8 +27,23 @@ describe ThemeDocumentation do
 
   describe "#mustache_documentation" do
     it "returns all described methods" do
-      subject.mustache_documentation.keys.should == [
-        "nome_da_empresa"
+      subject.mustache_documentation.keys.should =~ [
+        "nome_da_empresa",
+        "empresa",
+        "pagina_principal_href",
+        "pagina_de_contato_href",
+        "pagina_principal_href_atualmente",
+        "pagina_de_contato_href_atualmente",
+        "pagina_atual",
+        "status_do_carrinho",
+        "produtos",
+        "produto",
+        "status_de_login_do_cliente",
+        "paginas",
+        "categorias",
+        "principal_banner_rotativo",
+        "banners_lateral_direita_em_todas_paginas",
+        "avisos"
       ]
     end
 

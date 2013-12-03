@@ -9,7 +9,7 @@ pt_br:
       description: |
         Este elemento escreve na tela a página atual. Ele deve ser colocado dentro do arquivo chamado "Layout".
 
-        Por exemplo, se o usuário for para a página principal, devemos carregar o HTML da página principal. Nós carregaremos e colocaremos onde o código {{{pagina_atual}}} estiver.
+        Por exemplo, se o usuário for para a página principal, seu HTML será mostrado onde o código <span class="code">{{{pagina_atual}}}</span> estiver.
 
     # company.rb
     company_name:
@@ -22,7 +22,7 @@ pt_br:
       group: "Empresa"
       type: "em bloco"
       description: |
-        Bloco onde você pode acessar várias informações da empresa, como nome, endereço e contato. Os seguintes atributos estão disponíveis: nome. Você também pode usar os blocos <span class="code">endereco</span> e <span class="code">contato</span>. Por exemplo:
+        Bloco onde você pode acessar várias informações da empresa, como nome, endereço e contato. Os seguintes atributos estão disponíveis: nome. Você também pode usar os blocos <span class="code">{{#endereco}}</span> e <span class="code">{{#contato}}</span>. Por exemplo:
 
         <pre class="code">
         {{#empresa}}
@@ -44,7 +44,27 @@ pt_br:
         {{/empresa}}
 
         </pre>
-        Estes atributos todos serão carregados do que estiver no gerenciador.
+
+        No caso de <span class="code">{{#endereco}}</span>, ele deve estar dentro de <span class="code">{{#empresa}}</span>. Dentro de endereço, você pode usar <span class="code">{{{endereco_1}}}</span> e os demais atributos. O mesmo se aplica a <span class="code">{{#contato}}</span>.
+
+        Conforme exemplo acima, você pode usar os seguintes atributos para o bloco <span class="code">{{#endereco}}</span>:
+
+        <ul class="codes">
+        <li><span class="code">{{{endereco_1}}}</span></li>
+        <li><span class="code">{{{endereco_2}}}</span></li>
+        <li><span class="code">{{{bairro}}}</span></li>
+        <li><span class="code">{{{cidade}}}</span></li>
+        <li><span class="code">{{{estado}}}</span></li>
+        <li><span class="code">{{{cep}}}</span></li>
+        </ul>
+
+        Para o bloco <span class="code">{{#contato}}</span>, você pode usar os seguintes atributos:
+
+        <ul class="codes">
+        <li><span class="code">{{{fone_1}}}</span></li>
+        <li><span class="code">{{{fone_2}}}</span></li>
+        <li><span class="code">{{{email}}}</span></li>
+        </ul>
       block:
         name: nome
         address: endereco
@@ -64,13 +84,19 @@ pt_br:
       name: principal_banner_rotativo
       group: "Banners"
       type: "em linha"
-      description: description
+      description: |
+        Escreve o código HTML onde os banners principais aparecerão na tela. Ele são rotativos, ou seja, com Javascript a loja mostra banner por banner em pequenos intervalos de tempo. Tais banners são administrados através gerenciador.
+
+        É recomendado que você coloque estes banners na página principal, acima da listagem de produtos.
 
     all_pages_right_banners:
       name: banners_lateral_direita_em_todas_paginas
       group: "Banners"
       type: "em linha"
-      description: description
+      description: |
+        Escreve o código HTML onde os banners laterais aparecerão na tela. Ele não são rotativos. Tais banners são administrados através gerenciador.
+
+        É recomendado que você coloque estes banners no arquivo de layout para que possam aparecer em todas as páginas.
 
     # cart.rb
     cart_status:
@@ -78,7 +104,9 @@ pt_br:
       group: "Carrinho de compras"
       type: "em linha"
       description: |
-        Escreve uma das seguintes frases: "Você possui 1 item no carrinho.", "Você possui 10 itens no carrinho" ou "Seu carrinho está vazio".
+        Escreve na tela uma das seguintes frases: "Você possui 1 item no carrinho.", "Você possui 10 itens no carrinho" ou "Seu carrinho está vazio".
+
+        É recomendado que você insira este comando no arquivo de layout para que apareça em todas as páginas.
 
     # customer.rb
     customer_status:
@@ -87,6 +115,8 @@ pt_br:
       type: "em linha"
       description: |
         Escreve uma das seguintes frases: "Olá, João. Sair" (Sair é um link para logout), "Olá. Já é cadastrado? Login" (onde Login é um link para a tela de login).
+
+        É recomendado que você insira este comando no arquivo de layout para que apareça em todas as páginas.
 
     # html_links.rb
     root_path:
@@ -131,6 +161,22 @@ pt_br:
       type: "em bloco"
       description: |
         Bloco onde você pode acessar todas as paginas estáticas da loja, como Quem Somos.
+
+        <pre class="code">
+        {{#paginas}}
+        &nbsp;&nbsp;&#60;li&#62;
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;a href="{{{pagina_href}}}" class="{{{pagina_atual}}}"&#62;{{{nome}}}&#60;/a&#62;
+        &nbsp;&nbsp;&#60;/li&#62;
+        {{/paginas}}
+        </pre>
+
+        Conforme exemplo acima, você pode usar os seguintes atributos:
+
+        <ul class="codes">
+        <li><span class="code">{{{nome}}}</span></li>
+        <li><span class="code">{{{pagina_href}}}</span></li>
+        <li><span class="code">{{{pagina_atual}}}</span></li>
+        </ul>
       block:
         name: nome
         page_href: pagina_href
@@ -142,14 +188,95 @@ pt_br:
       group: "Produtos"
       type: "em bloco"
       description: |
-        Bloco com o produto da página atual.
+        Este comando em bloco é similar à sua versão no plural, exceto que ele possui os atributos do produto atual. Ele é usado na tela de detalhes de um produto.
 
+        <pre class="code">
+        {{#produto}}
+          &#60;h1&#62;{{{nome}}}&#60;/h1&#62;
+          &#60;h3&#62;{{{frase_de_efeito_emocional}}}&#60;/h3&#62;
+
+          &#60;div class="imagens"&#62;
+            {{#imagem_de_capa}}
+              &#60;div class="capa"&#62;
+                &#60;a href="{{{imagem_grande}}}" class="fancybox" rel="product_images_group"&#62;
+                  &#60;img src="{{{src}}}" width="300" /&#62;
+                &#60;/a&#62;
+              &#60;/div&#62;
+            {{/imagem_de_capa}}
+
+            &#60;div class="imagens_pequenas"&#62;
+              {{#imagens}}
+                &#60;a href="{{{src_natural}}}" class="fancybox" rel="product_images_group"&#62;
+                  &#60;img src="{{{src_thumb}}}" class="image" /&#62;
+                &#60;/a&#62;
+              {{/imagens}}
+            &#60;/div&#62;
+          &#60;/div&#62;
+
+          &#60;div class="text"&#62;
+            &#60;div class="descricao"&#62;
+              {{{descricao}}}
+            &#60;/div&#62;
+
+            &#60;div class="preco"&#62;
+              {{#preco?}}
+                Apenas {{{preco}}}
+              {{/preco?}}
+            &#60;/div&#62;
+
+            {{{botao_adicionar_ao_carrinho}}}
+          &#60;/div&#62;
+        {{/produto}}
+        </pre>
+
+        Para detalhes sobre cada atributo e bloco, veja a documentação do comando no plural, <span class="code">{{#produtos}}</span>.
+
+        Este comando possui um bloco para acessar imagens que <strong>não</strong> está disponível em <span class="code">{{#produtos}}</span>. Você pode acessar as imagens do produto através do seguinte bloco:
+
+        <ul class="codes">
+        <li><span class="code">{{#imagens}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src_thumb}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src_natural}}}</span></li>
+        <li><span class="code">{{/imagens}}</span></li>
+        </ul>
     products:
       name: "produtos"
       group: "Produtos"
       type: "em bloco"
       description: |
         Bloco com a listagem de todos os produtos da página atual. Se for a página principal, os produtos de capa aparecerão. Se for uma página de categorias, os produtos daquela categoria aparecerão.
+
+        Para um exemplo completo, veja detalhes do comando <span class="code">{{#produto}}</span>.
+
+        Você pode utilizar os seguintes atributos:
+
+        <ul class="codes">
+        <li><span class="code">{{{descricao}}}</span></li>
+        <li><span class="code">{{{frase_de_efeito_emocional}}}</span></li>
+        <li><span class="code">{{{preco}}}</span></li>
+        <li><span class="code">{{{produto_href}}}</span></li>
+        <li><span class="code">{{{botao_adicionar_ao_carrinho}}}</span>: este é o botão que permite usuários adicionar o produto ao carrinho</li>
+        </ul>
+
+        Além destes atributes, você pode usar o bloco <span class="code">{{#preco?}}</span>, o qual só é executado caso um preço do produto tenha sido definido (em alguns produtos, você pode querer escrever algo somente se o preço estiver definido).
+
+        <ul class="codes">
+        <li><span class="code">{{#preco?}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{id}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{nome}}}</span></li>
+        <li><span class="code">{{/preco?}}</span></li>
+        </ul>
+
+        Você pode acessar a imagem de capa através do seguinte bloco:
+
+        <ul class="codes">
+        <li><span class="code">{{#imagem_de_capa}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{id}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{nome}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{imagem_grande}}}</span></li>
+        <li><span class="code">{{/imagem_de_capa}}</span></li>
+        </ul>
       block:
         cover_image: imagem_de_capa
         id: id
@@ -172,7 +299,9 @@ pt_br:
       group: "Outros"
       type: "em linha"
       description: |
-        Escreve avisos como "Produto comprado com sucesso" ou "Sua senha está incorreta, tente novamente". A mensagem aparecerá dependente da circunstância.
+        Escreve avisos como "Produto comprado com sucesso" ou "Sua senha está incorreta, tente novamente". A mensagem aparecerá dependendo da circunstância. Caso não exista mensagem alguma, nada é mostrado.
+
+        É recomendado que este comando esteja no arquivo de Layout para que apareça em todas as páginas.
 
     # taxonomy.rb
     taxonomy:

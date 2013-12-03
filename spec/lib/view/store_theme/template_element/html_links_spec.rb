@@ -1,11 +1,12 @@
-require "view/store_theme/template_element/html_links"
+require "spec_helper"
 
 class DummyElements
   include View::StoreTheme::TemplateElement::HtmlLinks
 end
 
 describe DummyElements do
-  let(:controller) { double(url_for: "root_path") }
+  let(:params)     { {controller: "store_home"} }
+  let(:controller) { double(url_for: "root_path", params: params) }
 
   subject { described_class.new }
 
@@ -23,7 +24,7 @@ describe DummyElements do
     end
 
     it "returns nothing unless it's root_path" do
-      subject.current_something_else_path.should == nil
+      subject.current_contact_path.should == nil
     end
   end
 end

@@ -35,7 +35,8 @@ module View
               index: index,
               I18n.t("#{i18n_block}.cover_image") => {
                 I18n.t("#{i18n_block}.id") =>  small_cover_image.id,
-                I18n.t("#{i18n_block}.src") => small_cover_image.image.url(:cover_standard)
+                I18n.t("#{i18n_block}.src") => small_cover_image.image.url(:cover_standard),
+                I18n.t("#{i18n_block}.big_image") => small_cover_image.image.url(:natural)
               }
             })
           end
