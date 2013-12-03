@@ -3,7 +3,6 @@ App.EditorRoute = Ember.Route.extend({
     var controller = this.controllerFor("themeFiles");
 
     this.render('editor.index', {
-      outlet: "editor"
     });
   }
 });
@@ -25,7 +24,7 @@ App.EditorIndexRoute = Ember.Route.extend({
     var previewController = this.controllerFor("preview");
 
     this.render('theme_files', {
-      into: "editor.index",
+      //into: "editor.index",
       outlet: "theme_files",
       controller: themeFilescontroller
     });

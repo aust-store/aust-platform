@@ -48,7 +48,7 @@ module View
         #
         # We're using it because we can't change BannersHelper right now
         # because other themes (non-mustache) are using it
-        @banners = view.banners
+        @banners = view.banners if view.respond_to?(:banners)
       end
 
       # For resolving translated commands, like #company_name or #nome_da_empresa,

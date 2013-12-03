@@ -1,4 +1,5 @@
 App.Router.map(function() {
+  this.route('mustache_commands');
   this.resource('editor', function() {
     this.route('show');
   });

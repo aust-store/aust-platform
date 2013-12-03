@@ -10,17 +10,15 @@
 
       <div class="links">
         <ul>
+          <li>{{#link-to "editor"}}Editor{{/link-to}}</li>
+          <li>{{#link-to "mustache_commands"}}Documentação{{/link-to}}</li>
           <li><a href="javascript: void()" {{action closeEditor}}>Sair</a></li>
         </ul>
       </div>
     </div>
   </header>
 
-  <div class="editor">
-    {{outlet editor}}
+  <div class="application_outlet">
+    {{outlet}}
   </div>
-
-  {{#view App.PreviewPaneView}}
-    {{outlet preview}}
-  {{/view}}
 </div>

@@ -6,8 +6,19 @@ html, body
   font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans", "Verdana", sans-serif
   height: 100%
 
+h1
+  font-size: 3.0em
+  color: #1783b6
+h2
+  font-size: 1.6em
+  text-transform: uppercase
+  font-weight: normal
+
 a
   color: #1783b6
+
+p
+  line-height: 22px
 
 #app_status
   z-index: 9999
@@ -26,6 +37,8 @@ a
   height: 100%
   display: table
 
+//.application_outlet
+
 header.app_header
   position: absolute
   overflow: hidden
@@ -37,8 +50,18 @@ header.app_header
   background: #165c85
   color: white
 
+  h1
+    color: white
+    font-size: 2em
   a
     color: white
+    text-decoration: none
+    padding: 3px 8px
+    border-radius: 50px
+    &.active
+      background: lighten(#165c85, 10%)
+    &:hover
+      background: lighten(#165c85, 20%)
 
   .app_header_container
     margin: 0 10px
@@ -67,3 +90,34 @@ header.app_header
     margin: 0 5px 0 0
     padding: 0
 
+.main_container
+  font-size: 1.2em
+  margin: 0 auto 15px auto
+  background: #fafafa
+  width: 930px
+  padding: 30px 15px 10px 15px
+  .commands
+    border-bottom: 1px solid #fefefe
+    border-top: 1px solid #ececec
+  .command
+    border-top: 1px solid #fefefe
+    border-bottom: 1px solid #ececec
+    margin: 0px 0 0px 0
+    padding: 10px 0 10px 0
+    p.details
+      color: darken(orange, 7%)
+      font-size: 0.8em
+      margin-top: 3px
+    p.name
+      margin-bottom: 3px
+
+  .code
+    font-size: 1.2em
+    background: #fefefe
+    font-family: monospace
+    padding: 5px
+    border: 1px solid #ccc
+    border-radius: 3px
+  div.code, span.code
+    display: inline
+    padding: 3px 5px

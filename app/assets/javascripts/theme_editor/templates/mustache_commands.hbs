@@ -1,0 +1,98 @@
+<div class="main_container">
+  <h1>Desenvolvendo seus temas</h1>
+
+  <p>
+    O Aust é uma plataforma de e-commerce onde designers não se preocupam
+    com otimizações, bancos de dados ou construção de funcionalidades. Eles
+    podem editar o HTML, CSS e Javascript das lojas virtuais e atender seus
+    clientes de uma forma ágil.
+  </p>
+
+  <p>
+    Você pode usar alguns comandos especiais que deixam seu HTML dinâmico. Por
+    exemplo, onde você inserir o seguinte comando no seu HTML:
+    <span class="code">&#123;&#123;&#123;nome_da_empresa&#125;&#125;&#125;</span>,
+    a loja mostrará dinamicamente o nome da empresa.
+  </p>
+
+  <p>
+    Um exemplo mais detalhado:
+  </p>
+
+  <pre class="code">&#60;h1&#62;&#123;&#123;&#123;nome_da_empresa&#125;&#125;&#125;&#60;/h1&#62;
+
+&#123;&#123;#produtos&#125;&#125;
+  &#60;p&#62;&#123;&#123;&#123;nome&#125;&#125;&#125;&#60;/p&#62;
+&#123;&#123;/produtos&#125;&#125;
+  </pre>
+  <p>
+    Note que há 2 tipos de comandos, <strong>em linha</strong> e
+    <strong>em bloco</strong>. Vamos explicar abaixo cada um deles.
+  </p>
+
+  <h2>Comandos em linha</h2>
+
+  <p>
+    Comandos em linha são simples. Onde houver um comando
+    com 3 chaves, como <span class="code">&#123;&#123;&#123;nome_da_empresa&#125;&#125;&#125;</span>, a loja o substituirá dinamicamente pelo valor real.
+  </p>
+
+  <p>
+    Um outro exemplo é o comando
+    <span class="code">&#123;&#123;&#123;status_do_carrinho&#125;&#125;&#125;</span>.
+    Este comando vai escrever na tela algo como
+    <em>"Você tem 1 item no carrinho"</em>.
+  </p>
+
+  <p>
+    <strong>Importante:</strong>
+    Comandos em linha utilizam <strong>3</strong> chaves,
+
+    <span class="code">&#123;&#123;&#123;</span> no início e
+    <span class="code">&#125;&#125;&#125;</span> no fim.
+  </p>
+
+  <h2>Comandos em bloco</h2>
+  <p>
+    No exemplo acima, a página vai iterar (repetir) produto por produto.
+    Entre <span class="code">&#123;&#123;#produtos&#125;&#125;</span> e
+    <span class="code">&#123;&#123;/produtos&#125;&#125;</span>, você deve
+    usar comandos específicos de produtos, como neste exemplo,
+    <span class="code">&#123;&#123;&#123;nome&#125;&#125;&#125;</span>. Pesquise
+    na lista de comandos quais são aceitos dentro dos blocos que você precisar.
+  </p>
+
+  <p>
+    Além de produtos, há outros blocos, como
+    <span class="code">&#123;&#123;#empresa&#125;&#125;</span>, onde você
+    pode acessar informações da empresa, como nome, telefone, endereço, estado,
+    email, entre outras. Você pode encontrar mais blocos na listagem de comandos
+    abaixo.
+  </p>
+
+  <p>
+    <strong>Importante:</strong>
+    Blocos utilizam apenas 2 chaves e um # para começar
+    e / para finalizar.
+  </p>
+
+  <h1>Lista de Comandos</h1>
+  <p>
+    Confira abaixo a lista de comandos disponíveis para uso.
+  </p>
+
+  <div class="commands">
+    {{#each controller}}
+      <div class="command">
+        <p class="name">
+          <strong>Comando:</strong>
+          <span class="code">{{sample}}</span>
+        </p>
+        <p class="details">
+          {{group}}, comando {{type}}
+        </p>
+        {{nl2p description}}
+      </div>
+    {{/each}}
+  </div>
+</div>

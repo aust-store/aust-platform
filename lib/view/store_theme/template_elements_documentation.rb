@@ -12,6 +12,8 @@ module View
         translation = "mustache_commands.#{method_name}."
         name = I18n.t("#{translation}.name")
         description = I18n.t("#{translation}.description")
+        group = I18n.t("#{translation}.group")
+        type = I18n.t("#{translation}.type")
 
         if block
           command = "{{##{name}}} HTML {{/#{name}}}"
@@ -22,7 +24,9 @@ module View
         @@documentation[name] = OpenStruct.new(
           command: command,
           description: description,
-          original_name: method_name
+          original_name: method_name,
+          group: group,
+          type: type
         )
       end
 

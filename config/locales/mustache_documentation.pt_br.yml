@@ -4,6 +4,8 @@ pt_br:
     # layout_and_rendering.rb
     yield:
       name: "pagina_atual"
+      group: "Layout"
+      type: "em linha"
       description: |
         Este elemento escreve na tela a página atual. Ele deve ser colocado dentro do arquivo chamado "Layout".
 
@@ -12,11 +14,37 @@ pt_br:
     # company.rb
     company_name:
       name: "nome_da_empresa"
+      group: "Empresa"
+      type: "em linha"
       description: "Escreve o nome da empresa."
     company:
       name: "empresa"
+      group: "Empresa"
+      type: "em bloco"
       description: |
-        Bloco onde você pode acessar várias informações da empresa, como nome, endereço e contato.
+        Bloco onde você pode acessar várias informações da empresa, como nome, endereço e contato. Os seguintes atributos estão disponíveis: nome. Você também pode usar os blocos <span class="code">endereco</span> e <span class="code">contato</span>. Por exemplo:
+
+        <pre class="code">
+        {{#empresa}}
+        &nbsp;&nbsp;{{{nome}}}
+
+        &nbsp;&nbsp;{{#endereco}}
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{endereco_1}}},
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{endereco_2}}},
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{bairro}}},
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{cidade}}},
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{estado}}},
+        &nbsp;&nbsp;&nbsp;&nbsp;CEP {{{cep}}}
+        &nbsp;&nbsp;{{/endereco}}
+
+        &nbsp;&nbsp;{{#contato}}
+        &nbsp;&nbsp;&nbsp;&nbsp;{{{fone_1}}}, {{{fone_2}}}, {{{email}}}
+        &nbsp;&nbsp;{{/contato}}
+
+        {{/empresa}}
+
+        </pre>
+        Estes atributos todos serão carregados do que estiver no gerenciador.
       block:
         name: nome
         address: endereco
@@ -34,51 +62,73 @@ pt_br:
     # banner.rb
     main_rotative_banners:
       name: principal_banner_rotativo
+      group: "Banners"
+      type: "em linha"
       description: description
 
     all_pages_right_banners:
       name: banners_lateral_direita_em_todas_paginas
+      group: "Banners"
+      type: "em linha"
       description: description
 
     # cart.rb
     cart_status:
       name: status_do_carrinho
+      group: "Carrinho de compras"
+      type: "em linha"
       description: |
         Escreve uma das seguintes frases: "Você possui 1 item no carrinho.", "Você possui 10 itens no carrinho" ou "Seu carrinho está vazio".
 
     # customer.rb
     customer_status:
       name: status_de_login_do_cliente
+      group: "Cliente"
+      type: "em linha"
       description: |
         Escreve uma das seguintes frases: "Olá, João. Sair" (Sair é um link para logout), "Olá. Já é cadastrado? Login" (onde Login é um link para a tela de login).
 
     # html_links.rb
     root_path:
       name: pagina_principal_href
+      group: "Links"
+      type: "em linha"
       description: |
         Escreve o endereço da página principal. Use este comando desta forma:
 
-        <a href="{{{pagina_principal_href}}}">Página principal</a>, ou até mesmo <a href="{{{pagina_principal_href}}}">{{{nome_da_empresa}}}</a>
+        <span class="code">&#60;a href="{{{pagina_principal_href}}}"&#62;Página principal&#60;/a&#62;</span>
     contact_path:
       name: pagina_de_contato_href
+      group: "Links"
+      type: "em linha"
       description: |
         Escreve o endereço da página de contato. Use este comando desta forma:
 
-        <a href="{{{pagina_de_contato_href}}}">Contato</a>
+        <span class="code">&#60;a href="{{{pagina_de_contato_href}}}"&#62;Contato&#60;/a&#62;</span>
 
     current_root_path:
       name: pagina_principal_href_atualmente
+      group: "Links"
+      type: "em linha"
       description: |
-        Escreve "current" (sem aspas) caso a página atual seja a página principal. Você pode usar algo como <a href="{{{pagina_principal_href}}}" class="{{{pagina_principal_href_atualmente}}}">Principal</a>.
+        Escreve "current" (sem aspas) caso a página atual seja a página principal. Você pode usar algo como:
+
+        <span class="code">&#60;a href="{{{pagina_principal_href}}}" class="{{{pagina_principal_href_atualmente}}}"&#62;Principal&#60;/a&#62;</span>.
 
     current_contact_path:
       name: pagina_de_contato_href_atualmente
+      group: "Links"
+      type: "em linha"
       description: |
-        Escreve "current" (sem aspas) caso a página atual seja a página de contato. Você pode usar algo como <a href="{{{pagina_de_contato_href}}}" class="{{{pagina_de_contato_href_atualmente}}}">Contato</a>.
+        Escreve "current" (sem aspas) caso a página atual seja a página de contato. Você pode usar algo como:
+
+        <span class="code">&#60;a href="{{{pagina_de_contato_href}}}" class="{{{pagina_de_contato_href_atualmente}}}"&#62;Contato&#60;/a&#62;</span>.
 
     # pages.rb
     pages:
       name: "paginas"
+      group: "Páginas"
+      type: "em bloco"
       description: |
         Bloco onde você pode acessar todas as paginas estáticas da loja, como Quem Somos.
       block:
@@ -89,11 +139,15 @@ pt_br:
     # products.rb
     product:
       name: "produto"
+      group: "Produtos"
+      type: "em bloco"
       description: |
         Bloco com o produto da página atual.
 
     products:
       name: "produtos"
+      group: "Produtos"
+      type: "em bloco"
       description: |
         Bloco com a listagem de todos os produtos da página atual. Se for a página principal, os produtos de capa aparecerão. Se for uma página de categorias, os produtos daquela categoria aparecerão.
       block:
@@ -115,11 +169,15 @@ pt_br:
     # rails_flash.rb
     notices:
       name: avisos
+      group: "Outros"
+      type: "em linha"
       description: |
-        Escreve avisos como "Produto comprado com sucesso".
+        Escreve avisos como "Produto comprado com sucesso" ou "Sua senha está incorreta, tente novamente". A mensagem aparecerá dependente da circunstância.
 
     # taxonomy.rb
     taxonomy:
       name: categorias
+      group: "Categorias"
+      type: "em linha"
       description: |
         Escreve toda a árvore de categorias. Inclui links para o usuário acessar as páginas de cada categoria.
