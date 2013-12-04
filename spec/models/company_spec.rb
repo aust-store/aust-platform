@@ -135,4 +135,24 @@ describe Company do
       company.google_analytics_id.should == "UA-2345678-1"
     end
   end
+
+  describe "#sales_enabled?" do
+    let(:company) { build(:company, settings: settings) }
+
+    context "sales are enabled" do
+      let(:settings) { build(:company_setting, sales_enabled: "1") }
+
+      it "returns true if sales are enabled" do
+        company.sales_enabled?.should == true
+      end
+    end
+
+    context "sales are disabled" do
+      let(:settings) { build(:company_setting, sales_enabled: "0") }
+
+      it "returns true if sales are enabled" do
+        company.sales_enabled?.should == false
+      end
+    end
+  end
 end

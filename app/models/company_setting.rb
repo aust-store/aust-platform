@@ -1,7 +1,7 @@
 class CompanySetting < ActiveRecord::Base
   belongs_to :company
 
-  store_accessor :settings, :zipcode, :google_analytics_id
+  store_accessor :settings, :zipcode, :google_analytics_id, :sales_enabled
 
   before_validation :valid_zipcode?, if: ->{ Store::Application.config.auto_validate_company_zipcode }
   validates :zipcode, numericality: { allow_blank: true },
@@ -22,9 +22,17 @@ class CompanySetting < ActiveRecord::Base
     end
   end
 
+  def sales_enabled
+    boolean_field(settings["sales_enabled"])
+  end
+
   private
 
   def company_zipcode
     ::Store::ZipcodeSanitization.sanitize_zipcode(zipcode)
+  end
+
+  def boolean_field(value)
+    (value.nil? || value == "1") ? true : false
   end
 end

@@ -140,5 +140,14 @@ feature "Store cart" do
       visit cart_path
       page.should_not have_selector "#checkout_button"
     end
+
+    scenario "As an user, I can't see cart links if sales are disabled" do
+      CompanySetting.first.update_attributes(sales_enabled: "0")
+      page.should_not have_selector "#path_to_cart"
+      page.should_not have_content "Seu carrinho"
+
+      visit cart_path
+      current_path.should == root_path
+    end
   end
 end

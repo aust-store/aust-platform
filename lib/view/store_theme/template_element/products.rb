@@ -66,13 +66,15 @@ module View
         private
 
         def add_to_cart_link(product)
-          raw link_to(
-            "Comprar",
-            cart_items_path(id: product),
-            method: :post,
-            class: "btn positive_action_btn",
-            id: "add_to_cart"
-          )
+          if view.company.sales_enabled?
+            raw link_to(
+              "Comprar",
+              cart_items_path(id: product),
+              method: :post,
+              class: "btn positive_action_btn",
+              id: "add_to_cart"
+            )
+          end
         end
 
         def product_attributes(product)

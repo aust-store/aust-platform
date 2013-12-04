@@ -10,6 +10,7 @@ feature "Store products" do
 
   describe "products details" do
     scenario "As an user, I can see a products' details" do
+      CompanySetting.first.update_attributes(sales_enabled: "1")
       visit product_path(@product)
 
       page.should have_content @product.name
@@ -18,11 +19,18 @@ feature "Store products" do
       page.should have_content "R$ 12,34"
       page.should have_content @product.images.first.image
       page.should have_content @product.images.last.image
+      page.should have_content "Seu carrinho está vazio."
 
-      click_link "Comprar"
+      click_link "add_to_cart"
+      page.should have_selector "#path_to_cart"
       current_path.should == cart_path
       page.should have_content @product.name
+    end
 
+    scenario "As an user, I can't buy an item if sales are disabled" do
+      CompanySetting.first.update_attributes(sales_enabled: "0")
+      visit product_path(@product)
+      page.should_not have_selector "#add_to_cart"
     end
   end
 

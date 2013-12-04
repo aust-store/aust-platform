@@ -100,6 +100,10 @@ class Company < ActiveRecord::Base
     settings.google_analytics_id if settings.present?
   end
 
+  def sales_enabled?
+    settings.sales_enabled if settings.present?
+  end
+
   private
 
   def set_default_theme

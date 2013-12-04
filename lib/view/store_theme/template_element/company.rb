@@ -41,7 +41,7 @@ module View
             I18n.t("#{i18n_block}.contact") => {
               I18n.t("#{i18n_block}.phone_1") => contact.phone_1,
               I18n.t("#{i18n_block}.phone_2") => contact.phone_2,
-              I18n.t("#{i18n_block}.email") =>   contact.email
+              I18n.t("#{i18n_block}.email")   => contact.email
             }
           }
         end

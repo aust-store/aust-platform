@@ -88,6 +88,7 @@ pt_br:
       company_setting:
         zipcode: "CEP do remetente"
         google_analytics_id: "Google Analytics"
+        sales_enabled: "Vendas habilitadas"
         commit: "Salvar configurações"
     hints:
       customer:

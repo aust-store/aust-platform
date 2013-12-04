@@ -18,11 +18,12 @@ module View
 
         desc :cart_status
         def cart_status
+          return unless view.company.sales_enabled?
           result = if controller.cart_items_quantity == 1
-            link_to("Você possui 1 item no carrinho.", controller.cart_path)
+            link_to("Você possui 1 item no carrinho.", controller.cart_path, id: "path_to_cart")
           elsif controller.cart_items_quantity > 1
             link_to("Você possui #{controller.cart_items_quantity} itens no carrinho.",
-                    controller.cart_path)
+                    controller.cart_path, id: "path_to_cart")
           else
             "Seu carrinho está vazio."
           end
