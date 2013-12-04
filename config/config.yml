@@ -1,4 +1,5 @@
 global: &global
+  google_analytics: false
   themes:
     paths:
       checked_out: "public/themes/checked_out"
@@ -24,3 +25,4 @@ staging:
 
 production:
   <<: *global
+  google_analytics: true

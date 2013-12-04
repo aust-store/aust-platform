@@ -128,4 +128,11 @@ describe Company do
       company.contact_email.should be_nil
     end
   end
+
+  describe "#google_analytics_id" do
+    it "returns whatever the settings return" do
+      company = build(:company, settings: build(:company_setting))
+      company.google_analytics_id.should == "UA-2345678-1"
+    end
+  end
 end

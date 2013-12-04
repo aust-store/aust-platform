@@ -1,8 +1,6 @@
 FactoryGirl.define do
   factory :company_setting do
-    after(:create) do |settings, evaluator|
-      settings.zipcode = 96360000
-      settings.save
-    end
+    zipcode 96360000
+    google_analytics_id "UA-2345678-1"
   end
 end

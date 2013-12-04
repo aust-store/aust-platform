@@ -87,6 +87,7 @@ pt_br:
         domain: "Domínio de acesso à sua loja"
       company_setting:
         zipcode: "CEP do remetente"
+        google_analytics_id: "Google Analytics"
         commit: "Salvar configurações"
     hints:
       customer:
@@ -127,7 +128,7 @@ pt_br:
         height: "Ex.: 19cm"
         weight: "Entre o valor em quilos (kg)."
       company:
-        domain: "Domínio é o endereço do seu website, o qual seu usuários usarão acessar sua loja online. Ex.: submarino.com.br"
+        domain: "Domínio é o endereço do seu website, o qual é usado por seus usuários para acessar a loja e também pelo Google Analytics. Ex.: submarino.com.br. Não utilize www."
       banner:
         title:    "Preencha um título para sua organizar (aparece quando você posiciona o mouse sobre o banner)"
         url:      "Se você preencher um valor, o usuário poderá clicar no banner"
@@ -136,6 +137,9 @@ pt_br:
         name: "Obrigatório."
         public: "Temas públicos podem ser selecionados por qualquer empresa."
         company_id: "Caso este tema pertença a uma empresa/loja em particular."
+      company_setting:
+        google_analytics_id: |
+          ID de acompanhamento do Google Analytics. Ex.: UA-45491111-1
     placeholders:
       company_setting:
         zipcode: |

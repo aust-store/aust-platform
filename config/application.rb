@@ -98,8 +98,11 @@ module Store
 
     config.handlebars.templates_root = ["theme_editor/templates"]
 
+    #
+    # Custom variables
+    config.mailer_from_address = "Contato Aust <contato@austapp.com>"
+
     # does web request to the shipping service
     config.auto_validate_company_zipcode = true
-    config.mailer_from_address = "Contato Aust <contato@austapp.com>"
   end
 end

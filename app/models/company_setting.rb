@@ -1,8 +1,7 @@
 class CompanySetting < ActiveRecord::Base
   belongs_to :company
 
-  #serialize :settings, ActiveRecord::Coders::Hstore
-  store_accessor :settings, :zipcode
+  store_accessor :settings, :zipcode, :google_analytics_id
 
   before_validation :valid_zipcode?, if: ->{ Store::Application.config.auto_validate_company_zipcode }
   validates :zipcode, numericality: { allow_blank: true },

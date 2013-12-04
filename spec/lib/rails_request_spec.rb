@@ -1,6 +1,8 @@
-require "rails_request"
+require "spec_helper"
 
 describe RailsRequest do
+  it_should_behave_like "a rails request"
+
   subject { described_class.new(request) }
 
   describe "#current_domain" do

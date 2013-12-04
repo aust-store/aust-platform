@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Company Settings", js: true do
+feature "Managing company settings" do
   before do
     @admin_user = FactoryGirl.create(:admin_user)
     login_into_admin
@@ -10,11 +10,25 @@ feature "Company Settings", js: true do
     scenario "As a store admin, I want to change my company settings" do
       visit admin_settings_path
 
-      page.should have_content I18n.t("simple_form.labels.company_setting.zipcode")
+      # Zipcode
       fill_in "company_setting_zipcode", with: "12345678"
 
-      click_link I18n.t("helpers.submit.company_setting.update")
+      # Google Analytics
+      fill_in "company_setting_google_analytics_id", with: "UA-45491111-1"
+
+      click_on I18n.t("helpers.submit.company_setting.update")
       page.should have_content I18n.t("admin.default_messages.update.success")
+
+      # Results
+      #
+      # Form
+      find("#company_setting_zipcode").value.should == "12345678"
+      find("#company_setting_google_analytics_id").value.should == "UA-45491111-1"
+
+      # Database-level
+      settings = CompanySetting.first
+      settings.zipcode.should == "12345678"
+      settings.google_analytics_id.should == "UA-45491111-1"
     end
   end
 end

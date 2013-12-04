@@ -96,6 +96,10 @@ class Company < ActiveRecord::Base
     self.payment_gateway.present?
   end
 
+  def google_analytics_id
+    settings.google_analytics_id
+  end
+
   private
 
   def set_default_theme

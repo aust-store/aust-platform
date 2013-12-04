@@ -39,6 +39,9 @@ Store::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.ember.variant = :production
 
+  #
+  # Custom variables
+
   # does web request to the shipping service
   config.auto_validate_company_zipcode = false
 end
