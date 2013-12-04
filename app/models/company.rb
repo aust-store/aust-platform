@@ -97,7 +97,7 @@ class Company < ActiveRecord::Base
   end
 
   def google_analytics_id
-    settings.google_analytics_id
+    settings.google_analytics_id if settings.present?
   end
 
   private

@@ -64,4 +64,20 @@ describe Store::Policy::CommerceSetup do
       expect(subject.missing_payments?).to be_false
     end
   end
+
+  describe "#missing_analytics?" do
+    before do
+      stub_const("View::GoogleAnalytics", Class.new)
+    end
+
+    it "returns true when analytics are present" do
+      View::GoogleAnalytics.stub_chain(:new, :enabled?) { true }
+      expect(subject.missing_analytics?).to be_false
+    end
+
+    it "returns false when analytics are installed" do
+      View::GoogleAnalytics.stub_chain(:new, :enabled?) { false }
+      expect(subject.missing_analytics?).to be_true
+    end
+  end
 end

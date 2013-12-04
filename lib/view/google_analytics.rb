@@ -1,8 +1,8 @@
 module View
   class GoogleAnalytics
-    def initialize(controller, company)
-      @controller = controller
+    def initialize(company, controller = nil)
       @company = company
+      @controller = controller
     end
 
     def enabled?

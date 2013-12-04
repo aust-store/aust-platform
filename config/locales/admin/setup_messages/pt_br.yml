@@ -20,3 +20,7 @@ pt_br:
       missing_payments:
         title: Meios de pagamentos não definidos
         call_to_action: Configurar
+
+      missing_analytics:
+        title: Google Analytics não configurado
+        call_to_action: Configurar

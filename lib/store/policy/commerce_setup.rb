@@ -10,7 +10,8 @@ module Store
           missing_products? ||
           missing_zipcode?  ||
           missing_domain?   ||
-          missing_payments?
+          missing_payments? ||
+          missing_analytics?
       end
 
       def missing_factors
@@ -19,9 +20,11 @@ module Store
           missing_taxonomy: :admin_taxonomies_path,
           missing_products: :admin_inventory_items_path,
           missing_domain:   :admin_settings_path,
-          missing_payments: :admin_settings_payment_methods_path }.delete_if do |x|
-            !self.send("#{x}?")
-          end
+          missing_payments: :admin_settings_payment_methods_path,
+          missing_analytics: :admin_settings_path
+        }.delete_if do |x|
+          !self.send("#{x}?")
+        end
       end
 
       def missing_taxonomy?
@@ -42,6 +45,10 @@ module Store
 
       def missing_payments?
         !company.has_payment_gateway_configured?
+      end
+
+      def missing_analytics?
+        !View::GoogleAnalytics.new(company).enabled?
       end
 
       private

@@ -18,6 +18,7 @@ feature "Dashboard/Setup warnings" do
     let(:missing_products) { I18n.t("#{i18n_suffix}products.title") }
     let(:missing_domain)   { I18n.t("#{i18n_suffix}domain.title") }
     let(:missing_payments) { I18n.t("#{i18n_suffix}payments.title") }
+    let(:missing_analytics) { I18n.t("#{i18n_suffix}analytics.title") }
 
     scenario "As a store admin, I want to see warnings for missing zipcode" do
       page.should have_content missing_zipcode
@@ -52,6 +53,13 @@ feature "Dashboard/Setup warnings" do
       company.payment_gateway = create(:payment_gateway)
       visit admin_root_path
       page.should_not have_content missing_payments
+    end
+
+    scenario "As a store admin, I see warnings for missing Google Analytics" do
+      page.should have_content missing_analytics
+      company.settings = create(:company_setting)
+      visit admin_root_path
+      page.should_not have_content missing_analytics
     end
   end
 end

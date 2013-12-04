@@ -6,7 +6,7 @@ module ControllersExtensions
       end
 
       def view_objects
-        @google_analytics = View::GoogleAnalytics.new(self, current_store)
+        @google_analytics = View::GoogleAnalytics.new(current_store, self)
         # TODO -  this var should be removed when we get rid of the ERB templates
         @theme = View::Theme.new(current_theme)
         @layout_constraints = View::LayoutConstraints.new(self)
