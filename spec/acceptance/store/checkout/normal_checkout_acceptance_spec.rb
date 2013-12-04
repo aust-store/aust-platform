@@ -3,7 +3,7 @@ require "acceptance_spec_helper"
 
 feature "Normal checkout", js: true do
   background do
-    @company  = FactoryGirl.create(:company_with_zipcode, :minimalism_theme)
+    @company  = FactoryGirl.create(:company_with_zipcode, :minimalism_theme, handle: "mystore")
     @product  = FactoryGirl.create(:inventory_item, company: @company)
     @customer = FactoryGirl.create(:customer, store: @company)
     stub_subdomain(@company)

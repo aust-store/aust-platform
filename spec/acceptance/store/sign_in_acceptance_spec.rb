@@ -3,7 +3,7 @@ require "acceptance_spec_helper"
 
 feature "Store Sign In" do
   before do
-    @company = FactoryGirl.create(:company, :minimalism_theme)
+    @company = FactoryGirl.create(:company, :minimalism_theme, handle: "mystore")
     @product = FactoryGirl.create(:inventory_item, company: @company)
     stub_subdomain(@company)
   end

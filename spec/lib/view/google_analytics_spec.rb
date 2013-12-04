@@ -8,7 +8,7 @@ describe View::GoogleAnalytics do
 
   let(:controller) { double(request: :request) }
 
-  subject { described_class.new(controller, company) }
+  subject { described_class.new(company, controller) }
 
   describe "#enabled?" do
     it "returns true if GA is enabled" do

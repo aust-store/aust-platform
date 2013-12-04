@@ -19,6 +19,7 @@ these steps:
   127.0.0.1 www.petshop.com
   127.0.0.1 test.petshop.com
   127.0.0.1 lvh.com
+  127.0.0.1 mystore.lvh.com
   127.0.0.1 example.com
   ````
 
@@ -26,7 +27,7 @@ these steps:
 
   The last two lines are a way to mimic more closely how a URL would be typed in the browser. For that case, you have to login into your store and enter `petshop.com.br` as an accepted login.
 
-  **Note:** don't forget about `example.com` and `lvh.com`. They're used by Capybara Javascript driver.
+  **Note:** don't forget about `example.com` and `lvh.com`. They're used by Capybara Javascript driver. If a company is created with handle mystore, mystore.lvh.me will be used.
 
   3. If you're on a Mac, it might be necessary to run in some cases to flush the cache `$ dscacheutil -flushcache`
 

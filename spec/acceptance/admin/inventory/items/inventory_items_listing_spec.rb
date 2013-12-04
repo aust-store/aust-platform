@@ -9,7 +9,8 @@ feature "Inventory Item Listing", js: true, search: true do
                                      user: @other_user,
                                      company: @other_company)
 
-    @admin_user = FactoryGirl.create(:admin_user)
+    @company = FactoryGirl.create(:barebone_company, handle: "mystore")
+    @admin_user = FactoryGirl.create(:admin_user, company: @company)
     @item = FactoryGirl.create(:inventory_item,
                                name: "My item",
                                user: @admin_user,

@@ -4,7 +4,7 @@ require "acceptance_spec_helper"
 feature "Store cart" do
   before do
     stub_correios
-    @company = FactoryGirl.create(:company_with_zipcode)
+    @company = FactoryGirl.create(:company_with_zipcode, handle: "mystore")
     stub_subdomain(@company)
     @product = FactoryGirl.create(:inventory_item, company: @company)
   end

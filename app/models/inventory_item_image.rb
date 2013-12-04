@@ -6,6 +6,7 @@ class InventoryItemImage < ActiveRecord::Base
   attr_accessible :cover, :image
 
   before_save :set_as_cover_if_first
+  after_destroy :guarantee_cover_after_delete
 
   scope :cover, ->{ where(cover: true) }
   scope :non_cover, ->{ where(cover: false) }
@@ -27,5 +28,13 @@ class InventoryItemImage < ActiveRecord::Base
 
   def item_images
     self.inventory_item.try(:images)
+  end
+
+  def guarantee_cover_after_delete
+    return if item_images.count == 0
+    cover_images = item_images.cover
+    if cover_images.blank?
+      item_images.last.update_attributes(cover: true)
+    end
   end
 end

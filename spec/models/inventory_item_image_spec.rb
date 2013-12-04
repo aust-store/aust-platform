@@ -32,6 +32,21 @@ describe InventoryItemImage do
         another_image.reload.should be_cover
       end
     end
+
+    describe "#guarantee_cover_after_delete" do
+      it "sets the next image as cover if cover is deleted" do
+        item = FactoryGirl.create(:inventory_item)
+        item.images << InventoryItemImage.new
+        item.images << InventoryItemImage.new
+        item.save
+        images = item.images.order(:id)
+        images.first.cover.should == true
+        images.last .cover.should == false
+
+        images.first.destroy
+        images.to_a.last.cover.should == true
+      end
+    end
   end
 
   describe ".has_cover" do
