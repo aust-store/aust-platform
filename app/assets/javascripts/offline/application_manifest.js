@@ -21,7 +21,7 @@ window.App = Ember.Application.create({
 });
 
 App.ApplicationView = Ember.View.extend({
-  templateName: 'offline/templates/application'
+  templateName: 'offline/application'
 });
 
 var attr = DS.attr;

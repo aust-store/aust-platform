@@ -6,13 +6,14 @@
   <%= javascript_include_tag "offline/application_manifest" %>
   <%= airbrake_javascript_notifier %>
   <%= csrf_meta_tags %>
-</head>
-<body>
 
   <script type="text/javascript">
     window.routes = {
       "exit_path": "<%= admin_root_url %>"
     }
   </script>
+</head>
+<body>
+
 </body>
 </html>

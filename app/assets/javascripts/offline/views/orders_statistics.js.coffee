@@ -1,2 +1,2 @@
 App.OrdersStatisticsView = Ember.View.extend
-  templateName: 'offline/templates/orders_statistics'
+  templateName: 'offline/orders_statistics'

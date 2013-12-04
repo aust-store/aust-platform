@@ -1,5 +1,5 @@
 App.InventoryItemView = Ember.View.extend
-  templateName: 'offline/templates/inventory_item'
+  templateName: 'offline/inventory_item'
 
 App.InventoryItemsSearchTextField = Ember.TextField.extend
   didInsertElement: ->
