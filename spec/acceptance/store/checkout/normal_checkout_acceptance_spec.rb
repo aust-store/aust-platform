@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "acceptance_spec_helper"
 
-feature "Normal checkout", js: true do
+feature "Normal checkout" do
   background do
     @company  = FactoryGirl.create(:company_with_zipcode, :minimalism_theme, handle: "mystore")
     @product  = FactoryGirl.create(:inventory_item, company: @company)
@@ -14,7 +14,7 @@ feature "Normal checkout", js: true do
     stub_payment_gateway
   end
 
-  describe "checkout process" do
+  describe "checkout process", js: true do
     background do
       # we check the current state of the inventory/stock
       @entries = @product.entries.order('id asc')
@@ -155,6 +155,15 @@ feature "Normal checkout", js: true do
         @product.entries.reload
         @product.entries.first.quantity.should  == 2 # 2 items left this lot
       end
+    end
+  end
+
+  describe "empty cart" do
+    scenario "As user with empty cart on checkout page, I'm redirected to cart" do
+      visit checkout_shipping_path
+      customer_signs_in
+      current_path.should == cart_path
+      page.should have_content "Carrinho está vazio."
     end
   end
 
