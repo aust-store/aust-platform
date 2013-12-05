@@ -1,5 +1,6 @@
 module Store
   class ItemsForSale
+    # FIXME enter company, not controller
     def initialize(controller)
       @controller = controller
     end
