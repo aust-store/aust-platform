@@ -25,7 +25,7 @@ module View
             end
 
             if banners_amount(:main_page_central_rotative) > 1
-              result << content_tag(:div, class: "main_page_central_transitional_banners_navigation")
+              result << content_tag(:div, "", class: "main_page_central_transitional_banners_navigation")
             end
           end
           raw(result)

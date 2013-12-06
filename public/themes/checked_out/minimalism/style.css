@@ -1,3 +1,5 @@
+* { margin: 0; padding: 0; }
+
 body {
   background: white;
   margin: 15px 0;
@@ -407,3 +409,127 @@ body.store_cart.show .cart {
   color: red;
   font-weight: bold;
 }
+
+/* FORMS */
+input[type='text'], input[type='password'], input[type='email'], textarea {
+  border: 1px solid #bbb;
+  padding: 3px 8px;
+  width: 250px;
+  height: 25px;
+}
+
+.narrower label.text,
+.narrower label.string,
+.narrower label.password,
+.narrower label.email,
+.narrower label.textarea,
+.narrower label.select {
+  width: 100px;
+}
+ .narrower input[type='text'],
+ .narrower input[type='password'],
+ .narrower input[type='email'],
+ .narrower textarea {
+    width: 190px;
+  }
+
+textarea {
+  height: 140px;
+}
+
+form { }
+  form fieldset {
+    border: 0;
+    margin-bottom: 25px:
+  }
+
+    form fieldset .fields_with_illustration {
+      width: 430px;
+      float: left;
+    }
+
+    form fieldset .illustration {
+      padding: 30px 10px 0 10px;
+      width: 260px;
+      display: table;
+      float: right;
+      text-align: center;
+    }
+
+  form input[type='checkbox'] {
+    margin: 0 4px 0 0;
+  }
+
+  form label.text,
+  form label.string,
+  form label.password,
+  form label.email,
+  form label.textarea,
+  form label.select {
+    width: 150px;
+    display: inline-block;
+    top: 8px;
+    position: relative;
+    float: left;
+  }
+
+  form .input {
+    margin: 0 0 3px 0;
+  }
+
+    form .input.field_with_errors input {
+      background: lighten(red, 47.4%);
+    }
+
+    form .input span.input_wrapper {
+      position: relative;
+    }
+
+      form .input .secure_lock_image {
+        position: absolute;
+        right: 8px;
+        top: 0px;
+      }
+
+  form .hint {
+    display: block;
+    margin: 3px 0 7px 153px;
+    color: #666;
+    font-size: 0.9em;
+  }
+  form span.error {
+    display: block;
+    color: red;
+    margin: 2px 0 15px 153px;
+  }
+
+/* Login */
+.sign_in { }
+  .sign_in form label.text,
+  .sign_in form label.password,
+  .sign_in form label.email,
+  .sign_in form label.textarea {
+    width: auto;
+    margin-right: 3px;
+  }
+  .sign_in .email_block, .sign_in .passw_block {
+    margin: 0 0 25px 0;
+  }
+
+  .sign_in .email_block h2, .sign_in .passw_block h2 {
+    margin: 0 0 10px 0;
+  }
+
+  .sign_in .email_block .fields, .sign_in .passw_block .fields {
+    margin-left: 15px;
+  }
+  .sign_in .email_block .field, .sign_in .passw_block .field {
+    margin: 0 0 5px 0;
+  }
+
+  .sign_in .email_block label.has_password,
+  .sign_in .passw_block label.has_password,
+  .sign_in .email_block div.input.password,
+  .sign_in .passw_block div.input.password {
+    display: inline;
+  }
