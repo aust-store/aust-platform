@@ -10,7 +10,7 @@ class Theme < ActiveRecord::Base
   validates :path, uniqueness: true
 
   scope :accessible_for_company, ->(company) { where("public = ? OR company_id = ?", true, company.id) }
-  scope :default_theme, ->{ where(name: "Overblue") }
+  scope :default_theme, ->{ where(name: "Minimalism") }
 
   def company_name
     company and company.name
