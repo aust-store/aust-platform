@@ -198,16 +198,16 @@ pt_br:
           &#60;div class="imagens"&#62;
             {{#imagem_de_capa}}
               &#60;div class="capa"&#62;
-                &#60;a href="{{{imagem_grande}}}" class="fancybox" rel="product_images_group"&#62;
-                  &#60;img src="{{{src}}}" width="300" /&#62;
+                &#60;a href="{{{tamanho_original_src}}}" class="fancybox" rel="product_images_group"&#62;
+                  &#60;img src="{{{tamanho_pequeno_src}}}" width="300" /&#62;
                 &#60;/a&#62;
               &#60;/div&#62;
             {{/imagem_de_capa}}
 
             &#60;div class="imagens_pequenas"&#62;
               {{#imagens}}
-                &#60;a href="{{{src_natural}}}" class="fancybox" rel="product_images_group"&#62;
-                  &#60;img src="{{{src_thumb}}}" class="image" /&#62;
+                &#60;a href="{{{tamanho_original_src}}}" class="fancybox" rel="product_images_group"&#62;
+                  &#60;img src="{{{tamanho_thumb_src}}}" class="image" /&#62;
                 &#60;/a&#62;
               {{/imagens}}
             &#60;/div&#62;
@@ -231,15 +231,6 @@ pt_br:
 
         Para detalhes sobre cada atributo e bloco, veja a documentação do comando no plural, <span class="code">{{#produtos}}</span>.
 
-        Este comando possui um bloco para acessar imagens que <strong>não</strong> está disponível em <span class="code">{{#produtos}}</span>. Você pode acessar as imagens do produto através do seguinte bloco:
-
-        <ul class="codes">
-        <li><span class="code">{{#imagens}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src}}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src_thumb}}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{src_natural}}}</span></li>
-        <li><span class="code">{{/imagens}}</span></li>
-        </ul>
     products:
       name: "produtos"
       group: "Produtos"
@@ -263,19 +254,27 @@ pt_br:
 
         <ul class="codes">
         <li><span class="code">{{#preco?}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{id}}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{nome}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">Este código só será executado caso o preço esteja definido.</span></li>
         <li><span class="code">{{/preco?}}</span></li>
         </ul>
 
-        Você pode acessar a imagem de capa através do seguinte bloco:
+        Você pode acessar a imagem de capa em diferentes tamanhos através do seguinte bloco:
 
         <ul class="codes">
         <li><span class="code">{{#imagem_de_capa}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{id}}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{nome}}}</span></li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{imagem_grande}}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{tamanho_pequeno_src}}}</span>: a imagem de capa tamanho <strong>pequeno</strong> 170x127 pixels. Redimensione esta imagem usando HTML ou CSS</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{tamanho_medio_src}}}</span>: a imagem de capa tamanho <strong>médio</strong> 350x262 pixels. Redimensione esta imagem usando HTML ou CSS caso necessário</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{tamanho_original_src}}}</span>: esta é a imagem de capa no tamanho original (ideal para que o usuário possa ver detalhes do produto). Não use este tamanho na página principal.</li>
         <li><span class="code">{{/imagem_de_capa}}</span></li>
+        </ul>
+
+        Você pode acessar as imagens que não são capa através do seguinte bloco:
+
+        <ul class="codes">
+        <li><span class="code">{{#imagens}}</span></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{tamanho_thumb_src}}}</span>: thumbs são gerados com tamanho 60x45 pixels</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code">{{{tamanho_original_src}}}</span>: imagem com tamanho original</li>
+        <li><span class="code">{{/imagens}}</span></li>
         </ul>
       block:
         cover_image: imagem_de_capa
@@ -286,11 +285,14 @@ pt_br:
         price: preco
         price?: preco?
         product_href: produto_href
-        src: src
-        big_image: imagem_grande
+        small_size_id:     tamanho_pequeno_id
+        small_size_src:    tamanho_pequeno_src
+        medium_size_id:    tamanho_medio_id
+        medium_size_src:   tamanho_medio_src
+        original_size_src: tamanho_original_src
         images: imagens
-        src_thumb: src_thumb
-        src_natural: src_natural
+        thumb_size_src:    tamanho_thumb_src
+        original_size_src: tamanho_original_src
         add_to_cart_btn: botao_adicionar_ao_carrinho
 
     # rails_flash.rb

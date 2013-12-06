@@ -12,16 +12,16 @@
       <div class="images">
         {{#imagem_de_capa}}
           <div class="cover">
-            <a href="{{{imagem_grande}}}" class="fancybox" rel="product_images_group">
-              <img src="{{{src}}}" width="300" />
+            <a href="{{{tamanho_original_src}}}" class="fancybox" rel="product_images_group">
+              <img src="{{{tamanho_medio_src}}}" width="300" />
             </a>
           </div>
         {{/imagem_de_capa}}
 
         <div class="small_images">
           {{#imagens}}
-            <a href="{{{src_natural}}}" class="fancybox" rel="product_images_group">
-              <img src="{{{src_thumb}}}" class="image" />
+            <a href="{{{tamanho_original_src}}}" class="fancybox" rel="product_images_group">
+              <img src="{{{tamanho_thumb_src}}}" class="image" />
             </a>
           {{/imagens}}
         </div>

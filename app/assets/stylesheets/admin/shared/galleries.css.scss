@@ -19,6 +19,7 @@
       display: block;
       width: 60px;
       height: 45px;
+      text-align: center;
 
       &.mini_mini {
         width: 25px;
@@ -42,7 +43,7 @@
 
     img {
       border: 0;
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
     }
   }

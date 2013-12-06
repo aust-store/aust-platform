@@ -26,41 +26,14 @@ module View
         #
         desc "products", block: true
         def products
-          i18n_block = "mustache_commands.products.block"
           view.products.each_with_index.map do |product, index|
-            small_cover_image = product.images.cover.first
-
-            attributes = product_attributes(product)
-            attributes.merge({
-              index: index,
-              I18n.t("#{i18n_block}.cover_image") => {
-                I18n.t("#{i18n_block}.id") =>  small_cover_image.id,
-                I18n.t("#{i18n_block}.src") => small_cover_image.image.url(:cover_standard),
-                I18n.t("#{i18n_block}.big_image") => small_cover_image.image.url(:natural)
-              }
-            })
+            product_attributes(product).merge({ index: index })
           end
         end
 
         desc "product", block: true
         def product
-          resource = view.product
-          big_cover_image = resource.images.first
-
-          i18n_block = "mustache_commands.products.block"
-          attributes = product_attributes(resource)
-          attributes.merge({
-            I18n.t("#{i18n_block}.cover_image") => {
-              I18n.t("#{i18n_block}.id")  =>  big_cover_image.id,
-              I18n.t("#{i18n_block}.src") => big_cover_image.image.url(:cover_big),
-              I18n.t("#{i18n_block}.big_image") => big_cover_image.image.url(:natural)
-            },
-            I18n.t("#{i18n_block}.images") => resource.images.non_cover.map { |image|
-              { I18n.t("#{i18n_block}.src_thumb") => image.image.url(:thumb),
-                I18n.t("#{i18n_block}.src_natural") => image.image.url(:natural) }
-            },
-            I18n.t("#{i18n_block}.add_to_cart_btn") => add_to_cart_link(resource)
-          })
+          product_attributes(view.product)
         end
 
         private
@@ -78,14 +51,36 @@ module View
         end
 
         def product_attributes(product)
+          { i18n_block(:id)              => product.id,
+            i18n_block(:name)            => product.name,
+            i18n_block(:description)     => product.description,
+            i18n_block(:merchandising)   => product.merchandising,
+            i18n_block(:price)           => product.price,
+            i18n_block(:price?)          => product.price.present?,
+            i18n_block(:product_href)    => controller.product_path(product),
+            i18n_block(:add_to_cart_btn) => add_to_cart_link(product),
+            i18n_block(:cover_image)     => cover_image(product),
+            i18n_block(:images)          => images(product) }
+        end
+
+        def cover_image(product)
+          cover_image = product.images.cover.first
+          { i18n_block(:small_size_src)    => cover_image.image.url(:cover_standard),
+            i18n_block(:medium_size_src)   => cover_image.image.url(:cover_big),
+            i18n_block(:original_size_src) => cover_image.image.url(:natural)
+          }
+        end
+
+        def images(product)
+          product.images.non_cover.map do |image|
+            { i18n_block(:thumb_size_src)   => image.image.url(:thumb),
+              i18n_block(:original_size_src) => image.image.url(:natural) }
+          end
+        end
+
+        def i18n_block(key_to_be_translated)
           i18n_block = "mustache_commands.products.block"
-          { I18n.t("#{i18n_block}.id") => product.id,
-            I18n.t("#{i18n_block}.name") => product.name,
-            I18n.t("#{i18n_block}.description") => product.description,
-            I18n.t("#{i18n_block}.merchandising") => product.merchandising,
-            I18n.t("#{i18n_block}.price") => product.price,
-            I18n.t("#{i18n_block}.price?") => product.price.present?,
-            I18n.t("#{i18n_block}.product_href") => controller.product_path(product) }
+          I18n.t("#{i18n_block}.#{key_to_be_translated}")
         end
       end
     end

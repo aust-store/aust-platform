@@ -15,15 +15,27 @@ class ImageItemUploader < CarrierWave::Uploader::Base
   #                  If necessary, crop the image in the larger dimension.
 
   version :thumb do
-    process resize_to_fill: [60, 45]
+    process resize_to_fit: [60, 45]
   end
 
+  # small size
+  #
+  # !important! if you change these sizes, you need to change the
+  #             mustache_documentation.yml file
   version :cover_standard, from: :natural do
-    process resize_to_fill:  [170, 127]
+    process resize_to_fit:  [170, 127]
   end
 
+  # medium size
+  #
+  # !important! if you change these sizes, you need to change the
+  #             mustache_documentation.yml file
   version :cover_big, from: :natural do
     process resize_to_fit: [350, 262]
+  end
+
+  version :bigger, from: :natural do
+    process resize_to_fit: [700, 524]
   end
 
   version :natural do
