@@ -51,4 +51,16 @@ feature "Store Sign In" do
       page.should have_content "Olá. Já é cadastrado?"
     end
   end
+
+  scenario "As an user with incorrect email, I get an error message" do
+    visit root_path
+    click_on "Login"
+    expect(current_path).to eq(new_customer_session_path)
+    fill_in "customer_email",    with: "no_email_@_at_all.com"
+    fill_in "customer_password", with: "what_fracking_a_password"
+    click_on "sign_in"
+
+    page.should have_content "Email ou senha incorretos."
+    expect(current_path).to eq(new_customer_session_path)
+  end
 end
