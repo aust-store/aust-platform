@@ -25,7 +25,6 @@ class Admin::CustomersController < Admin::ApplicationController
       customer_params.delete("password_confirmation")
     end
 
-    # if @customer.update_attributes(params[:customer])
     if @customer.update_attributes(customer_params)
       redirect_to admin_customer_url(@customer)
     else
