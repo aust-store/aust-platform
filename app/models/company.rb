@@ -25,6 +25,7 @@ class Company < ActiveRecord::Base
   before_create :create_inventory
   before_validation :set_default_theme, on: :create
   before_validation :sanitize_domain
+  after_save :create_default_pages, on: :create
 
   def taxonomies_as_hash
     self.taxonomies.hash_tree_for_homepage
@@ -109,5 +110,9 @@ class Company < ActiveRecord::Base
   def set_default_theme
     self.theme = Theme.default_theme.first if self.theme.blank?
     true
+  end
+
+  def create_default_pages
+    self.pages << Page.create(title: "Quem somos", body: "Página quem somos")
   end
 end

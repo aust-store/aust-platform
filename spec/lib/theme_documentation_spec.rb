@@ -30,6 +30,7 @@ describe ThemeDocumentation do
       subject.mustache_documentation.keys.should =~ [
         "nome_da_empresa",
         "empresa",
+        "email_de_contato_cadastrado?",
         "pagina_principal_href",
         "pagina_de_contato_href",
         "pagina_principal_href_atualmente",

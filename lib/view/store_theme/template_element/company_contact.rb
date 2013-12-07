@@ -2,7 +2,7 @@ module View
   module StoreTheme
     module TemplateElement
 
-      # All data related to taxonomy.
+      # All data regarding the current store's contact information is grouped here.
       #
       # This module will be used in a mustache template. Consider that we have
       # the following hypothetical placeholder in a view (e.g `layout.mustache`):
@@ -13,12 +13,12 @@ module View
       # TemplateElement::Company, thus replacing the placeholder with the
       # actual value.
       #
-      module Taxonomy
+      module CompanyContact
         extend TemplateElementsDocumentation
 
-        desc "taxonomy"
-        def taxonomy
-          raw taxonomies_navigation(view.taxonomies, view.current_taxonomy)
+        desc "contact_enabled?"
+        def contact_enabled?
+          view.company.contact_email.present?
         end
       end
     end

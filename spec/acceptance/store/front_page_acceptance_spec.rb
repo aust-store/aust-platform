@@ -54,8 +54,9 @@ feature "Store's front-page" do
 
     scenario "As customer, I see the cover images in products" do
       cover_image = @item.images.cover.first
+      cover_image_url = cover_image.image.url(:cover_standard)
       visit root_path
-      page.should have_selector ".image_#{cover_image.id}"
+      page.should have_selector "img[src='#{cover_image_url}']"
     end
   end
 

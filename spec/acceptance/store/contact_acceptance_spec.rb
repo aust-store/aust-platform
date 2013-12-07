@@ -33,7 +33,7 @@ feature "Contact form" do
     current_email.should have_content "This is my message to the world"
   end
 
-  scenario "As an user, I can't contact the company if it doesn't have" do
+  scenario "As an user, I can't contact the company if it doesn't have email" do
     @company = create(:company, contact: nil)
     stub_subdomain(@company)
 

@@ -79,6 +79,14 @@ pt_br:
         phone_2: fone_2
         email: email
 
+    # company_contact.rb
+    contact_enabled?:
+      name: "email_de_contato_cadastrado?"
+      group: "Empresa"
+      type: "em bloco"
+      description: |
+        Executará o interior do bloco apenas se a empresar tiver um email de contato. Ideal para caso você não queira mostrar o menu de contato.
+
     # banner.rb
     main_rotative_banners:
       name: principal_banner_rotativo

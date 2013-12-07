@@ -80,8 +80,6 @@ feature "Store cart" do
   end
 
   describe "shipping calculations" do
-    let(:inventory_entry) { @product.balances.first }
-
     scenario "As an user, my shipping price is calculated as I type my zipcode", js: true do
       stub_shipping
 
@@ -124,30 +122,34 @@ feature "Store cart" do
   end
 
   describe "Policies" do
-    background do
-      inventory_entry = @product.balances.first
-      visit product_path(@product)
-      click_link I18n.t("store.products.show.add_to_cart_link")
+    describe "cart page" do
+      background do
+        visit product_path(@product)
+        click_link I18n.t("store.products.show.add_to_cart_link")
+      end
+
+      scenario "As an user, I can see a checkout button if a payment gateway was configured" do
+        visit cart_path
+        page.should have_selector "#checkout_button"
+      end
+
+      scenario "As an user, I can't see a checkout button if not payment gateway was configured" do
+        @company.payment_gateway.delete
+        visit cart_path
+        page.should_not have_selector "#checkout_button"
+      end
     end
 
-    scenario "As an user, I can see a checkout button if a payment gateway was configured" do
-      visit cart_path
-      page.should have_selector "#checkout_button"
-    end
+    describe "links to cart" do
+      scenario "As an user, I can't see cart links if sales are disabled" do
+        CompanySetting.first.update_attributes(sales_enabled: "0")
+        visit root_path
+        page.should_not have_selector "#path_to_cart"
+        page.should_not have_content "Seu carrinho"
 
-    scenario "As an user, I can't see a checkout button if not payment gateway was configured" do
-      @company.payment_gateway.delete
-      visit cart_path
-      page.should_not have_selector "#checkout_button"
-    end
-
-    scenario "As an user, I can't see cart links if sales are disabled" do
-      CompanySetting.first.update_attributes(sales_enabled: "0")
-      page.should_not have_selector "#path_to_cart"
-      page.should_not have_content "Seu carrinho"
-
-      visit cart_path
-      current_path.should == root_path
+        visit cart_path
+        current_path.should == root_path
+      end
     end
   end
 end

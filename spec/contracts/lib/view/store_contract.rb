@@ -23,8 +23,8 @@ shared_examples_for "a store view" do
     subject.should respond_to(:pages)
   end
 
-  it "responds to taxonomy" do
-    subject.should respond_to(:taxonomy)
+  it "responds to taxonomies" do
+    subject.should respond_to(:taxonomies)
   end
 
   it "responds to products" do

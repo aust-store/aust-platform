@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :theme do
-    name "Overblue"
+    name "Minimalism"
     public true
-    path "overblue"
+    path "minimalism"
     initialize_with { Theme.where(path: path).first_or_create }
 
     trait :overblue do

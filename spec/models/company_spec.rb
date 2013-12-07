@@ -14,10 +14,10 @@ describe Company do
 
     describe "set_default_theme on creation" do
       it "sets the theme to overblue" do
-        FactoryGirl.create(:theme)
+        create(:theme)
         company = Company.new
         company.valid?
-        expect(company.theme.name).to eq "Overblue"
+        expect(company.theme.name).to eq "Minimalism"
       end
 
       it "doesn't set the theme to overblue if it already has one" do
@@ -27,6 +27,13 @@ describe Company do
         expect(company.theme).to eq flat_pink
         company.valid?
         expect(company.theme).to eq flat_pink
+      end
+    end
+
+    describe "create_default_pages after_save on creation" do
+      it "creates an About Us page on new stores" do
+        about_us_page = create(:company).pages.first
+        about_us_page.title.should == "Quem somos"
       end
     end
   end

@@ -20,6 +20,12 @@ module ControllersExtensions
       @taxonomies ||= current_store.taxonomies_as_hash
     end
 
+    # Controllers down the hierarchy path define the current_taxonomy. Here we
+    # make sure that we have this method available at all times.
+    def current_taxonomy
+      nil
+    end
+
     def products
       items = ::Store::ItemsForSale.new(self).items_for_main_page
       @items = ::Store::InventoryItemDecorator.decorate_collection(items)

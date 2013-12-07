@@ -30,6 +30,7 @@ module View
       #
       include TemplateElement::LayoutAndRendering
       include TemplateElement::Company
+      include TemplateElement::CompanyContact
       include TemplateElement::Cart
       include TemplateElement::Products
       include TemplateElement::Customer

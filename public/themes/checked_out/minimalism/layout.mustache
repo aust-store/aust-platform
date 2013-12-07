@@ -33,9 +33,11 @@
         </li>
       {{/paginas}}
 
+      {{#email_de_contato_cadastrado?}}
       <li>
         <a href="{{{pagina_de_contato_href}}}" class="{{{pagina_de_contato_href_atualmente}}}" id="contact_path">Contato</a>
       </li>
+      {{/email_de_contato_cadastrado?}}
     </ul>
   </div>
 

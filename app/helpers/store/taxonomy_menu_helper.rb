@@ -1,5 +1,5 @@
 module Store::TaxonomyMenuHelper
-  def taxonomies_navigation(nodes, level = 1)
+  def taxonomies_navigation(nodes, current_category = nil, level = 1)
     result = ""
 
     nodes.each do |node, children|
@@ -7,7 +7,7 @@ module Store::TaxonomyMenuHelper
         content_tag :div, class: 'node_container' do
           css_class = []
           css_class << "category_#{node.id}"
-          if @current_category.present? && [node.id.to_s, node.slug].include?(@current_category)
+          if current_category.present? && [node.id.to_s, node.slug].include?(current_category.to_s)
             css_class << "current"
           end
           link_to node.name, category_path(node), class: "#{css_class.join(" ")}"
@@ -15,7 +15,7 @@ module Store::TaxonomyMenuHelper
       end
 
       if children.present?
-        nodes_html+= raw taxonomies_navigation(children, (level+1))
+        nodes_html+= raw taxonomies_navigation(children, current_category, (level+1))
       end
 
       if level == 1

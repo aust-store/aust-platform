@@ -29,8 +29,12 @@ module View
       @company.pages.to_a
     end
 
-    def taxonomy
+    def taxonomies
       @company.taxonomies_as_hash
+    end
+
+    def current_taxonomy
+      controller.current_taxonomy
     end
 
     def products
