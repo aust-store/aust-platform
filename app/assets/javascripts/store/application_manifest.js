@@ -1,5 +1,5 @@
 //= require_self
-//= require jquery
+//= require ./../vendors/jquery-1.10.2.min
 //= require jquery_ujs
 //= require ./../vendors/jquery.cycle
 //= require fancybox
