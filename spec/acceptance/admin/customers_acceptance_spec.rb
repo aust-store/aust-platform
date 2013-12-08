@@ -37,6 +37,7 @@ feature "Admin/Customer" do
       click_link "Editar"
 
       current_path.should == edit_admin_customer_path(customer)
+      find("#customer_receive_newsletter").value.should === "1"
       fill_in "customer_first_name", with: "Freddie"
       fill_in "customer_last_name", with: "Mercury"
       click_button "submit"

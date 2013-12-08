@@ -54,6 +54,7 @@ feature "Store Sign Up" do
     fill_in "customer_addresses_attributes_0_zipcode",      with: "96360000"
     fill_in "customer_addresses_attributes_0_city",         with: "London"
     select "Rio Grande do Sul", from: "customer_addresses_attributes_0_state"
+    check "customer_receive_newsletter"
     click_button "sign_up_button"
 
     # Ends up in the shipping page
@@ -62,6 +63,7 @@ feature "Store Sign Up" do
     # sets the default address
     customer = Customer.where(email: 'sherlock@holmes.com').first
     customer.store.should == @company
+    customer.receive_newsletter.should be_true
     customer.addresses.first.default.should == true
   end
 end
