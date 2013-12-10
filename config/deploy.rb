@@ -14,6 +14,8 @@ set :branch, "master"
 set :deploy_via, :remote_cache
 set :scm_verbose, false
 
+set :whenever_environment, defer { stage }
+
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
   task :start do ; end

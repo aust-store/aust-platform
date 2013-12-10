@@ -53,6 +53,7 @@ gem 'rails', '~>4'
 # Sysops
   gem 'capistrano', '2.13.5'
   gem "airbrake"
+  gem 'whenever', require: false
 
 group :development do
   gem 'rvm-capistrano'

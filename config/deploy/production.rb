@@ -10,6 +10,8 @@ role :web, "74.207.232.56"
 role :app, "74.207.232.56"
 role :db,  "74.207.232.56", :primary => true
 
-#set :default_environment, {
-#  'PATH' => "/home/deploy/.rvm/gems/ruby-2.0.0-p247/bin/:$PATH"
-#}
+set :whenever_command, "bundle exec whenever"
+set :default_environment, {
+  'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+}
+require 'whenever/capistrano'
