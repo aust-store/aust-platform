@@ -34,7 +34,10 @@ $(document).ready(function(){
 
 Admin.FieldSearch = {
   lastResults:    null,
-  selectedResult: null,
+  // FIXME - remove and use just selectedResult
+  selectedName:   null,
+  selectedResult: {},
+  results:        null,
   keypressTimer:  null,
 
   init: function() {
@@ -43,19 +46,42 @@ Admin.FieldSearch = {
     $('html').click(function() { that.removePopup(); });
     $('.popup_result').click(function(e) { e.stopPropagation(); });
 
+    this.results = new Admin.FieldSearch.Results;
+    $('input[data-search-url]').each(function(input){
+      that.results.addInput($(this));
+    });
+
+    $('input[data-search-url]').focus(function(e){
+      var input = $(e.target);
+
+      if (input.val() == "") {
+        that._resetSearch(input);
+        that._searchRequest({ input: input });
+      }
+    });
+
     $('input[data-search-url]').keyup(function(e){
 
       /**
-        Whenever the user types, we wait 600 miling seconds before doing the
+        Whenever the user types, we wait 400 miliseconds before doing the
         search. If the user types again in that period, we search again.
 
         That way, we avoid making unnecessary requests to the server.
        */
+
+      /**
+       * If the user presses up and down arrows, we want to process it right
+       * away.
+       */
       clearTimeout(that.keypressTimer);
 
-      that.keypressTimer = setTimeout(function() {
-        that.processKeyPress(e)
-      }, 600);
+      if (e.keyCode == 40 || e.keyCode == 38) {
+        that.processKeyPress(e);
+      } else {
+        that.keypressTimer = setTimeout(function() {
+          that.processKeyPress(e)
+        }, 400);
+      }
 
       /**
         13 is the key code for Enter.
@@ -94,18 +120,26 @@ Admin.FieldSearch = {
       }
     }
 
-    this.selectedResult = null;
-
-    this.clearId(input);
-    this._searchRequest(input);
+    /**
+     * If the current word to be searched is the same as the previous chosen
+     * result (last search), we don't want to search again.
+     */
+    if (input.val() != this.selectedName) {
+      this._resetSearch(input);
+      this._searchRequest({ input: input });
+    }
   },
 
   removePopup: function() {
     $('.popup_result').remove();
   },
 
-  clearId: function(input) {
+  _resetSearch: function(input) {
     var idField = this.idField(input.attr('id'));
+    // refactoring
+    // this.selectedName   = null;
+    // this.selectedResult = null;
+    this.results.forInput(input).reset();
     idField.val('');
   },
 
@@ -118,12 +152,15 @@ Admin.FieldSearch = {
       return $('#' + textFieldId + '_id');
   },
 
-  _searchRequest: function(input) {
-    var that = this;
+  _searchRequest: function(options) {
+    var that  = this,
+        input = options.input,
+        url   = input.data('search-url'),
+        value = input.val();
 
     $.ajax({
-      url: input.data('search-url'),
-      data: { search: input.val() },
+      url: url,
+      data: { search: value },
       dataType: "json",
       complete: function(response) {
         response = $.parseJSON(response.responseText);
@@ -133,10 +170,7 @@ Admin.FieldSearch = {
           break;
         }
 
-        if (!that.lastResults.length)
-          that.removePopup();
-        else
-          Admin.FieldSearch.ResultsPopup.showResults(input);
+        Admin.FieldSearch.ResultsPopup.showResults(input);
       }
     });
   },
@@ -145,6 +179,7 @@ Admin.FieldSearch = {
     var current     = $('.popup_result a.current'),
         firstResult = $('.popup_result a:first'),
         lastResult  = $('.popup_result a:last'),
+        input       = $(e.target),
         next,
         previous;
 
@@ -161,7 +196,10 @@ Admin.FieldSearch = {
       if (!next.length)
         next = firstResult;
 
-      this.selectedResult = next.data('id');
+      // refactoring
+      // this.selectedName   = next.html();
+      // this.selectedResult = next.data('id');
+      this.results.forInput(input).save({id: next.data('id'), name: next.html()});
     } else if (e.keyCode == 38) {
       if (!current.length) {
         previous = lastResult;
@@ -172,18 +210,29 @@ Admin.FieldSearch = {
       if (!previous.length)
         previous = lastResult;
 
-      this.selectedResult = previous.data('id');
+      // refactoring
+      // this.selectedName   = previous.html();
+      // this.selectedResult = previous.data('id');
+      this.results.forInput(input).save({
+        id: previous.data('id'),
+        name: previous.html()
+      });
     }
 
     Admin.FieldSearch.ResultsPopup.showResults($(e.target));
   },
 
   userPressesEnter: function(e) {
-    if (this.selectedResult) {
-      var selectedName = $('.popup_result a[data-id="'+this.selectedResult+'"]').html();
+    var input     = $(e.target),
+        currentId = this.results.forInput(input).id;
 
-      if (selectedName)
+    if (currentId) {
+      var selectedName = $('.popup_result a[data-id="' + currentId + '"]').html();
+
+      if (selectedName) {
         $(e.target).val(selectedName);
+        $(e.target).data('name', selectedName);
+      }
 
       this.removePopup();
     }
@@ -220,7 +269,7 @@ Admin.FieldSearch.ResultsPopup = {
 
   _bindResultAnchorEvent: function() {
     $('.popup_result a').click(function(e) {
-      return Admin.FieldSearch.Result.click(this, e);
+      return Admin.FieldSearch.ResultItem.click(this, e);
     });
   }
 }
@@ -228,6 +277,7 @@ Admin.FieldSearch.ResultsPopup = {
 Admin.FieldSearch.ResultsPopupDrawing = {
   drawResults: function(input, resultElement) {
     var resultHtml  = '',
+        finalHtml   = '',
         inputId     = $(input).attr('id'),
         jsonResults = Admin.FieldSearch.lastResults;
 
@@ -235,37 +285,59 @@ Admin.FieldSearch.ResultsPopupDrawing = {
       var name   = jsonResults[i].name,
           id     = jsonResults[i].id,
           suffix = '',
-          anchorClass = '';
+          anchorClass = '',
+          results         = Admin.FieldSearch.results.forInput(input),
+          //.save({id: next.data('id'), name: next.html()});
+          isSameId        = (results.id == id),
+          hasNoId         = (!results.id),
+          hasMatchingName = (name.toLowerCase() == $(input).val().toLowerCase());
 
       resultHtml += '<li>';
       /**
-        If the typed entity already exists in the results list, fill in the form
-        with the current entity's id.
-      */
-      if (Admin.FieldSearch.selectedResult == id ||
-          ( !Admin.FieldSearch.selectedResult &&
-            name.toLowerCase() == $(input).val().toLowerCase() ) )
-      {
+       * If the typed entity already exists in the results list, fill in the form
+       * with the current entity's id.
+       */
 
-        Admin.FieldSearch.Result.setId(inputId, id);
-        Admin.FieldSearch.selectedResult = id;
+      if (isSameId || ( hasNoId && hasMatchingName ) ) {
+        Admin.FieldSearch.ResultItem.setId(inputId, id);
+        Admin.FieldSearch.results.forInput(input).save({id: id});
         suffix = '<span class="current_arrow">►</span> ';
         anchorClass = 'current';
       }
 
       resultHtml += suffix;
-      resultHtml += '<a href="#" class="'+anchorClass+'" data-input-id="'+inputId+'" data-id="'+ id +'">';
+      resultHtml += '<a href="#" class="resource '+anchorClass+'" data-input-id="'+inputId+'" data-id="'+ id +'">';
       resultHtml += name;
       resultHtml += '</a>';
       resultHtml += '</li>';
 
     }
 
-    $(resultElement).append('<ul class="search_result">' + resultHtml + '</ul>');
+    if (resultHtml != "") {
+      finalHtml = '<ul class="search_result">' + resultHtml + '</ul>';
+    } else {
+      finalHtml = '<strong>' + input.val() + '</strong><br />Nenhum resultado encontrado';
+    }
+
+    $(resultElement).append(finalHtml + this.htmlToCreateNew(input));
+  },
+
+  /**
+   * This is the link for new categories or manufacturers.
+   */
+  htmlToCreateNew: function(input) {
+    var input   = $(input),
+        html    = '',
+        content = $("#" + input.data('link-for-new')).html();
+
+    if (content) {
+      html += "<div class='new_form_link'>" + content + "</div>";
+    }
+    return html;
   }
 }
 
-Admin.FieldSearch.Result = {
+Admin.FieldSearch.ResultItem = {
   click: function(_this, e) {
     var textFieldId = $(_this).data('input-id'),
         entityId    = $(_this).data('id'),
@@ -289,3 +361,43 @@ Admin.FieldSearch.Result = {
     Admin.FieldSearch.removePopup();
   }
 }
+
+Admin.FieldSearch.Results = function() {
+  this.inputs = {};
+
+  this.addInput = function(input) {
+    var inputId = input.attr('id');
+    this.inputs[inputId] = new Admin.FieldSearch.Result;
+  }
+
+  this.forInput = function(input) {
+    var inputId = $(input).attr('id');
+    return this.inputs[inputId];
+  }
+
+  return this;
+}
+
+Admin.FieldSearch.Result = function() {
+  this.id = null;
+  this.name = null;
+
+  this.save = function(attr) {
+    if (attr.id) {
+      this.id = attr.id;
+    }
+
+    if (attr.name) {
+      this.name = attr.name;
+    }
+
+    return this;
+  }
+
+  this.reset = function() {
+    this.id = '';
+    this.name = '';
+  }
+}
+
+

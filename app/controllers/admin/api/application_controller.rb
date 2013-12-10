@@ -5,12 +5,16 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
   private
 
   def search(resource)
-    resource = resource.search_for(params[:search]) if params[:search].present?
+    resource = resource.search_for(search_param) if search_param.present?
     resource
   end
 
+  def search_param
+    @search_param ||= params[:search].strip
+  end
+
   def limit(resource)
-    resource = resource.limit(3)
+    resource = resource.limit(10)
     if params[:limit].to_i.present? && params[:limit].to_i > 0
       resource = resource.limit(params[:limit].to_i)
     end

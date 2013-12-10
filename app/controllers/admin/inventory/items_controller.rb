@@ -105,16 +105,28 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     # resource
     params[:inventory_item].delete(:taxonomy_attributes)
 
-    if params[:inventory_item][:manufacturer_attributes].present? && params[:inventory_item][:manufacturer_attributes][:name].present?
-      params[:inventory_item].delete(:manufacturer_id)
-    elsif params[:inventory_item][:manufacturer_id].present?
+    # If an ID was passed in from the form
+    if params[:inventory_item][:manufacturer_id].present?
       params[:inventory_item].delete(:manufacturer_attributes)
+
+    # If no ID, but a name
+    elsif params[:inventory_item][:manufacturer_attributes].present? &&
+          params[:inventory_item][:manufacturer_attributes][:name].present?
+
+      name = params[:inventory_item][:manufacturer_attributes][:name]
+      manufacturer = current_company.manufacturers.where(name: name).first
+
+      if manufacturer.present?
+        params[:inventory_item][:manufacturer_id] = manufacturer.id
+        params[:inventory_item].delete(:manufacturer_attributes)
+      end
     else
       params[:inventory_item].delete(:manufacturer_attributes)
       params[:inventory_item].delete(:manufacturer_id)
     end
 
-    #def set_store_and_admin_user_to_entries
+    #
+    # Defines admin_user and store for entries
     if params[:inventory_item][:entries_attributes].present?
       params[:inventory_item][:entries_attributes].each do |key, value|
         params[:inventory_item][:entries_attributes][key][:admin_user_id] = current_user.id
@@ -122,7 +134,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       end
     end
 
-    # def set_company_and_admin_into_new_manufacturer
+    #
+    # Defines admin_user and store for manufacturer
     if params[:inventory_item][:manufacturer_attributes].present?
       if params[:inventory_item][:manufacturer_attributes][:name].present?
         params[:inventory_item][:manufacturer_attributes][:company_id] = current_company.id

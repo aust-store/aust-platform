@@ -19,7 +19,7 @@ feature "Inventory Item form" do
   context "new inventory item" do
     before do
       visit admin_inventory_items_path
-      click_link "Adicionar item"
+      click_link "add_item"
     end
 
     scenario "As a store admin, I fill in the form and have my item created" do
@@ -132,6 +132,8 @@ feature "Inventory Item form" do
       #
       # fields used for searching existing items
       fill_in "inventory_item_taxonomy_attributes_name", with: "tennis"
+
+      # New manufacturer
       fill_in "inventory_item_manufacturer_attributes_name", with: "Olympikus"
       fill_in "inventory_item_year", with: "2013"
       fill_in "inventory_item_name", with: "Air Max 2"
@@ -145,6 +147,7 @@ feature "Inventory Item form" do
 
       # fields that are filled automatically with the id of the chosen taxonomy
       find("#inventory_item_taxonomy_id").set "#{@taxonomy2.id}"
+      find("#inventory_item_manufacturer_id").set ""
 
       click_button "submit"
 
@@ -164,6 +167,27 @@ feature "Inventory Item form" do
       created_item.shipping_box.height.should == 4
       created_item.shipping_box.width .should == 15
       created_item.shipping_box.weight.should == 9
+
+      manufacturer = created_item.manufacturer
+      # Edits again to make sure manufacturers aren't created duplicated
+      #
+      # Attempt 1: defining an ID
+        visit edit_admin_inventory_item_path(@item)
+        fill_in "inventory_item_manufacturer_attributes_name", with: "Olympikus"
+        find("#inventory_item_manufacturer_id").set "#{manufacturer.id}"
+
+        click_button "submit"
+
+      #
+      # Attempt 2: with no ID, define name of manufacturer that already exists
+        visit edit_admin_inventory_item_path(@item)
+        fill_in "inventory_item_manufacturer_attributes_name", with: "Olympikus"
+        find("#inventory_item_manufacturer_id").set ""
+
+        click_button "submit"
+
+        edited_item = InventoryItem.includes(:taxonomy).includes(:manufacturer).last
+        edited_item.manufacturer.should == manufacturer
 
       manufacturers = Manufacturer.all
       manufacturers.map(&:name)         .should == ["Github", "Olympikus"]

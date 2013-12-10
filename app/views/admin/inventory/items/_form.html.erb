@@ -8,10 +8,14 @@
         autocomplete: "off",
         data: {
           search_url: admin_api_taxonomies_url,
-          result_id: "inventory_item_taxonomy_id"
+          result_id: "inventory_item_taxonomy_id",
+          link_for_new: "new_taxonomy_link"
         }
       } %>
   <% end %>
+  <div class="html_template" id="new_taxonomy_link">
+    <%= link_to "Ir à tela de categorias", admin_taxonomies_path %>
+  </div>
 
   <%= item.input :manufacturer_id, as: :hidden %>
   <%= item.simple_fields_for :manufacturer, include_id: false do |m| %>
