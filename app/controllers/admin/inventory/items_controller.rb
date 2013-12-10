@@ -4,7 +4,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
-    items  = current_company.items.order("updated_at desc").last(50)
+    items  = current_company.items.includes(:manufacturer).order("updated_at desc").last(50)
     @items = DecorationBuilder.inventory_items(items)
   end
 

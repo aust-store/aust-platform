@@ -8,6 +8,10 @@ module Admin
     include ::ActionView::Helpers::NumberHelper
     include ::ActionView::Helpers::OutputSafetyHelper
 
+    def name
+      [object.manufacturer.try(:name), object.name].join(" ")
+    end
+
     def description
       raw object.description.gsub("\n", "<br />")
     end
