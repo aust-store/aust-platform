@@ -13,6 +13,9 @@ class Admin::Api::CartsController < Admin::ApplicationController
   end
 
   def create
+    # FIXME this is not needed on the new Ember Data, where embedded records
+    # are not allowed. We need to actually use a different endpoint for saving
+    # the cart items.
     params[:cart] = JsonRequestParser.new(params).add_attributes_suffix["cart"]
     cart = current_company.carts.create_offline(params[:cart])
 

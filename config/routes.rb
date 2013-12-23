@@ -55,8 +55,10 @@ Store::Application.routes.draw do
         resources :manufacturers,   only: [:index]
         resources :theme_files,     only: [:index, :update]
         resources :mustache_commands, only: [:index]
-        namespace :reports do
-          resource :orders_statistics, only: [:show]
+        resource :orders_statistics, only: [:show]
+
+        if Rails.env.development? || Rails.env.test?
+          resource :resources, only: [:show]
         end
       end
     end

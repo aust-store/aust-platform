@@ -3,24 +3,17 @@ App.CartsIndexController = Ember.ArrayController.extend
     controller.set('content', model)
 
 App.CartsNewController = Ember.ObjectController.extend
-
-  # placing orders and managing post-commit
-  placeOrder: ->
-    return false unless confirm("Você quer realmente fechar o pedido?")
-
-    order = App.Order.createRecord({ cart: this.content })
-    order.on 'didCreate', => this.whenOrderIsPlaced()
-    order.get('store').commit()
+  needs: ["application", "inventory_item"]
 
   whenOrderIsPlaced: ->
     this.resetCart()
     this.set('isOrderPlaced', true)
 
   resetCart: ->
-    new_cart = App.Cart.createRecord()
-    this.controllerFor('application').set('cartHasItems', false)
+    new_cart = this.store.createRecord('cart')
+    this.get('controllers.application').set('cartHasItems', false)
     this.set('content', new_cart)
-    this.controllerFor('inventory_item').set('searchQuery', null)
+    this.get('controllers.inventory_item').set('searchQuery', null)
     this.updateItemsQuantityHeadline()
     Ember.run => $('#inventory_item_search').focus()
 
@@ -37,9 +30,19 @@ App.CartsNewController = Ember.ObjectController.extend
       message = "Itens no pedido"
 
     this.set('itemsQuantityHeadline', message)
-    this.controllerFor('application').set('cartStatusMessage', message)
+    this.get('controllers.application').set('cartStatusMessage', message)
   ).observes('items.length')
 
   # template properties
   isOrderPlaced: false
   itemsQuantityHeadline: "Itens no pedido"
+
+  actions:
+    # placing orders and managing post-commit
+    placeOrder: ->
+      return false unless confirm("Você quer realmente fechar o pedido?")
+
+      order = this.store.createRecord('order', { cart: this.get('content') })
+      order.on 'didCreate', => this.whenOrderIsPlaced()
+      order.save()
+

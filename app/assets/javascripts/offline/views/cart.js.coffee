@@ -1,5 +1,5 @@
 App.CartsIndexView = Ember.View.extend
-  templateName: 'offline/carts/index'
+  templateName: 'offline/templates/carts/index'
 
 App.CartsNewView = Ember.View.extend
-  templateName: 'offline/carts/new'
+  templateName: 'offline/templates/carts/new'

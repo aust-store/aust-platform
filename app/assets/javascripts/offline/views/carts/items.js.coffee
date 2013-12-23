@@ -1,2 +1,2 @@
 App.ItemsView = Ember.View.extend
-  templateName: 'offline/carts/items/index'
+  templateName: 'offline/templates/carts/items/index'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::Reports::OrdersStatisticsController do
+describe Admin::Api::OrdersStatisticsController do
   login_admin
 
   it_obeys_the "admin application controller contract"

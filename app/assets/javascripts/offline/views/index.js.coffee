@@ -1,2 +1,2 @@
 App.IndexView = Ember.View.extend
-  templateName: 'offline/index'
+  templateName: 'offline/templates/index'

@@ -1,4 +1,4 @@
-class Admin::Api::Reports::OrdersStatisticsController < Admin::Api::ApplicationController
+class Admin::Api::OrdersStatisticsController < Admin::Api::ApplicationController
   def show
     revenue = current_company.orders.joins(:items)
 

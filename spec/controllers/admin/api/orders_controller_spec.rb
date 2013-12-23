@@ -72,6 +72,9 @@ describe Admin::Api::OrdersController do
   end
 
   describe "POST create" do
+    # FIXME we should just pass the cart's id, and then the controller would
+    # take that cart and convert it into an order.
+    #
     it "creates orders with embedded order items" do
       # 4 order items are created
       cart = FactoryGirl.create(:offline_cart, company: @company)

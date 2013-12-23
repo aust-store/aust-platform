@@ -42,7 +42,7 @@ gem 'rails', '~>4'
   gem 'therubyracer', '0.11.4'
   gem 'uglifier', '~> 1.3.0'
   gem 'jquery-rails'
-  gem 'ember-rails'
+  gem 'ember-rails', '0.13.0'
   gem 'fancybox2-rails', '~> 0.2.4' # JS lib lightbox for zooming images
 
 # Third-party connections
@@ -70,6 +70,8 @@ group :development, :test do
   gem 'poltergeist', '1.4.1'
   gem 'konacha'
   gem 'ejs'
+  gem 'qunit-rails'
+  gem 'teaspoon'
 end
 
 group :test do

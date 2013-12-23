@@ -1,5 +1,5 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :total, :created_at
+  attributes :id, :total, :created_at, :environment
   has_many :items
 
   def created_at

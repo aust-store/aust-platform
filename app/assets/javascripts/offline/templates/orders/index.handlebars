@@ -1,6 +1,6 @@
 <h1>Todos os pedidos</h1>
 
-{{render 'orders_statistics'}}
+{{!render 'orders_statistics'}}
 
 <table class="listing orders">
 
@@ -12,8 +12,8 @@
   <tbody>
     {{#each controller}}
       <tr class="even">
-        <td>R$ {{money total}}</td>
-        <td>{{humanDate created_at}}</td>
+        <td class="total">R$ {{money total}}</td>
+        <td class="created_at">{{humanDate created_at}}</td>
       </tr>
     {{/each}}
   </tbody>
