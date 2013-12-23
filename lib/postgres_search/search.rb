@@ -8,11 +8,14 @@ module PostgresSearch
     def search
       query = Query.new(model, options)
       where = query.where
+      joins = query.joins
       order = query.order
 
-      model
+      result = model
         .where(where, q: "#{keywords}:*")
         .order(order)
+      result = result.joins(joins)
+      result
     end
 
     private

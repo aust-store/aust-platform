@@ -22,6 +22,7 @@ describe Admin::Api::OrdersController do
             { "id"         => order.id,
               "total"      => order.total.to_s,
               "created_at" => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+              "environment" => "website",
               "items" => [
                 { "id"                 => items[0].id,
                   "name"               => items[0].name,
@@ -39,7 +40,9 @@ describe Admin::Api::OrdersController do
     context "offline orders" do
       it "returns the last 50 offline orders" do
         order = FactoryGirl.create(:offline_order, store: @company, total_items: 1)
-        irrelevant_order = FactoryGirl.create(:order, store: @company, total_items: 1)
+
+        # irrelevant order
+        FactoryGirl.create(:order, store: @company, total_items: 1)
 
         xhr :get, :index, environment: "offline"
 
@@ -52,6 +55,7 @@ describe Admin::Api::OrdersController do
             { "id"         => order.id,
               "total"      => order.total.to_s,
               "created_at" => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+              "environment" => "offline",
               "items" => [
                 { "id"                 => items[0].id,
                   "name"               => items[0].name,
@@ -69,7 +73,6 @@ describe Admin::Api::OrdersController do
 
   describe "POST create" do
     it "creates orders with embedded order items" do
-      inventory_item = FactoryGirl.create(:inventory_item, company: @company)
       # 4 order items are created
       cart = FactoryGirl.create(:offline_cart, company: @company)
       cart_item = cart.items.first

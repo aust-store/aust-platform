@@ -99,7 +99,7 @@ class InventoryItem < ActiveRecord::Base
 
   def self.search_for(query)
     search do
-      fields :name, :description
+      fields :name, :description, {manufacturer: [:name]}
       keywords query
     end.includes(:balances)
   end
