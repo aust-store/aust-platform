@@ -2,7 +2,7 @@
 
 module("Acceptance/Orders List", {
   setup: function() {
-    App.reset();
+    setupEmberTest();
   }
 });
 

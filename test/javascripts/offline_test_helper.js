@@ -6,3 +6,8 @@
 App.rootElement = '#qunit-fixture';
 App.setupForTesting();
 App.injectTestHelpers();
+
+var setupEmberTest = function() {
+  App.reset();
+  resetFixtures();
+}

@@ -10,7 +10,7 @@ class Admin::Api::ResourcesController < ApplicationController
     responder = const_get(params[:model])
     render json: {
       params[:model] => {
-        attributes:   responder._attributes.keys,
+        attributes:   responder._attributes,
         associations: responder._associations.keys
       }
     }

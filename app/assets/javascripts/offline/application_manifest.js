@@ -13,7 +13,7 @@
 //= require ./templates/index
 //= require_tree ./templates/
 
-var attr = DS.attr;
+var attr = DS.attr,
 App = Ember.Application.create({
   LOG_TRANSITIONS: true,
   ready: function() {
@@ -24,3 +24,6 @@ App = Ember.Application.create({
 App.ApplicationView = Ember.View.extend({
   templateName: 'offline/templates/application'
 });
+
+
+function cl(str) { console.log(str); }

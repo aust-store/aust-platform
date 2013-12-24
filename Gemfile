@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gem 'rails', '~>4'
 
 # rails 4 compatibility
-  gem 'protected_attributes'
+  gem 'protected_attributes', '1.0.3'
   gem 'activerecord-deprecated_finders'
 
 # Database
@@ -24,13 +24,13 @@ gem 'rails', '~>4'
 # Presenters and objects for simplifying internal workflows
   gem 'draper', '~> 1.2.1'
   gem 'inherited_resources'
-  gem "active_model_serializers", "0.6.0"
+  gem "active_model_serializers", github: 'rails-api/active_model_serializers'
   gem "mustache" # used in store themes
 
 # Components for forms and widgets
   gem 'devise', '~> 3.2.2'
   gem 'cancan'
-  gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
+  gem 'simple_form', "~> 3.0.1"
   gem 'kaminari'
   gem 'wicked', '~> 0.3' # wizard-like views
   gem 'mini_magick'

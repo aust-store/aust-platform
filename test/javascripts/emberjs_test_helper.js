@@ -13,9 +13,14 @@ var EmberTesting = {
     this.response        = null;
 
     this.assertAttributes = function() {
-      var _this = this;
+      var _this = this,
+          localAttributes;
+
+      localAttributes = _this.localAttributes().map(function(attr) {
+        return Ember.String.decamelize(attr);
+      });
       this.assert(function(response) {
-        QUnit.deepEqual(_this.localAttributes(), response.attributes);
+        QUnit.deepEqual(localAttributes, response.attributes);
       });
     }
 
@@ -44,6 +49,10 @@ var EmberTesting = {
       }
 
       localRelationships = ApplyExceptions(except, _this.localRelationships());
+
+      localRelationships = localRelationships.map(function(association) {
+        return Ember.String.decamelize(association);
+      });
 
       this.assert(function(response) {
         associations = ApplyExceptions(except, response.associations);

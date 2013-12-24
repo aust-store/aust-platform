@@ -1,6 +1,6 @@
 App.Cart = DS.Model.extend({
   total: DS.attr('string'),
-  items: DS.hasMany('order_item'),
+  items: DS.hasMany('cartItem'),
 
   subtotal: function() {
     return this.get('items').getEach('price').reduce(function(accum, item) {

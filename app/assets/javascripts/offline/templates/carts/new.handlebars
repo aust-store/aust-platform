@@ -20,7 +20,7 @@
 
     {{#each controller.items}}
       <tr class="even">
-        <td>{{inventory_item.name}}</td>
+        <td>{{inventoryItem.name}}</td>
         <td>R$ {{money price}}</td>
       </tr>
     {{/each}}
@@ -39,7 +39,7 @@
 </table>
 
 {{#if subtotal}}
-  <a href="#" class="place_order_button" {{action "placeOrder"}}> </a>
+  <a href="#" class="place_order_button" {{action "placeOrder"}}>&nbsp;</a>
 {{/if}}
 
 {{#if isOrderPlaced}}

@@ -4,6 +4,7 @@ var contract;
 
 module("Contracts/Models/Cart", {
   setup: function() {
+    resetFixtures();
     contract = new EmberTesting.modelContract({
       model: App.Cart,
       root: "cart",
@@ -26,6 +27,7 @@ asyncTest("it has valid fixtures", function() {
 
 module("Contracts/Models/Order", {
   setup: function() {
+    resetFixtures();
     contract = new EmberTesting.modelContract({
       model: App.Order,
       root: "order",
@@ -50,6 +52,7 @@ asyncTest("it has valid fixtures", function() {
 
 module("Contracts/Models/InventoryItem", {
   setup: function() {
+    resetFixtures();
     contract = new EmberTesting.modelContract({
       model: App.InventoryItem,
       root: "inventory_item",

@@ -11,3 +11,5 @@ QUnit.pending = function() {
   });
 };
 pending = QUnit.pending;
+
+function cl(str) { console.log(str); }

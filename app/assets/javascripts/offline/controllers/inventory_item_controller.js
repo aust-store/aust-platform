@@ -12,21 +12,20 @@ App.InventoryItemController = Ember.ArrayController.extend({
 
     this.get('controllers.carts_new').set('isOrderPlaced', false);
 
-    clearTimeout(this.searchDelay);
-
-    this.searchDelay = setTimeout(function() {
+    Ember.run.later(this, function() {
       var value = _this.get('searchQuery');
       if (typeof value == "string" && value.length > 0) {
-        searchResults = _this.store.find('inventory_item', {
-          search: _this.searchQuery,
+        searchResults = this.store.find('inventoryItem', {
+          search: this.searchQuery,
           on_sale: true
         });
 
-        _this.set('content', searchResults);
-      } else
-        _this.set('content', null)
-
+        this.set('content', searchResults);
+      } else {
+        this.set('content', null);
+      }
     }, 600);
+
   }.observes("searchQuery"),
 
   addItemPressingEnter: function() {
@@ -34,32 +33,34 @@ App.InventoryItemController = Ember.ArrayController.extend({
       this.addItem(this.get('firstObject'));
   },
 
-  // internal variables
-  _cartCommitTimer: null,
-
   actions: {
     // User starts placing items in the cart
-    addItem: function(inventory_item) {
-      clearTimeout(this._cartCommitTimer);
-
-      var new_cart_controller = this.get('controllers.carts_new'),
-          cart = new_cart_controller.get('content');
+    addItem: function(inventoryItem) {
+      var _this = this,
+          new_cart_controller = this.get('controllers.carts_new'),
+          cart = new_cart_controller.get('model'),
+          item,
+          SaveItem;
 
       this.get('controllers.application').set('cartHasItems', true);
-
-      var items = cart.get('items').createRecord({
-        price: inventory_item.get('price'),
-        inventory_item: inventory_item,
-        inventory_entry_id: inventory_item.get('entry_for_sale_id')
-      });
-
       new_cart_controller.updateItemsQuantityHeadline();
 
-      cart.save();
-      //
-      // Delays the POST/PUT, so that requests don't step on each other's feet
-      this._cartCommitTimer = setTimeout(function() {
-      }, 1000);
+      SaveItem = function(cart) {
+        item = _this.store.createRecord('cartItem', {
+          cart: cart,
+          price: inventoryItem.get('price'),
+          inventoryItem: inventoryItem,
+          inventoryEntryId: inventoryItem.get('entryForSaleId')
+        });
+
+        return item.save();
+      }
+
+      if (cart.get("isDirty")) {
+        cart.save().then(SaveItem, function(error) { cl(error); });
+      } else {
+        SaveItem(cart);
+      }
     }
   }
 

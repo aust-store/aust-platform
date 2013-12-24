@@ -3,11 +3,5 @@ App.Order = DS.Model.extend({
   created_at:  DS.attr('string'),
   environment: DS.attr('string'),
   cart:        DS.belongsTo('cart'),
-  items:       DS.hasMany('order_item'),
+  items:       DS.hasMany('orderItem'),
 });
-
-// FIXME - clean this up
-//
-// App.RESTAdapter.map App.Order,
-//   cart:
-//     embedded: "always"

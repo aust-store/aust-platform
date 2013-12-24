@@ -2,36 +2,16 @@
 class Admin::Api::CartsController < Admin::ApplicationController
   skip_before_filter :verify_authenticity_token
 
-  def index
-    orders = current_company
-      .orders
-      .includes(:payment_statuses)
-      .order('id desc')
-      .last(50)
-
-    render json: orders
-  end
-
   def create
-    # FIXME this is not needed on the new Ember Data, where embedded records
-    # are not allowed. We need to actually use a different endpoint for saving
-    # the cart items.
-    params[:cart] = JsonRequestParser.new(params).add_attributes_suffix["cart"]
-    cart = current_company.carts.create_offline(params[:cart])
-
-    respond_to do |format|
-      format.js { render json: cart }
-    end
+    cart = current_company.carts.create_offline(cart_params)
+    render json: cart
   end
 
-  def update
-    params[:cart] = JsonRequestParser.new(params).add_attributes_suffix["cart"]
-    cart = current_company.carts.find(params[:id])
+  private
 
-    if cart.update_attributes(params[:cart])
-      render json: cart
-    else
-      render json: cart
-    end
+  def cart_params
+    params
+      .require(:cart)
+      .permit(:id)
   end
 end

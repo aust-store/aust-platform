@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::OrdersController < Admin::ApplicationController
+class Admin::Api::CartItemsController < Admin::ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
@@ -17,19 +17,22 @@ class Admin::Api::OrdersController < Admin::ApplicationController
   end
 
   def create
-    cart = current_company.carts.find(order_params[:cart_id])
+    cart = current_company.carts.find(cart_id)
+    item = cart.items.build(cart_item_params)
+    item.save
 
-    sale = Store::Sale.new(cart)
-    sale.close
-
-    render json: sale.order, include_items: true
+    render json: item, serializer: CartItemSerializer
   end
 
   private
 
-  def order_params
+  def cart_id
+    cart_item_params[:cart_id]
+  end
+
+  def cart_item_params
     params
-      .require(:order)
-      .permit(:cart_id)
+      .require(:cart_item)
+      .permit(:price, :inventory_entry_id, :cart_id, :inventory_item_id)
   end
 end

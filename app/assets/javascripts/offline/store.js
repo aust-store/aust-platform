@@ -1,4 +1,4 @@
-var CustomRESTAdapter = DS.RESTAdapter.extend({
+var CustomRESTAdapter = DS.ActiveModelAdapter.extend({
   namespace: 'admin/api/v1'
 });
 
@@ -6,9 +6,10 @@ var CustomRESTAdapter = DS.RESTAdapter.extend({
 //  orders_statistics: 'orders_statistics'
 
 App.ApplicationAdapter = CustomRESTAdapter;
-App.ApplicationSerializer = DS.RESTSerializer.extend({
-  modelTypeFromRoot: function(root) {
-    var camelized = Ember.String.camelize(root);
-    return Ember.String.singularize(camelized);
-  }
+
+App.ApplicationSerializer = DS.ActiveModelSerializer.extend({
+  // modelTypeFromRoot: function(root) {
+  //   var camelized = Ember.String.camelize(root);
+  //   return Ember.String.singularize(camelized);
+  // }
 });
