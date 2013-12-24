@@ -232,7 +232,6 @@ GEM
       activerecord (>= 3.1)
       activesupport (>= 3.1)
       arel
-    phantomjs (1.9.2.1)
     poltergeist (1.4.1)
       capybara (~> 2.1.0)
       cliver (~> 0.2.1)
@@ -320,9 +319,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     subexec (0.2.3)
-    teaspoon (0.7.7)
-      phantomjs (>= 1.8.1.1)
-      railties (>= 3.2.5, < 5)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -409,7 +405,6 @@ DEPENDENCIES
   shoulda (= 3.5.0)
   shoulda-matchers (~> 2.1.0)
   simple_form (~> 3.0.1)
-  teaspoon
   therubyracer (= 0.11.4)
   thin
   timecop

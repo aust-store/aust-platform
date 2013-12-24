@@ -71,7 +71,6 @@ group :development, :test do
   gem 'konacha'
   gem 'ejs'
   gem 'qunit-rails'
-  gem 'teaspoon'
 end
 
 group :test do

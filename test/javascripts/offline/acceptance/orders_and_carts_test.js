@@ -37,4 +37,7 @@ test("it allows users to put an order", function() {
    */
   window.confirm = function() { return true }
   click("a.place_order_button");
+  andThen(function() {
+    ok(true);
+  });
 });

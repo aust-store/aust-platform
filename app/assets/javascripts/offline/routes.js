@@ -34,11 +34,11 @@ App.OrdersIndexRoute = Ember.Route.extend({
     return this.store.find('order', {environment: "offline"});
   },
 
-  setupController2: function(controller, model) {
+  setupController: function(controller, model) {
     controller.set('content', model);
 
-    orders_statistics = this.store.find('orders_statistics', {period: "today"});
-    this.controllerFor("orders_statistics").set("content", orders_statistics);
+    //orders_statistics = this.store.find('orders_statistics', {period: "today"});
+    //this.controllerFor("orders_statistics").set("content", orders_statistics);
   },
 
   renderTemplate2: function() {
