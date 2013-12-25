@@ -1,11 +1,8 @@
 App.OrderItem = DS.Model.extend({
+  name: attr('string'),
   price: attr('number'),
-  order: DS.belongsTo('cart'),
+  quantity: attr('number'),
+  order: DS.belongsTo('order'),
   inventory_item: DS.belongsTo('inventory_item'),
   inventory_entry_id: attr('number'),
-})
-
-/*
-App.Store.registerAdapter 'App.OrderItem', App.RESTAdapter.extend
-  pluralize: -> 'order/item'
-*/
+});

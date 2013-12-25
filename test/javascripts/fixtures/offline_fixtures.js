@@ -42,6 +42,10 @@ function resetFixtures() {
   App.InventoryItem.FIXTURES = [
     { id: 1, name: "Ibanez", description: "", price: 10.0, entry_for_sale_id: 2, on_sale: true }
   ];
+
+  App.StoreReport.FIXTURES = [
+    { id: "today_offline", period: "today", environment: "offline", revenue: "3000.0" }
+  ];
 }
 
 resetFixtures();

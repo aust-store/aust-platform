@@ -15,3 +15,11 @@ test("orders are listed in /orders", function() {
     equal(find(".created_at").text(), "11/10/2013, 12:13");
   });
 });
+
+test("orders report shows up in /orders", function() {
+  visit("/orders");
+
+  andThen(function() {
+    equal(find(".orders_statistics").text().trim(), "Total vendido hoje: R$ 3000,00");
+  });
+});

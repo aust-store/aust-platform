@@ -25,5 +25,4 @@ App.ApplicationView = Ember.View.extend({
   templateName: 'offline/templates/application'
 });
 
-
 function cl(str) { console.log(str); }

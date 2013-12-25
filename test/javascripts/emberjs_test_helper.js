@@ -3,6 +3,8 @@ var EmberTesting = {
     return app.__container__.lookup("store:main");
   },
 
+  remoteCallsCache: {},
+
   modelContract: function(options) {
     this.model           = options.model,
     /**
@@ -14,13 +16,15 @@ var EmberTesting = {
 
     this.assertAttributes = function() {
       var _this = this,
-          localAttributes;
+          localAttributes,
+          remoteAttributes;
 
       localAttributes = _this.localAttributes().map(function(attr) {
         return Ember.String.decamelize(attr);
-      });
+      }).sort();
+
       this.assert(function(response) {
-        QUnit.deepEqual(localAttributes, response.attributes);
+        QUnit.deepEqual(localAttributes, response.attributes.sort());
       });
     }
 
@@ -52,36 +56,51 @@ var EmberTesting = {
 
       localRelationships = localRelationships.map(function(association) {
         return Ember.String.decamelize(association);
-      });
+      }).sort();
 
       this.assert(function(response) {
         associations = ApplyExceptions(except, response.associations);
-        QUnit.deepEqual(localRelationships, associations);
+        QUnit.deepEqual(localRelationships, associations.sort());
       });
     }
 
     this.assertFixtures = function() {
       var _this = this;
       this.assert(function(response) {
+        if (typeof _this.model.FIXTURES === 'undefined') {
+          ok(true);
+          return true;
+        }
+
         _this.model.FIXTURES.forEach(function(fixture) {
           var fields = Object.keys(fixture);
-          QUnit.deepEqual(fields, response.attributes);
+          QUnit.deepEqual(fields.sort(), response.attributes.sort());
         });
       });
     }
 
     this.assert = function(assertion) {
-      var _this = this;
-      $.get(_this.contractUrl).done(function(response) {
-        _this.response = response;
+      var _this = this,
+          AssertResponse;
 
+      AssertResponse = function(response) {
         if (_this.root) {
-          _this.response = response[_this.root];
+          response = response[_this.root];
         }
 
-        assertion(_this.response);
+        assertion(response);
         start();
-      });
+      }
+
+      if (typeof EmberTesting.remoteCallsCache[_this.contractUrl] === 'undefined') {
+        $.get(_this.contractUrl).done(function(response) {
+          EmberTesting.remoteCallsCache[_this.contractUrl] = response;
+          AssertResponse(response);
+        });
+      } else {
+        response = EmberTesting.remoteCallsCache[_this.contractUrl];
+        AssertResponse(response);
+      }
     };
 
     this.localAttributes = function() {

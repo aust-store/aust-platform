@@ -74,3 +74,26 @@ asyncTest("obeys relashionships contract", function() {
 asyncTest("it has valid fixtures", function() {
   contract.assertFixtures();
 });
+
+module("Contracts/Models/OrderItem", {
+  setup: function() {
+    resetFixtures();
+    contract = new EmberTesting.modelContract({
+      model: App.OrderItem,
+      root: "order_item",
+      contractUrl: "/admin/api/v1/resources?model=order_item"
+    });
+  }
+});
+
+asyncTest("obeys attributes contract", function() {
+  contract.assertAttributes();
+});
+
+asyncTest("obeys relashionships contract", function() {
+  contract.assertAssociations();
+});
+
+asyncTest("it has valid fixtures", function() {
+  contract.assertFixtures();
+});

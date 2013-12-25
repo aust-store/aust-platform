@@ -36,10 +36,18 @@ describe Admin::Api::CartItemsController do
           "name"               => item.name,
           "quantity"           => 1,
           "price"              => item.price.to_s,
-          "inventory_item_id"  => item.inventory_item_id,
           "inventory_entry_id" => entry.id,
-          "cart"               => cart.id
-        }
+          "inventory_item_id"  => item.inventory_item_id,
+          "cart_id"            => cart.id
+        },
+        "inventory_items" => [{
+          "id"                 => item.inventory_item.id,
+          "name"               => item.name,
+          "description"        => item.inventory_item.description,
+          "price"              => item.inventory_item.price.to_s,
+          "entry_for_sale_id"  => entry.id,
+          "on_sale"            => true
+        }]
       }
     end
   end

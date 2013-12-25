@@ -55,9 +55,6 @@ describe Admin::Api::OrdersController do
   end
 
   describe "POST create" do
-    # FIXME we should just pass the cart's id, and then the controller would
-    # take that cart and convert it into an order.
-    #
     it "creates orders with embedded order items" do
       # 4 order items are created
       cart = FactoryGirl.create(:offline_cart, company: @company)
@@ -72,21 +69,22 @@ describe Admin::Api::OrdersController do
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
-        "order_items" => order.items.map { |item|
-          { "id"                 => item.id,
-            "name"               => item.name,
-            "quantity"           => item.quantity,
-            "price"              => item.price.to_s,
-            "inventory_item_id"  => item.inventory_item_id,
-            "inventory_entry_id" => item.inventory_entry_id }
-        },
         "order" => {
           "id"             => order.id,
           "total"          => order.total.to_s,
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
           "order_item_ids" => order.items.map(&:id)
-        }
+        },
+        "order_items" => order.items.map { |item|
+          { "id"                 => item.id,
+            "name"               => item.name,
+            "quantity"           => item.quantity,
+            "price"              => item.price.to_s,
+            "inventory_item_id"  => item.inventory_item_id,
+            "order_id"           => order.id,
+            "inventory_entry_id" => item.inventory_entry_id }
+        },
       }
 
       order.items.each do |item|
@@ -96,6 +94,7 @@ describe Admin::Api::OrdersController do
             "quantity"           => item.quantity,
             "price"              => item.price.to_s,
             "inventory_item_id"  => item.inventory_item_id,
+            "order_id"           => order.id,
             "inventory_entry_id" => item.inventory_entry_id }
         )
       end

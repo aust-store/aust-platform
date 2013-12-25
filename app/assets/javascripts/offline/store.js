@@ -1,11 +1,8 @@
-var CustomRESTAdapter = DS.ActiveModelAdapter.extend({
+var CustomAdapter = DS.ActiveModelAdapter.extend({
   namespace: 'admin/api/v1'
 });
 
-//App.RESTAdapter.configure "plurals",
-//  orders_statistics: 'orders_statistics'
-
-App.ApplicationAdapter = CustomRESTAdapter;
+App.ApplicationAdapter = CustomAdapter;
 
 App.ApplicationSerializer = DS.ActiveModelSerializer.extend({
   // modelTypeFromRoot: function(root) {

@@ -31,21 +31,9 @@ App.CartsNewRoute = Ember.Route.extend({
 
 App.OrdersIndexRoute = Ember.Route.extend({
   model: function() {
+    var storeReport = this.store.find('storeReport');
+    this.controllerFor("store_reports").set("model", storeReport);
+
     return this.store.find('order', {environment: "offline"});
-  },
-
-  setupController: function(controller, model) {
-    controller.set('content', model);
-
-    //orders_statistics = this.store.find('orders_statistics', {period: "today"});
-    //this.controllerFor("orders_statistics").set("content", orders_statistics);
-  },
-
-  renderTemplate2: function() {
-    this.render();
-    this.render('orders_statistics', {
-      outlet: 'orders_statistics',
-      controller: 'orders_statistics'
-    });
   }
 });
