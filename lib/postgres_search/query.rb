@@ -1,9 +1,14 @@
+require "postgres_search/where"
+
 module PostgresSearch
   class Query
+    attr_accessor :joins, :model
+
     def initialize(model, query_options)
       @model = model
       @query_options = query_options
       @keywords = query_options[:keywords]
+      @joins = []
     end
 
     def where
@@ -22,24 +27,33 @@ module PostgresSearch
       order.join(" + ") << " DESC"
     end
 
-    private
-
-    attr_accessor :model, :query_options, :keywords
-
-    def sql_where_statement(field_name)
-      "to_tsvector('english', #{table_name}.#{field_name}) @@ to_tsquery(:q)"
+    def joins
+      @joins
     end
 
-    def sql_order_statement(field)
-      "ts_rank(to_tsvector(#{table_name}.#{field}), plainto_tsquery(#{model_sanitize}))"
-    end
-
-    def table_name
-      model.table_name
+    def add_join_table(association)
+      @joins << association
     end
 
     def model_sanitize
       model.sanitize(keywords)
+    end
+
+    private
+
+    attr_accessor :query_options, :keywords
+
+    def sql_where_statement(field_name)
+      PostgresSearch::Where.new(self, field_name).to_s
+    end
+
+    def sql_order_statement(field_name)
+      # "ts_rank(to_tsvector(#{table_name}.#{field}), plainto_tsquery(#{model_sanitize}))"
+      PostgresSearch::Order.new(self, field_name).to_s
+    end
+
+    def table_name
+      model.table_name
     end
   end
 end

@@ -13,6 +13,6 @@ class Admin::Api::InventoryItemsController < Admin::ApplicationController
     @items = @items.limit(4)
     @items = @items.search_for(params[:search].strip) if params[:search].present?
 
-    render json: @items, root: 'inventory_items'
+    render json: @items
   end
 end

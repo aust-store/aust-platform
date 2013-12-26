@@ -17,16 +17,19 @@ class Admin::Api::OrdersController < Admin::ApplicationController
   end
 
   def create
-    # Rails demands embedded keys to have _attributes suffix. This class does
-    # that for requests coming from other frameworks, e.g. Ember.js
-    params[:order] = JsonRequestParser.new(params).add_attributes_suffix["order"]
-
-    cart_id = current_company.carts.find(params[:order][:cart_attributes][:id])
-    cart = current_company.carts.find(cart_id)
+    cart = current_company.carts.find(order_params[:cart_id])
 
     sale = Store::Sale.new(cart)
     sale.close
 
-    render json: sale.order
+    render json: sale.order, include_items: true
+  end
+
+  private
+
+  def order_params
+    params
+      .require(:order)
+      .permit(:cart_id)
   end
 end

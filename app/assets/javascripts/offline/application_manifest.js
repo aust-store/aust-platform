@@ -1,6 +1,7 @@
 //= require jquery
 //= require ./handlebars
 //= require ./ember
+//= require ./ember-states
 //= require ./ember-data
 //= require_self
 //= require ./store
@@ -12,16 +13,16 @@
 //= require ./templates/index
 //= require_tree ./templates/
 
-window.App = Ember.Application.create({
+var attr = DS.attr,
+App = Ember.Application.create({
   LOG_TRANSITIONS: true,
   ready: function() {
     console.log("App is running");
-    console.log(Ember.TEMPLATES);
   }
 });
 
 App.ApplicationView = Ember.View.extend({
-  templateName: 'offline/application'
+  templateName: 'offline/templates/application'
 });
 
-var attr = DS.attr;
+function cl(str) { console.log(str); }
