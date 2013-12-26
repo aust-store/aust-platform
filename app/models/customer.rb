@@ -1,4 +1,6 @@
 class Customer < ActiveRecord::Base
+  extend ModelExtensions::FullTextSearch
+
   devise :database_authenticatable,   :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -13,8 +15,6 @@ class Customer < ActiveRecord::Base
                   :store, :store_id, :addresses_attributes,
                   :enabled
 
-  usar_como_cpf :social_security_number
-
   validates :first_name, :last_name, :store, :email, presence: true
   validates :social_security_number, presence: true
   validates :password, :password_confirmation, presence: true, on: :create
@@ -27,7 +27,23 @@ class Customer < ActiveRecord::Base
   validates :work_area_number,   presence: { if: :require_work_area_number? }
   validates :mobile_area_number, presence: { if: :require_mobile_area_number? }
 
+  # cpf
+  validate :valid_social_security_number?
+
+  before_save :sanitize_social_security_number
+
   accepts_nested_attributes_for :addresses, :store
+
+  def self.search_for(query)
+    search do
+      fields :first_name, :last_name, :social_security_number, :email
+      keywords query
+    end
+  end
+
+  def social_security_number
+    super.to_s
+  end
 
   def default_address
     if addresses.present?
@@ -86,5 +102,14 @@ class Customer < ActiveRecord::Base
 
   def self.find_for_authentication(tainted_conditions)
     find_first_by_auth_conditions(tainted_conditions, enabled: true)
+  end
+
+  def sanitize_social_security_number
+    self.social_security_number = social_security_number.to_s.gsub(/[\.|\-|\s]/, '')
+  end
+
+  def valid_social_security_number?
+    # CPF is the brazilian social number
+    errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
   end
 end

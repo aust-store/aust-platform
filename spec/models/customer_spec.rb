@@ -59,9 +59,26 @@ describe Customer do
     end
 
     describe "social_security_number" do
-      it { should     allow_value("141.482.543-93").for(:social_security_number) }
-      it { should     allow_value("14148254393").for(:social_security_number) }
-      it { should_not allow_value("111.111.111-11").for(:social_security_number) }
+      it "validates 14148254393" do
+        build(:customer, social_security_number: "14148254393").should be_valid
+      end
+
+      it "validates 141.482.543-93" do
+        build(:customer, social_security_number: "141.482.543-93").should be_valid
+      end
+
+      it "does not allow 111.111.111-11 to be valid" do
+        customer = build(:customer, social_security_number: "111.111.111-11")
+        customer.should_not be_valid
+      end
+    end
+  end
+
+  describe "callbacks" do
+    describe "#sanitize_social_security_number" do
+      it "removes all dots and dashes from the number" do
+        create(:customer).social_security_number.should == "14148254393"
+      end
     end
   end
 

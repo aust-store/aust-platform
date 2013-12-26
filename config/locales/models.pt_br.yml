@@ -140,6 +140,7 @@ pt_br:
               confirmation: "As senhas são incompatíveis, digite novamente!"
             social_security_number:
               blank: "O campo %{attribute} não pode ficar em branco!"
+              invalid: "O CPF digitado é inválido"
             home_number:
               blank: "Você deve inserir seu número residencial ou celular."
             home_area_number:
