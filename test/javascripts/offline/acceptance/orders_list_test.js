@@ -2,11 +2,11 @@
 
 module("Acceptance/Orders List", {
   setup: function() {
-    // setupEmberTest();
+    setupEmberTest();
   }
 });
 
-pending("orders are listed in /orders", function() {
+test("orders are listed in /orders", function() {
   visit("/orders");
 
   andThen(function() {
@@ -16,7 +16,7 @@ pending("orders are listed in /orders", function() {
   });
 });
 
-pending("orders report shows up in /orders", function() {
+test("orders report shows up in /orders", function() {
   visit("/orders");
 
   andThen(function() {

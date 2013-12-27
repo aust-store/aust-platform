@@ -15,14 +15,7 @@
 
 var attr = DS.attr,
 App = Ember.Application.create({
-  LOG_TRANSITIONS: true,
-  ready: function() {
-    console.log("App is running");
-  }
-});
-
-App.ApplicationView = Ember.View.extend({
-  templateName: 'offline/templates/application'
+  LOG_TRANSITIONS: true
 });
 
 function cl(str) { console.log(str); }

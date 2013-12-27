@@ -13,16 +13,24 @@ App.InventoryItemController = Ember.ArrayController.extend({
     this.get('controllers.carts_new').set('isOrderPlaced', false);
 
     Ember.run.later(this, function() {
+      /**
+       * This is a hack to fix 'set on destroyed object' error on tests with
+       * App.reset();
+       */
+      if (this.isDestroyed) { return; }
+
       var value = _this.get('searchQuery');
       if (typeof value == "string" && value.length > 0) {
-        searchResults = this.store.find('inventoryItem', {
-          search: this.searchQuery,
+        searchResults = _this.store.find('inventoryItem', {
+          search: _this.searchQuery,
           on_sale: true
         });
 
-        this.set('content', searchResults);
+        if (_this)
+          _this.set('content', searchResults);
       } else {
-        this.set('content', null);
+        if (_this)
+          _this.set('content', null);
       }
     }, 600);
 

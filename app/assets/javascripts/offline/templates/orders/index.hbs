@@ -1,21 +1,25 @@
-<h1>Todos os pedidos</h1>
+<section>
+  <h1>Todos os pedidos</h1>
 
-{{render store_reports}}
+  {{render store_reports}}
 
-<table class="listing orders">
+  <table class="listing orders">
 
-  <thead>
-    <th>Valor</th>
-    <th></th>
-  </thead>
-
-  <tbody>
-    {{#each controller}}
-      <tr class="even">
-        <td class="total">R$ {{money total}}</td>
-        <td class="created_at">{{humanDate created_at}}</td>
+    <thead>
+      <tr>
+        <th>Valor</th>
+        <th></th>
       </tr>
-    {{/each}}
-  </tbody>
+    </thead>
 
-</table>
+    <tbody>
+      {{#each controller}}
+        <tr class="even">
+          <td class="total">R$ {{money total}}</td>
+          <td class="created_at">{{humanDate createdAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+</section>

@@ -1,0 +1,62 @@
+<div class="new_customer">
+  <div class="input">
+    <label for="new_customer_name">Nome:</label>
+    {{input name="new_customer_name" id="new_customer_name"}}
+  </div>
+
+  <div class="input">
+    <label for="new_customer_name">Sobrenome:</label>
+    {{input name="new_customer_lastname" id="new_customer_lastname"}}
+  </div>
+
+  <div class="input">
+    <label for="new_customer_name">Email:</label>
+    {{input name="new_customer_email" id="new_customer_email"}}
+  </div>
+
+  <div class="input">
+    <label for="new_customer_name">CPF:</label>
+    {{input name="new_customer_cpf" id="new_customer_cpf"}}
+  </div>
+
+  <div class="input">
+    <button {{action submitCustomerCreation}}>Criar cliente</button>
+  </div>
+</div>
+
+<div class="choose_customer">
+  {{view App.CustomerSearchTextField
+      valueBinding="searchQuery"
+      action="onSearchCommit"
+      id="customer_search"
+      class="search"
+      placeholder="Pesquise: nome do cliente"}}
+
+  {{#if content}}
+    <table class="listing search_result customer">
+      <tbody>
+        {{#each controller}}
+        <tr>
+          <td>
+            <a href="#" {{action "setCartCustomer" this}}>
+              {{firstName}} {{lastName}}
+            </a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="search_progress">
+      {{#if searchQuery}}
+        {{#if model.isLoaded}}
+          <div class="no_customer_found">
+            Nenhum cliente encontrado. Pressione Enter para criar um.
+          </div>
+        {{else}}
+          Buscando...
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
+</div>

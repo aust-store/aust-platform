@@ -9,7 +9,9 @@ App.injectTestHelpers();
 
 var setupEmberTest = function() {
   Ember.run(function() {
-    resetFixtures();
-    App.reset();
+    if (App) {
+      App.reset();
+    }
   });
+  resetFixtures();
 }

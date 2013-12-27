@@ -19,8 +19,10 @@ test("it allows users to put an order", function() {
    * Searches for items
    */
   fillIn("#inventory_item_search", "Ibanez");
+
   andThen(function() {
-    equal(find("table.listing.inventory_items").text().trim(), "Ibanez");
+    var itemName = find("table.listing.inventory_items").text().trim();
+    equal(itemName, "Ibanez", "Item name is found");
   });
 
   /**
@@ -28,16 +30,42 @@ test("it allows users to put an order", function() {
    */
   ok(!find("a.place_order_button:visible").length, "Order button isn't present");
   click("table.listing.inventory_items a");
+
   andThen(function() {
-    ok(find("a.place_order_button:visible").length, "Order button is present");
+    var orderButton = find("a.place_order_button:visible");
+    ok(!orderButton.length, "Order button isn't present yet");
+  });
+
+  /**
+   * Searches for customer name
+   */
+  fillIn("#customer_search", "Rambo");
+
+  andThen(function() {
+    var orderButton = find("a.place_order_button:visible");
+    var customerLink = find(".search_result.customer").text().trim();
+
+    equal(customerLink, "John Rambo", "Customer is found")
+    ok(!orderButton.length, "Order button isn't present yet");
+  });
+
+  click("a:contains('John Rambo')");
+
+  andThen(function() {
+    var orderButton = find("a.place_order_button:visible");
+    ok(orderButton.length, "Order button then shows up");
   });
 
   /**
    * Accepts the confirm dialog
    */
+  equal(App.Order.FIXTURES.length, 1);
   window.confirm = function() { return true }
-  click("a.place_order_button");
   andThen(function() {
-    ok(true);
+    click("a.place_order_button");
+  });
+
+  andThen(function() {
+    equal(App.Order.FIXTURES.length, 2);
   });
 });
