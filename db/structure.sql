@@ -767,7 +767,8 @@ CREATE TABLE orders (
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255)
+    environment character varying(255),
+    status character varying(255)
 );
 
 
@@ -1469,6 +1470,34 @@ CREATE INDEX company_settings_gist_settings ON company_settings USING gist (sett
 
 
 --
+-- Name: customer_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_email ON customers USING gin (to_tsvector('english'::regconfig, (email)::text));
+
+
+--
+-- Name: customer_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_first_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: customer_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_last_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: customer_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_social_security_number ON customers USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
+
+
+--
 -- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1840,6 +1869,13 @@ CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 
 
 --
+-- Name: index_orders_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_status ON orders USING btree (status);
+
+
+--
 -- Name: index_orders_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2113,6 +2149,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
 
+INSERT INTO schema_migrations (version) VALUES ('20130414161633');
+
 INSERT INTO schema_migrations (version) VALUES ('20130601221654');
 
 INSERT INTO schema_migrations (version) VALUES ('20130605171558');
@@ -2150,3 +2188,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131112022336');
 INSERT INTO schema_migrations (version) VALUES ('20131112193300');
 
 INSERT INTO schema_migrations (version) VALUES ('20131112201449');
+
+INSERT INTO schema_migrations (version) VALUES ('20131226182250');

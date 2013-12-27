@@ -42,18 +42,24 @@ test("it allows users to put an order", function() {
   fillIn("#customer_search", "Rambo");
 
   andThen(function() {
-    var orderButton = find("a.place_order_button:visible");
-    var customerLink = find(".search_result.customer").text().trim();
+    var orderButton = find("a.place_order_button:visible"),
+        customerLink = find(".search_result.customer").text().trim(),
+        customerSearch = find("#customer_search:visible");
 
     equal(customerLink, "John Rambo", "Customer is found")
-    ok(!orderButton.length, "Order button isn't present yet");
+
+    ok(!orderButton.length,   "Order button isn't present yet");
+    ok(customerSearch.length, "Customer search input is present");
   });
 
   click("a:contains('John Rambo')");
 
   andThen(function() {
-    var orderButton = find("a.place_order_button:visible");
-    ok(orderButton.length, "Order button then shows up");
+    var orderButton = find("a.place_order_button:visible"),
+        customerSearch = find("#customer_search:visible");
+
+    ok(orderButton.length,     "Order button then shows up");
+    ok(!customerSearch.length, "Customer search is hidden");
   });
 
   /**

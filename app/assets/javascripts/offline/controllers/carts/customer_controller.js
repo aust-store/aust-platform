@@ -1,7 +1,11 @@
 App.CartsCustomerController = Ember.ArrayController.extend({
   needs: ['application', 'cartsNew'],
   searchQuery: null,
-  selectedCustomer: null,
+  currentCustomer: null,
+
+  isCustomerDefined: function() {
+    return this.cart().get('customer.firstName');
+  }.property('controllers.cartsNew.content.customer.firstName'),
 
   userTyping: function(value) {
     var _this = this,
@@ -61,12 +65,21 @@ App.CartsCustomerController = Ember.ArrayController.extend({
     },
 
     setCartCustomer: function(customer) {
+      this.cart().set('customer', customer);
+      this.set("currentCustomer", customer);
+    },
+
+    resetSearch: function() {
       var _this = this;
 
-      Ember.run(function() {
-        _this.cart().set('customer', customer);
-        _this.get('controllers.application').set('cartHasItems', true);
-      });
-    },
+      this.cart().set('customer', null);
+      this.set("currentCustomer", null);
+
+      Ember.run.later(function() {
+        if (_this.isDestroyed) { return; }
+
+        Ember.$("#customer_search").focus();
+      }, 10);
+    }
   }
 });
