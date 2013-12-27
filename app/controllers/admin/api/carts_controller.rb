@@ -7,11 +7,17 @@ class Admin::Api::CartsController < Admin::ApplicationController
     render json: cart
   end
 
+  def update
+    cart = current_company.carts.point_of_sale.find(params[:id])
+    cart.update_attributes(cart_params)
+    render json: cart
+  end
+
   private
 
   def cart_params
     params
       .require(:cart)
-      .permit(:id)
+      .permit(:customer_id)
   end
 end

@@ -3,6 +3,21 @@ require "spec_helper"
 describe Cart do
   subject { Cart.new }
 
+  describe "scopes" do
+    let(:website_cart) { create(:cart) }
+    let(:offline_cart) { create(:offline_cart) }
+
+    describe "#point_of_sale" do
+      before do
+        website_cart and offline_cart
+      end
+
+      it "returns only carts created in the point of sale" do
+        Cart.point_of_sale.to_a.should == [offline_cart]
+      end
+    end
+  end
+
   describe "#total" do
     it "returns the result of a price calculation" do
       cart = Cart.new

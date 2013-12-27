@@ -28,7 +28,27 @@ CustomFixtureAdapter = DS.FixtureAdapter.extend({
   }
 });
 
+DS.JSONSerializer.reopen({
+  serializeHasMany : function(record, json, relationship) {
+    var key = relationship.key;
+
+    var relationshipType = DS.RelationshipChange.determineRelationshipType(
+      record.constructor, relationship);
+
+    /**
+     * Hack to allow FixtureAdapter to not lose hasMany relationships
+     */
+    if (relationshipType === 'manyToNone'
+        || relationshipType === 'manyToMany'
+        || relationshipType === 'manyToOne') {
+        json[key] = Ember.get(record, key).mapBy('id');
+        // TODO support for polymorphic manyToNone and manyToMany
+        // relationships
+    }
+  }
+});
 App.ApplicationAdapter = CustomFixtureAdapter;
+App.ApplicationSerializer = DS.RESTSerializer.extend();
 
 function resetFixtures() {
   App.Order.FIXTURES = [{

@@ -12,6 +12,8 @@ class Cart < ActiveRecord::Base
     inclusion: { in: Order::VALID_ENVIRONMENTS + Order::VALID_ENVIRONMENTS.map(&:to_s) },
     allow_blank: true
 
+  scope :point_of_sale, ->{ where(environment: "offline") }
+
   def self.create_offline(params = {})
     create(params.merge(environment: :offline))
   end

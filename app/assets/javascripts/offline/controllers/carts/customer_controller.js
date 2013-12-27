@@ -66,6 +66,7 @@ App.CartsCustomerController = Ember.ArrayController.extend({
 
     setCartCustomer: function(customer) {
       this.cart().set('customer', customer);
+      this.cart().save();
       this.set("currentCustomer", customer);
     },
 
