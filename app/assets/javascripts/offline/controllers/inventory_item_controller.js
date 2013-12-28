@@ -64,7 +64,7 @@ App.InventoryItemController = Ember.ArrayController.extend({
         return item.save();
       }
 
-      if (cart.get("isDirty")) {
+      if (cart.get("isNew")) {
         cart.save().then(SaveItem, function(error) { cl(error); });
       } else {
         SaveItem(cart);

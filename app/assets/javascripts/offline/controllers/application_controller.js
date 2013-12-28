@@ -16,7 +16,7 @@ App.ApplicationController = Ember.Controller.extend({
   actions: {
     newCart: function() {
       cart_controller = this.get("controllers.carts_new");
-      if (cart_controller.get('content.items.length') > 0)
+      if (cart_controller.get('content.cartItems.length') > 0)
         if (!confirm("Você tem certeza que deseja limpar o pedido atual?"))
           return false;
 

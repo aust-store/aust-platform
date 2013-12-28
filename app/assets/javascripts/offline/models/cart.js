@@ -1,13 +1,13 @@
 App.Cart = DS.Model.extend({
   total: DS.attr('string'),
-  items: DS.hasMany('cartItem'),
+  cartItems: DS.hasMany('cartItem'),
   customer: DS.belongsTo('customer'),
 
   subtotal: function() {
-    return this.get('items').getEach('price').reduce(function(accum, item) {
+    return this.get('cartItems').getEach('price').reduce(function(accum, item) {
       return accum + item;
     }, 0);
-  }.property('items.@each.price'),
+  }.property('cartItems.@each.price'),
 
 
   isValid: function() {
@@ -15,7 +15,7 @@ App.Cart = DS.Model.extend({
         hasItems, hasCustomer;
 
     Ember.run(function() {
-      hasItems = _this.get('items.length') > 0;
+      hasItems = _this.get('cartItems.length') > 0;
       hasCustomer = _this.get('customer.id');
     });
 

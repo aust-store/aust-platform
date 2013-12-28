@@ -32,7 +32,7 @@ test("#isValid", function() {
 
   ok(!cart.isValid(), "cart is invalid without customer, items and other data");
 
-  cart.get('items').pushObject(cartItem);
+  cart.get('cartItems').pushObject(cartItem);
   ok(!cart.isValid(), "cart is invalid after item is added is set");
 
   cart.set('customer', customer);

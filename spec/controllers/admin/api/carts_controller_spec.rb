@@ -20,11 +20,9 @@ describe Admin::Api::CartsController do
         "cart" => {
           "id"    => cart.id,
           "total" => "0.0",
-          "customer_id" => nil,
           "cart_item_ids" => []
         },
         "cart_items" => [],
-        "customers" => nil
       }
     end
   end

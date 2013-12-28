@@ -24,7 +24,7 @@ App.CartsNewController = Ember.ObjectController.extend({
    * template data logic
    */
   updateItemsQuantityHeadline: function() {
-    var quantity = this.get('items').get('length'),
+    var quantity = this.get('cartItems').get('length'),
         message;
 
     if (quantity > 0) {
@@ -39,14 +39,14 @@ App.CartsNewController = Ember.ObjectController.extend({
 
     this.set('itemsQuantityHeadline', message);
     this.get('controllers.application').set('cartStatusMessage', message);
-  }.observes('items.length'),
+  }.observes('cartItems.length'),
 
   defineOrderReadyToBePlaced: function() {
     if (this.get('content').isValid() )
       this.set('isOrderReadyToBePlaced', true);
     else
       this.set('isOrderReadyToBePlaced', false);
-  }.observes('items.length', 'customer'),
+  }.observes('cartItems.length', 'customer'),
 
   /**
    * Template properties

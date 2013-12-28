@@ -9,7 +9,7 @@ describe Admin::Api::ResourcesController do
       json.should == {
         "order" => {
           "attributes" => ["id", "total", "created_at", "environment"],
-          "associations" => ["items"]
+          "associations" => ["order_items"]
         }
       }
     end
