@@ -31,9 +31,15 @@ describe Company do
     end
 
     describe "create_default_pages after_save on creation" do
+      let(:company) { create(:company) }
+
       it "creates an About Us page on new stores" do
-        about_us_page = create(:company).pages.first
+        company.pages.count.should == 1
+
+        about_us_page = company.pages.first
         about_us_page.title.should == "Quem somos"
+        company.save
+        company.pages.count.should == 1
       end
     end
   end
