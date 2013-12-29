@@ -13,6 +13,7 @@ test("orders are listed in /orders", function() {
     equal(find("h1").html(), "Todos os pedidos");
     equal(find(".total").text(), "R$ 10,00");
     equal(find(".created_at").text(), "11/10/2013, 12:13");
+    equal(find(".customer").text().trim(), "John Rambo");
   });
 });
 

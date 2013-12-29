@@ -272,7 +272,7 @@ GEM
       activesupport (= 4.0.0)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.1.0)
+    rake (10.1.1)
     ref (1.0.5)
     remotipart (1.0.5)
     request_store (1.0.5)
@@ -398,6 +398,7 @@ DEPENDENCIES
   quiet_assets
   qunit-rails
   rails (~> 4)
+  rake (= 10.1.1)
   remotipart (~> 1.0)
   rspec-rails (~> 2.13)
   rvm-capistrano

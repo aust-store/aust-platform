@@ -2,7 +2,7 @@
 
 var _confirm = window.confirm;
 
-module("Acceptance/Orders' cart", {
+module("Acceptance/Cart and ordering", {
   setup: function() {
     setupEmberTest();
   },

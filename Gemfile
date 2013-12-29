@@ -4,6 +4,7 @@ Encoding.default_internal = Encoding::UTF_8
 source 'https://rubygems.org'
 
 gem 'rails', '~>4'
+gem 'rake', '10.1.1'
 
 # rails 4 compatibility
   gem 'protected_attributes', '1.0.3'

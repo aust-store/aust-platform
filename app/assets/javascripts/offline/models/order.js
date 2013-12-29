@@ -4,4 +4,5 @@ App.Order = DS.Model.extend({
   environment: DS.attr('string'),
   cart:        DS.belongsTo('cart'),
   orderItems:  DS.hasMany('orderItem'),
+  customer:    DS.belongsTo('customer')
 });

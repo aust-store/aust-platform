@@ -52,11 +52,31 @@ App.ApplicationSerializer = DS.RESTSerializer.extend();
 
 function resetFixtures() {
   App.Order.FIXTURES = [{
-    id: 1, total: 10.0, createdAt: "2013-10-11 12:13:14", environment: "offline"
+    id: 1,
+    customer: 1,
+    total: 10.0,
+    createdAt: "2013-10-11 12:13:14",
+    environment: "offline",
+    cart: 1,
+    order_items: [1]
+  }];
+
+  App.OrderItem.FIXTURES = [{
+    id: 1,
+    order: 1,
+    name: "Ibanez RGS",
+    quantity: 1,
+    price: 10,
+    inventory_entry_id: 1,
+    inventory_item: 1
   }];
 
   App.Cart.FIXTURES = [{
-    id: 1, total: 10.0
+    id: 1, total: 10.0, customer: 1, cart_items: [1, 2]
+  }];
+
+  App.CartItem.FIXTURES = [{
+    id: 1, price: 10, inventory_entry_id: 1, inventory_item: 1
   }];
 
   App.InventoryItem.FIXTURES = [{

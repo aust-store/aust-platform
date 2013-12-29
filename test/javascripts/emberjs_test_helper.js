@@ -75,14 +75,15 @@ var EmberTesting = {
         }
 
         _this.model.FIXTURES.forEach(function(fixture) {
-          var fields = Object.keys(fixture);
-
+          var expectedFields = response.attributes.concat(_this.localRelationships()),
+              fields = Object.keys(fixture);
 
           if (_this.underscoredAttrs) {
             fields = _this.decamelizeAttrs(fields);
+            expectedFields = _this.decamelizeAttrs(expectedFields);
           }
 
-          QUnit.deepEqual(fields.sort(), response.attributes.sort());
+          QUnit.deepEqual(fields.sort(), expectedFields.sort());
         });
       });
     }
