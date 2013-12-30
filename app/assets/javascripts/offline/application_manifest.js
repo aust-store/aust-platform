@@ -12,6 +12,7 @@
 //= require_tree ./views/
 //= require ./templates/index
 //= require_tree ./templates/
+//= require_tree ./vendor/
 
 var attr = DS.attr,
 App = Ember.Application.create({

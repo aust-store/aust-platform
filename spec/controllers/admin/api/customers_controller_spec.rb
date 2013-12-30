@@ -119,5 +119,35 @@ describe Admin::Api::CustomersController do
         }
       }
     end
+
+    it "returns an error message when needed" do
+      customer = FactoryGirl.create(:customer, :pos, store: @company)
+
+      json_request = {
+        id: customer.id,
+        "customer" => {
+          "first_name" => "",
+          "last_name"  => "",
+          "email"      => "",
+          "social_security_number" => ""
+        }
+      }
+      xhr :put, :update, json_request
+
+      json  = ActiveSupport::JSON.decode(response.body)
+      json.should == {
+        "errors" => {
+          "first_name" => [
+            "Nome não pode ficar em branco"
+          ],
+          "last_name" => [
+            "Sobrenome não pode ficar em branco"
+          ],
+          "social_security_number" => [
+            "O campo CPF não pode ficar em branco!",
+          ]
+        }
+      }
+    end
   end
 end

@@ -15,10 +15,6 @@ div.input
   width: 100%
   margin: 0 0 4px 0
 
-  &.actions
-    float: right
-    width: auto
-
   label
     width: 26%
     padding: 12px 3px 0 0
@@ -33,3 +29,15 @@ div.input
   button
     margin: 15px 0 0 0
     padding: 4px
+form
+  .actions
+    float: right
+    width: auto
+  span.error
+    margin: 0 0 15px 26%
+    display: block
+    padding-left: 10px
+    color: red
+    &:empty
+      display: none
+

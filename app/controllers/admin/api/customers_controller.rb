@@ -19,8 +19,11 @@ class Admin::Api::CustomersController < Admin::Api::ApplicationController
 
   def update
     resource = current_company.customers.find(params[:id])
-    resource.update_attributes(params[:customer])
-    render json: resource
+    if resource.update_attributes(customer_params)
+      render json: resource
+    else
+      render json: {errors: resource.errors.first_messages}, status: 422
+    end
   end
 
   private

@@ -12,15 +12,5 @@ App.CartsCustomerView = Ember.View.extend({
         Ember.$("#new_customer_name").focus();
       });
     },
-
-    cancelCustomerCreation: function() {
-      Ember.run(function() {
-        Ember.$(".new_customer_form").hide();
-        Ember.$(".new_customer_form input[type='text']").val("");
-
-        Ember.$(".choose_customer").show();
-        Ember.$("#customer_search").focus();
-      });
-    }
   }
 });

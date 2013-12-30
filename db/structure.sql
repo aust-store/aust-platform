@@ -351,7 +351,7 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    email character varying(255) DEFAULT ''::character varying,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
@@ -1636,7 +1636,7 @@ CREATE UNIQUE INDEX index_customers_on_confirmation_token ON customers USING btr
 -- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
+CREATE INDEX index_customers_on_email ON customers USING btree (email);
 
 
 --
@@ -2205,3 +2205,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131230032123');
 INSERT INTO schema_migrations (version) VALUES ('20131230034242');
 
 INSERT INTO schema_migrations (version) VALUES ('20131230050607');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230090113');

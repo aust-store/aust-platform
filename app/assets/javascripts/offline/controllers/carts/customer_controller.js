@@ -68,28 +68,5 @@ App.CartsCustomerController = Ember.ArrayController.extend({
         Ember.$("#customer_search").focus();
       }, 10);
     },
-
-    submitCustomerCreation: function() {
-      var _this     = this,
-          firstName = $("#new_customer_first_name").val(),
-          lastName  = $("#new_customer_last_name").val(),
-          email     = $("#new_customer_email").val(),
-          cpf       = $("#new_customer_cpf").val();
-
-      Ember.run(function() {
-        customer = _this.store.createRecord('customer', {
-          firstName: firstName,
-          lastName:  lastName,
-          email:     email,
-          socialSecurityNumber: cpf
-        });
-
-        customer.save().then(function(customer) {
-          Ember.$('.new_customer_form').hide();
-          Ember.$('.choose_customer').show();
-          _this.send('setCartCustomer', customer);
-        });
-      });
-    }
   }
 });

@@ -94,10 +94,10 @@ test("user puts order creating new customer", function() {
 
   andThen(function() {
     var newCustomerForm = find(".new_customer_form:visible");
-        firstNameInput  = find("input#new_customer_first_name:visible"),
-        lastNameInput   = find("input#new_customer_last_name:visible"),
-        emailInput      = find("input#new_customer_email:visible"),
-        socialNumber    = find("input#new_customer_cpf:visible");
+        firstNameInput  = find("form input[name='firstName']:visible"),
+        lastNameInput   = find("form input[name='lastName']:visible"),
+        emailInput      = find("form input[name='email']:visible"),
+        socialNumber    = find("form input[name='socialSecurityNumber']:visible");
 
     ok(newCustomerForm.length, "Customer creation form is visible");
     ok(firstNameInput.length,  "Customer's first name input shows up");
@@ -106,11 +106,11 @@ test("user puts order creating new customer", function() {
     ok(socialNumber.length,    "Customer's social number input shows up");
   });
 
-  fillIn("#new_customer_first_name", "John");
-  fillIn("#new_customer_last_name", "Rambo");
-  fillIn("#new_customer_email", "john.rambino@gmail.com");
-  fillIn("#new_customer_cpf", "Rambo");
-  click("#submit_customer_creation");
+  fillIn("form input[name='firstName']",            "John");
+  fillIn("form input[name='lastName']",             "Rambo");
+  fillIn("form input[name='email']",                "john.rambino@gmail.com");
+  fillIn("form input[name='socialSecurityNumber']", "Rambo");
+  click(".js_submit_customer");
 
   andThen(function() {
     var orderButton = find("a.place_order_button:visible"),

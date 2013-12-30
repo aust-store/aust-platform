@@ -1,37 +1,4 @@
-<div class="new_customer_form">
-  <div class="input">
-    <label for="new_customer_name">Nome:</label>
-    {{input name="new_customer_first_name" id="new_customer_first_name"}}
-  </div>
-
-  <div class="input">
-    <label for="new_customer_name">Sobrenome:</label>
-    {{input name="new_customer_last_name" id="new_customer_last_name"}}
-  </div>
-
-  <div class="input">
-    <label for="new_customer_name">Email:</label>
-    {{input name="new_customer_email" id="new_customer_email"}}
-  </div>
-
-  <div class="input">
-    <label for="new_customer_name">CPF:</label>
-    {{input name="new_customer_cpf" id="new_customer_cpf"}}
-  </div>
-
-  <div class="input actions">
-    <button
-      id="submit_customer_creation"
-      {{action submitCustomerCreation}}>Criar cliente</button>
-    ou
-    <a
-      href="javascript: void()"
-      {{action cancelCustomerCreation target='view'}}>cancelar</a>
-  </div>
-
-  <div class="show_search">
-  </div>
-</div>
+{{render "carts/customer/new"}}
 
 <div class="choose_customer">
   {{#if isCustomerDefined}}

@@ -135,8 +135,9 @@ describe Customer do
 
       it "allows any number in the development environment" do
         Rails.env.stub(:development?) { true }
-        customer = build(:customer, social_security_number: "1")
-        customer.should be_valid
+        build(:customer, social_security_number: "1").should be_valid
+        build(:customer, social_security_number: "").should_not be_valid
+        build(:customer, social_security_number: nil).should_not be_valid
       end
     end
   end
