@@ -61,6 +61,32 @@ describe Admin::Api::CustomersController do
         }
       }
     end
+
+    it "returns an error message when needed" do
+      json_request = {
+        "customer" => {
+          first_name: "",
+          last_name:  "",
+          social_security_number: ""
+        }
+      }
+      xhr :post, :create, json_request
+
+      json  = ActiveSupport::JSON.decode(response.body)
+      json.should == {
+        "errors" => {
+          "first_name" => [
+            "Nome não pode ficar em branco"
+          ],
+          "last_name" => [
+            "Sobrenome não pode ficar em branco"
+          ],
+          "social_security_number" => [
+            "O campo CPF não pode ficar em branco!",
+          ]
+        }
+      }
+    end
   end
 
   describe "PUT update" do

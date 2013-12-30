@@ -9,8 +9,12 @@ class Admin::Api::CustomersController < Admin::Api::ApplicationController
   end
 
   def create
-    resource = current_company.customers.create(customer_params)
-    render json: resource
+    resource = current_company.customers.new(customer_params)
+    if resource.save
+      render json: resource
+    else
+      render json: {errors: resource.errors.first_messages}, status: 422
+    end
   end
 
   def update
