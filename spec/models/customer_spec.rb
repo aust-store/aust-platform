@@ -132,6 +132,12 @@ describe Customer do
         customer = build(:customer, social_security_number: "111.111.111-11")
         customer.should_not be_valid
       end
+
+      it "allows any number in the development environment" do
+        Rails.env.stub(:development?) { true }
+        customer = build(:customer, social_security_number: "1")
+        customer.should be_valid
+      end
     end
   end
 

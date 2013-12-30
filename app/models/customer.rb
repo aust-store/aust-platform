@@ -111,6 +111,7 @@ class Customer < ActiveRecord::Base
   end
 
   def valid_social_security_number?
+    return true if Rails.env.development?
     # CPF is the brazilian social number
     errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
   end
