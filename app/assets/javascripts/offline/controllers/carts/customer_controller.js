@@ -19,25 +19,8 @@ App.CartsCustomerController = Ember.ArrayController.extend({
       } else
         _this.set('content', null)
 
-    }, 400);
+    }, App.defaultSearchDelay);
   }.observes("searchQuery"),
-
-  submitCustomerCreation: function() {
-    var firstName = $("#new_customer_name").val(),
-        lastName  = $("#new_customer_lastname").val(),
-        email     = $("#new_customer_email").val(),
-        cpf       = $("#new_customer_cpf").val(),
-        customer  = App.Customer.createRecord({
-          firstName: firstName,
-          lastName:  lastName,
-          email:     email,
-          socialSecurityNumber: cpf
-        });
-
-    $('.new_customer').hide();
-    $('.choose_customer').show();
-    this.setCartCustomer(customer);
-  },
 
   autoResetSearch: function() {
     var isCustomerPresent = this.get('controllers.cartsNew.content.customer.firstName');
@@ -84,6 +67,29 @@ App.CartsCustomerController = Ember.ArrayController.extend({
 
         Ember.$("#customer_search").focus();
       }, 10);
+    },
+
+    submitCustomerCreation: function() {
+      var _this     = this,
+          firstName = $("#new_customer_first_name").val(),
+          lastName  = $("#new_customer_last_name").val(),
+          email     = $("#new_customer_email").val(),
+          cpf       = $("#new_customer_cpf").val();
+
+      Ember.run(function() {
+        customer = _this.store.createRecord('customer', {
+          firstName: firstName,
+          lastName:  lastName,
+          email:     email,
+          socialSecurityNumber: cpf
+        });
+
+        customer.save().then(function(customer) {
+          Ember.$('.new_customer_form').hide();
+          Ember.$('.choose_customer').show();
+          _this.send('setCartCustomer', customer);
+        });
+      });
     }
   }
 });

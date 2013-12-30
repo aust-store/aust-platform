@@ -15,9 +15,9 @@ App.CartsNewController = Ember.ObjectController.extend({
     this.get('controllers.cartsCustomer').set('searchQuery', null);
     this.updateItemsQuantityHeadline();
 
-    Ember.run.later(function() {
+    Ember.run(function() {
       $('#inventory_item_search').focus();
-    }, 50);
+    });
   },
 
   /**

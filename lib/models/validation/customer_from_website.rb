@@ -56,10 +56,6 @@ module Models
       def require_mobile_area_number?
         record.mobile_number.present?
       end
-
-  ## validates :email, presence: true
-  # validates :password, :password_confirmation, presence: true, on: :create
-
     end
   end
 end

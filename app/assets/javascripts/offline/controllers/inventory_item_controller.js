@@ -4,8 +4,6 @@ App.InventoryItemController = Ember.ArrayController.extend({
   // inventory items search
   searchQuery: null,
 
-  searchDelay: null,
-
   // Triggered whenever the user presses a key in the search field
   queryChanged: function(value) {
     var _this = this;
@@ -22,7 +20,7 @@ App.InventoryItemController = Ember.ArrayController.extend({
       var value = _this.get('searchQuery');
       if (typeof value == "string" && value.length > 0) {
         searchResults = _this.store.find('inventoryItem', {
-          search: _this.searchQuery,
+          search: value,
           on_sale: true
         });
 
@@ -32,7 +30,7 @@ App.InventoryItemController = Ember.ArrayController.extend({
         if (_this)
           _this.set('content', null);
       }
-    }, 600);
+    }, App.defaultSearchDelay);
 
   }.observes("searchQuery"),
 

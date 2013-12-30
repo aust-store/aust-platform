@@ -12,11 +12,11 @@ module("Acceptance/Cart and ordering", {
   }
 });
 
-test("it allows users to put an order", function() {
+test("user puts order with existing customer", function() {
   visit("/");
 
   /**
-   * Searches for items
+   * Searches for item
    */
   fillIn("#inventory_item_search", "Ibanez");
 
@@ -52,6 +52,9 @@ test("it allows users to put an order", function() {
     ok(customerSearch.length, "Customer search input is present");
   });
 
+  /**
+   * Adds customer to cart
+   */
   click("a:contains('John Rambo')");
 
   andThen(function() {
@@ -63,7 +66,64 @@ test("it allows users to put an order", function() {
   });
 
   /**
-   * Accepts the confirm dialog
+   * Puts the order and accepts the confirm dialog
+   */
+  equal(App.Order.FIXTURES.length, 1);
+  window.confirm = function() { return true }
+  andThen(function() {
+    click("a.place_order_button");
+  });
+
+  andThen(function() {
+    equal(App.Order.FIXTURES.length, 2);
+  });
+});
+
+test("user puts order creating new customer", function() {
+  visit("/");
+  // Searches for item
+  fillIn("#inventory_item_search", "Ibanez");
+  // Adds the found item to cart
+  click("table.listing.inventory_items a");
+
+  // Searches for customer name
+  fillIn("#customer_search", "Rambo");
+
+  // Adds customer to cart
+  click("a#show_customer_form");
+
+  andThen(function() {
+    var newCustomerForm = find(".new_customer_form:visible");
+        firstNameInput  = find("input#new_customer_first_name:visible"),
+        lastNameInput   = find("input#new_customer_last_name:visible"),
+        emailInput      = find("input#new_customer_email:visible"),
+        socialNumber    = find("input#new_customer_cpf:visible");
+
+    ok(newCustomerForm.length, "Customer creation form is visible");
+    ok(firstNameInput.length,  "Customer's first name input shows up");
+    ok(lastNameInput.length,   "Customer's last name input shows up");
+    ok(emailInput.length,      "Customer's email input shows up");
+    ok(socialNumber.length,    "Customer's social number input shows up");
+  });
+
+  fillIn("#new_customer_first_name", "John");
+  fillIn("#new_customer_last_name", "Rambo");
+  fillIn("#new_customer_email", "john.rambino@gmail.com");
+  fillIn("#new_customer_cpf", "Rambo");
+  click("#submit_customer_creation");
+
+  andThen(function() {
+    var orderButton = find("a.place_order_button:visible"),
+        customerSearch = find("#customer_search:visible"),
+        newCustomerForm = find(".new_customer_form:visible");
+
+    ok(orderButton.length,      "Order button then shows up");
+    ok(!customerSearch.length,  "Customer search is hidden");
+    ok(!newCustomerForm.length, "Customer creation form is hidden");
+  });
+
+  /**
+   * Puts the order and accepts the confirm dialog
    */
   equal(App.Order.FIXTURES.length, 1);
   window.confirm = function() { return true }

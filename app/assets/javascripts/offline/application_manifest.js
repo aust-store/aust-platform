@@ -18,4 +18,9 @@ App = Ember.Application.create({
   LOG_TRANSITIONS: true
 });
 
+/**
+ * used in Em.run.later(), e.g deferring search when user types characters
+ */
+App.defaultSearchDelay = 400;
+
 function cl(str) { console.log(str); }
