@@ -1,5 +1,5 @@
 class Manufacturer < ActiveRecord::Base
-  extend ModelExtensions::FullTextSearch
+  extend Models::Extensions::FullTextSearch
 
   attr_accessible :admin_user_id, :company_id, :name
 

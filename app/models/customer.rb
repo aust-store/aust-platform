@@ -1,5 +1,5 @@
 class Customer < ActiveRecord::Base
-  extend ModelExtensions::FullTextSearch
+  extend Models::Extensions::FullTextSearch
 
   devise :database_authenticatable,   :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -15,10 +15,16 @@ class Customer < ActiveRecord::Base
                   :store, :store_id, :addresses_attributes,
                   :enabled
 
-  validates :first_name, :last_name, :store, :email, presence: true
+  # validations: always
+  validates :store, presence: true
+  validates :first_name, :last_name, presence: true
   validates :social_security_number, presence: true
+
+  # validations: website
+  validates :email, presence: true
   validates :password, :password_confirmation, presence: true, on: :create
-  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
+    allow_blank: true
 
   validates :home_number,   presence: { if: :require_home_number? }
   validates :mobile_number, presence: { if: :require_mobile_number? }
