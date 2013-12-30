@@ -380,7 +380,9 @@ CREATE TABLE customers (
     work_area_number character varying(255),
     mobile_area_number character varying(255),
     store_id integer,
-    enabled boolean DEFAULT true
+    enabled boolean DEFAULT true,
+    environment character varying(255),
+    has_password boolean DEFAULT true
 );
 
 
@@ -1645,6 +1647,13 @@ CREATE INDEX index_customers_on_enabled ON customers USING btree (enabled);
 
 
 --
+-- Name: index_customers_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_environment ON customers USING btree (environment);
+
+
+--
 -- Name: index_customers_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2190,3 +2199,9 @@ INSERT INTO schema_migrations (version) VALUES ('20131112193300');
 INSERT INTO schema_migrations (version) VALUES ('20131112201449');
 
 INSERT INTO schema_migrations (version) VALUES ('20131226182250');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230032123');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230034242');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230050607');

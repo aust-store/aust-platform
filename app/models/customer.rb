@@ -1,6 +1,12 @@
 class Customer < ActiveRecord::Base
   extend Models::Extensions::FullTextSearch
 
+  VALID_ENVIRONMENTS = ["website", "point_of_sale"]
+  # Used for creating users at the Point of Sale, customers which won't have
+  # any sign in access. Devise requires a password and we couldn't allow
+  # anyone to use a blank password to sign anyway.
+  DUMMY_PASSWORD_FOR_POINT_OF_SALE = "dummy_password_for_point_of_sale_customers"
+
   devise :database_authenticatable,   :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -13,29 +19,24 @@ class Customer < ActiveRecord::Base
                   :home_area_number, :work_area_number, :mobile_area_number,
                   :receive_newsletter,
                   :store, :store_id, :addresses_attributes,
+                  :environment,
                   :enabled
 
-  # validations: always
+  # validations: always (both website and point of sale)
   validates :store, presence: true
+  validates :environment, inclusion: {in: VALID_ENVIRONMENTS}
   validates :first_name, :last_name, presence: true
   validates :social_security_number, presence: true
 
   # validations: website
-  validates :email, presence: true
-  validates :password, :password_confirmation, presence: true, on: :create
+  validate :customer_from_website
+
+  # validations details
+  validate :valid_social_security_number?
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
     allow_blank: true
 
-  validates :home_number,   presence: { if: :require_home_number? }
-  validates :mobile_number, presence: { if: :require_mobile_number? }
-  # phone area codes
-  validates :home_area_number,   presence: { if: :require_home_area_number? }
-  validates :work_area_number,   presence: { if: :require_work_area_number? }
-  validates :mobile_area_number, presence: { if: :require_mobile_area_number? }
-
-  # cpf
-  validate :valid_social_security_number?
-
+  before_validation :fullfil_dummy_password_for_pos_customers
   before_save :sanitize_social_security_number
 
   accepts_nested_attributes_for :addresses, :store
@@ -86,28 +87,23 @@ class Customer < ActiveRecord::Base
 
   private
 
-  def require_home_number?
-    self.mobile_number.blank?
-  end
-
-  def require_mobile_number?
-    self.home_number.blank?
-  end
-
-  def require_home_area_number?
-    self.home_number.present?
-  end
-
-  def require_work_area_number?
-    self.work_number.present?
-  end
-
-  def require_mobile_area_number?
-    self.mobile_number.present?
-  end
-
   def self.find_for_authentication(tainted_conditions)
     find_first_by_auth_conditions(tainted_conditions, enabled: true)
+  end
+
+  # Used by Devise
+  #
+  # Only users that have a password are allowed to sign in
+  def self.find_for_database_authentication(conditions={})
+    self
+      .where("email = ?", conditions[:email])
+      .where("has_password = ?", true)
+      .limit(1)
+      .first
+  end
+
+  def email_required?
+    false
   end
 
   def sanitize_social_security_number
@@ -117,5 +113,27 @@ class Customer < ActiveRecord::Base
   def valid_social_security_number?
     # CPF is the brazilian social number
     errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
+  end
+
+  def customer_from_website
+    if website?
+      Models::Validation::CustomerFromWebsite.new(self).validate
+    end
+  end
+
+  def website?
+    self.environment == "website"
+  end
+
+  def point_of_sale?
+    self.environment == "point_of_sale"
+  end
+
+  def fullfil_dummy_password_for_pos_customers
+    if point_of_sale? && self.password.blank?
+      self.has_password = false
+      self.password = DUMMY_PASSWORD_FOR_POINT_OF_SALE
+      self.password_confirmation = DUMMY_PASSWORD_FOR_POINT_OF_SALE
+    end
   end
 end

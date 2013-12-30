@@ -7,6 +7,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "customer#{n}@example.com" }
     sequence(:first_name) { |n| "The Tick#{n}" }
     sequence(:last_name) { |n| "Holycowjohnson#{n}" }
+    environment "website"
     password "123456"
     password_confirmation "123456"
     social_security_number "141.482.543-93"
@@ -19,6 +20,12 @@ FactoryGirl.define do
     work_area_number   "55"
 
     association :store, factory: :company
+
+    trait :pos do
+      environment "point_of_sale"
+      password ""
+      password_confirmation ""
+    end
 
     # address
     after(:create) do |customer, evaluator|

@@ -31,6 +31,38 @@ describe Admin::Api::CustomersController do
     end
   end
 
+  describe "POST create" do
+    it "creates a customer" do
+      json_request = {
+        "customer" => {
+          first_name: "John",
+          last_name:  "Rambo",
+          email:      "email@rambowebsite.com",
+          social_security_number: "87738843403"
+        }
+      }
+      xhr :post, :create, json_request
+
+      customer = Customer.last
+      customer.first_name.should == "John"
+      customer.last_name.should == "Rambo"
+      customer.email.should == "email@rambowebsite.com"
+      customer.social_security_number.should == "87738843403"
+      customer.store.should == @company
+
+      json  = ActiveSupport::JSON.decode(response.body)
+      json.should == {
+        "customer" => {
+          "id"         => customer.id,
+          "first_name" => "John",
+          "last_name"  => "Rambo",
+          "email"      => "email@rambowebsite.com",
+          "social_security_number" => "87738843403"
+        }
+      }
+    end
+  end
+
   describe "PUT update" do
     it "updates customer's attributes" do
       customer = FactoryGirl.create(:customer, store: @company)

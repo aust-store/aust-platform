@@ -3,11 +3,72 @@ require 'spec_helper'
 describe Customer do
   it_should_behave_like "addressable", :customer
 
+  describe "has_password" do
+    it "is set to true by default" do
+      create(:customer).has_password.should === true
+    end
+
+    context "when customer is created in the point of sale" do
+      it "is set to false when no password is given" do
+        create(:customer, :pos).has_password.should === false
+      end
+
+      it "is set to true when a password is given" do
+        create(:customer, :pos, password: "123456", password_confirmation: "123456").has_password.should === true
+      end
+    end
+  end
+
   describe "validations" do
+    describe "point of sale specifics" do
+      it "is valid with specific fields for point of sale" do
+        customer = Customer.new(first_name: "John",
+                                last_name: "Rambo",
+                                store: build(:company),
+                                social_security_number: "141.482.543-93",
+                                environment: "point_of_sale")
+        customer.should be_valid
+      end
+    end
+
+    describe "environments" do
+      it "accepts website" do
+        build(:customer, environment: "website").should be_valid
+      end
+
+      it "accepts point_of_sale" do
+        build(:customer, environment: "point_of_sale").should be_valid
+        build(:customer, :pos).should be_valid
+      end
+
+      it "doesn't accept offline" do
+        build(:customer, environment: "offline").should_not be_valid
+      end
+    end
+
     it "validates emails" do
       subject.should     allow_value("user@example.com").for(:email)
       subject.should_not allow_value("http://user@example.com").for(:email)
-      subject.should_not allow_value("").for(:email)
+      customer = build(:customer, email: "")
+      customer.should_not be_valid
+    end
+
+    describe "password" do
+      context "website" do
+        it "is required on creation" do
+          build(:customer).should be_valid
+          build(:customer, password: nil).should_not be_valid
+          build(:customer, password_confirmation: nil).should_not be_valid
+        end
+      end
+
+      context "point of sale" do
+        it "is not required" do
+          build(:customer, :pos).should be_valid
+          build(:customer, :pos, password: nil).should be_valid
+          build(:customer, :pos, password_confirmation: nil).should be_valid
+        end
+      end
     end
 
     describe "phone numbers" do
