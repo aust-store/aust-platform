@@ -56,6 +56,18 @@ feature "Orders Management" do
       click_button "Atualizar pedido"
       Order.all
       OrderItem.all
+
+      option_tags = []
+      all("#order_items_attributes_0_status").each do |result|
+        option_tags << result.text
+      end
+      if option_tags.join("") != "PendenteEnviadoCancelado"
+        puts "option tags' text: #{option_tags.join("")}"
+        puts "orders: #{Order.all.inspect}"
+        puts "orders items: #{OrderItem.all.inspect}"
+        save_and_open_page
+      end
+
       page.should have_select("order_items_attributes_0_status", selected: "Enviado")
     end
   end
