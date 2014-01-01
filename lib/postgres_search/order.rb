@@ -1,6 +1,3 @@
-require "postgres_search/query"
-require "postgres_search/association_combinations"
-
 module PostgresSearch
   class Order
     def initialize(query, field)

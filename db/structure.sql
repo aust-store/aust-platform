@@ -769,8 +769,7 @@ CREATE TABLE orders (
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255),
-    status character varying(255)
+    environment character varying(255)
 );
 
 
@@ -1878,13 +1877,6 @@ CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 
 
 --
--- Name: index_orders_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_orders_on_status ON orders USING btree (status);
-
-
---
 -- Name: index_orders_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2197,8 +2189,6 @@ INSERT INTO schema_migrations (version) VALUES ('20131112022336');
 INSERT INTO schema_migrations (version) VALUES ('20131112193300');
 
 INSERT INTO schema_migrations (version) VALUES ('20131112201449');
-
-INSERT INTO schema_migrations (version) VALUES ('20131226182250');
 
 INSERT INTO schema_migrations (version) VALUES ('20131230032123');
 
