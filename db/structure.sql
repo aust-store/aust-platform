@@ -351,7 +351,7 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    email character varying(255) DEFAULT ''::character varying,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying(255),
     reset_password_sent_at timestamp without time zone,
@@ -380,7 +380,9 @@ CREATE TABLE customers (
     work_area_number character varying(255),
     mobile_area_number character varying(255),
     store_id integer,
-    enabled boolean DEFAULT true
+    enabled boolean DEFAULT true,
+    environment character varying(255),
+    has_password boolean DEFAULT true
 );
 
 
@@ -1469,6 +1471,34 @@ CREATE INDEX company_settings_gist_settings ON company_settings USING gist (sett
 
 
 --
+-- Name: customer_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_email ON customers USING gin (to_tsvector('english'::regconfig, (email)::text));
+
+
+--
+-- Name: customer_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_first_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: customer_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_last_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+
+
+--
+-- Name: customer_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customer_social_security_number ON customers USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
+
+
+--
 -- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1605,7 +1635,7 @@ CREATE UNIQUE INDEX index_customers_on_confirmation_token ON customers USING btr
 -- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
+CREATE INDEX index_customers_on_email ON customers USING btree (email);
 
 
 --
@@ -1613,6 +1643,13 @@ CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
 --
 
 CREATE INDEX index_customers_on_enabled ON customers USING btree (enabled);
+
+
+--
+-- Name: index_customers_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_environment ON customers USING btree (environment);
 
 
 --
@@ -2113,6 +2150,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130309232957');
 
 INSERT INTO schema_migrations (version) VALUES ('20130317211352');
 
+INSERT INTO schema_migrations (version) VALUES ('20130414161633');
+
 INSERT INTO schema_migrations (version) VALUES ('20130601221654');
 
 INSERT INTO schema_migrations (version) VALUES ('20130605171558');
@@ -2150,3 +2189,11 @@ INSERT INTO schema_migrations (version) VALUES ('20131112022336');
 INSERT INTO schema_migrations (version) VALUES ('20131112193300');
 
 INSERT INTO schema_migrations (version) VALUES ('20131112201449');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230032123');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230034242');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230050607');
+
+INSERT INTO schema_migrations (version) VALUES ('20131230090113');

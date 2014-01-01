@@ -6,10 +6,13 @@
 App.rootElement = '#qunit-fixture';
 App.setupForTesting();
 App.injectTestHelpers();
+App.defaultSearchDelay = 1;
 
 var setupEmberTest = function() {
   Ember.run(function() {
-    resetFixtures();
-    App.reset();
+    if (App) {
+      App.reset();
+    }
   });
+  resetFixtures();
 }

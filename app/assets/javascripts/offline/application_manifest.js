@@ -12,17 +12,16 @@
 //= require_tree ./views/
 //= require ./templates/index
 //= require_tree ./templates/
+//= require_tree ./vendor/
 
 var attr = DS.attr,
 App = Ember.Application.create({
-  LOG_TRANSITIONS: true,
-  ready: function() {
-    console.log("App is running");
-  }
+  LOG_TRANSITIONS: true
 });
 
-App.ApplicationView = Ember.View.extend({
-  templateName: 'offline/templates/application'
-});
+/**
+ * used in Em.run.later(), e.g deferring search when user types characters
+ */
+App.defaultSearchDelay = 400;
 
 function cl(str) { console.log(str); }

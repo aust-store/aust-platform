@@ -1,0 +1,27 @@
+<div class="new_customer_form">
+  <p class="form_intro">
+    {{#if isValid}}
+      Todos os campos foram preenchidos.
+    {{else}}
+      Preencha todos os campos necessários.
+    {{/if}}
+  </p>
+
+  {{#form-for this}}
+    {{input firstName label="Nome"}}
+    {{error-field firstName}}
+    {{input lastName label="Sobrenome"}}
+    {{error-field lastName}}
+    {{input email}}
+    {{error-field email}}
+    {{input socialSecurityNumber label="CPF"}}
+    {{error-field socialSecurityNumber}}
+    <div class="actions">
+      {{submit "Criar cliente" class="js_submit_customer"}}
+      ou
+      <a
+        href="javascript: void()"
+        {{action cancelCustomerCreation}}>cancelar</a>
+    </div>
+  {{/form-for}}
+</div>

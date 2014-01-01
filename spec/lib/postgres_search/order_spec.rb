@@ -1,5 +1,4 @@
 require "spec_helper"
-require "postgres_search/order"
 
 describe PostgresSearch::Order do
   let(:model) { double(table_name: "cars") }

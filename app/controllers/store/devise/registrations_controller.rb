@@ -18,6 +18,7 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
     self.resource = build_resource(sign_up_params)
 
     resource.store_id = current_store.id
+    resource.environment = "website"
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

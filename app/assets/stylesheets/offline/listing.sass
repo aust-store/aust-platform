@@ -11,6 +11,11 @@ table
     padding: 7px 7px
 
 table.listing
+  &.search_result
+    margin-bottom: 15px
+
+  tr td
+    border-top: 1px solid #dedede
 
   thead th
     background: $nav-background-image $nav-background-color
@@ -28,3 +33,6 @@ table.carts
   tr.cart_total td
     background-color: lighten(green, 67%)
     border-bottom: 1px solid lighten(green, 60%)
+.search_progress
+  padding: 10px
+  color: brown

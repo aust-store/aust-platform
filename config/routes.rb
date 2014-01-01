@@ -50,8 +50,9 @@ Store::Application.routes.draw do
       scope "/v1" do
         resources :inventory_items, only: [:index]
         resources :orders,          only: api_actions
-        resources :carts,           only: [:create]
+        resources :carts,           only: api_actions
         resources :cart_items,      only: api_actions
+        resources :customers,       only: api_actions
         resources :taxonomies,      only: [:index]
         resources :manufacturers,   only: [:index]
         resources :theme_files,     only: [:index, :update]

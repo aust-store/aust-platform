@@ -44,7 +44,11 @@
   -->
   <h2><%= t("admin.navigation.offline_sales") %></h2>
   <ul>
-    <li><%= link_to t("admin.navigation.point_of_sale"), admin_offline_root_path %></li>
+    <li>
+      <%= link_to t("admin.navigation.point_of_sale"),
+        admin_offline_root_path,
+        id: "go_to_point_of_sale" %>
+      </li>
   </ul>
 <% end %>
 

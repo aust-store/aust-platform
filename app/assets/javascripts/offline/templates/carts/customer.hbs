@@ -1,0 +1,53 @@
+{{render "carts/customer/new"}}
+
+<div class="choose_customer">
+  {{#if isCustomerDefined}}
+    <div class="current_customer">
+      {{currentCustomer.firstName}}
+      {{currentCustomer.lastName}}
+      (<a href="javascript: void()" {{action resetSearch}}>Buscar outro cliente</a>)
+    </div>
+  {{else}}
+    {{view App.CustomerSearchTextField
+        valueBinding="searchQuery"
+        action="onSearchCommit"
+        id="customer_search"
+        class="search"
+        placeholder="Pesquise: nome do cliente"}}
+
+    {{#if content}}
+      <table class="listing search_result customer">
+        <tbody>
+          {{#each controller}}
+          <tr class="even">
+            <td>
+              <a href="#" {{action "setCartCustomer" this}}>
+                {{firstName}} {{lastName}}
+              </a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <div class="search_progress">
+        {{#if searchQuery}}
+          {{#if model.isLoaded}}
+            <div class="no_customer_found">
+              Nenhum cliente encontrado. Pressione Enter para criar um.
+            </div>
+          {{else}}
+            Buscando...
+          {{/if}}
+        {{/if}}
+      </div>
+    {{/if}}
+  {{/if}}
+
+  <div class="another_customer">
+    <a
+      href="javascript: void()"
+      id="show_customer_form"
+      {{action showCustomerForm target="view"}}>Novo cliente</a>
+  </div>
+</div>

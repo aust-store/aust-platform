@@ -1,5 +1,5 @@
 class Taxonomy < ActiveRecord::Base
-  extend ModelExtensions::FullTextSearch
+  extend Models::Extensions::FullTextSearch
 
   acts_as_tree order: "id"
 

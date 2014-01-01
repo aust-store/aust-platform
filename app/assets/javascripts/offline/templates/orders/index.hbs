@@ -1,0 +1,31 @@
+<section>
+  <h1>Todos os pedidos</h1>
+
+  {{render store_reports}}
+
+  <table class="listing orders">
+
+    <thead>
+      <tr>
+        <th>Valor</th>
+        <th>Cliente</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each controller}}
+        <tr class="even">
+          <td class="total">R$ {{money total}}</td>
+          <td class="customer">
+            {{#if customer}}
+              {{customer.firstName}} {{customer.lastName}}
+            {{/if}}
+          </td>
+          <td class="created_at">{{humanDate createdAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+</section>

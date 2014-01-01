@@ -11,7 +11,10 @@ class Admin::Api::ResourcesController < ApplicationController
     render json: {
       params[:model] => {
         attributes:   responder._attributes,
-        associations: responder._associations.keys
+        associations: responder._associations.map { |name, assoc|
+          # if a root is not defined, use the association name
+          assoc.options[:root] || name
+        }
       }
     }
   end

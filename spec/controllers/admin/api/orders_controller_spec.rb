@@ -18,19 +18,34 @@ describe Admin::Api::OrdersController do
       it "returns the last 50 orders" do
         xhr :get, :index
 
-        json  = ActiveSupport::JSON.decode(response.body)
+        json = ActiveSupport::JSON.decode(response.body)
 
         json.should == {
           "orders" => [{
-            "id"             => offline_order.id,
-            "total"          => offline_order.total.to_s,
-            "created_at"     => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment"    => "offline",
+            "id"          => offline_order.id,
+            "total"       => offline_order.total.to_s,
+            "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "environment" => "offline",
+            "customer_id" => offline_order.customer.id,
           }, {
-            "id"             => website_order.id,
-            "total"          => website_order.total.to_s,
-            "created_at"     => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment"    => "website",
+            "id"          => website_order.id,
+            "total"       => website_order.total.to_s,
+            "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "environment" => "website",
+            "customer_id" => website_order.customer.id,
+          }],
+          "customers" => [{
+            "id"         => offline_order.customer.id,
+            "first_name" => offline_order.customer.first_name,
+            "last_name"  => offline_order.customer.last_name,
+            "email"      => offline_order.customer.email,
+            "social_security_number" => offline_order.customer.social_security_number
+          }, {
+            "id"         => website_order.customer.id,
+            "first_name" => website_order.customer.first_name,
+            "last_name"  => website_order.customer.last_name,
+            "email"      => website_order.customer.email,
+            "social_security_number" => website_order.customer.social_security_number
           }]
         }
       end
@@ -44,10 +59,18 @@ describe Admin::Api::OrdersController do
 
         json.should == {
           "orders" => [{
-            "id"             => offline_order.id,
-            "total"          => offline_order.total.to_s,
-            "created_at"     => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment"    => "offline",
+            "id"          => offline_order.id,
+            "total"       => offline_order.total.to_s,
+            "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "environment" => "offline",
+            "customer_id" => offline_order.customer.id
+          }],
+          "customers" => [{
+            "id"         => offline_order.customer.id,
+            "first_name" => offline_order.customer.first_name,
+            "last_name"  => offline_order.customer.last_name,
+            "email"      => offline_order.customer.email,
+            "social_security_number" => offline_order.customer.social_security_number
           }]
         }
       end
@@ -74,7 +97,8 @@ describe Admin::Api::OrdersController do
           "total"          => order.total.to_s,
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
-          "order_item_ids" => order.items.map(&:id)
+          "order_item_ids" => order.items.map(&:id),
+          "customer_id"       => order.customer.id
         },
         "order_items" => order.items.map { |item|
           { "id"                 => item.id,
@@ -85,6 +109,13 @@ describe Admin::Api::OrdersController do
             "order_id"           => order.id,
             "inventory_entry_id" => item.inventory_entry_id }
         },
+        "customers" => [{
+          "id"         => order.customer.id,
+          "first_name" => order.customer.first_name,
+          "last_name"  => order.customer.last_name,
+          "email"      => order.customer.email,
+          "social_security_number" => order.customer.social_security_number
+        }]
       }
 
       order.items.each do |item|

@@ -24,15 +24,30 @@ App.CartsIndexRoute = Ember.Route.extend({
 
 App.CartsNewRoute = Ember.Route.extend({
   model: function() {
-    current_model = this.controllerFor('carts.new').get('model');
+    var current_model = this.controllerFor('cartsNew').get('model');
     return current_model || this.store.createRecord('cart');
+  },
+
+  renderTemplate: function() {
+    this.render();
+    this.render('inventoryItem', {
+      into: "carts.new",
+      outlet: 'inventoryItemSearch',
+      controller: this.controllerFor('inventoryItem')
+    });
+
+    this.render('carts/customer', {
+      into: "carts.new",
+      outlet: 'cartCustomer',
+      controller: this.controllerFor('cartsCustomer')
+    });
   },
 });
 
 App.OrdersIndexRoute = Ember.Route.extend({
   model: function() {
     var storeReport = this.store.find('storeReport');
-    this.controllerFor("store_reports").set("model", storeReport);
+    this.controllerFor("storeReports").set("model", storeReport);
 
     return this.store.find('order', {environment: "offline"});
   }

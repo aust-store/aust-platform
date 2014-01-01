@@ -1,5 +1,3 @@
-require "postgres_search/association_combinations"
-
 module PostgresSearch
   class Where
     def initialize(query, field)

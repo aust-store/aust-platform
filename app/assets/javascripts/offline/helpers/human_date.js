@@ -4,6 +4,10 @@
   @returns a date like 21/04/2013, 00:15
  */
 var humanDate = function(isoDate) {
+  if (!isoDate) {
+    return '';
+  }
+
   /**
     Matches the format `2013-04-21 00:15:09` as year, month, day, hour and
     minute

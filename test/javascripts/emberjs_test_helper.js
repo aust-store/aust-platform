@@ -10,21 +10,23 @@ var EmberTesting = {
     /**
      * Root element of the JSON response, if any
      */
-    this.root            = options.root || null,
-    this.contractUrl     = options.contractUrl;
-    this.response        = null;
+    this.root             = options.root || null,
+    this.contractUrl      = options.contractUrl;
+    this.underscoredAttrs = options.underscoredAttributes || false;
+    this.response         = null;
 
     this.assertAttributes = function() {
       var _this = this,
           localAttributes,
           remoteAttributes;
 
-      localAttributes = _this.localAttributes().map(function(attr) {
-        return Ember.String.decamelize(attr);
-      }).sort();
+      if (this.underscoredAttrs) {
+        localAttributes = this.decamelizeAttrs(_this.localAttributes());
+      }
 
       this.assert(function(response) {
-        QUnit.deepEqual(localAttributes, response.attributes.sort());
+        remoteAttributes = response.attributes;
+        QUnit.deepEqual(localAttributes.sort(), remoteAttributes.sort());
       });
     }
 
@@ -54,13 +56,13 @@ var EmberTesting = {
 
       localRelationships = ApplyExceptions(except, _this.localRelationships());
 
-      localRelationships = localRelationships.map(function(association) {
-        return Ember.String.decamelize(association);
-      }).sort();
+      if (this.underscoredAttrs) {
+        localRelationships = this.decamelizeAttrs(localRelationships);
+      }
 
       this.assert(function(response) {
         associations = ApplyExceptions(except, response.associations);
-        QUnit.deepEqual(localRelationships, associations.sort());
+        QUnit.deepEqual(localRelationships.sort(), associations.sort());
       });
     }
 
@@ -73,8 +75,15 @@ var EmberTesting = {
         }
 
         _this.model.FIXTURES.forEach(function(fixture) {
-          var fields = Object.keys(fixture);
-          QUnit.deepEqual(fields.sort(), response.attributes.sort());
+          var expectedFields = response.attributes.concat(_this.localRelationships()),
+              fields = Object.keys(fixture);
+
+          if (_this.underscoredAttrs) {
+            fields = _this.decamelizeAttrs(fields);
+            expectedFields = _this.decamelizeAttrs(expectedFields);
+          }
+
+          QUnit.deepEqual(fields.sort(), expectedFields.sort());
         });
       });
     }
@@ -126,6 +135,12 @@ var EmberTesting = {
       });
       return relationships;
     };
+
+    this.decamelizeAttrs = function(attrs) {
+      return attrs.map(function(attr) {
+        return Ember.String.decamelize(attr);
+      });
+    }
 
     return this;
   }

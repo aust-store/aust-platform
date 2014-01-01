@@ -1,7 +1,8 @@
 App.Order = DS.Model.extend({
   total:       DS.attr('number'),
-  created_at:  DS.attr('string'),
+  createdAt:   DS.attr('string'),
   environment: DS.attr('string'),
   cart:        DS.belongsTo('cart'),
-  items:       DS.hasMany('orderItem'),
+  orderItems:  DS.hasMany('orderItem'),
+  customer:    DS.belongsTo('customer')
 });

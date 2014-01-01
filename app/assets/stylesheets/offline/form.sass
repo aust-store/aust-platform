@@ -1,8 +1,43 @@
 input
-  &[type='text']
+  &.ember-text-field
     font-size: 1.0em
-    width: 98%
+    width: 60%
     height: 40px
     border-radius: 7px
     border: 1px solid #ddd
     padding: 0 5px
+
+  &.search
+    width: 98%
+
+div.input
+  display: table
+  width: 100%
+  margin: 0 0 4px 0
+
+  label
+    width: 26%
+    padding: 12px 3px 0 0
+    text-align: right
+    display: table
+    float: left
+
+  input.ember-text-field
+    display: table
+    float: left
+
+  button
+    margin: 15px 0 0 0
+    padding: 4px
+form
+  .actions
+    float: right
+    width: auto
+  span.error
+    margin: 0 0 15px 26%
+    display: block
+    padding-left: 10px
+    color: red
+    &:empty
+      display: none
+

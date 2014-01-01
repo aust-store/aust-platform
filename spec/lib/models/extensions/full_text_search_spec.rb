@@ -1,7 +1,7 @@
-require "model_extensions/full_text_search"
+require "models/extensions/full_text_search"
 
 class DummySearch
-  extend ModelExtensions::FullTextSearch
+  extend Models::Extensions::FullTextSearch
 
   def self.search_for(query)
     search do

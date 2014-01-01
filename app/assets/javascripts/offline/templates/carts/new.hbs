@@ -1,0 +1,61 @@
+<section>
+  <h1>Novo pedido</h1>
+
+  <div class="item_search"></div>
+
+  {{outlet inventoryItemSearch}}
+
+  <br />
+  <br />
+  <h2>{{itemsQuantityHeadline}}</h2>
+
+  <table class="listing carts">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{render "items"}}
+
+      {{#each controller.cartItems}}
+        <tr class="even">
+          <td>{{inventoryItem.name}}</td>
+          <td>R$ {{money price}}</td>
+        </tr>
+      {{/each}}
+
+      {{#if subtotal}}
+        <tr class="even cart_total">
+          <td>Total do pedido</td>
+          <td>R$ {{money subtotal}}</td>
+        </tr>
+      {{else}}
+        <tr class="">
+          <td colspan="2">Sem items no carrinho de compras</td>
+        </tr>
+      {{/if}}
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Cliente</h2>
+  {{outlet cartCustomer}}
+</section>
+
+{{#if isOrderReadyToBePlaced}}
+  <section>
+    <a href="#" class="place_order_button" title="place_order" {{action "placeOrder"}}>&nbsp;</a>
+  </section>
+{{/if}}
+
+{{#if isOrderPlaced}}
+  <section>
+    <div class="order_status order_placed">
+      Pedido concluído com sucesso!
+    </div>
+  </section>
+{{/if}}

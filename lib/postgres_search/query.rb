@@ -1,5 +1,3 @@
-require "postgres_search/where"
-
 module PostgresSearch
   class Query
     attr_accessor :joins, :model
