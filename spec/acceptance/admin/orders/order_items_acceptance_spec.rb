@@ -68,7 +68,9 @@ feature "Orders Management" do
         save_and_open_page
       end
 
-      page.should have_select("order_items_attributes_0_status", selected: "Enviado")
+      all("#order_items_attributes_0_status option")[0].should_not be_selected
+      all("#order_items_attributes_0_status option")[1].should be_selected
+      all("#order_items_attributes_0_status option")[2].should_not be_selected
     end
   end
 end

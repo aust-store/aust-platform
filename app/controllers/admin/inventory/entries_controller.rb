@@ -35,12 +35,12 @@ module Admin
         entry = item.balances.find(params[:id])
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
-            format.js { render json: item, status: 200 }
+            format.js { render json: item, status: 200, incremental_id: true }
             format.html { redirect_to params[:redirect_to] if params[:redirect_to].present? }
           end
         else
           respond_to do |format|
-            format.js { render json: item, status: 400 }
+            format.js { render json: item, status: 400, incremental_id: true }
             format.html { redirect_to params[:redirect_to] if params[:redirect_to].present? }
           end
         end
