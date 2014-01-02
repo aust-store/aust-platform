@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Order do
+  it_should_behave_like "uuid", :order, :uuid
+
   describe "validations" do
     context "environment" do
       it { should allow_value(:offline).for(:environment)  }

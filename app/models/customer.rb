@@ -16,13 +16,14 @@ class Customer < ActiveRecord::Base
   has_many :addresses, as: :addressable
   belongs_to :store, class_name: "Company"
 
+  # FIXME - remove this
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :social_security_number,
                   :home_number,      :work_number,      :mobile_number,
                   :home_area_number, :work_area_number, :mobile_area_number,
                   :receive_newsletter,
                   :store, :store_id, :addresses_attributes,
-                  :environment,
+                  :environment, :uuid,
                   :enabled
 
   # validations: always (both website and point of sale)

@@ -1,4 +1,8 @@
 class Order < ActiveRecord::Base
+  include Models::Extensions::UUID
+
+  uuid field: "uuid"
+
   attr_accessible :cart_id, :store_id, :customer_id, :items_attributes, :items,
                   :environment,
                   :customer, :store, :shipping_address, :shipping_details

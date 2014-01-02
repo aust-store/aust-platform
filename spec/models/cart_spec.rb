@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Cart do
+  it_should_behave_like "uuid", :cart, :uuid
+
   subject { Cart.new }
 
   describe "scopes" do

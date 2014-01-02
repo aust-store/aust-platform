@@ -1,4 +1,8 @@
 class OrderItem < ActiveRecord::Base
+  include Models::Extensions::UUID
+
+  uuid field: "uuid"
+
   belongs_to :order
   belongs_to :cart
   has_many :children, class_name: "OrderItem",

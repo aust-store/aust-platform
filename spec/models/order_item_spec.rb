@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe OrderItem do
+  it_should_behave_like "uuid", :order_item, :uuid
+
   describe "callbacks" do
     describe "#set_status_as_pending on before_validation" do
       it "sets the status field to pending" do

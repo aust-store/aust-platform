@@ -62,6 +62,33 @@ describe Admin::Api::CustomersController do
       }
     end
 
+    it "creates a customer with a passed UUID" do
+      pregenerated_uuid = SecureRandom.uuid
+      json_request = {
+        "customer" => {
+          id:         pregenerated_uuid,
+          first_name: "John",
+          last_name:  "Rambo",
+          email:      "email@rambowebsite.com",
+          social_security_number: "87738843403"
+        }
+      }
+      xhr :post, :create, json_request
+
+      Customer.last.uuid.should == pregenerated_uuid
+
+      json  = ActiveSupport::JSON.decode(response.body)
+      json.should == {
+        "customer" => {
+          "id"         => pregenerated_uuid,
+          "first_name" => "John",
+          "last_name"  => "Rambo",
+          "email"      => "email@rambowebsite.com",
+          "social_security_number" => "87738843403"
+        }
+      }
+    end
+
     it "returns an error message when needed" do
       json_request = {
         "customer" => {

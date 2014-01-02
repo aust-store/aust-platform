@@ -1,5 +1,7 @@
 class InventoryItem < ActiveRecord::Base
   extend Models::Extensions::FullTextSearch
+  include Models::Extensions::UUID
+  uuid field: "uuid"
 
   extend FriendlyId
   friendly_id :name, use: :slugged

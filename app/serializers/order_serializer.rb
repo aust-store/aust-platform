@@ -1,7 +1,7 @@
 class OrderSerializer < ActiveModel::Serializer
   attributes :id, :total, :created_at, :environment
 
-  has_many :items, key: :order_item_ids, root: :order_items, embed_in_root: true
+  has_many :items, key: :order_item_ids, root: :order_items, embed_key: :uuid, embed_in_root: true
   has_one :customer, key: :customer_id, root: :customer, embed_key: :uuid, embed_in_root: true
 
   def id

@@ -1,4 +1,8 @@
 class Cart < ActiveRecord::Base
+  include Models::Extensions::UUID
+
+  uuid field: "uuid"
+
   belongs_to :customer
   belongs_to :company
   has_many :items, class_name: "OrderItem"

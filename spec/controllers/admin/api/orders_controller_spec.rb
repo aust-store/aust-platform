@@ -97,16 +97,16 @@ describe Admin::Api::OrdersController do
           "total"          => order.total.to_s,
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
-          "order_item_ids" => order.items.map(&:id),
+          "order_item_ids" => order.items.map(&:uuid),
           "customer_id"    => order.customer.uuid
         },
         "order_items" => order.items.map { |item|
-          { "id"                 => item.id,
+          { "id"                 => item.uuid,
             "name"               => item.name,
             "quantity"           => item.quantity,
             "price"              => item.price.to_s,
-            "inventory_item_id"  => item.inventory_item_id,
-            "order_id"           => order.id,
+            "inventory_item_id"  => item.inventory_item.uuid,
+            "order_id"           => order.uuid,
             "inventory_entry_id" => item.inventory_entry_id }
         },
         "customers" => [{
@@ -120,12 +120,12 @@ describe Admin::Api::OrdersController do
 
       order.items.each do |item|
         json["order_items"].should include(
-          { "id"                 => item.id,
+          { "id"                 => item.uuid,
             "name"               => item.name,
             "quantity"           => item.quantity,
             "price"              => item.price.to_s,
-            "inventory_item_id"  => item.inventory_item_id,
-            "order_id"           => order.id,
+            "inventory_item_id"  => item.inventory_item.uuid,
+            "order_id"           => order.uuid,
             "inventory_entry_id" => item.inventory_entry_id }
         )
       end

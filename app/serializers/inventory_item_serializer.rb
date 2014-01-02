@@ -3,6 +3,10 @@ class InventoryItemSerializer < ActiveModel::Serializer
 
   include ::ActionView::Helpers::NumberHelper
 
+  def id
+    object.uuid
+  end
+
   def price
     object.price
   end

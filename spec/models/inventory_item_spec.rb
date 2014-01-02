@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe InventoryItem do
+  it_should_behave_like "uuid", :inventory_item, :uuid
+
   describe "scopes" do
     describe "#with_entry_for_sale" do
       it "should return the correct entries" do

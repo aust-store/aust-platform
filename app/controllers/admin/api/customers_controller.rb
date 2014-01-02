@@ -29,9 +29,11 @@ class Admin::Api::CustomersController < Admin::Api::ApplicationController
   private
 
   def customer_params
-    params
+    resource_params = params
       .require(:customer)
-      .permit(:first_name, :last_name, :email, :social_security_number)
+      .permit(:id, :first_name, :last_name, :email, :social_security_number)
       .merge(environment: "point_of_sale")
+
+    replace_id_with_uuid(resource_params)
   end
 end

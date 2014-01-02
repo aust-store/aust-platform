@@ -18,13 +18,13 @@ describe Admin::Api::InventoryItemsController do
 
       ActiveSupport::JSON.decode(response.body).should == {
         "inventory_items" => [
-          { "id"                => @item_not_on_sale.id,
+          { "id"                => @item_not_on_sale.uuid,
             "name"              => @item_not_on_sale.name,
             "description"       => @item_not_on_sale.description,
             "price"             => 0,
             "entry_for_sale_id" => nil,
             "on_sale"           => false },
-          { "id"                => @item.id,
+          { "id"                => @item.uuid,
             "name"              => @item.name,
             "description"       => @item.description,
             "price"             => "12.34",
@@ -39,7 +39,7 @@ describe Admin::Api::InventoryItemsController do
 
       ActiveSupport::JSON.decode(response.body).should == {
         "inventory_items" => [
-          { "id"                => @item.id,
+          { "id"                => @item.uuid,
             "name"              => @item.name,
             "description"       => @item.description,
             "price"             => "12.34",

@@ -11,14 +11,16 @@ describe Admin::Api::CartsController do
 
   describe "POST create" do
     it "creates carts" do
-      xhr :post, :create, { cart: {total: 0} }
+      pregenerated_uuid = SecureRandom.uuid
+      xhr :post, :create, { cart: {id: pregenerated_uuid, total: 0} }
 
       cart  = Cart.first
+      cart.uuid.should == pregenerated_uuid
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
         "cart" => {
-          "id"    => cart.id,
+          "id"    => pregenerated_uuid,
           "total" => "0.0",
           "cart_item_ids" => []
         },
@@ -30,7 +32,7 @@ describe Admin::Api::CartsController do
   describe "PUT update" do
     it "updates carts" do
       xhr :put, :update, {
-        id: cart.id,
+        id: cart.uuid,
         cart: {
           total: 0,
           customer_id: customer.uuid
@@ -42,19 +44,19 @@ describe Admin::Api::CartsController do
 
       json.should == {
         "cart" => {
-          "id"    => cart.id,
+          "id"    => cart.uuid,
           "total" => "55.76",
-          "cart_item_ids" => cart.items.map(&:id),
+          "cart_item_ids" => cart.items.map(&:uuid),
           "customer_id" => customer.uuid
         },
         "cart_items" => cart.items.map { |item|
-          { "id" => item.id,
+          { "id" => item.uuid,
             "name" => item.name,
             "quantity" => item.quantity,
             "price" => item.price.to_s,
             "inventory_entry_id" => item.inventory_entry_id,
             "order_id" => nil,
-            "inventory_item_id" => item.inventory_item_id
+            "inventory_item_id" => item.inventory_item.uuid
           }
         },
         "customers" => [{

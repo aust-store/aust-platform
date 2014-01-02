@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::CartItemsController < Admin::ApplicationController
+class Admin::Api::CartItemsController < Admin::Api::ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
@@ -17,7 +17,7 @@ class Admin::Api::CartItemsController < Admin::ApplicationController
   end
 
   def create
-    cart = current_company.carts.find(cart_id)
+    cart = current_company.carts.find_by_uuid(cart_id)
     item = cart.items.build(cart_item_params)
     item.save
 
@@ -31,8 +31,13 @@ class Admin::Api::CartItemsController < Admin::ApplicationController
   end
 
   def cart_item_params
-    params
+    resource_params = params
       .require(:cart_item)
-      .permit(:price, :inventory_entry_id, :cart_id, :inventory_item_id)
+      .permit(:id, :price, :inventory_entry_id, :cart_id, :inventory_item_id)
+
+    resource_params = replace_uuid_with_id(resource_params,
+                                           current_company.items,
+                                           :inventory_item_id)
+    replace_id_with_uuid(resource_params)
   end
 end
