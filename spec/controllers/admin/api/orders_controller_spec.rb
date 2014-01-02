@@ -22,13 +22,13 @@ describe Admin::Api::OrdersController do
 
         json.should == {
           "orders" => [{
-            "id"          => offline_order.id,
+            "id"          => offline_order.uuid,
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "customer_id" => offline_order.customer.uuid,
           }, {
-            "id"          => website_order.id,
+            "id"          => website_order.uuid,
             "total"       => website_order.total.to_s,
             "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "website",
@@ -59,7 +59,7 @@ describe Admin::Api::OrdersController do
 
         json.should == {
           "orders" => [{
-            "id"          => offline_order.id,
+            "id"          => offline_order.uuid,
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
@@ -83,7 +83,7 @@ describe Admin::Api::OrdersController do
       cart = FactoryGirl.create(:offline_cart, company: @company)
       json_request = {
         "order" => {
-          "cart_id" => cart.id
+          "cart_id" => cart.uuid
         }
       }
       xhr :post, :create, json_request
@@ -93,12 +93,12 @@ describe Admin::Api::OrdersController do
 
       json.should == {
         "order" => {
-          "id"             => order.id,
+          "id"             => order.uuid,
           "total"          => order.total.to_s,
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
           "order_item_ids" => order.items.map(&:id),
-          "customer_id"       => order.customer.uuid
+          "customer_id"    => order.customer.uuid
         },
         "order_items" => order.items.map { |item|
           { "id"                 => item.id,

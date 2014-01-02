@@ -17,7 +17,7 @@ class Admin::Api::OrdersController < Admin::ApplicationController
   end
 
   def create
-    cart = current_company.carts.find(order_params[:cart_id])
+    cart = current_company.carts.find_by_uuid(order_params[:cart_id])
 
     sale = Store::Sale.new(cart)
     sale.close

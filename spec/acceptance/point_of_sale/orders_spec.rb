@@ -8,7 +8,7 @@ feature "Point of sale's orders", js: true do
     click_link "go_to_point_of_sale"
   end
 
-  describe "creating an order" do
+  pending "creating an order" do
     before do
       # there are no orders in the database
       Order.count.should == 0
