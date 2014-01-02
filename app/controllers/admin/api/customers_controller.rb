@@ -18,7 +18,7 @@ class Admin::Api::CustomersController < Admin::Api::ApplicationController
   end
 
   def update
-    resource = current_company.customers.find(params[:id])
+    resource = current_company.customers.find_by_uuid(params[:id])
     if resource.update_attributes(customer_params)
       render json: resource
     else

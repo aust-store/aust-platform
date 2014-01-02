@@ -33,7 +33,7 @@ describe Admin::Api::CartsController do
         id: cart.id,
         cart: {
           total: 0,
-          customer_id: customer.id
+          customer_id: customer.uuid
         }
       }
 
@@ -45,7 +45,7 @@ describe Admin::Api::CartsController do
           "id"    => cart.id,
           "total" => "55.76",
           "cart_item_ids" => cart.items.map(&:id),
-          "customer_id" => customer.id
+          "customer_id" => customer.uuid
         },
         "cart_items" => cart.items.map { |item|
           { "id" => item.id,
@@ -58,7 +58,7 @@ describe Admin::Api::CartsController do
           }
         },
         "customers" => [{
-          "id" => customer.id,
+          "id" => customer.uuid,
           "first_name" => customer.first_name,
           "last_name" => customer.last_name,
           "email" => customer.email,

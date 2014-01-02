@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Customer do
   it_should_behave_like "addressable", :customer
+  it_should_behave_like "uuid", :customer, :uuid
 
   describe "has_password" do
     it "is set to true by default" do

@@ -21,7 +21,7 @@ describe Admin::Api::CustomersController do
 
       json.should == {
         "customers" => [
-          { "id"         => customer1.id,
+          { "id"         => customer1.uuid,
             "first_name" => "Luke",
             "last_name"  => "Skywalker",
             "email"      => "new_hope@gmail.com",
@@ -53,7 +53,7 @@ describe Admin::Api::CustomersController do
       json  = ActiveSupport::JSON.decode(response.body)
       json.should == {
         "customer" => {
-          "id"         => customer.id,
+          "id"         => customer.uuid,
           "first_name" => "John",
           "last_name"  => "Rambo",
           "email"      => "email@rambowebsite.com",
@@ -94,7 +94,7 @@ describe Admin::Api::CustomersController do
       customer = FactoryGirl.create(:customer, store: @company)
 
       json_request = {
-        id: customer.id,
+        id: customer.uuid,
         "customer" => {
           "first_name" => "Ace2",
           "last_name"  => "Ventura2",
@@ -111,7 +111,7 @@ describe Admin::Api::CustomersController do
       json  = ActiveSupport::JSON.decode(response.body)
       json.should == {
         "customer" => {
-          "id"         => customer.id,
+          "id"         => customer.uuid,
           "first_name" => "Ace2",
           "last_name"  => "Ventura2",
           "email"      => "ace@ventura2.co.uk",
@@ -124,7 +124,7 @@ describe Admin::Api::CustomersController do
       customer = FactoryGirl.create(:customer, :pos, store: @company)
 
       json_request = {
-        id: customer.id,
+        id: customer.uuid,
         "customer" => {
           "first_name" => "",
           "last_name"  => "",

@@ -51,6 +51,20 @@ CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
 COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
 
 
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -221,7 +235,8 @@ CREATE TABLE carts (
     company_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255)
+    environment character varying(255),
+    uuid uuid
 );
 
 
@@ -382,7 +397,8 @@ CREATE TABLE customers (
     store_id integer,
     enabled boolean DEFAULT true,
     environment character varying(255),
-    has_password boolean DEFAULT true
+    has_password boolean DEFAULT true,
+    uuid uuid
 );
 
 
@@ -622,7 +638,8 @@ CREATE TABLE inventory_items (
     year integer,
     manufacturer_id integer,
     moving_average_cost numeric(8,2),
-    slug character varying(255)
+    slug character varying(255),
+    uuid uuid
 );
 
 
@@ -693,7 +710,8 @@ CREATE TABLE order_items (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     status character varying(255),
-    parent_id integer
+    parent_id integer,
+    uuid uuid
 );
 
 
@@ -769,7 +787,8 @@ CREATE TABLE orders (
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255)
+    environment character varying(255),
+    uuid uuid
 );
 
 
@@ -1576,6 +1595,13 @@ CREATE INDEX index_carts_on_environment ON carts USING btree (environment);
 
 
 --
+-- Name: index_carts_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_carts_on_uuid ON carts USING btree (uuid);
+
+
+--
 -- Name: index_companies_on_domain; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1671,6 +1697,13 @@ CREATE UNIQUE INDEX index_customers_on_reset_password_token ON customers USING b
 --
 
 CREATE INDEX index_customers_on_store_id ON customers USING btree (store_id);
+
+
+--
+-- Name: index_customers_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_uuid ON customers USING btree (uuid);
 
 
 --
@@ -1786,6 +1819,13 @@ CREATE INDEX index_inventory_items_on_taxonomy_id ON inventory_items USING btree
 
 
 --
+-- Name: index_inventory_items_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_uuid ON inventory_items USING btree (uuid);
+
+
+--
 -- Name: index_manufacturers_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1842,6 +1882,13 @@ CREATE INDEX index_order_items_on_status ON order_items USING btree (status);
 
 
 --
+-- Name: index_order_items_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_order_items_on_uuid ON order_items USING btree (uuid);
+
+
+--
 -- Name: index_order_shippings_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1881,6 +1928,13 @@ CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 --
 
 CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
+
+
+--
+-- Name: index_orders_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_uuid ON orders USING btree (uuid);
 
 
 --
@@ -2197,3 +2251,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131230034242');
 INSERT INTO schema_migrations (version) VALUES ('20131230050607');
 
 INSERT INTO schema_migrations (version) VALUES ('20131230090113');
+
+INSERT INTO schema_migrations (version) VALUES ('20140102130350');
+
+INSERT INTO schema_migrations (version) VALUES ('20140102130528');

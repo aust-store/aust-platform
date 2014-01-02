@@ -1,7 +1,5 @@
 # encoding: utf-8
-class Admin::Api::CartsController < Admin::ApplicationController
-  skip_before_filter :verify_authenticity_token
-
+class Admin::Api::CartsController < Admin::Api::ApplicationController
   def create
     cart = current_company.carts.create_offline(cart_params)
     render json: cart
@@ -16,8 +14,10 @@ class Admin::Api::CartsController < Admin::ApplicationController
   private
 
   def cart_params
-    params
+    resource_params = params
       .require(:cart)
       .permit(:customer_id)
+
+    replace_uuid_with_id(resource_params, current_company.customers, :customer_id)
   end
 end

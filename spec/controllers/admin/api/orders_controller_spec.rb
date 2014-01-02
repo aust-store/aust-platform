@@ -26,22 +26,22 @@ describe Admin::Api::OrdersController do
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
-            "customer_id" => offline_order.customer.id,
+            "customer_id" => offline_order.customer.uuid,
           }, {
             "id"          => website_order.id,
             "total"       => website_order.total.to_s,
             "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "website",
-            "customer_id" => website_order.customer.id,
+            "customer_id" => website_order.customer.uuid,
           }],
           "customers" => [{
-            "id"         => offline_order.customer.id,
+            "id"         => offline_order.customer.uuid,
             "first_name" => offline_order.customer.first_name,
             "last_name"  => offline_order.customer.last_name,
             "email"      => offline_order.customer.email,
             "social_security_number" => offline_order.customer.social_security_number
           }, {
-            "id"         => website_order.customer.id,
+            "id"         => website_order.customer.uuid,
             "first_name" => website_order.customer.first_name,
             "last_name"  => website_order.customer.last_name,
             "email"      => website_order.customer.email,
@@ -63,10 +63,10 @@ describe Admin::Api::OrdersController do
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
-            "customer_id" => offline_order.customer.id
+            "customer_id" => offline_order.customer.uuid
           }],
           "customers" => [{
-            "id"         => offline_order.customer.id,
+            "id"         => offline_order.customer.uuid,
             "first_name" => offline_order.customer.first_name,
             "last_name"  => offline_order.customer.last_name,
             "email"      => offline_order.customer.email,
@@ -98,7 +98,7 @@ describe Admin::Api::OrdersController do
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
           "order_item_ids" => order.items.map(&:id),
-          "customer_id"       => order.customer.id
+          "customer_id"       => order.customer.uuid
         },
         "order_items" => order.items.map { |item|
           { "id"                 => item.id,
@@ -110,7 +110,7 @@ describe Admin::Api::OrdersController do
             "inventory_entry_id" => item.inventory_entry_id }
         },
         "customers" => [{
-          "id"         => order.customer.id,
+          "id"         => order.customer.uuid,
           "first_name" => order.customer.first_name,
           "last_name"  => order.customer.last_name,
           "email"      => order.customer.email,

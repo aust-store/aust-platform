@@ -1,5 +1,8 @@
 class Customer < ActiveRecord::Base
   extend Models::Extensions::FullTextSearch
+  include Models::Extensions::UUID
+
+  uuid field: "uuid"
 
   VALID_ENVIRONMENTS = ["website", "point_of_sale"]
   # Used for creating users at the Point of Sale, customers which won't have
