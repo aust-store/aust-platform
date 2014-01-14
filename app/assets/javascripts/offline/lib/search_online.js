@@ -10,24 +10,85 @@ App.SearchOnline = Ember.Object.extend({
   onlineStore: null,
 
   /**
-   * Finds a record through the online store. Then, persists that record
-   * offline.
+   * Finds a record both offline and online, returning the first to be found.
+   * If an online record is found, it is then pushed into the offline store,
+   * which should automatically update the references to the original record
+   * (if this was changed).
    *
    * Use this just like regular store's `find()`.
    *
    * @method find
    * @param {string} type
    * @param {object} query
+   * @return {Promise}
    */
   find: function(type, query) {
     var storeSync = this,
-        search = this.onlineStore.find(type, query),
-        asyncResult = Ember.A();
+        offlineSearch = this.offlineStore.find(type, query),
+        onlineSearch = this.onlineStore.find(type, query);
 
-    search.then(function(results) {
-      if (results.get('id') && !results.length) {
-        results = Ember.A([results]);
-      }
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      var isResolved = false,
+          offlineNotFound, onlineNotFound;
+
+      offlineSearch.then(function(result) {
+        if (result.get('id') && !isResolved) {
+          resolve(result);
+          isResolved = true;
+        }
+      }, function(error) {
+        offlineNotFound = true;
+        if (offlineNotFound && onlineNotFound) { reject(error); }
+      });
+
+      onlineSearch.then(function(result) {
+        var id = result.get('id'),
+            persistenceState = storeSync.offlineStore.find(type, id);
+
+        var persistRecordOffline = function(onlineRecord) {
+          storeSync.persistRecordOffline(type, result);
+        };
+
+        persistenceState.then(persistRecordOffline, persistRecordOffline);
+        if (!isResolved) {
+          resolve(result);
+          isResolved = true;
+        }
+      }, function(error) {
+        onlineNotFound = true;
+        if (offlineNotFound && onlineNotFound) { reject(error); }
+      });
+    });
+  },
+
+  /**
+   * Queries both online and offline stores simultaneously, returning values
+   * asynchronously into a stream of results (Ember.A()).
+   *
+   * The records found online are stored into the offline store.
+   *
+   * Use this just like regular store's `findQuery()`. Remember, though, it
+   * doesn't return a Promise, but you can use `.then()` even so.
+   *
+   * @method findQuery
+   * @param {string} type
+   * @param {object} query
+   * @return {Ember.A}
+   */
+  findQuery: function(type, query) {
+    var storeSync = this,
+        offlineSearch = this.offlineStore.find(type, query),
+        onlineSearch = this.onlineStore.find(type, query),
+        resultStream = Ember.A();
+
+    offlineSearch.then(function(results) {
+      results = storeSync.toArray(results);
+      storeSync.addResultToResultStream(resultStream, results);
+    });
+
+    onlineSearch.then(function(results) {
+      results = storeSync.toArray(results);
+      storeSync.addResultToResultStream(resultStream, results);
 
       results.forEach(function(onlineResult) {
         var id = onlineResult.get('id'),
@@ -41,7 +102,7 @@ App.SearchOnline = Ember.Object.extend({
       });
     });
 
-    return search;
+    return resultStream;
   },
 
   /**
@@ -59,6 +120,34 @@ App.SearchOnline = Ember.Object.extend({
 
     model = this.offlineStore.push(type, serialized);
     model.save();
+  },
+
+  /**
+   * Takes an array of the latest results and pushes into the result Stream.
+   * This takes into account existing record.
+   *
+   * @method persistRecordOffline
+   * @param {string} type
+   * @param {DS.Model} record
+   */
+  addResultToResultStream: function(resultStream, results) {
+    if (results.get('length')) {
+      results.forEach(function(record) {
+        var id = record.get('id'),
+            duplicatedId = resultStream.mapBy("id").contains(id);
+
+        if (id && (!resultStream.length || !duplicatedId)) {
+          resultStream.pushObject(record);
+        }
+      });
+    }
+  },
+
+  toArray: function(objectOrArray) {
+    if (objectOrArray.get('id') && !objectOrArray.length) {
+      objectOrArray = Ember.A([objectOrArray]);
+    }
+    return objectOrArray;
   },
 
   offlineSerializer: function(type) {

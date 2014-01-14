@@ -114,7 +114,14 @@ function resetFixtures() {
   }, {
     id: 2,
     name: "Fender",
-    description: "Super guitar 2",
+    description: "Fender 1",
+    price: 100.0,
+    entry_for_sale_id: 2,
+    on_sale: true
+  }, {
+    id: 4,
+    name: "Fender",
+    description: "Fender 3",
     price: 100.0,
     entry_for_sale_id: 2,
     on_sale: true

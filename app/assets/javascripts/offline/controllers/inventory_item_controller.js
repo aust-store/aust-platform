@@ -20,7 +20,7 @@ App.InventoryItemController = Ember.ArrayController.extend({
       var value = _this.get('searchQuery');
       if (typeof value == "string" && value.length > 0) {
         var search = App.SearchOnline.create({container: _this});
-        results = search.find('inventoryItem', { search: value, on_sale: true });
+        results = search.findQuery('inventoryItem', { search: value, on_sale: true });
 
         if (_this)
           _this.set('content', results);

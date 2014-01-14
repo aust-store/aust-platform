@@ -355,8 +355,12 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
               result.push(cursor.value);
               cursor.continue();
             } else {
-              resolve(result);
               db.close();
+              if (result.length) {
+                resolve(result);
+              } else {
+                reject();
+              }
             }
           });
         }
@@ -432,7 +436,11 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
               cursor.continue();
             } else {
-              resolve(result);
+              if (result.length) {
+                resolve(result);
+              } else {
+                reject();
+              }
               db.close();
             }
           });

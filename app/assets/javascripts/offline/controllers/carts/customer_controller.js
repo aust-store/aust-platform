@@ -14,7 +14,7 @@ App.CartsCustomerController = Ember.ArrayController.extend({
     Ember.run.later(function() {
       if (typeof searchQuery == "string" && searchQuery.length > 0) {
         var search = App.SearchOnline.create({container: _this});
-        searchResults = search.find('customer', { search: searchQuery });
+        searchResults = search.findQuery('customer', { search: searchQuery });
 
         _this.set('content', searchResults);
       } else
