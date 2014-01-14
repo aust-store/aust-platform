@@ -1,4 +1,15 @@
-CustomFixtureAdapter = DS.FixtureAdapter.extend({
+/**
+ * In the app, there are 2 stores, one for offline (using IndexedDB) and another
+ * for online connection (using ActiveModel).
+ *
+ * This is the store and adapter used to simulate online connection under
+ * tests using QUNIT.
+ */
+var registeredNameForOnlineAdapter = "_custom_fixture_adapter";
+
+var CustomFixtureSerializer = DS.JSONSerializer.extend();
+var CustomFixtureAdapter = DS.FixtureAdapter.extend({
+
   /**
    * Used for querying the Fixtures with this.store.find(...)
    */
@@ -28,28 +39,42 @@ CustomFixtureAdapter = DS.FixtureAdapter.extend({
   }
 });
 
-DS.JSONSerializer.reopen({
-  serializeHasMany : function(record, json, relationship) {
-    var key = relationship.key;
+DS.OnlineStore = DS.Store.extend({
+  defaultAdapter: CustomFixtureAdapter,
 
-    var relationshipType = DS.RelationshipChange.determineRelationshipType(
-      record.constructor, relationship);
+  adapterFor: function(type) {
+    return this.container.lookup('adapter:' + registeredNameForOnlineAdapter);
+  },
 
-    /**
-     * Hack to allow FixtureAdapter to not lose hasMany relationships
-     */
-    if (relationshipType === 'manyToNone'
-        || relationshipType === 'manyToMany'
-        || relationshipType === 'manyToOne') {
-        json[key] = Ember.get(record, key).mapBy('id');
-        // TODO support for polymorphic manyToNone and manyToMany
-        // relationships
-    }
+  serializerFor: function(type) {
+    return this.container.lookup('serializer:' + registeredNameForOnlineAdapter);
   }
 });
-App.ApplicationAdapter = CustomFixtureAdapter;
-App.ApplicationSerializer = DS.RESTSerializer.extend();
 
+var optionsForOnlineStore = {
+  store: DS.OnlineStore,
+  registeredName: registeredNameForOnlineAdapter,
+  adapter: CustomFixtureAdapter,
+  serializer: CustomFixtureSerializer
+}
+
+/**
+ * Registers the store within Ember application
+ */
+Ember.onLoad('Ember.Application', function(Application) {
+  Application.initializer({
+    name: "onlineStore",
+
+    initialize: function(container, application) {
+      registerOnlineStoreIntoContainer(container, optionsForOnlineStore);
+      injectOnlineStoreIntoApplication(container, application);
+    }
+  });
+});
+
+/**
+ * FIXTURES
+ */
 function resetFixtures() {
   App.Order.FIXTURES = [{
     id: 1,
@@ -84,6 +109,13 @@ function resetFixtures() {
     name: "Ibanez",
     description: "Super guitar",
     price: 10.0,
+    entry_for_sale_id: 2,
+    on_sale: true
+  }, {
+    id: 2,
+    name: "Fender",
+    description: "Super guitar 2",
+    price: 100.0,
     entry_for_sale_id: 2,
     on_sale: true
   }];

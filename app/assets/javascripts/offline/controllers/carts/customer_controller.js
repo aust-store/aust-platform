@@ -4,7 +4,7 @@ App.CartsCustomerController = Ember.ArrayController.extend({
   currentCustomer: null,
 
   isCustomerDefined: function() {
-    return this.cart().get('customer.firstName');
+    return !!this.cart().get('customer.firstName');
   }.property('controllers.cartsNew.content.customer.firstName'),
 
   userTyping: function(value) {
@@ -13,7 +13,8 @@ App.CartsCustomerController = Ember.ArrayController.extend({
 
     Ember.run.later(function() {
       if (typeof searchQuery == "string" && searchQuery.length > 0) {
-        searchResults = _this.store.find('customer', { search: searchQuery });
+        var search = App.SearchOnline.create({container: _this});
+        searchResults = search.find('customer', { search: searchQuery });
 
         _this.set('content', searchResults);
       } else
@@ -53,7 +54,7 @@ App.CartsCustomerController = Ember.ArrayController.extend({
 
       cart.set('customer', customer);
       this.set("currentCustomer", customer);
-      cart.save().then(function(c) { }, function(error) { cl(error); });
+      cart.save().then(null, function(error) { console.log(error); });
     },
 
     resetSearch: function() {

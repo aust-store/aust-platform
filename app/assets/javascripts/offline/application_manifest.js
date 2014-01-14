@@ -6,27 +6,21 @@
 //= require_tree ./vendor/
 //= require_self
 
+//= require ./initialization/application
+//= require ./initialization/config
+//= require ./initialization/debugging_helpers
+//= require ./initialization/online_store
+//= require_tree ./initialization
+
 //= require ./store/online_store
 //= require ./store/offline_store
-//= require ./store/initializers
 //= require_tree ./store
 
-//= require ./routes
+//= require_tree ./routes
+//= require_tree ./lib/
 //= require_tree ./helpers/
 //= require_tree ./controllers/
 //= require_tree ./models/
 //= require_tree ./views/
 //= require ./templates/index
 //= require_tree ./templates/
-
-var attr = DS.attr,
-App = Ember.Application.create({
-  LOG_TRANSITIONS: true
-});
-
-/**
- * used in Em.run.later(), e.g deferring search when user types characters
- */
-App.defaultSearchDelay = 400;
-
-function cl(str) { console.log(str); }

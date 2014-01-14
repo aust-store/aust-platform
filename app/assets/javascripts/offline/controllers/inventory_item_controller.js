@@ -10,7 +10,7 @@ App.InventoryItemController = Ember.ArrayController.extend({
 
     this.get('controllers.carts_new').set('isOrderPlaced', false);
 
-    Ember.run.later(this, function() {
+    Ember.run(this, function() {
       /**
        * This is a hack to fix 'set on destroyed object' error on tests with
        * App.reset();
@@ -19,18 +19,16 @@ App.InventoryItemController = Ember.ArrayController.extend({
 
       var value = _this.get('searchQuery');
       if (typeof value == "string" && value.length > 0) {
-        searchResults = _this.store.find('inventoryItem', {
-          search: value,
-          on_sale: true
-        });
+        var search = App.SearchOnline.create({container: _this});
+        results = search.find('inventoryItem', { search: value, on_sale: true });
 
         if (_this)
-          _this.set('content', searchResults);
+          _this.set('content', results);
       } else {
         if (_this)
           _this.set('content', null);
       }
-    }, App.defaultSearchDelay);
+    });//, App.defaultSearchDelay);
 
   }.observes("searchQuery"),
 
@@ -51,22 +49,20 @@ App.InventoryItemController = Ember.ArrayController.extend({
       this.get('controllers.application').set('cartHasItems', true);
       new_cart_controller.updateItemsQuantityHeadline();
 
-      SaveItem = function(cart) {
-        item = _this.store.createRecord('cartItem', {
-          cart: cart,
-          price: inventoryItem.get('price'),
-          inventoryItem: inventoryItem,
-          inventoryEntryId: inventoryItem.get('entryForSaleId')
+      item = this.store.createRecord('cartItem', {
+        price: inventoryItem.get('price'),
+        inventoryItem: inventoryItem,
+        inventoryEntryId: inventoryItem.get('entryForSaleId')
+      });
+      cart.get("cartItems").pushObject(item);
+
+      return cart.save().then(function() {
+        return item.save().then(null, function(error) {
+          console.log("Error saving item cart");
         });
-
-        return item.save();
-      }
-
-      if (cart.get("isNew")) {
-        cart.save().then(SaveItem, function(error) { cl(error); });
-      } else {
-        SaveItem(cart);
-      }
+      }, function(error) {
+        console.log("Error saving cart");
+      });
     }
   }
 

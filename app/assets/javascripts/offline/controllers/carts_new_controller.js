@@ -42,10 +42,11 @@ App.CartsNewController = Ember.ObjectController.extend({
   }.observes('cartItems.length'),
 
   defineOrderReadyToBePlaced: function() {
-    if (this.get('content').isValid() )
+    if (this.get('content').isValid()) {
       this.set('isOrderReadyToBePlaced', true);
-    else
+    } else {
       this.set('isOrderReadyToBePlaced', false);
+    }
   }.observes('cartItems.length', 'customer'),
 
   /**

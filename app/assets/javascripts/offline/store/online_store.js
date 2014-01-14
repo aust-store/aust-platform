@@ -1,4 +1,7 @@
-DS.CustomActiveModelAdapter = DS.ActiveModelAdapter.extend({
+/**
+ * This OnlineStore is added to Ember container via initialization/store.js
+ */
+DS.CustomOnlineAdapter.reopen({
   namespace: 'admin/api/v1'
 });
 
@@ -12,11 +15,10 @@ DS.CustomActiveModelAdapter = DS.ActiveModelAdapter.extend({
  */
 DS.OnlineStore = DS.Store.extend({
   adapterFor: function(type) {
-    console.log("yay I'm here");
-    return DS.CustomActiveModelAdapter.create();
+    return this.container.lookup('adapter:' + registeredNameForOnlineAdapter);
   },
 
   serializerFor: function(type) {
-    return DS.ActiveModelSerializer.create();
+    return this.container.lookup('serializer:' + registeredNameForOnlineAdapter);
   }
 });

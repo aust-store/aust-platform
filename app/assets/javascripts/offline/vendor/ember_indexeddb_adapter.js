@@ -132,11 +132,18 @@ DS.IndexedDBMigration = Ember.Object.extend({
 
 DS.IndexedDBSerializer = DS.JSONSerializer.extend({
 
+  normalize: function(type, hash) {
+    var r = this._super(type, hash);
+    return r;
+  },
+
   serializeHasMany: function(record, json, relationship) {
     var key = relationship.key,
         relationshipType = DS.RelationshipChange.determineRelationshipType(record.constructor, relationship);
 
-    if (relationshipType === 'manyToNone' || relationshipType === 'manyToMany' || relationshipType === 'manyToOne') {
+    if (relationshipType === 'manyToNone' ||
+        relationshipType === 'manyToMany' ||
+        relationshipType === 'manyToOne') {
       json[key] = record.get(key).mapBy('id');
     // TODO support for polymorphic manyToNone and manyToMany relationships
     }
@@ -298,9 +305,10 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
               });
             } else {
               if (!record) {
-                record = adapter.defaultEmptyReturn();
+                reject();
+              } else {
+                resolve(record);
               }
-              resolve(record);
             }
 
             db.close();
@@ -554,7 +562,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
           var result = this.result;
           Em.run(function() {
             if (Ember.testing) {
-              console.error('"Add" request error: ' + result);
+              console.error('Add request error: ' + result);
             }
             reject(result);
             db.close();
@@ -798,7 +806,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
          * In this case, cart belongsTo customer and its id is present in the
          * main payload. We find each of these records and add them to _embedded.
          */
-        if (relationEmbeddedId) {
+        if (Ember.A(relationEmbeddedId).length) {
           if (relationType == 'belongsTo' || relationType == 'hasOne') {
             promise = adapter.find(null, relationModel, relationEmbeddedId, opts)
           } else if (relationType == 'hasMany') {
@@ -807,7 +815,8 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
           embedPromise = new Ember.RSVP.Promise(function(resolve, reject) {
             promise.then(function(relationRecord) {
-              resolve(adapter.addEmbeddedPayload(record, relationName, relationRecord));
+              var finalPayload = adapter.addEmbeddedPayload(record, relationName, relationRecord)
+              resolve(finalPayload);
             });
           });
 
@@ -859,7 +868,11 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
    * @param {Object} relationshipRecord
    */
   addEmbeddedPayload: function(payload, relationshipName, relationshipRecord) {
-    if (relationshipRecord) {
+    var objectHasId = (relationshipRecord && relationshipRecord.id),
+        arrayHasIds = (relationshipRecord.length && relationshipRecord.everyBy("id")),
+        isValidRelationship = (objectHasId || arrayHasIds);
+
+    if (isValidRelationship) {
       if (!payload['_embedded']) {
         payload['_embedded'] = {}
       }
@@ -871,6 +884,17 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
         payload[relationshipName] = relationshipRecord.id;
       }
     }
+
+    var isArray = function(value) {
+      return Object.prototype.toString.call(value) === '[object Array]';
+    }
+
+    if (isArray(payload[relationshipName]) && payload[relationshipName].length) {
+      payload[relationshipName] = payload[relationshipName].filter(function(id) {
+        return id;
+      });
+    }
+
     return payload;
   },
 
