@@ -13,5 +13,9 @@ App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
       _this.addModel(App.OrderItem);
       _this.addModel(App.StoreReport);
     });
+  },
+
+  generateIdForRecordx: function() {
+    return uuid.v4();
   }
 });

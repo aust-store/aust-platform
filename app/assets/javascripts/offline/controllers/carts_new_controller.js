@@ -70,6 +70,7 @@ App.CartsNewController = Ember.ObjectController.extend({
 
       order = this.store.createRecord('order', {
         cart: this.get('content'),
+        customer: this.get('content.customer'),
         createdAt: new Date()
       });
 

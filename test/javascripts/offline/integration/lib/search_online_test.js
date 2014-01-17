@@ -1,10 +1,10 @@
 //= require offline_test_helper
 
-var env = {}, searchOnline, store, mock, onlineResults,
+var env = {}, emberSync, store, mock, onlineResults,
     onlineStore,
     container;
 
-module("Integration/Lib/SearchOnline", {
+module("Integration/Lib/EmberSync", {
   setup: function() {
     mock = null;
     setupEmberTest();
@@ -13,7 +13,7 @@ module("Integration/Lib/SearchOnline", {
     env = setupOfflineOnlineStore({ inventoryItem: App.InventoryItem });
     store = env.store;
     onlineStore = env.onlineStore;
-    searchOnline = App.SearchOnline.create({ container: env });
+    emberSync = App.EmberSync.create({ container: env });
     start();
   }
 });
@@ -62,7 +62,7 @@ test("#find searches offline/online simultaneously, syncing online into offline 
 
   Em.run(function() {
     assertItemDoesntExistOffline('inventoryItem', 1).then(function() {
-      return searchOnline.find('inventoryItem', 1);
+      return emberSync.find('inventoryItem', 1);
     }).then(function(item) {
       Em.run.later(function() {
         equal(item.get('name'), "Ibanez", "Loads data from the online store");
@@ -114,7 +114,7 @@ test("#findQuery searches offline/online simultaneously, syncing online into off
     }).then(function(item) {
       return assertItemExistsOffline('inventoryItem', {name: "Fender"});
     }).then(function() {
-      return searchOnline.findQuery('inventoryItem', {name: "Fender"});
+      return emberSync.findQuery('inventoryItem', {name: "Fender"});
     }).then(function(items) {
       equal(items.length, 0, "At first, an empty array of results is returned");
 
