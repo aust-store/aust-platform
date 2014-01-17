@@ -7,5 +7,7 @@ App.Router.map(function() {
   this.resource('carts', function() {
     this.route('new');
   });
-  this.resource('orders', function() { });
+  this.resource('orders', function() {
+
+  });
 });

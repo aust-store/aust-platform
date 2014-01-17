@@ -133,8 +133,7 @@ DS.IndexedDBMigration = Ember.Object.extend({
 DS.IndexedDBSerializer = DS.JSONSerializer.extend({
 
   normalize: function(type, hash) {
-    var r = this._super(type, hash);
-    return r;
+    return this._super(type, hash);
   },
 
   serializeHasMany: function(record, json, relationship) {
@@ -355,12 +354,8 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
               result.push(cursor.value);
               cursor.continue();
             } else {
+              resolve(result);
               db.close();
-              if (result.length) {
-                resolve(result);
-              } else {
-                reject();
-              }
             }
           });
         }
@@ -409,8 +404,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
             if (cursor) {
               for (var field in query) {
-                var queryString = query[field],
-                    queriedField = cursor.value[field];
+                var queryString = query[field];
 
                 /**
                  * If it was already defined that the current record doesn't match
@@ -420,13 +414,8 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
                   break;
                 }
 
-                /**
-                 * If the query param is a Regex
-                 */
-                if (Object.prototype.toString.call(queryString).match("RegExp")) {
-                  isMatch = new RegExp(queryString).test(queriedField);
-                } else {
-                  isMatch = (queriedField === queryString);
+                if (isMatch || typeof isMatch == "undefined") {
+                  isMatch = adapter.findQueryCriteria(field, queryString, cursor.value, type);
                 }
               }
 
@@ -436,12 +425,13 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
               cursor.continue();
             } else {
+              db.close();
               if (result.length) {
                 resolve(result);
+                return true;
               } else {
                 reject();
               }
-              db.close();
             }
           });
         }
@@ -460,6 +450,42 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
         return records;
       }
     });
+  },
+
+  findQueryCriteria: function(field, queryString, record, type) {
+    var queriedField;
+    /**
+     * If the query param is a Regex
+     */
+    if (field == "search") {
+      var isMatch;
+
+      for (var queriedField in record) {
+        var isSearchField = this.findQuerySearchCriteria(queriedField, type),
+            fieldValue = record[queriedField];
+
+        if (!isSearchField)
+          continue;
+
+        if (Object.prototype.toString.call(queryString).match("RegExp")) {
+          isMatch = isMatch || new RegExp(queryString).test(fieldValue);
+        } else {
+          isMatch = isMatch || (fieldValue === queryString);
+        }
+      }
+      return isMatch;
+    } else {
+      queriedField = record[field];
+      if (Object.prototype.toString.call(queryString).match("RegExp")) {
+        return new RegExp(queryString).test(queriedField);
+      } else {
+        return (queriedField === queryString);
+      }
+    }
+  },
+
+  findQuerySearchCriteria: function(fieldName, type) {
+    return true;
   },
 
   /**
@@ -814,7 +840,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
          * In this case, cart belongsTo customer and its id is present in the
          * main payload. We find each of these records and add them to _embedded.
          */
-        if (Ember.A(relationEmbeddedId).length) {
+        if (relationEmbeddedId) {
           if (relationType == 'belongsTo' || relationType == 'hasOne') {
             promise = adapter.find(null, relationModel, relationEmbeddedId, opts)
           } else if (relationType == 'hasMany') {
@@ -825,6 +851,8 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
             promise.then(function(relationRecord) {
               var finalPayload = adapter.addEmbeddedPayload(record, relationName, relationRecord)
               resolve(finalPayload);
+            }, function() {
+              resolve(record);
             });
           });
 
@@ -893,17 +921,17 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
       }
     }
 
-    var isArray = function(value) {
-      return Object.prototype.toString.call(value) === '[object Array]';
-    }
-
-    if (isArray(payload[relationshipName]) && payload[relationshipName].length) {
+    if (this.isArray(payload[relationshipName])) {
       payload[relationshipName] = payload[relationshipName].filter(function(id) {
         return id;
       });
     }
 
     return payload;
+  },
+
+  isArray: function(value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
   },
 
   /**
@@ -948,6 +976,8 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
           } else {
             resolve(recordsWithRelationships);
           }
+        }, function() {
+          resolve(record);
         });
       }
 

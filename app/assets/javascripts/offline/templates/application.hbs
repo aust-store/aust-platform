@@ -8,19 +8,19 @@
           </li>
           {{#if cartHasItems}}
           <li>
-            {{#linkTo "carts.new" class="current_cart"}}
+            {{#link-to "carts.new" class="current_cart"}}
               Pedido atual
               <div class="global_cart_status">
                 {{cartStatusMessage}}
               </div>
-            {{/linkTo}}
+            {{/link-to}}
           </li>
           {{/if}}
           <li>
-            {{#linkTo "orders" class="all_orders"}}Pedidos{{/linkTo}}
+            {{#link-to "orders.index" class="all_orders"}}Pedidos{{/link-to}}
           </li>
           <li>
-            <a {{bindAttr href="signOutPath"}} class="log_out">Sair</a>
+            <a {{bind-attr href="signOutPath"}} class="log_out">Sair</a>
           </li>
         </ul>
 

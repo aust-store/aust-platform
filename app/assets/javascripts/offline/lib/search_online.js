@@ -27,6 +27,13 @@ App.SearchOnline = Ember.Object.extend({
         offlineSearch = this.offlineStore.find(type, query),
         onlineSearch = this.onlineStore.find(type, query);
 
+    /**
+     * In case query is empty, it means find() should return an Array.
+     */
+    if (!query) {
+      return this.findStream(type, offlineSearch, onlineSearch);
+    }
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var isResolved = false,
           offlineNotFound, onlineNotFound;
@@ -77,16 +84,33 @@ App.SearchOnline = Ember.Object.extend({
    */
   findQuery: function(type, query) {
     var storeSync = this,
-        offlineSearch = this.offlineStore.find(type, query),
-        onlineSearch = this.onlineStore.find(type, query),
-        resultStream = Ember.A();
+        offlineSearch = this.offlineStore.findQuery(type, query),
+        onlineSearch = this.onlineStore.findQuery(type, query);
 
-    offlineSearch.then(function(results) {
+    return this.findStream(type, offlineSearch, onlineSearch);
+  },
+
+  /**
+   * Returns values asynchronously into a stream of results (Ember.A()).
+   * The records found online are stored into the offline store.
+   *
+   * You shouldn't use this method directly.
+   *
+   * @method findQuery
+   * @private
+   * @param {string} type
+   * @param {object} query
+   * @return {Ember.A}
+   */
+  findStream: function(type, offlinePromise, onlinePromise) {
+    var storeSync = this, resultStream = Ember.A();
+
+    offlinePromise.then(function(results) {
       results = storeSync.toArray(results);
       storeSync.addResultToResultStream(resultStream, results);
     });
 
-    onlineSearch.then(function(results) {
+    onlinePromise.then(function(results) {
       results = storeSync.toArray(results);
       storeSync.addResultToResultStream(resultStream, results);
 
