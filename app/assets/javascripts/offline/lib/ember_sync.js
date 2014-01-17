@@ -1,13 +1,5 @@
-App.EmberSync = Ember.Object.extend({
-  init: function() {
-    this._super();
-    this.set('offlineStore', this.container.store);
-    this.set('onlineStore',  this.container.onlineStore);
-  },
-
-  container: null,
-  offlineStore: null,
-  onlineStore: null,
+App.EmberSync = Ember.Object.extend(
+  EmberSync.StoreInitializationMixin, {
 
   /**
    * Finds a record both offline and online, returning the first to be found.
@@ -67,27 +59,11 @@ App.EmberSync = Ember.Object.extend({
   },
 
   save: function() {
-    var _this = this,
-        offlinePromise,
-        record = this.record;
-
-    offlinePromise = record.save();
-    offlinePromise.then(function(offlineRecord) {
-      var offlineId, onlineRecord, type, properties;
-
-      offlineId  = offlineRecord.get('id'),
-      type       = _this.recordType,
-      properties = _this.recordProperties || {};
-      properties["id"] = offlineId;
-
-      onlineRecord = _this.onlineStore.createRecord(type, properties);
-      // offlineRecord.get("cartItems").forEach(function(relationship) {
-      //   onlineRecord.get("cartItems").pushObject(relationship);
-      // });
-
-      onlineRecord.save();
+    var persistence = EmberSync.Persistence.create({
+      onlineStore:  this.onlineStore,
+      offlineStore: this.offlineStore
     });
 
-    return offlinePromise;
+    return persistence.save(this.record);
   },
 });

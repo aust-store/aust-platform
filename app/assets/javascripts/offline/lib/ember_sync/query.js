@@ -1,14 +1,7 @@
 if (!EmberSync) { var EmberSync = {}; }
 
-EmberSync.Query = Ember.Object.extend({
-  init: function() {
-    this._super();
-    this.set('offlineStore', this.offlineStore);
-    this.set('onlineStore',  this.onlineStore);
-  },
-
-  offlineStore: null,
-  onlineStore: null,
+EmberSync.Query = Ember.Object.extend(
+  EmberSync.StoreInitializationMixin, {
 
   /**
    * Finds a record both offline and online, returning the first to be found.
