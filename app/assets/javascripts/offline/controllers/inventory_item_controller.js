@@ -41,24 +41,24 @@ App.InventoryItemController = Ember.ArrayController.extend({
     // User starts placing items in the cart
     addItem: function(inventoryItem) {
       var _this = this,
-          new_cart_controller = this.get('controllers.carts_new'),
-          cart = new_cart_controller.get('model'),
-          item,
-          SaveItem;
+          newCartController = this.get('controllers.carts_new'),
+          cart = newCartController.get('model'),
+          emberSync = App.EmberSync.create({container: this}),
+          cartItem, SaveItem;
 
       this.get('controllers.application').set('cartHasItems', true);
-      new_cart_controller.updateItemsQuantityHeadline();
+      newCartController.updateItemsQuantityHeadline();
 
-      item = this.store.createRecord('cartItem', {
+      cartItem = emberSync.createRecord('cartItem', {
         price: inventoryItem.get('price'),
         inventoryItem: inventoryItem,
         inventoryEntryId: inventoryItem.get('entryForSaleId')
       });
-      cart.get("cartItems").pushObject(item);
+      cart.get("cartItems").pushObject(cartItem);
 
-      return cart.save().then(function() {
-        return item.save().then(null, function(error) {
-          console.log("Error saving item cart");
+      cart.emberSync.save().then(function(cart) {
+        return cartItem.emberSync.save().then(null, function(error) {
+          console.log("Error saving cart item");
         });
       }, function(error) {
         console.log("Error saving cart");

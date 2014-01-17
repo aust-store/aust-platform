@@ -4,9 +4,14 @@
 
 var registeredNameForOnlineAdapter = "_custom_ams";
 
-DS.CustomOnlineSerializer = DS.ActiveModelSerializer.extend();
+DS.CustomOnlineSerializer = DS.ActiveModelSerializer.extend({
+  init: function() {
+    this._super();
+    this.set('container', App.__container__);
+  }
+});
 DS.CustomOnlineAdapter = DS.ActiveModelAdapter.extend({
-  serializer: DS.CustomOnlineSerializer.create(),
+  serializer: DS.CustomOnlineSerializer.create()
 });
 
 if (typeof QUnit == "undefined") {

@@ -15,7 +15,7 @@ App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
     });
   },
 
-  generateIdForRecordx: function() {
+  generateIdForRecord: function() {
     return uuid.v4();
   }
 });

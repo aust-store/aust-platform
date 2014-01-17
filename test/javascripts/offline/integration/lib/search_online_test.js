@@ -145,3 +145,103 @@ test("#findQuery searches offline/online simultaneously, syncing online into off
     });
   });
 });
+
+test("#createRecord creates a new record", function() {
+  var record, prop;
+
+  Em.run(function() {
+    prop = {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    };
+    record = emberSync.createRecord('inventoryItem', prop);
+
+    equal(record.get('name'), 'Fender', 'name is correct');
+    equal(record.get('description'), 'Super guitar', 'description is correct');
+    equal(record.get('price'), '123', 'price is correct');
+    equal(record.get('entryForSaleId'), '1', 'entryForSaleId is correct');
+    equal(record.get('onSale'), true, 'onSale is correct');
+
+    equal(record.emberSync.recordType, 'inventoryItem', 'emberSync.recordType is correct');
+    equal(record.emberSync.recordProperties, prop, 'emberSync.recordProperties is correct');
+    equal(record.emberSync, emberSync, 'emberSync instance is correct');
+    equal(record.emberSync.record, record, 'emberSync.record instance is correct');
+  });
+});
+
+test("#save creates a record offline and online", function() {
+  var record, offlineSave, generatedId;
+  stop();
+
+  Em.run(function() {
+    record = emberSync.createRecord('inventoryItem', {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    generatedId = record.get('id');
+    ok(generatedId, "ID is valid ("+generatedId+")");
+
+    offlineSave = record.emberSync.save();
+    offlineSave.then(function(record) {
+      ok(true, "Record saved offline");
+      equal(record.get('id'),             generatedId,    "id is correct");
+      equal(record.get('name'),           "Fender",       "name is correct");
+      equal(record.get('description'),    "Super guitar", "description is correct");
+      equal(record.get('price'),          "123",          "price is correct");
+      equal(record.get('entryForSaleId'), "1",            "entryForSaleId is correct");
+      equal(record.get('onSale'),         true,           "onSale is correct");
+
+      Em.run.later(function() {
+        var record = App.InventoryItem.FIXTURES.slice(-1)[0];
+
+        ok(true, "Record saved online");
+        equal(record.id,             generatedId,    "id is correct");
+        equal(record.name,           "Fender",       "name is correct");
+        equal(record.description,    "Super guitar", "description is correct");
+        equal(record.price,          "123",          "price is correct");
+        equal(record.entryForSaleId, "1",            "entryForSaleId is correct");
+        equal(record.onSale,         true,           "onSale is correct");
+        start();
+      }, 100);
+
+    }, function() {
+      ok(false, "Record saved offline");
+      start();
+    });
+  });
+});
+
+test("#save works when no properties were given", function() {
+  var record, offlineSave, generatedId;
+  stop();
+
+  Em.run(function() {
+    record = emberSync.createRecord('inventoryItem');
+
+    generatedId = record.get('id');
+    ok(generatedId, "ID is valid ("+generatedId+")");
+
+    offlineSave = record.emberSync.save();
+    offlineSave.then(function(record) {
+      ok(true, "Record saved offline");
+      equal(record.get('id'), generatedId, "id is correct");
+
+      Em.run.later(function() {
+        var record = App.InventoryItem.FIXTURES.slice(-1)[0];
+        equal(record.id, generatedId, "id is correct");
+        start();
+      }, 100);
+
+    }, function() {
+      ok(false, "Record saved offline");
+      start();
+    });
+  });
+});

@@ -6,8 +6,10 @@ App.CartsIndexRoute = Ember.Route.extend({
 
 App.CartsNewRoute = Ember.Route.extend({
   model: function() {
-    var current_model = this.controllerFor('cartsNew').get('model');
-    return current_model || this.store.createRecord('cart');
+    var currentModel = this.controllerFor('cartsNew').get('model'),
+        emberSync = App.EmberSync.create({container: this});
+
+    return currentModel || emberSync.createRecord('cart');
   },
 
   renderTemplate: function() {

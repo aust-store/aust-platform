@@ -68,16 +68,22 @@ App.CartsNewController = Ember.ObjectController.extend({
         return false;
       }
 
-      order = this.store.createRecord('order', {
+      var prop = {
         cart: this.get('content'),
         customer: this.get('content.customer'),
         createdAt: new Date()
-      });
+      };
+      //order = this.store.createRecord('order', prop);
 
-      order.on('didCreate', function() {
-        _this.whenOrderIsPlaced();
+      var emberSync = App.EmberSync.create({container: this});
+      order = emberSync.createRecord('order', prop);
+      emberSync.save(order).then(function(order) {
+        //_this.whenOrderIsPlaced();
       });
-      order.save();
+      //order.on('didCreate', function() {
+      //  _this.whenOrderIsPlaced();
+      //});
+      //order.save();
     }
   }
 });

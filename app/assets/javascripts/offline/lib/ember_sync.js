@@ -51,4 +51,43 @@ App.EmberSync = Ember.Object.extend({
     });
     return syncQuery.findQuery(type, query);
   },
+
+  createRecord: function(type, properties) {
+    var record;
+    if (properties) {
+      record = this.offlineStore.createRecord(type, properties);
+    } else {
+      record = this.offlineStore.createRecord(type);
+    }
+    record.emberSync = this;
+    record.emberSync['recordType'] = type;
+    record.emberSync['recordProperties'] = properties;
+    record.emberSync['record'] = record;
+    return record;
+  },
+
+  save: function() {
+    var _this = this,
+        offlinePromise,
+        record = this.record;
+
+    offlinePromise = record.save();
+    offlinePromise.then(function(offlineRecord) {
+      var offlineId, onlineRecord, type, properties;
+
+      offlineId  = offlineRecord.get('id'),
+      type       = _this.recordType,
+      properties = _this.recordProperties || {};
+      properties["id"] = offlineId;
+
+      onlineRecord = _this.onlineStore.createRecord(type, properties);
+      // offlineRecord.get("cartItems").forEach(function(relationship) {
+      //   onlineRecord.get("cartItems").pushObject(relationship);
+      // });
+
+      onlineRecord.save();
+    });
+
+    return offlinePromise;
+  },
 });
