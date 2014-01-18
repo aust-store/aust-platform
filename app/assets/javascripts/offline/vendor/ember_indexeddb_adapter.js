@@ -76,15 +76,25 @@ DS.IndexedDBMigration = Ember.Object.extend({
    * @method addModel
    * @param {DS.Model} type
    */
-  addModel: function(model) {
+  addModel: function(model, opts) {
     var db = this.memoizedOpenDatabaseForUpgrade,
         modelName = model.toString(),
+        opts = opts || {},
         _this = this;
 
     Em.run(function() {
-
       if (!db.objectStoreNames.contains(modelName)) {
-        var objectStore = db.createObjectStore(modelName, { keyPath: "id" });
+        var keyOpts = { keyPath: "id" },
+            objectStore;
+
+        if (opts.autoIncrement) {
+          keyOpts["autoIncrement"] = opts.autoIncrement;
+        }
+
+        if (opts.keyPath) {
+          keyOpts["keyPath"] = opts.keyPath;
+        }
+        objectStore = db.createObjectStore(modelName, keyOpts);
       }
     });
 
@@ -425,13 +435,12 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
               cursor.continue();
             } else {
-              db.close();
-              if (result.length) {
-                resolve(result);
-                return true;
-              } else {
+              if (!result.length) {
                 reject();
+              } else {
+                resolve(result);
               }
+              db.close();
             }
           });
         }
@@ -553,8 +562,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
         modelName = type.toString();
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var connection, transaction, objectStore, saveRequest,
-          serializedRecord = record.serialize({includeId: true});
+      var connection, transaction, objectStore, saveRequest, serializedRecord;
 
       _this.openDatabase().then(function(db) {
         /**
@@ -580,6 +588,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
 
         objectStore = transaction.objectStore(modelName);
 
+        serializedRecord = record.serialize({includeId: !objectStore.autoIncrement});
         saveRequest = objectStore.add(serializedRecord);
         saveRequest.onsuccess = function(event) {
           Em.run(function() {
@@ -723,7 +732,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
    * @method generateIdForRecord
    * @private
    */
-  generateIdForRecord: function () {
+  generateIdForRecord: function() {
     return Math.random().toString(32).slice(2).substr(0, 5);
   },
 
@@ -851,8 +860,6 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
             promise.then(function(relationRecord) {
               var finalPayload = adapter.addEmbeddedPayload(record, relationName, relationRecord)
               resolve(finalPayload);
-            }, function() {
-              resolve(record);
             });
           });
 
@@ -976,8 +983,6 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
           } else {
             resolve(recordsWithRelationships);
           }
-        }, function() {
-          resolve(record);
         });
       }
 

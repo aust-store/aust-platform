@@ -1,18 +1,16 @@
 App.ApplicationSerializer = DS.IndexedDBSerializer.extend();
 App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
   databaseName: "AustPointOfSale",
-  version: 1,
+  version: 3,
   migrations: function() {
-    var _this = this;
-    Ember.run(function() {
-      _this.addModel(App.Cart);
-      _this.addModel(App.CartItem);
-      _this.addModel(App.Customer);
-      _this.addModel(App.InventoryItem);
-      _this.addModel(App.Order);
-      _this.addModel(App.OrderItem);
-      _this.addModel(App.StoreReport);
-    });
+    this.addModel(App.Cart);
+    this.addModel(App.CartItem);
+    this.addModel(App.Customer);
+    this.addModel(App.InventoryItem);
+    this.addModel(App.Order);
+    this.addModel(App.OrderItem);
+    this.addModel(App.StoreReport);
+    this.addModel(App.EmberSyncQueueModel, {autoIncrement: true});
   },
 
   generateIdForRecord: function() {

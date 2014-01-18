@@ -1,6 +1,6 @@
 var testAdapterConfig = {
   name: "indexeddb_adapter",
-  version: 3,
+  version: 4,
   databaseName: "AustPointOfSaleTests",
   migrations: function() {
     this.addModel(App.Cart);
@@ -10,5 +10,6 @@ var testAdapterConfig = {
     this.addModel(App.Order);
     this.addModel(App.OrderItem);
     this.addModel(App.StoreReport);
+    this.addModel(App.EmberSyncQueueModel, {autoIncrement: true});
   }
 }

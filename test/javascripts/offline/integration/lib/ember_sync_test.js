@@ -10,7 +10,10 @@ module("Integration/Lib/EmberSync", {
     setupEmberTest();
 
     stop();
-    env = setupOfflineOnlineStore({ inventoryItem: App.InventoryItem });
+    env = setupOfflineOnlineStore({
+      inventoryItem: App.InventoryItem,
+      emberSyncQueueModel: App.EmberSyncQueueModel
+    });
     store = env.store;
     onlineStore = env.onlineStore;
     emberSync = App.EmberSync.create({ container: env });
@@ -172,7 +175,7 @@ test("#createRecord creates a new record", function() {
   });
 });
 
-test("#save creates a record offline and online", function() {
+pending("#save creates a record offline and online", function() {
   var record, offlineSave, generatedId;
   stop();
 
@@ -218,7 +221,7 @@ test("#save creates a record offline and online", function() {
   });
 });
 
-test("#save works when no properties were given", function() {
+pending("#save works when no properties were given", function() {
   var record, offlineSave, generatedId;
   stop();
 
@@ -238,6 +241,118 @@ test("#save works when no properties were given", function() {
         equal(record.id, generatedId, "id is correct");
         start();
       }, 100);
+
+    }, function() {
+      ok(false, "Record saved offline");
+      start();
+    });
+  });
+});
+
+test("#save returns the same DS.Model instance that was created", function() {
+  stop();
+
+  Em.run(function() {
+    var record = emberSync.createRecord('inventoryItem', {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    record.emberSync.save().then(function(item) {
+      ok(item.emberSync, "Returned record has emberSync method");
+      equal(item.emberSync.recordType, "inventoryItem", "Returned record has correct type");
+      start();
+    });
+  });
+});
+
+test("#save creates a record offline and enqueues online synchronization", function() {
+  var oldRecord, newRecord, offlineSave, generatedId;
+  stop();
+
+  Em.run(function() {
+    var record = emberSync.createRecord('inventoryItem', {
+      name: "Old Fender 1",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    return record.emberSync.save();
+  }).then(function(oldRecord) {
+    oldRecord.set('name', 'Old Fender 2');
+    return oldRecord.emberSync.save();
+  }).then(function(oldRecord) {
+    ok(oldRecord.get('id'), "Record has a valid ID");
+
+    newRecord = emberSync.createRecord('inventoryItem', {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    newRecordId = newRecord.get('id');
+    ok(newRecordId, "ID is valid ("+newRecordId+")");
+
+    offlineSave = newRecord.emberSync.save();
+    offlineSave.then(function(newRecord) {
+      ok(true, "Record saved offline");
+      equal(newRecord.get('id'),             newRecordId,    "id is correct ("+newRecordId+")");
+      equal(newRecord.get('name'),           "Fender",       "name is correct");
+      equal(newRecord.get('description'),    "Super guitar", "description is correct");
+      equal(newRecord.get('price'),          "123",          "price is correct");
+      equal(newRecord.get('entryForSaleId'), "1",            "entryForSaleId is correct");
+      equal(newRecord.get('onSale'),         true,           "onSale is correct");
+
+      Ember.run.later(function() {
+        var jobs = store.find('emberSyncQueueModel');
+
+        jobs.then(function(jobs) {
+          equal(jobs.get('length'), 3, "One synchronization job is created");
+
+          var creationJob  = jobs.objectAt(0),
+              updateJob    = jobs.objectAt(1),
+              creationJob2 = jobs.objectAt(2),
+
+              job1Date = Date.parse(creationJob.get('createdAt')),
+              job2Date = Date.parse(updateJob.get('createdAt')),
+              job3Date = Date.parse(creationJob2.get('createdAt'));
+
+          /**
+           * First job to create the record
+           */
+          equal(creationJob.get('id'), "1", "creation job's id is correct");
+          equal(creationJob.get('jobRecordId'),     oldRecord.id, "creation job's record id is correct");
+          equal(creationJob.get('jobRecordType'),   'inventoryItem', "creation job's record type is correct");
+          equal(creationJob.get('pendingCreation'), true, "creation job's pending creation is true");
+          ok(creationJob.get('createdAt'), "creation job's date is correct");
+
+          /**
+           * Second job to update the record
+           */
+          equal(updateJob.get('id'), 2, "update job's id is correct");
+          equal(updateJob.get('jobRecordId'),     oldRecord.id, "update job's record id is correct");
+          equal(updateJob.get('jobRecordType'),   'inventoryItem', "update job's record type is correct");
+          equal(updateJob.get('pendingCreation'), false, "update job's pending creation is false");
+          ok(updateJob.get('createdAt'), "update job's has a date");
+
+          /**
+           * Third job to create a new record
+           */
+          equal(creationJob2.get('id'), 3, "creation job's id is correct");
+          equal(creationJob2.get('jobRecordId'),     newRecord.id, "creation job's new record id is correct");
+          equal(creationJob2.get('jobRecordType'),   'inventoryItem', "creation job's new record type is correct");
+          equal(creationJob2.get('pendingCreation'), true, "create job's pending creation is false");
+          ok(creationJob2.get('createdAt'), "creation job 2's date is correct");
+          start();
+        });
+      }, 80);
 
     }, function() {
       ok(false, "Record saved offline");
