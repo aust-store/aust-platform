@@ -2,6 +2,7 @@ if (!EmberSync) { var EmberSync = {}; }
 
 EmberSync.StoreInitializationMixin = Ember.Mixin.create({
   init: function() {
+    this._super();
     var onlineStore  = this.onlineStore  || this.container.onlineStore,
         offlineStore = this.offlineStore || this.container.store;
 

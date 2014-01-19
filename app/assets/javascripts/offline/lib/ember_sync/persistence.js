@@ -22,11 +22,11 @@ EmberSync.Persistence = Ember.Object.extend(
       var onlineRecord, job;
       properties["id"] = offlineRecord.get('id');
 
-      job = EmberSync.QueueJob.create({
+      queue = EmberSync.Queue.create({
         onlineStore:  _this.onlineStore,
         offlineStore: _this.offlineStore
       });
-      return job.enqueue(type, properties["id"], isNew);
+      return queue.enqueue(type, properties["id"], isNew);
       //onlineRecord = _this.onlineStore.createRecord(type, properties);
       // offlineRecord.get("cartItems").forEach(function(relationship) {
       //   onlineRecord.get("cartItems").pushObject(relationship);
