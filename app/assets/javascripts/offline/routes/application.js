@@ -1,7 +1,7 @@
 App.ApplicationRoute = Ember.Route.extend({
   init: function() {
-    var syncQueue = EmberSync.Queue.create({container: this});
-    syncQueue.process();
+    this._super();
+    EmberSync.Queue.create({container: this}).process();
   }
 });
 

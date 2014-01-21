@@ -71,19 +71,15 @@ App.CartsNewController = Ember.ObjectController.extend({
       var prop = {
         cart: this.get('content'),
         customer: this.get('content.customer'),
-        createdAt: new Date()
+        createdAt: (new Date())
       };
       //order = this.store.createRecord('order', prop);
 
       var emberSync = App.EmberSync.create({container: this});
       order = emberSync.createRecord('order', prop);
-      emberSync.save(order).then(function(order) {
-        //_this.whenOrderIsPlaced();
+      order.emberSync.save().then(function(order) {
+        _this.whenOrderIsPlaced();
       });
-      //order.on('didCreate', function() {
-      //  _this.whenOrderIsPlaced();
-      //});
-      //order.save();
     }
   }
 });

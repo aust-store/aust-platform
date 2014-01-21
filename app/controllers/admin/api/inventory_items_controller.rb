@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::InventoryItemsController < Admin::ApplicationController
+class Admin::Api::InventoryItemsController < Admin::Api::ApplicationController
   def index
     # The mobile admin site (iPhone) requires seeing all the inventory items.
     # The offline sales page requires seeing only inventory items on sale

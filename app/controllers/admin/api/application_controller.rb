@@ -1,9 +1,13 @@
 # encoding: utf-8
 class Admin::Api::ApplicationController < Admin::ApplicationController
   skip_before_filter :verify_authenticity_token
+  before_filter :manual_exit
 
   private
 
+  def manual_exit
+    # exit
+  end
   # Takes a passed in UUID (via params) and replaces it with the appropriate
   # ID defined in the database. e.g.
   #

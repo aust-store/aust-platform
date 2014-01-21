@@ -6,6 +6,11 @@ EmberSync.testing = false;
 EmberSync.Queue = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
 
+  init: function() {
+    this._super();
+    this.set('pendingJobs', Ember.A());
+  },
+
   enqueue: function(type, id, pendingCreation) {
     var job;
 
@@ -20,10 +25,10 @@ EmberSync.Queue = Ember.Object.extend(
     job.deleteRecord();
   },
 
-  pendingJobs: Ember.A(),
+  pendingJobs: null,
 
   process: function() {
-    var queue = this,
+    var _this = this,
         jobs;
 
     jobs = this.offlineStore.find('emberSyncQueueModel');
@@ -31,15 +36,29 @@ EmberSync.Queue = Ember.Object.extend(
       /**
        * TODO - shouldn't push duplicated jobs
        */
-      queue.set('pendingJobs', Ember.A(jobs));
-      queue.processNextJob();
+      _this.set('pendingJobs', Ember.A(jobs));
+      _this.processNextJob();
+    }, function() {
+      Em.run.later(function() {
+        _this.process();
+      }, 500);
     });
   },
 
   processNextJob: function(job) {
-    var job, jobRecord;
+    var _this = this,
+        job, jobRecord;
 
-    if (!this.pendingJobs.get('length')) {
+    /**
+     * TODO - If there are no jobs, we should not return, but continue the
+     * loop.
+     */
+    if (!this.get('pendingJobs.length')) {
+      if (!EmberSync.testing) {
+        Em.run.later(function() {
+          _this.process();
+        }, 1500);
+      }
       return true;
     }
 
@@ -51,6 +70,44 @@ EmberSync.Queue = Ember.Object.extend(
       jobRecord:    jobRecord
     });
 
-    job.perform();
-  }
+    job.perform().then(function() {
+      console.log("success");
+      _this.removeJobFromQueue(jobRecord).then(function() {
+        Em.run(function() {
+          _this.processNextJob();
+        });
+      });
+    }, function() {
+      console.error("Queue: job #"+jobRecord.get('id')+" not performed.");
+      if (!EmberSync.testing) {
+        Em.run.later(function() {
+          _this.processNextJob();
+        }, 3000);
+      }
+    }, "Aust: queue#processNextJob() for jobId "+jobRecord.id);
+  },
+
+  removeJobFromQueueArray: function(job) {
+    var newQueue;
+
+    newQueue = this.get('pendingJobs').reject(function(pendingJob) {
+      return pendingJob.get('id') == job.get('id');
+    });
+
+    this.set('pendingJobs', newQueue);
+  },
+
+  removeJobFromQueue: function(job) {
+    var _this = this;
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      job.destroyRecord().then(function() {
+        _this.removeJobFromQueueArray(job);
+        resolve();
+      }, function() {
+        console.error('Error deleting EmberSync job #'+job.get('id'));
+        reject();
+      });
+    });
+  },
 });

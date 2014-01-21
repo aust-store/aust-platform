@@ -45,25 +45,33 @@ App.EmberSync = Ember.Object.extend(
   },
 
   createRecord: function(type, properties) {
-    var record;
+    var _this = this,
+        record;
+
     if (properties) {
       record = this.offlineStore.createRecord(type, properties);
     } else {
       record = this.offlineStore.createRecord(type);
     }
-    record.emberSync = this;
-    record.emberSync['recordType'] = type;
-    record.emberSync['recordProperties'] = properties;
-    record.emberSync['record'] = record;
-    return record;
-  },
 
-  save: function() {
-    var persistence = EmberSync.Persistence.create({
-      onlineStore:  this.onlineStore,
-      offlineStore: this.offlineStore
+    record.emberSync = Ember.Object.create({
+      init: function() {
+        this.set('emberSync',        _this);
+        this.set('record',           record);
+        this.set('recordType',       type);
+        this.set('recordProperties', properties);
+      },
+
+      save: function() {
+        var persistence = EmberSync.Persistence.create({
+          onlineStore:  this.get('emberSync.onlineStore'),
+          offlineStore: this.get('emberSync.offlineStore')
+        });
+
+        return persistence.save(this.get('record'));
+      }
     });
 
-    return persistence.save(this.record);
-  },
+    return record;
+  }
 });

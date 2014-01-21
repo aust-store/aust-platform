@@ -6,6 +6,10 @@ var env = {}, emberSync, store, mock, onlineResults,
 
 module("Integration/Lib/EmberSync", {
   setup: function() {
+    CustomFixtureAdapter.reopen({
+      latency: 50,
+    });
+
     mock = null;
     setupEmberTest();
 
@@ -168,10 +172,15 @@ test("#createRecord creates a new record", function() {
     equal(record.get('entryForSaleId'), '1', 'entryForSaleId is correct');
     equal(record.get('onSale'), true, 'onSale is correct');
 
-    equal(record.emberSync.recordType, 'inventoryItem', 'emberSync.recordType is correct');
-    equal(record.emberSync.recordProperties, prop, 'emberSync.recordProperties is correct');
-    equal(record.emberSync, emberSync, 'emberSync instance is correct');
-    equal(record.emberSync.record, record, 'emberSync.record instance is correct');
+    var record            = record.emberSync.get('record'),
+        emberSyncInstance = record.emberSync.get('emberSync'),
+        recordType        = record.emberSync.get('recordType'),
+        recordProperties  = record.emberSync.get('recordProperties');
+
+    equal(record,            record, 'emberSync.record instance is correct');
+    equal(recordType,        'inventoryItem', 'emberSync.recordType is correct');
+    equal(recordProperties,  prop, 'emberSync.recordProperties is correct');
+    equal(emberSyncInstance, emberSync, 'emberSync instance is correct');
   });
 });
 

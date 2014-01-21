@@ -14,8 +14,8 @@ EmberSync.Persistence = Ember.Object.extend(
   save: function(record) {
     var _this = this,
         offlinePromise = record.save(),
-        type           = record.emberSync.recordType,
-        properties     = record.emberSync.recordProperties || {},
+        type           = record.emberSync.get('recordType'),
+        properties     = record.emberSync.get('recordProperties') || {},
         isNew          = record.get('isNew');
 
     offlinePromise.then(function(offlineRecord) {
@@ -27,20 +27,13 @@ EmberSync.Persistence = Ember.Object.extend(
         offlineStore: _this.offlineStore
       });
       return queue.enqueue(type, properties["id"], isNew);
-      //onlineRecord = _this.onlineStore.createRecord(type, properties);
-      // offlineRecord.get("cartItems").forEach(function(relationship) {
-      //   onlineRecord.get("cartItems").pushObject(relationship);
-      // });
-
-      //onlineRecord.save();
     });
 
     return offlinePromise;
   },
 
   /**
-   * This is a method persists a given record found online into the offline
-   * store.
+   * Persists a given record found online into the offline store.
    *
    * @method persistRecordOffline
    * @param {string} type
@@ -54,5 +47,4 @@ EmberSync.Persistence = Ember.Object.extend(
     model = this.offlineStore.push(type, serialized);
     return model.save();
   },
-
 });

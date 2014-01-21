@@ -9,6 +9,7 @@ var registeredNameForOnlineAdapter = "_custom_fixture_adapter";
 
 var CustomFixtureSerializer = DS.JSONSerializer.extend();
 var CustomFixtureAdapter = DS.FixtureAdapter.extend({
+  latency: 2,
 
   /**
    * Used for querying the Fixtures with this.store.find(...)
