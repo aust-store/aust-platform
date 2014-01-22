@@ -3,8 +3,6 @@ if (!EmberSync) { var EmberSync = {}; }
 EmberSync.Job = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
 
-  recordType: null,
-  recordId:   null,
   jobRecord:  null,
 
   init: function() {
@@ -13,7 +11,6 @@ EmberSync.Job = Ember.Object.extend(
     this.set("recordType", this.get('jobRecord.jobRecordType'));
     this.set("recordId",   this.get('jobRecord.jobRecordId'));
     this.set("pendingCreation", this.get('jobRecord.pendingCreation'));
-    this.set("jobId",      this.get('jobRecord.id'));
   },
 
   perform: function() {
@@ -26,21 +23,48 @@ EmberSync.Job = Ember.Object.extend(
         resolve();
       }, function() {
         reject();
-      }, "Aust: job#perform() for jobId "+_this.get('jobId'));
+      }, "Aust: job#perform() for jobId "+_this.get('jobRecord.id'));
     });
+  },
+
+  synchronizeOnline: function(offlineRecord) {
+    var _this = this,
+        record;
+
+    record = EmberSync.RecordForSynchronization.create({
+      offlineStore:  this.offlineStore,
+      onlineStore:   this.onlineStore,
+      offlineRecord: offlineRecord,
+      jobRecord:     this.get('jobRecord'),
+    }).recordForSynchronization();
+
+    return record.then(function(record) {
+      if (EmberSync.forceSyncFailure) {
+        return Ember.RSVP.reject({message: "Forced failure", stack: ":)"});
+      } else {
+        return record.save();
+      }
+    }).then(function() {
+      return Ember.RSVP.resolve();
+    }, function(error) {
+      _this.errors.recordNotSynchronized.call(_this, error);
+      return Ember.RSVP.reject(error);
+    }, "Aust: job#synchronizeOnline() for job "+ _this.get('jobRecord.id'));
   },
 
   findOfflineRecord: function() {
     var _this = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var record;
+      var record,
+          recordType = _this.get('jobRecord.jobRecordType'),
+          recordId   = _this.get('jobRecord.jobRecordId');
 
       if (_this.get('originalOfflineRecord')) {
         resolve(_this.get('originalOfflineRecord'));
         return true;
       }
-      record = _this.offlineStore.find(_this.get('recordType'), _this.get('recordId'));
+      record = _this.offlineStore.find(recordType, recordId);
       record.then(function(record) {
         _this.set('originalOfflineRecord', record);
         resolve(record);
@@ -52,112 +76,10 @@ EmberSync.Job = Ember.Object.extend(
     });
   },
 
-  synchronizeOnline: function(offlineRecord) {
-    var _this = this,
-        record;
-
-    record = EmberSync.RecordForSynchronization.create({
-      offlineStore: this.offlineStore,
-      onlineStore:  this.onlineStore,
-
-      offlineRecord: offlineRecord,
-      recordType: this.get('recordType'),
-      recordId:   this.get('recordId'),
-      pendingCreation: this.get('pendingCreation'),
-      jobId:      this.get('jobId'),
-    }).recordForSynchronization();
-
-    //record = this.prepareRecordForSynchronization(offlineRecord);
-
-    return this.setHasManyRelationships(record).then(function(record) {
-      return _this.setBelongsToRelationships(record);
-    }).then(function(record) {
-      if (EmberSync.forceSyncFailure) {
-        return Ember.RSVP.reject({message: "Forced failure", stack: ":)"});
-      } else {
-        return record.save();
-      }
-    }).then(function() {
-      return Ember.RSVP.resolve();
-    }, function(error) {
-      _this.errors.recordNotSynchronized.call(_this, error);
-      return Ember.RSVP.reject(error);
-    }, "Aust: job#synchronizeOnline() for job "+ _this.getJobId());
-  },
-
-  setBelongsToRelationships: function(pendingRecord) {
-    var _this = this;
-
-    return this.findOfflineRecord().then(function(offlineRecord) {
-      offlineRecord.eachRelationship(function(name, descriptor) {
-        var key = descriptor.key,
-            kind = descriptor.kind,
-            type = descriptor.type,
-            serializedRelation, relation, onlineRelation;
-
-        if (kind != "belongsTo") {
-          return false;
-        }
-
-        relation = offlineRecord.get(name);
-        if (relation) {
-          serializedRelation = _this.serializeWithoutRelationships(relation);
-          onlineRelation = _this.onlineStore.push(type.typeKey, serializedRelation);
-          pendingRecord.set(key, onlineRelation);
-        }
-      });
-
-      return pendingRecord;
-    });
-  },
-
-  setHasManyRelationships: function(pendingRecord) {
-    var _this = this;
-
-    return this.findOfflineRecord().then(function(offlineRecord) {
-      offlineRecord.eachRelationship(function(name, descriptor) {
-        var key = descriptor.key,
-            kind = descriptor.kind,
-            type = descriptor.type,
-            serializedRelation, relation, onlineRelation;
-
-        if (kind != "hasMany") {
-          return false;
-        }
-
-        /**
-         * TODO - implement for when `.get(relation)` returns a Promise.
-         */
-        relation = offlineRecord.get(name);
-        relation.forEach(function(relation) {
-          serializedRelation = _this.serializeWithoutRelationships(relation);
-          onlineRelation = _this.onlineStore.push(type.typeKey, serializedRelation);
-          pendingRecord.get(name).pushObject(onlineRelation);
-        });
-      });
-
-      return pendingRecord;
-    });
-  },
-
-  serializeWithoutRelationships: function(record) {
-    var serialized = record.serialize({includeId: true});
-
-    record.eachRelationship(function(name, descriptor) {
-      delete serialized[name];
-    });
-
-    return serialized;
-  },
-
-  getJobId: function() {
-    return this.get('jobId');
-  },
-
   errors: {
     recordNotSynchronized: function(error) {
       if (!EmberSync.supressConsoleErrors) {
-        console.error(this.get('recordType')+" with id "+this.get('jobRecord.id')+" couldn't be saved online. "+error.message);
+        console.error(this.get('jobRecord.jobRecordType')+" with id "+this.get('jobRecord.id')+" couldn't be saved online. "+error.message);
       }
     },
   },
@@ -165,5 +87,5 @@ EmberSync.Job = Ember.Object.extend(
   /**
    * Memoizes the original offline record.
    */
-  originalOfflineRecord: null,
+  originalOfflineRecord: null
 });

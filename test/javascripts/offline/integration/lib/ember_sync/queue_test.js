@@ -88,11 +88,11 @@ test("#process pushes all jobs to the online store", function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Ember.run.later(function() {
           emberSyncQueue.process();
-        }, 5);
+        }, 4);
 
         Ember.run.later(function() {
           resolve();
-        }, 50);
+        }, 30);
       });
     }).then(function() {
       return onlineStore.find('cart', recordId);
@@ -148,11 +148,11 @@ test("#process works for a sequence of related records", function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Em.run.later(function() {
           emberSyncQueue.process();
-        }, 5);
+        }, 3);
 
         Em.run.later(function() {
           resolve();
-        }, 50);
+        }, 30);
       });
     }
 
@@ -245,8 +245,8 @@ test("#process retries processing on error if synchronization fails", function()
 
     var ProcessQueueAndFailToSynchronize = function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
-        Em.run.later(function() { emberSyncQueue.process(); }, 5);
-        Em.run.later(function() { resolve(); }, 190);
+        Em.run.later(function() { emberSyncQueue.process(); }, 2);
+        Em.run.later(function() { resolve(); }, 10);
       });
     }
 
@@ -263,8 +263,8 @@ test("#process retries processing on error if synchronization fails", function()
     var ProcessQueueAndSuccessfullySynchronize = function() {
       EmberSync.forceSyncFailure = false;
       return new Ember.RSVP.Promise(function(resolve, reject) {
-        Em.run.later(function() { emberSyncQueue.process(); }, 5);
-        Em.run.later(function() { resolve(); }, 190);
+        Em.run.later(function() { emberSyncQueue.process(); }, 2);
+        Em.run.later(function() { resolve(); }, 10);
       });
     }
 

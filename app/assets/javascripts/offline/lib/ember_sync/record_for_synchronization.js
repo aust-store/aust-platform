@@ -3,60 +3,109 @@ if (!EmberSync) { var EmberSync = {}; }
 EmberSync.RecordForSynchronization = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
 
-  pendingCreation:  null,
-  recordType: null,
-  recordId:   null,
   jobRecord:  null,
 
   init: function() {
     this._super();
-
-    //this.set("offlineRecord", this.get('offlineRecord'));
-    this.set("recordType", this.get('recordType'));
-    this.set("recordId",   this.get('recordId'));
-    this.set("pendingCreation", this.get('pendingCreation'));
-    this.set("jobId",      this.get('jobId'));
   },
 
   recordForSynchronization: function() {
-    var record;
+    var _this = this,
+        record;
 
-    record = this.createRecordInStore();
-    return record;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      record = _this.createRecordInStore();
+      record = _this.setRelationships(record);
+      //record = _this.setHasManyRelationships(record);
+      //record = _this.setBelongsToRelationships(record);
+      resolve(record);
+    });
   },
 
   createRecordInStore: function() {
-    var existingRecord, record, properties;
+    var type = this.get('jobRecord.jobRecordType'),
+        record, properties;
 
     properties = this.propertiesToPersist();
 
-    var existingRecord = this.onlineStore.hasRecordForId(this.get('recordType'), this.get('recordId'));
-    if (existingRecord) {
-      existingRecord = this.onlineStore.recordForId(this.get('recordType'), properties.id);
-      existingRecord.rollback();
-      this.onlineStore.unloadAll(this.get('recordType'));
-    }
+    this.rollbackExistingRecord();
 
-    if (this.get('pendingCreation')) {
-      record = this.onlineStore.createRecord(this.get('recordType'), properties);
+    if (this.get('jobRecord.pendingCreation')) {
+      record = this.onlineStore.createRecord(type, properties);
     } else {
-      record = this.onlineStore.push(this.get('recordType'), properties);
+      record = this.onlineStore.push(type, properties);
     }
 
     return record;
+  },
+
+  rollbackExistingRecord: function() {
+    var existingRecord,
+        recordId   = this.get('jobRecord.jobRecordId'),
+        recordType = this.get('jobRecord.jobRecordType');
+
+    existingRecord = this.onlineStore.hasRecordForId(recordType, recordId);
+    if (existingRecord) {
+      existingRecord = this.onlineStore.recordForId(recordType, recordId);
+      existingRecord.rollback();
+      this.onlineStore.unloadAll(recordType);
+    } else {
+      return false;
+    }
   },
 
   propertiesToPersist: function() {
     var offlineRecord = this.get('offlineRecord'),
-        properties = offlineRecord.serialize();
+        properties = this.serializeWithoutRelationships(offlineRecord);
 
-    properties["id"] = this.get('recordId');
+    properties["id"] = this.get('jobRecord.jobRecordId');
+    return properties;
+  },
 
-    offlineRecord.eachRelationship(function(relationship) {
-      delete properties[relationship];
+  setRelationships: function(pendingRecord) {
+    var _this = this,
+        offlineRecord = this.get('offlineRecord');
+
+    offlineRecord.eachRelationship(function(name, descriptor) {
+      var key = descriptor.key,
+          kind = descriptor.kind,
+          type = descriptor.type,
+          relation, onlineRelation;
+
+      /**
+       * TODO - implement for when `.get(relation)` returns a Promise.
+       */
+      relation = offlineRecord.get(name);
+
+      if (kind == "belongsTo") {
+        if (relation) {
+          onlineRelation = _this.generateRelationForRecord(type, relation);
+          pendingRecord.set(key, onlineRelation);
+        }
+      } else if (kind == "hasMany") {
+        relation.forEach(function(relation) {
+          onlineRelation = _this.generateRelationForRecord(type, relation);
+          pendingRecord.get(name).pushObject(onlineRelation);
+        });
+      }
     });
 
-    return properties;
+    return pendingRecord;
+  },
+
+  generateRelationForRecord: function(type, relation) {
+    var serializedRelation = this.serializeWithoutRelationships(relation);
+    return this.onlineStore.push(type.typeKey, serializedRelation);
+  },
+
+  serializeWithoutRelationships: function(record) {
+    var serialized = record.serialize({includeId: true});
+
+    record.eachRelationship(function(name, descriptor) {
+      delete serialized[name];
+    });
+
+    return serialized;
   },
 });
 
