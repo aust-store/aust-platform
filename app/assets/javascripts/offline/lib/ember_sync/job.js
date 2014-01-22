@@ -21,7 +21,7 @@ EmberSync.Job = Ember.Object.extend(
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       _this.findOfflineRecord().then(function(offlineRecord) {
-        return _this.saveRecordOnline(offlineRecord);
+        return _this.synchronizeOnline(offlineRecord);
       }).then(function() {
         resolve();
       }, function() {
@@ -30,10 +30,6 @@ EmberSync.Job = Ember.Object.extend(
     });
   },
 
-  /**
-   * Memoizes the original record.
-   */
-  originalOfflineRecord: null,
   findOfflineRecord: function() {
     var _this = this;
 
@@ -56,46 +52,37 @@ EmberSync.Job = Ember.Object.extend(
     });
   },
 
-  saveRecordOnline: function(offlineRecord) {
+  synchronizeOnline: function(offlineRecord) {
     var _this = this,
-        existingRecord, record, properties;
+        record;
 
-    properties = this.propertiesToPersist(offlineRecord);
-    var existingRecord = this.onlineStore.hasRecordForId(_this.get('recordType'), _this.get('recordId'));
+    record = EmberSync.RecordForSynchronization.create({
+      offlineStore: this.offlineStore,
+      onlineStore:  this.onlineStore,
 
-    if (existingRecord && _this.get('pendingCreation')) {
-      record = this.onlineStore.recordForId(this.get('recordType'), properties.id);
-      console.log('dirty?', record.get('isDirty'));
-      this.onlineStore.unloadRecord(record);
-    }
+      offlineRecord: offlineRecord,
+      recordType: this.get('recordType'),
+      recordId:   this.get('recordId'),
+      pendingCreation: this.get('pendingCreation'),
+      jobId:      this.get('jobId'),
+    }).recordForSynchronization();
 
-    if (_this.get('pendingCreation')) {
-      record = this.onlineStore.createRecord(this.get('recordType'), properties);
-    } else {
-      record = this.onlineStore.push(this.get('recordType'), properties);
-    }
+    //record = this.prepareRecordForSynchronization(offlineRecord);
 
-    this.setHasManyRelationships(record).then(function(record) {
+    return this.setHasManyRelationships(record).then(function(record) {
       return _this.setBelongsToRelationships(record);
     }).then(function(record) {
-      return record.save();
+      if (EmberSync.forceSyncFailure) {
+        return Ember.RSVP.reject({message: "Forced failure", stack: ":)"});
+      } else {
+        return record.save();
+      }
     }).then(function() {
       return Ember.RSVP.resolve();
     }, function(error) {
       _this.errors.recordNotSynchronized.call(_this, error);
-      return Ember.RSVP.reject();
-    });
-  },
-
-  propertiesToPersist: function(record) {
-    var properties = record.serialize();
-    properties["id"] = this.get('recordId');
-
-    record.eachRelationship(function(relationship) {
-      delete properties[relationship];
-    });
-
-    return properties;
+      return Ember.RSVP.reject(error);
+    }, "Aust: job#synchronizeOnline() for job "+ _this.getJobId());
   },
 
   setBelongsToRelationships: function(pendingRecord) {
@@ -163,10 +150,20 @@ EmberSync.Job = Ember.Object.extend(
     return serialized;
   },
 
+  getJobId: function() {
+    return this.get('jobId');
+  },
+
   errors: {
     recordNotSynchronized: function(error) {
-      console.error(this.get('recordType')+" with id "+this.get('jobRecord.id')+" couldn't be saved online. "+error.message);
-      console.error(error.stack);
+      if (!EmberSync.supressConsoleErrors) {
+        console.error(this.get('recordType')+" with id "+this.get('jobRecord.id')+" couldn't be saved online. "+error.message);
+      }
     },
-  }
+  },
+
+  /**
+   * Memoizes the original offline record.
+   */
+  originalOfflineRecord: null,
 });

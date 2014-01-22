@@ -2,18 +2,17 @@
 
 var env = {}, emberSync, emberSyncQueue,
     store, mock, onlineResults,
-    onlineStore,
-    originalDSModelSave;
+    onlineStore;
 
-var Cart     = App.CartItem,
+var Cart     = App.Cart,
     CartItem = App.CartItem,
-    Customer = App.CartItem;
+    Customer = App.Customer;
 
 module("Integration/Lib/EmberSync/Queue", {
   setup: function() {
     mock = null;
-    originalDSModelSave = DS.Model.prototype.save;
-    console.log(originalDSModelSave);
+    EmberSync.supressConsoleErrors = true;
+    EmberSync.testing = true;
 
     stop();
     App.Cart = DS.Model.extend({
@@ -34,8 +33,6 @@ module("Integration/Lib/EmberSync/Queue", {
 
     setupEmberTest();
 
-    EmberSync.testing = true;
-
     env = setupOfflineOnlineStore({
       cart:     App.Cart,
       cartItem: App.CartItem,
@@ -49,15 +46,17 @@ module("Integration/Lib/EmberSync/Queue", {
     start();
   },
 
-  tearDown: function() {
-    EmberSync.testing = true;
+  teardown: function() {
+    EmberSync.forceSyncFailure = false;
+    EmberSync.supressConsoleErrors = false;
 
     App.Cart     = Cart;
     App.CartItem = CartItem;
     App.Customer = Customer;
-    DS.Model.prototype.save = originalDSModelSave;
   }
 });
+
+var StartQunit = function() { start(); }
 
 var assertNoJobsExist = function(recordId) {
   var promise = store.findQuery('emberSyncQueueModel', {jobRecordId: recordId});
@@ -199,12 +198,13 @@ test("#process works for a sequence of related records", function() {
   });
 });
 
-test("#process retries processing if synchronization fails", function() {
+test("#process retries processing on error if synchronization fails", function() {
   var cart, cartId, cartItem, itemId,
       onlineTotalCarts     = App.Cart.FIXTURES.length,
       onlineTotalCartItems = App.CartItem.FIXTURES.length;
 
   stop();
+  EmberSync.forceSyncFailure = true;
 
   Em.run(function() {
     cart     = emberSync.createRecord('cart', {total: 98});
@@ -214,67 +214,81 @@ test("#process retries processing if synchronization fails", function() {
 
     cart.get('cartItems').pushObject(cartItem);
 
-    var SaveCart = function() {
-      return cart.emberSync.save();
-    }
+    var SaveCartOffline     = function() { return cart.emberSync.save(); }
+    var SaveCartItemOffline = function() { return cartItem.emberSync.save(); }
 
-    var SaveCartItem = function() {
-      return cartItem.emberSync.save();
-    }
-
-    var ProcessQueue = function() {
-      ok(store.hasRecordForId('cart', cartId), "Cart is still in the store");
-      ok(store.hasRecordForId('cartItem', itemId), "Item is still in the store");
-
+    var TestJobsExist = function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Em.run.later(function() {
-          emberSyncQueue.process();
-        }, 5);
+          var jobs = store.findAll('emberSyncQueueModel');
 
-        Em.run.later(function() {
-          resolve();
-        }, 50);
+          jobs.then(function(jobs) {
+            var job1 = jobs.objectAt(0),
+                job2 = jobs.objectAt(1);
+
+            equal(jobs.get('length'), 2, "Two jobs exist for cart and item");
+
+            if (job1) {
+              equal(job1.get('jobRecordId'), cart.id,     "Job 1 has cart id");
+            }
+            if (job2) {
+              equal(job2.get('jobRecordId'), cartItem.id, "Job 2 has cart item id");
+            }
+            resolve();
+          }, function() {
+            ok(false, "Two jobs are created");
+            resolve();
+          });
+        }, 2);
+      });
+    }
+
+    var ProcessQueueAndFailToSynchronize = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        Em.run.later(function() { emberSyncQueue.process(); }, 5);
+        Em.run.later(function() { resolve(); }, 190);
+      });
+    }
+
+    var TestRecordsAreNotPersisted = function() {
+      var newOnlineTotalCarts     = App.Cart.FIXTURES.length,
+          newOnlineTotalCartItems = App.CartItem.FIXTURES.length;
+
+      equal(newOnlineTotalCarts,     onlineTotalCarts,     "Cart was not pushed");
+      equal(newOnlineTotalCartItems, onlineTotalCartItems, "Item was not pushed");
+
+      return Ember.RSVP.resolve();
+    }
+
+    var ProcessQueueAndSuccessfullySynchronize = function() {
+      EmberSync.forceSyncFailure = false;
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        Em.run.later(function() { emberSyncQueue.process(); }, 5);
+        Em.run.later(function() { resolve(); }, 190);
       });
     }
 
     var TestRecordsArePersisted = function() {
-      var newOnlineTotalCarts     = App.Cart.FIXTURES.length,
-          newOnlineTotalCartItems = App.CartItem.FIXTURES.length,
-          lastCart = App.Cart.FIXTURES.slice(-1)[0],
-          lastItem = App.CartItem.FIXTURES.slice(-1)[0];
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        Em.run.later(function() {
+          var newOnlineTotalCarts     = App.Cart.FIXTURES.length,
+              newOnlineTotalCartItems = App.CartItem.FIXTURES.length;
 
-      equal(newOnlineTotalCarts,     onlineTotalCarts+1,     "Cart was pushed");
-      equal(newOnlineTotalCartItems, onlineTotalCartItems+1, "Item was pushed");
-
-      equal(lastCart.id,    cart.get('id'), "Created cart has correct id")
-      equal(lastCart.total, "98", "Created cart has correct total")
-      equal(lastItem.id,    cartItem.get('id'), "Created item has correct id")
-      equal(lastItem.price, "97", "Created item has correct total")
-      return Ember.RSVP.resolve();
+          equal(newOnlineTotalCarts,     onlineTotalCarts+1,     "Cart was pushed");
+          equal(newOnlineTotalCartItems, onlineTotalCartItems+1, "Item was pushed");
+          resolve();
+        }, 30);
+      });
     }
 
-    var TestRecordsIntegrity = function() {
-      var lastCart = App.Cart.FIXTURES.slice(-1)[0],
-          lastItem = App.CartItem.FIXTURES.slice(-1)[0];
-
-      onlineStore.find('cartItem', lastItem.id).then(function(item) {
-        ok(true, "cart item is found online");
-
-        equal(item.get('cart.id'), lastCart.id, "Item belongs to the correct cart");
-        equal(item.get('cart.total'), "98", "Item's cart has correct total");
-        ok(store.hasRecordForId('cart', cartId), "Cart is still in the store");
-        ok(store.hasRecordForId('cartItem', itemId), "Item is still in the store");
-        start();
-      }, function() {
-        ok(false, "cart item is found online");
-        start();
-      });
-    };
-
-    assertNoJobsExist(cartId).then(SaveCart)
-                             .then(SaveCartItem)
-                             .then(ProcessQueue)
+    assertNoJobsExist(cartId).then(SaveCartOffline)
+                             .then(SaveCartItemOffline)
+                             .then(TestJobsExist)
+                             .then(ProcessQueueAndFailToSynchronize)
+                             .then(TestJobsExist)
+                             .then(TestRecordsAreNotPersisted)
+                             .then(ProcessQueueAndSuccessfullySynchronize)
                              .then(TestRecordsArePersisted)
-                             .then(TestRecordsIntegrity);
+                             .then(StartQunit);
   });
 });

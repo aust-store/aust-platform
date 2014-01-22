@@ -6,9 +6,9 @@ var env = {}, emberSync, subject,
     onlineStore,
     container;
 
-var Cart     = App.CartItem,
+var Cart     = App.Cart,
     CartItem = App.CartItem,
-    Customer = App.CartItem;
+    Customer = App.Customer;
 
 module("Unit/Lib/EmberSync/Job", {
   setup: function() {
@@ -81,24 +81,6 @@ module("Unit/Lib/EmberSync/Job", {
   }
 });
 
-test("#propertiesToPersist returns only attributes", function() {
-  var result, expected;
-  stop();
-
-  Em.run(function() {
-    expected = {
-      id: cart.get('id'),
-      total: "10"
-    };
-
-    cart = offlineStore.createRecord('cart', { total: "10" });
-    result = subject.propertiesToPersist(cart);
-
-    deepEqual(result, expected, "Properties are correct");
-    start();
-  });
-});
-
 test("#setBelongsToRelationships sets the record relationships", function() {
   var customer;
   stop();
@@ -119,7 +101,6 @@ test("#setBelongsToRelationships sets the record relationships", function() {
 
       ok(cart.get('customer'), "Cart has now a customer");
       equal(cart.get("customer.id"), customerId, "Customer has correct id");
-      equal(cart.get("customer.firstName"), "John", "Customer is added to cart");
 
       start();
     });

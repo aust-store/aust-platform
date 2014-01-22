@@ -14,6 +14,8 @@ App.defaultSearchDelay = 0;
 var setupEmberTest = function() {
   stop();
   Ember.run(function() {
+    EmberSync.testing = true;
+
     IDB.deleteDatabase(testAdapterConfig.databaseName).then(function() {
       if (App) {
         App.reset();

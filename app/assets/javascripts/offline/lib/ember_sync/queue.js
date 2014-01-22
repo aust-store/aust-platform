@@ -2,6 +2,8 @@ if (!EmberSync) { var EmberSync = {}; }
 
 EmberSync.queueTimer = null;
 EmberSync.testing = false;
+EmberSync.supressConsoleErrors = false;
+EmberSync.forceSyncFailure = false;
 
 EmberSync.Queue = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
@@ -9,7 +11,10 @@ EmberSync.Queue = Ember.Object.extend(
   init: function() {
     this._super();
     this.set('pendingJobs', Ember.A());
+    this.set('retryOnFailureDelay', 3000);
   },
+
+  retryOnFailureDelay: null,
 
   enqueue: function(type, id, pendingCreation) {
     var job;
@@ -71,18 +76,20 @@ EmberSync.Queue = Ember.Object.extend(
     });
 
     job.perform().then(function() {
-      console.log("success");
       _this.removeJobFromQueue(jobRecord).then(function() {
         Em.run(function() {
           _this.processNextJob();
         });
       });
     }, function() {
-      console.error("Queue: job #"+jobRecord.get('id')+" not performed.");
+      if (!EmberSync.supressConsoleErrors) {
+        console.error("Queue: job #"+jobRecord.get('id')+" not performed.");
+      }
+
       if (!EmberSync.testing) {
         Em.run.later(function() {
           _this.processNextJob();
-        }, 3000);
+        }, _this.get('retryOnFailureDelay'));
       }
     }, "Aust: queue#processNextJob() for jobId "+jobRecord.id);
   },
