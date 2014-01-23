@@ -1,6 +1,7 @@
 //= require offline_test_helper
 
-var env = {}, emberSync, store, mock, onlineResults,
+var env = {}, emberSync, emberSyncQueue,
+    store, mock, onlineResults,
     onlineStore,
     container;
 
@@ -21,6 +22,7 @@ module("Integration/Lib/EmberSync", {
     store = env.store;
     onlineStore = env.onlineStore;
     emberSync = App.EmberSync.create({ container: env });
+    emberSyncQueue = EmberSync.Queue.create({ container: env });
     start();
   }
 });
@@ -184,7 +186,7 @@ test("#createRecord creates a new record", function() {
   });
 });
 
-pending("#save creates a record offline and online", function() {
+test("#save creates a record offline and online", function() {
   var record, offlineSave, generatedId;
   stop();
 
@@ -211,6 +213,10 @@ pending("#save creates a record offline and online", function() {
       equal(record.get('onSale'),         true,           "onSale is correct");
 
       Em.run.later(function() {
+        emberSyncQueue.process();
+      }, 5);
+
+      Em.run.later(function() {
         var record = App.InventoryItem.FIXTURES.slice(-1)[0];
 
         ok(true, "Record saved online");
@@ -230,26 +236,31 @@ pending("#save creates a record offline and online", function() {
   });
 });
 
-pending("#save works when no properties were given", function() {
+test("#save works when no properties were given", function() {
   var record, offlineSave, generatedId;
   stop();
 
   Em.run(function() {
+
     record = emberSync.createRecord('inventoryItem');
 
-    generatedId = record.get('id');
+    generatedId = record.id;
     ok(generatedId, "ID is valid ("+generatedId+")");
 
     offlineSave = record.emberSync.save();
     offlineSave.then(function(record) {
       ok(true, "Record saved offline");
-      equal(record.get('id'), generatedId, "id is correct");
+      equal(record.id, generatedId, "id is correct");
+
+      Em.run.later(function() {
+        emberSyncQueue.process();
+      }, 5);
 
       Em.run.later(function() {
         var record = App.InventoryItem.FIXTURES.slice(-1)[0];
         equal(record.id, generatedId, "id is correct");
         start();
-      }, 100);
+      }, 30);
 
     }, function() {
       ok(false, "Record saved offline");

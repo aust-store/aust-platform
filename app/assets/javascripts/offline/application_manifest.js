@@ -27,6 +27,6 @@
 //= require ./templates/index
 //= require_tree ./templates/
 
-Ember.RSVP.configure('onerror', function(error) {
-  Ember.Logger.assert(false, error);
-});
+//Ember.RSVP.configure('onerror', function(error) {
+//  Ember.Logger.assert(false, error);
+//});

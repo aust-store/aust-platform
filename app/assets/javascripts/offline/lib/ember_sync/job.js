@@ -47,7 +47,6 @@ EmberSync.Job = Ember.Object.extend(
     }).then(function() {
       return Ember.RSVP.resolve();
     }, function(error) {
-      _this.errors.recordNotSynchronized.call(_this, error);
       return Ember.RSVP.reject(error);
     }, "Aust: job#synchronizeOnline() for job "+ _this.get('jobRecord.id'));
   },
@@ -74,14 +73,6 @@ EmberSync.Job = Ember.Object.extend(
         reject();
       });
     });
-  },
-
-  errors: {
-    recordNotSynchronized: function(error) {
-      if (!EmberSync.supressConsoleErrors) {
-        console.error(this.get('jobRecord.jobRecordType')+" with id "+this.get('jobRecord.id')+" couldn't be saved online. "+error.message);
-      }
-    },
   },
 
   /**

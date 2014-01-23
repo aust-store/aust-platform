@@ -16,8 +16,6 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     return new Ember.RSVP.Promise(function(resolve, reject) {
       record = _this.createRecordInStore();
       record = _this.setRelationships(record);
-      //record = _this.setHasManyRelationships(record);
-      //record = _this.setBelongsToRelationships(record);
       resolve(record);
     });
   },
