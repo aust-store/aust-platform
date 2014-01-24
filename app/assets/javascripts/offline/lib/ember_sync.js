@@ -54,6 +54,19 @@ App.EmberSync = Ember.Object.extend(
       record = this.offlineStore.createRecord(type);
     }
 
+    this.embedThisIntoRecord(record, type, properties);
+    return record;
+  },
+
+  deleteRecord: function(type, record) {
+    record.deleteRecord();
+    this.embedThisIntoRecord(record, type);
+    return record;
+  },
+
+  embedThisIntoRecord: function(record, type, properties) {
+    var _this = this;
+
     record.emberSync = Ember.Object.create({
       init: function() {
         this.set('emberSync',        _this);
@@ -71,7 +84,5 @@ App.EmberSync = Ember.Object.extend(
         return persistence.save(this.get('record'));
       }
     });
-
-    return record;
   }
 });

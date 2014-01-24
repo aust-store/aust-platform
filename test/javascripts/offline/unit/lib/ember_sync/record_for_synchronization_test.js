@@ -50,20 +50,20 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
        */
       cart = offlineStore.createRecord('cart', { total: "10" });
       jobRecordModel = offlineStore.createRecord('emberSyncQueueModel', {
-        jobRecordType:   "cart",
-        jobRecordId:     cart.get('id'),
-        pendingCreation: true,
-        createdAt:       (new Date).toUTCString()
+        jobRecordType: "cart",
+        jobRecordId:   cart.get('id'),
+        operation:     "create",
+        createdAt:     (new Date).toUTCString()
       });
 
       /**
        * TODO - why are we passing this around instead of the model?
        */
       jobRecord = Ember.Object.create({
-        id:              jobRecordModel.get('id'),
-        jobRecordType:   jobRecordModel.get('jobRecordType'),
-        jobRecordId:     jobRecordModel.get('jobRecordId'),
-        pendingCreation: jobRecordModel.get('pendingCreation')
+        id:            jobRecordModel.get('id'),
+        jobRecordType: jobRecordModel.get('jobRecordType'),
+        jobRecordId:   jobRecordModel.get('jobRecordId'),
+        operation:     jobRecordModel.get('operation')
       });
 
       subject = EmberSync.RecordForSynchronization.create({
@@ -113,7 +113,7 @@ test("#createRecordInStore pushes record when pendingCreation is false", functio
   stop();
 
   Em.run(function() {
-    jobRecord.set("pendingCreation", false);
+    jobRecord.set("operation", "update");
 
     subject = EmberSync.RecordForSynchronization.create({
       offlineStore:    offlineStore,

@@ -13,6 +13,7 @@ EmberSync.Persistence = Ember.Object.extend(
    */
   save: function(record) {
     var _this = this,
+        operation      = this.persistenceOperation(record),
         offlinePromise = record.save(),
         type           = record.emberSync.get('recordType'),
         properties     = record.emberSync.get('recordProperties') || {},
@@ -20,13 +21,14 @@ EmberSync.Persistence = Ember.Object.extend(
 
     offlinePromise.then(function(offlineRecord) {
       var onlineRecord, job;
+
       properties["id"] = offlineRecord.get('id');
 
       queue = EmberSync.Queue.create({
         onlineStore:  _this.onlineStore,
         offlineStore: _this.offlineStore
       });
-      return queue.enqueue(type, properties["id"], isNew);
+      return queue.enqueue(type, properties["id"], operation);
     });
 
     return offlinePromise;
@@ -46,5 +48,15 @@ EmberSync.Persistence = Ember.Object.extend(
 
     model = this.offlineStore.push(type, serialized);
     return model.save();
+  },
+
+  persistenceOperation: function(record) {
+    if (record.get('currentState.stateName') == "root.deleted.uncommitted") {
+      return "delete";
+    } else if (record.get('isNew')) {
+      return "create";
+    } else {
+      return "update";
+    }
   },
 });

@@ -27,15 +27,7 @@ module("Integration/Lib/EmberSync", {
   }
 });
 
-test("setup is working", function() {
-  stop();
-  Em.run(function() {
-    onlineStore.find('inventoryItem', 1).then(function(item) {
-      equal(item.get('name'), "Ibanez", "Loads data from the online store");
-      start();
-    });
-  });
-});
+var StartQunit = function() { start(); }
 
 var assertItemDoesntExistOffline = function(type, id) {
   var assertMessage = "No item exists offline for id "+id,
@@ -183,6 +175,44 @@ test("#createRecord creates a new record", function() {
     equal(recordType,        'inventoryItem', 'emberSync.recordType is correct');
     equal(recordProperties,  prop, 'emberSync.recordProperties is correct');
     equal(emberSyncInstance, emberSync, 'emberSync instance is correct');
+  });
+});
+
+test("#deleteRecord delete the record from the store", function() {
+  var record, prop;
+
+  stop();
+  Em.run(function() {
+    prop = {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    };
+    newRecord = emberSync.createRecord('inventoryItem', prop);
+
+    newRecord.emberSync.save().then(function(record) {
+      equal(record.get('name'), 'Fender', 'name is correct');
+      equal(record.get('description'), 'Super guitar', 'description is correct');
+      equal(record.get('price'), '123', 'price is correct');
+      equal(record.get('entryForSaleId'), '1', 'entryForSaleId is correct');
+      equal(record.get('onSale'), true, 'onSale is correct');
+
+      record = emberSync.deleteRecord('inventoryItem', record);
+
+      var record            = record.emberSync.get('record'),
+          emberSyncInstance = record.emberSync.get('emberSync'),
+          recordType        = record.emberSync.get('recordType'),
+          recordProperties  = record.emberSync.get('recordProperties');
+
+      equal(record.get('currentState.stateName'), 'root.deleted.uncommitted', 'record is marked for deletion');
+      equal(record,            record, 'emberSync.record instance is correct');
+      equal(recordType,        'inventoryItem', 'emberSync.recordType is correct');
+      equal(emberSyncInstance, emberSync, 'emberSync instance is correct');
+      ok(!recordProperties,    'emberSync.recordProperties is not defined');
+      start();
+    });
   });
 });
 
@@ -347,29 +377,29 @@ test("#save creates a record offline and enqueues online synchronization", funct
           /**
            * First job to create the record
            */
-          equal(creationJob.get('id'), "1", "creation job's id is correct");
-          equal(creationJob.get('jobRecordId'),     oldRecord.id, "creation job's record id is correct");
-          equal(creationJob.get('jobRecordType'),   'inventoryItem', "creation job's record type is correct");
-          equal(creationJob.get('pendingCreation'), true, "creation job's pending creation is true");
-          ok(creationJob.get('createdAt'), "creation job's date is correct");
+          equal(creationJob.get('id'),            "1",             "creation job's id is correct");
+          equal(creationJob.get('jobRecordId'),   oldRecord.id,    "creation job's record id is correct");
+          equal(creationJob.get('jobRecordType'), 'inventoryItem', "creation job's record type is correct");
+          equal(creationJob.get('operation'),     "create",        "creation job's pending creation is true");
+          ok(creationJob.get('createdAt'),                         "creation job's date is correct");
 
           /**
            * Second job to update the record
            */
-          equal(updateJob.get('id'), 2, "update job's id is correct");
-          equal(updateJob.get('jobRecordId'),     oldRecord.id, "update job's record id is correct");
-          equal(updateJob.get('jobRecordType'),   'inventoryItem', "update job's record type is correct");
-          equal(updateJob.get('pendingCreation'), false, "update job's pending creation is false");
-          ok(updateJob.get('createdAt'), "update job's has a date");
+          equal(updateJob.get('id'),            2,               "update job's id is correct");
+          equal(updateJob.get('jobRecordId'),   oldRecord.id,    "update job's record id is correct");
+          equal(updateJob.get('jobRecordType'), 'inventoryItem', "update job's record type is correct");
+          equal(updateJob.get('operation'),     "update",        "creation job's pending creation is true");
+          ok(updateJob.get('createdAt'),                         "update job's has a date");
 
           /**
            * Third job to create a new record
            */
-          equal(creationJob2.get('id'), 3, "creation job's id is correct");
-          equal(creationJob2.get('jobRecordId'),     newRecord.id, "creation job's new record id is correct");
-          equal(creationJob2.get('jobRecordType'),   'inventoryItem', "creation job's new record type is correct");
-          equal(creationJob2.get('pendingCreation'), true, "create job's pending creation is false");
-          ok(creationJob2.get('createdAt'), "creation job 2's date is correct");
+          equal(creationJob2.get('id'),            3,               "creation job's id is correct");
+          equal(creationJob2.get('jobRecordId'),   newRecord.id,    "creation job's new record id is correct");
+          equal(creationJob2.get('jobRecordType'), 'inventoryItem', "creation job's new record type is correct");
+          equal(creationJob2.get('operation'),     "create",        "creation job's pending creation is true");
+          ok(creationJob2.get('createdAt'),                         "creation job 2's date is correct");
           start();
         });
       }, 80);
@@ -378,5 +408,69 @@ test("#save creates a record offline and enqueues online synchronization", funct
       ok(false, "Record saved offline");
       start();
     });
+  });
+});
+
+pending("#save deletes a record offline and online if it's marked as so", function() {
+  var record, offlineSave, generatedId;
+  stop();
+
+  Em.run(function() {
+    record = emberSync.createRecord('inventoryItem', {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    generatedId = record.get('id');
+    ok(generatedId, "ID is valid ("+generatedId+")");
+
+    offlineSave = record.emberSync.save();
+
+    var Synchronize = function(record) {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        Em.run.later(function() { emberSyncQueue.process(); }, 5);
+        Em.run.later(function() { resolve(); }, 40);
+      });
+    }
+
+    var TestSynchronized = function() {
+      var record = App.InventoryItem.FIXTURES.slice(-1)[0];
+      equal(record.id, generatedId, "Record is saved online");
+      return Ember.RSVP.resolve();
+    }
+
+    var MarkForDeletion = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        emberSync.deleteRecord('inventoryItem', record);
+        record.emberSync.save().then(function() {
+          Em.run.later(function() {
+            resolve();
+          }, 10);
+        });
+      });
+    }
+
+    var TestRecordIsDeleted = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        var record = App.InventoryItem.FIXTURES.slice(-1)[0];
+
+        equal(store.recordForId('inventoryItem', generatedId).get('currentState.stateName'), 'root.empty', "Record is deleted from offline DS.Store");
+        store.find('inventoryItem', generatedId).then(
+          function() { ok(false, "Record is deleted from offline database"); resolve(); },
+          function() { ok(true, "Record is deleted from offline database"); resolve(); }
+        );
+        notEqual(record.id, generatedId, "Record is deleted online");
+      });
+    }
+
+    offlineSave.then(Synchronize)
+               .then(TestSynchronized)
+               .then(MarkForDeletion)
+               .then(Synchronize)
+               .then(TestRecordIsDeleted)
+               .then(StartQunit)
   });
 });

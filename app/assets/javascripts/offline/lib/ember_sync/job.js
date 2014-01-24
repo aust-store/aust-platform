@@ -10,13 +10,14 @@ EmberSync.Job = Ember.Object.extend(
 
     this.set("recordType", this.get('jobRecord.jobRecordType'));
     this.set("recordId",   this.get('jobRecord.jobRecordId'));
-    this.set("pendingCreation", this.get('jobRecord.pendingCreation'));
+    this.set("operation",  this.get('jobRecord.operation'));
   },
 
   perform: function() {
     var _this = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
+
       _this.findOfflineRecord().then(function(offlineRecord) {
         return _this.synchronizeOnline(offlineRecord);
       }).then(function() {

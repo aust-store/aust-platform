@@ -16,21 +16,23 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     return new Ember.RSVP.Promise(function(resolve, reject) {
       record = _this.createRecordInStore();
       record = _this.setRelationships(record);
+
       resolve(record);
     });
   },
 
   createRecordInStore: function() {
     var type = this.get('jobRecord.jobRecordType'),
+        operation = this.get('jobRecord.operation'),
         record, properties;
 
     properties = this.propertiesToPersist();
 
     this.rollbackExistingRecord();
 
-    if (this.get('jobRecord.pendingCreation')) {
+    if (operation == "create") {
       record = this.onlineStore.createRecord(type, properties);
-    } else {
+    } else if (operation == "update") {
       record = this.onlineStore.push(type, properties);
     }
 

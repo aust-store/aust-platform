@@ -2,7 +2,7 @@ if (!EmberSync) { var EmberSync = {}; }
 
 EmberSync.queueTimer = null;
 EmberSync.testing = false;
-EmberSync.supressConsoleErrors = false;
+EmberSync.supressConsoleErrors = true;
 EmberSync.forceSyncFailure = false;
 
 EmberSync.Queue = Ember.Object.extend(
@@ -16,13 +16,13 @@ EmberSync.Queue = Ember.Object.extend(
 
   retryOnFailureDelay: null,
 
-  enqueue: function(type, id, pendingCreation) {
+  enqueue: function(type, id, operation) {
     var job;
 
     job = this.offlineStore.createRecord('emberSyncQueueModel', {
       jobRecordType:   type,
       jobRecordId:     id,
-      pendingCreation: pendingCreation,
+      operation:       operation,
       createdAt:       (new Date).toUTCString(),
     });
     adapter = this.offlineStore.adapterFor(type);
