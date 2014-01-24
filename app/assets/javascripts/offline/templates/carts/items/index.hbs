@@ -1,7 +1,34 @@
-{{#each controller}}
-  <tr class="even">
-    <td>{{inventory_item.price}}</td>
-    <td>item</td>
-    <td>R$ {{price}}</td>
-  </tr>
-{{/each}}
+<table class="listing carts">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Valor</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#each controller}}
+      <tr class="even">
+        <td>{{inventoryItem.name}}</td>
+        <td>R$ {{money price}}</td>
+        <td>
+          <a href="javascript: void()" class='delete' {{action 'deleteItem' this}}>
+            {{img 'delete' width='16' height='16'}}
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+
+    {{#if cart.subtotal}}
+      <tr class="even cart_total">
+        <td>Total do pedido</td>
+        <td colspan="2">R$ {{money cart.subtotal}}</td>
+      </tr>
+    {{else}}
+      <tr class="">
+        <td colspan="2">Sem items no carrinho de compras</td>
+      </tr>
+    {{/if}}
+  </tbody>
+</table>

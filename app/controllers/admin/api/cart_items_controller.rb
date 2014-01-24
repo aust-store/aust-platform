@@ -24,6 +24,14 @@ class Admin::Api::CartItemsController < Admin::Api::ApplicationController
     render json: item, serializer: CartItemSerializer
   end
 
+  def destroy
+    cart_item = ::OrderItem.find_by_uuid(params[:id])
+    cart_item.destroy if cart_item.cart.company == current_company
+  rescue ActiveRecord::StatementInvalid
+  ensure
+    render json: {}
+  end
+
   private
 
   def cart_id

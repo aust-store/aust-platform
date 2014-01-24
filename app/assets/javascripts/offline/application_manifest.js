@@ -27,6 +27,10 @@
 //= require ./templates/index
 //= require_tree ./templates/
 
+if (!Ember.testing && typeof QUnit != 'undefined') {
+  window.developmentHelpers = true;
+}
+
 //Ember.RSVP.configure('onerror', function(error) {
 //  Ember.Logger.assert(false, error);
 //});

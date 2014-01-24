@@ -9,36 +9,7 @@
   <br />
   <h2>{{itemsQuantityHeadline}}</h2>
 
-  <table class="listing carts">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {{render "items"}}
-
-      {{#each controller.cartItems}}
-        <tr class="even">
-          <td>{{inventoryItem.name}}</td>
-          <td>R$ {{money price}}</td>
-        </tr>
-      {{/each}}
-
-      {{#if subtotal}}
-        <tr class="even cart_total">
-          <td>Total do pedido</td>
-          <td>R$ {{money subtotal}}</td>
-        </tr>
-      {{else}}
-        <tr class="">
-          <td colspan="2">Sem items no carrinho de compras</td>
-        </tr>
-      {{/if}}
-    </tbody>
-  </table>
+  {{render "items" controller.cartItems controller='cartItems'}}
 </section>
 
 <section>

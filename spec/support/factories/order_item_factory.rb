@@ -14,6 +14,10 @@ FactoryGirl.define do
         item.inventory_entry = inventory_item.entries.first
         item.save
       end
+
+      factory :cart_item do
+
+      end
     end
   end
 end

@@ -51,7 +51,7 @@ Store::Application.routes.draw do
         resources :inventory_items, only: [:index]
         resources :orders,          only: api_actions
         resources :carts,           only: api_actions
-        resources :cart_items,      only: api_actions
+        resources :cart_items,      only: api_actions.push(:destroy)
         resources :customers,       only: api_actions
         resources :taxonomies,      only: [:index]
         resources :manufacturers,   only: [:index]

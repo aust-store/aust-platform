@@ -94,4 +94,25 @@ describe Admin::Api::CartItemsController do
       end
     end
   end
+
+  describe "DELETE destroy" do
+    let(:cart_item) { create(:cart_item, cart: cart) }
+
+    before do
+      cart_item
+    end
+
+    it "deletes a cart item" do
+      xhr :delete, :destroy, id: cart_item.uuid
+
+      json = ActiveSupport::JSON.decode(response.body)
+      json.should == {}
+    end
+
+    it "returns success even if a cart item doesn't exist" do
+      xhr :delete, :destroy, id: 123
+      json = ActiveSupport::JSON.decode(response.body)
+      json.should == {}
+    end
+  end
 end

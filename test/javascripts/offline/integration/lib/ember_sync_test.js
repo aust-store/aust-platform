@@ -27,6 +27,14 @@ module("Integration/Lib/EmberSync", {
   }
 });
 
+var Synchronize = function(record) {
+  ok(true, "Synchronizing");
+  return new Ember.RSVP.Promise(function(resolve, reject) {
+    Em.run.later(function() { emberSyncQueue.process(); }, 5);
+    Em.run.later(function() { resolve(); }, 70);
+  });
+}
+
 var StartQunit = function() { start(); }
 
 var assertItemDoesntExistOffline = function(type, id) {
@@ -437,14 +445,6 @@ test("#save deletes a record offline and then online if it's marked as so", func
 
     offlineSave = record.emberSync.save();
 
-    var Synchronize = function(record) {
-      ok(true, "Synchronizing");
-      return new Ember.RSVP.Promise(function(resolve, reject) {
-        Em.run.later(function() { emberSyncQueue.process(); }, 5);
-        Em.run.later(function() { resolve(); }, 60);
-      });
-    }
-
     var TestSynchronized = function() {
       var record = App.InventoryItem.FIXTURES.slice(-1)[0];
       equal(record.id, generatedId, "Record is saved online");
@@ -496,6 +496,98 @@ test("#save deletes a record offline and then online if it's marked as so", func
                .then(TestDeleteJobsAreCreated)
                .then(Synchronize)
                .then(TestRecordIsDeleted)
+               .then(StartQunit)
+  });
+});
+
+test("#save operates a creation job even if offline record doesn't exist anymore", function() {
+  var record, offlineSave, generatedId;
+  stop();
+
+  Em.run(function() {
+    record = emberSync.createRecord('inventoryItem', {
+      name: "Fender",
+      description: "Super guitar",
+      price: "123",
+      entryForSaleId: "1",
+      onSale: true
+    });
+
+    generatedId = record.get('id');
+    ok(generatedId, "ID is valid ("+generatedId+")");
+    equal(App.InventoryItem.FIXTURES.length, 3, "There are 3 records online");
+
+    offlineSave = record.emberSync.save();
+
+    var MarkForDeletion = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        emberSync.deleteRecord('inventoryItem', record);
+        record.emberSync.save().then(function() {
+          Em.run.later(function() {
+            resolve();
+          }, 10);
+        });
+      });
+    }
+
+    var TestDeleteJobsAreCreated = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        var jobs = store.find('emberSyncQueueModel');
+
+        jobs.then(function(jobs) {
+          var creationJob = jobs.objectAt(0),
+              deletionJob = jobs.objectAt(1);
+
+          equal(jobs.get('length'), 2, "Only deletion job is present");
+
+          equal(creationJob.get('operation'), 'create', "Create job's operation is create");
+          equal(deletionJob.get('operation'), 'delete', "Deletion job's operation is delete");
+          resolve();
+        });
+      });
+    };
+
+    var TestRecordIsDeleted = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        /**
+         * On the timer...
+         *
+         * Have to wait a bit longer here for the spec to pass. It seems that
+         * deleting records takes longer than creating
+         */
+        Em.run.later(function() {
+          var record = App.InventoryItem.FIXTURES.slice(-1)[0];
+
+          equal(App.InventoryItem.FIXTURES.length, 3, "There are 3 records online");
+          notEqual(record.id, generatedId, "Record is deleted online");
+          equal(store.recordForId('inventoryItem', generatedId).get('currentState.stateName'), 'root.empty', "Record is deleted from offline DS.Store");
+          store.find('inventoryItem', generatedId).then(function() {
+            ok(false, "Record is deleted from offline database");
+            resolve();
+          }, function() {
+            ok(true, "Record is deleted from offline database");
+            resolve();
+          });
+        }, 80);
+      });
+    }
+
+    var TestJobsWereDeleted = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        var jobs = store.find('emberSyncQueueModel');
+
+        jobs.then(function(jobs) {
+          equal(jobs.get('length'), 0, "Jobs were run and deleted successfully!");
+          resolve();
+        });
+      });
+    }
+
+    offlineSave.then(MarkForDeletion)
+               .then(TestDeleteJobsAreCreated)
+               .then(Synchronize)
+               .then(TestRecordIsDeleted)
+               .then(TestJobsWereDeleted)
                .then(StartQunit)
   });
 });

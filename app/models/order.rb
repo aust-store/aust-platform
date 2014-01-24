@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   uuid field: "uuid"
 
   attr_accessible :cart_id, :store_id, :customer_id, :items_attributes, :items,
-                  :environment,
+                  :environment, :uuid,
                   :customer, :store, :shipping_address, :shipping_details
 
   belongs_to :customer

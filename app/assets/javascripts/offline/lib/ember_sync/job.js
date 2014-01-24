@@ -25,7 +25,6 @@ EmberSync.Job = Ember.Object.extend(
     var recordPromise,
         operation = this.get('jobRecord.operation');
 
-    console.log("operation for job "+this.get('jobRecord.id'), operation);
     if (operation == "delete") {
       recordPromise = this.deletion();
     } else {
@@ -36,11 +35,11 @@ EmberSync.Job = Ember.Object.extend(
   },
 
   save: function() {
-    var _this = this;
+    var _this = this,
+        record, recordForSynchronization;
+
 
     return this.findOfflineRecord().then(function(offlineRecord) {
-      var record, recordForSynchronization;
-
       recordForSynchronization = EmberSync.RecordForSynchronization.create({
         offlineStore:  _this.offlineStore,
         onlineStore:   _this.onlineStore,
@@ -49,7 +48,19 @@ EmberSync.Job = Ember.Object.extend(
       });
 
       return recordForSynchronization.toEmberData();
-    });
+    }, function() {
+      if (!EmberSync.supressConsoleErrors) {
+        console.error("Original record doesn't exist anymore");
+      }
+
+      recordForSynchronization = EmberSync.RecordForSynchronization.create({
+        offlineStore: _this.offlineStore,
+        onlineStore:  _this.onlineStore,
+        jobRecord:    _this.get('jobRecord'),
+      });
+
+      return recordForSynchronization.toEmberData();
+    }, "Aust: job#save() for job "+ _this.get('jobRecord.id'));
   },
 
   deletion: function() {
@@ -58,7 +69,16 @@ EmberSync.Job = Ember.Object.extend(
         id = this.get('jobRecord.serialized.id');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var record = _this.onlineStore.push(type, {id: id});
+      var record, preExisting;
+
+      preExisting = _this.onlineStore.hasRecordForId(type, id);
+      if (preExisting) {
+        preExisting = _this.onlineStore.recordForId(type, id);
+        preExisting.rollback();
+        _this.onlineStore.unloadAll(type);
+      }
+
+      record = _this.onlineStore.push(type, {id: id});
       record.deleteRecord();
       resolve(record);
     });
@@ -97,8 +117,6 @@ EmberSync.Job = Ember.Object.extend(
         _this.set('originalOfflineRecord', record);
         resolve(record);
       }, function() {
-        console.error("Original record doesn't exist anymore");
-        console.error(_this);
         reject();
       });
     });

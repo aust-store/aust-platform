@@ -3,7 +3,7 @@ require "store/sale"
 describe Store::Sale do
   let(:cart) { double }
 
-  subject { described_class.new(cart) }
+  subject { described_class.new(cart, {}) }
 
   before do
     stub_const("Store::Order::CreationFromCart", Class.new)
@@ -17,7 +17,7 @@ describe Store::Sale do
       subject.stub(:subtract_items_from_stock)
 
       order_creation = double
-      Store::Order::CreationFromCart.stub(:new).with(cart) { order_creation }
+      Store::Order::CreationFromCart.stub(:new).with(cart, {}) { order_creation }
       order_creation.should_receive(:convert_cart_into_order)
 
       subject.close

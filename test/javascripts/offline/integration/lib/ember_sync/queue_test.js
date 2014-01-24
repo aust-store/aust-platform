@@ -11,7 +11,6 @@ var Cart     = App.Cart,
 module("Integration/Lib/EmberSync/Queue", {
   setup: function() {
     mock = null;
-    EmberSync.supressConsoleErrors = true;
     EmberSync.testing = true;
 
     stop();
@@ -48,7 +47,6 @@ module("Integration/Lib/EmberSync/Queue", {
 
   teardown: function() {
     EmberSync.forceSyncFailure = false;
-    EmberSync.supressConsoleErrors = false;
 
     App.Cart     = Cart;
     App.CartItem = CartItem;

@@ -19,7 +19,7 @@ class Admin::Api::OrdersController < Admin::ApplicationController
   def create
     cart = current_company.carts.find_by_uuid(order_params[:cart_id])
 
-    sale = Store::Sale.new(cart)
+    sale = Store::Sale.new(cart, order_uuid: order_id)
     sale.close
 
     render json: sale.order, include_items: true
@@ -27,9 +27,13 @@ class Admin::Api::OrdersController < Admin::ApplicationController
 
   private
 
+  def order_id
+    order_params[:id]
+  end
+
   def order_params
     params
       .require(:order)
-      .permit(:cart_id)
+      .permit(:id, :cart_id)
   end
 end

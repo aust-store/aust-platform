@@ -17,10 +17,6 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
       record = _this.createRecordInStore();
       record = _this.setRelationships(record);
 
-      //if (_this.get('jobRecord.operation') == "delete") {
-      //  record.deleteRecord();
-      //}
-
       resolve(record);
     });
   },
@@ -31,7 +27,6 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
         record, properties;
 
     properties = this.propertiesToPersist();
-
     this.rollbackExistingRecord();
 
     if (operation == "create") {
@@ -39,6 +34,13 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     } else if (operation == "update") {
       record = this.onlineStore.push(type, properties);
     }
+    /**
+     * TODO
+     *
+     * else {
+     *   throw("what operation is it?");
+     * }
+     */
 
     return record;
   },
@@ -60,14 +62,25 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
 
   propertiesToPersist: function() {
     var offlineRecord = this.get('offlineRecord'),
-        originalSerialized = this.get('jobRecord.serialized');
+        originalSerialized = this.get('jobRecord.serialized'),
+        type = this.get('jobRecord.jobRecordType');
 
-    return this.serializeWithoutRelationships(offlineRecord, originalSerialized);
+    return this.serializeWithoutRelationships(type, offlineRecord, originalSerialized);
   },
 
   setRelationships: function(pendingRecord) {
     var _this = this,
-        offlineRecord = this.get('offlineRecord');
+        offlineRecord = this.get('offlineRecord'),
+        type = this.get('jobRecord.jobRecordType');
+
+    /**
+     * We need to loop relationships. If no record was
+     * passed in, we need to create a new one, fake, so we know about the
+     * relationships.
+     */
+    if (!offlineRecord) {
+      offlineRecord = this.onlineStore.push(type, {id: 1});
+    }
 
     offlineRecord.eachRelationship(function(name, descriptor) {
       var key = descriptor.key,
@@ -80,7 +93,18 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
        */
       relation = offlineRecord.get(name);
 
+      /**
+       * We need to attach relationships to the main record. If the
+       * relationships don't exist anymore offline, we need to generate a new
+       * one, fake, with the same ID, just to send to the server.
+       */
       if (kind == "belongsTo") {
+        var relationId = _this.get('jobRecord.serialized')[name];
+
+        if (relationId && !relation) {
+          relation = _this.onlineStore.push(type, {id: relationId});
+        }
+
         if (relation) {
           onlineRelation = _this.generateRelationForRecord(type, relation);
           pendingRecord.set(key, onlineRelation);
@@ -97,19 +121,30 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
   },
 
   generateRelationForRecord: function(type, relation) {
-    var serializedRelation = this.serializeWithoutRelationships(relation);
+    var serializedRelation = this.serializeWithoutRelationships(type, relation);
     return this.onlineStore.push(type.typeKey, serializedRelation);
   },
 
-  serializeWithoutRelationships: function(record, serialized) {
+  serializeWithoutRelationships: function(type, record, serialized) {
+    var serializedCopy;
+
     if (!serialized) {
       serialized = record.serialize({includeId: true});
     }
 
+    serializedCopy = JSON.parse(JSON.stringify(serialized));
+    /**
+     * We need to get relationships off the serialization. If no record was
+     * passed in, we need to create a new one, fake, so we know about the
+     * relationships.
+     */
+    if (!record) {
+      record = this.onlineStore.push(type, {id: 1});
+    }
     record.eachRelationship(function(name, descriptor) {
-      delete serialized[name];
+      delete serializedCopy[name];
     });
 
-    return serialized;
+    return serializedCopy;
   }
 });

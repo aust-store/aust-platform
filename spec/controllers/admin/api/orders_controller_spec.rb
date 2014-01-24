@@ -6,6 +6,8 @@ describe Admin::Api::OrdersController do
   it_obeys_the "admin application controller contract"
   it_obeys_the "Decoration Builder contract"
 
+  let(:pregenerated_uuid) { SecureRandom.uuid }
+
   describe "GET index" do
     let(:website_order) { create(:order, store: @company, total_items: 1) }
     let(:offline_order) { create(:offline_order, store: @company, total_items: 1) }
@@ -83,12 +85,14 @@ describe Admin::Api::OrdersController do
       cart = FactoryGirl.create(:offline_cart, company: @company)
       json_request = {
         "order" => {
+          "id"      => pregenerated_uuid,
           "cart_id" => cart.uuid
         }
       }
       xhr :post, :create, json_request
 
       order = Order.first
+      order.uuid.should == pregenerated_uuid
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
