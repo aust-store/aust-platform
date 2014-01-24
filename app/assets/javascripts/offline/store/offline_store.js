@@ -15,5 +15,13 @@ App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
 
   generateIdForRecord: function() {
     return uuid.v4();
+  },
+
+  findQuerySearchCriteria: function(fieldName, type) {
+    if (type.toString() == "App.InventoryItem" && fieldName == "description") {
+      return false;
+    } else {
+      return true;
+    }
   }
 });
