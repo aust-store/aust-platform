@@ -25,8 +25,9 @@ EmberSync.Job = Ember.Object.extend(
     var recordPromise,
         operation = this.get('jobRecord.operation');
 
+    console.log("operation for job "+this.get('jobRecord.id'), operation);
     if (operation == "delete") {
-      recordPromise = null;
+      recordPromise = this.deletion();
     } else {
       recordPromise = this.save();
     }
@@ -48,6 +49,18 @@ EmberSync.Job = Ember.Object.extend(
       });
 
       return recordForSynchronization.toEmberData();
+    });
+  },
+
+  deletion: function() {
+    var _this = this,
+        type = this.get('jobRecord.jobRecordType'),
+        id = this.get('jobRecord.serialized.id');
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      var record = _this.onlineStore.push(type, {id: id});
+      record.deleteRecord();
+      resolve(record);
     });
   },
 

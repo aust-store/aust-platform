@@ -419,7 +419,7 @@ test("#save creates a record offline and enqueues online synchronization", funct
   });
 });
 
-pending("#save deletes a record offline and online if it's marked as so", function() {
+test("#save deletes a record offline and then online if it's marked as so", function() {
   var record, offlineSave, generatedId;
   stop();
 
@@ -438,9 +438,10 @@ pending("#save deletes a record offline and online if it's marked as so", functi
     offlineSave = record.emberSync.save();
 
     var Synchronize = function(record) {
+      ok(true, "Synchronizing");
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Em.run.later(function() { emberSyncQueue.process(); }, 5);
-        Em.run.later(function() { resolve(); }, 40);
+        Em.run.later(function() { resolve(); }, 60);
       });
     }
 
@@ -461,6 +462,21 @@ pending("#save deletes a record offline and online if it's marked as so", functi
       });
     }
 
+    var TestDeleteJobsAreCreated = function() {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        var jobs = store.find('emberSyncQueueModel');
+
+        jobs.then(function(jobs) {
+          var deletionJob = jobs.objectAt(0);
+
+          equal(jobs.get('length'), 1, "Only deletion job is present");
+
+          equal(deletionJob.get('operation'), 'delete', "Deletion job's operation is delete");
+          resolve();
+        });
+      });
+    };
+
     var TestRecordIsDeleted = function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         var record = App.InventoryItem.FIXTURES.slice(-1)[0];
@@ -477,6 +493,7 @@ pending("#save deletes a record offline and online if it's marked as so", functi
     offlineSave.then(Synchronize)
                .then(TestSynchronized)
                .then(MarkForDeletion)
+               .then(TestDeleteJobsAreCreated)
                .then(Synchronize)
                .then(TestRecordIsDeleted)
                .then(StartQunit)
