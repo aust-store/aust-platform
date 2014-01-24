@@ -86,7 +86,7 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
   }
 });
 
-test("#createRecordInStore creates a new record in store for pendingCreation", function() {
+test("#createRecordInStore creates a new record in store for operation=create", function() {
   var result;
   stop();
 
@@ -108,7 +108,7 @@ test("#createRecordInStore creates a new record in store for pendingCreation", f
   });
 });
 
-test("#createRecordInStore pushes record when pendingCreation is false", function() {
+test("#createRecordInStore pushes record when operation=update", function() {
   var result;
   stop();
 
@@ -132,7 +132,7 @@ test("#createRecordInStore pushes record when pendingCreation is false", functio
   });
 });
 
-test("#createRecordInStore unloads previous record and recreates it with pendingCreation true", function() {
+test("#createRecordInStore unloads previous record and recreates it with operation=create", function() {
   var result;
   stop();
 

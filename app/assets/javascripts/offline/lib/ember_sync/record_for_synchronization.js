@@ -9,13 +9,17 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     this._super();
   },
 
-  recordForSynchronization: function() {
+  toEmberData: function() {
     var _this = this,
         record;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       record = _this.createRecordInStore();
       record = _this.setRelationships(record);
+
+      //if (_this.get('jobRecord.operation') == "delete") {
+      //  record.deleteRecord();
+      //}
 
       resolve(record);
     });

@@ -7,20 +7,13 @@ EmberSync.Job = Ember.Object.extend(
 
   init: function() {
     this._super();
-
-    this.set("recordType", this.get('jobRecord.jobRecordType'));
-    this.set("recordId",   this.get('jobRecord.jobRecordId'));
-    this.set("operation",  this.get('jobRecord.operation'));
   },
 
   perform: function() {
     var _this = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-
-      _this.findOfflineRecord().then(function(offlineRecord) {
-        return _this.synchronizeOnline(offlineRecord);
-      }).then(function() {
+      _this.synchronizeOnline().then(function() {
         resolve();
       }, function() {
         reject();
@@ -28,16 +21,38 @@ EmberSync.Job = Ember.Object.extend(
     });
   },
 
-  synchronizeOnline: function(offlineRecord) {
-    var _this = this,
-        record;
+  synchronizeOnline: function() {
+    var recordPromise,
+        operation = this.get('jobRecord.operation');
 
-    record = EmberSync.RecordForSynchronization.create({
-      offlineStore:  this.offlineStore,
-      onlineStore:   this.onlineStore,
-      offlineRecord: offlineRecord,
-      jobRecord:     this.get('jobRecord'),
-    }).recordForSynchronization();
+    if (operation == "delete") {
+      recordPromise = null;
+    } else {
+      recordPromise = this.save();
+    }
+
+    return this.commitChangesOnline(recordPromise);
+  },
+
+  save: function() {
+    var _this = this;
+
+    return this.findOfflineRecord().then(function(offlineRecord) {
+      var record, recordForSynchronization;
+
+      recordForSynchronization = EmberSync.RecordForSynchronization.create({
+        offlineStore:  _this.offlineStore,
+        onlineStore:   _this.onlineStore,
+        offlineRecord: offlineRecord,
+        jobRecord:     _this.get('jobRecord'),
+      });
+
+      return recordForSynchronization.toEmberData();
+    });
+  },
+
+  commitChangesOnline: function(record) {
+    var _this = this;
 
     return record.then(function(record) {
       if (EmberSync.forceSyncFailure) {

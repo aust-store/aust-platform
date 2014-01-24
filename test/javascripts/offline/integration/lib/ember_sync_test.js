@@ -380,7 +380,7 @@ test("#save creates a record offline and enqueues online synchronization", funct
           equal(creationJob.get('id'),            "1",             "creation job's id is correct");
           equal(creationJob.get('jobRecordId'),   oldRecord.id,    "creation job's record id is correct");
           equal(creationJob.get('jobRecordType'), 'inventoryItem', "creation job's record type is correct");
-          equal(creationJob.get('operation'),     "create",        "creation job's pending creation is true");
+          equal(creationJob.get('operation'),     "create",        "creation job's operation is create");
           ok(creationJob.get('createdAt'),                         "creation job's date is correct");
 
           /**
@@ -389,7 +389,7 @@ test("#save creates a record offline and enqueues online synchronization", funct
           equal(updateJob.get('id'),            2,               "update job's id is correct");
           equal(updateJob.get('jobRecordId'),   oldRecord.id,    "update job's record id is correct");
           equal(updateJob.get('jobRecordType'), 'inventoryItem', "update job's record type is correct");
-          equal(updateJob.get('operation'),     "update",        "creation job's pending creation is true");
+          equal(updateJob.get('operation'),     "update",        "creation job's operation is update");
           ok(updateJob.get('createdAt'),                         "update job's has a date");
 
           /**
@@ -398,7 +398,7 @@ test("#save creates a record offline and enqueues online synchronization", funct
           equal(creationJob2.get('id'),            3,               "creation job's id is correct");
           equal(creationJob2.get('jobRecordId'),   newRecord.id,    "creation job's new record id is correct");
           equal(creationJob2.get('jobRecordType'), 'inventoryItem', "creation job's new record type is correct");
-          equal(creationJob2.get('operation'),     "create",        "creation job's pending creation is true");
+          equal(creationJob2.get('operation'),     "create",        "creation job's operation is create");
           ok(creationJob2.get('createdAt'),                         "creation job 2's date is correct");
           start();
         });
