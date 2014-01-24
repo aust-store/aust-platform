@@ -22,13 +22,13 @@ EmberSync.Persistence = Ember.Object.extend(
     offlinePromise.then(function(offlineRecord) {
       var onlineRecord, job;
 
-      properties["id"] = offlineRecord.get('id');
+      properties = offlineRecord.serialize({includeId: true});
 
       queue = EmberSync.Queue.create({
         onlineStore:  _this.onlineStore,
         offlineStore: _this.offlineStore
       });
-      return queue.enqueue(type, properties["id"], operation);
+      return queue.enqueue(type, properties, operation);
     });
 
     return offlinePromise;

@@ -1,6 +1,7 @@
 //= require_self
 //= require_tree ./offline
 
+QUnit.config.testTimeout = 15000;
 QUnit.pending = function() {
   QUnit.test(arguments[0] + ' (SKIPPED)', function() {
     var li = document.getElementById(QUnit.config.current.id);

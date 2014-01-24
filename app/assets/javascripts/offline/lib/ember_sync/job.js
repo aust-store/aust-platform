@@ -73,7 +73,7 @@ EmberSync.Job = Ember.Object.extend(
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var record,
           recordType = _this.get('jobRecord.jobRecordType'),
-          recordId   = _this.get('jobRecord.jobRecordId');
+          recordId   = _this.get('jobRecord.serialized.id');
 
       if (_this.get('originalOfflineRecord')) {
         resolve(_this.get('originalOfflineRecord'));

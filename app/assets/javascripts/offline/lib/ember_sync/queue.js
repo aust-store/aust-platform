@@ -16,14 +16,14 @@ EmberSync.Queue = Ember.Object.extend(
 
   retryOnFailureDelay: null,
 
-  enqueue: function(type, id, operation) {
+  enqueue: function(type, properties, operation) {
     var job;
 
     job = this.offlineStore.createRecord('emberSyncQueueModel', {
-      jobRecordType:   type,
-      jobRecordId:     id,
-      operation:       operation,
-      createdAt:       (new Date).toUTCString(),
+      jobRecordType: type,
+      operation:     operation,
+      createdAt:     (new Date).toUTCString(),
+      serialized:    properties
     });
     adapter = this.offlineStore.adapterFor(type);
     adapter.createRecord(null, App.EmberSyncQueueModel, job);

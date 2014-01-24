@@ -229,10 +229,10 @@ test("#process retries processing on error if synchronization fails", function()
             equal(jobs.get('length'), 2, "Two jobs exist for cart and item");
 
             if (job1) {
-              equal(job1.get('jobRecordId'), cart.id,     "Job 1 has cart id");
+              equal(job1.get('serialized.id'), cart.id, "Job 1 has cart id");
             }
             if (job2) {
-              equal(job2.get('jobRecordId'), cartItem.id, "Job 2 has cart item id");
+              equal(job2.get('serialized.id'), cartItem.id, "Job 2 has cart item id");
             }
             resolve();
           }, function() {

@@ -171,10 +171,9 @@ test("#createRecord creates a new record", function() {
         recordType        = record.emberSync.get('recordType'),
         recordProperties  = record.emberSync.get('recordProperties');
 
-    equal(record,            record, 'emberSync.record instance is correct');
+    equal(record,            record,          'emberSync.record is correct');
     equal(recordType,        'inventoryItem', 'emberSync.recordType is correct');
-    equal(recordProperties,  prop, 'emberSync.recordProperties is correct');
-    equal(emberSyncInstance, emberSync, 'emberSync instance is correct');
+    equal(emberSyncInstance, emberSync,       'emberSync instance is correct');
   });
 });
 
@@ -320,7 +319,9 @@ test("#save returns the same DS.Model instance that was created", function() {
 });
 
 test("#save creates a record offline and enqueues online synchronization", function() {
-  var oldRecord, newRecord, offlineSave, generatedId;
+  var oldRecord, newRecord, offlineSave, generatedId,
+      serializedOldRecord, serializedUpdatedRecord, serializedNextRecord;
+
   stop();
 
   Em.run(function() {
@@ -331,10 +332,13 @@ test("#save creates a record offline and enqueues online synchronization", funct
       entryForSaleId: "1",
       onSale: true
     });
+    serializedOldRecord = record.serialize({includeId: true});
 
     return record.emberSync.save();
   }).then(function(oldRecord) {
     oldRecord.set('name', 'Old Fender 2');
+    serializedUpdatedRecord = oldRecord.serialize({includeId: true});
+
     return oldRecord.emberSync.save();
   }).then(function(oldRecord) {
     ok(oldRecord.get('id'), "Record has a valid ID");
@@ -347,6 +351,7 @@ test("#save creates a record offline and enqueues online synchronization", funct
       onSale: true
     });
 
+    serializedNextRecord = newRecord.serialize({includeId: true});
     newRecordId = newRecord.get('id');
     ok(newRecordId, "ID is valid ("+newRecordId+")");
 
@@ -378,28 +383,31 @@ test("#save creates a record offline and enqueues online synchronization", funct
            * First job to create the record
            */
           equal(creationJob.get('id'),            "1",             "creation job's id is correct");
-          equal(creationJob.get('jobRecordId'),   oldRecord.id,    "creation job's record id is correct");
+          equal(creationJob.get('serialized.id'), oldRecord.id,    "creation job's record id is correct");
           equal(creationJob.get('jobRecordType'), 'inventoryItem', "creation job's record type is correct");
           equal(creationJob.get('operation'),     "create",        "creation job's operation is create");
           ok(creationJob.get('createdAt'),                         "creation job's date is correct");
+          deepEqual(creationJob.get('serialized'), serializedOldRecord, "creation job's properties are persisted");
 
           /**
            * Second job to update the record
            */
           equal(updateJob.get('id'),            2,               "update job's id is correct");
-          equal(updateJob.get('jobRecordId'),   oldRecord.id,    "update job's record id is correct");
+          equal(updateJob.get('serialized.id'), oldRecord.id,    "update job's record id is correct");
           equal(updateJob.get('jobRecordType'), 'inventoryItem', "update job's record type is correct");
-          equal(updateJob.get('operation'),     "update",        "creation job's operation is update");
+          equal(updateJob.get('operation'),     "update",        "update job's operation is update");
           ok(updateJob.get('createdAt'),                         "update job's has a date");
+          deepEqual(updateJob.get('serialized'), serializedUpdatedRecord, "update job's properties are persisted");
 
           /**
            * Third job to create a new record
            */
-          equal(creationJob2.get('id'),            3,               "creation job's id is correct");
-          equal(creationJob2.get('jobRecordId'),   newRecord.id,    "creation job's new record id is correct");
-          equal(creationJob2.get('jobRecordType'), 'inventoryItem', "creation job's new record type is correct");
-          equal(creationJob2.get('operation'),     "create",        "creation job's operation is create");
+          equal(creationJob2.get('id'),            3,               "creation job 2's id is correct");
+          equal(creationJob2.get('serialized.id'), newRecord.id,    "creation job 2's new record id is correct");
+          equal(creationJob2.get('jobRecordType'), 'inventoryItem', "creation job 2's new record type is correct");
+          equal(creationJob2.get('operation'),     "create",        "creation job 2's operation is create");
           ok(creationJob2.get('createdAt'),                         "creation job 2's date is correct");
+          deepEqual(creationJob2.get('serialized'), serializedNextRecord, "creation job 2's properties are persisted");
           start();
         });
       }, 80);

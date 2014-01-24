@@ -45,7 +45,7 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
 
   rollbackExistingRecord: function() {
     var existingRecord,
-        recordId   = this.get('jobRecord.jobRecordId'),
+        recordId   = this.get('jobRecord.serialized.id'),
         recordType = this.get('jobRecord.jobRecordType');
 
     existingRecord = this.onlineStore.hasRecordForId(recordType, recordId);
@@ -60,10 +60,9 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
 
   propertiesToPersist: function() {
     var offlineRecord = this.get('offlineRecord'),
-        properties = this.serializeWithoutRelationships(offlineRecord);
+        originalSerialized = this.get('jobRecord.serialized');
 
-    properties["id"] = this.get('jobRecord.jobRecordId');
-    return properties;
+    return this.serializeWithoutRelationships(offlineRecord, originalSerialized);
   },
 
   setRelationships: function(pendingRecord) {
@@ -102,14 +101,15 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     return this.onlineStore.push(type.typeKey, serializedRelation);
   },
 
-  serializeWithoutRelationships: function(record) {
-    var serialized = record.serialize({includeId: true});
+  serializeWithoutRelationships: function(record, serialized) {
+    if (!serialized) {
+      serialized = record.serialize({includeId: true});
+    }
 
     record.eachRelationship(function(name, descriptor) {
       delete serialized[name];
     });
 
     return serialized;
-  },
+  }
 });
-

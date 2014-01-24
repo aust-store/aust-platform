@@ -1,6 +1,6 @@
 App.EmberSyncQueueModel = DS.Model.extend({
   jobRecordType: DS.attr('string'),
-  jobRecordId:   DS.attr('string'),
+  serialized:    DS.attr(),
   operation:     DS.attr('string'),
   createdAt:     DS.attr('string'),
 });

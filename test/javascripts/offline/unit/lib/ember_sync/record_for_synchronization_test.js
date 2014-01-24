@@ -51,7 +51,7 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
       cart = offlineStore.createRecord('cart', { total: "10" });
       jobRecordModel = offlineStore.createRecord('emberSyncQueueModel', {
         jobRecordType: "cart",
-        jobRecordId:   cart.get('id'),
+        serialized:    cart.serialize({includeId: true}),
         operation:     "create",
         createdAt:     (new Date).toUTCString()
       });
@@ -62,7 +62,7 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
       jobRecord = Ember.Object.create({
         id:            jobRecordModel.get('id'),
         jobRecordType: jobRecordModel.get('jobRecordType'),
-        jobRecordId:   jobRecordModel.get('jobRecordId'),
+        serialized:    jobRecordModel.get('serialized'),
         operation:     jobRecordModel.get('operation')
       });
 

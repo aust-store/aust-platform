@@ -69,10 +69,9 @@ App.EmberSync = Ember.Object.extend(
 
     record.emberSync = Ember.Object.create({
       init: function() {
-        this.set('emberSync',        _this);
-        this.set('record',           record);
-        this.set('recordType',       type);
-        this.set('recordProperties', properties);
+        this.set('emberSync',  _this);
+        this.set('record',     record);
+        this.set('recordType', type);
       },
 
       save: function() {
