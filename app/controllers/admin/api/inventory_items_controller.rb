@@ -4,15 +4,15 @@ class Admin::Api::InventoryItemsController < Admin::Api::ApplicationController
     # The mobile admin site (iPhone) requires seeing all the inventory items.
     # The offline sales page requires seeing only inventory items on sale
     # This should return all items
-    @items = current_company.items.order("inventory_items.id desc")
+    @resources = current_company.items.order("inventory_items.updated_at desc")
 
     if params[:on_sale].present?
-      @items = @items.items_on_sale
+      @resources = @resources.items_on_sale
     end
 
-    @items = @items.limit(4)
-    @items = @items.search_for(params[:search].strip) if params[:search].present?
+    @resources = @resources.search_for(params[:search].strip) if params[:search].present?
 
-    render json: @items
+    paginate_resource
+    render json: @resources, meta: meta
   end
 end

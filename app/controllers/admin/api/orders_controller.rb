@@ -1,19 +1,15 @@
 # encoding: utf-8
-class Admin::Api::OrdersController < Admin::ApplicationController
+class Admin::Api::OrdersController < Admin::Api::ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    orders = current_company
-      .orders
-      .includes(:payment_statuses)
-      .order('id desc')
-      .limit(50)
+    @resources = current_company.orders.includes(:payment_statuses).order('id desc')
 
-    orders = orders.created_offline        if params[:environment] == "offline"
-    orders = orders.created_on_the_website if params[:environment] == "website"
-    orders = orders.to_a
+    @resources = @resources.created_offline        if params[:environment] == "offline"
+    @resources = @resources.created_on_the_website if params[:environment] == "website"
 
-    render json: orders
+    paginate_resource
+    render json: @resources, meta: meta
   end
 
   def create

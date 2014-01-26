@@ -48,11 +48,37 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
     @search_param ||= params[:search].strip
   end
 
+  # TODO - using Kaminari, which overwrites limit(), this can be removed
+  # once all endpoint are returning paginated results.
   def limit(resource)
     resource = resource.limit(10)
     if params[:limit].to_i.present? && params[:limit].to_i > 0
       resource = resource.limit(params[:limit].to_i)
     end
     resource
+  end
+
+  #
+  # Pagination
+  def paginate_resource
+    @resources = @resources.page(current_page).per(items_per_page)
+  end
+
+  def items_per_page
+    100
+  end
+
+  def current_page
+    (params[:page] && params[:page].to_i) || 1
+  end
+
+  def total_pages
+    @resources.total_pages
+  end
+
+  #
+  # Meta
+  def meta
+    { page: current_page, total_pages: total_pages }
   end
 end

@@ -14,14 +14,14 @@ describe Admin::Api::OrdersController do
 
     before do
       website_order and offline_order
+      controller.stub(:items_per_page) { 1 }
     end
 
     context "all orders" do
-      it "returns the last 50 orders" do
+      it "returns the last orders" do
         xhr :get, :index
 
         json = ActiveSupport::JSON.decode(response.body)
-
         json.should == {
           "orders" => [{
             "id"          => offline_order.uuid,
@@ -29,12 +29,6 @@ describe Admin::Api::OrdersController do
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "customer_id" => offline_order.customer.uuid,
-          }, {
-            "id"          => website_order.uuid,
-            "total"       => website_order.total.to_s,
-            "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment" => "website",
-            "customer_id" => website_order.customer.uuid,
           }],
           "customers" => [{
             "id"         => offline_order.customer.uuid,
@@ -42,19 +36,41 @@ describe Admin::Api::OrdersController do
             "last_name"  => offline_order.customer.last_name,
             "email"      => offline_order.customer.email,
             "social_security_number" => offline_order.customer.social_security_number
-          }, {
+          }],
+          "meta" => {
+            "page" => 1,
+            "total_pages" => 2
+          },
+        }
+
+        xhr :get, :index, page: 2
+
+        json = ActiveSupport::JSON.decode(response.body)
+        json.should == {
+          "orders" => [{
+            "id"          => website_order.uuid,
+            "total"       => website_order.total.to_s,
+            "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "environment" => "website",
+            "customer_id" => website_order.customer.uuid,
+          }],
+          "customers" => [{
             "id"         => website_order.customer.uuid,
             "first_name" => website_order.customer.first_name,
             "last_name"  => website_order.customer.last_name,
             "email"      => website_order.customer.email,
             "social_security_number" => website_order.customer.social_security_number
-          }]
+          }],
+          "meta" => {
+            "page" => 2,
+            "total_pages" => 2
+          },
         }
       end
     end
 
     context "offline orders" do
-      it "returns the last 50 offline orders" do
+      it "returns the last offline orders" do
         xhr :get, :index, environment: "offline"
 
         json  = ActiveSupport::JSON.decode(response.body)
@@ -73,7 +89,11 @@ describe Admin::Api::OrdersController do
             "last_name"  => offline_order.customer.last_name,
             "email"      => offline_order.customer.email,
             "social_security_number" => offline_order.customer.social_security_number
-          }]
+          }],
+          "meta" => {
+            "page" => 1,
+            "total_pages" => 1
+          },
         }
       end
     end
