@@ -1,6 +1,6 @@
 //= require offline_test_helper
 
-var env = {}, emberSync, emberSyncQueue,
+var env = {}, emberSync,
     store, mock, onlineResults,
     onlineStore,
     container;
@@ -22,7 +22,6 @@ module("Integration/Lib/EmberSync", {
     store = env.store;
     onlineStore = env.onlineStore;
     emberSync = App.EmberSync.create({ container: env });
-    emberSyncQueue = EmberSync.Queue.create({ container: env });
     start();
   }
 });
@@ -30,7 +29,7 @@ module("Integration/Lib/EmberSync", {
 var Synchronize = function(record) {
   ok(true, "Synchronizing");
   return new Ember.RSVP.Promise(function(resolve, reject) {
-    Em.run.later(function() { emberSyncQueue.process(); }, 5);
+    Em.run.later(function() { emberSync.synchronizeOnline(); }, 5);
     Em.run.later(function() { resolve(); }, 70);
   });
 }
@@ -250,7 +249,7 @@ test("#save creates a record offline and online", function() {
       equal(record.get('onSale'),         true,           "onSale is correct");
 
       Em.run.later(function() {
-        emberSyncQueue.process();
+        emberSync.synchronizeOnline();
       }, 5);
 
       Em.run.later(function() {
@@ -290,7 +289,7 @@ test("#save works when no properties were given", function() {
       equal(record.id, generatedId, "id is correct");
 
       Em.run.later(function() {
-        emberSyncQueue.process();
+        emberSync.synchronizeOnline();
       }, 5);
 
       Em.run.later(function() {

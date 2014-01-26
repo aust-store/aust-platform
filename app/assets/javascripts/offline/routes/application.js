@@ -1,7 +1,14 @@
 App.ApplicationRoute = Ember.Route.extend({
   init: function() {
     this._super();
-    EmberSync.Queue.create({container: this}).process();
+
+    var emberSync = EmberSync.API.create({container: this})
+    emberSync.synchronizeOnline();
+    emberSync.offlineCache({
+      models: [
+        'inventoryItem',
+      ]
+    });
   }
 });
 

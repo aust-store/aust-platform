@@ -1,6 +1,6 @@
 //= require offline_test_helper
 
-var env = {}, emberSync, emberSyncQueue,
+var env = {}, emberSync,
     store, mock, onlineResults,
     onlineStore;
 
@@ -41,7 +41,6 @@ module("Integration/Lib/EmberSync/Queue", {
     store = env.store;
     onlineStore = env.onlineStore;
     emberSync = App.EmberSync.create({ container: env });
-    emberSyncQueue = EmberSync.Queue.create({ container: env });
     start();
   },
 
@@ -85,7 +84,7 @@ test("#process pushes all jobs to the online store", function() {
     }).then(function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Ember.run.later(function() {
-          emberSyncQueue.process();
+          emberSync.synchronizeOnline();
         }, 4);
 
         Ember.run.later(function() {
@@ -145,7 +144,7 @@ test("#process works for a sequence of related records", function() {
 
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Em.run.later(function() {
-          emberSyncQueue.process();
+          emberSync.synchronizeOnline();
         }, 3);
 
         Em.run.later(function() {
@@ -243,7 +242,7 @@ test("#process retries processing on error if synchronization fails", function()
 
     var ProcessQueueAndFailToSynchronize = function() {
       return new Ember.RSVP.Promise(function(resolve, reject) {
-        Em.run.later(function() { emberSyncQueue.process(); }, 2);
+        Em.run.later(function() { emberSync.synchronizeOnline(); }, 2);
         Em.run.later(function() { resolve(); }, 10);
       });
     }
@@ -261,7 +260,7 @@ test("#process retries processing on error if synchronization fails", function()
     var ProcessQueueAndSuccessfullySynchronize = function() {
       EmberSync.forceSyncFailure = false;
       return new Ember.RSVP.Promise(function(resolve, reject) {
-        Em.run.later(function() { emberSyncQueue.process(); }, 2);
+        Em.run.later(function() { emberSync.synchronizeOnline(); }, 2);
         Em.run.later(function() { resolve(); }, 10);
       });
     }

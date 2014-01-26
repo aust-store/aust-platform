@@ -1,5 +1,66 @@
-App.EmberSync = Ember.Object.extend(
+EmberSync.API = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
+
+  /**
+   * Pushes pending record to the server.
+   *
+   * Whenever you create, updates or deletes a record, a `job` is create in a
+   * `queue` in the offline database. Once the internet is available, this queue
+   * will be processed and those records will be synchronized with the remote
+   * server.
+   *
+   * This should be called from the ApplicationRoute, e.g.
+   *
+   *     App.ApplicationRoute = Ember.Route.extend({
+   *       init: function() {
+   *         this._super();
+   *
+   *         var emberSync = EmberSync.API.create({container: this});
+   *         emberSync.synchronizeOnline();
+   *       }
+   *     });
+   *
+   * It will keep running forever (unless otherwise commanded).
+   *
+   * @method synchronizeOnline
+   */
+  synchronizeOnline: function() {
+    EmberSync.Queue.create({
+      offlineStore: this.offlineStore,
+      onlineStore: this.onlineStore
+    }).process();
+  },
+
+  /**
+   * Downloads records for offline caching, so users can use the app without
+   * an internet connection.
+   *
+   * This should be called from the ApplicationRoute, e.g.
+   *
+   *     App.ApplicationRoute = Ember.Route.extend({
+   *       init: function() {
+   *         this._super();
+   *
+   *         var emberSync = EmberSync.API.create({container: this});
+   *         emberSync.offlineCache({
+   *           models: ['inventoryItem']
+   *         });
+   *       }
+   *     });
+   *
+   * In this example, we'll be frequently download new records for the
+   * `inventoryItem` model. It will keep running all by itself.
+   *
+   * @method offlineCache
+   */
+  offlineCache: function(options) {
+    // var models = options.models;
+
+    // EmberSync.OfflineCache.create({
+    //   offlineStore: this.offlineStore,
+    //   onlineStore: this.onlineStore
+    // }).download();
+  },
 
   /**
    * Finds a record both offline and online, returning the first to be found.
@@ -85,3 +146,6 @@ App.EmberSync = Ember.Object.extend(
     });
   }
 });
+
+App.EmberSync = EmberSync.API.extend();
+
