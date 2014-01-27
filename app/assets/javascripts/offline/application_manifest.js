@@ -21,8 +21,10 @@
 //= require_tree ./lib/ember_sync/
 //= require_tree ./lib/
 //= require_tree ./helpers/
+//= require_tree ./controllers/mixins
 //= require_tree ./controllers/
 //= require_tree ./models/
+//= require_tree ./views/mixins
 //= require_tree ./views/
 //= require ./templates/index
 //= require_tree ./templates/
