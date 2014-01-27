@@ -4,4 +4,5 @@ App.InventoryItem = DS.Model.extend({
   price: attr('number'),
   entryForSaleId: attr('number'),
   onSale: attr('boolean'),
+  barcode: attr('string'),
 });
