@@ -130,13 +130,8 @@ test("#process works for a sequence of related records", function() {
 
     cart.get('cartItems').pushObject(cartItem);
 
-    var SaveCart = function() {
-      return cart.emberSync.save();
-    }
-
-    var SaveCartItem = function() {
-      return cartItem.emberSync.save();
-    }
+    var SaveCart     = function() { return cart.emberSync.save(); }
+    var SaveCartItem = function() { return cartItem.emberSync.save(); }
 
     var ProcessQueue = function() {
       ok(store.hasRecordForId('cart', cartId), "Cart is still in the store");
@@ -149,7 +144,7 @@ test("#process works for a sequence of related records", function() {
 
         Em.run.later(function() {
           resolve();
-        }, 30);
+        }, 50);
       });
     }
 

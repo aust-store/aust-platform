@@ -7,7 +7,10 @@ App.CartsCustomerNewController = Ember.ObjectController.extend({
   },
 
   resetRecord: function() {
-    this.set("content", this.store.createRecord('customer'));
+    var emberSync = App.EmberSync.create({container: this}),
+        customer = emberSync.createRecord('customer');
+
+    this.set("content", customer);
   },
 
   actions: {
@@ -16,7 +19,7 @@ App.CartsCustomerNewController = Ember.ObjectController.extend({
           customer = this.get('content');
 
       Ember.run(function() {
-        customer.save().then(function(customer) {
+        customer.emberSync.save().then(function(customer) {
           Ember.$('.new_customer_form').hide();
           Ember.$('.choose_customer').show();
           _this.send('setCartCustomer', customer);

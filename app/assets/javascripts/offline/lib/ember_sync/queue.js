@@ -13,10 +13,15 @@ EmberSync.Queue = Ember.Object.extend(
     this.set('pendingJobs', Ember.A());
     this.set('retryOnFailureDelay', 3000);
     this.set('emptyQueueRetryDelay', 5000);
-    this.set('beginQueueProcessingDelay', 500)
+    this.set('debug', this.get('debug'));
+
+    if (EmberSync.testing) {
+      this.set('beginQueueProcessingDelay', 1)
+    } else {
+      this.set('beginQueueProcessingDelay', 500)
+    }
   },
 
-  processTimer: null,
   retryOnFailureDelay: null,
   emptyQueueRetryDelay: null,
 
@@ -44,6 +49,11 @@ EmberSync.Queue = Ember.Object.extend(
 
     jobs = this.offlineStore.find('emberSyncQueueModel');
     jobs.then(function(jobs) {
+
+      if (_this.get('debug')) {
+        console.log("EmberSync.Queue debug:", jobs.get('length')+" jobs found");
+      }
+
       /**
        * TODO - shouldn't push duplicated jobs
        */
@@ -93,7 +103,7 @@ EmberSync.Queue = Ember.Object.extend(
       _this.removeJobFromQueue(jobRecord).then(function() {
         var processTimer = Em.run.later(function() {
           _this.processNextJob();
-        }, 10);
+        }, 1);
 
         _this.setProcessTimer(processTimer);
       });

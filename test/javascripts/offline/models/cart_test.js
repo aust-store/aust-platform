@@ -26,13 +26,13 @@ module("Models/Cart", {
 });
 
 test("#isValid", function() {
-  ok(!cart.isValid(), "cart is invalid without customer, items and other data");
+  ok(!cart.isValid(), "cart is invalid without cart items");
 
   cart.get('cartItems').pushObject(cartItem);
-  ok(!cart.isValid(), "cart is invalid after item is added is set");
+  ok(cart.isValid(), "cart is valid with items");
 
   cart.set('customer', customer);
-  ok(cart.isValid(), "cart is valid after all data is defined");
+  ok(cart.isValid(), "cart is valid after a customer is added");
 });
 
 test("#save doesn't exclude relationships from the store", function() {

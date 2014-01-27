@@ -45,6 +45,13 @@ var setupOfflineOnlineStore = function(opts) {
   return env;
 }
 
+var setupAcceptanceStoreEnv = function(app) {
+  return {
+    offlineStore: app.__container__.lookup("store:main"),
+    onlineStore:  app.__container__.lookup("store:online")
+  }
+}
+
 var transforms = {
   'boolean': DS.BooleanTransform.create(),
   'date': DS.DateTransform.create(),

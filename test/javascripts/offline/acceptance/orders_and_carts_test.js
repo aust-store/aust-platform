@@ -2,9 +2,14 @@
 
 var _confirm = window.confirm;
 
+var env;
+
 module("Acceptance/Cart and ordering", {
   setup: function() {
+    EmberSync.testing = true;
     setupEmberTest();
+
+    env = setupAcceptanceStoreEnv(App);
   },
 
   teardown: function() {
@@ -12,7 +17,7 @@ module("Acceptance/Cart and ordering", {
   }
 });
 
-test("user puts order with existing customer", function() {
+test("user puts order without existing customer", function() {
   visit("/");
 
   /**
@@ -32,38 +37,11 @@ test("user puts order with existing customer", function() {
   click("table.listing.inventory_items a");
 
   andThen(function() {
-    var orderButton = find("a.place_order_button:visible");
-    ok(!orderButton.length, "Order button isn't present yet");
-  });
-
-  /**
-   * Searches for customer name
-   */
-  fillIn("#customer_search", "Rambo");
-
-  andThen(function() {
-    var orderButton = find("a.place_order_button:visible"),
-        customerLink = find(".search_result.customer").text().trim(),
-        customerSearch = find("#customer_search:visible");
-
-    equal(customerLink, "John Rambo", "Customer is found")
-
-    ok(!orderButton.length,   "Order button isn't present yet");
-    ok(customerSearch.length, "Customer search input is present");
-  });
-
-  /**
-   * Adds customer to cart
-   */
-  click("a:contains('John Rambo')");
-  wait();
-
-  andThen(function() {
     var orderButton = find("a.place_order_button:visible"),
         customerSearch = find("#customer_search:visible");
 
-    ok(orderButton.length,     "Order button then shows up");
-    ok(!customerSearch.length, "Customer search is hidden after selecting one");
+    ok(orderButton.length,    "Order button then shows up");
+    ok(customerSearch.length, "Customer search is present");
   });
 
   /**
@@ -76,7 +54,16 @@ test("user puts order with existing customer", function() {
   });
 
   andThen(function() {
-    //equal(App.Order.FIXTURES.length, 2);
+    Em.run.later(function() {
+      EmberSync.Queue.create({
+        offlineStore: env.offlineStore,
+        onlineStore:  env.onlineStore
+      }).process();
+
+      Em.run.later(function() {
+        equal(App.Order.FIXTURES.length, 2);
+      }, 110);
+    }, 30);
   });
 });
 
@@ -132,7 +119,32 @@ test("user puts order creating new customer", function() {
     click("a.place_order_button");
   });
 
+  var prevTotalOrder = App.Order.FIXTURES.length,
+      prevTotalCustomer = App.Customer.FIXTURES.length;
+
   andThen(function() {
-    //equal(App.Order.FIXTURES.length, 2);
+    Em.run.later(function() {
+      EmberSync.Queue.create({
+        offlineStore: env.offlineStore,
+        onlineStore:  env.onlineStore,
+      }).process();
+
+      Em.run.later(function() {
+        var lastOrder, lastCustomer;
+
+        equal(App.Order.FIXTURES.length, prevTotalOrder+1, "Order was created");
+
+        lastOrder    = App.Order.FIXTURES.slice(-1)[0];
+        lastCustomer = App.Customer.FIXTURES.slice(-1)[0];
+
+        equal(lastOrder.customer.id, lastCustomer.id, "Order customer was added");
+        env.onlineStore.find('customer', lastCustomer.id).then(function(customer) {
+          equal(customer.get('firstName'), "John", "customer name");
+          equal(customer.get('lastName'),  "Rambo", "customer last name");
+          equal(customer.get('email'), "john.rambino@gmail.com", "customer email");
+          equal(customer.get('socialSecurityNumber'), "Rambo", "customer CPF");
+        });
+      }, 120);
+    }, 30);
   });
 });

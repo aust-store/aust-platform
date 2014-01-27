@@ -32,12 +32,12 @@ App.InventoryItemController = Ember.ArrayController.extend({
 
   }.observes("searchQuery"),
 
-  addItemPressingEnter: function() {
-    if (this.get('length') == 1)
-      this.addItem(this.get('firstObject'));
-  },
-
   actions: {
+    addItemPressingEnter: function() {
+      if (this.get('length') == 1)
+        this.addItem(this.get('firstObject'));
+    },
+
     // User starts placing items in the cart
     addItem: function(inventoryItem) {
       var _this = this,

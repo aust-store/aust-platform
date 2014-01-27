@@ -12,13 +12,12 @@ App.Cart = DS.Model.extend({
 
   isValid: function() {
     var _this = this,
-        hasItems, hasCustomer;
+        hasItems;
 
-    Ember.run(function() {
+    Em.run(function() {
       hasItems = _this.get('cartItems.length') > 0;
-      hasCustomer = _this.get('customer.id');
     });
 
-    return hasItems && hasCustomer;
+    return hasItems;
   }
 });
