@@ -1,5 +1,5 @@
 App.CartsNewController = Ember.ObjectController.extend({
-  needs: ["application", "inventoryItem", "cartsCustomer"],
+  needs: ["application", "cartsInventoryItems", "cartsCustomer"],
 
   whenOrderIsPlaced: function() {
     this.resetCart();
@@ -11,7 +11,7 @@ App.CartsNewController = Ember.ObjectController.extend({
 
     this.get('controllers.application').set('cartHasItems', false);
     this.set('content', new_cart);
-    this.get('controllers.inventoryItem').set('searchQuery', null);
+    this.get('controllers.cartsInventoryItems').set('searchQuery', null);
     this.get('controllers.cartsCustomer').set('searchQuery', null);
     this.updateItemsQuantityHeadline();
 

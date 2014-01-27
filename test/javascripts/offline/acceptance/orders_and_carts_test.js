@@ -27,7 +27,7 @@ test("user puts order without existing customer", function() {
 
   andThen(function() {
     var itemName = find("table.listing.inventory_items").text().trim();
-    equal(itemName, "Ibanez", "Item name is found");
+    ok(itemName.match("Ibanez"), "Item name is found");
   });
 
   /**

@@ -14,10 +14,10 @@ App.CartsNewRoute = Ember.Route.extend({
 
   renderTemplate: function() {
     this.render();
-    this.render('inventoryItem', {
+    this.render('carts/inventoryItems', {
       into: "carts.new",
       outlet: 'inventoryItemSearch',
-      controller: this.controllerFor('inventoryItem')
+      controller: this.controllerFor('cartsInventoryItems')
     });
 
     this.render('carts/customer', {

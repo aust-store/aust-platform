@@ -1,8 +1,20 @@
-App.InventoryItemController = Ember.ArrayController.extend({
+App.CartsInventoryItemsController = Ember.ArrayController.extend({
   needs: ["application", "carts_new"],
+  itemController: 'cartsInventoryItem',
+
+  init: function() {
+    this._super();
+  },
 
   // inventory items search
   searchQuery: null,
+
+  resetSelection: function() {
+    var selection = this.objectAt(0);
+    this.setEach('isSelected', false);
+    if (selection)
+      selection.set('isSelected', true);
+  }.observes("@each.id"),
 
   // Triggered whenever the user presses a key in the search field
   queryChanged: function(value) {
@@ -22,8 +34,9 @@ App.InventoryItemController = Ember.ArrayController.extend({
         var search = App.EmberSync.create({container: _this});
         results = search.findQuery('inventoryItem', { search: value, onSale: true });
 
-        if (_this)
+        if (_this) {
           _this.set('content', results);
+        }
       } else {
         if (_this)
           _this.set('content', null);
@@ -33,9 +46,33 @@ App.InventoryItemController = Ember.ArrayController.extend({
   }.observes("searchQuery"),
 
   actions: {
+    /**
+     * TODO - can we move it into an external object to be reused?
+     */
+    changeSelection: function(params) {
+      if (!params.hasOwnProperty("direction") || this.get('length') == 0) {
+        return false;
+      }
+
+      var currentIndex = this.indexOf(this.findBy('isSelected', true) || -1),
+          nextIndex = currentIndex + params.direction;
+
+      this.setEach('isSelected', false);
+      if (nextIndex == this.get('length')) {
+        nextIndex = 0;
+      } else if (nextIndex < 0) {
+        nextIndex = this.get('length') - 1;
+      }
+
+      this.objectAt(nextIndex).set('isSelected', true);
+    },
+
     addItemPressingEnter: function() {
-      if (this.get('length') == 1)
-        this.addItem(this.get('firstObject'));
+      var selected = this.findBy('isSelected', true).get('content');
+
+      if (this.get('length') >= 1 && selected) {
+        this.send('addItem', selected);
+      }
     },
 
     // User starts placing items in the cart

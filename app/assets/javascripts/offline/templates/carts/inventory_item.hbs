@@ -1,22 +1,31 @@
 {{view App.InventoryItemsSearchTextField
     valueBinding="searchQuery"
     action="addItemPressingEnter"
+    target=controller
     id="inventory_item_search"
     class="search"
     placeholder="Pesquise pelo nome de um produto"}}
 
-{{#each controller}}
-  <table class="listing inventory_items">
-    <tbody>
+{{#if controller.length}}
+<table class="listing inventory_items">
+  <tbody>
+    {{#each controller}}
       <tr class="even">
         <td>
           <a href="#" class="js_inventory_item" {{action "addItem" this}}>
             {{name}}
           </a>
         </td>
+        <td class="shortcut_image">
+          {{#if isSelected}}
+            <span class="enter shortcut_image">enter</span>
+            <!-- <span class="keyboard_selector">►</span> -->
+          {{/if}}
+        </td>
       </tr>
-    </tbody>
-  </table>
+    {{/each}}
+  </tbody>
+</table>
 {{else}}
   {{#if searchQuery}}
     {{#if model.isLoaded}}
@@ -25,4 +34,4 @@
       Buscando...
     {{/if}}
   {{/if}}
-{{/each}}
+{{/if}}
