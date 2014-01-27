@@ -12,9 +12,13 @@ EmberSync.Queue = Ember.Object.extend(
     this._super();
     this.set('pendingJobs', Ember.A());
     this.set('retryOnFailureDelay', 3000);
+    this.set('emptyQueueRetryDelay', 5000);
+    this.set('beginQueueProcessingDelay', 500)
   },
 
+  processTimer: null,
   retryOnFailureDelay: null,
+  emptyQueueRetryDelay: null,
 
   enqueue: function(type, properties, operation) {
     var job;
@@ -36,21 +40,29 @@ EmberSync.Queue = Ember.Object.extend(
     var _this = this,
         jobs;
 
+    Em.run.cancel(EmberSync.queueTimer);
+
     jobs = this.offlineStore.find('emberSyncQueueModel');
     jobs.then(function(jobs) {
       /**
        * TODO - shouldn't push duplicated jobs
        */
       _this.set('pendingJobs', Ember.A(jobs));
-      _this.processNextJob();
+      var processTimer = Em.run.later(function() {
+        _this.processNextJob();
+      }, _this.get('beginQueueProcessingDelay'));
+
+      _this.setProcessTimer(processTimer);
     }, function() {
-      Em.run.later(function() {
+      var processTimer = Em.run.later(function() {
         _this.process();
-      }, 500);
+      }, _this.get('emptyQueueRetryDelay'));
+
+      _this.setProcessTimer(processTimer);
     });
   },
 
-  processNextJob: function(job) {
+  processNextJob: function() {
     var _this = this,
         job, jobRecord;
 
@@ -60,9 +72,11 @@ EmberSync.Queue = Ember.Object.extend(
      */
     if (!this.get('pendingJobs.length')) {
       if (!EmberSync.testing) {
-        Em.run.later(function() {
+        var processTimer = Em.run.later(function() {
           _this.process();
-        }, 1500);
+        }, 3500);
+
+        _this.setProcessTimer(processTimer);
       }
       return true;
     }
@@ -77,9 +91,11 @@ EmberSync.Queue = Ember.Object.extend(
 
     job.perform().then(function() {
       _this.removeJobFromQueue(jobRecord).then(function() {
-        Em.run(function() {
+        var processTimer = Em.run.later(function() {
           _this.processNextJob();
-        });
+        }, 10);
+
+        _this.setProcessTimer(processTimer);
       });
     }, function() {
       if (!EmberSync.supressConsoleErrors) {
@@ -87,11 +103,20 @@ EmberSync.Queue = Ember.Object.extend(
       }
 
       if (!EmberSync.testing) {
-        Em.run.later(function() {
+        var processTimer = Em.run.later(function() {
           _this.processNextJob();
         }, _this.get('retryOnFailureDelay'));
+
+        _this.setProcessTimer(processTimer);
       }
     }, "Aust: queue#processNextJob() for jobId "+jobRecord.id);
+  },
+
+  setProcessTimer: function(reference) {
+    if (EmberSync.queueTimer)
+      Em.run.cancel(EmberSync.queueTimer);
+
+    EmberSync.queueTimer = reference;
   },
 
   removeJobFromQueueArray: function(job) {

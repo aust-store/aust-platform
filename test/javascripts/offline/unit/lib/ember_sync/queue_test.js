@@ -29,6 +29,40 @@ module("Unit/Lib/EmberSync/Queue", {
   }
 });
 
+test("#process runs only once, even if called multiple times", function() {
+  var offlineStoreDouble, mock = 0;
+  stop();
+
+  Em.run(function() {
+    offlineStoreDouble = {
+      find: function() {
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+          resolve([1, 2]);
+        });
+      }
+    }
+    subject = EmberSync.Queue.create({ offlineStore: offlineStoreDouble, onlineStore:  onlineStore });
+    subject2 = EmberSync.Queue.create({ offlineStore: offlineStoreDouble, onlineStore:  onlineStore });
+
+    subject.set('beginQueueProcessingDelay', 2);
+    subject2.set('beginQueueProcessingDelay', 2);
+    subject.set('processNextJob', function() { mock += 1; });
+    subject2.set('processNextJob', function() { mock += 1; });
+
+    subject.process();
+    subject2.process();
+    subject.process();
+    subject2.process();
+    subject.process();
+    subject2.process();
+
+    Em.run.later(function() {
+      equal(mock, 1, "process happens only once");
+      start();
+    }, 10);
+  });
+});
+
 test("#removeJobFromQueueArray removes the first item from the queue", function() {
   var cart1, cart2, result;
   stop();
