@@ -13,6 +13,7 @@ pt_br:
         country:      "País"
       inventory_item:
         name: "Nome"
+        barcode: "Código de barras"
       inventory_item_image:
         image: "Imagem"
       customer:

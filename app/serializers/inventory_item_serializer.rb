@@ -1,5 +1,6 @@
 class InventoryItemSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :price, :entry_for_sale_id, :on_sale
+  attributes :id, :name, :description, :price, :entry_for_sale_id, :on_sale,
+    :barcode
 
   include ::ActionView::Helpers::NumberHelper
 

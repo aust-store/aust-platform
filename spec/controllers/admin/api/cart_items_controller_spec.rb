@@ -47,7 +47,8 @@ describe Admin::Api::CartItemsController do
             "description"        => item.inventory_item.description,
             "price"              => item.inventory_item.price.to_s,
             "entry_for_sale_id"  => entry.id,
-            "on_sale"            => true
+            "on_sale"            => true,
+            "barcode"            => "123"
           }]
         }
       end
@@ -88,7 +89,8 @@ describe Admin::Api::CartItemsController do
             "description"        => item.inventory_item.description,
             "price"              => item.inventory_item.price.to_s,
             "entry_for_sale_id"  => entry.id,
-            "on_sale"            => true
+            "on_sale"            => true,
+            "barcode"            => "123"
           }]
         }
       end

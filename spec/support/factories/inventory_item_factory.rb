@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |i| "Goodyear tire 4 inches ##{i}" }
     description "Lorem ipsum lorem"
     year "2011"
+    barcode "123"
     merchandising "The best item ever!!"
     association :user, factory: :admin_user
     association :company

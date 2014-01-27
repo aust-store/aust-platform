@@ -60,6 +60,10 @@
       <% if @item.reference.present? %>
         <p> <b>Referência:</b> <%= @item.reference %> </p>
       <% end %>
+
+      <% if @item.barcode.present? %>
+        <p> <b>Possui código de barras ou referência.</b> </p>
+      <% end %>
     </div>
 
     <div class="section shipping">

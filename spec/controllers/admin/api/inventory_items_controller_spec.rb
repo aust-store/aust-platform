@@ -28,7 +28,8 @@ describe Admin::Api::InventoryItemsController do
             "description"       => @item_not_on_sale.description,
             "price"             => 0,
             "entry_for_sale_id" => nil,
-            "on_sale"           => false }
+            "on_sale"           => false,
+            "barcode"           => "123" }
       ]}
 
       xhr :get, :index, page: 2
@@ -43,7 +44,8 @@ describe Admin::Api::InventoryItemsController do
             "description"       => @item.description,
             "price"             => "12.34",
             "entry_for_sale_id" => @item.entry_for_sale.id,
-            "on_sale"           => true }
+            "on_sale"           => true,
+            "barcode"           => "123" }
         ]
       }
     end
@@ -62,7 +64,8 @@ describe Admin::Api::InventoryItemsController do
             "description"       => @item.description,
             "price"             => "12.34",
             "entry_for_sale_id" => @item.entry_for_sale.id,
-            "on_sale"           => true }
+            "on_sale"           => true,
+            "barcode"           => "123" }
         ]
       }
     end

@@ -36,6 +36,8 @@
 </div>
 
 <div class="secondary_fields">
+  <%= item.input :barcode, as: :string, required: false %>
+
   <%= item.input :description %>
 
   <% if item.object.new_record? %>

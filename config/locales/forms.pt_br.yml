@@ -115,6 +115,7 @@ pt_br:
         name:          "Ex.: Parafuso 10mm"
         size:          "42\", 10Kg"
         year:          ""
+        barcode:       "Na ausência de código de barras, use um número de referência customizado."
         merchandising: "Aparece abaixo do titulo do produto na sua página de detalhes. Serve para chamar a atenção do cliente. Ex.: \"O melhor do Brasil!\""
         reference:     "Se você possui um código que identifique este produto internamente."
       prices:

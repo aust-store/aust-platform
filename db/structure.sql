@@ -639,7 +639,8 @@ CREATE TABLE inventory_items (
     manufacturer_id integer,
     moving_average_cost numeric(8,2),
     slug character varying(255),
-    uuid uuid
+    uuid uuid,
+    barcode character varying(255)
 );
 
 
@@ -1791,6 +1792,13 @@ CREATE INDEX index_inventory_item_properties_on_inventory_item_id ON inventory_i
 
 
 --
+-- Name: index_inventory_items_on_barcode; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_barcode ON inventory_items USING btree (barcode);
+
+
+--
 -- Name: index_inventory_items_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2255,3 +2263,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131230090113');
 INSERT INTO schema_migrations (version) VALUES ('20140102130350');
 
 INSERT INTO schema_migrations (version) VALUES ('20140102130528');
+
+INSERT INTO schema_migrations (version) VALUES ('20140127210800');

@@ -33,6 +33,7 @@ feature "Inventory Item form" do
       fill_in "inventory_item_year", with: "2013"
       fill_in "inventory_item_name", with: "Air Max"
 
+      fill_in "inventory_item_barcode", with: "123456789"
       fill_in "inventory_item_description", with: "Item description"
       attach_file "inventory_item_images_attributes_0_image", image_path
       fill_in "inventory_item_prices_attributes_0_value", with: "R$ 12,34"
@@ -62,6 +63,7 @@ feature "Inventory Item form" do
       created_item.year.should == 2013
       created_item.name.should == "Air Max"
 
+      created_item.barcode.should == "123456789"
       created_item.description.should == "Item description"
       created_item.price.should == 12.34
       created_item.images.first.image.file.file.should =~ /image\.png/
