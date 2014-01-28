@@ -15,13 +15,34 @@ var EmberTesting = {
     this.underscoredAttrs = options.underscoredAttributes || false;
     this.response         = null;
 
-    this.assertAttributes = function() {
+    this.assertAttributes = function(options) {
       var _this = this,
           localAttributes,
-          remoteAttributes;
+          remoteAttributes,
+          except;
+
+      if (options) {
+        except = options.except;
+      }
+
+      /**
+       * if an exception was passed in it, it means the contract should
+       * disregard this exception.
+       */
+      var ApplyExceptions = function(except, array) {
+        if (except) {
+          return array.reject(function(item) {
+            return except.contains(item);
+          });
+        }
+
+        return array;
+      }
+
+      localAttributes = ApplyExceptions(except, _this.localAttributes());
 
       if (this.underscoredAttrs) {
-        localAttributes = this.decamelizeAttrs(_this.localAttributes());
+        localAttributes = this.decamelizeAttrs(localAttributes);
       }
 
       this.assert(function(response) {

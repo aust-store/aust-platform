@@ -6,8 +6,11 @@ App.CartsIndexRoute = Ember.Route.extend({
 
 App.CartsNewRoute = Ember.Route.extend({
   model: function() {
-    var currentModel = this.controllerFor('cartsNew').get('model'),
+    var _this = this,
+        currentModel = this.controllerFor('cartsNew').get('model'),
         emberSync = App.EmberSync.create({container: this});
+
+    this.createPaymentTypes();
 
     return currentModel || emberSync.createRecord('cart');
   },
@@ -25,5 +28,26 @@ App.CartsNewRoute = Ember.Route.extend({
       outlet: 'cartCustomer',
       controller: this.controllerFor('cartsCustomer')
     });
+
+    this.render('carts/payment', {
+      into: "carts.new",
+      outlet: 'cartPayment',
+      controller: this.controllerFor('cartsPayment')
+    });
   },
+
+  createPaymentTypes: function() {
+    var _this = this,
+        paymentTypes = [
+          { id: "cash", name: "Dinheiro à vista" },
+          { id: "debit", name: "Débito" },
+          { id: "credit_card", name: "Cartão de crédito" }
+        ];
+
+    this.controllerFor('cartsPayment').set('content', []);
+    paymentTypes.forEach(function(type) {
+      type = Ember.Object.create(type);
+      _this.controllerFor('cartsPayment').get('content').pushObject(type);
+    });
+  }
 });

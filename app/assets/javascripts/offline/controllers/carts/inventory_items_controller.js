@@ -1,12 +1,8 @@
 App.CartsInventoryItemsController = Ember.ArrayController.extend(
   App.SelectableListControllerMixin, {
 
-  needs: ["application", "carts_new"],
+  needs: ["application", "cartsNew"],
   itemController: 'cartsInventoryItem',
-
-  init: function() {
-    this._super();
-  },
 
   // inventory items search
   searchQuery: null,
@@ -15,7 +11,7 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
   queryChanged: function(value) {
     var _this = this;
 
-    this.get('controllers.carts_new').set('isOrderPlaced', false);
+    this.get('controllers.cartsNew').set('isOrderPlaced', false);
 
     Ember.run(this, function() {
       /**
@@ -42,7 +38,12 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
 
   actions: {
     addItemPressingEnter: function() {
-      var selected = this.findBy('isSelected', true).get('content');
+      var selected = this.findBy('isSelected', true)
+
+      if (!selected)
+        return false;
+
+      selected = selected.get('content');
 
       if (this.get('length') >= 1 && selected) {
         this.send('addItem', selected);
@@ -52,8 +53,8 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
     // User starts placing items in the cart
     addItem: function(inventoryItem) {
       var _this = this,
-          newCartController = this.get('controllers.carts_new'),
-          cart = newCartController.get('model'),
+          newCartController = this.get('controllers.cartsNew'),
+          cart = newCartController.get('content'),
           emberSync = App.EmberSync.create({container: this}),
           cartItem, SaveItem;
 
@@ -74,6 +75,14 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
       }, function(error) {
         console.log("Error saving cart");
       });
+
+      Em.run(function() {
+        Ember.$("#inventory_item_search").focus();
+      });
+    },
+
+    resetSearchResults: function() {
+      this.set('searchQuery', null);
     }
   }
 });

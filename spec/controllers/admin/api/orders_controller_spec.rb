@@ -28,6 +28,7 @@ describe Admin::Api::OrdersController do
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
+            "payment_type" => "cash",
             "customer_id" => offline_order.customer.uuid,
           }],
           "customers" => [{
@@ -52,6 +53,7 @@ describe Admin::Api::OrdersController do
             "total"       => website_order.total.to_s,
             "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "website",
+            "payment_type" => "cash",
             "customer_id" => website_order.customer.uuid,
           }],
           "customers" => [{
@@ -81,6 +83,7 @@ describe Admin::Api::OrdersController do
             "total"       => offline_order.total.to_s,
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
+            "payment_type" => "cash",
             "customer_id" => offline_order.customer.uuid
           }],
           "customers" => [{
@@ -106,7 +109,8 @@ describe Admin::Api::OrdersController do
       json_request = {
         "order" => {
           "id"      => pregenerated_uuid,
-          "cart_id" => cart.uuid
+          "cart_id" => cart.uuid,
+          "payment_type" => "debit"
         }
       }
       xhr :post, :create, json_request
@@ -122,7 +126,8 @@ describe Admin::Api::OrdersController do
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
           "order_item_ids" => order.items.map(&:uuid),
-          "customer_id"    => order.customer.uuid
+          "customer_id"    => order.customer.uuid,
+          "payment_type"   => "debit"
         },
         "order_items" => order.items.map { |item|
           { "id"                 => item.uuid,

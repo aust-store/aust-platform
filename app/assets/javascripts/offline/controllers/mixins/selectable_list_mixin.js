@@ -31,6 +31,11 @@ App.SelectableListControllerMixin = Ember.Mixin.create({
       }
 
       this.objectAt(nextIndex).set('isSelected', true);
+    },
+
+    setSelection: function(item) {
+      this.setEach('isSelected', false);
+      item.set('isSelected', true);
     }
   }
 });

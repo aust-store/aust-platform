@@ -9,7 +9,13 @@ describe Admin::Api::ResourcesController do
         json = ActiveSupport::JSON.decode(response.body)
         json.should == {
           "order" => {
-            "attributes" => ["id", "total", "created_at", "environment"],
+            "attributes" => [
+              "id",
+              "total",
+              "created_at",
+              "environment",
+              "payment_type"
+            ],
             "associations" => ["order_items", "customer"]
           }
         }

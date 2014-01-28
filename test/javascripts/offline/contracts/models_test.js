@@ -15,7 +15,9 @@ module("Contracts/Models/Cart", {
 });
 
 asyncTest("obeys attributes contract", function() {
-  contract.assertAttributes();
+  contract.assertAttributes({
+    except: ['paymentType']
+  });
 });
 
 asyncTest("obeys relashionships contract", function() {

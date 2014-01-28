@@ -12,7 +12,13 @@ describe Admin::Api::CartsController do
   describe "POST create" do
     it "creates carts" do
       pregenerated_uuid = SecureRandom.uuid
-      xhr :post, :create, { cart: {id: pregenerated_uuid, total: 0} }
+      request_json = {
+        cart: {
+          id: pregenerated_uuid,
+          total: 0,
+        }
+      }
+      xhr :post, :create, request_json
 
       cart  = Cart.first
       cart.uuid.should == pregenerated_uuid

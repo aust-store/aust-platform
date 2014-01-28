@@ -24,8 +24,10 @@ module Store
           customer:         cart.customer,
           store:            cart.company,
           shipping_address: cart.shipping_address,
-          shipping_details: cart.shipping
+          shipping_details: cart.shipping,
         }
+
+        result[:payment_type] = options[:payment_type] if options[:payment_type].present?
         result[:uuid] = options[:order_uuid] if options[:order_uuid].present?
         result
       end

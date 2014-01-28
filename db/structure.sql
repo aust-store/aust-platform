@@ -789,7 +789,8 @@ CREATE TABLE orders (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     environment character varying(255),
-    uuid uuid
+    uuid uuid,
+    payment_type character varying(255)
 );
 
 
@@ -2265,3 +2266,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140102130350');
 INSERT INTO schema_migrations (version) VALUES ('20140102130528');
 
 INSERT INTO schema_migrations (version) VALUES ('20140127210800');
+
+INSERT INTO schema_migrations (version) VALUES ('20140128043555');

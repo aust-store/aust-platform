@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   uuid field: "uuid"
 
   attr_accessible :cart_id, :store_id, :customer_id, :items_attributes, :items,
-                  :environment, :uuid,
+                  :environment, :uuid, :payment_type,
                   :customer, :store, :shipping_address, :shipping_details
 
   belongs_to :customer
@@ -16,9 +16,14 @@ class Order < ActiveRecord::Base
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
   VALID_ENVIRONMENTS = [:website, :offline]
+  VALID_PAYMENT_TYPES = [:cash, :debit, :credit_card]
 
   validates :environment,
     inclusion: { in: VALID_ENVIRONMENTS + VALID_ENVIRONMENTS.map(&:to_s) },
+    allow_blank: true
+
+  validates :payment_type,
+    inclusion: { in: VALID_PAYMENT_TYPES + VALID_PAYMENT_TYPES.map(&:to_s) },
     allow_blank: true
 
   accepts_nested_attributes_for :items

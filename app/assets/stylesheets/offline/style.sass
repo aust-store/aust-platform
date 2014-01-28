@@ -113,18 +113,25 @@ nav.navigation
 
       & > h2
         margin-top: 0
+      &.cart_payment
+        padding-bottom: 20px
 
 a.place_order_button
   float: right
+  border-radius: 5px
   margin: 30px 15px 0 0
-  width: 199px
-  height: 42px
+  padding: 15px 20px
   display: table
-  background: image-url('admin/offline/place_order.png') no-repeat
-  background-position: 0 0px
-  font-size: 0
+  font-weight: 200
+  font-size: 1.2em
+  text-decoration: none
+  border: 1px solid lighten(green, 5%)
+  background: lighten(green, 5%)
+  color: white
   &:hover
-    background-position: 0 -42px
+    border: 1px solid darken(#ccffcc, 4%)
+    background: #ccffcc
+    color: green
 
 div.order_status.order_placed
   margin: 50px auto 0 auto

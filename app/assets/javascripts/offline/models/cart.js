@@ -1,5 +1,6 @@
 App.Cart = DS.Model.extend({
   total: DS.attr('string'),
+  paymentType: DS.attr('string'),
   cartItems: DS.hasMany('cartItem'),
   customer: DS.belongsTo('customer'),
 

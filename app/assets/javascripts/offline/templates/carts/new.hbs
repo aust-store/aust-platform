@@ -12,14 +12,19 @@
   {{render "items" controller.cartItems controller='cartItems'}}
 </section>
 
-<section>
+<section class="cart_customer">
   <h2>Cliente</h2>
   {{outlet cartCustomer}}
 </section>
 
+<section class="cart_payment">
+  <h2>Pagamento</h2>
+  {{outlet cartPayment}}
+</section>
+
 {{#if isOrderReadyToBePlaced}}
   <section>
-    <a href="#" class="place_order_button" title="place_order" {{action "placeOrder"}}>&nbsp;</a>
+    <a href="#" class="place_order_button" title="place_order" {{action "placeOrder"}}>Finalizar pedido</a>
   </section>
 {{/if}}
 

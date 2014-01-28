@@ -1,5 +1,7 @@
 App.CartsNewController = Ember.ObjectController.extend({
-  needs: ["application", "cartsInventoryItems", "cartsCustomer"],
+  needs: [
+    "application", "cartsInventoryItems", "cartsCustomer", "cartsPayment"
+  ],
 
   whenOrderIsPlaced: function() {
     this.resetCart();
@@ -7,16 +9,18 @@ App.CartsNewController = Ember.ObjectController.extend({
   },
 
   resetCart: function() {
-    var new_cart = this.store.createRecord('cart');
+    var emberSync = App.EmberSync.create({container: this}),
+        new_cart = emberSync.createRecord('cart');
 
     this.get('controllers.application').set('cartHasItems', false);
     this.set('content', new_cart);
     this.get('controllers.cartsInventoryItems').set('searchQuery', null);
     this.get('controllers.cartsCustomer').set('searchQuery', null);
+    this.get('controllers.cartsPayment').setSameAsCart();
     this.updateItemsQuantityHeadline();
 
     Ember.run(function() {
-      $('#inventory_item_search').focus();
+      Ember.$('#inventory_item_search').focus();
     });
   },
 
@@ -71,9 +75,9 @@ App.CartsNewController = Ember.ObjectController.extend({
       var prop = {
         cart: this.get('content'),
         customer: this.get('content.customer'),
+        paymentType: this.get('content.paymentType'),
         createdAt: (new Date())
       };
-      //order = this.store.createRecord('order', prop);
 
       var emberSync = App.EmberSync.create({container: this});
       order = emberSync.createRecord('order', prop);

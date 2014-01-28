@@ -1,9 +1,9 @@
 App.CartItemsController = Ember.ArrayController.extend({
   needs: "cartsNew",
 
-  cart: function() {
-    return this.get('controllers.cartsNew');
-  }.property("content.@each.cart.subtotal"),
+  subtotal: function() {
+    return this.get('content.firstObject.cart.subtotal');
+  }.property("@each.length"),
 
   actions: {
     deleteItem: function(record) {

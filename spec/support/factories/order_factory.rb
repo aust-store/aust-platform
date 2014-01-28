@@ -7,6 +7,7 @@ FactoryGirl.define do
     association :shipping_address, factory: :address
     association :customer
     environment :website
+    payment_type "cash"
 
     # order_item
     after(:create) do |order, evaluator|
@@ -38,6 +39,9 @@ FactoryGirl.define do
     end
 
     factory :cart, class: "Cart" do
+      ignore do
+        payment_type nil
+      end
       association :company
 
       factory :offline_cart do

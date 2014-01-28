@@ -83,6 +83,7 @@ function resetFixtures() {
     total: 10.0,
     createdAt: "2013-10-11 12:13:14",
     environment: "offline",
+    paymentType: "cash",
     cart: 1,
     order_items: [1]
   }];
@@ -111,21 +112,24 @@ function resetFixtures() {
     description: "Super guitar",
     price: 10.0,
     entry_for_sale_id: 2,
-    on_sale: true
+    on_sale: true,
+    barcode: 123
   }, {
     id: 2,
     name: "Fender",
     description: "Fender 1",
     price: 100.0,
     entry_for_sale_id: 2,
-    on_sale: true
+    on_sale: true,
+    barcode: 1234
   }, {
     id: 4,
     name: "Fender",
     description: "Fender 3",
     price: 100.0,
     entry_for_sale_id: 2,
-    on_sale: true
+    on_sale: true,
+    barcode: 12345
   }];
 
   App.StoreReport.FIXTURES = [{

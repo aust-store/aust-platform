@@ -26,7 +26,7 @@ describe "Integrated store sale" do
       cart.add_item(@product.entries.second)
 
       # Closes the sale
-      Store::Sale.new(cart).close
+      Store::Sale.new(cart, payment_type: "cash").close
 
       # Asserts
       entries.reload
@@ -36,6 +36,8 @@ describe "Integrated store sale" do
       entries.size.should            == 3
 
       Order.count.should == 1
+      order = Order.first
+      order.payment_type.should == "cash"
     end
   end
 end

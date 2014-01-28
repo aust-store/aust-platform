@@ -4,6 +4,13 @@ describe Order do
   it_should_behave_like "uuid", :order, :uuid
 
   describe "validations" do
+    context "payment_type" do
+      it { should allow_value("cash").for(:payment_type)  }
+      it { should allow_value("debit").for(:payment_type)  }
+      it { should allow_value("credit_card").for(:payment_type)  }
+      it { should_not allow_value("credit").for(:payment_type)  }
+    end
+
     context "environment" do
       it { should allow_value(:offline).for(:environment)  }
       it { should allow_value(:website).for(:environment)  }
