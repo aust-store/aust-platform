@@ -25,6 +25,7 @@ feature "Managing collaborators" do
       fill_in "admin_user_email", with: "collaborator@example.com"
       fill_in "admin_user_password", with: "123456"
       fill_in "admin_user_password_confirmation", with: "123456"
+      select "Ponto de venda", from: "admin_user_role"
 
       click_button "Salvar"
 
@@ -32,7 +33,7 @@ feature "Managing collaborators" do
 
       user = AdminUser.find_by_email("collaborator@example.com")
       user.name.should == "Collaborator"
-      user.role.should == "collaborator"
+      user.role.should == "point_of_sale"
       user.company_id.should == @admin_user.company_id
     end
   end
@@ -118,6 +119,16 @@ feature "Managing collaborators" do
       user.name.should == "Ezekiel"
       user.role.should == "founder"
       user.company_id.should == @admin_user.company_id
+    end
+  end
+
+  describe "different subscription plans" do
+    scenario "As a founder, I can't see POS option if I don't pay for it" do
+      Store::Policy::PointOfSale.stub_chain(:new, :enabled?) { false }
+
+      click_link "Colaboradores"
+      click_link "Adicionar usuário"
+      page.should have_select "admin_user_role", options: ["Colaborador"]
     end
   end
 end

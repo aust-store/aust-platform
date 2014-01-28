@@ -29,10 +29,11 @@ class Admin::UsersController < Admin::ApplicationController
 
   def update
     @user = current_company.admin_users.find(params[:id])
+    same_user = @user.id == current_user.id
     authorize! :update, @user
 
     if @user.update_attributes params[:admin_user]
-      sign_in(@user, bypass: true)
+      sign_in(@user, bypass: true) if same_user
       redirect_to admin_users_url
     else
       render "edit"
@@ -50,9 +51,11 @@ class Admin::UsersController < Admin::ApplicationController
     end
   end
 
-private
+  private
 
   def user_creation_parameters
-    params[:admin_user].merge(role: "collaborator")
+    result = params[:admin_user]
+    result[:role] = "collaborator" if result[:role] == "founder"
+    result
   end
 end

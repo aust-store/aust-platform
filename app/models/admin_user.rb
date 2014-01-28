@@ -6,6 +6,8 @@ class AdminUser < ActiveRecord::Base
          :recoverable, :rememberable, :trackable,
          :authentication_keys => [:company_id]
 
+  VALID_ROLES = [:founder, :collaborator, :point_of_sale]
+
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :company_attributes, :role, :name, :company_id
 
@@ -17,10 +19,18 @@ class AdminUser < ActiveRecord::Base
   validates_confirmation_of :password, on: :create
   validates_length_of :password, within: Devise.password_length, allow_blank: true
 
+  validates :role,
+    inclusion: { in: VALID_ROLES + VALID_ROLES.map(&:to_s) },
+    allow_blank: true
+
   belongs_to :company
   accepts_nested_attributes_for :company
 
   def with_company
     self.tap { |t| t.build_company }
+  end
+
+  def founder?
+    self.role == "founder"
   end
 end

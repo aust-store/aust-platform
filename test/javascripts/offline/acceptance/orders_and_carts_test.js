@@ -44,6 +44,8 @@ test("user puts order without existing customer", function() {
     ok(customerSearch.length, "Customer search is present");
   });
 
+  click("a.payment_type[name='debit']");
+
   /**
    * Puts the order and accepts the confirm dialog
    */
@@ -62,6 +64,7 @@ test("user puts order without existing customer", function() {
 
       Em.run.later(function() {
         equal(App.Order.FIXTURES.length, 2);
+        equal(App.Order.FIXTURES.slice(-1)[0].paymentType, "debit", "Debit payment");
       }, 110);
     }, 30);
   });

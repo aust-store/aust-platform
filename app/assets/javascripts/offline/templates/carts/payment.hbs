@@ -1,5 +1,5 @@
 {{#each controller}}
-<a href="javascript: void()" {{action markAsCurrent this}} {{bind-attr class="isSelected:selected :selectable_button :payment_type"}}>
+<a href="javascript: void()" {{action markAsCurrent this}} {{bind-attr class="isSelected:selected :selectable_button :payment_type" name="id"}}>
     {{name}}
 </a>
 {{/each}}

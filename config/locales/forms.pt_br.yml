@@ -91,6 +91,8 @@ pt_br:
         sales_enabled: "Vendas habilitadas"
         commit: "Salvar configurações"
     hints:
+      admin_user:
+        role: "Usuário Ponto de Venda pode acessar apenas o ponto de venda."
       customer:
         social_security_number: "No formato 000.000.000-00 ou apenas números."
         home_number:   ""

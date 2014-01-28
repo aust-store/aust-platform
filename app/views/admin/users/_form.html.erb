@@ -3,12 +3,15 @@
   <%= simple_form_for(@user, html: {autocomplete: :off}) do |f| %>
 
     <%= f.input :name, label: "Nome" %>
-
     <%= f.input :email, label: "Email" %>
-
     <%= f.input :password %>
-
     <%= f.input :password_confirmation, hint: "Digite a senha novamente" %>
+
+    <% if !@user.persisted? || can_edit_users?(@user, current_admin_user) %>
+      <% unless @user.founder? %>
+        <%= f.input :role, collection: roles_for_select, include_blank: false %>
+      <% end %>
+    <% end %>
 
     <div class="submit"><%= f.submit "Salvar", name: "commit" %></div>
   <% end %>

@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th>Nome</th>
+        <th>Permissões</th>
         <th></th>
       </tr>
     </thead>
@@ -20,6 +21,9 @@
           <% else can? :read, user %>
             <%= user.name %>
           <% end %>
+        </td>
+        <td>
+          <%= t("activerecord.values.admin_user.roles.#{user.role}") %>
         </td>
         <td>
           <% if can_destroy_users?(user, current_admin_user) %>
