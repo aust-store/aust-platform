@@ -11,9 +11,11 @@ class Admin::ApplicationController < ApplicationController
   before_filter :authenticate_admin_user!
   before_filter :navigation_namespace
   before_filter :current_company
+  before_filter :current_user
+  before_filter :admin_dashboard_redirections
 
   def current_user
-    current_admin_user
+    @current_user = current_admin_user
   end
 
   # FIXME -- this loads the user company, not the subdomain company
@@ -26,6 +28,12 @@ class Admin::ApplicationController < ApplicationController
   end
 
   private
+
+  def admin_dashboard_redirections
+    if current_user.point_of_sale? && url_for != admin_offline_root_url
+      redirect_to admin_offline_root_url and return
+    end
+  end
 
   def define_layout
     request.xhr? ? false : "admin"

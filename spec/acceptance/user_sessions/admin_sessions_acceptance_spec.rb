@@ -27,12 +27,26 @@ feature "Admin User sessions" do
 
       current_path.should == admin_dashboard_path
     end
+
+    scenario "As a collaborator, I'm logged in when I sign in" do
+      another_user = FactoryGirl.create(:admin_user, role: "collaborator", company: admin_user.company)
+      visit new_admin_user_session_path
+
+      within("form#new_admin_user") do
+        fill_in "admin_user_email", with: another_user.email
+        fill_in "admin_user_password", with: "1234567"
+      end
+      click_button "sign_in"
+
+      page.should have_content "Estoque"
+
+      current_path.should == admin_dashboard_path
+      find("#current_user_name").value.should == another_user.name
+    end
   end
 
   context "Failure in sign in" do
     scenario "User must be in its company's subdomain" do
-      pending "There's a bug in Devise/ActiveRecord that breaks authentication_keys. See https://github.com/plataformatec/devise/issues/2486 \n\s\s\s\s# This is VERY IMPORTANT and should be revisited"
-
       visit new_admin_user_session_path(subdomain: company.handle, domain: "lvh.me")
       current_url.should == new_admin_user_session_url(subdomain: company.handle, domain: "lvh.me")
 

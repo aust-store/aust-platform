@@ -4,7 +4,7 @@ class AdminUser < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :authentication_keys => [:company_id]
+         :authentication_keys => [:email, :company_id]
 
   VALID_ROLES = [:founder, :collaborator, :point_of_sale]
 
@@ -32,5 +32,9 @@ class AdminUser < ActiveRecord::Base
 
   def founder?
     self.role == "founder"
+  end
+
+  def point_of_sale?
+    self.role == "point_of_sale"
   end
 end

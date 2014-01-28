@@ -11,7 +11,7 @@
       "delete": "<%= image_path('pos/icons/delete.png') %>"
     };
     window.routes = {
-      exit_path: '<%= admin_root_url %>'
+      exit_path: '<%= @current_user.point_of_sale? ? destroy_admin_user_session_url : admin_root_url %>'
     };
   </script>
 </head>
