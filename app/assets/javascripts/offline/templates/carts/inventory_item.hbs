@@ -28,7 +28,8 @@
 </table>
 {{else}}
   {{#if searchQuery}}
-    {{#if model.isLoaded}}
+  {{! Não está aparecendo isto porque o EmberSync não retorna o isLoaded, o que pode ser um problema}}
+    {{#if isLoaded}}
       Nenhum resultado encontrado
     {{else}}
       Buscando...

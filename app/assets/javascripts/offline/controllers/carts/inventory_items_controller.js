@@ -77,6 +77,7 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
       });
 
       Em.run(function() {
+        _this.send('resetSearchResults');
         Ember.$("#inventory_item_search").focus();
       });
     },

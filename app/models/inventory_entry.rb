@@ -7,7 +7,8 @@ class InventoryEntry < ActiveRecord::Base
 
   attr_accessible :inventory_item_id, :inventory_item,
                   :admin_user_id, :store_id,
-                  :description, :quantity, :cost_per_unit, :on_sale
+                  :description, :quantity, :cost_per_unit, :on_sale,
+                  :website_sale, :point_of_sale
 
   accepts_nested_attributes_for :inventory_item
 
@@ -22,6 +23,9 @@ class InventoryEntry < ActiveRecord::Base
   scope :on_sale, lambda {
     where("inventory_entries.on_sale = ?", true).all_entries_available_for_sale
   }
+
+  scope :for_website, lambda { where("inventory_entries.website_sale = ?", true) }
+  scope :for_point_of_sale, lambda { where("inventory_entries.point_of_sale = ?", true) }
 
   scope :all_entries_available_for_sale, lambda {
     where("inventory_entries.quantity > 0")

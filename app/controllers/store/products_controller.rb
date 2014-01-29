@@ -4,7 +4,7 @@ class Store::ProductsController < Store::ApplicationController
   end
 
   def product
-    entry = Store::ItemsForSale.new(self).detailed_item_for_show_page(params[:id])
+    entry = Store::ItemsForWebsiteSale.new(self).detailed_item_for_show_page(params[:id])
     @product ||= DecorationBuilder.inventory_items(entry)
   end
 end

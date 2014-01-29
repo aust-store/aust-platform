@@ -10,6 +10,16 @@
       as: :string,
       required: false,
       input_html: { value: entry.cost_per_unit } %>
+
+    <%= entries.input :website_sale,
+      label: t("simple_form.labels.inventory_entry.website_sale"),
+      wrapper: :checkbox_inline
+    %>
+    <% if @point_of_sale_enabled %>
+      <%= entries.input :point_of_sale,
+        label: t("simple_form.labels.inventory_entry.point_of_sale"),
+        wrapper: :checkbox_inline %>
+    <% end %>
   </div>
   <div class="explanations">
     <p>

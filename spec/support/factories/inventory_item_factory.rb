@@ -39,13 +39,19 @@ FactoryGirl.define do
       factory :inventory_item do
         ignore do
           total_entries 3
+          on_sale true
+          website_sale true
+          point_of_sale true
         end
 
         # inventory_entry
         after(:create) do |item, evaluator|
           FactoryGirl.create_list(:inventory_entry, evaluator.total_entries,
                                   inventory_item: item,
+                                  website_sale: evaluator.website_sale,
+                                  point_of_sale: evaluator.point_of_sale,
                                   store_id: item.company.id,
+                                  on_sale: evaluator.on_sale,
                                   admin_user_id: item.user.id)
         end
       end

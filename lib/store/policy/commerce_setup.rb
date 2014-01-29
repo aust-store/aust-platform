@@ -32,7 +32,7 @@ module Store
       end
 
       def missing_products?
-        company.items_on_sale_on_main_page.count < 1
+        company.items_on_sale_for_website_main_page.count < 1
       end
 
       def missing_zipcode?

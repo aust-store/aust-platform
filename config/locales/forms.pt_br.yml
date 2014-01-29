@@ -65,6 +65,8 @@ pt_br:
         quantity:      "Quantidade"
         cost_per_unit: "Custo por unidade"
         price:         "Preço de venda"
+        website_sale:  "Colocar à venda na loja online"
+        point_of_sale: "Colocar à venda no ponto de venda"
       inventory_item:
         taxonomy_id:   "Categoria"
         name:          "Nome/modelo"

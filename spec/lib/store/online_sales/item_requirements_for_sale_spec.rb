@@ -25,12 +25,12 @@ describe Store::OnlineSales::ItemRequirementsForSale do
 
   describe "#has_entry_on_sale?" do
     it "returns true when it has entry on sale defined" do
-      item.stub(:entry_for_sale) { true }
+      item.stub(:entry_for_website_sale) { true }
       subject.has_entry_on_sale?.should == true
     end
 
     it "returns false when it has no entry on sale defined" do
-      item.stub(:entry_for_sale) { nil }
+      item.stub(:entry_for_website_sale) { nil }
       subject.has_entry_on_sale?.should == false
     end
   end

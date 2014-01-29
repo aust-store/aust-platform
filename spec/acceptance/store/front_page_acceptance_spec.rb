@@ -69,6 +69,15 @@ feature "Store's front-page" do
       page.should_not have_content @item.name
     end
 
+    scenario "items without an entry for website sale" do
+      @item.entries.size.should == 3
+      visit root_path
+      page.should have_content @item.name
+      @item.entries.each { |entry| entry.update_attributes(website_sale: false) }
+      visit root_path
+      page.should_not have_content @item.name
+    end
+
     scenario "items without a cover image, do not appears on main page" do
       visit root_path
       page.should have_content @item.name

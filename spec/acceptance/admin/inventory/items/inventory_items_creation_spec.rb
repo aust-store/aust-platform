@@ -73,6 +73,8 @@ feature "Inventory Item form" do
       created_item.shipping_box.height.should == 25
       created_item.shipping_box.length.should == 25
       created_item.shipping_box.weight.should == 25
+      created_item.entries.first.website_sale.should be_true
+      created_item.entries.first.point_of_sale.should be_false
 
       manufacturers = Manufacturer.all
       manufacturers.map(&:name)         .should =~ ["Github", "My custom manufacturer"]

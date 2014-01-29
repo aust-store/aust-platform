@@ -65,7 +65,9 @@ FieldsetCloning.Cloning = function(cloneButton) {
         currentId   = input.attr('id');
 
     input.attr('name', newNameBasedOnOldElement(currentName));
-    input.attr('id',   newIdBasedOnOldElement(currentId));
+    if (currentId) {
+      input.attr('id', newIdBasedOnOldElement(currentId));
+    }
     return input;
   }
 
@@ -171,6 +173,7 @@ FieldsetCloning.Cloning = function(cloneButton) {
 
   var newIdBasedOnOldElement = function(currentId) {
     var currentNumber, newNumber, newName;
+
     currentNumber = currentId.match(/_([0-9])_/g).slice(-1)[0].match(/[0-9]/);
     newNumber     = parseInt(currentNumber) + 1;
     newName       = currentId.replace("_"+currentNumber+"_", "_"+newNumber+"_");

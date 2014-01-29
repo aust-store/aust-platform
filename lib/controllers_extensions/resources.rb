@@ -27,7 +27,7 @@ module ControllersExtensions
     end
 
     def products
-      items = ::Store::ItemsForSale.new(self).items_for_main_page
+      items = ::Store::ItemsForWebsiteSale.new(self).items_for_main_page
       @items = ::Store::InventoryItemDecorator.decorate_collection(items)
       @products ||= @items
     end

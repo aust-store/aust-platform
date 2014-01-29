@@ -499,7 +499,9 @@ CREATE TABLE inventory_entries (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     store_id integer,
-    on_sale boolean DEFAULT true
+    on_sale boolean DEFAULT true,
+    point_of_sale boolean,
+    website_sale boolean DEFAULT true
 );
 
 
@@ -1758,6 +1760,13 @@ CREATE INDEX index_inventory_entries_on_on_sale ON inventory_entries USING btree
 
 
 --
+-- Name: index_inventory_entries_on_point_of_sale; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_entries_on_point_of_sale ON inventory_entries USING btree (point_of_sale);
+
+
+--
 -- Name: index_inventory_entries_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2268,3 +2277,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140102130528');
 INSERT INTO schema_migrations (version) VALUES ('20140127210800');
 
 INSERT INTO schema_migrations (version) VALUES ('20140128043555');
+
+INSERT INTO schema_migrations (version) VALUES ('20140129020437');

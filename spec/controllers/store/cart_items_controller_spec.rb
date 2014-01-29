@@ -17,7 +17,7 @@ describe Store::CartItemsController do
     before do
       Company.stub(:find_by_handle).with("store_name") { company }
       Store::Cart.stub(:new) { cart }
-      Store::ItemsForSale.stub(:new) { items_for_sale }
+      Store::ItemsForWebsiteSale.stub(:new) { items_for_sale }
     end
 
     it "adds an item to the cart" do

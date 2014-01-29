@@ -13,7 +13,7 @@ describe Store::Policy::ItemOnSale do
       stub_const("Store::ItemPrice", Class.new)
       Store::ItemPrice.stub_chain(:new, :price) { 10 }
       item.stub_chain(:images, :has_cover?) { true }
-      item.stub(:entry_for_sale) { 3 }
+      item.stub(:entry_for_website_sale) { 3 }
       item.stub(:shipping_box) { double }
     end
 
@@ -33,7 +33,7 @@ describe Store::Policy::ItemOnSale do
       end
 
       it "returns false when it has no entry on sale defined" do
-        item.stub(:entry_for_sale) { nil }
+        item.stub(:entry_for_website_sale) { nil }
       end
 
       it "returns false when it has no cover image" do

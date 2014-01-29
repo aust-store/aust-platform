@@ -56,25 +56,25 @@ describe Company do
     end
   end
 
-  describe "#items_on_sale_on_main_page" do
+  describe "#items_on_sale_for_website_main_page" do
     let(:items) { double }
 
     it "returns items on sale the main page" do
       company = Company.new
       company.stub(:items) { items }
-      items.stub(:items_on_sale) { :items }
-      company.items_on_sale_on_main_page.should == :items
+      items.stub(:items_on_sale_for_website) { :items }
+      company.items_on_sale_for_website_main_page.should == :items
     end
   end
 
-  describe "#items_on_sale_in_category" do
+  describe "#items_on_sale_in_category_for_website" do
     let(:items) { double }
 
     it "returns items on sale in a category" do
       company = Company.new
       company.stub(:items) { items }
-      items.stub(:items_on_sale_in_category).with(2) { :items }
-      company.items_on_sale_in_category(2).should == :items
+      items.stub(:items_on_sale_in_category_for_website).with(2) { :items }
+      company.items_on_sale_in_category_for_website(2).should == :items
     end
   end
 

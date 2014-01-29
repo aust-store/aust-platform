@@ -58,6 +58,11 @@
 
   <section>
     <h2>Caixa para frete</h2>
+    <p>
+      Preencha para vendas online. Deixe em branco se este item não será
+      vendido online.
+    </p>
+
     <fieldset class="shipping_box">
       <div class="fields">
         <%= item.simple_fields_for :shipping_box do |s| %>
@@ -67,6 +72,7 @@
           <%= s.input :weight, as: :string, input_html: { value: @item.shipping_box.weight } %>
         <% end %>
       </div>
+
       <% Feature.pre_alpha do %>
       <div class="explanations">
         <p class="use_default">

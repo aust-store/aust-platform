@@ -44,9 +44,21 @@
       </span>
 
       <span class="text on_sale <%= "current" if @item_on_sale %>">
-        Vendido atualmente por <span><%= @item.price %></span>.
+        Vendido online atualmente por <span><%= @item.price %></span>.
       </span>
     </div>
+
+    <% if @point_of_sale_enabled %>
+      <div class="section description">
+        <span class="text">
+          <% if @item.entry_for_point_of_sale.present? %>
+            Vendido atualmente no ponto de venda.
+          <% else %>
+            Não está sendo vendido no ponto de venda.
+          <% end %>
+        </span>
+      </div>
+    <% end %>
 
     <div class="section description">
       <% if @item.description.present? %>

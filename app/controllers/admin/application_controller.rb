@@ -13,6 +13,7 @@ class Admin::ApplicationController < ApplicationController
   before_filter :current_company
   before_filter :current_user
   before_filter :admin_dashboard_redirections
+  before_filter :point_of_sale_enabled
 
   def current_user
     @current_user = current_admin_user
@@ -21,6 +22,10 @@ class Admin::ApplicationController < ApplicationController
   # FIXME -- this loads the user company, not the subdomain company
   def current_company
     @current_company = current_user.company
+  end
+
+  def point_of_sale_enabled
+    @point_of_sale_enabled ||= Store::Policy::PointOfSale.new(current_company).enabled?
   end
 
   def currency

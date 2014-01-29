@@ -18,8 +18,28 @@ describe InventoryItem do
         items[1].balances.second.update_attribute(:on_sale, false)
 
         result = InventoryItem.with_entry_for_sale.limit(2).order("inventory_items.id ASC")
-        result[0].entry_for_sale.id.should == items[0].balances.last.id
-        result[1].entry_for_sale.id.should == items[1].balances.last.id
+        result[0].entry_for_website_sale.id.should == items[0].balances.last.id
+        result[1].entry_for_website_sale.id.should == items[1].balances.last.id
+      end
+    end
+
+    describe "#with_website_sale" do
+      it "should return the correct entries" do
+        # each item has 3 entries
+        item1 = FactoryGirl.create(:inventory_item, website_sale: true)
+        FactoryGirl.create(:inventory_item, website_sale: false)
+
+        InventoryItem.with_website_sale.to_a.should == [item1]
+      end
+    end
+
+    describe "#with_point_of_sale" do
+      it "should return the correct entries" do
+        # each item has 3 entries
+        item1 = FactoryGirl.create(:inventory_item, point_of_sale: true)
+        FactoryGirl.create(:inventory_item, point_of_sale: false)
+
+        InventoryItem.with_point_of_sale.to_a.should == [item1]
       end
     end
 
@@ -61,16 +81,16 @@ describe InventoryItem do
     end
   end
 
-  describe "#entry_for_sale" do
+  describe "#entry_for_website_sale" do
     before do
       @item = FactoryGirl.create(:inventory_item)
     end
 
     it "loads the first entry for sale" do
       entries = @item.balances.order("id asc").to_a
-      @item.entry_for_sale.should == entries.first
+      @item.entry_for_website_sale.should == entries.first
       InventoryEntry.first.update_attribute(:on_sale, false)
-      @item.entry_for_sale.should == entries.second
+      @item.entry_for_website_sale.should == entries.second
     end
   end
 

@@ -12,7 +12,7 @@ module Store
       end
 
       def has_entry_on_sale?
-        !!item.entry_for_sale
+        !!item.entry_for_website_sale
       end
 
       def has_cover_image?

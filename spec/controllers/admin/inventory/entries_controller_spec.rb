@@ -109,7 +109,7 @@ describe Admin::Inventory::EntriesController do
             "name"              => @item.name,
             "description"       => "Lorem ipsum lorem",
             "price"             => "20.0",
-            "entry_for_sale_id" => @item.entry_for_sale.id,
+            "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
             "barcode"            => "123"
           }
@@ -126,7 +126,7 @@ describe Admin::Inventory::EntriesController do
             "name"              => @item.name,
             "description"       => "Lorem ipsum lorem",
             "price"             => "20.0",
-            "entry_for_sale_id" => @item.entry_for_sale.id,
+            "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
             "barcode"            => "123"
           }

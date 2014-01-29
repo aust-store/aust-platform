@@ -1,20 +1,20 @@
 module Store
-  class ItemsForSale
+  class ItemsForWebsiteSale
     # FIXME enter company, not controller
     def initialize(controller)
       @controller = controller
     end
 
     def items_for_main_page
-      current_store.items_on_sale_on_main_page
+      current_store.items_on_sale_for_website_main_page
     end
 
     def items_for_category
-      current_store.items_on_sale_in_category(entry_id)
+      current_store.items_on_sale_in_category_for_website(entry_id)
     end
 
     def item_for_cart(inventory_item)
-      inventory_item.entry_for_sale
+      inventory_item.entry_for_website_sale
     end
 
     def inventory_entry

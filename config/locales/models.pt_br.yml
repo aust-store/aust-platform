@@ -49,6 +49,8 @@ pt_br:
         cost_per_unit: "Custo unitário"
         quantity:      "Quantidade"
         price:         "Preço"
+        website_sale:  "Loja online"
+        point_of_sale: "Ponto de venda"
       payment_gateway:
         token: "Token de segurança"
       theme:

@@ -19,12 +19,12 @@ describe Store::Policy::CommerceSetup do
 
   describe "#missing_products?" do
     it "returns true when company has items on sale" do
-      company.stub(:items_on_sale_on_main_page) { [] }
+      company.stub(:items_on_sale_for_website_main_page) { [] }
       expect(subject.missing_products?).to be_true
     end
 
     it "returns false when company has no items on sale" do
-      company.stub(:items_on_sale_on_main_page) { [1] }
+      company.stub(:items_on_sale_for_website_main_page) { [1] }
       expect(subject.missing_products?).to be_false
     end
   end

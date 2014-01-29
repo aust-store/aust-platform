@@ -40,12 +40,12 @@ class Company < ActiveRecord::Base
     true
   end
 
-  def items_on_sale_on_main_page
-    self.items.items_on_sale
+  def items_on_sale_for_website_main_page
+    self.items.items_on_sale_for_website
   end
 
-  def items_on_sale_in_category(taxonomy_id)
-    self.items.items_on_sale_in_category(taxonomy_id)
+  def items_on_sale_in_category_for_website(taxonomy_id)
+    self.items.items_on_sale_in_category_for_website(taxonomy_id)
   end
 
   def statistics

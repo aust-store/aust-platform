@@ -27,6 +27,7 @@ class InventoryItem < ActiveRecord::Base
   has_one :properties, class_name: "InventoryItemProperty"
 
   before_validation :remove_empty_shipping_box
+  before_create :associate_with_inventory
 
   validates :name, :admin_user_id, :company_id, presence: true
   validates :taxonomy_id, presence: true
@@ -62,6 +63,18 @@ class InventoryItem < ActiveRecord::Base
       .references(:inventory_item_images)
   }
 
+  scope :with_point_of_sale, -> {
+    includes(:balances)
+    .where("inventory_entries.point_of_sale = ?", true)
+    .references(:inventory_entries)
+  }
+
+  scope :with_website_sale, -> {
+    includes(:balances)
+    .where("inventory_entries.website_sale = ?", true)
+    .references(:inventory_entries)
+  }
+
   scope :detailed_item_for_sale, lambda {
     includes(:images).includes(:balances)
     .order("inventory_item_images.cover desc")
@@ -72,19 +85,20 @@ class InventoryItem < ActiveRecord::Base
     where(taxonomy_id: Taxonomy.friendly.find(id).self_and_descendants.pluck(:id))
   }
 
-  before_create :associate_with_inventory
+  scope :items_on_sale_for_website, ->{
+    with_entry_for_sale.with_website_sale.limit(12).order("inventory_items.created_at desc")
+  }
 
-  def entry_for_sale
-    self.balances.on_sale.first
+  scope :items_on_sale_in_category_for_website, ->(taxonomy_id) {
+    with_entry_for_sale.with_website_sale.by_category(taxonomy_id)
+  }
+
+  def entry_for_website_sale
+    self.balances.on_sale.for_website.first
   end
 
-  # TODO -- these should be scopes
-  def self.items_on_sale
-    with_entry_for_sale.limit(12).order("inventory_items.created_at desc")
-  end
-
-  def self.items_on_sale_in_category(taxonomy_id)
-    with_entry_for_sale.by_category(taxonomy_id)
+  def entry_for_point_of_sale
+    self.balances.on_sale.for_point_of_sale.first
   end
 
   def all_entries_available_for_sale
