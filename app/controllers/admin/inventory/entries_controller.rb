@@ -17,6 +17,12 @@ module Admin
         @entry = entry # Admin::InventoryEntryDecorator.decorate(entry)
       end
 
+      def edit
+        load_item
+        entry = @item.entries.find(params[:id])
+        @entry = entry # Admin::InventoryEntryDecorator.decorate(entry)
+      end
+
       def create
         load_item
         @entry = @item.balances.build params[:inventory_entry]
@@ -33,15 +39,18 @@ module Admin
       def update
         item = current_company.items.friendly.find(params[:item_id])
         entry = item.balances.find(params[:id])
+
+        redirect_target = params[:redirect_to] || admin_inventory_item_url(item)
+
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
             format.js { render json: item, status: 200, incremental_id: true }
-            format.html { redirect_to params[:redirect_to] if params[:redirect_to].present? }
+            format.html { redirect_to redirect_target }
           end
         else
           respond_to do |format|
             format.js { render json: item, status: 400, incremental_id: true }
-            format.html { redirect_to params[:redirect_to] if params[:redirect_to].present? }
+            format.html { render "edit" }
           end
         end
       end

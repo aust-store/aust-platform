@@ -1,0 +1,12 @@
+<%= view_header back_to: admin_inventory_item_entries_path(@item),
+                back_text: "Voltar ao item #{@item.name}"  %>
+
+<header>
+  <h1>Editando lote de <%= @entry.inventory_item.name %></h1>
+</header>
+
+<div class="main_container">
+  <div class="form">
+    <%= render 'form' %>
+  </div>
+</div>

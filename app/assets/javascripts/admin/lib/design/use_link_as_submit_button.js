@@ -1,9 +1,11 @@
 function replaceSubmitButtons() {
   $("input[type='submit']").each(function() {
     var btn   = $(this),
-        id    = btn.attr('id');
+        id    = btn.attr('id'),
+        klass = btn.attr('class'),
         label = btn.val();
-    btn.replaceWith('<a href="#" id="'+id+'" class="js_submit_button btn" name="submit">'+label+'</a>');
+
+    btn.replaceWith('<a href="#" id="'+id+'" class="js_submit_button '+klass+' btn" name="submit">'+label+'</a>');
   });
 }
 

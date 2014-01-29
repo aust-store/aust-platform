@@ -1,7 +1,12 @@
 <div class="form_container">
   <% # simple_form_for([:admin, @entry]) do |f| %>
-  <%= simple_form_for(@entry,
-                      url: admin_inventory_item_entries_path(item_id: @item.id)) do |f| %>
+  <% if @entry.id.present? %>
+    <% url = admin_inventory_item_entry_path(@item, @entry) %>
+  <% else %>
+    <% url = admin_inventory_item_entries_path(@item) %>
+  <% end %>
+
+  <%= simple_form_for(@entry, url: url) do |f| %>
     <% if @entry.errors.any? %>
       <div class="error_explanation">
         <p>
@@ -20,14 +25,32 @@
     <%= f.input :cost_per_unit,
           input_html: { value: @entry.cost_per_unit } %>
 
-    <%= f.submit "Cadastrar entrada no estoque", id: "submit_entry" %> ou
-    <%= link_to "cancelar", "javascript: history.back()" %>
+    <%= f.input :website_sale,
+      label: t("simple_form.labels.inventory_entry.website_sale"),
+      wrapper: :checkbox_inline
+    %>
+    <% if @point_of_sale_enabled %>
+      <%= f.input :point_of_sale,
+        label: t("simple_form.labels.inventory_entry.point_of_sale"),
+        wrapper: :checkbox_inline %>
+    <% end %>
+
+    <br />
+    <br />
+
+    <% if @entry.persisted? %>
+      <%= f.submit "Salvar", id: "submit_entry" %>
+    <% else %>
+      <%= f.submit "Cadastrar entrada/lote no estoque", id: "submit_entry" %>
+    <% end %>
+
+    ou <%= link_to "cancelar", "javascript: history.back()" %>
   <% end %>
 </div>
 
 <div class="entries_summary">
   <% if @last_entries.present? %>
-    <h2>Entradas atuais</h2>
+    <h2>Lotes atuais desta mercadoria</h2>
     <ul>
       <% @last_entries.each do |entry| %>
         <li>

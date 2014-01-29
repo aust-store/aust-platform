@@ -6,8 +6,9 @@
   <%= simple_form_for [:admin, @item], html: {id: "entries_on_sale"} do |f| %>
     <input type="hidden" name="redirect_to" value="<%= url_for %>" />
 
-    <table class="sub_listing listing">
+    <table class="entries_list sub_listing listing">
       <%= f.simple_fields_for :entries do |e| %>
+        <% entry = e.object %>
         <tr>
           <td>
             <%= e.input :on_sale, label: false, wrapper: :checkbox_inline %>
@@ -17,6 +18,9 @@
           </td>
           <td>
             <%= e.object.quantity %> un.
+          </td>
+          <td>
+            <%= link_to "Editar", edit_admin_inventory_item_entry_path(@item, entry) %>
           </td>
         </tr>
       <% end %>
