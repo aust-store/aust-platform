@@ -19,6 +19,11 @@
           <li>
             {{#link-to "orders.index" class="all_orders"}}Pedidos{{/link-to}}
           </li>
+          <li class="global_warning">
+            {{#link-to "orders.index" class="no_connection"}}
+              Sem conexão com internet
+            {{/link-to}}
+          </li>
           <li class="right">
             <a {{bind-attr href="signOutPath"}} class="log_out">Sair</a>
           </li>

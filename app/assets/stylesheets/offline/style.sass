@@ -83,10 +83,20 @@ nav.navigation
       float: left
       padding: 0 0
       height: 100%
-      &:first-child
-        margin-left: 0
-      &:last-child
-        margin-right: 0
+      &.global_warning
+        a
+          background-color: lighten(#f9821e, 0%)
+          color: white
+          border-bottom: 1px solid lighten(#f9821e, 0%)
+          &:hover, &.active
+            background-color: lighten(#f9821e, 44%)
+            border-bottom: 1px solid lighten(#f9821e, 23%)
+            color: darken(orange, 2%) !important
+          &.no_connection
+            background-image: image-url('pos/icons/no_connection_white.png')
+          &.no_connection:hover, &.no_connection.active
+            background-image: image-url('pos/icons/no_connection.png')
+
       &.right
         float: right
       a
