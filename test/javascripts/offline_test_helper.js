@@ -10,11 +10,13 @@ App.rootElement = '#qunit-fixture';
 App.setupForTesting();
 App.injectTestHelpers();
 App.defaultSearchDelay = 0;
+EmberOfflineTesting = true;
 
 var setupEmberTest = function() {
   stop();
   Ember.run(function() {
     EmberSync.testing = true;
+    EmberOfflineTesting = true;
 
     IDB.deleteDatabase(testAdapterConfig.databaseName).then(function() {
       if (App) {

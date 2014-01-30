@@ -48,6 +48,7 @@ Store::Application.routes.draw do
   namespace :admin do
     namespace :api do
       scope "/v1" do
+        resource  :status,          only: :show, controller: "status"
         resources :inventory_items, only: [:index]
         resources :orders,          only: api_actions
         resources :carts,           only: api_actions

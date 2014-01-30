@@ -2,7 +2,8 @@
  * Online-connected store
  */
 
-var registeredNameForOnlineAdapter = "_custom_ams";
+var registeredNameForOnlineAdapter = "_custom_ams",
+    serverStatusUrl = "/admin/api/v1/status";
 
 DS.CustomOnlineSerializer = DS.ActiveModelSerializer.extend({
   init: function() {

@@ -48,7 +48,14 @@ body
   text-stroke: 1px transparent
 
 
-@media screen and (max-width: 959px)
+@media screen and (max-width: 760px)
+  .global
+    width: 760px
+    margin: 0 auto
+    height: 100%
+    display: table
+
+@media screen and (min-width: 761px) and (max-width: 959px)
   .global
     width: 100%
     margin: 0 auto
@@ -83,6 +90,13 @@ nav.navigation
       float: left
       padding: 0 0
       height: 100%
+      &.global_success
+        a
+          background-color: lighten(green, 0%)
+          color: white
+          border-bottom: 1px solid lighten(green, 0%)
+          &.connection_is_back
+            background-image: image-url('pos/icons/connection_is_back.png')
       &.global_warning
         a
           background-color: lighten(#f9821e, 0%)

@@ -13,6 +13,9 @@ App.ApplicationController = Ember.Controller.extend({
   cartStatusMessage: "",
   signOutPath: null,
 
+  noConnectionMessageBinding: "App.emberOffline.noConnectionMessage",
+  connectionIsBackMessageBinding: "App.emberOffline.backOnlineMessage",
+
   actions: {
     newCart: function() {
       cartController = this.get("controllers.carts_new");

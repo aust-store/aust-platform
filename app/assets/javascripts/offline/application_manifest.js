@@ -16,10 +16,10 @@
 //= require ./store/offline_store
 //= require_tree ./store
 
-//= require_tree ./routes
 //= require ./lib/ember_sync/store_initialization_mixin
 //= require_tree ./lib/ember_sync/
 //= require_tree ./lib/
+//= require_tree ./routes
 //= require_tree ./helpers/
 //= require_tree ./controllers/mixins
 //= require_tree ./controllers/

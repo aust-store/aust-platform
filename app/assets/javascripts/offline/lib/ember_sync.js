@@ -1,3 +1,5 @@
+EmberSync.onError = function() {};
+
 EmberSync.API = Ember.Object.extend(
   EmberSync.StoreInitializationMixin, {
 
@@ -27,7 +29,8 @@ EmberSync.API = Ember.Object.extend(
   synchronizeOnline: function() {
     EmberSync.Queue.create({
       offlineStore: this.offlineStore,
-      onlineStore: this.onlineStore
+      onlineStore:  this.onlineStore,
+      onError:      EmberSync.onError
     }).process();
   },
 
@@ -58,7 +61,8 @@ EmberSync.API = Ember.Object.extend(
 
     // EmberSync.OfflineCache.create({
     //   offlineStore: this.offlineStore,
-    //   onlineStore: this.onlineStore
+    //   onlineStore:  this.onlineStore,
+    //   onError:      this.get('onError')
     // }).download();
   },
 
@@ -78,7 +82,8 @@ EmberSync.API = Ember.Object.extend(
   find: function(type, query) {
     var syncQuery = EmberSync.Query.create({
       onlineStore:  this.onlineStore,
-      offlineStore: this.offlineStore
+      offlineStore: this.offlineStore,
+      onError:      EmberSync.onError
     });
     return syncQuery.find(type, query);
   },
@@ -100,7 +105,8 @@ EmberSync.API = Ember.Object.extend(
   findQuery: function(type, query) {
     var syncQuery = EmberSync.Query.create({
       onlineStore:  this.onlineStore,
-      offlineStore: this.offlineStore
+      offlineStore: this.offlineStore,
+      onError:      EmberSync.onError
     });
     return syncQuery.findQuery(type, query);
   },
@@ -138,7 +144,8 @@ EmberSync.API = Ember.Object.extend(
       save: function() {
         var persistence = EmberSync.Persistence.create({
           onlineStore:  this.get('emberSync.onlineStore'),
-          offlineStore: this.get('emberSync.offlineStore')
+          offlineStore: this.get('emberSync.offlineStore'),
+          onError:      EmberSync.onError
         });
 
         return persistence.save(this.get('record'));

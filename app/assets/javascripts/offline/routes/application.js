@@ -2,7 +2,14 @@ App.ApplicationRoute = Ember.Route.extend({
   init: function() {
     this._super();
 
-    var emberSync = EmberSync.API.create({container: this})
+    EmberSync.onError = function() {
+      App.emberOffline.testServer();
+    }
+
+    App.emberOffline = App.EmberOffline.create();
+    var emberSync = EmberSync.API.create({
+      container: this
+    })
     emberSync.synchronizeOnline();
     emberSync.offlineCache({
       models: [

@@ -11,9 +11,14 @@ EmberSync.Queue = Ember.Object.extend(
   init: function() {
     this._super();
     this.set('pendingJobs', Ember.A());
-    this.set('retryOnFailureDelay', 3000);
+    this.set('retryOnFailureDelay', 10000);
     this.set('emptyQueueRetryDelay', 5000);
     this.set('debug', this.get('debug'));
+    this.set('isError', null);
+
+    if (!this.get('onError')) {
+      this.set('onError', function() {});
+    }
 
     if (EmberSync.testing) {
       this.set('beginQueueProcessingDelay', 1)
@@ -21,6 +26,8 @@ EmberSync.Queue = Ember.Object.extend(
       this.set('beginQueueProcessingDelay', 500)
     }
   },
+
+  isError: null,
 
   retryOnFailureDelay: null,
   emptyQueueRetryDelay: null,
@@ -100,6 +107,8 @@ EmberSync.Queue = Ember.Object.extend(
     });
 
     job.perform().then(function() {
+      _this.set('isError', false);
+
       _this.removeJobFromQueue(jobRecord).then(function() {
         var processTimer = Em.run.later(function() {
           _this.processNextJob();
@@ -111,6 +120,16 @@ EmberSync.Queue = Ember.Object.extend(
       if (!EmberSync.supressConsoleErrors) {
         console.error("Queue: job #"+jobRecord.get('id')+" not performed.");
       }
+
+      /**
+       * Makes errors be called only once per job trial.
+       */
+      if (!_this.get('isError') && !EmberSync.testing) {
+        Em.run(function() {
+          _this.onError();
+        });
+      }
+      _this.set('isError', true);
 
       if (!EmberSync.testing) {
         var processTimer = Em.run.later(function() {

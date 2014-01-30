@@ -60,6 +60,7 @@ EmberSync.Query = Ember.Object.extend(
           isResolved = true;
         }
       }, function(error) {
+        _this.get('onError');
         onlineNotFound = true;
         if (offlineNotFound && onlineNotFound) { reject(error); }
       });
@@ -132,7 +133,7 @@ EmberSync.Query = Ember.Object.extend(
 
         persistenceState.then(persistRecordOffline, persistRecordOffline);
       });
-    });
+    }, _this.get('onError'));
 
     return resultStream;
   },
