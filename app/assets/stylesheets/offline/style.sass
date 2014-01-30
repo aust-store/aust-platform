@@ -74,6 +74,29 @@ body
   height: 100%
   display: table
 
+.header
+  width: 960px
+  margin: 0 auto
+
+  .title
+    text-transform: uppercase
+    color: #888
+    padding: 10px 20px
+    font-size: 0.8em
+    width: 40%
+    float: left
+
+  .right
+    padding: 7px
+    width: 40%
+    display: table
+    float: right
+    text-align: right
+
+    a.log_out
+      color: #888
+      font-size: 0.9em
+
 nav.navigation
   display: table
   width: 100%
@@ -110,9 +133,6 @@ nav.navigation
             background-image: image-url('pos/icons/no_connection_white.png')
           &.no_connection:hover, &.no_connection.active
             background-image: image-url('pos/icons/no_connection.png')
-
-      &.right
-        float: right
       a
         height: 100%
         display: table
@@ -143,10 +163,6 @@ nav.navigation
 
         &.all_orders
           background-image: image-url('pos/icons/list.png')
-
-        &.log_out
-          color: #bbb
-          padding-left: 15px
 
 
 .main_content
@@ -218,12 +234,16 @@ a.place_order_button
   margin: 0 auto
   padding: 15px 20px
   font-weight: 200
-  font-size: 1.2em
+  font-size: 1.4em
   border: 1px solid lighten(green, 5%)
   background: lighten(green, 7%)
   color: white
   &:hover
     background: lighten(green, 10%)
+  &.disabled
+    background-color: #888
+    color: #fdfdfd
+    border: 1px solid #888
 
 div.order_status.order_placed
   margin: 50px auto 0 auto

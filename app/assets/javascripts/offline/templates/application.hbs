@@ -1,5 +1,18 @@
+<div class="header">
+  <div class="container">
+    <div class="title">
+      Ponto de venda
+    </div>
+
+    <div class="right">
+      <a {{bind-attr href="signOutPath"}} class="log_out">Sair</a>
+    </div>
+  </div>
+</div>
+
 <div class="global">
   <div class="global_container">
+
     <nav class="navigation">
       <div class="navigation_padding">
         <ul>
@@ -35,10 +48,6 @@
               {{/link-to}}
             </li>
           {{/if}}
-
-          <li class="right">
-            <a {{bind-attr href="signOutPath"}} class="log_out">Sair</a>
-          </li>
         </ul>
 
       </div>
