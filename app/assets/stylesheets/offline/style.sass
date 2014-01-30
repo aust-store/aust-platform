@@ -1,8 +1,8 @@
-$navigation-width: 200px
-$nav-background-color: #222
-$nav-background-image: image-url('admin/offline/black_background.jpg')
+$nav-background-color: #fefefe
+$link-color: darken(#1783b6, 4%)
+$main-background-color: #fcfcfc
 
-html
+html, body
   height: 100%
 
 *
@@ -20,7 +20,8 @@ h1
 
 h2
   margin-top: 15px
-  font-size: 1.2em
+  font-size: 1.3em
+  font-weight: normal
   color: #117799
 
 a
@@ -30,81 +31,118 @@ a
   display: none !important
 
 body
-  background: $nav-background-image $nav-background-color
-  font-family: "Helvetica"
-  height: 100%
+  background: $nav-background-color
+  font-family: "Helvetica Neue"
+  -webkit-font-smoothing: antialiased
+  -moz-font-smoothing: antialiased
+  -ms-font-smoothing: antialiased
+  font-smoothing: antialiased
 
-.global, .global_container
+  -moz-text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+  -ms-text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+
+  -webkit-text-stroke: 1px transparent
+  -moz-text-stroke: 1px transparent
+  -ms-text-stroke: 1px transparent
+  text-stroke: 1px transparent
+
+
+@media screen and (max-width: 959px)
+  .global
+    width: 100%
+    margin: 0 auto
+    height: 100%
+    display: table
+
+@media screen and (min-width: 960px)
+  .global
+    width: 960px
+    margin: 0 auto
+    height: 100%
+    display: table
+
+.global_container
   width: 100%
   height: 100%
   display: table
 
 nav.navigation
-  background: $nav-background-image $nav-background-color
-  display: inline-block
-  float: left
-  width: $navigation-width
-  height: 100%
+  display: table
+  width: 100%
   .navigation_padding
-    margin: 20px 0px
-  ul
-    li
-      margin: 0 0 0px 0
-      background: lighten($nav-background-color, 5%)
-      a
-        display: block
-        color: white
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5)
-        text-decoration: none
-        padding: 10px
-        padding-left: 35px
-        background-repeat: no-repeat
-        background-position: 10px 10px
-        border-bottom: 1px solid $nav-background-color
-        border-top: 1px solid lighten($nav-background-color, 8%)
+    margin: 0
 
-        &:hover, &.active
-          background-color: lighten($nav-background-color, 8%)
-          border-bottom: 1px solid lighten($nav-background-color, 8%)
-          border-top: 1px solid lighten($nav-background-color, 8%)
+  ul
+    width: 100%
+    height: 100%
+    display: table
+    li
+      margin: 0
+      display: table
+      float: left
+      padding: 0 0
+      height: 100%
+      &:first-child
+        margin-left: 0
+      &:last-child
+        margin-right: 0
+      &.right
+        float: right
+      a
+        height: 100%
+        display: table
+        text-decoration: none
+        padding: 15px
+        padding-left: 40px
+        background-repeat: no-repeat
+        background-position: 15px 16px
+
+        &.active, &.active:hover
+          background-color: $main-background-color
+          border-bottom: 1px solid lighten($link-color, 28%)
+        &:hover
+          background-color: #fefefe
+          border-bottom: 1px solid lighten($link-color, 48%)
+          color: #117799 !important
 
         &.new_cart
-          background-image: image-url('admin/offline/offline_nav_plus.png')
+          background-image: image-url('pos/icons/plus.png')
 
         &.current_cart
-          background-image: image-url('admin/offline/offline_nav_circle.png')
+          background-image: image-url('pos/icons/circle.png')
           .global_cart_status
             font-size: 0.8em
             font-weight: 200
             margin: 5px 0 0 0
+            display: inline
 
         &.all_orders
-          background-image: image-url('admin/offline/offline_nav_list.png')
+          background-image: image-url('pos/icons/list.png')
 
         &.log_out
-          background-image: image-url('admin/offline/offline_nav_quit.png')
+          color: #bbb
+          padding-left: 15px
+
 
 .main_content
   display: block
-  margin-left: $navigation-width
-  padding: 10px 10px 10px 0
+  padding: 0
   height: 100%
 
 #main
-  height: 100%
-  background: #eee // image-url('admin/offline/white_background.jpg') #efefef
-  border-top: white 1px solid
-  border-bottom: black 1px solid
-  border-radius: 3px
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 1)
+  //background: #eee // image-url('admin/offline/white_background.jpg') #efefef
   position: relative
+  height: 100%
+  background-color: $main-background-color
+
   .main_container
     padding: 0px
+    height: 100%
 
     section
-      border-top: 1px solid #f3f3f3
-      border-bottom: 1px solid #e8e8e8
-      padding: 10px
+      padding: 20px
+      clear: both
 
       &:first-child
         border-top: 0
@@ -116,22 +154,52 @@ nav.navigation
       &.cart_payment
         padding-bottom: 20px
 
-a.place_order_button
-  float: right
+.cart_new
+  &.cart_status
+    padding: 20px
+    width: 260px
+    height: 100%
+    float: right
+    background: #f3f3f3
+    color: #333
+    section
+      padding: 0 !important
+      margin: 0 0 20px 0
+
+    section.money
+      div
+        margin: 5px 0
+      label
+        width: 100px
+        display: inline-block
+        text-align: right
+      div.total
+        margin: 5px 0 5px 0
+        color: green
+        font-size: 1.6em
+
+  &.cart_development
+    width: auto
+    overflow: hidden
+    height: 100%
+
+a.btn
   border-radius: 5px
-  margin: 30px 15px 0 0
-  padding: 15px 20px
+  background: #eee
+  padding: 5px 8px
   display: table
+  text-decoration: none
+
+a.place_order_button
+  margin: 0 auto
+  padding: 15px 20px
   font-weight: 200
   font-size: 1.2em
-  text-decoration: none
   border: 1px solid lighten(green, 5%)
-  background: lighten(green, 5%)
+  background: lighten(green, 7%)
   color: white
   &:hover
-    border: 1px solid darken(#ccffcc, 4%)
-    background: #ccffcc
-    color: green
+    background: lighten(green, 10%)
 
 div.order_status.order_placed
   margin: 50px auto 0 auto

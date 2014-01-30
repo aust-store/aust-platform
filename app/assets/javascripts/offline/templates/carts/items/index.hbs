@@ -1,15 +1,8 @@
+{{#if subtotal}}
 <table class="listing carts">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Valor</th>
-      <th></th>
-    </tr>
-  </thead>
-
   <tbody>
     {{#each controller}}
-      <tr class="even">
+      <tr>
         <td>{{inventoryItem.name}}</td>
         <td>R$ {{money price}}</td>
         <td>
@@ -32,3 +25,6 @@
     {{/if}}
   </tbody>
 </table>
+{{else}}
+  Sem itens no pedido.
+{{/if}}

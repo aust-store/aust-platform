@@ -1,37 +1,50 @@
-<section>
-  <h1>Novo pedido</h1>
-
-  <div class="item_search"></div>
-
-  {{outlet inventoryItemSearch}}
-
-  <br />
-  <br />
-  <h2>{{itemsQuantityHeadline}}</h2>
-
-  {{render "items" controller.cartItems controller='cartItems'}}
-</section>
-
-<section class="cart_customer">
-  <h2>Cliente</h2>
-  {{outlet cartCustomer}}
-</section>
-
-<section class="cart_payment">
-  <h2>Pagamento</h2>
-  {{outlet cartPayment}}
-</section>
-
-{{#if isOrderReadyToBePlaced}}
-  <section>
-    <a href="#" class="place_order_button" title="place_order" {{action "placeOrder"}}>Finalizar pedido</a>
-  </section>
-{{/if}}
-
-{{#if isOrderPlaced}}
-  <section>
-    <div class="order_status order_placed">
-      Pedido concluído com sucesso!
+<div class="cart_new cart_status">
+  <section class="money">
+    <div class="subtotal">
+      <label>Subtotal:</label> R$ {{money subtotal}}
+    </div>
+    <div class="discount">
+      <label>Desconto:</label> R$ 0,00
+    </div>
+    <div class="total">
+      <label>Total:</label> R$ {{money subtotal}}
     </div>
   </section>
-{{/if}}
+
+  <section class="cart_payment_section">
+    {{outlet cartPayment}}
+  </section>
+
+  <section>
+    {{#if isOrderReadyToBePlaced}}
+      <a href="#" class="btn place_order_button" title="place_order" {{action "placeOrder"}}>Finalizar pedido</a>
+    {{/if}}
+  </section>
+</div>
+
+<div class="cart_new cart_development">
+  <section>
+    <div class="item_search"></div>
+
+    {{outlet inventoryItemSearch}}
+
+    <br />
+    <br />
+    <h2>{{itemsQuantityHeadline}}</h2>
+
+    {{render "items" controller.cartItems controller='cartItems'}}
+  </section>
+
+  <section class="cart_customer_section">
+    <h2>Cliente</h2>
+    {{outlet cartCustomer}}
+  </section>
+
+  {{#if isOrderPlaced}}
+    <section>
+      <div class="order_status order_placed">
+        Pedido concluído com sucesso!
+      </div>
+    </section>
+  {{/if}}
+</div>

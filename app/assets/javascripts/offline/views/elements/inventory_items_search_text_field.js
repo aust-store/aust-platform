@@ -12,7 +12,7 @@ App.InventoryItemsSearchTextField = Ember.TextField.extend(
     if (e.keyCode === 9) {
       this.get('controller').send("resetSearchResults");
       Em.run(function() {
-        Ember.$("section.cart_customer input:visible").filter(":first").focus();
+        Ember.$(".cart_customer_section input:visible").filter(":first").focus();
       });
       return false;
     }

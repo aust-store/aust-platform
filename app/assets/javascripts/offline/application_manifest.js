@@ -29,7 +29,7 @@
 //= require ./templates/index
 //= require_tree ./templates/
 
-if (!Ember.testing && typeof QUnit != 'undefined') {
+if (!Ember.testing && typeof QUnit == 'undefined') {
   window.developmentHelpers = true;
 }
 

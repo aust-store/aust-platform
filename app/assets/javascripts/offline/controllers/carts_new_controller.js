@@ -33,12 +33,12 @@ App.CartsNewController = Ember.ObjectController.extend({
 
     if (quantity > 0) {
       if (quantity == 1) {
-        message = "1 item no pedido";
+        message = "1 item";
       } else {
-        message = quantity + " itens no pedido";
+        message = quantity + " itens";
       }
     } else {
-      message = "Itens no pedido";
+      message = "";
     }
 
     this.set('itemsQuantityHeadline', message);

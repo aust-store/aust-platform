@@ -10,16 +10,16 @@
           <li>
             {{#link-to "carts.new" class="current_cart"}}
               Pedido atual
-              <div class="global_cart_status">
-                {{cartStatusMessage}}
-              </div>
+              {{#if cartStatusMessage}}
+                <div class="global_cart_status">({{cartStatusMessage}})</div>
+              {{/if}}
             {{/link-to}}
           </li>
           {{/if}}
           <li>
             {{#link-to "orders.index" class="all_orders"}}Pedidos{{/link-to}}
           </li>
-          <li>
+          <li class="right">
             <a {{bind-attr href="signOutPath"}} class="log_out">Sair</a>
           </li>
         </ul>
