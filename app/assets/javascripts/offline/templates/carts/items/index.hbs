@@ -13,16 +13,11 @@
       </tr>
     {{/each}}
 
-    {{#if subtotal}}
-      <tr class="even cart_total">
-        <td>Total do pedido</td>
-        <td colspan="2">R$ {{money subtotal}}</td>
-      </tr>
-    {{else}}
+    {{#unless subtotal}}
       <tr class="">
         <td colspan="2">Sem items no carrinho de compras</td>
       </tr>
-    {{/if}}
+    {{/unless}}
   </tbody>
 </table>
 {{else}}
