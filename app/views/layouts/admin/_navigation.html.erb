@@ -33,7 +33,7 @@
   </li>
 </ul>
 
-<% Feature.alpha do %>
+<% Feature.alpha(handle: @current_company.handle, allow_company: ["acpresentes"]) do %>
   <!--
   <h2>Loja</h2>
   <ul>
