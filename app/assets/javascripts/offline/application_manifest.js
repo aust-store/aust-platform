@@ -30,7 +30,7 @@
 //= require_tree ./templates/
 
 if (!Ember.testing && typeof QUnit == 'undefined') {
-  window.developmentHelpers = true;
+  window.developmentHelpers = false;
 }
 
 //Ember.RSVP.configure('onerror', function(error) {
