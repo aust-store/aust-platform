@@ -113,7 +113,8 @@ function resetFixtures() {
     price: 10.0,
     entry_for_sale_id: 2,
     on_sale: true,
-    barcode: 123
+    barcode: 123,
+    reference_number: 123
   }, {
     id: 2,
     name: "Fender",
@@ -121,7 +122,8 @@ function resetFixtures() {
     price: 100.0,
     entry_for_sale_id: 2,
     on_sale: true,
-    barcode: 1234
+    barcode: 1234,
+    reference_number: 123
   }, {
     id: 4,
     name: "Fender",
@@ -129,7 +131,8 @@ function resetFixtures() {
     price: 100.0,
     entry_for_sale_id: 2,
     on_sale: true,
-    barcode: 12345
+    barcode: 12345,
+    reference_number: 123
   }];
 
   App.StoreReport.FIXTURES = [{

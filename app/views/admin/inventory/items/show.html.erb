@@ -73,7 +73,7 @@
         <p> <b>Referência:</b> <%= @item.reference %> </p>
       <% end %>
 
-      <% if @item.barcode.present? %>
+      <% if @item.barcode.present? || @item.reference_number.present? %>
         <p> <b>Possui código de barras ou referência.</b> </p>
       <% end %>
     </div>

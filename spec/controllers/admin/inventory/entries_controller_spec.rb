@@ -111,7 +111,8 @@ describe Admin::Inventory::EntriesController do
             "price"             => "20.0",
             "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
-            "barcode"            => "123"
+            "barcode"            => "123",
+            "reference_number"   => "1234"
           }
         }
       end
@@ -128,7 +129,8 @@ describe Admin::Inventory::EntriesController do
             "price"             => "20.0",
             "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
-            "barcode"            => "123"
+            "barcode"            => "123",
+            "reference_number"   => "1234"
           }
         }
       end

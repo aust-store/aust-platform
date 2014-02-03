@@ -14,6 +14,7 @@ pt_br:
       inventory_item:
         name: "Nome"
         barcode: "Código de barras"
+        reference_number: "Número de referência"
       inventory_item_image:
         image: "Imagem"
       customer:

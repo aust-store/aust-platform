@@ -25,7 +25,8 @@ describe Admin::Api::InventoryItemsController do
             "price"             => "12.34",
             "entry_for_sale_id" => nil,
             "on_sale"           => false,
-            "barcode"           => "123" }
+            "barcode"           => "123",
+            "reference_number"   => "1234" }
         ],
         "meta" => {
           "page" => 1,
@@ -42,7 +43,8 @@ describe Admin::Api::InventoryItemsController do
             "price"             => "12.34",
             "entry_for_sale_id" => @item_pos.entry_for_point_of_sale.id,
             "on_sale"           => true,
-            "barcode"           => "123" }
+            "barcode"           => "123",
+            "reference_number"   => "1234" }
         ],
         "meta" => {
           "page" => 2,
@@ -66,7 +68,8 @@ describe Admin::Api::InventoryItemsController do
             "price"             => "12.34",
             "entry_for_sale_id" => @item_pos.entry_for_point_of_sale.id,
             "on_sale"           => true,
-            "barcode"           => "123" }
+            "barcode"           => "123",
+            "reference_number"   => "1234" }
         ]
       }
     end

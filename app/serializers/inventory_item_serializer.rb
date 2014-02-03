@@ -2,7 +2,7 @@
 # This is specific to the Point of sale and shouldn't be used for the website
 class InventoryItemSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :price, :entry_for_sale_id, :on_sale,
-    :barcode
+    :barcode, :reference_number
 
   include ::ActionView::Helpers::NumberHelper
 

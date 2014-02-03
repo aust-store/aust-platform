@@ -642,7 +642,8 @@ CREATE TABLE inventory_items (
     moving_average_cost numeric(8,2),
     slug character varying(255),
     uuid uuid,
-    barcode character varying(255)
+    barcode character varying(255),
+    reference_number character varying(255)
 );
 
 
@@ -914,6 +915,43 @@ CREATE SEQUENCE payment_statuses_id_seq
 --
 
 ALTER SEQUENCE payment_statuses_id_seq OWNED BY payment_statuses.id;
+
+
+--
+-- Name: pos_cash_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pos_cash_entries (
+    id integer NOT NULL,
+    uuid uuid,
+    admin_user_id integer,
+    company_id integer,
+    entry_type character varying(255),
+    amount numeric(8,2),
+    previous_balance numeric(8,2),
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: pos_cash_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pos_cash_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pos_cash_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pos_cash_entries_id_seq OWNED BY pos_cash_entries.id;
 
 
 --
@@ -1246,6 +1284,13 @@ ALTER TABLE ONLY payment_statuses ALTER COLUMN id SET DEFAULT nextval('payment_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY pos_cash_entries ALTER COLUMN id SET DEFAULT nextval('pos_cash_entries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY shipping_boxes ALTER COLUMN id SET DEFAULT nextval('shipping_boxes_id_seq'::regclass);
 
 
@@ -1444,6 +1489,14 @@ ALTER TABLE ONLY payment_gateways
 
 ALTER TABLE ONLY payment_statuses
     ADD CONSTRAINT payment_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_cash_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pos_cash_entries
+    ADD CONSTRAINT pos_cash_entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1823,6 +1876,13 @@ CREATE INDEX index_inventory_items_on_manufacturer_id ON inventory_items USING b
 
 
 --
+-- Name: index_inventory_items_on_reference_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_reference_number ON inventory_items USING btree (reference_number);
+
+
+--
 -- Name: index_inventory_items_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1988,6 +2048,20 @@ CREATE INDEX index_payment_statuses_on_order_id ON payment_statuses USING btree 
 --
 
 CREATE INDEX index_payment_statuses_on_status ON payment_statuses USING btree (status);
+
+
+--
+-- Name: index_pos_cash_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pos_cash_entries_on_admin_user_id ON pos_cash_entries USING btree (admin_user_id);
+
+
+--
+-- Name: index_pos_cash_entries_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pos_cash_entries_on_company_id ON pos_cash_entries USING btree (company_id);
 
 
 --
@@ -2279,3 +2353,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140127210800');
 INSERT INTO schema_migrations (version) VALUES ('20140128043555');
 
 INSERT INTO schema_migrations (version) VALUES ('20140129020437');
+
+INSERT INTO schema_migrations (version) VALUES ('20140130184208');
+
+INSERT INTO schema_migrations (version) VALUES ('20140203204310');

@@ -48,7 +48,8 @@ describe Admin::Api::CartItemsController do
             "price"              => item.inventory_item.price.to_s,
             "entry_for_sale_id"  => entry.id,
             "on_sale"            => true,
-            "barcode"            => "123"
+            "barcode"            => "123",
+            "reference_number"   => "1234"
           }]
         }
       end
@@ -90,7 +91,8 @@ describe Admin::Api::CartItemsController do
             "price"              => item.inventory_item.price.to_s,
             "entry_for_sale_id"  => entry.id,
             "on_sale"            => true,
-            "barcode"            => "123"
+            "barcode"            => "123",
+            "reference_number"   => "1234"
           }]
         }
       end
