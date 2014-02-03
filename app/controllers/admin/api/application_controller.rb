@@ -42,6 +42,9 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
     resource_params
   end
 
+  #
+  # SEARCH
+  #
   def search(resource)
     resource = resource.search_for(search_param) if search_param.present?
     resource
@@ -49,6 +52,21 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
 
   def search_param
     @search_param ||= params[:search].strip
+  end
+
+  # TODO - tests and improvements
+  def search_by_date
+    date_fields = params.dup.keep_if do |key, value|
+      ["created_at", "updated_at"].include?(key.underscore)
+    end
+    date_fields.each do |field, value|
+      if value == "today"
+        target_date = Time.zone.now
+      elsif value == "yesterday"
+        target_date = 1.day.ago
+      end
+      @resources = @resources.where("#{field.underscore} >= ? AND #{field.underscore} <= ?", target_date.beginning_of_day, target_date.end_of_day)
+    end
   end
 
   # TODO - using Kaminari, which overwrites limit(), this can be removed

@@ -111,6 +111,7 @@ pt_br:
       messages:
         blank: "%{attribute} não pode ficar em branco"
         taken: "%{attribute} já foi selecionado"
+        record_invalid: "registro não é válido"
       models:
         contact:
           attributes:
@@ -119,6 +120,11 @@ pt_br:
             email:
               blank: "Não pode ficar em branco"
               invalid: "Digite um endereço de email válido"
+        pos_cash_entry:
+          attributes:
+            entry_type:
+              invalid: "Tipo de registro de dinheiro no caixa inaceitável"
+              inclusion: "Tipo de registro de dinheiro no caixa inválido"
         address:
           attributes:
             address_1:

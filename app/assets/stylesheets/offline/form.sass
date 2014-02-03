@@ -1,14 +1,18 @@
-input
-  &.ember-text-field
-    font-size: 1.0em
-    width: 60%
-    height: 40px
-    border-radius: 5px
-    border: 1px solid #ddd
-    padding: 0 5px
+input.ember-text-field, textarea.ember-text-area
+  font-size: 1.0em
+  width: 60%
+  border-radius: 5px
+  border: 1px solid #ddd
+  padding: 0 5px
 
-  &.search
-    width: 98%
+input.ember-text-field
+  height: 40px
+
+textarea.ember-text-area
+  height: 100px
+
+input.search
+  width: 98%
 
 div.input
   display: table
@@ -31,6 +35,7 @@ div.input
     padding: 4px
 form
   .actions
+    display: table
     float: right
     width: auto
   span.error
@@ -40,6 +45,9 @@ form
     color: red
     &:empty
       display: none
+  span.hint
+    display: table
+    margin: 0 0 15px 26%
 
 .selectable_button
   padding: 8px 12px

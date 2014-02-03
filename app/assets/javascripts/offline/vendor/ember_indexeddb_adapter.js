@@ -635,6 +635,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
      * `DS.IndexedDBSmartSearch`. This performs tasks like matching dates and
      * fulltext search.
      */
+
     if (this.get('smartSearch')) {
       var smartSearch = DS.IndexedDBSmartSearch.createWithMixins({
         field: field,

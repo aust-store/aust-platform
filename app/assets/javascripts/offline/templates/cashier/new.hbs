@@ -1,0 +1,27 @@
+<div class="cash_flow_new thinner_column">
+  Dicas: um entrada de dinheiro no caixa só pode ser alterada
+  enquanto não houve uma nova venda. Portanto, preste atenção nos
+  valores que você está entrando.
+</div>
+
+<div class="cash_flow_new larger_column">
+  <section>
+    <h1>Nova entrada de dinheiro</h1>
+
+    {{#form-for this}}
+      {{input amount label="Quantia: "}}
+      {{error-field amount}}
+      {{input description label="Descrição: " as="text"}}
+      {{error-field description}}
+      {{hint-field description text="Descrição serve para que você saiba no futuro a que se referia uma determinada entrada no caixa."}}
+
+
+      <div class="actions">
+        {{submit "Salvar" class="js_submit_new_cash_flow"}}
+        ou
+        <a href="javascript: void()"
+          {{action cancelCashCreation}}>cancelar</a>
+      </div>
+    {{/form-for}}
+  </section>
+</div>

@@ -1,0 +1,27 @@
+<section>
+  <p>
+    {{#link-to 'cashier.new' class='btn'}}Nova entrada no caixa{{/link-to}}
+  </p>
+  <table class="listing cashier">
+
+    <thead>
+      <tr>
+        <th>Quantia</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each controller}}
+        <tr>
+          <td class="amount">R$ {{money amount}}</td>
+          <td class="customer">
+          </td>
+          <td class="created_at">{{humanDate createdAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+</section>
