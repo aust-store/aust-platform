@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Inventory Item Listing", js: true, search: true do
+feature "Inventory Item Listing" do
   before do
     @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
