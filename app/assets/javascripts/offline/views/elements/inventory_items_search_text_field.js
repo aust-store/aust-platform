@@ -19,13 +19,4 @@ App.InventoryItemsSearchTextField = Ember.TextField.extend(
     this._super(e);
     return true;
   },
-
-  focusOut: function(event) {
-    var _this = this;
-    Em.run.later(function() {
-      if (_this.get('controller')) {
-        _this.get('controller').send("resetSearchResults");
-      }
-    }, 30);
-  },
 });

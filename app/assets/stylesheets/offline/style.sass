@@ -1,6 +1,6 @@
 $nav-background-color: #fefefe
 $link-color: darken(#1783b6, 4%)
-$main-background-color: #fcfcfc
+$main-background-color: #f9f9f9
 
 html, body
   height: 100%
@@ -49,6 +49,8 @@ body
 
 
 @media screen and (max-width: 760px)
+  .header
+    width: 760px
   .global
     width: 760px
     margin: 0 auto
@@ -56,6 +58,8 @@ body
     display: table
 
 @media screen and (min-width: 761px) and (max-width: 959px)
+  .header
+    width: 100%
   .global
     width: 100%
     margin: 0 auto
@@ -63,6 +67,8 @@ body
     display: table
 
 @media screen and (min-width: 960px)
+  .header
+    width: 960px
   .global
     width: 960px
     margin: 0 auto
@@ -75,8 +81,9 @@ body
   display: table
 
 .header
-  width: 960px
+  // width: 960px // @query-media
   margin: 0 auto
+  display: table
 
   .title
     text-transform: uppercase
