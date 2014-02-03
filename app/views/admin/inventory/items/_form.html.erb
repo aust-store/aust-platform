@@ -1,3 +1,5 @@
+<%= output_error_messages(@item) %>
+
 <div class="search">
   <%= item.input :taxonomy_id, as: :hidden %>
   <%= item.simple_fields_for :taxonomy do |t| %>

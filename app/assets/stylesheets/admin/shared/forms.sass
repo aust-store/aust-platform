@@ -1,3 +1,5 @@
+$red-error: darken(red, 4%)
+
 fieldset
   border: 0
 input, textarea, select
@@ -6,9 +8,6 @@ input, textarea, select
 
 input[type="file"]
   font-size: 0.9em
-
-.inline_inputs
-  label
 
 div.label
   label
@@ -63,15 +62,29 @@ form
     display: block
     font-size: 0.9em
 
+  div.errors_list
+    background: #fafafa
+    border-radius: 5px
+    border: 1px solid red
+    margin: 0 0 15px 0
+    padding: 15px
+
+    h2
+      color: $red-error
+    .error_message
+      color: $red-error
+      padding: 3px 0
+
+
   div.error_explanation
-    color: red
+    color: $red-error
 
   div.field_with_errors
 
     label
-      color: red
+      color: $red-error
     span.error
-      color: red
+      color: $red-error
       margin: 5px 0 10px 3px
       display: block
       font-size: 0.9em

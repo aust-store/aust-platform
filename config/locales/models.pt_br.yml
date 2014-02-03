@@ -183,6 +183,7 @@ pt_br:
           attributes:
             quantity:
               greater_than: "Você deve especificar um número maior que zero"
+              not_a_number: "Quantidade precisa ser um número"
             price:
               greater_than: "%{attribute} deve ter um valor válido"
         shipping_box:
