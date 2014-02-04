@@ -4,8 +4,11 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
-    items  = current_company.items.includes(:manufacturer).order("updated_at desc").page(params[:page])
+    items  = company_resources.includes(:manufacturer).order("updated_at desc").page(params[:page])
     @items = DecorationBuilder.inventory_items(items)
+
+    last_addition  = company_resources.last
+    @last_addition = DecorationBuilder.inventory_items(last_addition)
   end
 
   def show
@@ -150,5 +153,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     @item.valid?
     @item.errors.messages.delete(:taxonomy_id)
     @item.errors.messages.delete(:manufacturer_id)
+  end
+
+  def company_resources
+    current_company.items
   end
 end

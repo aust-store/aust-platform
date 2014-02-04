@@ -27,10 +27,10 @@
     <% if @items.present? %>
       <% @items.each do |item| %>
       <tr class="<%= cycle('odd', 'even') %>">
-        <td class="reference_number"><%= item.reference_number %></td>
+        <td class="smaller reference_number"><%= item.reference_number %></td>
         <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
-        <td><%= item.taxonomy.try(:name) %></td>
-        <td><%= item.total_quantity %></td>
+        <td class="smaller taxonomy"><%= item.taxonomy.try(:name) %></td>
+        <td class="smaller quantity"><%= item.total_quantity %></td>
       </tr>
       <% end %>
     <% end %>
@@ -41,4 +41,15 @@
   <%= paginate @items %>
   <br />
 
+  <% if @last_addition.present? %>
+    <br />
+    <div class="gray_text">
+      Última mercadoria:
+      <%= @last_addition.taxonomy.name %>
+      <%= @last_addition.name %>
+      <% if @last_addition.reference_number.present? %>
+        (<%= @last_addition.reference_number %>)
+      <% end %>
+    </div>
+  <% end %>
 </div>
