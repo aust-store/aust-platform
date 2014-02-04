@@ -7,9 +7,7 @@ pt_br:
         intro: "Seus produtos possuem categorias. Estas categorias são mostradas em menus na sua loja."
         first_instructions: "Clique no botão verde abaixo para criar uma nova categoria. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar."
         normal_instructions: |
-          Passe o mouse sobre as categorias e clique no botão verde para inserir uma nova categoria. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar."
-
-          Para editar uma categoria, clique sobre seu nome para ver seu campo de texto.
+          Para criar uma subcategoria, passe o mouse sobre uma categoria e clique no botão para criá-la. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar. Para editar uma categoria, passe o mouse sobre seu nome e clique no ícone do lápis.
         greatfather_node: "Categorias de produtos"
     statistics:
       show:

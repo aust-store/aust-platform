@@ -15,7 +15,7 @@ class Admin::TaxonomiesController < Admin::ApplicationController
   end
 
   def update
-    @taxonomy = current_company.taxonomies.find(params[:id])
+    @taxonomy = current_company.taxonomies.friendly.find(params[:id])
     flash = if @taxonomy.update_attributes(params[:taxonomy])
               { notice: I18n.t("admin.default_messages.update.success") }
             else
@@ -25,7 +25,7 @@ class Admin::TaxonomiesController < Admin::ApplicationController
   end
 
   def destroy
-    current_company.taxonomies.find(params[:id]).destroy
+    current_company.taxonomies.friendly.find(params[:id]).destroy
     redirect_to admin_taxonomies_path, notice: I18n.t("admin.default_messages.delete.success")
   end
 end

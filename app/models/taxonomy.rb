@@ -1,7 +1,7 @@
 class Taxonomy < ActiveRecord::Base
   extend Models::Extensions::FullTextSearch
 
-  acts_as_tree order: "id"
+  acts_as_tree order: "name"
 
   extend FriendlyId
   friendly_id :name, use: :slugged
