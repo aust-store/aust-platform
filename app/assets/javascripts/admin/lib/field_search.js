@@ -199,7 +199,7 @@ Admin.FieldSearch = {
       // refactoring
       // this.selectedName   = next.html();
       // this.selectedResult = next.data('id');
-      this.results.forInput(input).save({id: next.data('id'), name: next.html()});
+      this.results.forInput(input).save({id: next.data('id'), name: next.text()});
     } else if (e.keyCode == 38) {
       if (!current.length) {
         previous = lastResult;
@@ -215,7 +215,7 @@ Admin.FieldSearch = {
       // this.selectedResult = previous.data('id');
       this.results.forInput(input).save({
         id: previous.data('id'),
-        name: previous.html()
+        name: previous.text()
       });
     }
 
@@ -227,7 +227,7 @@ Admin.FieldSearch = {
         currentId = this.results.forInput(input).id;
 
     if (currentId) {
-      var selectedName = $('.popup_result a[data-id="' + currentId + '"]').html();
+      var selectedName = $('.popup_result a[data-id="' + currentId + '"]').text();
 
       if (selectedName) {
         $(e.target).val(selectedName);
@@ -328,7 +328,7 @@ Admin.FieldSearch.ResultsPopupDrawing = {
   htmlToCreateNew: function(input) {
     var input   = $(input),
         html    = '',
-        content = $("#" + input.data('link-for-new')).html();
+        content = $("#" + input.data('link-for-new')).text();
 
     if (content) {
       html += "<div class='new_form_link'>" + content + "</div>";
@@ -341,11 +341,12 @@ Admin.FieldSearch.ResultItem = {
   click: function(_this, e) {
     var textFieldId = $(_this).data('input-id'),
         entityId    = $(_this).data('id'),
-        entityName  = $(_this).html();
+        entityName  = $(_this).text();
 
     var textField   = $('#' + $(_this).data('input-id'));
 
     this.setId(textFieldId, entityId);
+    debugger;
     textField.val(entityName);
 
     this._hideSearchPopup();

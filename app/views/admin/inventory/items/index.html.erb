@@ -4,7 +4,7 @@
   <h1><%= t ".title" %></h1>
 </header>
 
-<div class="main_container">
+<div class="main_container inventory_items_index">
   <%= small_button t(".add_item_button"),
     new_admin_inventory_item_path,
     image: 'admin/icons/plus_16.png',
@@ -17,6 +17,7 @@
   <table class="listing">
     <thead>
       <tr>
+        <th>Ref.</th>
         <th><%= t ".listing.name" %></th>
         <th>Categoria</th>
         <th>Em estoque</th>
@@ -26,6 +27,7 @@
     <% if @items.present? %>
       <% @items.each do |item| %>
       <tr class="<%= cycle('odd', 'even') %>">
+        <td class="reference_number"><%= item.reference_number %></td>
         <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
         <td><%= item.taxonomy.try(:name) %></td>
         <td><%= item.total_quantity %></td>
