@@ -23,7 +23,11 @@ class Cart < ActiveRecord::Base
   end
 
   def total
-    Store::Order::PriceCalculation.calculate(items)
+    Store::Order::PriceCalculation.new(self, items).total
+  end
+
+  def total_for_installments
+    Store::Order::PriceCalculation.new(self, items).total("installments")
   end
 
   def current_inventory_entry(id)

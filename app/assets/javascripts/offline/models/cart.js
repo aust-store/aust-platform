@@ -5,11 +5,12 @@ App.Cart = DS.Model.extend({
   customer: DS.belongsTo('customer'),
 
   subtotal: function() {
-    return this.get('cartItems').getEach('price').reduce(function(accum, item) {
-      return accum + item;
-    }, 0);
+    return this.private.sumPrice.call(this, "price");
   }.property('cartItems.@each.price'),
 
+  subtotalForInstallments: function() {
+    return this.private.sumPrice.call(this, "priceForInstallments");
+  }.property('cartItems.@each.priceForInstallments'),
 
   isValid: function() {
     var _this = this,
@@ -20,5 +21,13 @@ App.Cart = DS.Model.extend({
     });
 
     return hasItems;
+  },
+
+  private: {
+    sumPrice: function(attribute) {
+      return this.get('cartItems').getEach(attribute).reduce(function(accum, item) {
+        return accum + item;
+      }, 0);
+    }
   }
 });

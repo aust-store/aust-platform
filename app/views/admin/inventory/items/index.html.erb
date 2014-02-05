@@ -5,14 +5,31 @@
 </header>
 
 <div class="main_container inventory_items_index">
-  <%= small_button t(".add_item_button"),
-    new_admin_inventory_item_path,
-    image: 'admin/icons/plus_16.png',
-    id: "add_item"
-  %>
 
-  <br />
-  <br />
+  <div class="index_header with_search">
+    <div class="search_form">
+      <%= simple_form_for(:search, { url: admin_inventory_items_path, :method => :get }) do |f| %>
+        <%= f.input :query, label: "Pesquisar:", required: false,
+          input_html: { value: @search_query } %>
+        <% if Rails.env.test? %>
+          <%= f.submit "Submit" %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="buttons">
+      <%= small_button t(".add_item_button"),
+        new_admin_inventory_item_path,
+        image: 'admin/icons/plus_16.png',
+        id: "add_item"
+      %>
+    </div>
+  </div>
+
+
+  <% if @search_query.present? %>
+    <h2>Resultados</h2>
+  <% end %>
 
   <table class="listing">
     <thead>

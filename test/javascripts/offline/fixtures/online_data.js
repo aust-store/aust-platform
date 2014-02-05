@@ -94,8 +94,9 @@ function resetFixtures() {
     name: "Ibanez RGS",
     quantity: 1,
     price: 10,
+    price_for_installments: 102.0,
     inventory_entry_id: 1,
-    inventory_item: 1
+    inventory_item: 1,
   }];
 
   App.Cart.FIXTURES = [{
@@ -103,36 +104,40 @@ function resetFixtures() {
   }];
 
   App.CartItem.FIXTURES = [{
-    id: 1, price: 10, inventory_entry_id: 1, inventory_item: 1
+    id: 1, price: 10, inventory_entry_id: 1, inventory_item: 1,
+    price_for_installments: 102.0,
   }];
 
   App.InventoryItem.FIXTURES = [{
     id: 1,
     name: "Ibanez",
     description: "Super guitar",
-    price: 10.0,
-    entry_for_sale_id: 2,
-    on_sale: true,
+    price: 11.0,
+    priceForInstallments: 102.0,
+    entryForSaleId: 2,
+    onSale: true,
     barcode: 123,
-    reference_number: 123
+    referenceNumber: 23,
   }, {
     id: 2,
     name: "Fender",
     description: "Fender 1",
     price: 100.0,
-    entry_for_sale_id: 2,
-    on_sale: true,
+    priceForInstallments: 103.0,
+    entryForSaleId: 2,
+    onSale: true,
     barcode: 1234,
-    reference_number: 123
+    referenceNumber: 234,
   }, {
     id: 4,
     name: "Fender",
     description: "Fender 3",
     price: 100.0,
-    entry_for_sale_id: 2,
-    on_sale: true,
+    priceForInstallments: 105.0,
+    entryForSaleId: 2,
+    onSale: true,
     barcode: 12345,
-    reference_number: 123
+    referenceNumber: 2345,
   }];
 
   App.StoreReport.FIXTURES = [{

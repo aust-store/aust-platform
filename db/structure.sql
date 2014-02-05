@@ -566,7 +566,8 @@ CREATE TABLE inventory_item_prices (
     inventory_item_id integer,
     value numeric(8,2),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    for_installments numeric(8,2)
 );
 
 
@@ -715,7 +716,8 @@ CREATE TABLE order_items (
     updated_at timestamp without time zone,
     status character varying(255),
     parent_id integer,
-    uuid uuid
+    uuid uuid,
+    price_for_installments numeric(8,2)
 );
 
 
@@ -2357,3 +2359,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140129020437');
 INSERT INTO schema_migrations (version) VALUES ('20140130184208');
 
 INSERT INTO schema_migrations (version) VALUES ('20140203204310');
+
+INSERT INTO schema_migrations (version) VALUES ('20140204223539');
+
+INSERT INTO schema_migrations (version) VALUES ('20140205004313');

@@ -81,6 +81,18 @@ describe InventoryItem do
     end
   end
 
+  describe "#price_for_installments" do
+    let(:item_price) { double }
+
+    it "should delegate to ItemPrice" do
+      item = InventoryItem.new
+      Store::ItemPrice.stub(:new).with(item) { item_price }
+      item_price.should_receive(:price_for_installments)
+
+      item.price_for_installments
+    end
+  end
+
   describe "#entry_for_website_sale" do
     before do
       @item = FactoryGirl.create(:inventory_item)

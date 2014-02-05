@@ -10,6 +10,7 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
   def manual_exit
     #exit
   end
+
   # Takes a passed in UUID (via params) and replaces it with the appropriate
   # ID defined in the database. e.g.
   #

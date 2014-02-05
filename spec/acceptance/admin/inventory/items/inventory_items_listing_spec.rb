@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-feature "Inventory Item Listing" do
+feature "Inventory Item - Listing" do
   before do
     @other_user = FactoryGirl.create(:admin_user)
     @other_company = @other_user.company
@@ -23,9 +23,19 @@ feature "Inventory Item Listing" do
       visit admin_inventory_items_path
     end
 
-    scenario "As a store admin, I want to see items from my company only" do
+    scenario "As an admin, I want to see items from my company only" do
       page.should have_content "My item"
       page.should_not have_content "Other item"
+    end
+
+    scenario "As an admin, I see the items list" do
+      page.should have_content "1234"
+      page.should have_content "#{@item.manufacturer.name} My item"
+      page.should have_content @item.taxonomy.name
+    end
+
+    scenario "As an admin, I see the name of the last added item" do
+      page.should have_content "Última mercadoria: #{@item.taxonomy.name} #{@item.manufacturer.name} My item"
     end
   end
 end
