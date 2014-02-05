@@ -67,6 +67,7 @@ These are the available environments right now:
 **Staging:** alestore.com.br (user: gremio, passw: inter)
 
 
+
 ### Assistence with data
 
 When you setup your store, go to the configurations page and define a Zipcode. When you're checking out, the shipping zipcode (defined in the cart) should be different so that the shipping cost is properly calculated.
