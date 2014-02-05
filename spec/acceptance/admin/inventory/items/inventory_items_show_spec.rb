@@ -77,7 +77,7 @@ feature "Inventory Item Management" do
           uncheck("inventory_item_entries_attributes_1_on_sale")
           uncheck("inventory_item_entries_attributes_2_on_sale")
           within "#entries_on_sale" do
-            click_on "submit"
+            click_on "save_entries"
           end
 
           @item.entries.pluck(:on_sale).should == [false, false, false]
