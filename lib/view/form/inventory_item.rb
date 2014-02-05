@@ -23,12 +23,12 @@ module View
 
         # when creating the object
         if model.new_record?
-          model.entries.build      if model.entries.blank?
-          model.build_manufacturer if model.manufacturer.blank?
-          model.images.build       if model.images.blank?
+          model.entries.build if model.entries.blank?
+          model.images.build  if model.images.blank?
         end
 
         model.prices.build       if model.prices.blank?
+        model.build_manufacturer if model.manufacturer.blank?
         model.build_taxonomy     if model.taxonomy.blank?
         model.build_shipping_box if model.shipping_box.blank?
       end
