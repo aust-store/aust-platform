@@ -18,6 +18,7 @@ FactoryGirl.define do
       after(:create) do |item, evaluator|
         FactoryGirl.create(:inventory_item_price,
                            value: "12.34",
+                           for_installments: "16.01",
                            inventory_item_id: item.id)
       end
 

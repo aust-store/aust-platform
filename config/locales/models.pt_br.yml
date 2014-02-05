@@ -45,6 +45,7 @@ pt_br:
         domain: "Domínio"
       inventory_item_price:
         value: "Preço"
+        for_installments: "Preço a prazo"
       inventory_entry:
         description:   "Descrição"
         cost_per_unit: "Custo unitário"

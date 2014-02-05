@@ -113,6 +113,10 @@ class InventoryItem < ActiveRecord::Base
     Store::ItemPrice.new(self).price
   end
 
+  def price_for_installments
+    Store::ItemPrice.new(self).price_for_installments
+  end
+
   def self.search_for(query)
     search do
       fields :name, :description, :barcode, :reference_number, {manufacturer: [:name]}

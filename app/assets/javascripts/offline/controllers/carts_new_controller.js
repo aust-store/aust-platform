@@ -66,13 +66,20 @@ App.CartsNewController = Ember.ObjectController.extend({
      */
     placeOrder: function() {
       var _this = this,
-          order;
+          order, total;
 
       if (!confirm("Você quer realmente fechar o pedido?")) {
         return false;
       }
 
+      if (this.get('content.paymentType') == "installments") {
+        total = this.get('content.subtotalForInstallments');
+      } else {
+        total = this.get('content.subtotal');
+      }
+
       var prop = {
+        total: total,
         cart: this.get('content'),
         customer: this.get('content.customer'),
         paymentType: this.get('content.paymentType'),

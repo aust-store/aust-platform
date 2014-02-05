@@ -9,6 +9,7 @@ describe Admin::Inventory::EntriesController do
 
   before do
     Store::Currency.stub(:to_float).with("12.34").and_return(20.0)
+    Store::Currency.stub(:to_float).with("16.01").and_return(21.0)
 
     item = double(balances: items)
     controller.stub_chain(:current_company, :items, :friendly, :find) { item }
@@ -109,6 +110,7 @@ describe Admin::Inventory::EntriesController do
             "name"              => @item.name,
             "description"       => "Lorem ipsum lorem",
             "price"             => "20.0",
+            "price_for_installments" => "21.0",
             "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
             "barcode"            => "123",
@@ -127,6 +129,7 @@ describe Admin::Inventory::EntriesController do
             "name"              => @item.name,
             "description"       => "Lorem ipsum lorem",
             "price"             => "20.0",
+            "price_for_installments" => "21.0",
             "entry_for_sale_id" => @item.entry_for_website_sale.id,
             "on_sale"           => true,
             "barcode"            => "123",

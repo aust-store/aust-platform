@@ -38,6 +38,7 @@ feature "Inventory Item form" do
       fill_in "inventory_item_description", with: "Item description"
       attach_file "inventory_item_images_attributes_0_image", image_path
       fill_in "inventory_item_prices_attributes_0_value", with: "R$ 12,34"
+      fill_in "inventory_item_prices_attributes_0_for_installments", with: "R$ 16,34"
 
       fill_in "inventory_item_shipping_box_attributes_length", with: 25
       fill_in "inventory_item_shipping_box_attributes_height", with: 25
@@ -68,6 +69,7 @@ feature "Inventory Item form" do
       created_item.reference_number.should == "987"
       created_item.description.should == "Item description"
       created_item.price.should == 12.34
+      created_item.price_for_installments.should == 16.34
       created_item.images.first.image.file.file.should =~ /image\.png/
       created_item.images.first.cover.should be_true
 

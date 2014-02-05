@@ -41,7 +41,7 @@ class Admin::Api::CartItemsController < Admin::Api::ApplicationController
   def cart_item_params
     resource_params = params
       .require(:cart_item)
-      .permit(:id, :price, :inventory_entry_id, :cart_id, :inventory_item_id)
+      .permit(:id, :price, :price_for_installments, :inventory_entry_id, :cart_id, :inventory_item_id)
 
     resource_params = replace_uuid_with_id(resource_params,
                                            current_company.items,

@@ -21,11 +21,24 @@ describe Cart do
   end
 
   describe "#total" do
+    let(:price) { double }
+
     it "returns the result of a price calculation" do
-      cart = Cart.new
-      Store::Order::PriceCalculation.stub(:calculate).with(:items) { :total }
-      cart.stub_chain(:items) { :items }
-      expect(cart.total).to eq :total
+      subject.stub(:items) { :items }
+      Store::Order::PriceCalculation.stub(:new).with(subject, :items) { price }
+      price.stub(:total) { :total }
+      expect(subject.total).to eq :total
+    end
+  end
+
+  describe "#total_for_installments" do
+    let(:price) { double }
+
+    it "returns the result of a price calculation" do
+      subject.stub(:items) { :items }
+      Store::Order::PriceCalculation.stub(:new).with(subject, :items) { price }
+      price.stub(:total).with("installments") { :total_for_installments }
+      expect(subject.total_for_installments).to eq :total_for_installments
     end
   end
 

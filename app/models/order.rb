@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
   has_one :shipping_address, as: :addressable, class_name: "Address"
 
   VALID_ENVIRONMENTS = [:website, :offline]
-  VALID_PAYMENT_TYPES = [:cash, :debit, :credit_card]
+  VALID_PAYMENT_TYPES = [:cash, :debit, :credit_card, :installments]
 
   validates :environment,
     inclusion: { in: VALID_ENVIRONMENTS + VALID_ENVIRONMENTS.map(&:to_s) },
@@ -40,7 +40,7 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    Store::Order::PriceCalculation.calculate(items)
+    Store::Order::PriceCalculation.new(self, items).total(self.payment_type)
   end
 
   def items_quantity

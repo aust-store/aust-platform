@@ -134,6 +134,7 @@ describe Admin::Api::OrdersController do
             "name"               => item.name,
             "quantity"           => item.quantity,
             "price"              => item.price.to_s,
+            "price_for_installments" => item.price_for_installments.to_s,
             "inventory_item_id"  => item.inventory_item.uuid,
             "order_id"           => order.uuid,
             "inventory_entry_id" => item.inventory_entry_id }
@@ -153,6 +154,7 @@ describe Admin::Api::OrdersController do
             "name"               => item.name,
             "quantity"           => item.quantity,
             "price"              => item.price.to_s,
+            "price_for_installments" => item.price_for_installments.to_s,
             "inventory_item_id"  => item.inventory_item.uuid,
             "order_id"           => order.uuid,
             "inventory_entry_id" => item.inventory_entry_id }

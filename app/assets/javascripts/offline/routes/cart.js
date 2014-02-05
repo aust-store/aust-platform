@@ -12,7 +12,9 @@ App.CartsNewRoute = Ember.Route.extend({
 
     this.createPaymentTypes();
 
-    return currentModel || emberSync.createRecord('cart');
+    return currentModel || emberSync.createRecord('cart', {
+      paymentType: _this.controllerFor('cartsPayment').get('content.firstObject.id')
+    });
   },
 
   renderTemplate: function() {
@@ -40,6 +42,7 @@ App.CartsNewRoute = Ember.Route.extend({
     var _this = this,
         paymentTypes = [
           { id: "cash", name: "Dinheiro à vista" },
+          { id: "installments", name: "A prazo" },
           { id: "debit", name: "Débito" },
           { id: "credit_card", name: "Cartão de crédito" }
         ];
