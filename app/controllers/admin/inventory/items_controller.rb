@@ -4,9 +4,17 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
 
   def index
-    items  = company_resources.includes(:manufacturer).order("updated_at desc").page(params[:page])
-    @items = DecorationBuilder.inventory_items(items)
+    items = company_resources
+      .includes(:manufacturer)
+      .order("inventory_items.updated_at DESC")
+      .page(params[:page])
 
+    if params[:search].present? && params[:search][:query].present?
+      @search_query = params[:search][:query]
+      items = items.search_for(params[:search][:query])
+    end
+
+    @items = DecorationBuilder.inventory_items(items)
     last_addition  = company_resources.last
     @last_addition = DecorationBuilder.inventory_items(last_addition)
   end
