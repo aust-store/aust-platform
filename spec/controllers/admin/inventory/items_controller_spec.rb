@@ -11,10 +11,18 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "GET index" do
+    let(:items) { double }
+
+    before do
+      subject.stub_chain(:current_company, :items) { items }
+    end
+
     it "assigns all items as @items" do
-      subject.stub_chain(:current_company, :items, :includes, :order, :page) { 123 }
+      items.stub_chain(:includes, :order, :page) { 123 }
+      items.stub(:last) { 1234 }
       get :index
       assigns(:items).should == 123
+      assigns(:last_addition).should == 1234
     end
   end
 
