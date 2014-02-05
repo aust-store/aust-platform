@@ -1,11 +1,12 @@
-<div class="main_container">
+<p>
+  Uma página aparece no menu da loja e possui texto estático, como
+  "Quem somos", sobre pagamentos, e outros.
+</p>
 
-  <%= simple_form_for [:admin, @page] do |f| %>
+<%= simple_form_for [:admin, @page] do |f| %>
 
-    <%= f.input :title, as: :string, required: false %>
-    <%= f.input :body, as: :text, required: false %>
-    <%= f.submit %>
+  <%= f.input :title, as: :string, required: false %>
+  <%= f.input :body, as: :text, required: false %>
+  <%= f.submit id: "submit" %>
 
-  <% end %>
-
-</div>
+<% end %>

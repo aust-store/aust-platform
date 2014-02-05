@@ -4,15 +4,24 @@
 
     <%= f.input :name, label: "Nome" %>
     <%= f.input :email, label: "Email" %>
-    <%= f.input :password %>
+    <% passw_hint = "Deixe em branco para <b>não</b> alterar a senha." unless @user.new_record? %>
+    <%= f.input :password, hint: passw_hint %>
     <%= f.input :password_confirmation, hint: "Digite a senha novamente" %>
 
-    <% if !@user.persisted? || can_edit_users?(@user, current_admin_user) %>
+    <% if @user.new_record? || can_edit_users?(@user, current_admin_user) %>
       <% unless @user.founder? %>
         <%= f.input :role, collection: roles_for_select, include_blank: false %>
+      <% else %>
+        <strong>Função:</strong> <%= t("activerecord.values.admin_user.roles.#{@user.role}") %>
+        <br />
+        <br />
       <% end %>
+    <% else %>
+      <strong>Função:</strong> <%= t("activerecord.values.admin_user.roles.#{@user.role}") %>
+      <br />
+      <br />
     <% end %>
 
-    <div class="submit"><%= f.submit "Salvar", name: "commit" %></div>
+    <div class="submit"><%= f.submit "Salvar", id: "submit", name: "commit" %></div>
   <% end %>
 </div>
