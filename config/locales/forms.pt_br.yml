@@ -125,6 +125,7 @@ pt_br:
         reference:     "Se você possui um código que identifique este produto internamente."
       prices:
         value: "Formatos aceitos: 'R$ 15,00', '15', '15.00' e '15,00'"
+        for_installments: "Preencha apenas se você está usando um Ponto de Venda."
       taxonomy:
         name: "Ex.: Tênis, Livro, Carro"
       manufacturer:

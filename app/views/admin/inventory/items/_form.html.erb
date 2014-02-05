@@ -57,6 +57,10 @@
       as: :string,
       required: false,
       input_html: { value: @item.price } %>
+    <%= price.input :for_installments,
+      as: :string,
+      required: false,
+      input_html: { value: @item.price } %>
   <% end %>
 
   <section>

@@ -13,6 +13,13 @@ module("Models/Cart", {
 
       cartItem = store.createRecord('cartItem', {
         price: 10.0,
+        priceForInstallments: 11.0,
+        inventoryEntryId: 1,
+      });
+
+      cartItem2 = store.createRecord('cartItem', {
+        price: 10.0,
+        priceForInstallments: 11.0,
         inventoryEntryId: 1,
       });
 
@@ -33,6 +40,28 @@ test("#isValid", function() {
 
   cart.set('customer', customer);
   ok(cart.isValid(), "cart is valid after a customer is added");
+});
+
+test("#subtotal", function() {
+  Em.run(function() {
+    equal(cart.get('subtotal'), 0.0, "subtotal is 0 without items");
+
+    cart.get('cartItems').pushObject(cartItem);
+    equal(cart.get('subtotal'), 10.0, "subtotal is 10 with 1 item");
+    cart.get('cartItems').pushObject(cartItem2);
+    equal(cart.get('subtotal'), 20.0, "subtotal is 20 with 2 items");
+  });
+});
+
+test("#subtotalForInstallments", function() {
+  Em.run(function() {
+    equal(cart.get('subtotalForInstallments'), 0.0, "subtotalForInstallments is 0 without items");
+
+    cart.get('cartItems').pushObject(cartItem);
+    equal(cart.get('subtotalForInstallments'), 11.0, "subtotalForInstallments is 11 with 1 item");
+    cart.get('cartItems').pushObject(cartItem2);
+    equal(cart.get('subtotalForInstallments'), 22.0, "subtotalForInstallments is 22 with 2 items");
+  });
 });
 
 test("#save doesn't exclude relationships from the store", function() {

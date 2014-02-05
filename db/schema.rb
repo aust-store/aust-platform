@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131112022336) do
+ActiveRecord::Schema.define(version: 20140204223539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "unaccent"
+  enable_extension "uuid-ossp"
 
   create_table "addresses", force: true do |t|
     t.integer  "addressable_id"
@@ -87,11 +88,13 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "environment"
+    t.uuid     "uuid"
   end
 
   add_index "carts", ["company_id"], name: "index_carts_on_company_id", using: :btree
   add_index "carts", ["customer_id"], name: "index_carts_on_customer_id", using: :btree
   add_index "carts", ["environment"], name: "index_carts_on_environment", using: :btree
+  add_index "carts", ["uuid"], name: "index_carts_on_uuid", using: :btree
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -130,8 +133,8 @@ ActiveRecord::Schema.define(version: 20131112022336) do
   add_index "contacts", ["contactable_type"], name: "index_contacts_on_contactable_type", using: :btree
 
   create_table "customers", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: ""
+    t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -159,14 +162,21 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.string   "work_area_number"
     t.string   "mobile_area_number"
     t.integer  "store_id"
+    t.boolean  "enabled",                default: true
+    t.string   "environment"
+    t.boolean  "has_password",           default: true
+    t.uuid     "uuid"
   end
 
   add_index "customers", ["authentication_token"], name: "index_customers_on_authentication_token", unique: true, using: :btree
   add_index "customers", ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true, using: :btree
-  add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
+  add_index "customers", ["email"], name: "index_customers_on_email", using: :btree
+  add_index "customers", ["enabled"], name: "index_customers_on_enabled", using: :btree
+  add_index "customers", ["environment"], name: "index_customers_on_environment", using: :btree
   add_index "customers", ["receive_newsletter"], name: "index_customers_on_receive_newsletter", using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
   add_index "customers", ["store_id"], name: "index_customers_on_store_id", using: :btree
+  add_index "customers", ["uuid"], name: "index_customers_on_uuid", using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -197,11 +207,14 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.datetime "updated_at"
     t.integer  "store_id"
     t.boolean  "on_sale",           default: true
+    t.boolean  "point_of_sale"
+    t.boolean  "website_sale",      default: true
   end
 
   add_index "inventory_entries", ["admin_user_id"], name: "index_inventory_entries_on_admin_user_id", using: :btree
   add_index "inventory_entries", ["inventory_item_id"], name: "index_inventory_entries_on_inventory_item_id", using: :btree
   add_index "inventory_entries", ["on_sale"], name: "index_inventory_entries_on_on_sale", using: :btree
+  add_index "inventory_entries", ["point_of_sale"], name: "index_inventory_entries_on_point_of_sale", using: :btree
   add_index "inventory_entries", ["store_id"], name: "index_inventory_entries_on_store_id", using: :btree
 
   create_table "inventory_item_images", force: true do |t|
@@ -220,6 +233,7 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.decimal  "value",             precision: 8, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "for_installments",  precision: 8, scale: 2
   end
 
   add_index "inventory_item_prices", ["inventory_item_id"], name: "index_inventory_item_prices_on_inventory_item_id", using: :btree
@@ -249,12 +263,18 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.integer  "manufacturer_id"
     t.decimal  "moving_average_cost", precision: 8, scale: 2
     t.string   "slug"
+    t.uuid     "uuid"
+    t.string   "barcode"
+    t.string   "reference_number"
   end
 
+  add_index "inventory_items", ["barcode"], name: "index_inventory_items_on_barcode", using: :btree
   add_index "inventory_items", ["company_id"], name: "index_inventory_items_on_company_id", using: :btree
   add_index "inventory_items", ["manufacturer_id"], name: "index_inventory_items_on_manufacturer_id", using: :btree
+  add_index "inventory_items", ["reference_number"], name: "index_inventory_items_on_reference_number", using: :btree
   add_index "inventory_items", ["slug"], name: "index_inventory_items_on_slug", using: :btree
   add_index "inventory_items", ["taxonomy_id"], name: "index_inventory_items_on_taxonomy_id", using: :btree
+  add_index "inventory_items", ["uuid"], name: "index_inventory_items_on_uuid", using: :btree
 
   create_table "manufacturers", force: true do |t|
     t.string   "name"
@@ -278,6 +298,7 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.datetime "updated_at"
     t.string   "status"
     t.integer  "parent_id"
+    t.uuid     "uuid"
   end
 
   add_index "order_items", ["cart_id"], name: "index_order_items_on_cart_id", using: :btree
@@ -286,6 +307,7 @@ ActiveRecord::Schema.define(version: 20131112022336) do
   add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
   add_index "order_items", ["parent_id"], name: "index_order_items_on_parent_id", using: :btree
   add_index "order_items", ["status"], name: "index_order_items_on_status", using: :btree
+  add_index "order_items", ["uuid"], name: "index_order_items_on_uuid", using: :btree
 
   create_table "order_shippings", force: true do |t|
     t.integer  "cart_id"
@@ -314,12 +336,15 @@ ActiveRecord::Schema.define(version: 20131112022336) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "environment"
+    t.uuid     "uuid"
+    t.string   "payment_type"
   end
 
   add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
   add_index "orders", ["environment"], name: "index_orders_on_environment", using: :btree
   add_index "orders", ["store_id"], name: "index_orders_on_store_id", using: :btree
+  add_index "orders", ["uuid"], name: "index_orders_on_uuid", using: :btree
 
   create_table "pages", force: true do |t|
     t.text     "title"
@@ -354,6 +379,21 @@ ActiveRecord::Schema.define(version: 20131112022336) do
 
   add_index "payment_statuses", ["order_id"], name: "index_payment_statuses_on_order_id", using: :btree
   add_index "payment_statuses", ["status"], name: "index_payment_statuses_on_status", using: :btree
+
+  create_table "pos_cash_entries", force: true do |t|
+    t.uuid     "uuid"
+    t.integer  "admin_user_id"
+    t.integer  "company_id"
+    t.string   "entry_type"
+    t.decimal  "amount",           precision: 8, scale: 2
+    t.decimal  "previous_balance", precision: 8, scale: 2
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pos_cash_entries", ["admin_user_id"], name: "index_pos_cash_entries_on_admin_user_id", using: :btree
+  add_index "pos_cash_entries", ["company_id"], name: "index_pos_cash_entries_on_company_id", using: :btree
 
   create_table "shipping_boxes", force: true do |t|
     t.decimal  "length",            precision: 8, scale: 2

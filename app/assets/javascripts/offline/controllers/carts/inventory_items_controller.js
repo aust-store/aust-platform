@@ -63,6 +63,7 @@ App.CartsInventoryItemsController = Ember.ArrayController.extend(
 
       cartItem = emberSync.createRecord('cartItem', {
         price: inventoryItem.get('price'),
+        priceForInstallments: inventoryItem.get('priceForInstallments'),
         inventoryItem: inventoryItem,
         inventoryEntryId: inventoryItem.get('entryForSaleId')
       });

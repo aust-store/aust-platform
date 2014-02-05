@@ -21,6 +21,7 @@ describe Admin::Api::CartItemsController do
         json_request = {
           "cart_item" => {
             "price" => 50,
+            "price_for_installments" => 500,
             "inventory_entry_id" => entry.id,
             "inventory_item_id"  => inventory_item.uuid,
             "cart_id" => cart.uuid
@@ -37,6 +38,7 @@ describe Admin::Api::CartItemsController do
             "name"               => item.name,
             "quantity"           => 1,
             "price"              => item.price.to_s,
+            "price_for_installments" => item.price_for_installments.to_s,
             "inventory_entry_id" => entry.id,
             "inventory_item_id"  => item.inventory_item.uuid,
             "cart_id"            => cart.uuid
@@ -46,6 +48,7 @@ describe Admin::Api::CartItemsController do
             "name"               => item.name,
             "description"        => item.inventory_item.description,
             "price"              => item.inventory_item.price.to_s,
+            "price_for_installments" => "16.01",
             "entry_for_sale_id"  => entry.id,
             "on_sale"            => true,
             "barcode"            => "123",
@@ -64,6 +67,7 @@ describe Admin::Api::CartItemsController do
           "cart_item" => {
             "id" => pregenerated_uuid,
             "price" => 50,
+            "price_for_installments" => 500,
             "inventory_entry_id" => entry.id,
             "inventory_item_id"  => inventory_item.uuid,
             "cart_id" => cart.uuid
@@ -79,7 +83,8 @@ describe Admin::Api::CartItemsController do
             "id"                 => pregenerated_uuid,
             "name"               => item.name,
             "quantity"           => 1,
-            "price"              => item.price.to_s,
+            "price"              => "50.0",
+            "price_for_installments" => "500.0",
             "inventory_entry_id" => entry.id,
             "inventory_item_id"  => item.inventory_item.uuid,
             "cart_id"            => cart.uuid
@@ -89,6 +94,7 @@ describe Admin::Api::CartItemsController do
             "name"               => item.name,
             "description"        => item.inventory_item.description,
             "price"              => item.inventory_item.price.to_s,
+            "price_for_installments" => item.inventory_item.price_for_installments.to_s,
             "entry_for_sale_id"  => entry.id,
             "on_sale"            => true,
             "barcode"            => "123",

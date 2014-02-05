@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :order_item_without_associations, class: "OrderItem" do
     price 13.94
+    price_for_installments 17.94
     quantity 1
 
     factory :order_item do

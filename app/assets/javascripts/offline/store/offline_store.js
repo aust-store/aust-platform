@@ -1,7 +1,7 @@
 App.ApplicationSerializer = DS.IndexedDBSerializer.extend();
 App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
   databaseName: "AustPointOfSale",
-  version: 4,
+  version: 5,
   migrations: function() {
     this.addModel(App.Cart);
     this.addModel(App.CartItem);

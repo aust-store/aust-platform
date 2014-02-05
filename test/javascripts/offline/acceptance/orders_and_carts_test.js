@@ -33,7 +33,7 @@ test("user puts order without existing customer", function() {
   /**
    * Adds the found item to cart
    */
-  ok(!find("a.place_order_button:visible").length, "Order button isn't present");
+  ok(find("a.place_order_button.disabled:visible").length, "Order button present");
   click("table.listing.inventory_items a");
 
   andThen(function() {
@@ -52,7 +52,12 @@ test("user puts order without existing customer", function() {
   equal(App.Order.FIXTURES.length, 1, "No order is saved before being confirmed");
   window.confirm = function() { return true }
   andThen(function() {
-    click("a.place_order_button");
+    var total = find(".cart_status .total").text().trim(),
+        totalForInstallments = find(".total_for_installments").text().trim();
+
+    equal(total, "Total: R$ 11,00", "Total is R$ 11,00");
+    equal(totalForInstallments, "A prazo: R$ 102,00", "Total for installments is R$ 102,00");
+    click("a.place_order_button.enabled");
   });
 
   andThen(function() {
@@ -65,8 +70,9 @@ test("user puts order without existing customer", function() {
       Em.run.later(function() {
         equal(App.Order.FIXTURES.length, 2);
         equal(App.Order.FIXTURES.slice(-1)[0].paymentType, "debit", "Debit payment");
+        equal(App.Order.FIXTURES.slice(-1)[0].total, "11.0", "saved total is 11.0");
       }, 110);
-    }, 30);
+    }, 60);
   });
 });
 
@@ -149,5 +155,33 @@ test("user puts order creating new customer", function() {
         });
       }, 120);
     }, 30);
+  });
+});
+
+test("user puts order with payment in installments", function() {
+  visit("/");
+  fillIn("#inventory_item_search", "Ibanez");
+  click("table.listing.inventory_items a");
+  click("a.payment_type[name='installments']");
+
+  equal(App.Order.FIXTURES.length, 1, "No order is saved before being confirmed");
+  window.confirm = function() { return true }
+  andThen(function() {
+    click("a.place_order_button.enabled");
+  });
+
+  andThen(function() {
+    Em.run.later(function() {
+      EmberSync.Queue.create({
+        offlineStore: env.offlineStore,
+        onlineStore:  env.onlineStore
+      }).process();
+
+      Em.run.later(function() {
+        equal(App.Order.FIXTURES.length, 2);
+        equal(App.Order.FIXTURES.slice(-1)[0].paymentType, "installments", "Payment in installments");
+        equal(App.Order.FIXTURES.slice(-1)[0].total, "102.0", "saved total is 102.0");
+      }, 110);
+    }, 60);
   });
 });

@@ -1,5 +1,7 @@
 class OrderItemSerializer < ActiveModel::Serializer
-  attributes :id, :name, :quantity, :price, :inventory_entry_id
+  attributes :id, :name, :quantity,
+    :price, :price_for_installments,
+    :inventory_entry_id
   has_one :order, embed_key: :uuid
   has_one :inventory_item, embed_key: :uuid
 
