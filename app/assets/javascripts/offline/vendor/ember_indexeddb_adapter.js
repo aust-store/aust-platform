@@ -564,6 +564,7 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
   findQuery: function (store, type, query, recordArray) {
     var adapter = this;
 
+    query = this.camelizeKeys(query);
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var modelName = type.toString(),
           result = [],
@@ -635,7 +636,6 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
      * `DS.IndexedDBSmartSearch`. This performs tasks like matching dates and
      * fulltext search.
      */
-
     if (this.get('smartSearch')) {
       var smartSearch = DS.IndexedDBSmartSearch.createWithMixins({
         field: field,
@@ -1180,5 +1180,14 @@ DS.IndexedDBAdapter = DS.Adapter.extend({
     } else {
       return relationships;
     }
+  },
+
+  camelizeKeys: function(hash) {
+    var newHash = {};
+    for (var key in hash) {
+      newHash[key.camelize()] = hash[key];
+    }
+
+    return newHash;
   }
 });
