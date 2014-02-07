@@ -54,6 +54,10 @@ class Admin::Api::ApplicationController < Admin::ApplicationController
     @search_param ||= params[:search].strip
   end
 
+  def only_current_user_resources
+    @resources = @resources.where(admin_user_id: current_user.id)
+  end
+
   # TODO - tests and improvements
   def search_by_date
     date_fields = params.dup.keep_if do |key, value|

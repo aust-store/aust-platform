@@ -12,3 +12,13 @@ App.CashEntry = DS.Model.extend({
     return hasAmount && hasDescription;
   }
 });
+
+App.cashEntryTypes = [{
+  id: "addition", name: "Adição - dinheiro entrou no caixa"
+}, {
+  id: "subtraction", name: "Subtração - dinheiro saiu do caixa"
+//}, {
+//  id: "missing", name: "Faltando - quantia que está faltando do caixa"
+//}, {
+//  id: "surplus", name: "Subtração - dinheiro saiu do caixa"
+}];

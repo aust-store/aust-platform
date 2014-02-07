@@ -15,13 +15,46 @@ var CustomFixtureAdapter = DS.FixtureAdapter.extend({
    * Used for querying the Fixtures with this.store.find(...)
    */
   queryFixtures: function(records, query, type) {
+    var _this = this;
+
     return records.filter(function(record) {
       for(var queryKey in query) {
         var value = query[queryKey];
 
+        /**
+         * So we can do findQuery with {created_at: "today"}
+         */
+        queryKey = queryKey.camelize();
+
         if (queryKey == "search") {
           for(var recordKey in record) {
             if (record[recordKey] === value) {
+              return true;
+            }
+          }
+        }
+        /**
+         * Tries matching dates just like the server would. E.g.
+         *
+         *     store.findQuery('person', {createdAt: "yesterday"})
+         *
+         * It will returns only records that match the previous day (yesterday).
+         */
+        else if (queryKey == "createdAt" || queryKey == "updatedAt") {
+          var targetDate = new Date();
+
+          if (value === "today") {
+            if (_this.isDateMatch(record[queryKey], targetDate)) {
+              return true;
+            }
+          } else if (value === "yesterday") {
+            targetDate.setDate(targetDate.getDate() - 1);
+            if (_this.isDateMatch(record[queryKey], targetDate)) {
+              return true;
+            }
+          } else if (match = value.match(/([0-9]{1,}) days ago/i)) {
+            targetDate.setDate(targetDate.getDate() - match[1]);
+            if (_this.isDateMatch(record[queryKey], targetDate)) {
               return true;
             }
           }
@@ -37,7 +70,25 @@ var CustomFixtureAdapter = DS.FixtureAdapter.extend({
       }
       return true;
     });
-  }
+  },
+
+  /**
+   * Matches two dates by day.
+   */
+  isDateMatch: function(rawDateValue, targetDate) {
+    var date   = (new Date(Date.parse(rawDateValue))),
+        year   = targetDate.getFullYear(),
+        month  = targetDate.getMonth(),
+        day    = targetDate.getDate(),
+        hour   = targetDate.getHours(),
+        minute = targetDate.getMinutes();
+
+      if (date.getFullYear() == year &&
+          date.getMonth()    == month &&
+          date.getDate()     == day) {
+        return true;
+      }
+    }
 });
 
 DS.OnlineStore = DS.Store.extend({
@@ -81,7 +132,7 @@ function resetFixtures() {
     id: 1,
     customer: 1,
     total: 10.0,
-    createdAt: "2013-10-11 12:13:14",
+    createdAt: new Date,
     environment: "offline",
     paymentType: "cash",
     cart: 1,
@@ -150,6 +201,14 @@ function resetFixtures() {
     lastName:  "Rambo",
     email:     "rambo@gmail.com",
     socialSecurityNumber: "87738843403"
+  }]
+
+  App.CashEntry.FIXTURES = [{
+    id: 1,
+    entryType: "addition",
+    amount:    100,
+    description: "First entry",
+    createdAt: (new Date).toISOString()
   }]
 }
 

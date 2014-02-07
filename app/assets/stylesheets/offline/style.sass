@@ -220,6 +220,15 @@ div.thinner_column
     padding: 0 !important
     margin: 0 0 20px 0
 
+.section_header
+  width: 100%
+  display: table
+  .float_left
+    display: table
+    float: left
+  .float_right
+    display: table
+    float: right
 
 .cart_new
   &.cart_status
@@ -234,6 +243,22 @@ div.thinner_column
         margin: 5px 0 5px 0
         color: green
         font-size: 1.6em
+
+.cashier
+  .balance
+    display: table
+    padding: 10px
+    h3
+      font-size: 1.2em
+    .total_order, .cash_entries, .cash_balance
+      display: table
+    .description
+      width: 200px
+      padding: 3px 0
+      float: left
+    .amount
+      width: 200px
+      float: left
 
 a.btn
   border-radius: 50px

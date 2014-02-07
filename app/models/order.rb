@@ -3,11 +3,13 @@ class Order < ActiveRecord::Base
 
   uuid field: "uuid"
 
+  # TODO - remove this crap
   attr_accessible :cart_id, :store_id, :customer_id, :items_attributes, :items,
-                  :environment, :uuid, :payment_type,
-                  :customer, :store, :shipping_address, :shipping_details
+                  :environment, :uuid, :payment_type, :admin_user_id,
+                  :customer, :store, :shipping_address, :shipping_details, :total
 
   belongs_to :customer
+  belongs_to :admin_user
   belongs_to :cart
   belongs_to :store, class_name: "Company"
   has_many :items, class_name: "OrderItem"
@@ -37,10 +39,6 @@ class Order < ActiveRecord::Base
 
   def current_payment_status
     payment_statuses.current_status
-  end
-
-  def total
-    Store::Order::PriceCalculation.new(self, items).total(self.payment_type)
   end
 
   def items_quantity

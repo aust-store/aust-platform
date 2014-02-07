@@ -3,6 +3,7 @@ class Admin::Api::CashEntriesController < Admin::Api::ApplicationController
   def index
     @resources = current_company.pos_cash_entries.order("pos_cash_entries.updated_at desc")
 
+    only_current_user_resources
     search_by_date
     paginate_resource
     render json: @resources, meta: meta

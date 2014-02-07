@@ -8,6 +8,7 @@
         <th>Valor</th>
         <th>Cliente</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -20,6 +21,7 @@
               {{customer.firstName}} {{customer.lastName}}
             {{/if}}
           </td>
+          <td class="payment_type">{{translatePaymentType}}</td>
           <td class="created_at">{{humanDate createdAt}}</td>
         </tr>
       {{/each}}

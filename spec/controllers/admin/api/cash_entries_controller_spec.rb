@@ -6,11 +6,14 @@ describe Admin::Api::CashEntriesController do
   it_obeys_the "admin application controller contract"
   it_obeys_the "Decoration Builder contract"
 
+  it_behaves_like "an api endpoint with date search", :cash_entries, :cash_entry
+  it_behaves_like "an api endpoint returning only own user resources", :cash_entries, :cash_entry
+
   let(:pregenerated_uuid) { SecureRandom.uuid }
 
   describe "GET index" do
-    let(:cash1) { create(:cash_entry, amount: 10, company: @company) }
-    let(:cash2) { create(:cash_entry, amount: 5,  company: @company) }
+    let(:cash1) { create(:cash_entry, company: @company, admin_user: @admin_user) }
+    let(:cash2) { create(:cash_entry, company: @company, admin_user: @admin_user) }
 
     before do
       cash1 and cash2
@@ -84,6 +87,36 @@ describe Admin::Api::CashEntriesController do
       }
     end
 
+    it "creates a subtraction cash entry" do
+      request_json = {
+        cash_entry: {
+          id: pregenerated_uuid,
+          amount: 5000,
+          entry_type:  "subtraction",
+          description: nil,
+          created_at: "Thu Jan 27 2014 23:58:15 GMT-0200 (BRST)"
+        }
+      }
+      xhr :post, :create, request_json
+
+      cash_entry = PosCashEntry.first
+      cash_entry.uuid.should == pregenerated_uuid
+      cash_entry.company.should == @company
+      cash_entry.admin_user.should == @admin_user
+      cash_entry.created_at.should == Time.parse(request_json[:cash_entry][:created_at])
+
+      json = ActiveSupport::JSON.decode(response.body)
+
+      json.should == {
+        "cash_entry" => {
+          "id"    => pregenerated_uuid,
+          "amount" => "5000.0",
+          "entry_type" =>  "subtraction",
+          "description" => nil,
+          "created_at" => date_match(cash_entry.created_at, 2014, 01, 27, 23, 58, 15)
+        }
+      }
+    end
     it "creates an invalid cash entry" do
       request_json = {
         cash_entry: {

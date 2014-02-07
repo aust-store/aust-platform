@@ -9,15 +9,26 @@
     <h1>Nova entrada de dinheiro</h1>
 
     {{#form-for this}}
-      {{input amount label="Quantia: "}}
+      {{input entryType
+        as='select'
+        collection="App.cashEntryTypes"
+        selection="entryType"
+        optionValuePath="content.id"
+        optionLabelPath="content.name"
+        label="Tipo: "
+        name="cash_entry_type"}}
+
+      {{error-field entryType}}
+      {{input amount label="Quantia: " name="cash_entry_amount"}}
       {{error-field amount}}
-      {{input description label="Descrição: " as="text"}}
+      {{hint-field amount text="Exemplo: 100 ou 100,00 ou 10000"}}
+      {{input description label="Descrição: " as="text" name="cash_entry_description"}}
       {{error-field description}}
-      {{hint-field description text="Descrição serve para que você saiba no futuro a que se referia uma determinada entrada no caixa."}}
+      {{hint-field description text="A descrição é obrigatória. Serve para que você saiba no futuro a que se referia uma determinada entrada no caixa."}}
 
 
       <div class="actions">
-        {{submit "Salvar" class="js_submit_new_cash_flow"}}
+        {{submit "Salvar" class="js_submit_cash_entry"}}
         ou
         <a href="javascript: void()"
           {{action cancelCashCreation}}>cancelar</a>

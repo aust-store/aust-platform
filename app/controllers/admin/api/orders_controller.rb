@@ -4,10 +4,12 @@ class Admin::Api::OrdersController < Admin::Api::ApplicationController
 
   def index
     @resources = current_company.orders.includes(:payment_statuses).order('id desc')
+    @resources = @resources.created_offline
 
-    @resources = @resources.created_offline        if params[:environment] == "offline"
-    @resources = @resources.created_on_the_website if params[:environment] == "website"
+    @resources = @resources.where(payment_type: params[:payment_type]) if params[:payment_type]
 
+    only_current_user_resources
+    search_by_date
     paginate_resource
     render json: @resources, meta: meta
   end
@@ -15,7 +17,10 @@ class Admin::Api::OrdersController < Admin::Api::ApplicationController
   def create
     cart = current_company.carts.find_by_uuid(order_params[:cart_id])
 
-    sale = Store::Sale.new(cart, order_uuid: order_id, payment_type: payment_type)
+    sale = Store::Sale.new(cart,
+                           uuid: order_id,
+                           admin_user_id: current_user.id,
+                           payment_type: payment_type)
     sale.close
 
     render json: sale.order, include_items: true
@@ -34,6 +39,6 @@ class Admin::Api::OrdersController < Admin::Api::ApplicationController
   def order_params
     params
       .require(:order)
-      .permit(:id, :cart_id, :payment_type)
+      .permit(:id, :cart_id, :payment_type, :created_at)
   end
 end

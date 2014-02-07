@@ -42,6 +42,10 @@ var humanDate = function(date) {
     hour = "0"+parseInt(hour);
   }
 
+  if (parseInt(minute) < 9) {
+    minute = "0"+parseInt(minute);
+  }
+
   return day + '/' + month + '/' + year + ', ' + hour + ':' + minute;
 }
 

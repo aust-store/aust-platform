@@ -795,7 +795,9 @@ CREATE TABLE orders (
     updated_at timestamp without time zone,
     environment character varying(255),
     uuid uuid,
-    payment_type character varying(255)
+    payment_type character varying(255),
+    admin_user_id integer,
+    total numeric(8,2)
 );
 
 
@@ -1983,6 +1985,13 @@ CREATE INDEX index_order_shippings_on_order_id ON order_shippings USING btree (o
 
 
 --
+-- Name: index_orders_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_orders_on_admin_user_id ON orders USING btree (admin_user_id);
+
+
+--
 -- Name: index_orders_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2363,3 +2372,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140203204310');
 INSERT INTO schema_migrations (version) VALUES ('20140204223539');
 
 INSERT INTO schema_migrations (version) VALUES ('20140205004313');
+
+INSERT INTO schema_migrations (version) VALUES ('20140206183554');
+
+INSERT INTO schema_migrations (version) VALUES ('20140206214943');

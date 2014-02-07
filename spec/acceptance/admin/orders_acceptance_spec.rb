@@ -11,8 +11,8 @@ feature "Orders Management" do
   describe "the index page" do
     before do
       Timecop.travel(Time.utc(2013, 03, 30, 10, 10, 10)) do
-        @pending_order = FactoryGirl.create(:order, store: @company, total_items: 3)
-        @paid_order    = FactoryGirl.create(:paid_order, store: @company, total_items: 5)
+        @pending_order = FactoryGirl.create(:order, store: @company, total: 41.82, total_items: 3)
+        @paid_order    = FactoryGirl.create(:paid_order, store: @company, total: 69.70, total_items: 5)
       end
     end
 

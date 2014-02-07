@@ -18,9 +18,9 @@ class Admin::Api::StoreReportsController < Admin::Api::ApplicationController
 
   def today_revenue(environment = :website)
     revenue
-      .where("order_items.created_at >= ?", Time.zone.now.beginning_of_day)
+      .where("orders.created_at >= ?", Time.now.beginning_of_day)
       .where("orders.environment = ?", environment)
-      .sum("order_items.price")
+      .sum("orders.total")
   end
 
   def total_revenue
@@ -28,6 +28,6 @@ class Admin::Api::StoreReportsController < Admin::Api::ApplicationController
   end
 
   def revenue
-    @revenue ||= current_company.orders.joins(:items)
+    @revenue ||= current_company.orders
   end
 end

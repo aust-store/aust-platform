@@ -4,6 +4,8 @@ var env = {}, emberSync, subject,
     offlineStore, mock, onlineResults, jobRecord, jobRecordModel,
     cart,
     onlineStore,
+    createdAt = new Date,
+    createdAtAsString = "Thu, 06 Feb 2014 03:02:02 GMT",
     container;
 
 var Cart     = App.Cart,
@@ -16,6 +18,7 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
       mock = null;
       App.Cart = DS.Model.extend({
         total:     DS.attr('string'),
+        createdAt: DS.attr('date'),
         cartItems: DS.hasMany('cartItem'),
         customer:  DS.belongsTo('customer'),
       });
@@ -48,7 +51,10 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
       /**
        * Sets up the models, queue and jobs
        */
-      cart = offlineStore.createRecord('cart', { total: "10" });
+      cart = offlineStore.createRecord('cart', {
+        total: "10",
+        createdAt: createdAt
+      });
       jobRecordModel = offlineStore.createRecord('emberSyncQueueModel', {
         jobRecordType: "cart",
         serialized:    cart.serialize({includeId: true}),
@@ -66,12 +72,17 @@ module("Unit/Lib/EmberSync/RecordForSynchronization", {
         operation:     jobRecordModel.get('operation')
       });
 
-      subject = EmberSync.RecordForSynchronization.create({
-        offlineStore:    offlineStore,
-        onlineStore:     onlineStore,
-        offlineRecord:   cart,
-        jobRecord:       jobRecord
-      });
+      subject = function(customCart) {
+        if (!customCart) {
+          customCart = cart;
+        }
+        return EmberSync.RecordForSynchronization.create({
+          offlineStore:    offlineStore,
+          onlineStore:     onlineStore,
+          offlineRecord:   customCart,
+          jobRecord:       jobRecord
+        });
+      };
 
       start();
     });
@@ -91,14 +102,7 @@ test("#createRecordInStore creates a new record in store for operation=create", 
   stop();
 
   Em.run(function() {
-    subject = EmberSync.RecordForSynchronization.create({
-      offlineStore:    offlineStore,
-      onlineStore:     onlineStore,
-      offlineRecord:   cart,
-      jobRecord:       jobRecord
-    });
-
-    result = subject.createRecordInStore();
+    result = subject().createRecordInStore();
 
     equal(result.id, cart.id, "Record has same id");
     equal(result.get('total'), "10", "Record has correct total");
@@ -137,13 +141,55 @@ test("#createRecordInStore unloads previous record and recreates it with operati
   stop();
 
   Em.run(function() {
-    subject.createRecordInStore();
+    subject().createRecordInStore();
 
-    result = subject.createRecordInStore();
+    result = subject().createRecordInStore();
     equal(result.id, cart.id,    "Record has same id");
     equal(result.get('total'),   "10", "Record has correct total");
     equal(result.get('isNew'),   true, "Record is new (so we use POST)");
     equal(result.get('isDirty'), true, "Record isDirty");
+    start();
+  });
+});
+
+test("#createRecordInStore returns record that serialize dates", function() {
+  var result, serialized;
+  stop();
+
+  Em.run(function() {
+    cart = offlineStore.createRecord('cart', {
+      total: "10",
+      createdAt: (new Date(Date.parse("Thu, 06 Feb 2014 04:49:57 GMT")))
+    });
+    jobRecordModel = offlineStore.createRecord('emberSyncQueueModel', {
+      jobRecordType: "cart",
+      serialized: {
+        id: cart.id,
+        total: "10",
+        createdAt: "Thu, 06 Feb 2014 04:49:57 GMT",
+        customer: null
+      },
+      operation: "create",
+      createdAt: (new Date).toUTCString()
+    });
+
+    /**
+     * TODO - why are we passing this around instead of the model?
+     */
+    jobRecord = Ember.Object.create({
+      id:            jobRecordModel.get('id'),
+      jobRecordType: jobRecordModel.get('jobRecordType'),
+      serialized:    jobRecordModel.get('serialized'),
+      operation:     jobRecordModel.get('operation')
+    });
+
+    result = subject(cart).createRecordInStore();
+    equal(result.get('total'),   "10", "Record has correct total");
+    equal(result.get('createdAt'), "Thu Feb 06 2014 02:49:57 GMT-0200 (BRST)", "Record has createdAt with correct value");
+
+    serialized = result.serialize();
+    equal(serialized.createdAt, "Thu, 06 Feb 2014 04:49:57 GMT", "Serialized record has createdAt");
+
     start();
   });
 });
@@ -163,7 +209,7 @@ test("#setRelationships sets the belongsTo relationships", function() {
     onlineCart = onlineStore.createRecord('cart', { total: "10" });
     ok(!onlineCart.get('customer'), "Newly generated cart has no customer");
 
-    onlineCart = subject.setRelationships(onlineCart);
+    onlineCart = subject().setRelationships(onlineCart);
     var customerId = customer.get('id');
 
     ok(onlineCart.get('customer'), "Cart has now a customer");
@@ -187,10 +233,10 @@ test("#setRelationships sets the hasMany relationships", function() {
 
     equal(cart.get('cartItems').objectAt(0).get('price'), 10, "CartItem has price");
 
-    cart = onlineStore.createRecord('cart', { total: "10" });
-    ok(!cart.get('cartItems.length'), "Newly generated cart has no cart items");
+    var newCart = onlineStore.createRecord('cart', { total: "10" });
+    ok(!newCart.get('cartItems.length'), "Newly generated cart has no cart items");
 
-    cart = subject.setRelationships(cart);
+    cart = subject().setRelationships(newCart);
     var cartItems = cart.get('cartItems'),
         cartItem  = cartItems.objectAt(0);
 
@@ -209,12 +255,42 @@ test("#propertiesToPersist returns only attributes", function() {
   Em.run(function() {
     expected = {
       id: cart.get('id'),
-      total: "10"
+      total: "10",
+      createdAt: createdAt
     };
 
-    result = subject.propertiesToPersist(cart);
+    result = subject().propertiesToPersist(cart);
 
+
+    equal(typeof result.createdAt, "object", "Dates are objects");
+    equal(result.createdAt.toString(), expected.createdAt.toString(), "Dates are correct");
+    delete result.createdAt;
+    delete expected.createdAt;
     deepEqual(result, expected, "Properties are correct");
+    start();
+  });
+});
+
+test("#setDateObjectsInsteadOfDateString returns only attributes", function() {
+  var result, serialized;
+  stop();
+
+  Em.run(function() {
+    cart = offlineStore.createRecord('cart', {
+      total: 5,
+      createdAt: new Date(Date.parse(createdAtAsString))
+    });
+
+    serialized = {
+      id: cart.get('id'),
+      total: "5",
+      createdAt: createdAtAsString
+    };
+
+    result = subject(cart).setDateObjectsInsteadOfDateString(cart, serialized);
+
+    equal(typeof result.createdAt, "object", "createdAt is not a String, but an object");
+    deepEqual(result.createdAt, new Date(Date.parse(createdAtAsString)), "dates strings are converted to date objects");
     start();
   });
 });

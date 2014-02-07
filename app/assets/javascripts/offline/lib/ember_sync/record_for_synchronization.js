@@ -63,9 +63,11 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
   propertiesToPersist: function() {
     var offlineRecord = this.get('offlineRecord'),
         originalSerialized = this.get('jobRecord.serialized'),
-        type = this.get('jobRecord.jobRecordType');
+        type = this.get('jobRecord.jobRecordType'),
+        properties;
 
-    return this.serializeWithoutRelationships(type, offlineRecord, originalSerialized);
+     properties = this.serializeWithoutRelationships(type, offlineRecord, originalSerialized);
+     return this.setDateObjectsInsteadOfDateString(offlineRecord, properties);
   },
 
   setRelationships: function(pendingRecord) {
@@ -146,5 +148,21 @@ EmberSync.RecordForSynchronization = Ember.Object.extend(
     });
 
     return serializedCopy;
+  },
+
+  setDateObjectsInsteadOfDateString: function(record, serialized) {
+    if (record) {
+      record.eachAttribute(function(attr, details) {
+        if (details.type == "date" && typeof serialized[attr]) {
+          if (serialized[attr]) {
+            serialized[attr] = new Date(Date.parse(serialized[attr]));
+          } else {
+            serialized[attr] = new Date(Date.parse(record.get('createdAt')));
+          }
+        }
+      });
+    }
+
+    return serialized;
   }
 });
