@@ -72,7 +72,7 @@ describe Admin::Api::CashEntriesController do
       cash_entry.uuid.should == pregenerated_uuid
       cash_entry.company.should == @company
       cash_entry.admin_user.should == @admin_user
-      cash_entry.created_at.utc.should == Time.parse(request_json[:cash_entry][:created_at]).utc
+      cash_entry.created_at.should == Time.zone.parse(request_json[:cash_entry][:created_at])
 
       json = ActiveSupport::JSON.decode(response.body)
 
@@ -103,7 +103,7 @@ describe Admin::Api::CashEntriesController do
       cash_entry.uuid.should == pregenerated_uuid
       cash_entry.company.should == @company
       cash_entry.admin_user.should == @admin_user
-      cash_entry.created_at.utc.should == Time.utc.parse(request_json[:cash_entry][:created_at])
+      cash_entry.created_at.should == Time.zone.parse(request_json[:cash_entry][:created_at])
 
       json = ActiveSupport::JSON.decode(response.body)
 
