@@ -178,9 +178,9 @@ Store::Application.routes.draw do
   # MARKETING PAGE
   #
   constraints RouterConstraints::Marketing.new do
+    get 'consultores' => 'marketing/consultores#show'
     namespace :marketing do
       resources :home, only: [:index]
-
     end
     root :to => 'marketing/home#index', as: :marketing_root
   end
