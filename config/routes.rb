@@ -48,17 +48,18 @@ Store::Application.routes.draw do
   namespace :admin do
     namespace :api do
       scope "/v1" do
-        resource  :status,          only: :show, controller: "status"
-        resources :inventory_items, only: [:index]
-        resources :orders,          only: api_actions
-        resources :carts,           only: api_actions
-        resources :cart_items,      only: api_actions.push(:destroy)
-        resources :customers,       only: api_actions
-        resources :taxonomies,      only: [:index]
-        resources :manufacturers,   only: [:index]
-        resources :theme_files,     only: [:index, :update]
+        resource  :status,            only: :show, controller: "status"
+        resources :inventory_items,   only: [:index]
+        resources :orders,            only: api_actions
+        resources :carts,             only: api_actions
+        resources :cart_items,        only: api_actions.push(:destroy)
+        resources :customers,         only: api_actions
+        resources :taxonomies,        only: [:index]
+        resources :manufacturers,     only: [:index]
+        resources :theme_files,       only: [:index, :update]
         resources :mustache_commands, only: [:index]
-        resource :store_reports,   only: [:show]
+        resource  :store_reports,     only: [:show]
+        resources :cash_entries,      only: api_actions
 
         if Rails.env.development? || Rails.env.test?
           resource :resources, only: [:show]
@@ -177,9 +178,9 @@ Store::Application.routes.draw do
   # MARKETING PAGE
   #
   constraints RouterConstraints::Marketing.new do
+    get 'consultores' => 'marketing/consultores#show'
     namespace :marketing do
       resources :home, only: [:index]
-
     end
     root :to => 'marketing/home#index', as: :marketing_root
   end

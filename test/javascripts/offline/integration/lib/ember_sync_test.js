@@ -17,6 +17,7 @@ module("Integration/Lib/EmberSync", {
     stop();
     env = setupOfflineOnlineStore({
       inventoryItem: App.InventoryItem,
+      cashEntry: App.CashEntry,
       emberSyncQueueModel: App.EmberSyncQueueModel
     });
     store = env.store;
@@ -65,23 +66,25 @@ var assertItemExistsOffline = function(type, id) {
 }
 
 test("#find searches offline/online simultaneously, syncing online into offline and returning a stream of data", function() {
-  expect(5);
   stop();
 
   Em.run(function() {
-    assertItemDoesntExistOffline('inventoryItem', 1).then(function() {
-      return emberSync.find('inventoryItem', 1);
+    assertItemDoesntExistOffline('cashEntry', 1).then(function() {
+      return emberSync.find('cashEntry', 1);
     }).then(function(item) {
       Em.run.later(function() {
-        equal(item.get('name'), "Ibanez", "Loads data from the online store");
+        equal(item.get('description'), "First entry", "Data from store online");
+        ok(item.get('createdAt'), "createdAt is present online");
       }, 70);
 
       Em.run.later(function() {
-        store.find('inventoryItem', 1).then(function(item) {
+        store.find('cashEntry', 1).then(function(item) {
 
           ok(true, "Item was added to the offline store");
-          equal(item.get('id'),   1,        "New offline item has a correct id");
-          equal(item.get('name'), "Ibanez", "New offline item has a correct name");
+          equal(item.get('id'), 1, "New offline item has a correct id");
+          equal(item.get('description'), "First entry", "New offline item has a correct name");
+          ok(item.get('createdAt'), "createdAt is present offline");
+          equal(item.get('createdAt').getDate(), (new Date).getDate(), "Offline date is correct");
           start();
         }, function() {
           console.log("Item was not added to the offline store");
@@ -456,7 +459,7 @@ test("#save deletes a record offline and then online if it's marked as so", func
         record.emberSync.save().then(function() {
           Em.run.later(function() {
             resolve();
-          }, 10);
+          }, 30);
         });
       });
     }

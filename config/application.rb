@@ -82,6 +82,7 @@ module Store
 
     config.assets.precompile += ["marketing/application_manifest.js"]
     config.assets.precompile += ["marketing/application_manifest.css"]
+    config.assets.precompile += ["marketing/full_featured_page_manifest.css"]
 
     config.assets.precompile += ["mobile_admin/application_manifest.js"]
     config.assets.precompile += ["mobile_admin/application_manifest.css"]

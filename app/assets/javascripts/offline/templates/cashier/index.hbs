@@ -1,0 +1,53 @@
+<section id="cashier_index" class="cashier">
+  <div class="section_header">
+    <div class="float_left">
+      <p>
+        {{#link-to 'cashier.new' class='btn'}}Nova entrada no caixa{{/link-to}}
+      </p>
+    </div>
+  </div>
+
+  <div class="balance">
+    <h3>Saldo</h3>
+
+    <div class="total_order">
+      <div class="description">Vendido à vista hoje:</div>
+      <div class="amount">R$ {{money ordersTotal}}</div>
+    </div>
+    <div class="cash_entries">
+      <div class="description">Movimentações no caixa:</div>
+      <div class="amount">R$ {{money totalCash}}</div>
+    </div>
+    <div class="cash_balance">
+      <div class="description">Caixa deve ter:</div>
+      <div class="amount">R$ {{money expectedCashBalance}}</div>
+    </div>
+  </div>
+
+  <table class="listing cashier">
+    <thead>
+      <tr>
+        <th>Valor</th>
+        <th>Descrição</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each controller}}
+        <tr class="cash_entry">
+          <td class="amount">
+            {{#if isAddition}}+{{/if}}
+            {{#if isSubtraction}}-{{/if}}
+            R$ {{money amount}}
+          </td>
+          <td class="description">
+            {{description}}
+          </td>
+          <td class="created_at">{{humanDate createdAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</section>

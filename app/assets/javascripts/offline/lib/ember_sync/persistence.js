@@ -44,7 +44,10 @@ EmberSync.Persistence = Ember.Object.extend(
   persistRecordOffline: function(type, record) {
     var offlineSerializer = this.offlineStore.serializerFor(type),
         serialized = offlineSerializer.serialize(record, { includeId: true }),
-        model;
+        model, recordForSynchronization;
+
+    recordForSynchronization = EmberSync.RecordForSynchronization.create();
+    recordForSynchronization.setDateObjectsInsteadOfDateString(record, serialized);
 
     model = this.offlineStore.push(type, serialized);
     return model.save();

@@ -25,11 +25,18 @@ module Store
           store:            cart.company,
           shipping_address: cart.shipping_address,
           shipping_details: cart.shipping,
+          total:            order_total
         }
 
-        result[:payment_type] = options[:payment_type] if options[:payment_type].present?
-        result[:uuid] = options[:order_uuid] if options[:order_uuid].present?
+        [:payment_type, :uuid, :admin_user_id].each do |field|
+          result[field] = options[field] if options[field].present?
+        end
         result
+      end
+
+      def order_total
+        calculation = Store::Order::PriceCalculation.new(nil, cart.items)
+        calculation.total(options[:payment_type])
       end
     end
   end

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>E-commerce para Consultores & Designers - Aust</title>
+  <%= stylesheet_link_tag "marketing/full_featured_page_manifest", :media => "all" %>
+  <%= javascript_include_tag "marketing/application_manifest" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %> marketing_page">
+
+  <%= yield %>
+
+  <% if Rails.env.production? %>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-45496106-1', 'austapp.com');
+      ga('send', 'pageview');
+
+    </script>
+  <% end %>
+</body>
+</html>

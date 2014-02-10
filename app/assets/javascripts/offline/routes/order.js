@@ -6,7 +6,7 @@ App.OrdersIndexRoute = Ember.Route.extend({
     storeReport = search.find('storeReport');
     this.controllerFor("storeReports").set("model", storeReport);
 
-    results = search.findQuery('order', { environment: "offline" });
+    results = search.findQuery('order');
     return results;
   }
 });

@@ -7,7 +7,8 @@ describe Admin::Api::StoreReportsController do
   it_obeys_the "Decoration Builder contract"
 
   describe "GET show" do
-    let(:today_offline_order) { create(:offline_order, store: @company, total_items: 2) }
+    let(:today_offline_order) { create(:offline_order, store: @company, total_items: 2, total: 20) }
+    let(:today_offline_order2) { create(:offline_order, store: @company, total_items: 2, total: 35, payment_type: "installments") }
 
     before do
       Timecop.travel(Time.utc(2013, 8, 10, 10, 10, 10)) do
@@ -17,6 +18,7 @@ describe Admin::Api::StoreReportsController do
 
       Timecop.travel(Time.utc(2013, 10, 10, 10, 10, 10)) do
         today_offline_order
+        today_offline_order2
       end
     end
 
@@ -35,7 +37,7 @@ describe Admin::Api::StoreReportsController do
             "id" => "today_offline",
             "period" => "today",
             "environment" => "offline",
-            "revenue" => "27.88"
+            "revenue" => "55.0"
           }]
         }
       end

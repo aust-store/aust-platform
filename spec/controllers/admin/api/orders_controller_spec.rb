@@ -6,13 +6,18 @@ describe Admin::Api::OrdersController do
   it_obeys_the "admin application controller contract"
   it_obeys_the "Decoration Builder contract"
 
+  it_behaves_like "an api endpoint with date search", :orders, :offline_order
+  it_behaves_like "an api endpoint returning only own user resources", :orders, :offline_order
+
   let(:pregenerated_uuid) { SecureRandom.uuid }
 
   describe "GET index" do
-    let(:website_order) { create(:order, store: @company, total_items: 1) }
-    let(:offline_order) { create(:offline_order, store: @company, total_items: 1) }
+    let(:website_order) { create(:order, store: @company, total_items: 1, admin_user: @admin_user) }
+    let(:offline_order)  { create(:offline_order, store: @company, total_items: 1, admin_user: @admin_user, total: 13.94) }
+    let(:offline_order2) { create(:offline_order, store: @company, total_items: 1, admin_user: @admin_user, total: 17.94, payment_type: "installments") }
 
     before do
+      offline_order2
       website_order and offline_order
       controller.stub(:items_per_page) { 1 }
     end
@@ -25,7 +30,7 @@ describe Admin::Api::OrdersController do
         json.should == {
           "orders" => [{
             "id"          => offline_order.uuid,
-            "total"       => offline_order.total.to_s,
+            "total"       => "13.94",
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "payment_type" => "cash",
@@ -49,19 +54,19 @@ describe Admin::Api::OrdersController do
         json = ActiveSupport::JSON.decode(response.body)
         json.should == {
           "orders" => [{
-            "id"          => website_order.uuid,
-            "total"       => website_order.total.to_s,
-            "created_at"  => website_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment" => "website",
-            "payment_type" => "cash",
-            "customer_id" => website_order.customer.uuid,
+            "id"          => offline_order2.uuid,
+            "total"       => "17.94", # value for payment in installments
+            "created_at"  => offline_order2.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "environment" => "offline",
+            "payment_type" => "installments",
+            "customer_id" => offline_order2.customer.uuid,
           }],
           "customers" => [{
-            "id"         => website_order.customer.uuid,
-            "first_name" => website_order.customer.first_name,
-            "last_name"  => website_order.customer.last_name,
-            "email"      => website_order.customer.email,
-            "social_security_number" => website_order.customer.social_security_number
+            "id"         => offline_order2.customer.uuid,
+            "first_name" => offline_order2.customer.first_name,
+            "last_name"  => offline_order2.customer.last_name,
+            "email"      => offline_order2.customer.email,
+            "social_security_number" => offline_order2.customer.social_security_number
           }],
           "meta" => {
             "page" => 2,
@@ -71,12 +76,11 @@ describe Admin::Api::OrdersController do
       end
     end
 
-    context "offline orders" do
-      it "returns the last offline orders" do
-        xhr :get, :index, environment: "offline"
+    context "specific orders" do
+      it "returns the last orders" do
+        xhr :get, :index, payment_type: "cash"
 
-        json  = ActiveSupport::JSON.decode(response.body)
-
+        json = ActiveSupport::JSON.decode(response.body)
         json.should == {
           "orders" => [{
             "id"          => offline_order.uuid,
@@ -84,7 +88,7 @@ describe Admin::Api::OrdersController do
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "payment_type" => "cash",
-            "customer_id" => offline_order.customer.uuid
+            "customer_id" => offline_order.customer.uuid,
           }],
           "customers" => [{
             "id"         => offline_order.customer.uuid,
@@ -117,6 +121,7 @@ describe Admin::Api::OrdersController do
 
       order = Order.first
       order.uuid.should == pregenerated_uuid
+      order.admin_user.should == @admin_user
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {

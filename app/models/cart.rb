@@ -98,6 +98,7 @@ class Cart < ActiveRecord::Base
   def create_item_into_cart(entry)
     item = OrderItem.new(
       price: entry.inventory_item.price,
+      price_for_installments: entry.inventory_item.price_for_installments,
       quantity: 1,
       inventory_entry: entry,
       inventory_item: entry.inventory_item

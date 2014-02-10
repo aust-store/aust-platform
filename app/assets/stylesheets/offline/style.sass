@@ -32,7 +32,7 @@ a
 
 body
   background: $nav-background-color
-  font-family: "Helvetica Neue"
+  font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans", "Verdana", sans-serif
   -webkit-font-smoothing: antialiased
   -moz-font-smoothing: antialiased
   -ms-font-smoothing: antialiased
@@ -168,6 +168,10 @@ nav.navigation
             margin: 5px 0 0 0
             display: inline
 
+        &.cashier
+          background-image: image-url('pos/icons/cash_s.png')
+          padding-left: 35px
+
         &.all_orders
           background-image: image-url('pos/icons/list.png')
 
@@ -201,23 +205,38 @@ nav.navigation
       &.cart_payment
         padding-bottom: 20px
 
+div.larger_column
+  width: auto
+  overflow: hidden
+  height: 100%
+div.thinner_column
+  padding: 20px
+  width: 260px
+  height: 100%
+  float: right
+  background: #f3f3f3
+  color: #333
+  section
+    padding: 0 !important
+    margin: 0 0 20px 0
+
+.section_header
+  width: 100%
+  display: table
+  .float_left
+    display: table
+    float: left
+  .float_right
+    display: table
+    float: right
+
 .cart_new
   &.cart_status
-    padding: 20px
-    width: 260px
-    height: 100%
-    float: right
-    background: #f3f3f3
-    color: #333
-    section
-      padding: 0 !important
-      margin: 0 0 20px 0
-
     section.money
       div
         margin: 5px 0
       label
-        width: 100px
+        width: 90px
         display: inline-block
         text-align: right
       div.total
@@ -225,19 +244,33 @@ nav.navigation
         color: green
         font-size: 1.6em
 
-  &.cart_development
-    width: auto
-    overflow: hidden
-    height: 100%
+.cashier
+  .balance
+    display: table
+    padding: 10px
+    h3
+      font-size: 1.2em
+    .total_order, .cash_entries, .cash_balance
+      display: table
+    .description
+      width: 200px
+      padding: 3px 0
+      float: left
+    .amount
+      width: 200px
+      float: left
 
 a.btn
-  border-radius: 5px
-  background: #eee
-  padding: 5px 8px
+  border-radius: 50px
+  background: #ededed
+  padding: 7px 14px
   display: table
   text-decoration: none
+  &:hover
+    background: #f3f3f3
 
-a.place_order_button
+a.btn.place_order_button
+  border-radius: 5px
   margin: 0 auto
   padding: 15px 20px
   font-weight: 200

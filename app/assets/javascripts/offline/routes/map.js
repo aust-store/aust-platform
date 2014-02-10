@@ -10,4 +10,7 @@ App.Router.map(function() {
   this.resource('orders', function() {
 
   });
+  this.resource('cashier', function() {
+    this.route('new');
+  });
 });

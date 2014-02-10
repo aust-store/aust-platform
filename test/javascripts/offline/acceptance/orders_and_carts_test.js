@@ -44,8 +44,6 @@ test("user puts order without existing customer", function() {
     ok(customerSearch.length, "Customer search is present");
   });
 
-  click("a.payment_type[name='debit']");
-
   /**
    * Puts the order and accepts the confirm dialog
    */
@@ -57,10 +55,12 @@ test("user puts order without existing customer", function() {
 
     equal(total, "Total: R$ 11,00", "Total is R$ 11,00");
     equal(totalForInstallments, "A prazo: R$ 102,00", "Total for installments is R$ 102,00");
-    click("a.place_order_button.enabled");
   });
 
+  click("a.place_order_button.enabled");
+
   andThen(function() {
+    equal(App.Order.FIXTURES.length, 1);
     Em.run.later(function() {
       EmberSync.Queue.create({
         offlineStore: env.offlineStore,
@@ -69,7 +69,7 @@ test("user puts order without existing customer", function() {
 
       Em.run.later(function() {
         equal(App.Order.FIXTURES.length, 2);
-        equal(App.Order.FIXTURES.slice(-1)[0].paymentType, "debit", "Debit payment");
+        equal(App.Order.FIXTURES.slice(-1)[0].paymentType, "cash", "Cash payment");
         equal(App.Order.FIXTURES.slice(-1)[0].total, "11.0", "saved total is 11.0");
       }, 110);
     }, 60);

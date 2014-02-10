@@ -8,6 +8,7 @@ FactoryGirl.define do
     association :customer
     environment :website
     payment_type "cash"
+    total 27.88
 
     # order_item
     after(:create) do |order, evaluator|
@@ -41,6 +42,7 @@ FactoryGirl.define do
     factory :cart, class: "Cart" do
       ignore do
         payment_type nil
+        total nil
       end
       association :company
 

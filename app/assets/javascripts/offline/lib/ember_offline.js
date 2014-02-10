@@ -33,7 +33,7 @@ var EmberOffline = Ember.Object.extend({
       if (!EmberOfflineTesting) {
         var retryTimer = Em.run.later(function() {
           _this.testServer();
-        }, 45000);
+        }, 85000);
 
         _this.set('retryTimer', retryTimer);
       }
@@ -49,7 +49,7 @@ var EmberOffline = Ember.Object.extend({
       if (!EmberOfflineTesting) {
         Em.run.later(function() {
           _this.testServer();
-        }, 5000);
+        }, 9000);
       }
 
       if (_this.get('isConnected') === false) {

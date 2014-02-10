@@ -1,0 +1,420 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700)
+
+$navigation-background-color: #1A70A3
+$light-blue: #1e81b7 // #1a7bb0
+
+@mixin top-border-radius($some-number)
+  border-top-left-radius: $some-number
+  border-top-right-radius: $some-number
+  border-bottom-right-radius: $some-number
+  border-bottom-left-radius: $some-number
+
+
+body
+  margin: 0
+  padding: 0
+  background: #efefef
+  background: white
+  //background: #1a7bb0
+  //background: #0A3C57
+  //background: image-url('marketing/body_bg_top.jpg') repeat-x #f7f7f7
+  color: #222
+  font-size: 87%
+  font-family: "Helvetica Neue",  "Verdana", sans-serif
+  font-family: 'Lato', sans-serif
+
+  -webkit-font-smoothing: antialiased
+  -moz-font-smoothing: antialiased
+  -ms-font-smoothing: antialiased
+  font-smoothing: antialiased
+
+  -moz-text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+  -ms-text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.01)
+
+  -webkit-text-stroke: 1px transparent
+  -moz-text-stroke: 1px transparent
+  -ms-text-stroke: 1px transparent
+  text-stroke: 1px transparent
+
+table, h1, h2, h3, h4, p
+  margin: 0 0 15px 0
+
+table:last-child
+  margin-bottom: 0
+
+h1
+  font-size: 3.0em
+  color: #367cd0
+  font-weight: 200
+
+h2
+  font-size: 2.3em
+  color: #333
+
+p, ul li, label
+  font-size: 1.5em
+  line-height: 1.6em
+  &:last-child
+    margin-bottom: 0
+
+  &.hint
+    color: #777
+
+a
+  color: #1783b6
+  text-decoration: none
+
+.button_to
+  display: inline-block
+
+section.main a
+  text-decoration: underline
+a:hover
+  color: #165c85
+  text-decoration: underline
+
+.central_body
+  width: 960px
+  padding-bottom: 5px
+  //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2)
+  margin: 0 auto 0 auto
+
+#merchan
+  display: table
+  width: 100%
+  height: 600px
+  background-size: cover
+  border-bottom: 0px solid black
+
+  .container
+    position: relative
+    width: 960px
+    height: 600px
+    margin: 0 auto
+    div, h1
+      display: table
+
+  .logo, .title, .mailchimp_container
+    background: rgba(255, 255, 255, 0.5)
+    padding: 8px 15px
+    border-radius: 2px
+
+  .mailchimp
+    position: absolute
+    bottom: 30px
+    left: 50%
+    .mailchimp_container
+      position: relative
+      left: -50%
+      label
+        display: none
+
+  .logo
+    font-size: 0
+    margin: 0 0 5px 0
+    img
+      height: 25px
+      padding: 0
+
+  .title
+    margin-top: 130px
+    div.title_prefix
+      font-size: 1.2em
+      margin: 0
+      margin-bottom: -5px
+      color: #555
+    h1
+      display: table
+      font-size: 4.3em
+      font-weight: 700
+      padding: 0
+      margin: 0
+    p
+      max-width: 700px
+
+body.marketing_consultores
+  #merchan
+    background-image: image-url("marketing/consultores/merchan.jpg")
+    background-repeat: no-repeat
+    .container
+      width: 960px
+
+footer
+  border-top: 1px solid #eee
+  width: 100%
+  display: table
+  margin-top: 15px
+  padding: 20px 0
+  color: #777
+  font-size: 1em
+  text-align: center
+  .container
+    width: 960px
+    margin: 0 auto
+
+@media screen and (max-width: 760px)
+  body.marketing_consultores
+    #merchan
+      background-position: center center
+      .container
+        width: 100%
+  footer .container
+    width: 760px
+
+@media screen and (min-width: 761px) and (max-width: 959px)
+  body.marketing_consultores
+    #merchan
+      background-position: center center
+      .container
+        width: 100%
+  footer .container
+    width: 100%
+
+@media screen and (min-width: 960px)
+  body.marketing_consultores
+    #merchan
+      background-position: center center
+      .container
+        width: 960px
+  footer .container
+    width: 960px
+
+#header
+  width: 100%
+  display: table
+  background: rgb(255, 255, 255)
+  background: rgba(255, 255, 255, 0.97)
+  position: absolute
+  z-index: 5000
+  top: 0
+
+  .header_container
+    display: table
+    margin: 0 auto
+    padding: 0 0px
+    width: 960px
+
+  .title
+    h1
+      margin: 4px 0 0 10px
+      font-size: 0.8em
+    p
+      font-size: 0.8em
+      left: 18px
+      top: -2px
+      position: relative
+      color: #777
+
+  .links
+    text-align: right
+
+  ul
+    float: right
+    padding: 0
+    margin: 0 10px 0 0
+
+    li
+      float: left
+      padding: 14px 0 0 0
+    a
+      padding: 5px 12px
+      margin: 0 5px
+      display: table
+      font-size: 1.4em
+      &:hover
+        text-decoration: none
+        background: #f3f3f3
+        border-radius: 50px
+
+a.btn
+  @include top-border-radius(3px)
+  padding: 10px
+
+  &:hover
+    text-decoration: none
+
+  &.merchan
+    font-size: 1.2em
+    font-weight: bold
+    color: white
+
+  &.green
+    background: #2bb332
+
+    background: -webkit-gradient(linear, left top, left bottom, from(#2ccf49), to(#029709))
+    background: -moz-linear-gradient(top,  #029709,  #2ccf49)
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#029709', endColorstr='#2ccf49')
+
+section.main
+  margin: 0 auto
+  padding: 25px 0
+  width: 100%
+  display: table
+  background: white
+
+  h2:first-child
+    margin-top: 0
+
+  .main_container
+    margin: 30px 0
+    width: 960px
+    margin: 0 auto
+    display: table
+
+  &.full_colored
+    padding-top: 25px
+    color: white
+    h2
+      color: white
+      font-weight: 700
+
+    &.video
+      background: lighten(green, 1%)
+
+    &.pre_main
+      background: $light-blue
+      .main_container
+        width: 760px
+        text-align: center
+
+    &.pos, &.pos h2, &.how_it_works, &.how_it_works h2
+      background: #f1f1f1
+      color: #111
+      .feature_image img
+        margin-top: 25px
+
+    &.about_erp
+      background: $light-blue
+
+  &.signup
+    h2
+      color: green
+
+  .consultor_screen
+    margin-top: 15px
+    margin-bottom: 25px
+
+  .screenshot
+    width: 900px
+    padding: 0 30px 0 30px
+    img.admin
+      width: 400px
+
+  .video
+    margin-bottom: 15px
+    .container
+      position: relative
+      padding-bottom: 56.8% // 16:9
+      padding-top: 25px
+      height: 0
+      iframe
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+
+  .nfe
+    width: 900px
+    border-top: 1px solid #eee
+    padding: 30px 30px 0 30px
+    .image, .text
+      float: left
+    .image
+      width: 100px
+    .text
+      margin-top: 10px
+
+  .features
+    padding: 15px 10px
+    width: 940px
+    background: #eee
+    display: table
+
+    .feature
+      width: 225px
+      float: left
+      margin-left: 10px
+      &:first-child
+        margin: 0
+      h2
+        font-weight: normal
+        color: #165c85
+        font-size: 1.2em
+        margin-bottom: 10px
+      img
+        margin: 0 0 5px 0
+      p
+        padding: 0 3px
+        font-size: 1em
+  .beta
+    width: 900px
+    border-top: 1px solid #eee
+    padding: 30px
+    margin-bottom: 0
+    color: white
+    background: image-url("marketing/beta_bg.jpg") repeat-x #295e84
+
+    h2
+      font-weight: normal
+      color: white
+
+    div.email_field, div.submit
+      float: left
+
+    div.email_field
+      width: 615px
+      label
+        margin-top: 10px
+        font-size: 1.6em
+        width: 170px
+      input
+        height: 42px
+        width: 400px
+        margin: 0 0 0 8px
+        padding: 0 10px
+        font-size: 1.6em
+      .hint
+        margin: 0 0 0 185px
+        font-size: 0.8em
+        color: #ddd
+
+body.marketing_consultores
+  section.main
+    div.feature_image
+      text-align: center
+      img
+        margin: 0 auto
+
+
+.mailchimp
+  margin: 25px auto
+  display: table
+  label
+    margin-top: 5px
+  input.text
+    height: 36px
+    width: 380px
+    padding: 3px 10px
+    margin-right: 5px
+    font-size: 1.4em
+
+  input.button
+    position: relative
+    top: 0px
+    cursor: pointer
+    height: 42px
+    width: 159px
+    border: 0
+    font-size: 1.6em
+    color: white
+    border-radius: 4px
+    text-weight: normal
+    outline: none
+    background: lighten(green, 13%)
+    &:hover
+      background: lighten(green, 16%)
+    &:active
+      outline: none
+      background: lighten(green, 10%)

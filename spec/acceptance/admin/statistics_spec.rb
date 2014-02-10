@@ -36,12 +36,12 @@ feature "Statistics" do
         FactoryGirl.create(:order_item_without_associations, price: 12.0),
         FactoryGirl.create(:order_item_without_associations, price: 12.0)
       ]
-      FactoryGirl.create(:order, store: @company, items: items)
+      FactoryGirl.create(:order, store: @company, items: items, total: 24)
     end
   end
 
   scenario "As a admin, I'd like to add new customers" do
-    Order.last.total.should == 24.00
+    Order.last.total.should == 24.0
 
     Timecop.travel(Time.local(2013, 10, 10, 15, 10, 10)) do
       visit admin_statistics_path
