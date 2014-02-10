@@ -15,14 +15,18 @@
       </p>
     </div>
 
+    <%
+=begin
     <div class="mailchimp">
       <div class="mailchimp_container">
         <p>
           Entre seu email para receber um convite do
           <strong>Aust</strong>.
         </p>
-        <%= render "mailchimp" %>
+        <%= render "mailchimp" %
       </div>
+=end
+      %>
     </div>
   </div>
 </div>
@@ -144,7 +148,7 @@
     </p>
 
     <div class="consultor_screen feature_image">
-      <%= image_tag "marketing/consultores/consultor_screen.jpg", size: "764x430" %>
+      <%= link_to(image_tag("marketing/consultores/consultor_screen.jpg", size: "764x430"), asset_url("marketing/consultores/consultor_screen.jpg"), target: "_image") %>
     </div>
 
     <p>
@@ -168,7 +172,7 @@
     </p>
 
     <div class="consultor_screen feature_image">
-      <%= image_tag "marketing/consultores/point_of_sale.png", size: "699x285" %>
+      <%= link_to(image_tag("marketing/consultores/point_of_sale.png", size: "699x285"), asset_url("marketing/consultores/point_of_sale.png"), target: "_image") %>
     </div>
   </div>
 </section>

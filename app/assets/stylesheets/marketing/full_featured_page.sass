@@ -9,8 +9,8 @@ $light-blue: #1e81b7 // #1a7bb0
   border-bottom-right-radius: $some-number
   border-bottom-left-radius: $some-number
 
-
 body
+  //min-width: 480px // fix for iPhone
   margin: 0
   padding: 0
   background: #efefef
@@ -96,17 +96,13 @@ a:hover
       display: table
 
   .logo, .title, .mailchimp_container
-    background: rgba(255, 255, 255, 0.5)
+    background: rgba(255, 255, 255, 0.7)
     padding: 8px 15px
     border-radius: 2px
 
   .mailchimp
-    position: absolute
-    bottom: 30px
-    left: 50%
+    margin: 60px auto 0 auto
     .mailchimp_container
-      position: relative
-      left: -50%
       label
         display: none
 
@@ -137,8 +133,6 @@ body.marketing_consultores
   #merchan
     background-image: image-url("marketing/consultores/merchan.jpg")
     background-repeat: no-repeat
-    .container
-      width: 960px
 
 footer
   border-top: 1px solid #eee
@@ -159,6 +153,19 @@ footer
       background-position: center center
       .container
         width: 100%
+
+  section.main
+    .main_container
+      width: auto
+      margin: 0 10px
+    &.pre_main .main_container
+      width: auto
+      margin: 0 20px
+
+    img
+      max-width: 100%
+      height: auto
+
   footer .container
     width: 760px
 
@@ -168,6 +175,12 @@ footer
       background-position: center center
       .container
         width: 100%
+  section.main .main_container
+    width: auto
+    margin: 0 10px
+  section.main.pre_main .main_container
+    width: 90%
+    margin: 0 0
   footer .container
     width: 100%
 
@@ -177,6 +190,17 @@ footer
       background-position: center center
       .container
         width: 960px
+  section.main
+    .main_container
+      width: 940px
+      margin: 0 auto
+    &.pre_main .main_container
+      width: 760px
+      margin: 0 auto
+
+    img
+      max-width: 100%
+      height: auto
   footer .container
     width: 960px
 
@@ -257,9 +281,6 @@ section.main
     margin-top: 0
 
   .main_container
-    margin: 30px 0
-    width: 960px
-    margin: 0 auto
     display: table
 
   &.full_colored
@@ -275,7 +296,6 @@ section.main
     &.pre_main
       background: $light-blue
       .main_container
-        width: 760px
         text-align: center
 
     &.pos, &.pos h2, &.how_it_works, &.how_it_works h2
@@ -413,8 +433,23 @@ body.marketing_consultores
     text-weight: normal
     outline: none
     background: lighten(green, 13%)
+    background: green
     &:hover
       background: lighten(green, 16%)
     &:active
       outline: none
       background: lighten(green, 10%)
+
+  #mce-error-response, #mce-success-response
+    max-width: 100%
+    background: white
+    padding: 10px
+    line-height: 30px
+  #mce-error-response
+    color: red
+    font-weight: bold
+    font-size: 1.5em
+  #mce-success-response
+    color: green
+    font-weight: bold
+    font-size: 1.5em
