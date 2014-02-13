@@ -249,7 +249,7 @@ Admin.FieldSearch.ResultsPopup = {
 
   _createPopup: function() {
     var popupResult = document.createElement('div');
-    popupResult.setAttribute('class', 'popup_result field_search_results');
+    popupResult.setAttribute('class', 'popup_result field_search_results popup');
     return popupResult;
   },
 
