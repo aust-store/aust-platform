@@ -13,8 +13,8 @@ $(document).ready(function(){
     render: {
       option_create: function(item, escape) {
         var input = item.input;
-        return '<div>' +
-          (input ? '<span class="caption">Criar ' + escape(input) + '</span>' : '') +
+        return '<div class="create">' +
+          (input ? '<span class="caption">Criar <b>' + escape(input) + '</b></span>' : '') +
           '</div>';
       },
     },
