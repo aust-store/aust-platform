@@ -53,7 +53,7 @@ class Admin::ApplicationController < ApplicationController
     when /admin\/(marketing|pages|banner|store_theme)/ ; "marketing"
     when /admin\/store/      ; "store"
     when /admin\/settings/   ; "settings"
-    when /admin\/taxonomies/ ; "taxonomies"
+    when /admin\/taxonomies/ ; "inventory" # taxonomies
     when /admin\/order/      ; "orders"
     else nil
     end
