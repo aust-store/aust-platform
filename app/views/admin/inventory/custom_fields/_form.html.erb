@@ -1,0 +1,34 @@
+<%= simple_form_for([:admin, :inventory, @resource]) do |f| %>
+
+  <%= output_error_messages(@resource) %>
+
+  <div class="column_pane_half left">
+    <div class="section">
+      <%= f.input :name %>
+    </div>
+  </div>
+
+  <div class="column_pane_half right">
+    <div class="section">
+      <% @taxonomies.each do |taxonomy| %>
+        <%= hidden_field_tag "custom_field[taxonomy_ids][]" %>
+        <%= check_box_tag "custom_field[taxonomy_ids][]",
+          taxonomy.id,
+          @resource.taxonomies.include?(taxonomy),
+          id: "custom_field_taxonomy_ids_#{taxonomy.id}" %>
+
+        <%= taxonomy.name %>
+        <br />
+      <% end %>
+    </div>
+  </div>
+
+  <div class="column_full submit">
+    <%= f.submit "Salvar", id: "submit", name: "commit" %>
+    ou <%= link_to "cancelar", admin_inventory_custom_fields_path %>
+  </div>
+<% end %>
+
+<p class="column_full hint">
+  Dica: para mostrar o campo em todas as categorias, não selecione nenhuma.
+</p>

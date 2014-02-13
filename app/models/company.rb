@@ -7,6 +7,7 @@ class Company < ActiveRecord::Base
   has_many :orders, foreign_key: "store_id"
   has_many :inventory_entries, foreign_key: "store_id"
   has_many :taxonomies, foreign_key: "store_id"
+  has_many :custom_fields
   has_many :manufacturers
   has_many :pages
   has_many :banners

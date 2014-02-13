@@ -361,6 +361,50 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 
 --
+-- Name: custom_fields; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE custom_fields (
+    id integer NOT NULL,
+    company_id integer,
+    related_type character varying(255),
+    name character varying(255),
+    alphanumeric_name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: custom_fields_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE custom_fields_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: custom_fields_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE custom_fields_id_seq OWNED BY custom_fields.id;
+
+
+--
+-- Name: custom_fields_taxonomies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE custom_fields_taxonomies (
+    custom_field_id integer,
+    taxonomy_id integer
+);
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1247,6 +1291,13 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY custom_fields ALTER COLUMN id SET DEFAULT nextval('custom_fields_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -1459,6 +1510,14 @@ ALTER TABLE ONLY company_settings
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY custom_fields
+    ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
 
 
 --
@@ -1796,6 +1855,20 @@ CREATE INDEX index_contacts_on_contactable_id ON contacts USING btree (contactab
 --
 
 CREATE INDEX index_contacts_on_contactable_type ON contacts USING btree (contactable_type);
+
+
+--
+-- Name: index_custom_fields_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_fields_on_company_id ON custom_fields USING btree (company_id);
+
+
+--
+-- Name: index_custom_fields_on_related_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_fields_on_related_type ON custom_fields USING btree (related_type);
 
 
 --
@@ -2488,3 +2561,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140206214943');
 INSERT INTO schema_migrations (version) VALUES ('20140212192749');
 
 INSERT INTO schema_migrations (version) VALUES ('20140212192750');
+
+INSERT INTO schema_migrations (version) VALUES ('20140213191047');
+
+INSERT INTO schema_migrations (version) VALUES ('20140213192712');

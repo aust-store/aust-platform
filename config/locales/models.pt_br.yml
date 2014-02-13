@@ -18,6 +18,8 @@ pt_br:
         reference_number: "Número de referência"
       inventory_item_image:
         image: "Imagem"
+      custom_field:
+        name: "Nome do campo"
       customer:
         first_name:   "Nome"
         last_name:    "Sobrenome"

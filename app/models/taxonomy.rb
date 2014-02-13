@@ -7,6 +7,8 @@ class Taxonomy < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   belongs_to :store, foreign_key: 'store_id', class_name: "Company"
+  has_and_belongs_to_many :custom_fields
+
   attr_accessible :name, :parent, :parent_id, :store_id
 
   validates :name, presence: true

@@ -102,6 +102,8 @@ Store::Application.routes.draw do
     resources :marketing, only: [:index]
 
     resource :inventory do
+      resources :custom_fields, controller: 'inventory/custom_fields'
+
       resources :items, controller: 'inventory/items' do
         collection do
           resource :search, controller: 'inventory/items/search', only: [] do

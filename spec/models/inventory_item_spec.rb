@@ -74,7 +74,7 @@ describe InventoryItem do
     end
 
     it "returns only the tags belongs to the company" do
-      company.items.all_tags.map(&:name).should == %w(f e)
+      company.items.all_tags.map(&:name).sort.should == %w(e f)
       @item.destroy
       company.reload
       company.items.all_tags.map(&:name).should == %w(f)

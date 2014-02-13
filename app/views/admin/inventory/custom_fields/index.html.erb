@@ -1,0 +1,66 @@
+<%= view_header %>
+
+<header>
+  <h1>Campos personalizados</h1>
+</header>
+
+<div class="main_container custom_fields_index">
+  <p>
+    Estes campos aparecem no formulário de estoque. Você deve definir
+    quais campos devem aparecer em quais categorias.
+  </p>
+
+  <div class="index_header with_search">
+    <div class="buttons">
+      <%= small_button "Novo campo personalizado",
+        new_admin_inventory_custom_field_path,
+        image: 'admin/icons/plus_16.png',
+        id: "add_custom_field"
+      %>
+    </div>
+  </div>
+
+  <% if @resources.present? %>
+    <table class="listing">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Presente nas categorias</th>
+          <th>Identificação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td><%= link_to resource.name, edit_admin_inventory_custom_field_path(resource) %></td>
+
+            <td>
+              <% if resource.taxonomies.present? %>
+                <%= resource.taxonomies.map(&:name).join(", ") %>
+              <% else %>
+                Presente em todas as categorias
+              <% end %>
+            </td>
+
+            <td class="smaller">{{{<%= resource.alphanumeric_name %>}}}</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <strong>
+      Sem itens cadastrados.
+    </strong>
+  <% end %>
+
+  <br />
+
+  <p class="hint">
+    Dica: identificação serve para mostrar esse valor na página principal.
+    Esta informação é útil para designers.
+  </p>
+  <p class="hint">
+    Dica 2: se você excluir um campo, peça para seu designer remover o mesmo
+    do layout da loja.
+  </p>
+</div>
