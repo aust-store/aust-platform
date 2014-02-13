@@ -37,6 +37,11 @@
         <th>Ref.</th>
         <th><%= t ".listing.name" %></th>
         <th>Categoria</th>
+
+        <% if @items.any? { |i| i.tag_list.present? } %>
+          <th></th>
+        <% end %>
+
         <th>Em estoque</th>
       </tr>
     </thead>
@@ -47,6 +52,11 @@
         <td class="smaller reference_number"><%= item.reference_number %></td>
         <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
         <td class="smaller taxonomy"><%= item.taxonomy.try(:name) %></td>
+
+        <% if @items.any? { |i| i.tag_list.present? } %>
+          <td class="smaller tags"><%= item.tag_list %></td>
+        <% end %>
+
         <td class="smaller quantity"><%= item.total_quantity %></td>
       </tr>
       <% end %>

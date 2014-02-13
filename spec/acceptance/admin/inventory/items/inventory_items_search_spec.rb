@@ -13,6 +13,7 @@ feature "Inventory Item - Search" do
     @admin_user = create(:admin_user, company: @company)
     @item = create(:inventory_item,
                    name: "My item",
+                   tag_list: %w(item1_tag),
                    user: @admin_user,
                    company: @admin_user.company)
 
@@ -24,8 +25,10 @@ feature "Inventory Item - Search" do
     visit admin_inventory_items_path
   end
 
-  scenario "As an admin, I see the items list" do
+  scenario "As an admin, I search for an item" do
     page.should have_content "Pesquisar"
+    #
+    # SEARCH NAME
     fill_in "search_query", with: "ite"
     click_button 'Submit'
 

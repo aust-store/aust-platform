@@ -82,9 +82,31 @@ describe InventoryItem do
   end
 
   describe "#search_for" do
-    it "searches for items" do
-      item = FactoryGirl.create(:inventory_item, name: "my item")
-      InventoryItem.search_for("item").to_a.should include item
+    let(:company) { create(:barebone_company) }
+    let(:category) { create(:taxonomy, name: "Superb") }
+    let!(:item1)  { create(:inventory_item,
+                           company: company,
+                           name: "my item") }
+    let!(:item2)  { create(:inventory_item,
+                           company: company,
+                           name: "ur item2",
+                           taxonomy: category,
+                           tag_list: %w(preowned)) }
+    let!(:item3)  { create(:inventory_item,
+                           name: "ur item2",
+                           tag_list: %w(preowned)) }
+
+    it "searches by name" do
+      company.items.search_for("item2").to_a.should == [item2]
+    end
+
+    it "searches by tags" do
+      company.items.search_for("preowned").to_a.should == [item2]
+      company.items.search_for("used").to_a.should == [item1]
+    end
+
+    it "searches by categories" do
+      company.items.search_for("superb").to_a.should == [item2]
     end
   end
 

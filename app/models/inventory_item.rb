@@ -122,9 +122,14 @@ class InventoryItem < ActiveRecord::Base
 
   def self.search_for(query)
     search do
-      fields :name, :description, :barcode, :reference_number, {manufacturer: [:name]}
+      fields :name, :description, :barcode, :reference_number,
+             { manufacturer: [:name], taxonomy: [:name] }
       keywords query
-    end.includes(:balances)
+    end.includes(:balances).tap do |results|
+      # searches into tags
+      self.tagged_with(query).each { |t| results << t if t.present? }
+      results
+    end
   end
 
   def remove_empty_shipping_box
