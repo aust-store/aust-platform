@@ -31,6 +31,7 @@ feature "Inventory Item form" do
       fill_in "#{prefix}_year", with: "2013"
       fill_in "#{prefix}_name", with: "Air Max"
 
+      fill_in "#{prefix}_tag_list", with: "yes, no"
       fill_in "#{prefix}_barcode", with: "123456789"
       fill_in "#{prefix}_reference_number", with: "987"
       fill_in "#{prefix}_description", with: "Item description"
@@ -63,6 +64,7 @@ feature "Inventory Item form" do
       created_item.year.should == 2013
       created_item.name.should == "Air Max"
 
+      created_item.tag_list.should == %w(yes no)
       created_item.barcode.should == "123456789"
       created_item.reference_number.should == "987"
       created_item.description.should == "Item description"
@@ -121,6 +123,7 @@ feature "Inventory Item form" do
       find("##{prefix}_manufacturer_attributes_name").value.should == "Github"
       find("##{prefix}_year").value.should == "2011"
       find("##{prefix}_name").value.should == "Air Max"
+      find("##{prefix}_tag_list").value.should == "highlighted, used"
 
       find("##{prefix}_description").value.should == "Item description"
       find("##{prefix}_prices_attributes_0_value").value.should == "R$ 12,34"
@@ -143,6 +146,7 @@ feature "Inventory Item form" do
       fill_in "#{prefix}_manufacturer_attributes_name", with: "Olympikus"
       fill_in "#{prefix}_year", with: "2013"
       fill_in "#{prefix}_name", with: "Air Max 2"
+      fill_in "#{prefix}_tag_list", with: "highlighted, preowned"
 
       fill_in "#{prefix}_description", with: "Second description"
       fill_in "#{prefix}_prices_attributes_0_value", with: "R$ 12,35"
@@ -166,6 +170,7 @@ feature "Inventory Item form" do
       created_item.manufacturer.name.should == "Olympikus"
       created_item.year.should == 2013
       created_item.name.should == "Air Max 2"
+      created_item.tag_list.should == %w(highlighted preowned)
       created_item.description.should == "Second description"
       created_item.price.should == 12.35
 

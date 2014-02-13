@@ -13,6 +13,7 @@ pt_br:
         country:      "País"
       inventory_item:
         name: "Nome"
+        tag_list: "Etiquetas"
         barcode: "Código de barras"
         reference_number: "Número de referência"
       inventory_item_image:

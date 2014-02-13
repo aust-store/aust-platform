@@ -6,6 +6,7 @@
   <%= javascript_include_tag "admin/application" %>
   <%= csrf_meta_tags %>
   <%= render partial: "admin/shared/i18n" %>
+  <!--[if lt IE 9]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script><![endif]-->
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") %> <%= params[:action] %>">
 

@@ -15,4 +15,5 @@
 //= require_tree ./../shared/lib/
 //= require_tree ./lib/
 //= require_tree ./events/
+//= require_tree ./vendor/
 //= require jquery.remotipart

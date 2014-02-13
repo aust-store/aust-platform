@@ -38,6 +38,7 @@
 </div>
 
 <div class="secondary_fields">
+  <%= taggable_input :tag_list, item, @current_company.items %>
   <%= item.input :barcode, as: :string, required: false %>
   <%= item.input :reference_number, as: :string, required: false %>
 

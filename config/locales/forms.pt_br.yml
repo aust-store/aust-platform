@@ -115,6 +115,7 @@ pt_br:
         cost_per_unit: "Ex.: R$ 11,00"
         price:         "Ex.: R$ 14,00"
       inventory_item:
+        tag_list:      "Como um rótulo, ex.: consignado, destaque"
         taxonomy_id:   "Itens sem categoria não aparecem nos menus da loja"
         name:          "Ex.: Parafuso 10mm"
         size:          "42\", 10Kg"

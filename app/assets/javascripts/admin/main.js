@@ -1,6 +1,31 @@
 $(document).ready(function(){
   $('input[placeholder],textarea[placeholder]').placeholder();
 
+  /* selectize.js */
+  $("input.js_taggable").selectize({
+    plugins: ['restore_on_backspace', 'remove_button'],
+    delimiter: ',',
+    persist: true,
+    preload: false,
+    load: function(query, callback) {
+      callback(this.$input.data('data'));
+    },
+    render: {
+      option_create: function(item, escape) {
+        var input = item.input;
+        return '<div>' +
+          (input ? '<span class="caption">Criar ' + escape(input) + '</span>' : '') +
+          '</div>';
+      },
+    },
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  });
+
   var History = window.History;
   if ( History.enabled ) {
     // Bind to StateChange Event

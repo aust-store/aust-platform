@@ -62,6 +62,25 @@ describe InventoryItem do
     end
   end
 
+  # this method belongs to acts_as_taggable, but I want to make sure it
+  # works as I expect.
+  describe ".all_tags" do
+    let(:company) { create(:barebone_company) }
+
+    before do
+      create(:inventory_item_without_associations, tag_list: ["f"], company: company)
+      @item = create(:inventory_item_without_associations, tag_list: ["e"], company: company)
+      create(:inventory_item_without_associations, tag_list: ["d"])
+    end
+
+    it "returns only the tags belongs to the company" do
+      company.items.all_tags.map(&:name).should == %w(f e)
+      @item.destroy
+      company.reload
+      company.items.all_tags.map(&:name).should == %w(f)
+    end
+  end
+
   describe "#search_for" do
     it "searches for items" do
       item = FactoryGirl.create(:inventory_item, name: "my item")
