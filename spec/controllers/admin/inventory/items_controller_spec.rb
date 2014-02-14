@@ -6,8 +6,11 @@ describe Admin::Inventory::ItemsController do
   it_obeys_the "admin application controller contract"
   it_obeys_the "Decoration Builder contract"
 
+  let(:company) { double }
+
   before do
-    subject.stub_chain(:current_company, :taxonomies, :flat_hash_tree) { double }
+    subject.stub(:current_company) { company }
+    company.stub_chain(:taxonomies, :flat_hash_tree) { double }
   end
 
   describe "GET index" do
@@ -63,7 +66,8 @@ describe Admin::Inventory::ItemsController do
 
     before do
       InventoryItem.stub(:new) { item }
-      subject.stub_chain(:current_company, :items, :new) { item }
+      company.stub_chain(:items, :new) { item }
+      company.stub_chain(:custom_fields, :where) { item }
     end
 
     it "should instantiate an item" do

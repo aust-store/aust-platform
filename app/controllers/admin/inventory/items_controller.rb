@@ -1,7 +1,8 @@
 # encoding: utf-8
 class Admin::Inventory::ItemsController < Admin::ApplicationController
-  before_filter :load_item,           only: [:show, :edit, :destroy]
-  before_filter :load_all_taxonomies, only: [:edit, :new, :create, :update]
+  before_filter :load_item,          only: [:show, :edit, :destroy]
+  before_filter :load_taxonomies,    only: [:edit, :new, :create, :update]
+  before_filter :load_custom_fields, only: [:edit, :new, :create, :update]
 
   def index
     items = company_resources
@@ -101,7 +102,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     true
   end
 
-  def load_all_taxonomies
+  def load_taxonomies
     @company_taxonomies = current_company.taxonomies.flat_hash_tree
   end
 
@@ -165,5 +166,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def company_resources
     current_company.items
+  end
+
+  def load_custom_fields
+    @custom_fields = current_company.custom_fields.where(related_type: "InventoryItem")
   end
 end

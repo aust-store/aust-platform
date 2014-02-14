@@ -11,6 +11,7 @@ feature "Inventory Item form" do
     @taxonomy     = create(:taxonomy, name: "Shirt", store: @company)
     @taxonomy2    = create(:taxonomy, name: "Tennis", store: @company)
     @manufacturer = create(:manufacturer, name: "Github", admin_user: @admin_user, company: @company)
+    @custom_field = create(:custom_field, name: "Note", taxonomies: [@taxonomy], company: @company)
     login_into_admin
   end
 
@@ -38,6 +39,7 @@ feature "Inventory Item form" do
       attach_file "#{prefix}_images_attributes_0_image", image_path
       fill_in "#{prefix}_prices_attributes_0_value", with: "R$ 12,34"
       fill_in "#{prefix}_prices_attributes_0_for_installments", with: "R$ 16,34"
+      fill_in "#{prefix}_custom_fields_note", with: "my note"
 
       fill_in "#{prefix}_shipping_box_attributes_length", with: 25
       fill_in "#{prefix}_shipping_box_attributes_height", with: 25
@@ -70,6 +72,8 @@ feature "Inventory Item form" do
       created_item.description.should == "Item description"
       created_item.price.should == 12.34
       created_item.price_for_installments.should == 16.34
+      created_item.custom_fields["note"].should == "my note"
+
       created_item.images.first.image.file.file.should =~ /image\.png/
       created_item.images.first.cover.should be_true
 
@@ -211,6 +215,13 @@ feature "Inventory Item form" do
         @item.update_attributes(manufacturer_id: nil)
         visit edit_admin_inventory_item_path(@item)
         find("##{prefix}_manufacturer_attributes_name").should be_present
+      end
+
+      pending "manufacturer is missing, but field is always present", js: true do
+        pending "phantomJS is throwing lots of errors"
+        find("#{prefix}_custom_fields_note").should be_present
+        fill_in "#{prefix}_taxonomy_attributes_name", with: @taxonomy2.name
+        find("#{prefix}_custom_fields_note").should_not be_present
       end
     end
   end

@@ -1,4 +1,4 @@
-var Admin = {};
+if (!Admin) { var Admin = {}; }
 
 /**
   This was created to support the Inventory Item form search.
@@ -33,6 +33,7 @@ $(document).ready(function(){
 });
 
 Admin.FieldSearch = {
+  observers:      {},
   lastResults:    null,
   // FIXME - remove and use just selectedResult
   selectedName:   null,
@@ -236,6 +237,26 @@ Admin.FieldSearch = {
 
       this.removePopup();
     }
+  },
+
+  observe: function(selectorToObserve, callback) {
+    if (!Admin.FieldSearch.observers[selectorToObserve]) {
+      Admin.FieldSearch.observers[selectorToObserve] = []
+    }
+
+    Admin.FieldSearch.observers[selectorToObserve].push(callback);
+  },
+
+  notifyObservers: function(observerId, value) {
+    var observers = Admin.FieldSearch.observers[observerId];
+
+    for (var key in observers) {
+      if (!observers.hasOwnProperty(key)) {
+        continue;
+      }
+
+      observers[key](value);
+    }
   }
 }
 
@@ -346,7 +367,6 @@ Admin.FieldSearch.ResultItem = {
     var textField   = $('#' + $(_this).data('input-id'));
 
     this.setId(textFieldId, entityId);
-    debugger;
     textField.val(entityName);
 
     this._hideSearchPopup();
@@ -355,6 +375,7 @@ Admin.FieldSearch.ResultItem = {
 
   setId: function(textFieldId, id) {
     var targetField = Admin.FieldSearch.idField(textFieldId);
+    Admin.FieldSearch.notifyObservers("#"+targetField.attr('id'), id);
     targetField.val(id);
   },
 

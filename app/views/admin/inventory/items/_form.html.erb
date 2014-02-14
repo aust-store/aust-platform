@@ -64,10 +64,14 @@
       input_html: { value: @item.price } %>
   <% end %>
 
+  <%= render partial: "custom_field",
+    collection: @custom_fields,
+    locals: {form: item} %>
+
   <section>
     <h2>Caixa para frete</h2>
     <p>
-      Preencha para vendas online. Deixe em branco se este item não será
+      Preencha para vendas online. Deixe em branco se este item não for
       vendido online.
     </p>
 

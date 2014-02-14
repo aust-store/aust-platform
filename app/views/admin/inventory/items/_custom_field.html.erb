@@ -1,0 +1,13 @@
+<%= form.simple_fields_for(:custom_fields) do |f| %>
+  <%= f.input custom_field.alphanumeric_name.to_sym,
+    input_html: {
+      class: "js_custom_field",
+      value: (@item.custom_fields and @item.custom_fields[custom_field.alphanumeric_name]),
+      data: {
+        for_categories: custom_field.taxonomies.pluck(:id).join(",")
+      }
+    },
+    required: false,
+    hint: "Campo personalizado"
+    %>
+<% end %>

@@ -688,7 +688,8 @@ CREATE TABLE inventory_items (
     slug character varying(255),
     uuid uuid,
     barcode character varying(255),
-    reference_number character varying(255)
+    reference_number character varying(255),
+    custom_fields hstore
 );
 
 
@@ -2040,6 +2041,13 @@ CREATE INDEX index_inventory_items_on_company_id ON inventory_items USING btree 
 
 
 --
+-- Name: index_inventory_items_on_custom_fields; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_inventory_items_on_custom_fields ON inventory_items USING gin (custom_fields);
+
+
+--
 -- Name: index_inventory_items_on_manufacturer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2565,3 +2573,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140212192750');
 INSERT INTO schema_migrations (version) VALUES ('20140213191047');
 
 INSERT INTO schema_migrations (version) VALUES ('20140213192712');
+
+INSERT INTO schema_migrations (version) VALUES ('20140213224021');
