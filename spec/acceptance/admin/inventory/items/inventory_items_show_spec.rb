@@ -6,17 +6,20 @@ feature "Inventory Item Management" do
     login_into_admin
     stub_subdomain(@company)
 
-    @other_user = FactoryGirl.create(:admin_user)
+    @other_user = create(:admin_user)
     @other_company = @other_user.company
-    @other_item = FactoryGirl.create(:inventory_item,
-                                     name: "Other item",
-                                     user: @other_user,
-                                     company: @other_company)
+    @other_item = create(:inventory_item,
+                         name: "Other item",
+                         user: @other_user,
+                         company: @other_company)
 
-    @item = FactoryGirl.create(:inventory_item_for_sale_without_entry,
-                               name: "My item",
-                               user: @admin_user,
-                               company: @company)
+    create(:custom_field, name: "Notes", company: @company)
+
+    @item = create(:inventory_item_for_sale_without_entry,
+                   name: "My item",
+                   user: @admin_user,
+                   custom_fields: {"notes" => "Notass"},
+                   company: @company)
 
     Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
       @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
@@ -42,7 +45,7 @@ feature "Inventory Item Management" do
 
   describe "show page" do
     scenario "As a store admin, I want to see the basic item's details" do
-      FactoryGirl.create(:taxonomy)
+      create(:taxonomy)
       @item.taxonomy = Taxonomy.all.last
       taxonomy = @item.taxonomy
       @item.save
@@ -52,6 +55,7 @@ feature "Inventory Item Management" do
       # Basic item informations
       page.should have_content "My item"
       page.should have_content "Lorem ipsum lorem"
+      page.should have_content "Notes: Notass"
       page.should have_content "Categoria: #{taxonomy.parent.name} ► #{taxonomy.name}"
 
       # Shipping Box
@@ -124,8 +128,8 @@ feature "Inventory Item Management" do
     describe "last products created are shown first in main page" do
       context "only the first defined entry will be shown per item" do
         scenario  "As an admin, I want the last product created to be displayed first in my store's main page listing" do
-          item1 = FactoryGirl.create(:inventory_item, company: @company)
-          item2 = FactoryGirl.create(:inventory_item, company: @company)
+          item1 = create(:inventory_item, company: @company)
+          item2 = create(:inventory_item, company: @company)
 
           visit root_path
           within(".product_0") do

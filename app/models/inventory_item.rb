@@ -132,6 +132,12 @@ class InventoryItem < ActiveRecord::Base
     end
   end
 
+  # TODO test
+  def translated_custom_fields(alphanumeric_name)
+    @custom_fields ||= self.company.custom_fields.for_inventory_items
+    @custom_fields.find { |c| c.alphanumeric_name == alphanumeric_name }.name
+  end
+
   def remove_empty_shipping_box
     if shipping_box.present?
       self.shipping_box.destroy unless self.shipping_box.dependent_fields_present?

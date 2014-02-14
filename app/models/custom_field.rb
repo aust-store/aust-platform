@@ -8,6 +8,8 @@ class CustomField < ActiveRecord::Base
   validates :name, presence: true
   validates :related_type, presence: true
 
+  scope :for_inventory_items, ->{ where(related_type: "InventoryItem") }
+
   private
 
   def create_alphanumeric_name

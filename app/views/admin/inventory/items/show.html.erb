@@ -17,6 +17,9 @@
       <%= t('.undefined_category') %>.
     <% end %>
   </p>
+  <% if @item.tag_list.present? %>
+    <p>Etiquetas: <%= @item.tag_list %></p>
+  <% end %>
 </header>
 
 <div class="main_container show_item">
@@ -71,6 +74,14 @@
       <% end %>
       <% if @item.reference.present? %>
         <p> <b>Referência:</b> <%= @item.reference %> </p>
+      <% end %>
+
+      <% if @item.custom_fields.present? %>
+        <p>
+          <% @item.custom_fields.each do |key, value| %>
+            <b><%= @item.translated_custom_fields(key) %>:</b> <%= value %><br />
+          <% end %>
+        </p>
       <% end %>
 
       <% if @item.barcode.present? || @item.reference_number.present? %>
