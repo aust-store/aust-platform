@@ -1,9 +1,8 @@
+<% content_for :title, "E-commerce para Consultores & Designers" %>
+<%= render "marketing/shared/header" %>
+
 <div id="merchan">
   <div class="container">
-    <div class="logo">
-      <%= link_to(image_tag("marketing/aust_logo.png"), root_url) %>
-    </div>
-
     <div class="title">
       <div class="title_prefix">Para</div>
       <h1>Consultores & Designers</h1>
@@ -12,20 +11,6 @@
         e-commerce sem as limitações do conhecimento técnico.
         Bem-vindo ao Aust.
       </p>
-    </div>
-
-    <%
-=begin
-    <div class="mailchimp">
-      <div class="mailchimp_container">
-        <p>
-          Entre seu email para receber um convite do
-          <strong>Aust</strong>.
-        </p>
-        <%= render "mailchimp" %
-      </div>
-=end
-      %>
     </div>
   </div>
 </div>
@@ -230,7 +215,7 @@
     </p>
 
     <div class="mailchimp">
-      <%= render "mailchimp" %>
+      <%= render "marketing/shared/mailchimp_consultants" %>
     </div>
 
     <p>
@@ -243,12 +228,3 @@
 
   </div>
 </section>
-
-<footer>
-  <div class="container">
-    Aust. Todos os direitos reservados
-    - Pinheiro Machado, 146, Pedro Osório, RS
-    -
-    Dúvidas? <a href="mailto:contato@austapp.com">contato@austapp.com</a>
-  </div>
-</footer>

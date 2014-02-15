@@ -1,3 +1,3 @@
 class Marketing::HomeController < ActionController::Base
-  layout "marketing"
+  layout "marketing_old"
 end

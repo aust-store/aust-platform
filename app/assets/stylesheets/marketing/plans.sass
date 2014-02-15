@@ -1,0 +1,21 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700)
+
+$navigation-background-color: #1A70A3
+$light-blue: #1e81b7 // #1a7bb0
+$light-green-text: lighten(green, 8%)
+
+@mixin top-border-radius($some-number)
+  border-top-left-radius: $some-number
+  border-top-right-radius: $some-number
+  border-bottom-right-radius: $some-number
+  border-bottom-left-radius: $some-number
+
+#plans
+  .plan
+    float: left
+    width: 150px
+
+    .summary
+      ul
+        list-style: none
+        margin: 0

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Aust Lojas</title>
+  <title><%= yield(:title) ? "#{yield(:title)} - Aust" : "Aust e-commerce, o mais simples e completo" %></title>
   <%= stylesheet_link_tag "marketing/application_manifest", :media => "all" %>
   <%= javascript_include_tag "marketing/application_manifest" %>
   <%= csrf_meta_tags %>
@@ -9,6 +9,7 @@
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %> marketing_page">
 
   <%= yield %>
+  <%= render "marketing/shared/footer" %>
 
   <% if Rails.env.production? %>
     <script>

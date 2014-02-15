@@ -181,6 +181,7 @@ Store::Application.routes.draw do
   #
   constraints RouterConstraints::Marketing.new do
     get 'consultores' => 'marketing/consultores#show'
+    get 'precos'      => 'marketing/pricing#show'
     namespace :marketing do
       resources :home, only: [:index]
     end

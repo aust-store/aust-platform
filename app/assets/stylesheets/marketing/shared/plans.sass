@@ -1,0 +1,105 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700)
+
+$navigation-background-color: #1A70A3
+$light-blue: #1e81b7 // #1a7bb0
+$light-green-text: lighten(green, 8%)
+
+@mixin top-border-radius($some-number)
+  border-top-left-radius: $some-number
+  border-top-right-radius: $some-number
+  border-bottom-right-radius: $some-number
+  border-bottom-left-radius: $some-number
+
+.main.pricing_mailchimp
+  background: #eee
+  padding: 0
+  .mc_embed_signup
+    width: 500px
+  .main_container
+    display: table
+    width: 700px
+    margin: 0 auto
+
+#plans
+  clear: both
+  .container
+    display: table
+    margin: 25px auto 0 auto
+
+  .all_plans_summary
+    margin: 0 auto
+    margin-top: 15px
+    max-width: 700px
+
+  .free_plan
+    margin-top: 5px
+    font-size: 0.8em
+    color: #666
+    text-align: center
+
+  .plan
+    float: left
+    width: 200px
+    background: #f9f9f9
+
+    &.plan0
+      .header
+        background: #f1f1f1
+      .summary, .price
+        background: #fcfcfc
+        //border-right: 1px solid #e5e5e5
+
+    &.plan1
+      .header
+        background: lighten(green, 66%)
+      .summary, .price
+        background: #f9f9f9
+        //border-right: 1px solid #e5e5e5
+
+    &.plan2
+      .header
+        background: lighten(green, 60%)
+      .summary, .price
+        background: #f4f4f4
+        //border-right: 1px solid #e5e5e5
+
+    &.plan3
+      .header
+        background: lighten(green, 55%)
+        border: 0
+      .summary, .price
+        background: #efefef
+
+    .header, .summary, .price
+      padding: 10px
+
+    .header
+      border: 0 !important
+      font-size: 1.3em
+      text-align: center
+      font-weight: bold
+      color: darken(green, 6%)
+
+    .summary
+      text-align: center
+      font-size: 0.9em
+      color: #666
+      ul
+        list-style: none
+        margin: 0
+        padding: 0
+
+    .price
+      text-align: right
+      .only
+        font-size: 0.8em
+        color: #666
+      .value
+        color: green
+        font-weight: bold
+        font-size: 1.3em
+
+.plans_questions
+  border-top: 0px solid #bbb
+  padding-top: 25px
+

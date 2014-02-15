@@ -1,0 +1,21 @@
+<header>
+  <div class="container">
+    <div class="logo">
+      <%= link_to(image_tag("marketing/aust_logo.png"), root_url) %>
+    </div>
+
+    <nav>
+      <ul>
+        <li>
+          <%= link_to "Principal", root_url, class: "#{current_class(root_path)}" %>
+        </li>
+        <li>
+          <%= link_to "Preços", precos_url, class: "#{current_class(precos_path)}" %>
+        </li>
+        <li>
+          <%= link_to "Revenda", consultores_url, class: "#{current_class(consultores_path)}" %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
