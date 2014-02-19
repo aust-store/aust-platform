@@ -24,9 +24,6 @@ Admin.CustomFields = function(options) {
     $(options.selector).each(function() {
       value = ""+value;
 
-      console.log(options);
-      console.log(options.matchingRecord);
-      console.log(element.data(options.matchingRecord).split(","));
       var element = $(this),
           parentDiv = element.closest("div.input"),
           visibleRecords = element.data(options.matchingRecord).split(","),
