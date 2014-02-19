@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield(:title) ? "#{yield(:title)} - Aust" : "Aust e-commerce, o mais simples e completo" %></title>
+  <title><%= yield(:title).present? ? "#{yield(:title)} - Aust" : "Aust e-commerce, o mais simples e completo" %></title>
   <%= stylesheet_link_tag "marketing/application_manifest", :media => "all" %>
   <%= javascript_include_tag "marketing/application_manifest" %>
   <%= csrf_meta_tags %>

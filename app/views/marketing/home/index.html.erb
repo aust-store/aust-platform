@@ -1,167 +1,116 @@
-<div id="header">
-  <div class="header_container">
-    <div class="row">
-      <div class="span5 title">
-        <h1>
-          <%= image_tag "marketing/aust_logo.png" %>
-        </h1>
-        <p>
-          Sua porta para a internet
-        </p>
-      </div>
-      <div class="span7 links">
-        <!--
-        <ul>
-          <li>
-            <%= link_to "Planos", "" %>
-          </li>
-          <li>
-            <%= link_to "Contato", "" %>
-          </li>
-        </ul>
-        -->
-      </div>
+<%= render "marketing/shared/header" %>
+
+<div id="merchan" class="home_page">
+  <div class="container">
+    <div class="title">
+      <h1>Tenha seu e-commerce com o Aust</h1>
     </div>
 
-  </div>
-</div>
-
-<div class="central_body">
-  <div id="merchan">
-    <div class="merchan_container">
-      <div class="main_page_central_transitional_banners cycle-slideshow"
-        data-cycle-timeout="16000"
-        data-cycle-fx="scrollHorz"
-        data-cycle-swipe="true"
-        data-cycle-slides="div.slide">
-
-        <!-- empty element for pager links -->
-        <div class="cycle-pager"></div>
-
-        <div class="slide">
-          <div class="merchan_image">
-            <%= image_tag "marketing/merchan_admin.jpg" %>
-          </div>
-        </div>
-
-        <div class="slide">
-          <div class="merchan_image">
-            <%= image_tag "marketing/merchan_crowd.jpg" %>
-          </div>
-        </div>
-
-        <div class="slide">
-          <div class="merchan_image">
-            <%= image_tag "marketing/merchan_money.jpg" %>
-          </div>
-        </div>
-
-        <!--
-        <div class="slide">
-          <div class="merchan_image">
-            <%= image_tag "marketing/aust_sales_merchan.jpg" %>
-          </div>
-        </div>
-        -->
+    <div class="mailchimp">
+      <p>
+        Entre seu email para receber um convite.
+      </p>
+      <div class="mailchimp_container">
+        <%= render "marketing/shared/mailchimp" %>
       </div>
-
-    </div>
-  </div>
-
-  <div id="main">
-    <div class="features">
-      <div class="feature">
-        <h2>Controle de estoque</h2>
-        <%= image_tag "marketing/feature_inventory.png" %>
-        <p>
-          Venda de mercadorias cessa automaticamente caso preciso.
-        </p>
-      </div>
-
-      <div class="feature">
-        <h2>Gestão de temas</h2>
-        <%= image_tag "marketing/feature_themes.jpg" %>
-        <p>
-          Escolha temas prontos ou opte por um design
-          customizado.
-        </p>
-      </div>
-
-      <div class="feature">
-        <h2>Segurança</h2>
-        <%= image_tag "marketing/feature_safety.jpg" %>
-        <p>
-          Criptografia SSL, a mesma usada em sites de bancos.
-        </p>
-      </div>
-
-      <div class="feature">
-        <h2>Suporte</h2>
-        <%= image_tag "marketing/feature_support.jpg" %>
-        <p>
-          Nosso sucesso depende do seu.
-          Bom atendimento é nossa meta.
-        </p>
-      </div>
-
-    </div>
-
-    <div class="main_container">
-      <div class="screenshot row">
-        <div class="span5 images">
-          <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
-        </div>
-        <div class="span5 text">
-          <h1>De olho no futuro</h1>
-
-          <p>
-            Em 2012, o faturamento total em e-commerce no Brasil atingiu a
-            marca dos 23 bilhões de reais. Esse número vem crescendo em
-            média 30% nos últimos 5 anos.
-          </p>
-          <!-- http://www.ebit.com.br/webshoppers -->
-          <p>
-            Para empresas de qualquer tamanho,
-            ter uma loja na internet em breve será como ter um
-            telefone. Micro negócios podem competir de igual para igual com
-            grandes empresas.
-          </p>
-
-          <p>
-            Modernize sua empresa e tenha um vendedor trabalhando
-            24h por dia, 7 dias por semana.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="main_container">
-      <div class="nfe row">
-        <div class="image">
-          <%= image_tag "marketing/nfe_brasil.jpg", class: "admin" %>
-        </div>
-        <div class="text">
-          <p>
-            <strong>Nota Fiscal Eletrônica:</strong>
-            conexão com a Secretaria da Fazenda do seu estado automaticamente
-            após cada venda.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="main_container beta">
-      <div class="row">
-        <div class="span11">
-          <h2>Inscreva-se</h2>
-          <p>
-            Receba um convite para usar o Aust. Entre seu email abaixo
-            para entrar na lista de espera. Estamos liberando convites
-            gradualmente para novos clientes.
-          </p>
-
-          <%= render "marketing/shared/mailchimp" %>
-        </div>
     </div>
   </div>
 </div>
+
+<section class="main screenshot">
+  <div class="main_container">
+    <%= image_tag "marketing/home_page/screenshot.png", align: "left" %>
+    <div class="text">
+      <h2>E-commerce do jeito fácil</h2>
+      <p>
+        Com o Aust, você não precisa nenhum conhecimento técnico ou
+        experiência com design para ter uma bela
+        loja online.
+      </p>
+
+      <p>
+        Com um controle de estoque simples e fácil, você
+        pode começar a vender em minutos. Acompanhe pedidos em
+        tempo real e impressione seus clientes com um
+        atendimento que eles merecem.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="main features">
+  <div class="main_container">
+    <div class="feature">
+      <h2>Controle de estoque</h2>
+      <%= image_tag "marketing/feature_inventory.png" %>
+      <p>
+        Venda de mercadorias cessa automaticamente caso preciso.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h2>Gestão de temas</h2>
+      <%= image_tag "marketing/feature_themes.jpg" %>
+      <p>
+        Escolha temas prontos ou opte por um design
+        customizado.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h2>Segurança</h2>
+      <%= image_tag "marketing/feature_safety.jpg" %>
+      <p>
+        Criptografia SSL, a mesma usada em sites de bancos.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h2>Suporte</h2>
+      <%= image_tag "marketing/feature_support.jpg" %>
+      <p>
+        Nosso sucesso depende do seu.
+        Bom atendimento é nossa meta.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section class="main the_future">
+  <div class="main_container">
+    <div class="screenshot row">
+      <div class="image">
+        <%= image_tag "marketing/aust_mkt_store.jpg", class: "admin" %>
+      </div>
+      <div class="text">
+        <h1>De olho no futuro</h1>
+
+        <p>
+          Em 2012, o faturamento total em e-commerce no Brasil atingiu a
+          marca dos 23 bilhões de reais. Esse número vem crescendo em
+          média 30% nos últimos 5 anos.
+        </p>
+        <!-- http://www.ebit.com.br/webshoppers -->
+        <p>
+          Modernize sua empresa e tenha um vendedor trabalhando
+          24h por dia, 7 dias por semana.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="main">
+  <div class="main_container">
+    <div class="nfe row">
+      <div class="text">
+        <p>
+          <strong>Nota Fiscal Eletrônica:</strong>
+          conexão com a Secretaria da Fazenda do seu estado automaticamente
+          após cada venda.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
