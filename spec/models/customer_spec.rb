@@ -33,6 +33,10 @@ describe Customer do
     end
 
     describe "environments" do
+      it "accepts admin" do
+        build(:customer, environment: "admin").should be_valid
+      end
+
       it "accepts website" do
         build(:customer, environment: "website").should be_valid
       end

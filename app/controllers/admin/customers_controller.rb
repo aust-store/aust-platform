@@ -9,12 +9,35 @@ class Admin::CustomersController < Admin::ApplicationController
      .per(25)
   end
 
+  def new
+    @customer = Customer.new
+    @customer.addresses.build
+  end
+
   def show
     @customer = CustomerDecorator.decorate(@customer)
   end
 
   def edit
     @customer.addresses.build unless @customer.addresses.present?
+  end
+
+  def create
+    customer_params = params[:customer]
+    @customer = current_company.customers.new(customer_params)
+
+    if customer_params[:password].blank?
+      customer_params.delete("password")
+      customer_params.delete("password_confirmation")
+    end
+
+    @customer.environment = "admin"
+
+    if @customer.save
+      redirect_to admin_customers_url
+    else
+      render :new
+    end
   end
 
   def update

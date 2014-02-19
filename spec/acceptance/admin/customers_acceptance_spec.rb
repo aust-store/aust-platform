@@ -26,6 +26,30 @@ feature "Admin/Customer" do
     end
   end
 
+  describe "creating a customer" do
+    scenario "As an admin, I create a customer" do
+      Customer.count.should == 0
+
+      visit admin_customers_path
+      page.should_not have_content "Freddie"
+      click_on "add_item"
+
+      fill_in "customer_email",                               with: "sherlock@holmes.com"
+      fill_in "customer_first_name",                          with: "Freddie"
+      fill_in "customer_last_name",                           with: "Mercury"
+      fill_in "customer_password",                            with: "guess_my_password"
+      fill_in "customer_password_confirmation",               with: "guess_my_password"
+      fill_in "customer_social_security_number",              with: "141.482.543-93"
+      fill_in_phones
+      fill_in_address
+      click_button "submit"
+
+      current_path.should == admin_customers_path
+      page.should have_content "Freddie Mercury"
+      Customer.last.environment.should == "admin"
+    end
+  end
+
   describe "editing a customer" do
     before do
       customer
@@ -67,5 +91,22 @@ feature "Admin/Customer" do
       current_path.should == admin_customers_path
       customer.reload.enabled.should == false
     end
+  end
+
+  def fill_in_address
+    fill_in "customer_addresses_attributes_0_address_1",    with: "Baker street"
+    fill_in "customer_addresses_attributes_0_number",       with: "221B"
+    fill_in "customer_addresses_attributes_0_address_2",    with: "I don't know"
+    fill_in "customer_addresses_attributes_0_neighborhood", with: "Central London"
+    fill_in "customer_addresses_attributes_0_zipcode",      with: "96360000"
+    fill_in "customer_addresses_attributes_0_city",         with: "London"
+    select "Rio Grande do Sul", from: "customer_addresses_attributes_0_state"
+  end
+
+  def fill_in_phones
+    fill_in "customer_home_number",                         with: "1234-1234"
+    fill_in "customer_home_area_number",                    with: "53"
+    fill_in "customer_mobile_number",                       with: "1234-1234"
+    fill_in "customer_mobile_area_number",                  with: "53"
   end
 end

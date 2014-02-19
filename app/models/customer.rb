@@ -4,7 +4,7 @@ class Customer < ActiveRecord::Base
 
   uuid field: "uuid"
 
-  VALID_ENVIRONMENTS = ["website", "point_of_sale"]
+  VALID_ENVIRONMENTS = ["admin", "website", "point_of_sale"]
   # Used for creating users at the Point of Sale, customers which won't have
   # any sign in access. Devise requires a password and we couldn't allow
   # anyone to use a blank password to sign anyway.

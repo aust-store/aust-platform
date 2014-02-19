@@ -5,6 +5,16 @@
 </header>
 
 <div class="main_container">
+  <div class="index_header">
+    <div class="buttons">
+      <%= small_button "Novo cliente",
+        new_admin_customer_path,
+        image: 'admin/icons/plus_16.png',
+        id: "add_item"
+      %>
+    </div>
+  </div>
+
   <table class="listing">
     <thead>
       <tr>
