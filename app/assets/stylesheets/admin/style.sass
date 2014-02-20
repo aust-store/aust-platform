@@ -104,25 +104,38 @@ a:hover
       padding: 0
       margin: 0
       display: block
-
       a
         color: #fbfbfb
-        padding: 10px 15px
+        padding: 10px 15px 10px 40px
         display: block
-
+        background-repeat: no-repeat
+        background-position: 15px center
         &:hover
           color: #fdfdfd
           text-decoration: none
-          background: lighten($navigation-background-color, 3%)
+          background-color: lighten($navigation-background-color, 3%)
+        &.inventory
+          background-image: image-url('admin/icons/navigation/menu_inventory.png')
+        &.orders
+          background-image: image-url('admin/icons/navigation/menu_orders.png')
+        &.marketing
+          background-image: image-url('admin/icons/navigation/menu_marketing.png')
+        &.people
+          background-image: image-url('admin/icons/navigation/menu_people.png')
+        &.reports
+          background-image: image-url('admin/icons/navigation/menu_reports.png')
+        &.settings
+          background-image: image-url('admin/icons/navigation/menu_settings.png')
+
 
       &.current_namespace
         position: relative
 
-        a
-          background-image: image-url('admin/layout/navigation_arrow.png')
-          background-repeat: no-repeat
-          background-position: 200px 10px
-          background-color: lighten($navigation-background-color, 3%)
+        //a
+        background-image: image-url('admin/layout/navigation_arrow.png')
+        background-repeat: no-repeat
+        background-position: 200px 10px
+        background-color: lighten($navigation-background-color, 3%)
 
         span
           font-size: 0.8em

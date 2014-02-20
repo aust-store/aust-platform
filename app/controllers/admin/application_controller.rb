@@ -49,10 +49,9 @@ class Admin::ApplicationController < ApplicationController
     when /admin\/dashboard/  ; "dashboard"
     when /admin\/inventory/  ; "inventory"
     when /admin\/statistics/ ; "statistics"
-    when /admin\/users/      ; "users"
     when /admin\/(marketing|pages|banner|store_theme)/ ; "marketing"
     when /admin\/store/      ; "store"
-    when /admin\/settings/   ; "settings"
+    when /settings|users/   ; "settings"
     when /admin\/taxonomies/ ; "inventory" # taxonomies
     when /admin\/order/      ; "orders"
     else nil

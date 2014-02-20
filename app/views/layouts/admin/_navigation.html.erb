@@ -8,25 +8,34 @@
 
 <ul>
   <li <%= current_nav_namespace("inventory") %>>
-    <%= link_to t("admin.navigation.inventory"), admin_inventory_items_path %>
+    <%= link_to t("admin.navigation.inventory"),
+      admin_inventory_items_path,
+      class: "inventory" %>
   </li>
   <li <%= current_nav_namespace("orders") %>>
-    <%= link_to t("admin.navigation.orders"), admin_orders_path %>
+    <%= link_to t("admin.navigation.orders"),
+      admin_orders_path,
+      class: "orders" %>
   </li>
   <li <%= current_nav_namespace("marketing") %>>
-    <%= link_to t("admin.navigation.marketing"), admin_marketing_index_path %>
+    <%= link_to t("admin.navigation.marketing"),
+      admin_marketing_index_path,
+      class: "marketing" %>
   </li>
   <li <%= current_nav_namespace("customers") %>>
-    <%= link_to t("admin.navigation.customers"), admin_customers_path %>
+    <%= link_to t("admin.navigation.customers"),
+      admin_customers_path,
+      class: "people" %>
   </li>
   <li <%= current_nav_namespace("statistics") %>>
-    <%= link_to t("admin.navigation.statistics"), admin_statistics_path %>
-  </li>
-  <li <%= current_nav_namespace("customers") %>>
-    <%= link_to t("admin.navigation.colaborators"), admin_users_path %>
+    <%= link_to t("admin.navigation.statistics"),
+      admin_statistics_path,
+      class: "reports" %>
   </li>
   <li <%= current_nav_namespace("settings") %>>
-    <%= link_to t("admin.navigation.settings"), admin_settings_path %>
+    <%= link_to t("admin.navigation.settings"),
+      admin_settings_path,
+      class: "settings" %>
   </li>
 </ul>
 
