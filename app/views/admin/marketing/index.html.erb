@@ -5,10 +5,28 @@
 </header>
 
 <div class="main_container">
-  <%= link_to t(".manage_pages"), admin_pages_path, title: "manage_pages" %>
-  <br />
-  <%= link_to t(".themes"), admin_store_themes_path, title: "themes" %>
-  <br />
-  <%= link_to t("admin.navigation.banners"), admin_banners_path %>
+  <%= link_to(admin_pages_path, title: "manage_pages", class: "big_section_icon") do %>
+    <div class="image marketing_pages">
+    </div>
+    <div class="text">
+      <%= t(".manage_pages") %>
+    </div>
+  <% end %>
+
+  <%= link_to(admin_store_themes_path, title: "themes", class: "big_section_icon") do %>
+    <div class="image marketing_themes">
+    </div>
+    <div class="text">
+      <%= t(".themes") %>
+    </div>
+  <% end %>
+
+  <%= link_to(admin_banners_path, class: "big_section_icon odd") do %>
+    <div class="image marketing_banners">
+    </div>
+    <div class="text">
+      <%= t("admin.navigation.banners") %>
+    </div>
+  <% end %>
 </div>
 
