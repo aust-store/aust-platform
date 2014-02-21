@@ -22,9 +22,9 @@
       admin_marketing_index_path,
       class: "marketing" %>
   </li>
-  <li <%= current_nav_namespace("customers") %>>
-    <%= link_to t("admin.navigation.customers"),
-      admin_customers_path,
+  <li <%= current_nav_namespace("people") %>>
+    <%= link_to t("admin.navigation.people"),
+      admin_people_path,
       class: "people" %>
   </li>
   <li <%= current_nav_namespace("statistics") %>>
@@ -35,7 +35,7 @@
   <li <%= current_nav_namespace("settings") %>>
     <%= link_to t("admin.navigation.settings"),
       admin_settings_path,
-      class: "settings" %>
+      class: "settings", id: "settings_link" %>
   </li>
 </ul>
 

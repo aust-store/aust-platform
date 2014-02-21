@@ -1,17 +1,16 @@
-# encoding: utf-8
 class Admin::Api::CustomersController < Admin::Api::ApplicationController
   def index
     resource = current_company.customers
     resource = search(resource)
-    resource = limit(resource)
+    resource = limit(resource).to_a
 
-    render json: resource
+    render json: resource, root: "customers"
   end
 
   def create
     resource = current_company.customers.new(customer_params)
     if resource.save
-      render json: resource
+      render json: resource, root: "customer"
     else
       render json: {errors: resource.errors.first_messages}, status: 422
     end
@@ -20,7 +19,7 @@ class Admin::Api::CustomersController < Admin::Api::ApplicationController
   def update
     resource = current_company.customers.find_by_uuid(params[:id])
     if resource.update_attributes(customer_params)
-      render json: resource
+      render json: resource, root: "customer"
     else
       render json: {errors: resource.errors.first_messages}, status: 422
     end

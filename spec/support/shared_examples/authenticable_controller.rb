@@ -4,7 +4,7 @@ shared_examples "authenticable controller" do
 
     it "redirects the unlogged customer to the sign in page" do
       get :show
-      response.should redirect_to "/customers/sign_in"
+      response.should redirect_to "/people/sign_in"
     end
   end
 end

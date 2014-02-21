@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  factory :customer do
+  factory :person, class: "Person" do
     ignore do
       create_address true
     end
 
-    sequence(:email) { |n| "customer#{n}@example.com" }
+    sequence(:email) { |n| "person#{n}@example.com" }
     sequence(:first_name) { |n| "The Tick#{n}" }
     sequence(:last_name) { |n| "Holycowjohnson#{n}" }
     environment "website"
@@ -28,11 +28,14 @@ FactoryGirl.define do
     end
 
     # address
-    after(:create) do |customer, evaluator|
+    after(:create) do |person, evaluator|
       if evaluator.create_address
-        customer.addresses.build(FactoryGirl.attributes_for(:address))
-        customer.save
+        person.addresses.build(FactoryGirl.attributes_for(:address))
+        person.save
       end
+    end
+
+    factory :customer, class: "Person" do
     end
   end
 end

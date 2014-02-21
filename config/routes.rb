@@ -19,7 +19,7 @@ Store::Application.routes.draw do
       sessions: "admin/devise/sessions"
     }
 
-  devise_for :customers,
+  devise_for :people,
     controllers: {
       registrations: "store/devise/registrations",
       sessions: "store/devise/sessions"
@@ -124,7 +124,7 @@ Store::Application.routes.draw do
       get 'dashboard' => 'dashboard#index'
     end
 
-    resources :customers
+    resources :people
     resources :users # admin_users
 
     namespace :offline, module: "offline" do

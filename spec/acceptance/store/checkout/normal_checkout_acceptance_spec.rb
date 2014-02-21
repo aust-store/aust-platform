@@ -3,9 +3,9 @@ require "acceptance_spec_helper"
 
 feature "Normal checkout" do
   background do
-    @company  = FactoryGirl.create(:company_with_zipcode, :minimalism_theme, handle: "mystore")
-    @product  = FactoryGirl.create(:inventory_item, company: @company)
-    @customer = FactoryGirl.create(:customer, store: @company)
+    @company  = create(:company_with_zipcode, :minimalism_theme, handle: "mystore")
+    @product  = create(:inventory_item, company: @company)
+    @customer = create(:customer, store: @company)
     stub_subdomain(@company)
     stub_shipping
 
@@ -177,8 +177,8 @@ feature "Normal checkout" do
 
   def customer_signs_in
     page.should have_content "Login"
-    fill_in "customer_email", with: @customer.email
-    fill_in "customer_password", with: "123456"
+    fill_in "person_email", with: @customer.email
+    fill_in "person_password", with: "123456"
     click_on "sign_in"
   end
 

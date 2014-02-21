@@ -18,10 +18,10 @@ class SignInForm
       $('.js_sign_in input.password').focus()
 
   _bindSubmitToSignInOrUp: ->
-    $(".js_sign_in #js_new_customer").submit ->
+    $(".js_sign_in #js_new_person").submit ->
       if $("#has_no_password:checked").length
         sign_up = $(this).data('sign-up')
-        current_email = $(this).find("#customer_email").val()
+        current_email = $(this).find("#person_email").val()
         window.location = "#{sign_up}?email=#{current_email}"
         return false
       else if $("#has_password:checked").length

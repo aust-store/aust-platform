@@ -1,0 +1,16 @@
+<%= view_header(back_to: admin_person_path(@resource)) %>
+
+<header>
+  <div class="inline_title">
+    <h1><%= t('.title') %></h1>
+  </div>
+  <p>
+    Editando <%= @resource.first_name %> <%= @resource.last_name %>
+  </p>
+</header>
+
+<div class="main_container">
+  <div class="form">
+    <%= render 'form' %>
+  </div>
+</div>

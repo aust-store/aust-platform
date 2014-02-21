@@ -9,16 +9,16 @@ feature "Users listing" do
       @user = FactoryGirl.create(:admin_user, name: "arekufun",
                                  company:           @admin_user.company,
                                  role:              "collaborator")
+      click_link "settings_link"
+      click_link "manage_admin_users"
     end
 
     scenario "As a founder, I can edit users" do
-      click_link "Colaboradores"
       click_link "arekufun"
       current_path.should == edit_admin_user_path(@user)
     end
 
     scenario "As a founder, I can erase users" do
-      click_link "Colaboradores"
       click_link "Excluir usuário #{@user.name}"
     end
   end
@@ -29,7 +29,8 @@ feature "Users listing" do
     end
 
     scenario "As a founder, I cannot erase me" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       page.should_not have_content "Excluir usuário #{@admin_user.name}"
     end
 
@@ -40,7 +41,8 @@ feature "Users listing" do
     end
 
     scenario "As a founder, I can edit me" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       click_link "The Tick"
       current_path.should == edit_admin_user_path(@admin_user)
     end
@@ -53,10 +55,11 @@ feature "Users listing" do
     end
 
     scenario "As a collaborator, I cannot erase me" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       page.should_not have_content "Excluir usuário #{@admin_user.name}"
     end
-    
+
     scenario "As a collaborator, I will be redirected when trying to erase myself" do
       visit admin_users_path(id: 3, method: :delete)
       current_path.should_not == admin_users_path(id: 3, method: :delete)
@@ -64,7 +67,8 @@ feature "Users listing" do
     end
 
     scenario "As a collaborator, I can edit me" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       click_link "Silviom"
     end
   end
@@ -80,7 +84,8 @@ feature "Users listing" do
     end
 
     scenario "As a collaborator I can't create a new user" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       page.should_not have_link ("Novo colaborador")
     end
 
@@ -91,7 +96,8 @@ feature "Users listing" do
     end
 
     scenario "As a collaborator, I cannot edit other users" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       page.should_not have_link('arekufun2')
     end
 
@@ -102,7 +108,8 @@ feature "Users listing" do
     end
 
     scenario "As a collaborator, I cannot erase other users" do
-      click_link "Colaboradores"
+      click_link "settings_link"
+      click_link "manage_admin_users"
       page.should_not have_content "Excluir usuário #{@user.name}"
     end
 

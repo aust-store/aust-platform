@@ -1,4 +1,4 @@
-class Customer < ActiveRecord::Base
+class Person < ActiveRecord::Base
   extend Models::Extensions::FullTextSearch
   include Models::Extensions::UUID
 

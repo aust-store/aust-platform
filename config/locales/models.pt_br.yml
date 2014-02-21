@@ -20,7 +20,7 @@ pt_br:
         image: "Imagem"
       custom_field:
         name: "Nome do campo"
-      customer:
+      person:
         first_name:   "Nome"
         last_name:    "Sobrenome"
         password:     "Senha"
@@ -145,7 +145,7 @@ pt_br:
           attributes:
             name:
               blank: "Fabricante deve estar presente"
-        customer:
+        person:
           attributes:
             email:
               invalid: "Formato de email incorreto! (Ex: email@email.com)"

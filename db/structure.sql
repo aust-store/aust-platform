@@ -405,67 +405,6 @@ CREATE TABLE custom_fields_taxonomies (
 
 
 --
--- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE customers (
-    id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    first_name text,
-    last_name text,
-    social_security_number character varying(255),
-    nationality character varying(255),
-    receive_newsletter boolean,
-    mobile_number character varying(255),
-    home_number character varying(255),
-    work_number character varying(255),
-    home_area_number character varying(255),
-    work_area_number character varying(255),
-    mobile_area_number character varying(255),
-    store_id integer,
-    enabled boolean DEFAULT true,
-    environment character varying(255),
-    has_password boolean DEFAULT true,
-    uuid uuid
-);
-
-
---
--- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE customers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
-
-
---
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -967,6 +906,67 @@ ALTER SEQUENCE payment_statuses_id_seq OWNED BY payment_statuses.id;
 
 
 --
+-- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE people (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying(255),
+    authentication_token character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    first_name text,
+    last_name text,
+    social_security_number character varying(255),
+    nationality character varying(255),
+    receive_newsletter boolean,
+    mobile_number character varying(255),
+    home_number character varying(255),
+    work_number character varying(255),
+    home_area_number character varying(255),
+    work_area_number character varying(255),
+    mobile_area_number character varying(255),
+    store_id integer,
+    enabled boolean DEFAULT true,
+    environment character varying(255),
+    has_password boolean DEFAULT true,
+    uuid uuid
+);
+
+
+--
+-- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE people_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE people_id_seq OWNED BY people.id;
+
+
+--
 -- Name: pos_cash_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1299,13 +1299,6 @@ ALTER TABLE ONLY custom_fields ALTER COLUMN id SET DEFAULT nextval('custom_field
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
 
 
@@ -1398,6 +1391,13 @@ ALTER TABLE ONLY payment_gateways ALTER COLUMN id SET DEFAULT nextval('payment_g
 --
 
 ALTER TABLE ONLY payment_statuses ALTER COLUMN id SET DEFAULT nextval('payment_statuses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::regclass);
 
 
 --
@@ -1693,7 +1693,7 @@ ALTER TABLE ONLY themes
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY customers
+ALTER TABLE ONLY people
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -1708,28 +1708,28 @@ CREATE INDEX company_settings_gist_settings ON company_settings USING gist (sett
 -- Name: customer_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX customer_email ON customers USING gin (to_tsvector('english'::regconfig, (email)::text));
+CREATE INDEX customer_email ON people USING gin (to_tsvector('english'::regconfig, (email)::text));
 
 
 --
 -- Name: customer_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX customer_first_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+CREATE INDEX customer_first_name ON people USING gin (to_tsvector('english'::regconfig, first_name));
 
 
 --
 -- Name: customer_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX customer_last_name ON customers USING gin (to_tsvector('english'::regconfig, first_name));
+CREATE INDEX customer_last_name ON people USING gin (to_tsvector('english'::regconfig, first_name));
 
 
 --
 -- Name: customer_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX customer_social_security_number ON customers USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
+CREATE INDEX customer_social_security_number ON people USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
 
 
 --
@@ -1870,69 +1870,6 @@ CREATE INDEX index_custom_fields_on_company_id ON custom_fields USING btree (com
 --
 
 CREATE INDEX index_custom_fields_on_related_type ON custom_fields USING btree (related_type);
-
-
---
--- Name: index_customers_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_customers_on_authentication_token ON customers USING btree (authentication_token);
-
-
---
--- Name: index_customers_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_customers_on_confirmation_token ON customers USING btree (confirmation_token);
-
-
---
--- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_email ON customers USING btree (email);
-
-
---
--- Name: index_customers_on_enabled; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_enabled ON customers USING btree (enabled);
-
-
---
--- Name: index_customers_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_environment ON customers USING btree (environment);
-
-
---
--- Name: index_customers_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_receive_newsletter ON customers USING btree (receive_newsletter);
-
-
---
--- Name: index_customers_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_customers_on_reset_password_token ON customers USING btree (reset_password_token);
-
-
---
--- Name: index_customers_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_store_id ON customers USING btree (store_id);
-
-
---
--- Name: index_customers_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_customers_on_uuid ON customers USING btree (uuid);
 
 
 --
@@ -2234,6 +2171,69 @@ CREATE INDEX index_payment_statuses_on_order_id ON payment_statuses USING btree 
 --
 
 CREATE INDEX index_payment_statuses_on_status ON payment_statuses USING btree (status);
+
+
+--
+-- Name: index_people_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_people_on_authentication_token ON people USING btree (authentication_token);
+
+
+--
+-- Name: index_people_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_people_on_confirmation_token ON people USING btree (confirmation_token);
+
+
+--
+-- Name: index_people_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_email ON people USING btree (email);
+
+
+--
+-- Name: index_people_on_enabled; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_enabled ON people USING btree (enabled);
+
+
+--
+-- Name: index_people_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_environment ON people USING btree (environment);
+
+
+--
+-- Name: index_people_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_receive_newsletter ON people USING btree (receive_newsletter);
+
+
+--
+-- Name: index_people_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_people_on_reset_password_token ON people USING btree (reset_password_token);
+
+
+--
+-- Name: index_people_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_store_id ON people USING btree (store_id);
+
+
+--
+-- Name: index_people_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_uuid ON people USING btree (uuid);
 
 
 --
@@ -2575,3 +2575,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140213191047');
 INSERT INTO schema_migrations (version) VALUES ('20140213192712');
 
 INSERT INTO schema_migrations (version) VALUES ('20140213224021');
+
+INSERT INTO schema_migrations (version) VALUES ('20140221170717');

@@ -19,14 +19,14 @@ module View
         desc "customer_status"
         def customer_status
           result = ""
-          if controller.customer_signed_in?
+          if controller.person_signed_in?
             result << "Olá, #{controller.current_customer.first_name}. "
             result << link_to("Sair",
-                              controller.destroy_customer_session_path,
+                              controller.destroy_person_session_path,
                               method: :delete)
           else
             result << "Olá. Já é cadastrado? "
-            result << raw(link_to("Login", controller.new_customer_session_path))
+            result << raw(link_to("Login", controller.new_person_session_path))
           end
 
           raw result

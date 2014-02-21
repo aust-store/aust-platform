@@ -43,7 +43,7 @@ describe Admin::Api::CustomersController do
       }
       xhr :post, :create, json_request
 
-      customer = Customer.last
+      customer = Person.last
       customer.first_name.should == "John"
       customer.last_name.should == "Rambo"
       customer.email.should == "email@rambowebsite.com"
@@ -75,7 +75,7 @@ describe Admin::Api::CustomersController do
       }
       xhr :post, :create, json_request
 
-      Customer.last.uuid.should == pregenerated_uuid
+      Person.last.uuid.should == pregenerated_uuid
 
       json  = ActiveSupport::JSON.decode(response.body)
       json.should == {
@@ -118,7 +118,7 @@ describe Admin::Api::CustomersController do
 
   describe "PUT update" do
     it "updates customer's attributes" do
-      customer = FactoryGirl.create(:customer, store: @company)
+      customer = create(:customer, store: @company)
 
       json_request = {
         id: customer.uuid,
@@ -148,7 +148,7 @@ describe Admin::Api::CustomersController do
     end
 
     it "returns an error message when needed" do
-      customer = FactoryGirl.create(:customer, :pos, store: @company)
+      customer = create(:customer, :pos, store: @company)
 
       json_request = {
         id: customer.uuid,

@@ -3,7 +3,7 @@ class Cart < ActiveRecord::Base
 
   uuid field: "uuid"
 
-  belongs_to :customer
+  belongs_to :customer, class_name: "Person"
   belongs_to :company
   has_many :items, class_name: "OrderItem"
   has_one :shipping, class_name: "OrderShipping"

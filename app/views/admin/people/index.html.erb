@@ -1,14 +1,14 @@
 <%= view_header %>
 
 <header>
-  <h1><%= t('admin.customers.index.title') %></h1>
+  <h1><%= t('.title') %></h1>
 </header>
 
 <div class="main_container">
   <div class="index_header">
     <div class="buttons">
       <%= small_button "Novo cliente",
-        new_admin_customer_path,
+        new_admin_person_path,
         image: 'admin/icons/plus_16.png',
         id: "add_item"
       %>
@@ -18,19 +18,19 @@
   <table class="listing">
     <thead>
       <tr>
-        <th><%= t('admin.customers.index.name') %></th>
+        <th><%= t('.name') %></th>
         <th>Email</th>
       </tr>
     </thead>
     <tbody>
-      <% @customers.each do |customer| %>
+      <% @resources.each do |person| %>
         <tr class="<%= cycle('odd', 'even') %>">
           <td>
-            <%= link_to "#{customer.first_name} #{customer.last_name}",
-              admin_customer_path(customer) %>
+            <%= link_to "#{person.first_name} #{person.last_name}",
+              admin_person_path(person) %>
           </td>
           <td>
-            <%= customer.email %>
+            <%= person.email %>
           </td>
         </tr>
       <% end %>
@@ -38,6 +38,6 @@
   </table>
   <br />
   <div>
-    <%= paginate @customers %>
+    <%= paginate @resources %>
   </div>
 </div>

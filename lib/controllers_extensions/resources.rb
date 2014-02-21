@@ -12,6 +12,10 @@ module ControllersExtensions
       base.before_filter :banners
     end
 
+    def current_customer
+      current_person
+    end
+
     def pages
       @pages ||= current_store.pages.to_a
     end

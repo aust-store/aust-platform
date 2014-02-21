@@ -1,6 +1,6 @@
 class Store::CheckoutBaseController < Store::ApplicationController
   before_filter :act_as_target_after_sign_up
-  before_filter :authenticate_customer!
+  before_filter :authenticate_person!
   before_filter :redirect_on_empty_cart
 
   def act_as_target_after_sign_up

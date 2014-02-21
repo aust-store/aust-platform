@@ -25,7 +25,7 @@ feature "Store Sign Up" do
     click_on "checkout_button"
 
     # Sign in page
-    fill_in "customer_email", with: "customer@example.com"
+    fill_in "person_email", with: "person@example.com"
     page.should have_selector "#has_no_password"
     choose(I18n.t('session.new.labels.has_no_password'))
     click_on "sign_in"
@@ -37,31 +37,31 @@ feature "Store Sign Up" do
       page.should have_content "Celular"
     end
 
-    fill_in "customer_email",                               with: "sherlock@holmes.com"
-    fill_in "customer_first_name",                          with: "Sherlock"
-    fill_in "customer_last_name",                           with: "Holmes"
-    fill_in "customer_password",                            with: "guess_my_password"
-    fill_in "customer_password_confirmation",               with: "guess_my_password"
-    fill_in "customer_home_number",                         with: "1234-1234"
-    fill_in "customer_home_area_number",                    with: "53"
-    fill_in "customer_mobile_number",                       with: "1234-1234"
-    fill_in "customer_mobile_area_number",                  with: "53"
-    fill_in "customer_social_security_number",              with: "141.482.543-93"
-    fill_in "customer_addresses_attributes_0_address_1",    with: "Baker street"
-    fill_in "customer_addresses_attributes_0_number",       with: "221B"
-    fill_in "customer_addresses_attributes_0_address_2",    with: "I don't know"
-    fill_in "customer_addresses_attributes_0_neighborhood", with: "Central London"
-    fill_in "customer_addresses_attributes_0_zipcode",      with: "96360000"
-    fill_in "customer_addresses_attributes_0_city",         with: "London"
-    select "Rio Grande do Sul", from: "customer_addresses_attributes_0_state"
-    check "customer_receive_newsletter"
+    fill_in "person_email",                               with: "sherlock@holmes.com"
+    fill_in "person_first_name",                          with: "Sherlock"
+    fill_in "person_last_name",                           with: "Holmes"
+    fill_in "person_password",                            with: "guess_my_password"
+    fill_in "person_password_confirmation",               with: "guess_my_password"
+    fill_in "person_home_number",                         with: "1234-1234"
+    fill_in "person_home_area_number",                    with: "53"
+    fill_in "person_mobile_number",                       with: "1234-1234"
+    fill_in "person_mobile_area_number",                  with: "53"
+    fill_in "person_social_security_number",              with: "141.482.543-93"
+    fill_in "person_addresses_attributes_0_address_1",    with: "Baker street"
+    fill_in "person_addresses_attributes_0_number",       with: "221B"
+    fill_in "person_addresses_attributes_0_address_2",    with: "I don't know"
+    fill_in "person_addresses_attributes_0_neighborhood", with: "Central London"
+    fill_in "person_addresses_attributes_0_zipcode",      with: "96360000"
+    fill_in "person_addresses_attributes_0_city",         with: "London"
+    select "Rio Grande do Sul", from: "person_addresses_attributes_0_state"
+    check "person_receive_newsletter"
     click_button "sign_up_button"
 
     # Ends up in the shipping page
     page.should have_content I18n.t('store.checkout.shipping.show.page_title')
 
     # sets the default address
-    customer = Customer.where(email: 'sherlock@holmes.com').first
+    customer = Person.where(email: 'sherlock@holmes.com').first
     customer.store.should == @company
     customer.receive_newsletter.should be_true
     customer.addresses.first.default.should == true

@@ -4,9 +4,9 @@ require "acceptance_spec_helper"
 feature "Store cart" do
   before do
     stub_correios
-    @company = FactoryGirl.create(:company_with_zipcode)
+    @company = create(:company_with_zipcode)
     stub_subdomain(@company)
-    @product = FactoryGirl.create(:inventory_item, company: @company)
+    @product = create(:inventory_item, company: @company)
 
     # bypass the gateway step, leading the customer directly from the
     # "finish order" to the success page

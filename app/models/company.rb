@@ -1,7 +1,6 @@
 class Company < ActiveRecord::Base
   has_many :admin_users
   has_many :pos_cash_entries, class_name: "PosCashEntry"
-  has_many :customers, foreign_key: "store_id"
   has_many :items, class_name: "InventoryItem"
   has_many :carts
   has_many :orders, foreign_key: "store_id"
@@ -11,6 +10,9 @@ class Company < ActiveRecord::Base
   has_many :manufacturers
   has_many :pages
   has_many :banners
+
+  has_many :people,    foreign_key: "store_id"
+  has_many :customers, foreign_key: "store_id", class_name: "Person"
 
   has_one :address, as: :addressable
   has_one :contact, as: :contactable

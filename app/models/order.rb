@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
                   :environment, :uuid, :payment_type, :admin_user_id,
                   :customer, :store, :shipping_address, :shipping_details, :total
 
-  belongs_to :customer
+  belongs_to :customer, class_name: "Person"
   belongs_to :admin_user
   belongs_to :cart
   belongs_to :store, class_name: "Company"

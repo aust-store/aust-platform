@@ -1,10 +1,10 @@
-<%= simple_form_for([:admin, @customer]) do |f| %>
-  <%= output_error_messages(@customer) %>
+<%= simple_form_for([:admin, @resource]) do |f| %>
+  <%= output_error_messages(@resource) %>
 
   <p><%= t('.compulsory_fields') %></p>
   <fieldset class="personal_info">
     <h2><%= t('.personal_info') %></h2>
-    <%= f.input :email, type: :email, input_html: {}.merge(load_customer_email) %>
+    <%= f.input :email, type: :email, input_html: {}.merge(load_person_email) %>
     <%= f.input :first_name, as: 'string' %>
     <%= f.input :last_name, as: 'string' %>
     <%= f.input :password,
@@ -22,8 +22,8 @@
       <h2><%= t(".phone_numbers") %></h2>
       <div class="inline_inputs">
         <div class="label">
-          <%= label_tag :customer_home_area_number,
-            t("activerecord.attributes.customer.home_number") %>
+          <%= label_tag :person_home_area_number,
+            t("activerecord.attributes.person.home_number") %>
         </div>
 
         <%= f.input :home_area_number,   as: 'string', wrapper_html: { class: "input_with_label smaller" }, label: false %>
@@ -32,8 +32,8 @@
 
       <div class="inline_inputs">
         <div class="label">
-          <%= label_tag :customer_mobile_area_number,
-            t("activerecord.attributes.customer.mobile_number") %>
+          <%= label_tag :person_mobile_area_number,
+            t("activerecord.attributes.person.mobile_number") %>
         </div>
 
         <%= f.input :mobile_area_number, as: 'string', wrapper_html: { class: "input_with_label smaller" }, label: false %>
@@ -58,7 +58,7 @@
 
   <div class="submit">
     <%= f.submit t(".save"), id: 'submit' %> ou
-    <%= link_to t('admin.customers.form.cancel'), "javascript: history.back()" %>
+    <%= link_to t('admin.people.form.cancel'), "javascript: history.back()" %>
   </div>
 
 <% end %>

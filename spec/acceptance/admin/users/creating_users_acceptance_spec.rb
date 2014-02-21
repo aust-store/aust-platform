@@ -8,12 +8,12 @@ feature "Managing collaborators" do
     @user = FactoryGirl.create(:admin_user, name: "oko",
                                company: @admin_user.company,
                                role: "collaborator")
+    click_link "settings_link"
+    click_link "manage_admin_users"
   end
 
   context "Inexistent users as collaborators" do
     scenario "As a founder, I'd like to create a new user as a collaborator" do
-      click_link "Colaboradores"
-
       click_link "Adicionar usuário"
 
       page.should have_selector "input#admin_user_name"
@@ -40,7 +40,6 @@ feature "Managing collaborators" do
 
   context "Existent collaborators" do
     scenario "As an founder, I want to delete a chosen user" do
-      click_link "Colaboradores"
       page.should have_content "oko"
 
       click_link "Excluir usuário #{@user.name}"
@@ -49,7 +48,6 @@ feature "Managing collaborators" do
     end
 
     scenario "As a founder, I want to fully edit a chosen user" do
-      click_link "Colaboradores"
       click_link "oko"
 
       page.should have_selector "input#admin_user_name"
@@ -73,7 +71,6 @@ feature "Managing collaborators" do
     end
 
     scenario "As a founder, I want to partially edit a chosen user" do
-      click_link "Colaboradores"
       click_link "oko"
 
       page.should have_selector "input#admin_user_name"
@@ -98,7 +95,6 @@ feature "Managing collaborators" do
     end
 
     scenario "As a founder, I want to edit myself" do
-      click_link "Colaboradores"
       click_link "The Tick"
 
       page.should have_selector "input#admin_user_name"
@@ -126,7 +122,6 @@ feature "Managing collaborators" do
     scenario "As a founder, I can't see POS option if I don't pay for it" do
       Store::Policy::PointOfSale.stub_chain(:new, :enabled?) { false }
 
-      click_link "Colaboradores"
       click_link "Adicionar usuário"
       page.should have_select "admin_user_role", options: ["Colaborador"]
     end

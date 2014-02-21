@@ -1,12 +1,12 @@
 <h1><%= t('.page_title') %></h1>
 
 <div class="sign_up">
-  <%= simple_form_for resource, :url => customer_registration_path, html: { autocomplete: :off } do |f| %>
+  <%= simple_form_for resource, :url => person_registration_path, html: { autocomplete: :off } do |f| %>
 
     <p><%= t('.compulsory_fields') %></p>
     <fieldset class="personal_info">
       <h2><%= t('.personal_info') %></h2>
-      <%= f.input :email, type: :email, input_html: {}.merge(load_customer_email) %>
+      <%= f.input :email, type: :email, input_html: {}.merge(load_person_email) %>
       <%= f.input :first_name, as: 'string' %>
       <%= f.input :last_name, as: 'string' %>
       <%= f.input :password %>

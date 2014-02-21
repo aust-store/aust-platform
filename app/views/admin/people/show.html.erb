@@ -1,10 +1,10 @@
-<%= view_header(back_to: admin_customers_path) %>
+<%= view_header(back_to: admin_people_path) %>
 
 <header>
   <div class="inline_title">
-    <h1><%= @customer.first_name %></h1>
+    <h1><%= @resource.first_name %></h1>
     <%= small_button "Editar cliente",
-      edit_admin_customer_path(@customer),
+      edit_admin_person_path(@resource),
       id: "edit_item",
       image: 'admin/icons/edit_16.png'
     %>
@@ -18,44 +18,44 @@
     <tbody>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Nome:</td>
-        <td> <%= @customer.first_name %> <%= @customer.last_name %> </td>
+        <td> <%= @resource.first_name %> <%= @resource.last_name %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Email:</td>
-        <td> <%= @customer.email %> </td>
+        <td> <%= @resource.email %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>CPF:</td>
-        <td> <%= @customer.social_security_number %> </td>
+        <td> <%= @resource.social_security_number %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Telefone residencial:</td>
-        <td> <%= @customer.home_area_number %> <%= @customer.home_number %> </td>
+        <td> <%= @resource.home_area_number %> <%= @resource.home_number %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Telefone profissional:</td>
-        <td> <%= @customer.work_area_number %> <%= @customer.work_number %> </td>
+        <td> <%= @resource.work_area_number %> <%= @resource.work_number %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Telefone celular:</td>
-        <td><%= @customer.mobile_area_number %> <%= @customer.mobile_number %></td>
+        <td><%= @resource.mobile_area_number %> <%= @resource.mobile_number %></td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Criado</td>
-        <td><%= time_ago_in_words @customer.created_at %> atrás</td>
+        <td><%= time_ago_in_words @resource.created_at %> atrás</td>
       </tr>
     </tbody>
   </table>
 
-  <% if @customer.addresses.present? %>
+  <% if @resource.addresses.present? %>
     <h2>Endereço</h2>
 
-    <%= render partial: "admin/shared/address_listing", locals: { address: @customer.default_address } %>
+    <%= render partial: "admin/shared/address_listing", locals: { address: @resource.default_address } %>
 
   <% end %>
 
-  <%= small_button t('admin.customers.show.disable'),
-    admin_customer_path(@customer),
+  <%= small_button t('.disable'),
+    admin_person_path(@resource),
     class: "red",
     method: :delete,
     data: { confirm: "Tem certeza que deseja desativar este cliente?" }
