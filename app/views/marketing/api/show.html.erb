@@ -1,0 +1,182 @@
+<% content_for :title, "API" %>
+<%= render "marketing/shared/header" %>
+
+<div id="merchan" class="api">
+  <div class="container">
+    <div class="title">
+      <div class="title_prefix">Para desenvolvedores</div>
+      <h1>Documentação da API</h1>
+      <p>
+        Conecte seu ERP ou aplicativo ao Aust.
+      </p>
+    </div>
+  </div>
+</div>
+
+<section class="main full_colored pre_main intro">
+  <div class="main_container">
+    <p>
+      Construa um negócio sólido com o Aust. Conecte seu software.
+    </p>
+  </div>
+</section>
+
+<section class="main">
+  <div class="main_container">
+    <h2>Novos mercados</h2>
+
+    <p>
+      A API permite que você conecte o seu software ao Aust para controlar
+      itens do estoque, pessoas, pedidos e muito mais.
+      Leia abaixo a documentação da API.
+    </p>
+
+    <p>
+      <a href="#intro_and_schema">Introdução e Schema</a>
+      <br />
+      <a href="#people">Autenticação</a>
+      <br />
+      <a href="#people">Pessoas</a>
+      <br />
+      <a href="#people">Pedidos</a>
+      <br />
+      <a href="#people">Itens do estoque</a>
+      <br />
+      <a href="#people">Entradas no estoque</a>
+      <br />
+      <a href="#people">Taxonomia</a>
+      <br />
+      <a href="#people">Fabricantes</a>
+      <br />
+      <a href="#people">Administradores</a>
+      <br />
+      <a href="#people">Relatórios</a>
+      <br />
+    </p>
+
+  </div>
+</section>
+
+<section class="main code odd" id="intro_and_schema">
+  <div class="main_container">
+    <h2>Introdução e Schema</h2>
+
+    <p>
+      Todo acesso da API é feito sobre HTTPS e acessado a partir do domínio
+      da loja (seudominio.com.br/api/v1/)
+      Todos os dados são enviados e recebidos como JSON. Aqui está
+      um exemplo:
+    </p>
+
+    <pre class="code">
+<span class="command">https://seudominio.com/api/v1/inventory_items</span>
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 12 Oct 2013 23:33:14 GMT
+Content-Type: application/json; charset=utf-8
+Connection: keep-alive
+Status: 200 OK
+ETag: "a00049ba79152d03380c34652f2cb612"
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4987
+X-RateLimit-Reset: 1350085394
+Content-Length: 5
+Cache-Control: max-age=0, private, must-revalidate
+X-Content-Type-Options: nosniff
+
+[]
+    </pre>
+
+    <h3>Requisitos</h3>
+    <p>
+      Sempre que fizer uma requisição, você deve seguir algumas regras:
+    </p>
+
+    <ul>
+      <li>enviar seu nome de usuário e senha</li>
+      <li>enviar o cabeçalho HTTP User-Agent com o nome da sua aplicação e o seu email de contato</li>
+    </ul>
+
+    <p>
+      No caso de requisições que enviam dados ao servidor, você deve
+      enviar dados no formato JSON como a seguir:
+    </p>
+
+    <pre class="code">
+curl -H 'Accept: application/json'
+     -H 'Content-Type: application/json' \
+     -H 'User-Agent: Protheus &lt;email@example.com&gt;' \
+     -u username:password \
+     -d '{"data": {"etc": "etc"}}' \
+     https://seudominio.com/api/v1/inventory_items.json
+    </pre>
+
+    <p>
+      <strong>Importante:</strong> nos exemplos abaixo, ocultaremos os
+      cabeçalhos citados acima para manter a documentação suscinta.
+    </p>
+  </div>
+</section>
+
+
+<section class="main code even">
+  <div class="main_container">
+    <h2>Pessoas</h2>
+
+    <p>
+      A API para pessoas permite seu aplicativo acessar clientes, fornecedores,
+      vendedores e outros. Não está incluído qualquer administrador,
+      colaborador ou aqueles com acesso ao painel administrativo do Aust.
+    </p>
+
+    <h3>Requisição:</h3>
+    <pre class="code">
+curl -u username:password https://seudominio.com/api/v1/people.json</pre>
+
+    <p>A resposta é sempre no mesmo formato:</p>
+
+    <pre class="code">
+[{
+  "person": {
+    "id":                     "35b87e73-3fec-4f2c-86dd-6afe36a0dbd2",
+    "first_name":             "Luke",
+    "last_name":              "Skywalker",
+    "email":                  "new_hope@gmail.com",
+    "social_security_number": "14148254393",
+    "home_number":            "5555-5555",
+    "work_number":            "5555-5555",
+    "mobile_number":          "5555-5555",
+    "home_area_number":       "53",
+    "work_area_number":       "53",
+    "mobile_area_number":     "53",
+    "receive_newsletter":     true,
+    "environment":            "website",
+    "enabled":                true,
+    "roles":                  ["customer", "supplier"],
+    "addresses": [{
+      "address_1":    "Rua Um Dois Três",
+      "address_2":    "Complemento",
+      "number":       "123",
+      "city":         "Porto Alegre",
+      "country":      "BR",
+      "default":      true,
+      "state":        "RS",
+      "zipcode":      "99999000",
+      "neighborhood": "Centro",
+    }, {
+      "address_1":    "Rua Três Quatro",
+      "address_2":    "Complemento",
+      "number":       "123",
+      "city":         "Porto Alegre",
+      "country":      "BR",
+      "default":      false,
+      "state":        "RS",
+      "zipcode":      "99999000",
+      "neighborhood": "Centro",
+    }]
+  }
+}]
+   </pre>
+  </div>
+</section>
