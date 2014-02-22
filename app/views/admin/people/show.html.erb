@@ -14,6 +14,13 @@
 <div class="main_container">
   <p id="notice"><%= notice %></p>
 
+  <% if @resource.roles.present? %>
+    <p>
+      <strong>Função:</strong>
+      <%= @resource.roles.map { |r| t("activerecord.values.role.name.#{r.name}") }.join(", ") %>
+    </p>
+  <% end %>
+
   <table class="properties">
     <tbody>
       <tr class="<%= cycle('even', 'odd') %>">

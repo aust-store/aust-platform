@@ -34,7 +34,7 @@
             <%= person.email %>
           </td>
           <td>
-            <%= person.roles.pluck(&:name).join(", ") %>
+            <%= person.roles.map { |r| t("activerecord.values.role.name.#{r.name}") }.join(", ") %>
           </td>
         </tr>
       <% end %>
