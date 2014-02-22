@@ -20,6 +20,7 @@
       <tr>
         <th><%= t('.name') %></th>
         <th>Email</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,9 @@
           </td>
           <td>
             <%= person.email %>
+          </td>
+          <td>
+            <%= person.roles.pluck(&:name).join(", ") %>
           </td>
         </tr>
       <% end %>

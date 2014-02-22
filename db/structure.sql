@@ -967,6 +967,36 @@ ALTER SEQUENCE people_id_seq OWNED BY people.id;
 
 
 --
+-- Name: people_roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE people_roles (
+    id integer NOT NULL,
+    person_id integer,
+    role_id integer
+);
+
+
+--
+-- Name: people_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE people_roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: people_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE people_roles_id_seq OWNED BY people_roles.id;
+
+
+--
 -- Name: pos_cash_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1001,6 +1031,35 @@ CREATE SEQUENCE pos_cash_entries_id_seq
 --
 
 ALTER SEQUENCE pos_cash_entries_id_seq OWNED BY pos_cash_entries.id;
+
+
+--
+-- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roles (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
 
 --
@@ -1404,7 +1463,21 @@ ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY people_roles ALTER COLUMN id SET DEFAULT nextval('people_roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY pos_cash_entries ALTER COLUMN id SET DEFAULT nextval('pos_cash_entries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
 
 
 --
@@ -1634,11 +1707,27 @@ ALTER TABLE ONLY payment_statuses
 
 
 --
+-- Name: people_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY people_roles
+    ADD CONSTRAINT people_roles_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: pos_cash_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY pos_cash_entries
     ADD CONSTRAINT pos_cash_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
 --
@@ -2237,6 +2326,20 @@ CREATE INDEX index_people_on_uuid ON people USING btree (uuid);
 
 
 --
+-- Name: index_people_roles_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_roles_on_person_id ON people_roles USING btree (person_id);
+
+
+--
+-- Name: index_people_roles_on_role_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_roles_on_role_id ON people_roles USING btree (role_id);
+
+
+--
 -- Name: index_pos_cash_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2248,6 +2351,13 @@ CREATE INDEX index_pos_cash_entries_on_admin_user_id ON pos_cash_entries USING b
 --
 
 CREATE INDEX index_pos_cash_entries_on_company_id ON pos_cash_entries USING btree (company_id);
+
+
+--
+-- Name: index_roles_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_roles_on_name ON roles USING btree (name);
 
 
 --
@@ -2577,3 +2687,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140213192712');
 INSERT INTO schema_migrations (version) VALUES ('20140213224021');
 
 INSERT INTO schema_migrations (version) VALUES ('20140221170717');
+
+INSERT INTO schema_migrations (version) VALUES ('20140221194950');
+
+INSERT INTO schema_migrations (version) VALUES ('20140221195034');

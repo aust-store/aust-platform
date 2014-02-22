@@ -12,6 +12,7 @@ class Admin::PeopleController < Admin::ApplicationController
   def new
     @resource = Person.new
     @resource.addresses.build
+    @resource.roles << Role.customer.first
   end
 
   def show
@@ -33,7 +34,7 @@ class Admin::PeopleController < Admin::ApplicationController
 
     @resource.environment = "admin"
 
-    if @resource.save
+    if @resource.save_with_minimal_validation
       redirect_to admin_people_url
     else
       render :new
@@ -41,6 +42,7 @@ class Admin::PeopleController < Admin::ApplicationController
   end
 
   def update
+    params[:person][:role_ids] ||= []
     resource_params = params[:person]
 
     if resource_params[:password].blank?
@@ -48,7 +50,7 @@ class Admin::PeopleController < Admin::ApplicationController
       resource_params.delete("password_confirmation")
     end
 
-    if @resource.update_attributes(resource_params)
+    if @resource.update_attributes_with_minimal_validation(resource_params)
       redirect_to admin_person_url(@resource)
     else
       render :edit

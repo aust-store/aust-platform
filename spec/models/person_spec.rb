@@ -145,6 +145,13 @@ describe Person do
         build(:person, social_security_number: nil).should_not be_valid
       end
     end
+
+    describe "creation in the admin panel" do
+      it "allows the name the be the only field filled" do
+        person = Person.new(first_name: "The Tick", environment: "admin", store: build(:company))
+        person.should be_valid
+      end
+    end
   end
 
   describe "callbacks" do
@@ -152,6 +159,28 @@ describe Person do
       it "removes all dots and dashes from the number" do
         create(:person).social_security_number.should == "14148254393"
       end
+    end
+  end
+
+  describe "#customer?" do
+    it "returns true if person is a customer" do
+      subject.roles << build(:role, :customer)
+      subject.should be_customer
+    end
+
+    it "returns false if person is not a customer" do
+      subject.should_not be_customer
+    end
+  end
+
+  describe "#supplier?" do
+    it "returns true if person is a supplier" do
+      subject.roles << build(:role, :supplier)
+      subject.should be_supplier
+    end
+
+    it "returns false if person is not a supplier" do
+      subject.should_not be_supplier
     end
   end
 
@@ -214,6 +243,24 @@ describe Person do
       person.home_number = nil
       person.mobile_number = nil
       person.first_phone_number.should == { area: "55", phone: "33333333" }
+    end
+  end
+
+  describe "#minimal_validation?" do
+    it "returns true if #save_with_minimal_validation" do
+      subject.stub(:update_attributes)
+      subject.save_with_minimal_validation
+      subject.minimal_validation?.should == true
+    end
+
+    it "returns true if #update_attributes_with_minimal_validation" do
+      subject.stub(:update_attributes)
+      subject.update_attributes_with_minimal_validation
+      subject.minimal_validation?.should == true
+    end
+
+    it "is not minimal validation by default" do
+      subject.minimal_validation?.should == false
     end
   end
 end

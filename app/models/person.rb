@@ -14,7 +14,10 @@ class Person < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :addresses, as: :addressable
+  has_many :person_roles
+  has_many :roles, through: :person_roles
   belongs_to :store, class_name: "Company"
+
 
   # FIXME - remove this
   attr_accessible :email, :password, :password_confirmation, :remember_me,
@@ -24,13 +27,15 @@ class Person < ActiveRecord::Base
                   :receive_newsletter,
                   :store, :store_id, :addresses_attributes,
                   :environment, :uuid,
-                  :enabled
+                  :enabled,
+                  :role_ids, :role,
+                  :addresses
 
   # validations: always (both website and point of sale)
   validates :store, presence: true
   validates :environment, inclusion: {in: VALID_ENVIRONMENTS}
-  validates :first_name, :last_name, presence: true
-  validates :social_security_number, presence: true
+  validates :first_name, presence: true
+  #validates :social_security_number, presence: true
 
   # validations: website
   validate :customer_from_website
@@ -40,10 +45,11 @@ class Person < ActiveRecord::Base
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
     allow_blank: true
 
-  before_validation :fullfil_dummy_password_for_pos_customers
+  before_validation :avoid_address_validation
+  before_validation :fulfill_dummy_password_for_customer
   before_save :sanitize_social_security_number
 
-  accepts_nested_attributes_for :addresses, :store
+  accepts_nested_attributes_for :addresses, :store, :roles
 
   def self.search_for(query)
     search do
@@ -89,7 +95,35 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def customer?
+    self.roles.any? { |role| role.name == "customer" }
+  end
+
+  def supplier?
+    self.roles.any? { |role| role.name == "supplier" }
+  end
+
+  def update_attributes_with_minimal_validation(params = {})
+    @minimal_validation_mode = true
+    update_attributes(params)
+  end
+
+  def save_with_minimal_validation
+    @minimal_validation_mode = true
+    save
+  end
+
+  def minimal_validation?
+    @minimal_validation_mode.nil? ? false : @minimal_validation_mode
+  end
+
   private
+
+  def avoid_address_validation
+    if minimal_validation?
+      self.addresses.each { |a| a.do_not_validate }
+    end
+  end
 
   def self.find_for_authentication(tainted_conditions)
     find_first_by_auth_conditions(tainted_conditions, enabled: true)
@@ -119,12 +153,14 @@ class Person < ActiveRecord::Base
       return true if self.social_security_number.to_s.size > 0
     end
 
-    # CPF is the brazilian social number
-    errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
+    if self.social_security_number.present?
+      # CPF is the brazilian social number
+      errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
+    end
   end
 
   def customer_from_website
-    if website?
+    if website? && !minimal_validation?
       Models::Validation::CustomerFromWebsite.new(self).validate
     end
   end
@@ -133,12 +169,16 @@ class Person < ActiveRecord::Base
     self.environment == "website"
   end
 
+  def created_on_admin?
+    self.environment == "admin"
+  end
+
   def point_of_sale?
     self.environment == "point_of_sale"
   end
 
-  def fullfil_dummy_password_for_pos_customers
-    if point_of_sale? && self.password.blank?
+  def fulfill_dummy_password_for_customer
+    if (point_of_sale? || created_on_admin?) && self.password.blank?
       self.has_password = false
       self.password = DUMMY_PASSWORD_FOR_POINT_OF_SALE
       self.password_confirmation = DUMMY_PASSWORD_FOR_POINT_OF_SALE

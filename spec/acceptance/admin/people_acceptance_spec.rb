@@ -4,6 +4,8 @@ feature "Admin/People" do
   let(:person) { create(:person, store: @company) }
 
   background do
+    create(:role, :customer)
+    create(:role, :supplier)
     login_into_admin
   end
 
@@ -13,6 +15,8 @@ feature "Admin/People" do
     Timecop.travel(Time.utc(2013, 8, 9, 10, 10, 10)) do
       person = create(:person, store: @company)
     end
+    visit admin_people_path
+    page.should have_content "Cliente"
 
     Timecop.travel(Time.utc(2013, 8, 8, 10, 10, 10)) do
       visit admin_person_path(person)
@@ -34,6 +38,8 @@ feature "Admin/People" do
       page.should_not have_content "Freddie"
       click_on "add_item"
 
+      uncheck "person_role_customer"
+      check "person_role_supplier"
       fill_in "person_email",                               with: "sherlock@holmes.com"
       fill_in "person_first_name",                          with: "Freddie"
       fill_in "person_last_name",                           with: "Mercury"
@@ -46,7 +52,26 @@ feature "Admin/People" do
 
       current_path.should == admin_people_path
       page.should have_content "Freddie Mercury"
-      Person.last.environment.should == "admin"
+      created_person = Person.last
+      created_person.environment.should == "admin"
+      created_person.roles.first.name.should == "supplier"
+    end
+
+    scenario "As an admin, I can create a person with the minimal fields" do
+      visit admin_people_path
+      page.should_not have_content "Freddie"
+      click_on "add_item"
+
+      check "person_role_customer"
+      uncheck "person_role_supplier"
+      fill_in "person_first_name", with: "Freddie"
+      click_button "submit"
+
+      current_path.should == admin_people_path
+      page.should have_content "Freddie"
+      created_person = Person.last
+      created_person.environment.should == "admin"
+      created_person.roles.first.name.should == "customer"
     end
   end
 
@@ -55,12 +80,20 @@ feature "Admin/People" do
       person
     end
 
-    scenario "As an admin, I update a persons" do
+    scenario "As an admin, I update a person" do
+      person.should be_customer
+      person.should_not be_supplier
       visit admin_people_path
       click_link person.first_name
       click_link "Editar"
 
       current_path.should == edit_admin_person_path(person)
+
+      page.should have_checked_field("person_role_customer")
+      page.should_not have_checked_field("person_role_supplier")
+      uncheck "person_role_customer"
+      check "person_role_supplier"
+
       find("#person_receive_newsletter").value.should === "1"
       fill_in "person_first_name", with: "Freddie"
       fill_in "person_last_name", with: "Mercury"
@@ -69,6 +102,42 @@ feature "Admin/People" do
       current_path.should == admin_person_path(person)
       page.should have_content "Freddie"
       page.should have_content "Mercury"
+
+      person.reload
+      person.should be_supplier
+      person.should_not be_customer
+    end
+
+    scenario "As an admin, I update a person created on website with minimal information" do
+      visit edit_admin_person_path(person)
+
+      person.environment.should == "website"
+      fill_in "person_email",                               with: ""
+      fill_in "person_first_name",                          with: "Freddie"
+      fill_in "person_last_name",                           with: ""
+      fill_in "person_password",                            with: ""
+      fill_in "person_password_confirmation",               with: ""
+      fill_in "person_social_security_number",              with: ""
+      fill_in "person_addresses_attributes_0_address_1",    with: ""
+      fill_in "person_addresses_attributes_0_number",       with: ""
+      fill_in "person_addresses_attributes_0_address_2",    with: ""
+      fill_in "person_addresses_attributes_0_neighborhood", with: ""
+      fill_in "person_addresses_attributes_0_zipcode",      with: ""
+      fill_in "person_addresses_attributes_0_city",         with: ""
+      fill_in "person_home_number",                         with: ""
+      fill_in "person_home_area_number",                    with: ""
+      fill_in "person_mobile_number",                       with: ""
+      fill_in "person_mobile_area_number",                  with: ""
+      click_button "submit"
+
+      page.should have_content "Freddie"
+      page.should_not have_content "Mercury"
+      current_path.should == admin_person_path(person)
+
+      person.reload
+      person.first_name.should == "Freddie"
+      person.last_name.should == ""
+      person.environment.should == "website"
     end
   end
 

@@ -105,12 +105,6 @@ describe Admin::Api::CustomersController do
           "first_name" => [
             "Nome não pode ficar em branco"
           ],
-          "last_name" => [
-            "Sobrenome não pode ficar em branco"
-          ],
-          "social_security_number" => [
-            "O campo CPF não pode ficar em branco!",
-          ]
         }
       }
     end
@@ -167,12 +161,6 @@ describe Admin::Api::CustomersController do
           "first_name" => [
             "Nome não pode ficar em branco"
           ],
-          "last_name" => [
-            "Sobrenome não pode ficar em branco"
-          ],
-          "social_security_number" => [
-            "O campo CPF não pode ficar em branco!",
-          ]
         }
       }
     end

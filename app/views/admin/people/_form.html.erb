@@ -2,6 +2,18 @@
   <%= output_error_messages(@resource) %>
 
   <p><%= t('.compulsory_fields') %></p>
+  <fieldset class="role">
+    <% Role.find_each do |role| %>
+      <%= check_box_tag :role_ids,
+        role.id,
+        @resource.roles.include?(role),
+        id: "person_role_#{role.name}",
+        name: "person[role_ids][]" %>
+        <%= label_tag "person_role_#{role.name}", t("activerecord.values.role.name.#{role.name}") %>
+      <br />
+    <% end %>
+  </fieldset>
+
   <fieldset class="personal_info">
     <h2><%= t('.personal_info') %></h2>
     <%= f.input :email, type: :email, input_html: {}.merge(load_person_email) %>

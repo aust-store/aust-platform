@@ -87,6 +87,10 @@ pt_br:
           paid_but_shipment_cancelled:    "Pagamento efetuado, mas os envios foram cancelados"
           cancelled:                      "Pagamento cancelado"
           pending_payment:                "Pagamento pendente"
+      role:
+        name:
+          customer: "Cliente"
+          supplier: "Fornecedor"
       admin_user:
         roles:
           collaborator: "Colaborador"
