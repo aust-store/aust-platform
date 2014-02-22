@@ -7,6 +7,8 @@ feature "Store Sign Up" do
     @company = FactoryGirl.create(:company_with_zipcode, handle: "mystore")
     @product = FactoryGirl.create(:inventory_item, company: @company)
     stub_subdomain(@company)
+    create(:role, :customer)
+    create(:role, :supplier)
   end
 
   scenario "As a customer, I can sign up when checking out", js: true do
@@ -65,5 +67,8 @@ feature "Store Sign Up" do
     customer.store.should == @company
     customer.receive_newsletter.should be_true
     customer.addresses.first.default.should == true
+
+    customer.roles.count.should == 1
+    customer.roles.first.name.should == "customer"
   end
 end

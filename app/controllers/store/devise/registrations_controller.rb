@@ -10,7 +10,7 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
 
   def new
     resource = build_resource
-    address = resource.addresses.build
+    resource.addresses.build
     respond_with resource
   end
 
@@ -19,6 +19,7 @@ class Store::Devise::RegistrationsController < Devise::RegistrationsController
 
     resource.store_id = current_store.id
     resource.environment = "website"
+    resource.roles << Role.customer.first
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

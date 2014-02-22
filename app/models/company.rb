@@ -11,8 +11,10 @@ class Company < ActiveRecord::Base
   has_many :pages
   has_many :banners
 
-  has_many :people,    foreign_key: "store_id"
-  has_many :customers, foreign_key: "store_id", class_name: "Person"
+  has_many :people, foreign_key: "store_id"
+  has_many :customers, ->{
+    includes(:roles).where("roles.name = ?", "customer").references(:roles)
+  }, foreign_key: "store_id", class_name: "Person"
 
   has_one :address, as: :addressable
   has_one :contact, as: :contactable

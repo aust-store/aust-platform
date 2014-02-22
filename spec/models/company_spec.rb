@@ -56,6 +56,23 @@ describe Company do
     end
   end
 
+  describe "associations" do
+    let(:company) { create(:company) }
+
+    describe "customers" do
+      before do
+        create(:role, :customer)
+        create(:role, :supplier)
+      end
+
+      it "loads only customers, not suppliers" do
+        customer = create(:person, customer: true, store: company)
+        create(:person, customer: false, supplier: true, store: company)
+        company.customers.should == [customer]
+      end
+    end
+  end
+
   describe "#items_on_sale_for_website_main_page" do
     let(:items) { double }
 

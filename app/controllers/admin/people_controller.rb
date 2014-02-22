@@ -3,7 +3,7 @@ class Admin::PeopleController < Admin::ApplicationController
 
   def index
     @resources = current_company
-     .customers
+     .people
      .order('first_name', 'last_name')
      .page(params[:page])
      .per(25)

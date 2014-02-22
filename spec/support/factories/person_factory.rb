@@ -2,6 +2,8 @@ FactoryGirl.define do
   factory :barebone_person, class: "Person" do
     ignore do
       create_address true
+      customer true
+      supplier false
     end
 
     sequence(:first_name) { |n| "The Tick#{n}" }
@@ -34,12 +36,17 @@ FactoryGirl.define do
 
       # role
       after(:create) do |person, evaluator|
-        if evaluator.create_address
+        if evaluator.customer
           role = ::Role.customer.first
           role = role.present? ? role : FactoryGirl.create(:role, :customer)
           person.roles << role
-          person.save
         end
+        if evaluator.supplier
+          role = ::Role.supplier.first
+          role = role.present? ? role : FactoryGirl.create(:role, :supplier)
+          person.roles << role
+        end
+        person.save
       end
 
       # address
