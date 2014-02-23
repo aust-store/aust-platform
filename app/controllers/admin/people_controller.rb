@@ -35,7 +35,7 @@ class Admin::PeopleController < Admin::ApplicationController
     @resource.environment = "admin"
 
     if @resource.save_with_minimal_validation
-      redirect_to admin_people_url
+      redirect_to admin_person_url(@resource)
     else
       render :new
     end

@@ -144,6 +144,12 @@ describe Person do
         build(:person, social_security_number: "").should_not be_valid
         build(:person, social_security_number: nil).should_not be_valid
       end
+
+      it "is not valid if company_id_number is present" do
+        build(:person, company_id_number: "12345678", social_security_number: "141.482.543-93").should_not be_valid
+        build(:person, company_id_number: "12345678", social_security_number: nil).should be_valid
+        build(:person, company_id_number: nil, social_security_number: "141.482.543-93").should be_valid
+      end
     end
 
     describe "creation in the admin panel" do
@@ -261,6 +267,16 @@ describe Person do
 
     it "is not minimal validation by default" do
       subject.minimal_validation?.should == false
+    end
+  end
+
+  describe "#company?" do
+    it "returns true if person has company id number" do
+      Person.new(company_id_number: "123").should be_company
+    end
+
+    it "returns false if person hasn't company id number" do
+      Person.new(company_id_number: "").should_not be_company
     end
   end
 end

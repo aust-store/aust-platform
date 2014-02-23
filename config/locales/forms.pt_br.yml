@@ -97,6 +97,7 @@ pt_br:
         role: "Usuário Ponto de Venda pode acessar apenas o ponto de venda."
       person:
         social_security_number: "No formato 000.000.000-00 ou apenas números."
+        company_id_number: ""
         home_number:   ""
         work_number:   ""
         mobile_number: ""

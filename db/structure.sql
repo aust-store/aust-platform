@@ -943,7 +943,8 @@ CREATE TABLE people (
     enabled boolean DEFAULT true,
     environment character varying(255),
     has_password boolean DEFAULT true,
-    uuid uuid
+    uuid uuid,
+    company_id_number character varying(255)
 );
 
 
@@ -2691,3 +2692,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140221170717');
 INSERT INTO schema_migrations (version) VALUES ('20140221194950');
 
 INSERT INTO schema_migrations (version) VALUES ('20140221195034');
+
+INSERT INTO schema_migrations (version) VALUES ('20140223144047');

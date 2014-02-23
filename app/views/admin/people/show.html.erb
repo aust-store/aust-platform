@@ -9,6 +9,9 @@
       image: 'admin/icons/edit_16.png'
     %>
   </div>
+  <p class="company_or_not">
+    <%= @resource.company? ? "Empresa" : "Pessoa física" %>
+  </p>
 </header>
 
 <div class="main_container">
@@ -32,8 +35,16 @@
         <td> <%= @resource.email %> </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
-        <td>CPF:</td>
-        <td> <%= @resource.social_security_number %> </td>
+        <td>
+          <%= @resource.company? ? "CNPJ" : "CPF" %>:
+        </td>
+        <td>
+          <% if @resource.company?  %>
+            <%= @resource.company_id_number %>
+          <% else %>
+            <%= @resource.social_security_number %>
+          <% end %>
+        </td>
       </tr>
       <tr class="<%= cycle('even', 'odd') %>">
         <td>Telefone residencial:</td>

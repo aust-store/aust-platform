@@ -31,7 +31,7 @@ feature "Admin/People" do
   end
 
   describe "creating a person" do
-    scenario "As an admin, I create a person" do
+    scenario "As an admin, I create a person (not company)" do
       Person.count.should == 0
 
       visit admin_people_path
@@ -40,21 +40,59 @@ feature "Admin/People" do
 
       uncheck "person_role_customer"
       check "person_role_supplier"
-      fill_in "person_email",                               with: "sherlock@holmes.com"
-      fill_in "person_first_name",                          with: "Freddie"
-      fill_in "person_last_name",                           with: "Mercury"
-      fill_in "person_password",                            with: "guess_my_password"
-      fill_in "person_password_confirmation",               with: "guess_my_password"
-      fill_in "person_social_security_number",              with: "141.482.543-93"
+      fill_in "person_email",                  with: "sherlock@holmes.com"
+      fill_in "person_first_name",             with: "Freddie"
+      fill_in "person_last_name",              with: "Mercury"
+      fill_in "person_password",               with: "guess_my_password"
+      fill_in "person_password_confirmation",  with: "guess_my_password"
+      fill_in "person_social_security_number", with: "141.482.543-93"
       fill_in_phones
       fill_in_address
       click_button "submit"
 
-      current_path.should == admin_people_path
+      current_path.should == admin_person_path(Person.last)
+
+      within ".company_or_not" do
+        page.should have_content "Pessoa física"
+      end
       page.should have_content "Freddie Mercury"
+
       created_person = Person.last
       created_person.environment.should == "admin"
       created_person.roles.first.name.should == "supplier"
+      created_person.should_not be_company
+    end
+
+    scenario "As an admin, I create a person (company)" do
+      Person.count.should == 0
+
+      visit admin_people_path
+      page.should_not have_content "Freddie"
+      click_on "add_item"
+
+      uncheck "person_role_customer"
+      check "person_role_supplier"
+      fill_in "person_email",                 with: "sherlock@holmes.com"
+      fill_in "person_first_name",            with: "Freddie"
+      fill_in "person_last_name",             with: "Mercury"
+      fill_in "person_password",              with: "guess_my_password"
+      fill_in "person_password_confirmation", with: "guess_my_password"
+      fill_in "person_company_id_number",     with: "12345678"
+      fill_in_phones
+      fill_in_address
+      click_button "submit"
+
+      current_path.should == admin_person_path(Person.last)
+
+      within ".company_or_not" do
+        page.should have_content "Empresa"
+      end
+      page.should have_content "Freddie Mercury"
+
+      created_person = Person.last
+      created_person.environment.should == "admin"
+      created_person.roles.first.name.should == "supplier"
+      created_person.should be_company
     end
 
     scenario "As an admin, I can create a person with the minimal fields" do
@@ -67,7 +105,7 @@ feature "Admin/People" do
       fill_in "person_first_name", with: "Freddie"
       click_button "submit"
 
-      current_path.should == admin_people_path
+      current_path.should == admin_person_path(Person.last)
       page.should have_content "Freddie"
       created_person = Person.last
       created_person.environment.should == "admin"

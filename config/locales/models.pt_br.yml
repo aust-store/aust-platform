@@ -26,6 +26,7 @@ pt_br:
         password:     "Senha"
         password_confirmation:  "Confirmação da senha"
         social_security_number: "CPF"
+        company_id_number:      "CNPJ"
         home_number:        "Telefone residencial"
         home_area_number:   "DDD do telefone residencial"
         work_number:        "Telefone do trabalho"
@@ -165,6 +166,7 @@ pt_br:
             social_security_number:
               blank: "O campo %{attribute} não pode ficar em branco!"
               invalid: "O CPF digitado é inválido"
+              is_company: "Você não pode digitar CNPJ e CPF para a mesma pessoa."
             home_number:
               blank: "Você deve inserir seu número residencial ou celular."
             home_area_number:

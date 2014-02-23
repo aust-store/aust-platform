@@ -11,7 +11,7 @@ module Models
         invalidate_blank(:last_name)
         invalidate_blank(:password, on: :create)
         invalidate_blank(:password_confirmation, on: :create)
-        invalidate_blank(:social_security_number)
+        invalidate_blank(:social_security_number) if record.company_id_number.blank?
 
         invalidate_blank(:home_number) if require_home_number?
         invalidate_blank(:mobile_number) if require_mobile_number?

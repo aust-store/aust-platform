@@ -21,7 +21,9 @@ class Person < ActiveRecord::Base
 
   # FIXME - remove this
   attr_accessible :email, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :social_security_number,
+                  :first_name, :last_name,
+                  :social_security_number,
+                  :company_id_number,
                   :home_number,      :work_number,      :mobile_number,
                   :home_area_number, :work_area_number, :mobile_area_number,
                   :receive_newsletter,
@@ -35,10 +37,9 @@ class Person < ActiveRecord::Base
   validates :store, presence: true
   validates :environment, inclusion: {in: VALID_ENVIRONMENTS}
   validates :first_name, presence: true
-  #validates :social_security_number, presence: true
 
   # validations: website
-  validate :customer_from_website
+  validate :validate_customer_from_website
 
   # validations details
   validate :valid_social_security_number?
@@ -117,6 +118,10 @@ class Person < ActiveRecord::Base
     @minimal_validation_mode.nil? ? false : @minimal_validation_mode
   end
 
+  def company?
+    self.company_id_number.present?
+  end
+
   private
 
   def avoid_address_validation
@@ -153,13 +158,18 @@ class Person < ActiveRecord::Base
       return true if self.social_security_number.to_s.size > 0
     end
 
+    if self.social_security_number.present? && self.company_id_number.present?
+      # CPF is the brazilian social number
+      errors.add(:social_security_number, :is_company)
+    end
+
     if self.social_security_number.present?
       # CPF is the brazilian social number
       errors.add(:social_security_number, :invalid) unless ::Cpf.new(self.social_security_number).valido?
     end
   end
 
-  def customer_from_website
+  def validate_customer_from_website
     if website? && !minimal_validation?
       Models::Validation::CustomerFromWebsite.new(self).validate
     end

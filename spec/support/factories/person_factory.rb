@@ -19,6 +19,11 @@ FactoryGirl.define do
       password_confirmation "123456"
       social_security_number "141.482.543-93"
 
+      trait :company do
+        company_id_number "123456789"
+        social_security_number nil
+      end
+
       home_number        "11111111"
       home_area_number   "53"
       mobile_number      "22222222"
