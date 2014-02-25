@@ -66,6 +66,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13'
+  gem 'factory_girl_rails', require: false
   gem 'thin'
   gem 'pry'
   gem 'pry-nav'
@@ -79,7 +80,6 @@ group :test do
   gem 'capybara'
   gem 'shoulda', '3.5.0'
   gem 'shoulda-matchers', '~> 2.1.0'
-  gem 'factory_girl_rails'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
   gem 'timecop'
