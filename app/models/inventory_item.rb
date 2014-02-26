@@ -50,7 +50,7 @@ class InventoryItem < ActiveRecord::Base
   scope :within_company, lambda { |company| where(company_id: company.id) }
   # FIXME two queries are being made whenever you want the entries
   scope :with_entry_for_sale, ->{
-    joins(:shipping_box)
+    includes(:shipping_box) # shipping box is not needed
       .joins(:images)
       .joins(:prices)
       .includes(:balances)
@@ -89,7 +89,7 @@ class InventoryItem < ActiveRecord::Base
     where(taxonomy_id: Taxonomy.friendly.find(id).self_and_descendants.pluck(:id))
   }
 
-  scope :items_on_sale_for_website, ->{
+  scope :items_on_listing_for_website, ->{
     with_entry_for_sale.with_website_sale.limit(12).order("inventory_items.created_at desc")
   }
 

@@ -5,12 +5,16 @@ describe InventoryItem do
 
   describe "scopes" do
     describe "#with_entry_for_sale" do
-      it "should return the correct entries" do
-        # each item has 3 entries
-        FactoryGirl.create(:inventory_item)
-        FactoryGirl.create(:inventory_item)
-        FactoryGirl.create(:inventory_item)
+      let(:item1) { create(:inventory_item) }
+      let(:item2) { create(:inventory_item) }
+      let(:item3) { create(:inventory_item) }
 
+      before do
+        # each item has 3 entries
+        item1 and item2 and item3
+      end
+
+      it "should return the correct entries" do
         items = InventoryItem.order("id ASC").first(2)
         items[0].balances.first .update_attribute(:on_sale, false)
         items[0].balances.second.update_attribute(:on_sale, false)
@@ -20,6 +24,14 @@ describe InventoryItem do
         result = InventoryItem.with_entry_for_sale.limit(2).order("inventory_items.id ASC")
         result[0].entry_for_website_sale.id.should == items[0].balances.last.id
         result[1].entry_for_website_sale.id.should == items[1].balances.last.id
+      end
+
+      it "returns items missing a shipping box" do
+        item2.shipping_box = nil
+        item2.save
+
+        result = InventoryItem.with_entry_for_sale.limit(2).order("inventory_items.id ASC")
+        result.should == [item1, item2]
       end
     end
 

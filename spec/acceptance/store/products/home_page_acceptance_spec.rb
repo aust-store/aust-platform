@@ -15,12 +15,33 @@ feature "Store/Products in home page" do
     page.should have_content product.name
   end
 
-  describe "edge cases" do
-    context "As user in the homepage" do
-      scenario "I can see the product when global sales are disabled" do
+  describe "As user in the homepage" do
+    context "visible products" do
+      scenario "I see the product when global sales are disabled" do
         CompanySetting.first.update_attributes(sales_enabled: "0")
         visit root_path
         page.should have_content product.name
+      end
+
+      scenario "I see a product with an invalid shipping box" do
+        product.shipping_box = nil
+        product.save
+        visit root_path
+        page.should have_content product.name
+      end
+    end
+
+    describe "invisible products" do
+      scenario "I can't see items without entries for website sale" do
+        product.entries.each { |e| e.update_attributes(website_sale: false) }
+        visit root_path
+        page.should_not have_content product.name
+      end
+
+      scenario "I can't see items without a cover image" do
+        product.images.cover.update_all(cover: false)
+        visit root_path
+        page.should_not have_content product.name
       end
     end
   end
