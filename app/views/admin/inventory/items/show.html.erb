@@ -11,6 +11,9 @@
       image: 'admin/icons/edit_16.png' %>
   </div>
   <p>
+    ID único interno: #<%= @item.id %>
+  </p>
+  <p>
     <% if @taxonomy.present? %>
       <%= t('.category') %>: <%= raw @taxonomy.map { |e| e.name }.join(' <span class="gray_arrow">►</span> ') %>
     <% else %>
