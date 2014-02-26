@@ -20,6 +20,9 @@
   <% if @item.tag_list.present? %>
     <p>Etiquetas: <%= @item.tag_list %></p>
   <% end %>
+  <% if @item.supplier_id.present? %>
+    <p>Fornecedor: <%= @item.supplier.first_name %></p>
+  <% end %>
 </header>
 
 <div class="main_container show_item">

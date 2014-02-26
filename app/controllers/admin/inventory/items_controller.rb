@@ -38,12 +38,14 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def new
+    load_suppliers
     item = current_company.items.new
 
     @item = View::Form::InventoryItem.new(self).form_object(item)
   end
 
   def edit
+    load_suppliers
     @show_entry_fields = false
     item = current_company.items.includes(:shipping_box).friendly.find(params[:id])
 
@@ -60,6 +62,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     if @item.save(params[:inventory_item])
       redirect_to admin_inventory_items_url
     else
+      load_suppliers
       build_nested_fields_errors
       @item = View::Form::InventoryItem.new(self).form_object(@item)
       render "new"
@@ -75,6 +78,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     if @item.update_attributes params[:inventory_item]
       redirect_to admin_inventory_item_url(@item)
     else
+      load_suppliers
       build_nested_fields_errors
       @item = View::Form::InventoryItem.new(self).form_object(@item)
       render "edit"
@@ -170,5 +174,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
   def load_custom_fields
     @custom_fields = current_company.custom_fields.where(related_type: "InventoryItem")
+  end
+
+  def load_suppliers
+    @suppliers = current_company.suppliers.to_a.map { |s| [s.first_name, s.id] }
   end
 end

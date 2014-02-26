@@ -12,6 +12,11 @@ feature "Inventory Item form" do
     @taxonomy2    = create(:taxonomy, name: "Tennis", store: @company)
     @manufacturer = create(:manufacturer, name: "Github", admin_user: @admin_user, company: @company)
     @custom_field = create(:custom_field, name: "Note", taxonomies: [@taxonomy], company: @company)
+
+    create(:person, customer: true, supplier: false, store: @company)
+    @supplier1 = create(:person, customer: false, supplier: true, store: @company)
+    @supplier2 = create(:person, customer: false, supplier: true, store: @company)
+    create(:person, customer: false, supplier: true)
     login_into_admin
   end
 
@@ -32,6 +37,7 @@ feature "Inventory Item form" do
       fill_in "#{prefix}_year", with: "2013"
       fill_in "#{prefix}_name", with: "Air Max"
 
+      select @supplier2.first_name, from: "#{prefix}_supplier_id"
       fill_in "#{prefix}_tag_list", with: "yes, no"
       fill_in "#{prefix}_barcode", with: "123456789"
       fill_in "#{prefix}_reference_number", with: "987"
@@ -66,6 +72,7 @@ feature "Inventory Item form" do
       created_item.year.should == 2013
       created_item.name.should == "Air Max"
 
+      created_item.supplier.should == @supplier2
       created_item.tag_list.should == %w(yes no)
       created_item.barcode.should == "123456789"
       created_item.reference_number.should == "987"
@@ -88,6 +95,9 @@ feature "Inventory Item form" do
       manufacturers.map(&:name)         .should =~ ["Github", "My custom manufacturer"]
       manufacturers.map(&:company_id)   .should =~ [@company.id, @company.id]
       manufacturers.map(&:admin_user_id).should =~ [@admin_user.id, @admin_user.id]
+
+      visit admin_inventory_item_path(created_item)
+      page.should have_content @supplier2.first_name
     end
 
     scenario "As a store admin, I see validation errors if I miss some field" do

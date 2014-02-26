@@ -15,6 +15,9 @@ class Company < ActiveRecord::Base
   has_many :customers, ->{
     includes(:roles).where("roles.name = ?", "customer").references(:roles)
   }, foreign_key: "store_id", class_name: "Person"
+  has_many :suppliers, ->{
+    includes(:roles).where("roles.name = ?", "supplier").references(:roles)
+  }, foreign_key: "store_id", class_name: "Person"
 
   has_one :address, as: :addressable
   has_one :contact, as: :contactable

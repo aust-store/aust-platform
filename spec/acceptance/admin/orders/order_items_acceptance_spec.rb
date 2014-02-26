@@ -18,6 +18,7 @@ feature "Orders Management" do
         puts ""
         puts page.body
         puts ""
+        puts "OrderItem: #{OrderItem.all.inspect}"
       end
     end
 
@@ -67,6 +68,7 @@ feature "Orders Management" do
       Order.all
       OrderItem.all
 
+      order.items.first.status.should == "pending"
       option_tags = []
       all("#order_items_attributes_0_status").each do |result|
         option_tags << result.text

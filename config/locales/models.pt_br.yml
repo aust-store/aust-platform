@@ -16,6 +16,7 @@ pt_br:
         tag_list: "Etiquetas"
         barcode: "Código de barras"
         reference_number: "Número de referência"
+        supplier_id: "Fornecedor"
       inventory_item_image:
         image: "Imagem"
       custom_field:

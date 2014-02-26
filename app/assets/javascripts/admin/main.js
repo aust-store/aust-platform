@@ -2,6 +2,8 @@ $(document).ready(function(){
   $('input[placeholder],textarea[placeholder]').placeholder();
 
   /* selectize.js */
+  $("select.js_selectize").selectize();
+
   $("input.js_taggable").selectize({
     plugins: ['restore_on_backspace', 'remove_button'],
     delimiter: ',',

@@ -11,6 +11,10 @@ describe Admin::Inventory::ItemsController do
   before do
     subject.stub(:current_company) { company }
     company.stub_chain(:taxonomies, :flat_hash_tree) { double }
+    company.stub_chain(:suppliers, :to_a) do
+      [ double(id: 1, first_name: "Coke"),
+        double(id: 2, first_name: "Pepsi") ]
+    end
   end
 
   describe "GET index" do

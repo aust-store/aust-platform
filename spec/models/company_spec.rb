@@ -56,19 +56,26 @@ describe Company do
     end
   end
 
-  describe "associations" do
+  describe "scopes" do
     let(:company) { create(:company) }
+    before do
+      create(:role, :customer)
+      create(:role, :supplier)
+    end
 
-    describe "customers" do
-      before do
-        create(:role, :customer)
-        create(:role, :supplier)
-      end
-
+    describe ".customers" do
       it "loads only customers, not suppliers" do
         customer = create(:person, customer: true, store: company)
         create(:person, customer: false, supplier: true, store: company)
         company.customers.should == [customer]
+      end
+    end
+
+    describe ".suppliers" do
+      it "loads only suppliers, not customers" do
+        supplier = create(:person, supplier: true, customer: false, store: company)
+        create(:person, customer: true, supplier: false, store: company)
+        company.suppliers.should == [supplier]
       end
     end
   end

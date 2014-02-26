@@ -14,6 +14,7 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :user, class_name: "AdminUser", foreign_key: 'admin_user_id'
   belongs_to :company
   belongs_to :taxonomy
+  belongs_to :supplier, class_name: "Person"
 
   has_many :prices,
     ->{ order("inventory_item_prices.id asc").references(:inventory_item_prices) },

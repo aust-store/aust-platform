@@ -23,10 +23,10 @@ Admin.CustomFields = function(options) {
   this.updateFields = function(value) {
     $(options.selector).each(function() {
       value = ""+value;
+      var element = $(this);
 
-      var element = $(this),
-          parentDiv = element.closest("div.input"),
-          visibleRecords = element.data(options.matchingRecord).split(","),
+      var parentDiv = element.closest("div.input"),
+          visibleRecords = (""+element.data(options.matchingRecord)).split(","),
           showForAll = !visibleRecords[0].length,
           isMatch = $.inArray(value, visibleRecords) >= 0;
 
