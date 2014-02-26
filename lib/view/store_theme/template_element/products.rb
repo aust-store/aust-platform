@@ -39,7 +39,7 @@ module View
         private
 
         def add_to_cart_link(product)
-          if view.company.sales_enabled?
+          if ::Store::Policy::ItemForCart.new(product).valid?
             raw link_to(
               "Comprar",
               cart_items_path(id: product),
