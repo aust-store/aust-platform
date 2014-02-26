@@ -38,7 +38,15 @@
 </div>
 
 <div class="secondary_fields">
-  <%= item.input :supplier_id, collection: @suppliers, input_html: { class: "js_selectize" } %>
+  <% if @suppliers.present? %>
+    <%= item.input :supplier_id, collection: @suppliers, input_html: { class: "js_selectize" } %>
+  <% else %>
+    <p class="hint">
+      Não há fornecedores cadastrados.
+      <%= link_to "Cadastre um fornecedor", new_admin_person_path(supplier: 1) %>.
+    </p>
+  <% end %>
+
   <%= taggable_input :tag_list, item, @current_company.items %>
   <%= item.input :barcode, as: :string, required: false %>
   <%= item.input :reference_number, as: :string, required: false %>

@@ -12,7 +12,11 @@ class Admin::PeopleController < Admin::ApplicationController
   def new
     @resource = Person.new
     @resource.addresses.build
-    @resource.roles << Role.customer.first
+    if params[:supplier].present?
+      @resource.roles << Role.supplier.first
+    else
+      @resource.roles << Role.customer.first
+    end
   end
 
   def show
