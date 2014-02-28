@@ -62,6 +62,7 @@ group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller', '0.7.2'
+  gem 'rails-dev-tweaks', '~> 1.1'
 end
 
 group :development, :test do
