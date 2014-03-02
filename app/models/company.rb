@@ -50,7 +50,7 @@ class Company < ActiveRecord::Base
   end
 
   def items_on_sale_for_website_main_page
-    self.items.items_on_sale_for_website
+    self.items.items_on_listing_for_website
   end
 
   def items_on_sale_in_category_for_website(taxonomy_id)

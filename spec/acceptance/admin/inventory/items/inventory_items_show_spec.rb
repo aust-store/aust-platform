@@ -54,6 +54,7 @@ feature "Inventory Item Management" do
 
       # Basic item informations
       page.should have_content "My item"
+      page.should have_content "ID único interno: ##{@item.id}"
       page.should have_content "Lorem ipsum lorem"
       page.should have_content "Notes: Notass"
       page.should have_content "Categoria: #{taxonomy.parent.name} ► #{taxonomy.name}"

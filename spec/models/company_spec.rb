@@ -81,13 +81,11 @@ describe Company do
   end
 
   describe "#items_on_sale_for_website_main_page" do
-    let(:items) { double }
+    let(:items) { double(items_on_listing_for_website: :items) }
 
     it "returns items on sale the main page" do
-      company = Company.new
-      company.stub(:items) { items }
-      items.stub(:items_on_sale_for_website) { :items }
-      company.items_on_sale_for_website_main_page.should == :items
+      subject.stub(:items) { items }
+      subject.items_on_sale_for_website_main_page.should == :items
     end
   end
 
@@ -95,38 +93,33 @@ describe Company do
     let(:items) { double }
 
     it "returns items on sale in a category" do
-      company = Company.new
-      company.stub(:items) { items }
       items.stub(:items_on_sale_in_category_for_website).with(2) { :items }
-      company.items_on_sale_in_category_for_website(2).should == :items
+      subject.stub(:items) { items }
+      subject.items_on_sale_in_category_for_website(2).should == :items
     end
   end
 
   describe "#zipcode" do
     it "returns the company zipcode" do
-      company = Company.new
-      company.stub(:settings) { double(zipcode: "123") }
-      company.zipcode.should == "123"
+      subject.stub(:settings) { double(zipcode: "123") }
+      subject.zipcode.should == "123"
     end
 
     it "returns nil if no settings were set" do
-      company = Company.new
-      company.stub(:settings) { nil }
-      company.zipcode.should be_nil
+      subject.stub(:settings) { nil }
+      subject.zipcode.should be_nil
     end
   end
 
   describe "#has_zipcode?" do
     it "returns true when a zipcode is present" do
-      company = Company.new
-      company.stub(:zipcode) { "123" }
-      company.has_zipcode?.should == true
+      subject.stub(:zipcode) { "123" }
+      subject.has_zipcode?.should == true
     end
 
     it "returns false when zipcode is empty" do
-      company = Company.new
-      company.stub(:zipcode) { "" }
-      company.has_zipcode?.should == false
+      subject.stub(:zipcode) { "" }
+      subject.has_zipcode?.should == false
     end
   end
 

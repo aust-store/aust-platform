@@ -10,15 +10,7 @@
     quais campos devem aparecer em quais categorias.
   </p>
 
-  <div class="index_header with_search">
-    <div class="buttons">
-      <%= small_button "Novo campo personalizado",
-        new_admin_inventory_custom_field_path,
-        image: 'admin/icons/plus_16.png',
-        id: "add_custom_field"
-      %>
-    </div>
-  </div>
+  <%= render 'index_header' %>
 
   <% if @resources.present? %>
     <table class="listing">

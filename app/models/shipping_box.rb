@@ -36,9 +36,6 @@ class ShippingBox < ActiveRecord::Base
     self.weight = Store::DimensionsSanitization.sanitize(weight) if weight.present?
   end
 
-  def max_box_size
-  end
-
   def calculate_total_dimensions
     if [:width, :height, :length].all? { |f| send(f).present? } == true
       if self.height + self.width + self.length <= 200
@@ -49,4 +46,10 @@ class ShippingBox < ActiveRecord::Base
     end
     true
   end
+
+  private
+
+  # This methods exists so that we can create an errors on the pseudo-field
+  # max_box_size, which is the calculation of all dimensions.
+  def max_box_size; end
 end
