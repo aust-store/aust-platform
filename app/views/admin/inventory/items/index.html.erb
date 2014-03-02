@@ -73,7 +73,7 @@
     <br />
     <div class="gray_text">
       Última mercadoria:
-      <%= @last_addition.taxonomy.name %>
+      <%= @last_addition.taxonomy.name if @last_addition.taxonomy.present? %>
       <%= @last_addition.name %>
       <% if @last_addition.reference_number.present? %>
         (<%= @last_addition.reference_number %>)
