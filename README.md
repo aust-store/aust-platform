@@ -2,6 +2,15 @@
 
 This project is an e-commerce in a SaaS model.
 
+### Dependencies
+
+You need this:
+
+* **ImageMagick**: on Mac, `brew install imagemagick`
+* **phantomjs**: on Mac, `brew install phantomjs`
+* **PostgreSQL**: on Mac,
+`brew install postgresql && initdb /usr/local/var/postgres -E utf8 && initdb store && pg_ctl -D store -l ~/.logfile start`
+
 ### Using subdomains locally
 
 The app requires subdomains. To be able to develop in the local machine, follow
