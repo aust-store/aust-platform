@@ -79,6 +79,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       redirect_to admin_inventory_item_url(@item)
     else
       load_suppliers
+      build_item_associations
       build_nested_fields_errors
       @item = View::Form::InventoryItem.new(self).form_object(@item)
       render "edit"
