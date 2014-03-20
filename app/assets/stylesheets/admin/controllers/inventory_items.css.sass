@@ -42,6 +42,7 @@
 
     div.input.string,
     div.input.text,
+    div.input.radio_buttons,
     div.input.select,
     div.input.file
       label
@@ -63,6 +64,18 @@
       span.hint
         margin: 2px 0 3px 153px
 
+    div.input.radio_buttons
+      .input_wrapper
+        margin-left: 150px
+        display: table
+      input
+        width: auto
+        display: inline-block
+      label.radio
+        display: table
+      span.hint
+        margin-top: 20px
+
     section
       border-top: 1px solid #eaeaea
       display: table
@@ -75,10 +88,6 @@
       color: black
 
     fieldset
-      display: table
-      margin: 0
-      border: 0
-      padding: 0
       .fields
         width: 350px
         float: left

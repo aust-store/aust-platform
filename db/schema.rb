@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204223539) do
+ActiveRecord::Schema.define(version: 20140225230047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,51 +132,22 @@ ActiveRecord::Schema.define(version: 20140204223539) do
   add_index "contacts", ["contactable_id"], name: "index_contacts_on_contactable_id", using: :btree
   add_index "contacts", ["contactable_type"], name: "index_contacts_on_contactable_type", using: :btree
 
-  create_table "customers", force: true do |t|
-    t.string   "email",                  default: ""
-    t.string   "encrypted_password",     default: "",   null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.string   "authentication_token"
+  create_table "custom_fields", force: true do |t|
+    t.integer  "company_id"
+    t.string   "related_type"
+    t.string   "name"
+    t.string   "alphanumeric_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "first_name"
-    t.text     "last_name"
-    t.string   "social_security_number"
-    t.string   "nationality"
-    t.boolean  "receive_newsletter"
-    t.string   "mobile_number"
-    t.string   "home_number"
-    t.string   "work_number"
-    t.string   "home_area_number"
-    t.string   "work_area_number"
-    t.string   "mobile_area_number"
-    t.integer  "store_id"
-    t.boolean  "enabled",                default: true
-    t.string   "environment"
-    t.boolean  "has_password",           default: true
-    t.uuid     "uuid"
   end
 
-  add_index "customers", ["authentication_token"], name: "index_customers_on_authentication_token", unique: true, using: :btree
-  add_index "customers", ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true, using: :btree
-  add_index "customers", ["email"], name: "index_customers_on_email", using: :btree
-  add_index "customers", ["enabled"], name: "index_customers_on_enabled", using: :btree
-  add_index "customers", ["environment"], name: "index_customers_on_environment", using: :btree
-  add_index "customers", ["receive_newsletter"], name: "index_customers_on_receive_newsletter", using: :btree
-  add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
-  add_index "customers", ["store_id"], name: "index_customers_on_store_id", using: :btree
-  add_index "customers", ["uuid"], name: "index_customers_on_uuid", using: :btree
+  add_index "custom_fields", ["company_id"], name: "index_custom_fields_on_company_id", using: :btree
+  add_index "custom_fields", ["related_type"], name: "index_custom_fields_on_related_type", using: :btree
+
+  create_table "custom_fields_taxonomies", id: false, force: true do |t|
+    t.integer "custom_field_id"
+    t.integer "taxonomy_id"
+  end
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -266,13 +237,17 @@ ActiveRecord::Schema.define(version: 20140204223539) do
     t.uuid     "uuid"
     t.string   "barcode"
     t.string   "reference_number"
+    t.hstore   "custom_fields"
+    t.integer  "supplier_id"
   end
 
   add_index "inventory_items", ["barcode"], name: "index_inventory_items_on_barcode", using: :btree
   add_index "inventory_items", ["company_id"], name: "index_inventory_items_on_company_id", using: :btree
+  add_index "inventory_items", ["custom_fields"], name: "index_inventory_items_on_custom_fields", using: :gin
   add_index "inventory_items", ["manufacturer_id"], name: "index_inventory_items_on_manufacturer_id", using: :btree
   add_index "inventory_items", ["reference_number"], name: "index_inventory_items_on_reference_number", using: :btree
   add_index "inventory_items", ["slug"], name: "index_inventory_items_on_slug", using: :btree
+  add_index "inventory_items", ["supplier_id"], name: "index_inventory_items_on_supplier_id", using: :btree
   add_index "inventory_items", ["taxonomy_id"], name: "index_inventory_items_on_taxonomy_id", using: :btree
   add_index "inventory_items", ["uuid"], name: "index_inventory_items_on_uuid", using: :btree
 
@@ -289,8 +264,8 @@ ActiveRecord::Schema.define(version: 20140204223539) do
 
   create_table "order_items", force: true do |t|
     t.integer  "inventory_item_id"
-    t.decimal  "price",              precision: 8, scale: 2
-    t.decimal  "quantity",           precision: 8, scale: 2
+    t.decimal  "price",                  precision: 8, scale: 2
+    t.decimal  "quantity",               precision: 8, scale: 2
     t.integer  "inventory_entry_id"
     t.integer  "cart_id"
     t.integer  "order_id"
@@ -299,6 +274,7 @@ ActiveRecord::Schema.define(version: 20140204223539) do
     t.string   "status"
     t.integer  "parent_id"
     t.uuid     "uuid"
+    t.decimal  "price_for_installments", precision: 8, scale: 2
   end
 
   add_index "order_items", ["cart_id"], name: "index_order_items_on_cart_id", using: :btree
@@ -338,8 +314,11 @@ ActiveRecord::Schema.define(version: 20140204223539) do
     t.string   "environment"
     t.uuid     "uuid"
     t.string   "payment_type"
+    t.integer  "admin_user_id"
+    t.decimal  "total",         precision: 8, scale: 2
   end
 
+  add_index "orders", ["admin_user_id"], name: "index_orders_on_admin_user_id", using: :btree
   add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
   add_index "orders", ["environment"], name: "index_orders_on_environment", using: :btree
@@ -380,6 +359,61 @@ ActiveRecord::Schema.define(version: 20140204223539) do
   add_index "payment_statuses", ["order_id"], name: "index_payment_statuses_on_order_id", using: :btree
   add_index "payment_statuses", ["status"], name: "index_payment_statuses_on_status", using: :btree
 
+  create_table "people", force: true do |t|
+    t.string   "email",                  default: ""
+    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "authentication_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "first_name"
+    t.text     "last_name"
+    t.string   "social_security_number"
+    t.string   "nationality"
+    t.boolean  "receive_newsletter"
+    t.string   "mobile_number"
+    t.string   "home_number"
+    t.string   "work_number"
+    t.string   "home_area_number"
+    t.string   "work_area_number"
+    t.string   "mobile_area_number"
+    t.integer  "store_id"
+    t.boolean  "enabled",                default: true
+    t.string   "environment"
+    t.boolean  "has_password",           default: true
+    t.uuid     "uuid"
+    t.string   "company_id_number"
+  end
+
+  add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", unique: true, using: :btree
+  add_index "people", ["confirmation_token"], name: "index_people_on_confirmation_token", unique: true, using: :btree
+  add_index "people", ["email"], name: "index_people_on_email", using: :btree
+  add_index "people", ["enabled"], name: "index_people_on_enabled", using: :btree
+  add_index "people", ["environment"], name: "index_people_on_environment", using: :btree
+  add_index "people", ["receive_newsletter"], name: "index_people_on_receive_newsletter", using: :btree
+  add_index "people", ["reset_password_token"], name: "index_people_on_reset_password_token", unique: true, using: :btree
+  add_index "people", ["store_id"], name: "index_people_on_store_id", using: :btree
+  add_index "people", ["uuid"], name: "index_people_on_uuid", using: :btree
+
+  create_table "people_roles", force: true do |t|
+    t.integer "person_id"
+    t.integer "role_id"
+  end
+
+  add_index "people_roles", ["person_id"], name: "index_people_roles_on_person_id", using: :btree
+  add_index "people_roles", ["role_id"], name: "index_people_roles_on_role_id", using: :btree
+
   create_table "pos_cash_entries", force: true do |t|
     t.uuid     "uuid"
     t.integer  "admin_user_id"
@@ -394,6 +428,12 @@ ActiveRecord::Schema.define(version: 20140204223539) do
 
   add_index "pos_cash_entries", ["admin_user_id"], name: "index_pos_cash_entries_on_admin_user_id", using: :btree
   add_index "pos_cash_entries", ["company_id"], name: "index_pos_cash_entries_on_company_id", using: :btree
+
+  create_table "roles", force: true do |t|
+    t.string "name"
+  end
+
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "shipping_boxes", force: true do |t|
     t.decimal  "length",            precision: 8, scale: 2
@@ -424,6 +464,24 @@ ActiveRecord::Schema.define(version: 20140204223539) do
 
   add_index "super_admin_users", ["email"], name: "index_super_admin_users_on_email", unique: true, using: :btree
   add_index "super_admin_users", ["reset_password_token"], name: "index_super_admin_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string "name"
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "taxonomies", force: true do |t|
     t.text     "name"

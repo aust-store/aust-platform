@@ -21,6 +21,7 @@ pt_br:
         image: "Imagem"
       custom_field:
         name: "Nome do campo"
+        field_type: "Tipo"
       person:
         first_name:   "Nome"
         last_name:    "Sobrenome"

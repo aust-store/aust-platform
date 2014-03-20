@@ -371,7 +371,9 @@ CREATE TABLE custom_fields (
     name character varying(255),
     alphanumeric_name character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    field_type character varying(255),
+    options hstore
 );
 
 
@@ -1957,6 +1959,13 @@ CREATE INDEX index_custom_fields_on_company_id ON custom_fields USING btree (com
 
 
 --
+-- Name: index_custom_fields_on_options; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_fields_on_options ON custom_fields USING gin (options);
+
+
+--
 -- Name: index_custom_fields_on_related_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2704,3 +2713,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140221195034');
 INSERT INTO schema_migrations (version) VALUES ('20140223144047');
 
 INSERT INTO schema_migrations (version) VALUES ('20140225230047');
+
+INSERT INTO schema_migrations (version) VALUES ('20140309233819');

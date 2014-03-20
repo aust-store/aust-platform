@@ -6,13 +6,13 @@
 
 <div class="main_container custom_fields_index">
   <p>
-    Estes campos aparecem no formulário de estoque. Você deve definir
-    quais campos devem aparecer em quais categorias.
+    Campos personalizados aparecem
+    no formulário de mercadorias.
   </p>
 
-  <%= render 'index_header' %>
-
   <% if @resources.present? %>
+    <%= render 'index_header' %>
+
     <table class="listing">
       <thead>
         <tr>
@@ -39,20 +39,28 @@
         <% end %>
       </tbody>
     </table>
+
+    <br />
+
+    <p class="hint">
+      Dica: identificação serve para mostrar esse valor na página principal.
+      Esta informação é útil para designers.
+    </p>
+    <p class="hint">
+      Dica 2: se você excluir um campo, peça para seu designer remover o mesmo
+      do layout da loja.
+    </p>
   <% else %>
-    <strong>
-      Sem itens cadastrados.
+    <center>
+      <strong>
+        Não há campos cadastrados.
+      </strong>
+      <%= small_button "Criar novo campo personalizado",
+        new_admin_inventory_custom_field_path,
+        image: 'admin/icons/plus_16.png',
+        id: "add_custom_field"
+      %>
     </strong>
   <% end %>
 
-  <br />
-
-  <p class="hint">
-    Dica: identificação serve para mostrar esse valor na página principal.
-    Esta informação é útil para designers.
-  </p>
-  <p class="hint">
-    Dica 2: se você excluir um campo, peça para seu designer remover o mesmo
-    do layout da loja.
-  </p>
 </div>

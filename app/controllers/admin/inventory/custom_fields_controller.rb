@@ -10,6 +10,7 @@ module Admin
 
       def new
         @resource = CustomField.new
+        @resource.options = { "values" => "[\"\", \"\"]" }
         @taxonomies = current_company.taxonomies.roots
       end
 
@@ -41,7 +42,10 @@ module Admin
       private
 
       def resource_params
-        params.require(:custom_field).permit(:name, :taxonomy_ids => [])
+        params.require(:custom_field)
+              .permit(:name, :field_type,
+                      :taxonomy_ids => [],
+                      :options => { :values => [] })
       end
 
       def load_taxonomies

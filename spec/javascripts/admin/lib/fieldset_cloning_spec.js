@@ -12,6 +12,25 @@ describe('FieldsetCloning', function() {
     subject = new FieldsetCloning.Cloning(eventTrigger);
   });
 
+  describe('cloning a node with a regular array (no number specified)', function() {
+    it('keeps the former fieldset name', function() {
+      $('[name="inventory_item[option][]"]').length.should.equal(1);
+      $('#cost_per_unit_0').length.should.equal(1);
+      $('#cost_per_unit_1').length.should.equal(0);
+      $('#cost_per_unit_2').length.should.equal(0);
+      subject.clone();
+      $('[name="inventory_item[option][]"]').length.should.equal(2);
+      $('#cost_per_unit_0').length.should.equal(1);
+      $('#cost_per_unit_1').length.should.equal(1);
+      $('#cost_per_unit_2').length.should.equal(0);
+      subject.clone();
+      $('[name="inventory_item[option][]"]').length.should.equal(3);
+      $('#cost_per_unit_0').length.should.equal(1);
+      $('#cost_per_unit_1').length.should.equal(1);
+      $('#cost_per_unit_2').length.should.equal(1);
+    });
+  });
+
   describe('cloning a node', function() {
     var input1, input2, label1, label2;
 

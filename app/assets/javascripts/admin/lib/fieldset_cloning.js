@@ -68,6 +68,7 @@ FieldsetCloning.Cloning = function(cloneButton) {
     if (currentId) {
       input.attr('id', newIdBasedOnOldElement(currentId));
     }
+    input.val("");
     return input;
   }
 
@@ -164,19 +165,33 @@ FieldsetCloning.Cloning = function(cloneButton) {
     @private
    */
   var newNameBasedOnOldElement = function(currentName) {
-    var currentNumber, newNumber, newName;
-    currentNumber = currentName.match(/\[([0-9])\]\[/g).slice(-1)[0].match(/[0-9]/);
-    newNumber     = parseInt(currentNumber) + 1;
-    newName       = currentName.replace("["+currentNumber+"][", "["+newNumber+"][");
+    var currentNumber = currentName.match(/\[([0-9])\]\[/g),
+        newName = currentName,
+        newNumber;
+
+    if (currentNumber) {
+      currentNumber = currentNumber.slice(-1)[0].match(/[0-9]/);
+      newNumber     = parseInt(currentNumber) + 1;
+      newName       = currentName.replace("["+currentNumber+"][", "["+newNumber+"][");
+    }
+
     return newName;
   }
 
   var newIdBasedOnOldElement = function(currentId) {
-    var currentNumber, newNumber, newName;
+    var currentNumber = currentId.match(/[_|\[]([0-9])[_|\]]/g),
+        newName = currentId,
+        newNumber;
 
-    currentNumber = currentId.match(/_([0-9])_/g).slice(-1)[0].match(/[0-9]/);
-    newNumber     = parseInt(currentNumber) + 1;
-    newName       = currentId.replace("_"+currentNumber+"_", "_"+newNumber+"_");
+    if (currentNumber) {
+      currentNumber = currentNumber.slice(-1)[0].match(/[0-9]/);
+      newNumber     = parseInt(currentNumber) + 1;
+      newName       = currentId.replace("_"+currentNumber+"_", "_"+newNumber+"_");
+    } else if (currentNumber = currentId.match(/[^_]([0-9]{0,})$/)) {
+      newNumber     = parseInt(currentNumber[0]) + 1;
+      newName       = currentId.replace(new RegExp(currentNumber[0]+"$"),
+                                        newNumber);
+    }
     return newName;
   }
 

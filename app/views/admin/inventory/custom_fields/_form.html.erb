@@ -5,20 +5,63 @@
   <div class="column_pane_half left">
     <div class="section">
       <%= f.input :name %>
+      <%= f.input :field_type, collection: [["Texto", :string], ["Seleção", "radio"]], include_blank: false %>
+
+      <div class="vertical_label options_fields for_radio"
+        data-visible-by-select="#custom_field_field_type"
+        data-visible-on-value="radio">
+        <p>
+          Quais valores devem aparecer para o usuário selecionar?
+        </p>
+
+        <%= f.simple_fields_for :options do |o| %>
+          <% @resource.radio_values(false).each_with_index do |value, index| %>
+            <fieldset class="radio_value">
+              <%= o.input "values][",
+                label: "Alternativa",
+                required: false,
+                input_html: {
+                  id: "custom_field_options_values_#{index}",
+                  value: value
+                } %>
+            </fieldset>
+          <% end %>
+
+          <div class="js_add_entry">
+            <%= small_button "Adicionar alternativa", "#",
+              image: 'admin/icons/plus_16.png',
+              class: "js_clone_fieldset",
+                data: { fieldset_to_clone: "radio_value" } %>
+          </div>
+
+        <% end %>
+      </div>
     </div>
   </div>
 
   <div class="column_pane_half right">
     <div class="section">
-      <% @taxonomies.each do |taxonomy| %>
-        <%= hidden_field_tag "custom_field[taxonomy_ids][]" %>
-        <%= check_box_tag "custom_field[taxonomy_ids][]",
-          taxonomy.id,
-          @resource.taxonomies.include?(taxonomy),
-          id: "custom_field_taxonomy_ids_#{taxonomy.id}" %>
+      <% if @taxonomies.present? %>
+        <p>
+          Selecione quais categorias devem ter este campo.
+        </p>
 
-        <%= taxonomy.name %>
+        <% @taxonomies.each do |taxonomy| %>
+          <%= hidden_field_tag "custom_field[taxonomy_ids][]" %>
+          <%= check_box_tag "custom_field[taxonomy_ids][]",
+            taxonomy.id,
+            @resource.taxonomies.include?(taxonomy),
+            id: "custom_field_taxonomy_ids_#{taxonomy.id}" %>
+
+          <%= taxonomy.name %>
+          <br />
+        <% end %>
+
         <br />
+
+        <p class="hint">
+          Para mostrar em todas as categorias, não selecione nenhuma.
+        </p>
       <% end %>
     </div>
   </div>
