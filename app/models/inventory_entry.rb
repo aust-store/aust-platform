@@ -21,16 +21,17 @@ class InventoryEntry < ActiveRecord::Base
   before_create :define_company_on_create
 
   scope :on_sale, lambda {
-    where("inventory_entries.on_sale = ?", true).all_entries_available_for_sale
+    where("inventory_entries.on_sale = ?", true)
+    .with_quantity
   }
 
   scope :for_website, lambda { where("inventory_entries.website_sale = ?", true) }
   scope :for_point_of_sale, lambda { where("inventory_entries.point_of_sale = ?", true) }
-
-  scope :all_entries_available_for_sale, lambda {
-    where("inventory_entries.quantity > 0")
-    .order("inventory_entries.created_at asc, inventory_entries.id asc")
+  scope :with_quantity, lambda { where("inventory_entries.quantity > 0") }
+  scope :default_order, lambda {
+    order("inventory_entries.created_at asc, inventory_entries.id asc")
   }
+  scope :all_entries_available_for_sale, lambda { on_sale.with_quantity.default_order }
 
   class OutOfStock < StandardError; end
 

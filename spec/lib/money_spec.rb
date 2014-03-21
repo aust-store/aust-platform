@@ -26,7 +26,11 @@ describe Money do
       end
 
       it "removes extra decimals if needed" do
-        described_class.new(15123).humanize.should == "R$ 15123,00"
+        described_class.new(15123).humanize.should == "R$ 15.123,00"
+      end
+
+      it "adds thousands separator" do
+        described_class.new(15123555).humanize.should == "R$ 15.123.555,00"
       end
     end
   end

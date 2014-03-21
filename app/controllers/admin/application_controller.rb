@@ -48,10 +48,10 @@ class Admin::ApplicationController < ApplicationController
     @nav_namespace = case request.url
     when /admin\/dashboard/  ; "dashboard"
     when /admin\/inventory/  ; "inventory"
-    when /admin\/statistics/ ; "statistics"
+    when /admin\/reports/    ; "reports"
     when /admin\/(marketing|pages|banner|store_theme)/ ; "marketing"
     when /admin\/store/      ; "store"
-    when /settings|users/   ; "settings"
+    when /settings|users/    ; "settings"
     when /admin\/taxonomies/ ; "inventory" # taxonomies
     when /admin\/order/      ; "orders"
     else nil

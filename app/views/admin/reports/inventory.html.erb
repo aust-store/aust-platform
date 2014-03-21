@@ -1,0 +1,20 @@
+<%= view_header %>
+
+<header>
+  <h1>Estoque</h1>
+</header>
+
+<div class="main_container">
+  <p>
+    <strong>Mercadorias em estoque:</strong> <%= @total_items %>
+  </p>
+  <p>
+    <strong>Total em unidades:</strong> <%= @total_entries_on_sale %>
+  </p>
+  <p>
+    <strong>Valor em estoque:</strong> <%= @stock_value.humanize %>
+  </p>
+  <p>
+    <strong>Receita estimada com venda:</strong> <%= @stock_estimated_revenue.humanize %>
+  </p>
+</div>

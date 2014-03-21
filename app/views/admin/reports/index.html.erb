@@ -1,0 +1,19 @@
+<%= view_header back_to: admin_reports_path %>
+
+<header>
+  <h1>Relatórios</h1>
+</header>
+
+<div class="main_container">
+  <%= link_to(inventory_admin_reports_path, title: "inventory_reports", class: "section_icon reports inventory") do %>
+    <div class="text">
+      Como está seu estoque?
+    </div>
+  <% end %>
+
+  <%= link_to(sales_admin_reports_path, title: "sales_reports", class: "section_icon reports sales") do %>
+    <div class="text">
+      Como estão suas vendas?
+    </div>
+  <% end %>
+</div>

@@ -93,7 +93,12 @@ Store::Application.routes.draw do
 
     end
     resources :taxonomies, only: [:index, :create, :update, :destroy]
-    resource  :statistics, only: :show
+    resources :reports, only: :index do
+      collection do
+        get :inventory
+        get :sales
+      end
+    end
     resources :store_themes, only: [:index, :update, :create]
     resources :pages, except: [:show]
     resource  :company_contact, only: [:edit, :update]

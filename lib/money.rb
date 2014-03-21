@@ -20,6 +20,8 @@ class Money
     amount = amount.gsub(/[\.|,]([0-9]{0,2})$/, ',\1')
     amount = amount.gsub(/[\.|,]([0-9]{2}).*/, ',\1')
     amount = amount.gsub(/,([0-9]{1})$/, ',\10')
+    amount = amount.reverse.gsub(/...(?=.)/,'\&.').reverse
+    amount = amount.gsub(/\.,/, ',')
     amount
   end
 end

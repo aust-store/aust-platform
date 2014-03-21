@@ -1,0 +1,87 @@
+$icon_hover_background: darken(#eff8fc, 10%)
+$normal_background: #eee
+
+// normal section icons (like reports)
+a.section_icon
+  display: table
+  background: $normal_background no-repeat
+  background-size: 60px 60px
+  background-position: 0 center
+  padding: 15px
+  padding-left: 70px
+  padding-right: 25px
+  border-radius: 50px
+  margin-bottom: 15px
+  text-decoration: none !important
+  font-size: 1.2em
+  &.reports
+    &.inventory
+      background-image: image-url('admin/icons/reports/inventory.jpg')
+    &.sales
+      background-image: image-url('admin/icons/reports/sales.jpg')
+
+// like the marketing page
+a.big_section_icon
+  width: 200px
+  display: table
+  text-decoration: none !important
+  float: left
+  margin: 0 20px 30px 100px
+  &:active, &:hover
+    .image
+      background-color: $icon_hover_background
+      box-shadow: none
+      transform:         rotate(5deg)
+      -moz-transform:    rotate(5deg)
+      -ms-transform:     rotate(5deg)
+      -webkit-transform: rotate(5deg)
+      background-size: 80%
+      &.marketing_themes
+        background-size: 92%
+    .text
+      color: inherit
+
+  &.odd
+    margin: 0 auto 30px auto
+    float: none
+  .text
+    text-align: center
+    margin-top: 7px
+    color: #666
+    font-size: 0.9em
+
+  .image
+    position: relative
+    overflow: hidden
+    width: 200px
+    height: 200px
+    display: table
+    background-color: $normal_background
+    background-repeat: no-repeat
+    background-position: center center
+    background-size: 75%
+    border-radius: 250px
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25)
+    position: relative
+    overflow: hidden
+    transition: 0.5s ease-in-out
+    -moz-transition: 0.5s ease-in-out
+    -ms-transition: 0.5s ease-in-out
+    -webkit-transition: 0.5s ease-in-out
+
+    &:before
+      content: ""
+      position: absolute
+      width: 200%
+      height: 200%
+      top: -50%
+      left: -50%
+      z-index: -1
+
+    &.marketing_pages
+      background-image: image-url('admin/icons/marketing/pages.png')
+    &.marketing_banners
+      background-image: image-url('admin/icons/marketing/banners.png')
+    &.marketing_themes
+      background-image: image-url('admin/icons/marketing/themes.png')
+      background-size: 85%

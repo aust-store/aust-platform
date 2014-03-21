@@ -12,7 +12,7 @@ pt_br:
       taxonomies:    "Categorias"
       colaborators:  "Colaboradores"
       settings:      "Configurações"
-      statistics:    "Relatórios"
+      reports:       "Relatórios"
       offline_sales: "Vendas offline"
       point_of_sale: "Ponto de venda"
       more:          "Mais"
