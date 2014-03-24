@@ -26,7 +26,7 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
 
     @item_images       = @item.images.default_order.limit(10).dup
 
-    @inventory_entries = @item.all_entries_available_for_sale
+    @inventory_entries = @item.all_entries_elligible_for_sale
     @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)
 
     @shipping_box      = DecorationBuilder.shipping_box(@item.shipping_box)

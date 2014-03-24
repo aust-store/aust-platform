@@ -22,7 +22,7 @@ feature "Adding Inventory Entries" do
       page.should have_content "R$ 11,00"
 
       # pre-existing entry
-      page.should have_content "R$ 20,00"
+      page.should have_content "R$ 9,11"
     end
   end
 end

@@ -21,7 +21,7 @@ class OrderItem < ActiveRecord::Base
 
   scope :same_line_items, ->(inventory_entry) {
     where("inventory_entry_id = ?", inventory_entry.id)
-      .where("price = ?", inventory_entry.inventory_item.price)
+      .where("price = ?", inventory_entry.inventory_item.price.to_f)
       .parent_items
   }
 

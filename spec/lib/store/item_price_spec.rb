@@ -1,6 +1,7 @@
 require "contracts/lib/store/item_price_contract"
 require "store/item_price"
 require "active_support/all"
+require "money"
 
 describe Store::ItemPrice do
   it_behaves_like "item price contract"
@@ -14,7 +15,7 @@ describe Store::ItemPrice do
 
   describe "#price" do
     it "returns the first entry's price" do
-      expect(subject.price).to eql(2)
+      expect(subject.price).to eq(Money.new(2))
     end
 
     it "returns nil if entry's price is nil" do
@@ -25,7 +26,7 @@ describe Store::ItemPrice do
 
   describe "#price_for_installments" do
     it "returns the first entry's price" do
-      expect(subject.price_for_installments).to eql(4)
+      expect(subject.price_for_installments).to eq Money.new(4)
     end
 
     it "returns nil if entry's price is nil" do

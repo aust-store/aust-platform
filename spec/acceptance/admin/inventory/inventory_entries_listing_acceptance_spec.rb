@@ -34,7 +34,7 @@ feature "Listing inventory entries", js: true, search: true do
     scenario "As a store admin, I want to see items from my company only" do
       page.should have_content "Entry 1"
       page.should have_content "4"
-      page.should have_content "R$ 20,00"
+      page.should have_content "R$ 9,11"
 
       page.should have_content "Entry 2"
       page.should have_content "Entry 3"

@@ -1,17 +1,24 @@
 <%= view_header %>
 
 <header>
-  <h1><%= t('.title') %></h1>
+  <h1>Relatório de vendas</h1>
 </header>
 
 <div class="main_container">
-  <p>
-    <strong><%= t(".sales_today") %>:</strong> <%= @today.humanize %>
-  </p>
-  <p>
-    <strong><%= t(".sales_this_month") %>:</strong> <%= @this_month.humanize %>
-  </p>
-  <p>
-    <strong><%= t(".sales_last_third_days") %>:</strong> <%= @last_thirty_days.humanize %>
-  </p>
+  <table class="properties">
+    <tbody>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Vendas hoje:</td>
+        <td><%= @today.humanize %></td>
+      </tr>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Vendas este mês:</td>
+        <td><%= @this_month.humanize %></td>
+      </tr>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Vendas últimos 30 dias:</td>
+        <td><%= @last_thirty_days.humanize %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

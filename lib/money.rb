@@ -1,9 +1,34 @@
+require "bigdecimal"
 class Money
   attr_reader :amount, :currency
 
   def initialize(amount, currency = "R$")
     @amount   = amount.to_f
     @currency = currency
+  end
+
+  def to_f
+    @amount
+  end
+
+  def to_s
+    @amount.to_s
+  end
+
+  def ==(value)
+    @amount == value
+  end
+
+  def +(value)
+    value = value.to_f if value.respond_to?(:to_f)
+    value = (BigDecimal(@amount.to_s) + value).round(2)
+    Money.new(value)
+  end
+
+  def *(value)
+    value = value.to_f if value.respond_to?(:to_f)
+    value = (BigDecimal(@amount.to_s) * value).round(2)
+    Money.new(value)
   end
 
   def humanize

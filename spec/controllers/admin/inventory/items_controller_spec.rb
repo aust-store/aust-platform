@@ -43,11 +43,7 @@ describe Admin::Inventory::ItemsController do
       Store::OnlineSales::ReasonForItemNotOnSale.any_instance.stub(:reasons)
       item.stub(:taxonomy) { taxonomy }
       item.stub_chain(:images, :default_order, :limit, :dup) { :images }
-      item.stub(:all_entries_available_for_sale)
-    end
-
-    it "should return a single item" do
-      subject.stub_chain(:current_company, :items, :friendly, :find).with("123") { item }
+      item.stub(:all_entries_elligible_for_sale)
     end
 
     it "should return a single item" do

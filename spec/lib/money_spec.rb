@@ -34,4 +34,28 @@ describe Money do
       end
     end
   end
+
+  describe "+" do
+    it "calculates correctly" do
+      result = Money.new(12.34) + 48.999
+      result.should == Money.new(61.34) # 61.339
+    end
+
+    it "calculates money instances" do
+      result = Money.new(12.34) + Money.new(48.999)
+      result.should == Money.new(61.34) # 61.339
+    end
+  end
+
+  describe "*" do
+    it "calculates correctly" do
+      result = Money.new(12.34) * 48
+      result.should == Money.new(592.32) # 592.3199999
+    end
+
+    it "calculates two money instances" do
+      result = Money.new(12.34) * Money.new(48)
+      result.should == Money.new(592.32) # 592.3199999
+    end
+  end
 end

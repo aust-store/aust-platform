@@ -9,9 +9,3 @@ pt_br:
         normal_instructions: |
           Para criar uma subcategoria, passe o mouse sobre uma categoria e clique no botão para criá-la. Após digitar o nome, pressione Enter no seu teclado para salvar, Esc para cancelar. Para editar uma categoria, passe o mouse sobre seu nome e clique no ícone do lápis.
         greatfather_node: "Categorias de produtos"
-    reports:
-      inventory:
-        title: "Relatório de vendas"
-        sales_today: "Vendas hoje"
-        sales_this_month: "Vendas este mês"
-        sales_last_third_days: "Vendas últimos 30 dias"

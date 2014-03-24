@@ -3,6 +3,22 @@ require "spec_helper"
 describe InventoryItemPrice do
   subject { InventoryItemPrice.new }
 
+  describe "validations" do
+    describe "value" do
+      it "doesn't accept an empty value" do
+        build(:inventory_item_price, value: "0").should_not be_valid
+      end
+
+      it "doesn't accept an empty value" do
+        build(:inventory_item_price, value: "").should_not be_valid
+      end
+
+      it "doesn't accept nil value" do
+        build(:inventory_item_price, value: nil).should_not be_valid
+      end
+    end
+  end
+
   describe "callbacks" do
     describe "#sanitize_currency before_validation" do
       it "removes the money symbols and converts the value to float" do
@@ -20,9 +36,14 @@ describe InventoryItemPrice do
     end
   end
 
-  describe "#price=" do
+  describe "#value=" do
     it "converts a string into float before setting it" do
       subject.value = "R$ 12,00"
+      subject.value.should == 12.0
+    end
+
+    it "works with float as well" do
+      subject.value = 12.0
       subject.value.should == 12.0
     end
   end

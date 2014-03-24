@@ -94,7 +94,7 @@ feature "Inventory Item Management" do
 
       context "when item has one entry" do
         scenario "As a store admin, I want to configure which entries are on sale" do
-          first_entry = @item.entries.all_entries_available_for_sale.first
+          first_entry = @item.entries.all_entries_elligible_for_sale.first
           @item.entries.where("inventory_entries.id NOT IN (?)", first_entry.id).destroy_all
 
           visit root_path

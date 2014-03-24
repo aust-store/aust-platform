@@ -205,6 +205,10 @@ pt_br:
               not_a_number: "Quantidade precisa ser um número"
             price:
               greater_than: "%{attribute} deve ter um valor válido"
+        inventory_item_price:
+          attributes:
+            value:
+              greater_than: "Você deve especificar um preço"
         shipping_box:
           attributes:
             max_box_size:

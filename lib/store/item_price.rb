@@ -5,13 +5,17 @@ module Store
     end
 
     def price
-      price = @item.prices.last
-      price.present? ? price.value : 0
+      price_record.present? ? price_record.value : 0
     end
 
     def price_for_installments
-      price = @item.prices.last
-      price.present? ? price.for_installments : 0
+      price_record.present? ? price_record.for_installments : 0
+    end
+
+    private
+
+    def price_record
+      @item.prices.last
     end
   end
 end

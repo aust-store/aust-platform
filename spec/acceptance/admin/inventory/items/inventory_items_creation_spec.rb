@@ -112,7 +112,7 @@ feature "Inventory Item form" do
       page.should_not have_content "Fabricante deve estar presente"
       page.should have_content "Categoria não pode ser vazia"
       page.should have_content "Nome não pode ficar em branco"
-      page.should have_content "Preço não pode ficar em branco"
+      page.should have_content "Você deve especificar um preço"
       page.should have_content "Quantidade não pode ficar em branco"
       page.should have_content "Custo unitário não pode ficar em branco"
     end

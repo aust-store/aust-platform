@@ -3,6 +3,7 @@ require 'bigdecimal'
 module Store
   class Currency
     def self.to_float value
+      value = value.to_s if value.kind_of?(Float)
       return false unless value.kind_of?(String)
       value.gsub!(/[%|\s|A-Za-z]/, '')
 

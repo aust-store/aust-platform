@@ -23,7 +23,7 @@ class MobileAdmin::Inventory::ItemsController < MobileAdmin::ApplicationControll
 
     @item_images       = @item.images.default_order.dup
 
-    @inventory_entries = @item.all_entries_available_for_sale
+    @inventory_entries = @item.all_entries_elligible_for_sale
     @inventory_entries = DecorationBuilder.inventory_entries(@inventory_entries)
 
     @shipping_box      = DecorationBuilder.shipping_box(@item.shipping_box)

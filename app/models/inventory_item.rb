@@ -98,15 +98,15 @@ class InventoryItem < ActiveRecord::Base
   }
 
   def entry_for_website_sale
-    self.balances.on_sale.default_order.for_website.first
+    self.entries.on_sale.default_order.for_website.first
   end
 
   def entry_for_point_of_sale
-    self.balances.on_sale.default_order.for_point_of_sale.first
+    self.entries.on_sale.default_order.for_point_of_sale.first
   end
 
-  def all_entries_available_for_sale
-    self.balances.all_entries_available_for_sale.to_a
+  def all_entries_elligible_for_sale
+    self.entries.all_entries_elligible_for_sale.to_a
   end
 
   def total_quantity

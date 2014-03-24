@@ -38,16 +38,20 @@ feature "Statistics" do
       ]
       FactoryGirl.create(:order, store: @company, items: items, total: 24)
     end
+
+    visit admin_reports_path
   end
 
-  scenario "As a admin, I'd like to add new customers" do
-    Order.last.total.should == 24.0
+  describe "As a admin" do
+    scenario "I see sales reports" do
+      Order.last.total.should == 24.0
 
-    Timecop.travel(Time.local(2013, 10, 10, 15, 10, 10)) do
-      visit admin_statistics_path
-      page.should have_content "Vendas hoje: R$ 24,00"
-      page.should have_content "Vendas este mês: R$ 44,00"
-      page.should have_content "Vendas últimos 30 dias: R$ 45,00"
+      Timecop.travel(Time.local(2013, 10, 10, 15, 10, 10)) do
+        click_on "sales_reports"
+        page.should have_content "Vendas hoje: R$ 24,00"
+        page.should have_content "Vendas este mês: R$ 44,00"
+        page.should have_content "Vendas últimos 30 dias: R$ 45,00"
+      end
     end
   end
 end

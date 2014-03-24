@@ -5,16 +5,26 @@
 </header>
 
 <div class="main_container">
-  <p>
-    <strong>Mercadorias em estoque:</strong> <%= @total_items %>
-  </p>
-  <p>
-    <strong>Total em unidades:</strong> <%= @total_entries_on_sale %>
-  </p>
-  <p>
-    <strong>Valor em estoque:</strong> <%= @stock_value.humanize %>
-  </p>
-  <p>
-    <strong>Receita estimada com venda:</strong> <%= @stock_estimated_revenue.humanize %>
-  </p>
+  <table class="properties">
+    <tbody>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Mercadorias cadastradas:</td>
+        <td><%= @report[:total_inventory_items] %></td>
+      </tr>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Total em unidades:</td>
+        <td><%= @report[:total_entries] %>
+        (<%= @report[:total_entries_on_sale_at_website] %> à venda no site,
+        <%= @report[:total_entries_on_sale_at_pos] %> à venda no ponto de venda)
+      </tr>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Valor em estoque:</td>
+        <td><%= @report[:stock_value].humanize %></td>
+      </tr>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td>Receita estimada com venda:</td>
+        <td><%= @report[:stock_estimated_revenue].humanize %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
