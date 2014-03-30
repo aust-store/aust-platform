@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140225230047) do
+ActiveRecord::Schema.define(version: 20140309233819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,9 +139,12 @@ ActiveRecord::Schema.define(version: 20140225230047) do
     t.string   "alphanumeric_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "field_type"
+    t.hstore   "options"
   end
 
   add_index "custom_fields", ["company_id"], name: "index_custom_fields_on_company_id", using: :btree
+  add_index "custom_fields", ["options"], name: "index_custom_fields_on_options", using: :gin
   add_index "custom_fields", ["related_type"], name: "index_custom_fields_on_related_type", using: :btree
 
   create_table "custom_fields_taxonomies", id: false, force: true do |t|

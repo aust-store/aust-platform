@@ -1,4 +1,10 @@
 class AddUuidToApiRelatedTables < ActiveRecord::Migration
+  class InventoryItem < ActiveRecord::Base; end
+  class Cart          < ActiveRecord::Base; end
+  class Order         < ActiveRecord::Base; end
+  class OrderItem     < ActiveRecord::Base; end
+  class Customer      < ActiveRecord::Base; end
+
   def up
     add_column :carts, :uuid, :uuid
     add_column :orders, :uuid, :uuid

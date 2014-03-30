@@ -1,4 +1,6 @@
 class AddEnabledToCustomers < ActiveRecord::Migration
+  class Customer < ActiveRecord::Base; end
+
   def up
     add_column :customers, :enabled, :bool, default: true
     add_index :customers, :enabled
