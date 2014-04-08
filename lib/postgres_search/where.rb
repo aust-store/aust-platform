@@ -24,6 +24,7 @@ module PostgresSearch
     end
 
     def where_string(table_name, field_name)
+      "#{table_name}.#{field_name} ILIKE #{query.model_sanitize} OR " + \
       "to_tsvector('english', #{table_name}.#{field_name}) @@ to_tsquery(:q)"
     end
   end

@@ -1,7 +1,9 @@
 require "postgres_search/query"
+require "postgres_search/where"
+require "postgres_search/order"
 
 describe PostgresSearch::Query do
-  let(:model)   { double(table_name: "cars") }
+  let(:model)   { double(table_name: "cars", sanitize: "sanitized_value") }
   let(:fields)  { [:name, :description] }
   let(:options) { {keywords: "Tony Montana", fields: fields} }
 
@@ -16,18 +18,10 @@ describe PostgresSearch::Query do
     describe "normal queries" do
       it "returns the SQL string for both fields with an OR in between" do
         subject.where.should ==
+          "cars.name ILIKE sanitized_value OR " + \
           "to_tsvector('english', cars.name) @@ to_tsquery(:q) or " + \
+          "cars.description ILIKE sanitized_value OR " + \
           "to_tsvector('english', cars.description) @@ to_tsquery(:q)"
-      end
-    end
-
-    describe "query with associations" do
-      let(:fields) { [:name, {manufacturer: :name}] }
-
-      it "returns the SQL and also changes the used associations" do
-        subject.where.should ==
-          "to_tsvector('english', cars.name) @@ to_tsquery(:q) or " + \
-          "to_tsvector('english', manufacturers.name) @@ to_tsquery(:q)"
       end
     end
   end

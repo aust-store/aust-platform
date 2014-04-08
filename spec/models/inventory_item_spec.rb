@@ -98,11 +98,13 @@ describe InventoryItem do
     let(:category) { create(:taxonomy, name: "Superb") }
     let!(:item1)  { create(:inventory_item,
                            company: company,
+                           reference_number: "x1393",
                            name: "my item") }
     let!(:item2)  { create(:inventory_item,
                            company: company,
                            name: "ur item2",
                            taxonomy: category,
+                           reference_number: "x1397",
                            tag_list: %w(preowned)) }
     let!(:item3)  { create(:inventory_item,
                            name: "ur item2",
@@ -119,6 +121,13 @@ describe InventoryItem do
 
     it "searches by categories" do
       company.items.search_for("superb").to_a.should == [item2]
+    end
+
+    it "searches by reference number" do
+      company.items.search_for("x1").to_a.should match_array([item1, item2])
+      company.items.search_for("x13").to_a.should match_array([item1, item2])
+      company.items.search_for("x139").to_a.should match_array([item1, item2])
+      company.items.search_for("x1397").to_a.should match_array([item2])
     end
   end
 
