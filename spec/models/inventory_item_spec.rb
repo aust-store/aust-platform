@@ -103,6 +103,7 @@ describe InventoryItem do
     let!(:item2)  { create(:inventory_item,
                            company: company,
                            name: "ur item2",
+                           manufacturer_id: nil,
                            taxonomy: category,
                            reference_number: "x1397",
                            tag_list: %w(preowned)) }

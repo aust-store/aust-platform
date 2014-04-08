@@ -22,6 +22,7 @@ describe PostgresSearch::Search do
     end
 
     it "orders the search by name" do
+      query.stub_chain(:includes, :references)
       order = double
       order.should_receive(:order).with(:order) { query }
 
@@ -31,7 +32,7 @@ describe PostgresSearch::Search do
     end
 
     it "returns the ARel object" do
-      model.stub_chain(:where, :order, :joins) { :arel }
+      model.stub_chain(:where, :order, :includes, :references) { :arel }
       subject.search.should == :arel
     end
   end

@@ -28,10 +28,10 @@ describe PostgresSearch::Where do
 
       it "returns the correct where statement" do
         subject.to_s.should ==
-          "manufacturers.name ILIKE sanitized_value OR " + \
-          "to_tsvector('english', manufacturers.name) @@ to_tsquery(:q) OR " + \
-          "manufacturers.description ILIKE sanitized_value OR " + \
-          "to_tsvector('english', manufacturers.description) @@ to_tsquery(:q)"
+          #"manufacturers.name ILIKE sanitized_value OR " + \
+          "to_tsvector('english', coalesce(manufacturers.name, '')) @@ to_tsquery(:q) OR " + \
+          #"manufacturers.description ILIKE sanitized_value OR " + \
+          "to_tsvector('english', coalesce(manufacturers.description, '')) @@ to_tsquery(:q)"
       end
     end
   end

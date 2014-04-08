@@ -14,7 +14,7 @@ module PostgresSearch
       result = model
         .where(where, q: "#{keywords}:*")
         .order(order)
-      result = result.joins(joins)
+      result = result.includes(joins).references(joins)
       result
     end
 

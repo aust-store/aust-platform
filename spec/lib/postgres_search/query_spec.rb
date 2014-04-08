@@ -18,10 +18,10 @@ describe PostgresSearch::Query do
     describe "normal queries" do
       it "returns the SQL string for both fields with an OR in between" do
         subject.where.should ==
-          "cars.name ILIKE sanitized_value OR " + \
-          "to_tsvector('english', cars.name) @@ to_tsquery(:q) or " + \
-          "cars.description ILIKE sanitized_value OR " + \
-          "to_tsvector('english', cars.description) @@ to_tsquery(:q)"
+          #"cars.name ILIKE sanitized_value OR " + \
+          "to_tsvector('english', coalesce(cars.name, '')) @@ to_tsquery(:q) or " + \
+          #"cars.description ILIKE sanitized_value OR " + \
+          "to_tsvector('english', coalesce(cars.description, '')) @@ to_tsquery(:q)"
       end
     end
   end
