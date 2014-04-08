@@ -221,7 +221,7 @@ feature "Inventory Item form" do
     end
 
     describe "edge cases" do
-      scenario "As a store admin, I leave some fields blank" do
+      scenario "As a store admin, I see errors when leaving some fields blank" do
         fill_in "#{prefix}_taxonomy_attributes_name", with: ""
         find("##{prefix}_taxonomy_id").set ""
         find("##{prefix}_manufacturer_id").set ""
@@ -230,13 +230,24 @@ feature "Inventory Item form" do
         page.should have_content "Categoria não pode ser vazia"
       end
 
-      scenario "manufacturer is missing, but field is always present" do
+      scenario "As admin, manufacturer field is always present even when blank" do
         @item.update_attributes(manufacturer_id: nil)
         visit edit_admin_inventory_item_path(@item)
         find("##{prefix}_manufacturer_attributes_name").should be_present
       end
 
-      scenario "manufacturer is missing, but field is always present", js: true do
+      scenario "As admin, I can remove a manufacturer" do
+        page.should have_field "#{prefix}_manufacturer_attributes_name"
+
+        find("##{prefix}_manufacturer_attributes_name").set ""
+        find("##{prefix}_manufacturer_id").set ""
+        click_button "submit"
+
+        @item.reload.manufacturer_id.should be_nil
+        current_path.should == admin_inventory_item_path(@item)
+      end
+
+      pending "manufacturer is missing, but field is always present", js: true do
         pending "phantomJS is throwing lots of errors"
 
         find("#{prefix}_custom_fields_note").should be_present

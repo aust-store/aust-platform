@@ -139,7 +139,6 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
       end
     else
       params[:inventory_item].delete(:manufacturer_attributes)
-      params[:inventory_item].delete(:manufacturer_id)
     end
 
     #
