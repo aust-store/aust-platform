@@ -21,7 +21,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def show
-    @item_on_sale      = Store::Policy::ItemOnSale.new(@item).on_sale?
+    @deletable = Store::InventoryItem::Deletable.new(@item).valid?
+
+    @item_on_sale = Store::Policy::ItemOnSale.new(@item).on_sale?
     @reasons_why_not_on_sale = Store::OnlineSales::ReasonForItemNotOnSale.new(@item).reasons
 
     @item_images       = @item.images.default_order.limit(10).dup
@@ -89,9 +91,9 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
   end
 
   def destroy
-    @item = current_company.items.friendly.find params[:id]
+    @item = current_company.items.friendly.find(params[:id])
     if @item.destroy
-      redirect_to admin_inventory_items_url
+      redirect_to admin_inventory_items_url, notice: "Item excluído com sucesso"
     else
       redirect_to admin_inventory_items_url, failure: "error message"
     end

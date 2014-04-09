@@ -18,16 +18,19 @@ class InventoryItem < ActiveRecord::Base
 
   has_many :prices,
     ->{ order("inventory_item_prices.id asc").references(:inventory_item_prices) },
-    class_name: "InventoryItemPrice"
+    class_name: "InventoryItemPrice",
+    dependent: :destroy
 
-  has_many :entries, class_name: "InventoryEntry"
+  has_many :entries, class_name: "InventoryEntry", dependent: :destroy
+  has_many :order_items
 
   # TODO remove balances
   has_many :balances,
     ->{ order("inventory_entries.created_at asc, inventory_entries.id asc").references(:inventory_entries) },
     class_name: "InventoryEntry"
-  has_many :images, class_name: "InventoryItemImage"
-  has_one :shipping_box
+  has_many :images, class_name: "InventoryItemImage", dependent: :destroy
+  has_one :shipping_box, dependent: :destroy
+  # TODO - remove
   has_one :properties, class_name: "InventoryItemProperty"
 
   before_validation :remove_empty_shipping_box

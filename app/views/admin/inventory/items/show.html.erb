@@ -123,9 +123,20 @@
   </div>
 
   <div class="column_full">
-    <p class="hint">
-      Dica: não é possível excluir um item do estoque porque eles estão associados
-      a pedidos e relatórios.
-    </p>
+    <% if @deletable %>
+      <%= link_to "Excluir item",
+        admin_inventory_item_path(@item),
+        title: "delete_item",
+        method: :delete,
+        class: "btn red",
+        data: {
+          confirm: "Você tem certeza que deseja excluir este item?\n\nIsto excluirá imagens e todo seu histórico."
+        } %>
+    <% else %>
+      <p class="hint">
+        Não é possível excluir um item está associado
+        a pedidos e relatórios.
+      </p>
+    <% end %>
   </div>
 </div>

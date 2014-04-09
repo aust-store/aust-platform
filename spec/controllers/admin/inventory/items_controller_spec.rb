@@ -7,6 +7,7 @@ describe Admin::Inventory::ItemsController do
   it_obeys_the "Decoration Builder contract"
 
   let(:company) { double }
+  let(:item) { double(shipping_box: :shipping_box) }
 
   before do
     subject.stub(:current_company) { company }
@@ -15,6 +16,8 @@ describe Admin::Inventory::ItemsController do
       [ double(id: 1, first_name: "Coke"),
         double(id: 2, first_name: "Pepsi") ]
     end
+
+    Store::InventoryItem::Deletable.stub(:new).with(item) { double(valid?: true) }
   end
 
   describe "GET index" do
@@ -34,7 +37,6 @@ describe Admin::Inventory::ItemsController do
   end
 
   describe "#show" do
-    let(:item) { double(shipping_box: :shipping_box) }
     let(:taxonomy) { double(self_and_ancestors: [1, 2, 3]) }
 
     before do
@@ -58,6 +60,11 @@ describe Admin::Inventory::ItemsController do
     it "instantiates the item's taxonomy" do
       get :show, id: 123
       assigns(:taxonomy).should == [3, 2, 1]
+    end
+
+    it "assigns deletable item" do
+      get :show, id: 123
+      assigns(:deletable).should be_true
     end
   end
 

@@ -43,8 +43,8 @@ feature "Inventory Item Management" do
     @item.entries.first.update_attribute(:quantity, 0)
   end
 
-  describe "show page" do
-    scenario "As a store admin, I want to see the basic item's details" do
+  describe "As an admin on item's show page" do
+    scenario "I want to see the details of an item" do
       create(:taxonomy)
       @item.taxonomy = Taxonomy.all.last
       taxonomy = @item.taxonomy
@@ -67,61 +67,66 @@ feature "Inventory Item Management" do
       page.should have_content "#{I18n.t("#{translations}.box_weight")}: 10kg"
     end
 
-    describe "defining what entries should be on sale" do
-      context "when item has many entries" do
-        scenario "As a store admin, I want to configure which entries are on sale" do
-          visit root_path
-          page.should have_content "R$ 12,34"
+    scenario "I delete an item" do
+      visit admin_inventory_item_path(@item)
+      click_link "delete_item"
+      current_path.should == admin_inventory_items_path
+      expect { @item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
 
-          # entries with quantity 0 should not appear
-          visit admin_inventory_item_path(@item)
-          page.should have_content "R$ 12,34"
+    context "when item has many entries" do
+      scenario "I configure which entries are on sale" do
+        visit root_path
+        page.should have_content "R$ 12,34"
 
-          # deselects the entry with price R$ 12,00
-          uncheck("inventory_item_entries_attributes_0_on_sale")
-          uncheck("inventory_item_entries_attributes_1_on_sale")
-          uncheck("inventory_item_entries_attributes_2_on_sale")
-          within "#entries_on_sale" do
-            click_on "save_entries"
-          end
+        # entries with quantity 0 should not appear
+        visit admin_inventory_item_path(@item)
+        page.should have_content "R$ 12,34"
 
-          @item.entries.pluck(:on_sale).should == [false, false, false]
-
-          visit root_path
-          page.should_not have_content "R$ 12,34"
+        # deselects the entry with price R$ 12,00
+        uncheck("inventory_item_entries_attributes_0_on_sale")
+        uncheck("inventory_item_entries_attributes_1_on_sale")
+        uncheck("inventory_item_entries_attributes_2_on_sale")
+        within "#entries_on_sale" do
+          click_on "save_entries"
         end
+
+        @item.entries.pluck(:on_sale).should == [false, false, false]
+
+        visit root_path
+        page.should_not have_content "R$ 12,34"
       end
+    end
 
-      context "when item has one entry" do
-        scenario "As a store admin, I want to configure which entries are on sale" do
-          first_entry = @item.entries.all_entries_elligible_for_sale.first
-          @item.entries.where("inventory_entries.id NOT IN (?)", first_entry.id).destroy_all
+    context "when item has only one entry" do
+      scenario "I configure whether it's on sale or not" do
+        first_entry = @item.entries.all_entries_elligible_for_sale.first
+        @item.entries.where("inventory_entries.id NOT IN (?)", first_entry.id).destroy_all
 
-          visit root_path
-          page.should have_content "R$ 12,34"
+        visit root_path
+        page.should have_content "R$ 12,34"
 
-          # admin, item's page
-          visit admin_inventory_item_path(@item)
-          @item.entries.reload.pluck(:on_sale).should == [true]
-          # deselects the only entry
-          click_button "switch_on_sale"
+        # admin, item's page
+        visit admin_inventory_item_path(@item)
+        @item.entries.reload.pluck(:on_sale).should == [true]
+        # deselects the only entry
+        click_button "switch_on_sale"
 
-          @item.entries.pluck(:on_sale).should == [false]
+        @item.entries.pluck(:on_sale).should == [false]
 
-          # stop showing up in the store
-          visit root_path
-          page.should_not have_content "R$ 12,34"
+        # stop showing up in the store
+        visit root_path
+        page.should_not have_content "R$ 12,34"
 
-          # admin, item's page again
-          visit admin_inventory_item_path(@item)
-          # deselects the only entry
-          click_button "switch_on_sale"
-          @item.entries.reload.pluck(:on_sale).should == [true]
+        # admin, item's page again
+        visit admin_inventory_item_path(@item)
+        # deselects the only entry
+        click_button "switch_on_sale"
+        @item.entries.reload.pluck(:on_sale).should == [true]
 
-          # shows up in the store again
-          visit root_path
-          page.should have_content "R$ 12,34"
-        end
+        # shows up in the store again
+        visit root_path
+        page.should have_content "R$ 12,34"
       end
     end
 
