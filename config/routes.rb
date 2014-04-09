@@ -118,7 +118,7 @@ Store::Application.routes.draw do
         end
 
         resources :entries, controller: 'inventory/entries',
-          only: [:index, :new, :create, :edit, :update]
+          only: [:index, :new, :create, :edit, :update, :destroy]
 
         resources :images, controller: 'inventory/items/images',
           only: [:index, :destroy, :create, :update]

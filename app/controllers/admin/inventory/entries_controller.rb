@@ -55,7 +55,14 @@ module Admin
         end
       end
 
-    private
+      def destroy
+        load_item
+        @item.entries.find(params[:id]).destroy
+        redirect_to admin_inventory_item_path(@item), notice:
+          "Entrada excluída com sucesso"
+      end
+
+      private
 
       def load_item
         @item ||= current_company.items.friendly.find(params[:item_id])

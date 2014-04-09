@@ -45,10 +45,25 @@
     <% end %>
 
     ou <%= link_to "cancelar", "javascript: history.back()" %>
+
   <% end %>
 </div>
 
 <div class="entries_summary">
+  <% if @entry.persisted? %>
+    <div>
+      <%= link_to "Excluir esta entrada",
+        admin_inventory_item_entry_path(@item, @entry),
+        title: "delete_item",
+        method: :delete,
+        class: "btn red",
+        data: {
+          confirm: "Você tem certeza que deseja excluir esta entrada?\n\nCom esta ação, você está apagando o registro de uma caixa ou lote desta mercadoria. Só faça isto se você tem certeza do que está fazendo."
+        } %>
+    </div>
+    <br />
+  <% end %>
+
   <% if @last_entries.present? %>
     <h2>Lotes atuais desta mercadoria</h2>
     <ul>
