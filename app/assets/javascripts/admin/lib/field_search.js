@@ -289,7 +289,7 @@ Admin.FieldSearch.ResultsPopup = {
   },
 
   _bindResultAnchorEvent: function() {
-    $('.popup_result a').click(function(e) {
+    $('.popup_result .search_result a').click(function(e) {
       return Admin.FieldSearch.ResultItem.click(this, e);
     });
   }
@@ -349,7 +349,7 @@ Admin.FieldSearch.ResultsPopupDrawing = {
   htmlToCreateNew: function(input) {
     var input   = $(input),
         html    = '',
-        content = $("#" + input.data('link-for-new')).text();
+        content = $("#" + input.data('link-for-new')).html();
 
     if (content) {
       html += "<div class='new_form_link'>" + content + "</div>";
