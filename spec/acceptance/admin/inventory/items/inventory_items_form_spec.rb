@@ -64,6 +64,7 @@ feature "Inventory Item form" do
 
       current_path.should == admin_inventory_items_path
 
+      page.should have_content "Item criado com sucesso"
       page.should have_content "Air Max"
 
       created_item = InventoryItem.includes(:taxonomy).includes(:manufacturer).last

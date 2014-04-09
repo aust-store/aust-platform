@@ -60,7 +60,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     build_nested_fields_errors
 
     if @item.save(params[:inventory_item])
-      redirect_to admin_inventory_items_url
+      redirect_to admin_inventory_items_url,
+        notice: I18n.t("admin.default_messages.create.success")
     else
       load_suppliers
       build_nested_fields_errors
@@ -76,7 +77,8 @@ class Admin::Inventory::ItemsController < Admin::ApplicationController
     build_item_associations
 
     if @item.update_attributes params[:inventory_item]
-      redirect_to admin_inventory_item_url(@item)
+      redirect_to admin_inventory_item_url(@item),
+        notice: I18n.t("admin.default_messages.update.success")
     else
       load_suppliers
       build_item_associations
