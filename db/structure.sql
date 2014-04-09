@@ -576,38 +576,6 @@ ALTER SEQUENCE inventory_item_prices_id_seq OWNED BY inventory_item_prices.id;
 
 
 --
--- Name: inventory_item_properties; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE inventory_item_properties (
-    id integer NOT NULL,
-    inventory_item_id integer,
-    properties hstore,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: inventory_item_properties_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE inventory_item_properties_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: inventory_item_properties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE inventory_item_properties_id_seq OWNED BY inventory_item_properties.id;
-
-
---
 -- Name: inventory_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1397,13 +1365,6 @@ ALTER TABLE ONLY inventory_item_prices ALTER COLUMN id SET DEFAULT nextval('inve
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY inventory_item_properties ALTER COLUMN id SET DEFAULT nextval('inventory_item_properties_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY inventory_items ALTER COLUMN id SET DEFAULT nextval('inventory_items_id_seq'::regclass);
 
 
@@ -1644,14 +1605,6 @@ ALTER TABLE ONLY inventories
 
 ALTER TABLE ONLY inventory_item_prices
     ADD CONSTRAINT inventory_item_prices_pkey PRIMARY KEY (id);
-
-
---
--- Name: inventory_item_properties_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_item_properties
-    ADD CONSTRAINT inventory_item_properties_pkey PRIMARY KEY (id);
 
 
 --
@@ -2057,13 +2010,6 @@ CREATE INDEX index_inventory_item_prices_on_inventory_item_id ON inventory_item_
 
 
 --
--- Name: index_inventory_item_properties_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_inventory_item_properties_on_inventory_item_id ON inventory_item_properties USING btree (inventory_item_id);
-
-
---
 -- Name: index_inventory_items_on_barcode; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2456,13 +2402,6 @@ CREATE INDEX inventory_item_name ON inventory_items USING gin (to_tsvector('engl
 
 
 --
--- Name: item_properties; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX item_properties ON inventory_item_properties USING gin (properties);
-
-
---
 -- Name: manufacturers_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2715,3 +2654,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140223144047');
 INSERT INTO schema_migrations (version) VALUES ('20140225230047');
 
 INSERT INTO schema_migrations (version) VALUES ('20140309233819');
+
+INSERT INTO schema_migrations (version) VALUES ('20140409011830');

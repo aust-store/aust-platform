@@ -30,8 +30,6 @@ class InventoryItem < ActiveRecord::Base
     class_name: "InventoryEntry"
   has_many :images, class_name: "InventoryItemImage", dependent: :destroy
   has_one :shipping_box, dependent: :destroy
-  # TODO - remove
-  has_one :properties, class_name: "InventoryItemProperty"
 
   before_validation :remove_empty_shipping_box
   before_create :associate_with_inventory
