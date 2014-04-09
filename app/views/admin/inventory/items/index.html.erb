@@ -32,38 +32,45 @@
     <h2>Resultados</h2>
   <% end %>
 
-  <table class="listing">
-    <thead>
-      <tr>
-        <th>Ref.</th>
-        <th><%= t ".listing.name" %></th>
-        <th>Categoria</th>
+  <% if @items.present? %>
+    <table class="listing">
+      <thead>
+        <tr>
+          <th>Ref.</th>
+          <th><%= t ".listing.name" %></th>
+          <th>Categoria</th>
 
-        <% if @items.any? { |i| i.tag_list.present? } %>
-          <th></th>
+          <% if @items.any? { |i| i.tag_list.present? } %>
+            <th></th>
+          <% end %>
+
+          <th>Em estoque</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% @items.each do |item| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td class="smaller reference_number"><%= item.reference_number %></td>
+          <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
+          <td class="smaller taxonomy"><%= item.taxonomy.try(:name) %></td>
+
+          <% if @items.any? { |i| i.tag_list.present? } %>
+            <td class="smaller tags"><%= item.tag_list %></td>
+          <% end %>
+
+          <td class="smaller quantity"><%= item.total_quantity %></td>
+        </tr>
         <% end %>
 
-        <th>Em estoque</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% if @items.present? %>
-      <% @items.each do |item| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td class="smaller reference_number"><%= item.reference_number %></td>
-        <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
-        <td class="smaller taxonomy"><%= item.taxonomy.try(:name) %></td>
-
-        <% if @items.any? { |i| i.tag_list.present? } %>
-          <td class="smaller tags"><%= item.tag_list %></td>
-        <% end %>
-
-        <td class="smaller quantity"><%= item.total_quantity %></td>
-      </tr>
-      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <% if @search_query.present? %>
+      <strong>Não há resultados para <%= @search_query %></strong>
     <% end %>
-    </tbody>
-  </table>
+    <br />
+  <% end %>
 
   <br />
   <%= paginate @items %>
