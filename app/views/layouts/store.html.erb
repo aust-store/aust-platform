@@ -7,7 +7,7 @@
 
   <%= javascript_include_tag "store/application_manifest" %>
   <%= csrf_meta_tags %>
-  <%= render 'layout/store/pingdom_rum' if Rails.env.production? %>
+  <%= render 'layouts/store/pingdom_rum' if Rails.env.production? %>
 </head>
 <body class="<%= params[:controller].gsub(/\//, "_") + " " + params[:action] %>">
 
