@@ -1,3 +1,2 @@
-class Marketing::PricingController < ActionController::Base
-  layout "marketing"
+class Marketing::PricingController < Marketing::ApplicationController
 end

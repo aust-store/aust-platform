@@ -1,3 +1,2 @@
-class Marketing::ConsultoresController < ActionController::Base
-  layout "marketing"
+class Marketing::ConsultoresController < Marketing::ApplicationController
 end
