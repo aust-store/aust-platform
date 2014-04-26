@@ -4,8 +4,8 @@ load "deploy/assets"
 
 set :application, "store"
 set :repository,  "git@github.com:kurko/store.git"
-set :stages, %w(staging production)
-set :default_stage, "staging"
+#set :stages, %w(staging production)
+#set :default_stage, "staging"
 set :user, "deploy"
 
 set :use_sudo, false
