@@ -1,6 +1,3 @@
-# encoding: utf-8
-require 'bundler/capistrano'
-
 set :deploy_to, "/var/rails/#{application}"
 set :rails_env, "staging"
 set :branch, "master"
