@@ -1,4 +1,4 @@
-class Admin::Api::StoreReportsController < Admin::Api::ApplicationController
+class Pos::Api::StoreReportsController < Pos::Api::ApplicationController
   def show
     render json:{
       store_reports: [{

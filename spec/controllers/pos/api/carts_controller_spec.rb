@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::CartsController do
+describe Pos::Api::CartsController do
   login_admin
 
   let(:cart) { create(:offline_cart, company: @company) }

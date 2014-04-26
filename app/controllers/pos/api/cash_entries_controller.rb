@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::CashEntriesController < Admin::Api::ApplicationController
+class Pos::Api::CashEntriesController < Pos::Api::ApplicationController
   def index
     @resources = current_company.pos_cash_entries.order("pos_cash_entries.updated_at desc")
 

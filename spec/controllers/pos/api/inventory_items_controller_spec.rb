@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::InventoryItemsController do
+describe Pos::Api::InventoryItemsController do
   login_admin
 
   it_obeys_the "admin application controller contract"

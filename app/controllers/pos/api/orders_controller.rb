@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::OrdersController < Admin::Api::ApplicationController
+class Pos::Api::OrdersController < Pos::Api::ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index

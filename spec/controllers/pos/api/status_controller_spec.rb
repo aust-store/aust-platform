@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::StatusController do
+describe Pos::Api::StatusController do
   login_admin
 
   it_obeys_the "admin application controller contract"
@@ -10,7 +10,7 @@ describe Admin::Api::StatusController do
     it "returns the last orders" do
       xhr :get, :show
 
-      response.header["Endpoint-Purpose"].should == "admin"
+      response.header["Endpoint-Purpose"].should == "point_of_sale"
       response.body.should == "ok"
     end
   end

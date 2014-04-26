@@ -45,7 +45,7 @@ Store::Application.routes.draw do
     root :to => 'dashboard#show'
   end
 
-  namespace :admin do
+  namespace :pos do
     namespace :api do
       scope "/v1" do
         resource  :status,            only: :show, controller: "status"
@@ -54,16 +54,24 @@ Store::Application.routes.draw do
         resources :carts,             only: api_actions
         resources :cart_items,        only: api_actions.push(:destroy)
         resources :customers,         only: api_actions
-        resources :taxonomies,        only: [:index]
-        resources :manufacturers,     only: [:index]
-        resources :theme_files,       only: [:index, :update]
-        resources :mustache_commands, only: [:index]
         resource  :store_reports,     only: [:show]
         resources :cash_entries,      only: api_actions
 
         if Rails.env.development? || Rails.env.test?
           resource :resources, only: [:show]
         end
+      end
+    end
+  end
+
+  namespace :admin do
+    namespace :api do
+      scope "/v1" do
+        resources :manufacturers,     only: [:index]
+        resources :taxonomies,        only: [:index]
+        resource  :status,            only: :show, controller: "status"
+        resources :mustache_commands, only: [:index]
+        resources :theme_files,       only: [:index, :update]
       end
     end
   end

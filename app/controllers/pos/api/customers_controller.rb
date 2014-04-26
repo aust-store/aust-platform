@@ -1,4 +1,4 @@
-class Admin::Api::CustomersController < Admin::Api::ApplicationController
+class Pos::Api::CustomersController < Pos::Api::ApplicationController
   def index
     resource = current_company.customers
     resource = search(resource)

@@ -3,7 +3,7 @@
  */
 
 var registeredNameForOnlineAdapter = "_custom_ams",
-    serverStatusUrl = "/admin/api/v1/status";
+    serverStatusUrl = "/pos/api/v1/status";
 
 DS.CustomOnlineSerializer = DS.ActiveModelSerializer.extend({
   init: function() {

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::ResourcesController do
+describe Pos::Api::ResourcesController do
   describe "GET show" do
     describe "order model" do
       it "returns a given model's attributes list" do

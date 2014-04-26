@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::Api::CustomersController do
+describe Pos::Api::CustomersController do
   login_admin
 
   it_should_behave_like "admin application controller contract"

@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::StatusController < Admin::Api::ApplicationController
+class Pos::Api::StatusController < Pos::Api::ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def show

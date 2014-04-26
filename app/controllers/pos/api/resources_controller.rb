@@ -2,7 +2,7 @@
 
 # This is only accessible in Development and Test environments. It's used by
 # external services to test the API contracts.
-class Admin::Api::ResourcesController < ApplicationController
+class Pos::Api::ResourcesController < ApplicationController
   skip_before_filter :verify_authenticity_token
   skip_before_filter :authenticate_admin_user!
 

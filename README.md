@@ -50,6 +50,10 @@ On Rails, you can read the current subdomain in a controller via
 `request.subdomain`.
 
 
+### Testing
+
+To test the POS with QUnit, just start the server and access `localhost:3000/qunit`
+
 ### Accessing the mobile site on Chrome
 
 On Google Chrome web browser, go to the menu View -> Developer -> Developer

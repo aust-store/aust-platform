@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::CartsController < Admin::Api::ApplicationController
+class Pos::Api::CartsController < Pos::Api::ApplicationController
   def create
     cart = current_company.carts.create_offline(cart_params)
     render json: cart

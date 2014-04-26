@@ -8,7 +8,7 @@ module("Contracts/Models/Cart", {
     contract = new EmberTesting.modelContract({
       model: App.Cart,
       root: "cart",
-      contractUrl: "/admin/api/v1/resources?model=cart",
+      contractUrl: "/pos/api/v1/resources?model=cart",
       underscoredAttributes: true
     });
   }
@@ -34,7 +34,7 @@ module("Contracts/Models/Order", {
     contract = new EmberTesting.modelContract({
       model: App.Order,
       root: "order",
-      contractUrl: "/admin/api/v1/resources?model=order",
+      contractUrl: "/pos/api/v1/resources?model=order",
       underscoredAttributes: true
     });
   }
@@ -60,7 +60,7 @@ module("Contracts/Models/InventoryItem", {
     contract = new EmberTesting.modelContract({
       model: App.InventoryItem,
       root: "inventory_item",
-      contractUrl: "/admin/api/v1/resources?model=inventory_item",
+      contractUrl: "/pos/api/v1/resources?model=inventory_item",
       underscoredAttributes: true
     });
   }
@@ -86,7 +86,7 @@ module("Contracts/Models/OrderItem", {
     contract = new EmberTesting.modelContract({
       model: App.OrderItem,
       root: "order_item",
-      contractUrl: "/admin/api/v1/resources?model=order_item",
+      contractUrl: "/pos/api/v1/resources?model=order_item",
       underscoredAttributes: true
     });
   }

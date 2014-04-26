@@ -2,7 +2,7 @@
  * This OnlineStore is added to Ember container via initialization/store.js
  */
 DS.CustomOnlineAdapter.reopen({
-  namespace: 'admin/api/v1'
+  namespace: 'pos/api/v1'
 });
 
 /**
