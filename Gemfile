@@ -4,7 +4,6 @@ Encoding.default_internal = Encoding::UTF_8
 source 'https://rubygems.org'
 
 gem 'rails', '~>4'
-gem 'rake', '10.2.2'
 gem 'rack-ssl-enforcer'
 
 # rails 4 compatibility

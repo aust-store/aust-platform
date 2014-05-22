@@ -1,23 +1,29 @@
 require 'spec_helper'
 
 describe Pos::Api::CashEntriesController do
-  login_admin
-
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
+  include_context "an authenticable token"
 
   it_behaves_like "an api endpoint with date search", :cash_entries, :cash_entry
   it_behaves_like "an api endpoint returning only own user resources", :cash_entries, :cash_entry
 
+  let(:admin_user) { create(:admin_user) }
   let(:pregenerated_uuid) { SecureRandom.uuid }
 
+  before do
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+  end
+
   describe "GET index" do
-    let(:cash1) { create(:cash_entry, company: @company, admin_user: @admin_user) }
-    let(:cash2) { create(:cash_entry, company: @company, admin_user: @admin_user) }
+    let(:cash1) { create(:cash_entry, company: admin_user.company, admin_user: admin_user) }
+    let(:cash2) { create(:cash_entry, company: admin_user.company, admin_user: admin_user) }
 
     before do
       cash1 and cash2
       controller.stub(:items_per_page) { 1 }
+    end
+
+    after do
+      response.should have_proper_api_headers
     end
 
     it "returns all resources" do
@@ -56,6 +62,10 @@ describe Pos::Api::CashEntriesController do
   end
 
   describe "POST create" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     it "creates a cash entry" do
       request_json = {
         cash_entry: {
@@ -70,8 +80,8 @@ describe Pos::Api::CashEntriesController do
 
       cash_entry = PosCashEntry.first
       cash_entry.uuid.should == pregenerated_uuid
-      cash_entry.company.should == @company
-      cash_entry.admin_user.should == @admin_user
+      cash_entry.company.should == admin_user.company
+      cash_entry.admin_user.should == admin_user
       cash_entry.created_at.should == Time.zone.parse(request_json[:cash_entry][:created_at])
 
       json = ActiveSupport::JSON.decode(response.body)
@@ -101,8 +111,8 @@ describe Pos::Api::CashEntriesController do
 
       cash_entry = PosCashEntry.first
       cash_entry.uuid.should == pregenerated_uuid
-      cash_entry.company.should == @company
-      cash_entry.admin_user.should == @admin_user
+      cash_entry.company.should == admin_user.company
+      cash_entry.admin_user.should == admin_user
       cash_entry.created_at.should == Time.zone.parse(request_json[:cash_entry][:created_at])
 
       json = ActiveSupport::JSON.decode(response.body)
@@ -142,10 +152,14 @@ describe Pos::Api::CashEntriesController do
   end
 
   describe "PUT update" do
-    let(:cash_entry) { create(:cash_entry, company: @company, admin_user: @admin_user) }
+    let(:cash_entry) { create(:cash_entry, company: admin_user.company, admin_user: admin_user) }
 
     before do
       cash_entry
+    end
+
+    after do
+      response.should have_proper_api_headers
     end
 
     it "updates the cash entry" do

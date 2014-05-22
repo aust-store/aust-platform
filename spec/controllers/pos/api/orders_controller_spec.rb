@@ -1,25 +1,31 @@
 require 'spec_helper'
 
 describe Pos::Api::OrdersController do
-  login_admin
-
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
+  include_context "an authenticable token"
 
   it_behaves_like "an api endpoint with date search", :orders, :offline_order
   it_behaves_like "an api endpoint returning only own user resources", :orders, :offline_order
 
+  let(:admin_user) { create(:admin_user) }
   let(:pregenerated_uuid) { SecureRandom.uuid }
 
+  before do
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+  end
+
   describe "GET index" do
-    let(:website_order) { create(:order, store: @company, total_items: 1, admin_user: @admin_user) }
-    let(:offline_order)  { create(:offline_order, store: @company, total_items: 1, admin_user: @admin_user, total: 13.94) }
-    let(:offline_order2) { create(:offline_order, store: @company, total_items: 1, admin_user: @admin_user, total: 17.94, payment_type: "installments") }
+    let(:website_order) { create(:order, store: admin_user.company, total_items: 1, admin_user: admin_user) }
+    let(:offline_order)  { create(:offline_order, store: admin_user.company, total_items: 1, admin_user: admin_user, total: 13.94) }
+    let(:offline_order2) { create(:offline_order, store: admin_user.company, total_items: 1, admin_user: admin_user, total: 17.94, payment_type: "installments") }
 
     before do
       offline_order2
       website_order and offline_order
       controller.stub(:items_per_page) { 1 }
+    end
+
+    after do
+      response.should have_proper_api_headers
     end
 
     context "all orders" do
@@ -107,9 +113,13 @@ describe Pos::Api::OrdersController do
   end
 
   describe "POST create" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     it "creates orders with embedded order items" do
       # 4 order items are created
-      cart = FactoryGirl.create(:offline_cart, company: @company)
+      cart = FactoryGirl.create(:offline_cart, company: admin_user.company)
       json_request = {
         "order" => {
           "id"      => pregenerated_uuid,
@@ -121,7 +131,7 @@ describe Pos::Api::OrdersController do
 
       order = Order.first
       order.uuid.should == pregenerated_uuid
-      order.admin_user.should == @admin_user
+      order.admin_user.should == admin_user
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {

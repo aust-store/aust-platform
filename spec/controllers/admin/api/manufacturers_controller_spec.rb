@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Admin::Api::ManufacturersController do
   login_admin
 
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
-
   describe "GET index" do
     it "searchs for taxonomies with a given name" do
       manufacturer  = FactoryGirl.create(:manufacturer, name: "Honda", company: @company)

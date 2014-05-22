@@ -281,7 +281,7 @@ GEM
       activesupport (= 4.0.0)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.2.2)
+    rake (10.3.2)
     ref (1.0.5)
     remotipart (1.0.5)
     request_store (1.0.5)
@@ -410,7 +410,6 @@ DEPENDENCIES
   rack-ssl-enforcer
   rails (~> 4)
   rails-dev-tweaks (~> 1.1)
-  rake (= 10.2.2)
   remotipart (~> 1.0)
   rspec-rails (~> 2.13)
   rvm-capistrano

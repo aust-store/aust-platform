@@ -3,6 +3,20 @@ require "spec_helper"
 describe AdminUser do
   it { should belong_to(:company) }
 
+  describe "callbacks" do
+    describe "associate_api_token on before_validation on creation" do
+      let(:user) { create(:admin_user_without_associations) }
+
+      it "generates an api_token for the new user" do
+        api_token = user.api_token.dup
+        api_token.should be_present
+        api_token.length.should == 52
+        user.update_attributes(email: "123@example.com")
+        user.api_token.should == api_token
+      end
+    end
+  end
+
   describe "validations" do
     context "roles" do
       it { should allow_value("founder").for(:role) }

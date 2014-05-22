@@ -4,7 +4,6 @@ describe Admin::Inventory::Items::SearchController do
 
   # TODO fix contracts
   #it_obeys_the "InventoryItem model contract"
-  it_obeys_the "admin application controller contract"
 
   before do
     InventoryItem.stub(:search_for).and_return("result")

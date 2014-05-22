@@ -1,19 +1,22 @@
 require 'spec_helper'
 
 describe Pos::Api::CartItemsController do
-  login_admin
+  include_context "an authenticable token"
 
-  let(:cart) { create(:cart, company: @company) }
-  let(:inventory_item) { create(:inventory_item, company: @company) }
-
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
+  let(:admin_user) { create(:admin_user) }
+  let(:cart) { create(:cart, company: admin_user.company) }
+  let(:inventory_item) { create(:inventory_item, company: admin_user.company) }
 
   before do
     cart
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
   end
 
   describe "POST create" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     context "no id is passed in" do
       it "creates cart items" do
         entry = inventory_item.entries.first
@@ -27,10 +30,11 @@ describe Pos::Api::CartItemsController do
             "cart_id" => cart.uuid
           }
         }
+
         xhr :post, :create, json_request
 
-        item  = OrderItem.last
-        json  = ActiveSupport::JSON.decode(response.body)
+        item = OrderItem.last
+        json = ActiveSupport::JSON.decode(response.body)
 
         json.should == {
           "cart_item" => {
@@ -110,6 +114,10 @@ describe Pos::Api::CartItemsController do
 
     before do
       cart_item
+    end
+
+    after do
+      response.should have_proper_api_headers
     end
 
     it "deletes a cart item" do

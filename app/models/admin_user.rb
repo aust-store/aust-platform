@@ -26,6 +26,8 @@ class AdminUser < ActiveRecord::Base
   belongs_to :company
   accepts_nested_attributes_for :company
 
+  before_validation :associate_api_token
+
   def with_company
     self.tap { |t| t.build_company }
   end
@@ -36,5 +38,11 @@ class AdminUser < ActiveRecord::Base
 
   def point_of_sale?
     self.role == "point_of_sale"
+  end
+
+  private
+
+  def associate_api_token
+    self.api_token = SecureRandom.hex + Devise.friendly_token if self.api_token.blank?
   end
 end

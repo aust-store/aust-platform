@@ -1,22 +1,29 @@
 require 'spec_helper'
 
 describe Pos::Api::CustomersController do
-  login_admin
+  include_context "an authenticable token"
 
-  it_should_behave_like "admin application controller contract"
-  it_should_behave_like "Decoration Builder contract"
+  let(:admin_user) { create(:admin_user) }
+
+  before do
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+  end
 
   describe "GET index" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     it "searches for customers with a given name" do
       customer1 = create(:customer,
                          first_name: "Luke",
                          last_name:  "Skywalker",
                          email:      "new_hope@gmail.com",
-                         store:      @company)
-      create(:customer, first_name: "Anakin", last_name: "Skywalker", store: @company)
+                         store:      admin_user.company)
+      create(:customer, first_name: "Anakin", last_name: "Skywalker", store: admin_user.company)
       create(:customer, first_name: "Luke", last_name: "Skywalker")
 
-      get :index, { search: "luke" }
+      get :index, search: "luke"
       json = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
@@ -32,6 +39,10 @@ describe Pos::Api::CustomersController do
   end
 
   describe "POST create" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     it "creates a customer" do
       json_request = {
         "customer" => {
@@ -48,7 +59,7 @@ describe Pos::Api::CustomersController do
       customer.last_name.should == "Rambo"
       customer.email.should == "email@rambowebsite.com"
       customer.social_security_number.should == "87738843403"
-      customer.store.should == @company
+      customer.store.should == admin_user.company
 
       json  = ActiveSupport::JSON.decode(response.body)
       json.should == {
@@ -111,8 +122,12 @@ describe Pos::Api::CustomersController do
   end
 
   describe "PUT update" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     it "updates customer's attributes" do
-      customer = create(:customer, store: @company)
+      customer = create(:customer, store: admin_user.company)
 
       json_request = {
         id: customer.uuid,
@@ -142,7 +157,7 @@ describe Pos::Api::CustomersController do
     end
 
     it "returns an error message when needed" do
-      customer = create(:customer, :pos, store: @company)
+      customer = create(:customer, :pos, store: admin_user.company)
 
       json_request = {
         id: customer.uuid,

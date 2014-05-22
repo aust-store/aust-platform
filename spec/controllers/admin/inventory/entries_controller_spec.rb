@@ -3,8 +3,6 @@ require "spec_helper"
 describe Admin::Inventory::EntriesController do
   login_admin
 
-  it_obeys_the "admin application controller contract"
-
   let(:items) { double }
 
   before do

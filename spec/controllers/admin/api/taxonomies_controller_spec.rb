@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Admin::Api::TaxonomiesController do
   login_admin
 
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
-
   describe "GET index" do
     it "searchs for taxonomies with a given name" do
       taxonomy  = FactoryGirl.create(:taxonomy, name: "Sadmen", store: @company)

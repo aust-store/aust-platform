@@ -5,9 +5,9 @@ shared_examples_for "an api endpoint with date search" do |root_name, factory_na
       company_key = (build(factory_name).respond_to?(:company)) ? :company : :store
 
       Timecop.travel(2.days.ago) do
-        @resource1 = create(factory_name, company_key => @company)
+        @resource1 = create(factory_name, company_key => admin_user.company)
       end
-      @resource2 = create(factory_name, company_key => @company)
+      @resource2 = create(factory_name, company_key => admin_user.company)
     end
 
     it "returns only what was created today" do

@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Admin::Inventory::ItemsController do
   login_admin
 
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
-
   let(:company) { double }
   let(:item) { double(shipping_box: :shipping_box) }
 

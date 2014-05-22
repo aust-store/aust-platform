@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Admin::Api::ManufacturersController < Pos::Api::ApplicationController
+class Admin::Api::ManufacturersController < Admin::Api::ApplicationController
   def index
     manufacturers = current_company.manufacturers
     manufacturers = search(manufacturers)

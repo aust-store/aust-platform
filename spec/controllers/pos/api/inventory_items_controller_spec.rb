@@ -1,16 +1,23 @@
 require 'spec_helper'
 
 describe Pos::Api::InventoryItemsController do
-  login_admin
+  include_context "an authenticable token"
 
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
+  let(:admin_user) { create(:admin_user) }
+
+  before do
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+  end
 
   describe "GET index" do
+    after do
+      response.should have_proper_api_headers
+    end
+
     before do
-      @item_pos  = create(:inventory_item, point_of_sale: true, company: @company)
-      @item_pos2 = create(:inventory_item, point_of_sale: true, on_sale: false, company: @company)
-      @item_not_pos = create(:inventory_item_without_associations, company: @company)
+      @item_pos  = create(:inventory_item, point_of_sale: true, company: admin_user.company)
+      @item_pos2 = create(:inventory_item, point_of_sale: true, on_sale: false, company: admin_user.company)
+      @item_not_pos = create(:inventory_item_without_associations, company: admin_user.company)
       controller.stub(:items_per_page) { 1 }
     end
 

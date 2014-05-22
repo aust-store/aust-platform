@@ -1,13 +1,19 @@
 require 'spec_helper'
 
 describe Pos::Api::CartsController do
-  login_admin
+  include_context "an authenticable token"
 
-  let(:cart) { create(:offline_cart, company: @company) }
-  let(:customer) { create(:customer, store: @company) }
+  let(:admin_user) { create(:admin_user) }
+  let(:cart) { create(:offline_cart, company: admin_user.company) }
+  let(:customer) { create(:customer, store: admin_user.company) }
 
-  it_obeys_the "admin application controller contract"
-  it_obeys_the "Decoration Builder contract"
+  before do
+    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+  end
+
+  after do
+    response.should have_proper_api_headers
+  end
 
   describe "POST create" do
     it "creates carts" do

@@ -167,7 +167,8 @@ CREATE TABLE admin_users (
     updated_at timestamp without time zone,
     company_id integer,
     role character varying(255),
-    name character varying(255)
+    name character varying(255),
+    api_token character varying(255)
 );
 
 
@@ -1807,6 +1808,13 @@ CREATE INDEX index_addresses_on_default ON addresses USING btree ("default");
 
 
 --
+-- Name: index_admin_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_admin_users_on_api_token ON admin_users USING btree (api_token);
+
+
+--
 -- Name: index_admin_users_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2656,3 +2664,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140225230047');
 INSERT INTO schema_migrations (version) VALUES ('20140309233819');
 
 INSERT INTO schema_migrations (version) VALUES ('20140409011830');
+
+INSERT INTO schema_migrations (version) VALUES ('20140521165135');

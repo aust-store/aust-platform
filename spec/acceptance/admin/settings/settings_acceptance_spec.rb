@@ -2,7 +2,7 @@ require 'acceptance_spec_helper'
 
 feature "Managing company settings" do
   before do
-    @admin_user = FactoryGirl.create(:admin_user)
+    @admin_user = create(:admin_user, api_token: "api_token_hash")
     login_into_admin
   end
 
@@ -10,6 +10,11 @@ feature "Managing company settings" do
     scenario "As a store admin, I want to change my company settings" do
       visit admin_settings_path
 
+      # Asserting present data
+      page.should have_content "API Token: api_token_hash"
+
+      # Editing the data
+      #
       # Zipcode
       fill_in "company_setting_zipcode", with: "12345678"
 

@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Admin::Api::ApplicationController < Admin::ApplicationController
+  include ControllersExtensions::ApiFeatures
+
   skip_before_filter :verify_authenticity_token
   skip_before_filter :admin_dashboard_redirections
 
