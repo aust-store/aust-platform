@@ -11,6 +11,7 @@ feature "Inventory Item - Listing" do
 
     @company = FactoryGirl.create(:barebone_company, handle: "mystore")
     @admin_user = FactoryGirl.create(:admin_user, company: @company)
+    FactoryGirl.create(:taxonomy, store: @company)
     @item = FactoryGirl.create(:inventory_item,
                                name: "My item",
                                user: @admin_user,

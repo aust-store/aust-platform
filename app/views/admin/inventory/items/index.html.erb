@@ -1,96 +1,19 @@
 <%= view_header %>
 
 <header>
-  <h1><%= t ".title" %></h1>
+  <% if @company_taxonomies.present? %>
+    <h1><%= t ".title" %></h1>
+  <% else %>
+    <h1>Antes de começarmos...</h1>
+  <% end %>
 </header>
 
 <div class="main_container inventory_items_index">
-
-  <div class="index_header with_search">
-    <div class="search_form">
-      <%= simple_form_for(:search, { url: admin_inventory_items_path, :method => :get }) do |f| %>
-        <%= f.input :query, label: "Pesquisar:", required: false,
-          input_html: { value: @search_query } %>
-        <% if Rails.env.test? %>
-          <%= f.submit "Submit" %>
-        <% end %>
-      <% end %>
-    </div>
-
-    <div class="buttons">
-      <%= link_to t("admin.navigation.taxonomies"), admin_taxonomies_path %>
-      <%= small_button t(".add_item_button"),
-        new_admin_inventory_item_path,
-        image: 'admin/icons/plus_16.png',
-        id: "add_item"
-      %>
-    </div>
-  </div>
-
-
-  <% if @search_query.present? %>
-    <h2>Resultados</h2>
-  <% end %>
-
-  <% if @items.present? %>
-    <table class="listing">
-      <thead>
-        <tr>
-          <th>Ref.</th>
-          <th><%= t ".listing.name" %></th>
-          <th>Categoria</th>
-
-          <% if @items.any? { |i| i.tag_list.present? } %>
-            <th></th>
-          <% end %>
-
-          <th>Em estoque</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <% @items.each do |item| %>
-        <tr class="<%= cycle('odd', 'even') %>">
-          <td class="smaller reference_number"><%= item.reference_number %></td>
-          <td><%= link_to item.name, admin_inventory_item_path(item) %></td>
-          <td class="smaller taxonomy"><%= item.taxonomy.try(:name) %></td>
-
-          <% if @items.any? { |i| i.tag_list.present? } %>
-            <td class="smaller tags"><%= item.tag_list %></td>
-          <% end %>
-
-          <td class="smaller quantity"><%= item.total_quantity %></td>
-        </tr>
-        <% end %>
-
-      </tbody>
-    </table>
+  <% if @company_taxonomies.blank? %>
+    <%= render partial: "index_no_categories" %>
+  <% elsif @items.present? %>
+    <%= render partial: "index" %>
   <% else %>
-    <% if @search_query.present? %>
-      <strong>Não há resultados para <%= @search_query %></strong>
-    <% end %>
-    <br />
+    <%= render partial: "index_no_items" %>
   <% end %>
-
-  <br />
-  <%= paginate @items %>
-  <br />
-
-  <% if @last_addition.present? %>
-    <br />
-    <div class="gray_text">
-      Última mercadoria:
-      <%= @last_addition.taxonomy.name if @last_addition.taxonomy.present? %>
-      <%= @last_addition.name %>
-      <% if @last_addition.reference_number.present? %>
-        (<%= @last_addition.reference_number %>)
-      <% end %>
-    </div>
-  <% end %>
-
-  <br />
-
-  <%= small_button "Campos personalizados",
-    admin_inventory_custom_fields_path,
-    id: "custom_fields" %>
 </div>

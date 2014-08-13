@@ -13,6 +13,10 @@ a.btn
   color: #595959
   font-weight: normal
 
+  &.big
+    font-size: 1.4em
+    padding: 4px 10px 5px 10px
+
   &:hover
     background: lighten($btn_background, 3%)
     color: green
@@ -28,6 +32,14 @@ a.btn
   &.red:hover
     background: $red_button
     color: white
+
+  &.call_for_action
+    background: #00a400
+    color: white
+    &:hover
+      background: lighten(#00a400, 60%)
+      color: green
+
 
 a#submit
   border-radius: 5px

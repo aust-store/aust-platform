@@ -5,6 +5,7 @@ feature "Inventory Items' images management" do
 
   before do
     login_into_admin
+    FactoryGirl.create(:taxonomy, store: @company)
     FactoryGirl.create(:inventory_item, company: @company)
     @item = FactoryGirl.create(:inventory_item, user: @admin_user, company: @company)
   end
