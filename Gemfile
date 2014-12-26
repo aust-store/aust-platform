@@ -41,7 +41,7 @@ gem 'rack-ssl-enforcer'
 # Assets and client stuff
   gem 'sass-rails'
   gem 'coffee-rails'
-  gem 'therubyracer', '0.11.4'
+  gem 'therubyracer'
   gem 'uglifier', '~> 1.3.0'
   gem 'jquery-rails'
   gem 'ember-rails', '0.13.0'
