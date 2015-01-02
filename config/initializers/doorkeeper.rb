@@ -13,8 +13,8 @@ Doorkeeper.configure do
   end
 
   resource_owner_from_credentials do |routes|
-    user = AdminUser.find_by_email(params[:username])
-    user if user && user.authenticate(params[:password])
+    user = AdminUser.find_by_email(params[:email])
+    user if user && user.valid_password?(params[:password])
   end
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   # admin_authenticator do
@@ -28,14 +28,14 @@ Doorkeeper.configure do
 
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
-  # access_token_expires_in 2.hours
+  access_token_expires_in 12.hours
 
   # Reuse access token for the same resource owner within an application (disabled by default)
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
   # reuse_access_token
 
   # Issue access tokens with refresh token (disabled by default)
-  # use_refresh_token
+  use_refresh_token
 
   # Provide support for an owner to be assigned to each registered application (disabled by default)
   # Optional parameter :confirmation => true (default false) if you want to enforce ownership of
