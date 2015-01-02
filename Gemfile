@@ -38,6 +38,9 @@ gem 'rack-ssl-enforcer'
   gem 'mini_magick'
   gem 'mail_form', github: 'plataformatec/mail_form', ref: '9eb221a9c5e3f6dad6'
 
+# HTTP API & endpoints
+  gem 'doorkeeper'
+
 # Assets and client stuff
   gem 'sass-rails'
   gem 'coffee-rails'

@@ -10,7 +10,7 @@ describe Pos::Api::OrdersController do
   let(:pregenerated_uuid) { SecureRandom.uuid }
 
   before do
-    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+    set_oauth_header(user: admin_user)
   end
 
   describe "GET index" do

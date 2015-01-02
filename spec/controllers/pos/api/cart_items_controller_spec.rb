@@ -8,15 +8,11 @@ describe Pos::Api::CartItemsController do
   let(:inventory_item) { create(:inventory_item, company: admin_user.company) }
 
   before do
+    set_oauth_header(user: admin_user)
     cart
-    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
   end
 
   describe "POST create" do
-    after do
-      response.should have_proper_api_headers
-    end
-
     context "no id is passed in" do
       it "creates cart items" do
         entry = inventory_item.entries.first
@@ -31,7 +27,7 @@ describe Pos::Api::CartItemsController do
           }
         }
 
-        xhr :post, :create, json_request
+        post :create, json_request
 
         item = OrderItem.last
         json = ActiveSupport::JSON.decode(response.body)
@@ -116,19 +112,15 @@ describe Pos::Api::CartItemsController do
       cart_item
     end
 
-    after do
-      response.should have_proper_api_headers
-    end
-
     it "deletes a cart item" do
-      xhr :delete, :destroy, id: cart_item.uuid
+      xhr :delete, :destroy, {id: cart_item.uuid}
 
       json = ActiveSupport::JSON.decode(response.body)
       json.should == {}
     end
 
     it "returns success even if a cart item doesn't exist" do
-      xhr :delete, :destroy, id: 123
+      xhr :delete, :destroy, {id: 123}
       json = ActiveSupport::JSON.decode(response.body)
       json.should == {}
     end

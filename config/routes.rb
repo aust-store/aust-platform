@@ -1,6 +1,7 @@
 require "router_constraints"
 
 Store::Application.routes.draw do
+  use_doorkeeper
   api_actions = [:index, :create, :update, :show]
 
   devise_for :super_admin_user,

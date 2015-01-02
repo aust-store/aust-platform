@@ -4,9 +4,9 @@ class Pos::Api::ApplicationController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
 
-  before_filter :set_headers
-  before_filter :manual_exit
-  before_filter :authenticate_api_token
+  before_action :manual_exit
+  before_action :doorkeeper_authorize!
+  before_action :set_headers
 
   private
 
@@ -21,14 +21,10 @@ class Pos::Api::ApplicationController < ApplicationController
     end
   end
 
-  def authenticate_api_token
-    authenticate_or_request_with_http_token do |token, options|
-      @current_user = AdminUser.find_by_api_token(token)
-    end
-  end
-
   def current_user
-    @current_user
+    @current_user ||= if doorkeeper_token && doorkeeper_token.resource_owner_id
+                        AdminUser.find(doorkeeper_token.resource_owner_id)
+                      end
   end
 
   def current_company

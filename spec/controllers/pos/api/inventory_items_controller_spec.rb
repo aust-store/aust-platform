@@ -6,14 +6,10 @@ describe Pos::Api::InventoryItemsController do
   let(:admin_user) { create(:admin_user) }
 
   before do
-    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+    set_oauth_header(user: admin_user)
   end
 
   describe "GET index" do
-    after do
-      response.should have_proper_api_headers
-    end
-
     before do
       @item_pos  = create(:inventory_item, point_of_sale: true, company: admin_user.company)
       @item_pos2 = create(:inventory_item, point_of_sale: true, on_sale: false, company: admin_user.company)
