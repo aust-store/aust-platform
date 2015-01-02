@@ -147,6 +147,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
+    doorkeeper (2.0.1)
+      railties (>= 3.1)
     draper (1.2.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -383,6 +385,7 @@ DEPENDENCIES
   correios-frete (~> 1.8.0)
   database_cleaner
   devise (~> 3.2.2)
+  doorkeeper
   draper (~> 1.2.1)
   ejs
   ember-rails (= 0.13.0)

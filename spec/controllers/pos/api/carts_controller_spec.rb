@@ -8,7 +8,7 @@ describe Pos::Api::CartsController do
   let(:customer) { create(:customer, store: admin_user.company) }
 
   before do
-    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+    set_oauth_header(user: admin_user)
   end
 
   after do

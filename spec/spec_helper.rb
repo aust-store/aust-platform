@@ -23,6 +23,7 @@ RSpec.configure do |config|
   config.extend ControllerMacros
   config.include Helpers::ThemeFiles
   config.include Helpers::ApiEndpointsHelpers
+  config.include Helpers::OauthHelpers
   config.include AcceptanceSteps
   config.include CapybaraHelpers::DomainHelpers
   config.include CapybaraHelpers::CartHelpers

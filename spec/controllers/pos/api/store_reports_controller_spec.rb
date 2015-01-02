@@ -6,7 +6,7 @@ describe Pos::Api::StoreReportsController do
   let(:admin_user) { create(:admin_user) }
 
   before do
-    request.headers['Authorization'] = "Token token=\"#{admin_user.api_token}\""
+    set_oauth_header(user: admin_user)
   end
 
   describe "GET show" do

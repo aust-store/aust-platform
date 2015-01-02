@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pos::Api::CartItemsController < Pos::Api::ApplicationController
-  skip_before_filter :verify_authenticity_token
+  before_action :doorkeeper_authorize!
 
   def index
     orders = current_company
