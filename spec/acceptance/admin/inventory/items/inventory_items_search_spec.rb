@@ -11,6 +11,7 @@ feature "Inventory Item - Search" do
 
     @company = create(:barebone_company, handle: "mystore")
     @admin_user = create(:admin_user, company: @company)
+    FactoryGirl.create(:taxonomy, store: @company)
     @item = create(:inventory_item,
                    name: "My item",
                    tag_list: %w(item1_tag),
