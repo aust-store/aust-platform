@@ -5,6 +5,7 @@ module Admin::FormsHelper
       as: :string,
       required: false,
       input_html: {
+        value: form_object.object.tag_list.join(", "),
         class: "js_taggable",
         data: {data: autocomplete.to_json}
       }

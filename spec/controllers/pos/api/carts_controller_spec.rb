@@ -31,12 +31,14 @@ describe Pos::Api::CartsController do
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
-        "cart" => {
+        "carts" => {
           "id"    => pregenerated_uuid,
           "total" => "0.0",
-          "cart_item_ids" => []
-        },
-        "cart_items" => [],
+          "links" => {
+            "items" => [],
+            "customer" => nil
+          }
+        }
       }
     end
   end
@@ -55,30 +57,20 @@ describe Pos::Api::CartsController do
       cart.reload
 
       json.should == {
-        "cart" => {
+        "carts" => {
           "id"    => cart.uuid,
           "total" => "55.76",
-          "cart_item_ids" => cart.items.map(&:uuid),
-          "customer_id" => customer.uuid
-        },
-        "cart_items" => cart.items.map { |item|
-          { "id" => item.uuid,
-            "name" => item.name,
-            "quantity" => item.quantity,
-            "price" => item.price.to_s,
-            "price_for_installments" => item.price_for_installments.to_s,
-            "inventory_entry_id" => item.inventory_entry_id,
-            "order_id" => nil,
-            "inventory_item_id" => item.inventory_item.uuid
+          "links" => {
+            "items" => {
+              "type" => "order_items",
+              "ids" => cart.items.map(&:uuid),
+            },
+            "customer" => {
+              "type" => "person",
+              "id" => "#{customer.uuid}"
+            }
           }
-        },
-        "customers" => [{
-          "id" => customer.uuid,
-          "first_name" => customer.first_name,
-          "last_name" => customer.last_name,
-          "email" => customer.email,
-          "social_security_number" => customer.social_security_number
-        }]
+        }
       }
     end
   end

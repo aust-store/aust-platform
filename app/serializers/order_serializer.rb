@@ -1,8 +1,8 @@
 class OrderSerializer < ActiveModel::Serializer
   attributes :id, :total, :created_at, :environment, :payment_type
 
-  has_many :items, key: :order_item_ids, root: :order_items, embed_key: :uuid, embed_in_root: true
-  has_one :customer, key: :customer_id, root: :customer, embed_key: :uuid, embed_in_root: true
+  has_many :items
+  belongs_to :customer
 
   def id
     object.uuid

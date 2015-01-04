@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :order_without_store, class: "Order" do
-    ignore do
+    transient do
       total_items 4
     end
 
@@ -40,7 +40,7 @@ FactoryGirl.define do
     end
 
     factory :cart, class: "Cart" do
-      ignore do
+      transient do
         payment_type nil
         total nil
       end

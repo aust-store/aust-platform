@@ -27,7 +27,7 @@ describe Store::CartItemsController do
 
     it "redirects to the cart" do
       post :create, store_id: "store_name", id: 2
-      response.should redirect_to cart_path
+      response.should redirect_to cart_url
     end
   end
 

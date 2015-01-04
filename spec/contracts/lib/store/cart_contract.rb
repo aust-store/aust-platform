@@ -13,37 +13,37 @@ shared_examples "cart contract" do
     it "responds to add_item" do
       expect do
         cart.add_item(double)
-      end.to_not raise_error NoMethodError
+      end.to_not raise_error
     end
 
     it "responds to remove_item" do
       expect do
         cart.remove_item(double)
-      end.to_not raise_error NoMethodError
+      end.to_not raise_error
     end
 
     it "responds to parent_items" do
       expect do
         cart.parent_items
-      end.to_not raise_error NoMethodError
+      end.to_not raise_error
     end
 
     it "responds to current_company" do
       expect do
         cart.current_company
-      end.to_not raise_error NoMethodError
+      end.to_not raise_error
     end
 
     it "responds to persisted_cart" do
       expect do
         cart.persisted_cart
-      end.to_not raise_error NoMethodError
+      end.to_not raise_error
     end
 
     it "responds to update" do
       expect do
-        cart.update(double)
-      end.to_not raise_error NoMethodError
+        cart.update(double(has_key?: true, :[] => []).as_null_object)
+      end.to_not raise_error
     end
   end
 end

@@ -40,7 +40,7 @@ FactoryGirl.define do
 
       # this has 3 entries
       factory :inventory_item do
-        ignore do
+        transient do
           total_entries 3
           on_sale true
           website_sale true

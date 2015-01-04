@@ -42,7 +42,7 @@ class Address < ActiveRecord::Base
     if same_level_addresses.size == 0
       self.default = true
     elsif same_level_addresses.size >= 1 && self.default?
-      not_default = same_level_addresses.delete_if { |a| a == self }
+      not_default = same_level_addresses.to_a.delete_if { |a| a == self }
       not_default.each { |a| a.update_attribute(:default, false) }
     end
   end

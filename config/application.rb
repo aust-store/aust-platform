@@ -10,6 +10,7 @@ module Store
     config.i18n.enforce_available_locales = true
 
     config.middleware.use Rack::SslEnforcer, :only_hosts => /.*\.austapp\.com$/, :only_environments => 'production'
+    config.active_record.raise_in_transactional_callbacks = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

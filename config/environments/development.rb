@@ -14,7 +14,7 @@ Store::Application.configure do
   config.action_controller.perform_caching = false
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
@@ -32,7 +32,7 @@ Store::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
   # For Devise
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }

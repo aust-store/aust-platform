@@ -1,8 +1,9 @@
 class CartItemSerializer < OrderItemSerializer
-  attributes :id, :inventory_entry_id, :price, :price_for_installments
+  attributes :id, :name, :quantity, :price, :price_for_installments
 
-  has_one :cart, key: :cart_id, root: :cart, embed_in_root: false, embed_key: :uuid
-  has_one :inventory_item, key: :inventory_item_id, root: :inventory_item, embed_key: :uuid
+  belongs_to :cart, embed: :ids
+  belongs_to :inventory_item, embed: :ids
+  belongs_to :inventory_entry, embed: :ids
 
   def id
     object.uuid

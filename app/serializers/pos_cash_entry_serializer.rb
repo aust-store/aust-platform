@@ -1,5 +1,4 @@
 class PosCashEntrySerializer < ActiveModel::Serializer
-  root "cash_entry"
   attributes :id, :amount, :entry_type, :description, :created_at
 
   def id

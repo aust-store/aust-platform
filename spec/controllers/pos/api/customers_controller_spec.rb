@@ -27,13 +27,13 @@ describe Pos::Api::CustomersController do
       json = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
-        "customers" => [
-          { "id"         => customer1.uuid,
-            "first_name" => "Luke",
-            "last_name"  => "Skywalker",
-            "email"      => "new_hope@gmail.com",
-            "social_security_number" => "14148254393" }
-        ]
+        "customers" => [{
+          "id"         => customer1.uuid,
+          "first_name" => "Luke",
+          "last_name"  => "Skywalker",
+          "email"      => "new_hope@gmail.com",
+          "social_security_number" => "14148254393"
+        }]
       }
     end
   end

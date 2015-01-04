@@ -5,12 +5,9 @@ describe InventoryEntry do
     describe "#define_new_balance_values on before_save" do
       context "when creating a new item with an embedded new entry" do
         before do
-          @entry1 = FactoryGirl.attributes_for(:inventory_entry,
-                                               quantity: 12, cost_per_unit: 20)
-          @entry2 = FactoryGirl.attributes_for(:inventory_entry,
-                                               quantity: 14, cost_per_unit: 40)
-          @item = FactoryGirl.create(:inventory_item_without_associations,
-                                     entries_attributes: [@entry1, @entry2])
+          @item = create(:inventory_item_without_associations)
+          @entry1 = create(:inventory_entry, inventory_item_id: @item.id, quantity: 12, cost_per_unit: 20)
+          @entry2 = create(:inventory_entry, inventory_item_id: @item.id, quantity: 14, cost_per_unit: 40)
           @item.reload
         end
 

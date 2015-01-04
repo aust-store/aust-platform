@@ -3,12 +3,14 @@ Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
 
-gem 'rails', '~>4'
+gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 gem 'rack-ssl-enforcer'
 
 # rails 4 compatibility
-  gem 'protected_attributes', '1.0.3'
+  gem 'protected_attributes', '1.0.8'
   gem 'activerecord-deprecated_finders'
+# rails 4.2 compatibility
+  gem 'responders', '~> 2.0'
 
 # Database
   gem 'pg', '0.17.0'
@@ -19,20 +21,18 @@ gem 'rack-ssl-enforcer'
   gem 'brazilian-rails'
   gem 'remotipart', '~> 1.0'
   gem 'carrierwave'
-  gem 'activerecord-postgres-hstore', git: 'git://github.com/engageis/activerecord-postgres-hstore.git'
-  gem "friendly_id", "~> 5.0.1"
+  gem "friendly_id", "5.1.0.beta.1"
   gem 'acts-as-taggable-on'
 
 # Presenters and objects for simplifying internal workflows
   gem 'draper', '~> 1.2.1'
-  gem 'inherited_resources'
-  gem "active_model_serializers", github: 'rails-api/active_model_serializers'
+  gem "active_model_serializers", github: 'rails-api/active_model_serializers', branch: 'master'
   gem "mustache" # used in store themes
 
 # Components for forms and widgets
-  gem 'devise', '~> 3.2.2'
+  gem 'devise', '~> 3.4.1'
   gem 'cancan'
-  gem 'simple_form', "~> 3.0.1"
+  gem 'simple_form', '~> 3.1'
   gem 'kaminari'
   gem 'wicked', '~> 0.3' # wizard-like views
   gem 'mini_magick'
@@ -64,12 +64,13 @@ group :development do
   gem 'rvm-capistrano'
   gem 'quiet_assets'
   gem 'better_errors'
-  gem 'binding_of_caller', '0.7.2'
+  #gem 'binding_of_caller', '0.7.2'
   gem 'rails-dev-tweaks', '~> 1.1'
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.13'
+  gem 'rspec', '~> 2.14.1'
+  gem 'rspec-rails', '~> 2.14.2'
   gem 'factory_girl_rails', require: false
   gem 'thin'
   gem 'pry'
@@ -78,12 +79,13 @@ group :development, :test do
   gem 'konacha'
   gem 'ejs'
   gem 'qunit-rails'
+  #gem 'web-console', '~> 2.0'
 end
 
 group :test do
   gem 'capybara'
-  gem 'shoulda', '3.5.0'
-  gem 'shoulda-matchers', '~> 2.1.0'
+  gem 'shoulda'
+  gem 'shoulda-matchers'
   gem 'launchy', '2.0.5'
   gem 'database_cleaner'
   gem 'timecop'

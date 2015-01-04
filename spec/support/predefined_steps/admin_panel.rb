@@ -27,7 +27,7 @@ module AcceptanceSteps
       fill_in "super_admin_user_email",    with: @super_admin.email
       fill_in "super_admin_user_password", with: "123456"
     end
-    click_button "Sign in"
+    click_button "Log in"
     puts "Sign in is broken." unless current_path == super_admin_root_path
   end
 end

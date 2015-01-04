@@ -21,12 +21,12 @@ class Pos::Api::CartItemsController < Pos::Api::ApplicationController
     item = cart.items.build(cart_item_params)
     item.save
 
-    render json: item, serializer: CartItemSerializer
+    render json: item, serializer: CartItemSerializer, include: 'inventory_item'
   end
 
   def destroy
     cart_item = ::OrderItem.find_by_uuid(params[:id])
-    cart_item.destroy if cart_item.cart.company == current_company
+    cart_item.destroy if cart_item && cart_item.cart.company == current_company
   rescue ActiveRecord::StatementInvalid
   ensure
     render json: {}

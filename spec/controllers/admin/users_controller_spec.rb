@@ -23,27 +23,6 @@ describe Admin::UsersController do
         .and_return(user)
       post :create, admin_user: { name: 1, role: "founder" }
     end
-
-    it "instantiates a user variable" do
-      AdminUser.stub(:new) { user }
-      post :create, admin_user: { name: 1 }
-      assigns(:user).should == user
-    end
-
-    describe "response" do
-      it "redirects to the users index" do
-        AdminUser.stub(:new) { double(save: true) }
-        post :create, admin_user: { name: 1 }
-        response.should redirect_to admin_users_url
-      end
-
-      it "renders the form again" do
-        AdminUser.stub(:new) { double(save: false) }
-        controller.stub(:authorize!)
-        post :create, admin_user: { name: 1 }
-        response.should render_template "new"
-      end
-    end
   end
 
   context "Existing users management" do

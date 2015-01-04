@@ -33,27 +33,31 @@ describe Pos::Api::CartItemsController do
         json = ActiveSupport::JSON.decode(response.body)
 
         json.should == {
-          "cart_item" => {
+          "cart_items" => {
             "id"                 => item.uuid,
             "name"               => item.name,
             "quantity"           => 1,
             "price"              => item.price.to_s,
             "price_for_installments" => item.price_for_installments.to_s,
-            "inventory_entry_id" => entry.id,
-            "inventory_item_id"  => item.inventory_item.uuid,
-            "cart_id"            => cart.uuid
+            "links" => {
+              "cart"            => cart.uuid,
+              "inventory_item"  => item.inventory_item.uuid,
+              "inventory_entry" => "#{entry.id}",
+            }
           },
-          "inventory_items" => [{
-            "id"                 => item.inventory_item.uuid,
-            "name"               => item.name,
-            "description"        => item.inventory_item.description,
-            "price"              => item.inventory_item.price.to_s,
-            "price_for_installments" => "16.01",
-            "entry_for_sale_id"  => entry.id,
-            "on_sale"            => true,
-            "barcode"            => "123",
-            "reference_number"   => "1234"
-          }]
+          "linked" => {
+            "inventory_items" => [{
+              "id"                 => item.inventory_item.uuid,
+              "name"               => item.name,
+              "description"        => item.inventory_item.description,
+              "price"              => item.inventory_item.price.to_s,
+              "price_for_installments" => "16.01",
+              "entry_for_sale_id"  => entry.id,
+              "on_sale"            => true,
+              "barcode"            => "123",
+              "reference_number"   => "1234"
+            }]
+          }
         }
       end
     end
@@ -79,27 +83,31 @@ describe Pos::Api::CartItemsController do
         json  = ActiveSupport::JSON.decode(response.body)
 
         json.should == {
-          "cart_item" => {
+          "cart_items" => {
             "id"                 => pregenerated_uuid,
             "name"               => item.name,
             "quantity"           => 1,
             "price"              => "50.0",
             "price_for_installments" => "500.0",
-            "inventory_entry_id" => entry.id,
-            "inventory_item_id"  => item.inventory_item.uuid,
-            "cart_id"            => cart.uuid
+            "links" => {
+              "cart"            => cart.uuid,
+              "inventory_item"  => item.inventory_item.uuid,
+              "inventory_entry" => "#{entry.id}",
+            }
           },
-          "inventory_items" => [{
-            "id"                 => item.inventory_item.uuid,
-            "name"               => item.name,
-            "description"        => item.inventory_item.description,
-            "price"              => item.inventory_item.price.to_s,
-            "price_for_installments" => item.inventory_item.price_for_installments.to_s,
-            "entry_for_sale_id"  => entry.id,
-            "on_sale"            => true,
-            "barcode"            => "123",
-            "reference_number"   => "1234"
-          }]
+          "linked" => {
+            "inventory_items" => [{
+              "id"                 => item.inventory_item.uuid,
+              "name"               => item.name,
+              "description"        => item.inventory_item.description,
+              "price"              => item.inventory_item.price.to_s,
+              "price_for_installments" => "16.01",
+              "entry_for_sale_id"  => entry.id,
+              "on_sale"            => true,
+              "barcode"            => "123",
+              "reference_number"   => "1234"
+            }]
+          }
         }
       end
     end
@@ -120,7 +128,7 @@ describe Pos::Api::CartItemsController do
     end
 
     it "returns success even if a cart item doesn't exist" do
-      xhr :delete, :destroy, {id: 123}
+      xhr :delete, :destroy, id: 123
       json = ActiveSupport::JSON.decode(response.body)
       json.should == {}
     end

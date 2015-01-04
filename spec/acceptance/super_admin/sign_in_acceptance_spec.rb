@@ -13,7 +13,7 @@ feature "Super admin session" do
     fill_in "super_admin_user_email",    with: @user.email
     fill_in "super_admin_user_password", with: "123456"
 
-    click_button "Sign in"
+    click_button "Log in"
     current_path.should == super_admin_root_path
   end
 end

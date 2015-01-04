@@ -30,10 +30,6 @@ class Cart < ActiveRecord::Base
     Store::Order::PriceCalculation.new(self, items).total("installments")
   end
 
-  def current_inventory_entry(id)
-    company.inventory_entries.find(id)
-  end
-
   def add_item(inventory_entry_id, quantity = nil)
     entry = current_inventory_entry(inventory_entry_id)
     raise InventoryEntry::OutOfStock unless entry.quantity > 0
@@ -94,6 +90,10 @@ class Cart < ActiveRecord::Base
   end
 
   private
+
+  def current_inventory_entry(id)
+    company.inventory_entries.find(id)
+  end
 
   def create_item_into_cart(entry)
     item = OrderItem.new(

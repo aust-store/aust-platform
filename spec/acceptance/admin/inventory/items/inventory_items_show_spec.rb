@@ -22,22 +22,22 @@ feature "Inventory Item Management" do
                    company: @company)
 
     Timecop.travel(Time.local(2012, 04, 21, 10, 0, 0)) do
-      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
-                                                     store_id: @company.id,
-                                                     on_sale: true)
-      @item.save
+      create(:inventory_entry,
+             store_id: @company.id,
+             on_sale: true,
+             inventory_item_id: @item.id)
     end
     Timecop.travel(Time.local(2012, 04, 21, 11, 0, 0)) do
-      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
-                                                     store_id: @company.id,
-                                                     on_sale: true)
-      @item.save
+      create(:inventory_entry,
+             store_id: @company.id,
+             on_sale: true,
+             inventory_item_id: @item.id)
     end
     Timecop.travel(Time.local(2012, 04, 21, 12, 0, 0)) do
-      @item.entries.build FactoryGirl.attributes_for(:inventory_entry,
-                                                     store_id: @company.id,
-                                                     on_sale: true)
-      @item.save
+      create(:inventory_entry,
+             store_id: @company.id,
+             on_sale: true,
+             inventory_item_id: @item.id)
     end
 
     @item.entries.first.update_attribute(:quantity, 0)
@@ -83,6 +83,7 @@ feature "Inventory Item Management" do
         visit admin_inventory_item_path(@item)
         page.should have_content "R$ 12,34"
 
+
         # deselects the entry with price R$ 12,00
         uncheck("inventory_item_entries_attributes_0_on_sale")
         uncheck("inventory_item_entries_attributes_1_on_sale")
@@ -90,6 +91,7 @@ feature "Inventory Item Management" do
         within "#entries_on_sale" do
           click_on "save_entries"
         end
+        page.should have_content "R$ 12,34"
 
         @item.entries.pluck(:on_sale).should == [false, false, false]
 

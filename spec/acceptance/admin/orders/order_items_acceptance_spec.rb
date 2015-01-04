@@ -73,12 +73,12 @@ feature "Orders Management" do
       all("#order_items_attributes_0_status").each do |result|
         option_tags << result.text
       end
-      if option_tags.join("") != "PendenteEnviadoCancelado"
-        puts "option tags' text: #{option_tags.join("")}"
-        puts "orders: #{Order.all.inspect}"
-        puts "orders items: #{OrderItem.all.inspect}"
-        save_and_open_page
-      end
+      #if option_tags.join("") != "PendenteEnviadoCancelado"
+      #  puts "option tags' text: #{option_tags.join("")}"
+      #  puts "orders: #{Order.all.inspect}"
+      #  puts "orders items: #{OrderItem.all.inspect}"
+      #  save_and_open_page
+      #end
 
       all("#order_items_attributes_0_status option")[0].should_not be_selected
       all("#order_items_attributes_0_status option")[1].should be_selected

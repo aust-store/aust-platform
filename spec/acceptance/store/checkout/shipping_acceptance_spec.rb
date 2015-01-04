@@ -26,7 +26,7 @@ feature "Store cart" do
       stub_shipping(zipcode: "00000000")
       select_zipcode_in_the_cart
       OrderShipping.count.should == 1
-      OrderShipping.first.price.should == 111.23
+      OrderShipping.first.price.round(2).should == 111.23
 
       click_checkout_in_the_cart
       customer_signs_in_during_checkout
@@ -45,7 +45,7 @@ feature "Store cart" do
     scenario "As a customer, I'm not notified if zipcode from cart and address matches" do
       select_zipcode_in_the_cart
       OrderShipping.count.should == 1
-      OrderShipping.first.price.should == 111.23
+      OrderShipping.first.price.round(2).should == 111.23
 
       click_checkout_in_the_cart
       customer_signs_in_during_checkout
@@ -54,7 +54,7 @@ feature "Store cart" do
       page.should_not have_content I18n.t("store.checkout.shipping.show.notices.zipcode_doesnt_match")
 
       # the shipping cost is not recalculated
-      OrderShipping.first.price.should == 111.23
+      OrderShipping.first.price.round(2).should == 111.23
     end
   end
 end

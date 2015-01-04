@@ -11,7 +11,7 @@ class Pos::Api::OrdersController < Pos::Api::ApplicationController
     only_current_user_resources
     search_by_date
     paginate_resource
-    render json: @resources, meta: meta
+    render json: @resources, meta: meta, root: "orders", include: 'customer'
   end
 
   def create

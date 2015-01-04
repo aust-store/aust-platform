@@ -40,15 +40,26 @@ describe Pos::Api::OrdersController do
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "payment_type" => "cash",
-            "customer_id" => offline_order.customer.uuid,
+            "links" => {
+              "items" => {
+                "type" => "order_items",
+                "ids" => offline_order.items.map(&:uuid)
+              },
+              "customer" => {
+                "type" => "person",
+                "id" => offline_order.customer.uuid
+              }
+            }
           }],
-          "customers" => [{
-            "id"         => offline_order.customer.uuid,
-            "first_name" => offline_order.customer.first_name,
-            "last_name"  => offline_order.customer.last_name,
-            "email"      => offline_order.customer.email,
-            "social_security_number" => offline_order.customer.social_security_number
-          }],
+          "linked" => {
+            "people" => [{
+              "id"         => offline_order.customer.uuid,
+              "first_name" => offline_order.customer.first_name,
+              "last_name"  => offline_order.customer.last_name,
+              "email"      => offline_order.customer.email,
+              "social_security_number" => offline_order.customer.social_security_number
+            }],
+          },
           "meta" => {
             "page" => 1,
             "total_pages" => 2
@@ -65,15 +76,26 @@ describe Pos::Api::OrdersController do
             "created_at"  => offline_order2.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "payment_type" => "installments",
-            "customer_id" => offline_order2.customer.uuid,
+            "links" => {
+              "items" => {
+                "type" => "order_items",
+                "ids" => offline_order2.items.map(&:uuid)
+              },
+              "customer" => {
+                "type" => "person",
+                "id" => offline_order2.customer.uuid
+              }
+            }
           }],
-          "customers" => [{
-            "id"         => offline_order2.customer.uuid,
-            "first_name" => offline_order2.customer.first_name,
-            "last_name"  => offline_order2.customer.last_name,
-            "email"      => offline_order2.customer.email,
-            "social_security_number" => offline_order2.customer.social_security_number
-          }],
+          "linked" => {
+            "people" => [{
+              "id"         => offline_order2.customer.uuid,
+              "first_name" => offline_order2.customer.first_name,
+              "last_name"  => offline_order2.customer.last_name,
+              "email"      => offline_order2.customer.email,
+              "social_security_number" => offline_order2.customer.social_security_number
+            }],
+          },
           "meta" => {
             "page" => 2,
             "total_pages" => 2
@@ -94,19 +116,30 @@ describe Pos::Api::OrdersController do
             "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
             "environment" => "offline",
             "payment_type" => "cash",
-            "customer_id" => offline_order.customer.uuid,
+            "links" => {
+              "items" => {
+                "type" => "order_items",
+                "ids" => offline_order.items.map(&:uuid)
+              },
+              "customer" => {
+                "type" => "person",
+                "id" => offline_order.customer.uuid,
+              }
+            }
           }],
-          "customers" => [{
-            "id"         => offline_order.customer.uuid,
-            "first_name" => offline_order.customer.first_name,
-            "last_name"  => offline_order.customer.last_name,
-            "email"      => offline_order.customer.email,
-            "social_security_number" => offline_order.customer.social_security_number
-          }],
+          "linked" => {
+            "people" => [{
+              "id"         => offline_order.customer.uuid,
+              "first_name" => offline_order.customer.first_name,
+              "last_name"  => offline_order.customer.last_name,
+              "email"      => offline_order.customer.email,
+              "social_security_number" => offline_order.customer.social_security_number
+            }],
+          },
           "meta" => {
             "page" => 1,
             "total_pages" => 1
-          },
+          }
         }
       end
     end
@@ -135,46 +168,24 @@ describe Pos::Api::OrdersController do
       json  = ActiveSupport::JSON.decode(response.body)
 
       json.should == {
-        "order" => {
+        "orders" => {
           "id"             => order.uuid,
           "total"          => order.total.to_s,
           "created_at"     => order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
           "environment"    => "offline",
-          "order_item_ids" => order.items.map(&:uuid),
-          "customer_id"    => order.customer.uuid,
-          "payment_type"   => "debit"
-        },
-        "order_items" => order.items.map { |item|
-          { "id"                 => item.uuid,
-            "name"               => item.name,
-            "quantity"           => item.quantity,
-            "price"              => item.price.to_s,
-            "price_for_installments" => item.price_for_installments.to_s,
-            "inventory_item_id"  => item.inventory_item.uuid,
-            "order_id"           => order.uuid,
-            "inventory_entry_id" => item.inventory_entry_id }
-        },
-        "customers" => [{
-          "id"         => order.customer.uuid,
-          "first_name" => order.customer.first_name,
-          "last_name"  => order.customer.last_name,
-          "email"      => order.customer.email,
-          "social_security_number" => order.customer.social_security_number
-        }]
+          "payment_type"   => "debit",
+          "links" => {
+            "items" => {
+              "type" => "order_items",
+              "ids" => order.items.map(&:uuid)
+            },
+            "customer" => {
+              "type" => "person",
+              "id" => order.customer.uuid,
+            }
+          }
+        }
       }
-
-      order.items.each do |item|
-        json["order_items"].should include(
-          { "id"                 => item.uuid,
-            "name"               => item.name,
-            "quantity"           => item.quantity,
-            "price"              => item.price.to_s,
-            "price_for_installments" => item.price_for_installments.to_s,
-            "inventory_item_id"  => item.inventory_item.uuid,
-            "order_id"           => order.uuid,
-            "inventory_entry_id" => item.inventory_entry_id }
-        )
-      end
     end
   end
 end

@@ -9,7 +9,7 @@ class InventoryItemSerializer < ActiveModel::Serializer
   include ::ActionView::Helpers::NumberHelper
 
   def id
-    @options[:incremental_id] ? object.id : object.uuid
+    object.uuid
   end
 
   def price

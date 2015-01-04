@@ -13,7 +13,7 @@ class InventoryItemImage < ActiveRecord::Base
   scope :default_order, ->{ order("cover desc, id desc") }
 
   def set_as_cover_if_first
-    if item_images.blank?
+    if item_images.blank? || (item_images.length == 1 && item_images.first == self)
       self.cover = true
     else
       item_images.update_all(cover: false) if self.cover?

@@ -1,8 +1,8 @@
 class CartSerializer < ActiveModel::Serializer
   attributes :id, :total
 
-  has_many :items, key: :cart_item_ids, root: :cart_items, embed_key: :uuid
-  has_one :customer, key: :customer_id, root: :customer, embed_key: :uuid
+  has_many :items
+  belongs_to :customer
 
   def id
     object.uuid

@@ -1,7 +1,7 @@
 shared_examples_for "uuid" do |factory, uuid_field_name|
   describe "uuid generation" do
     it "creates a uuid value automatically" do
-      created = create(factory, "#{uuid_field_name}" => nil)
+      created = FactoryGirl.create(factory, "#{uuid_field_name}" => nil)
       created.should be_valid
       created.public_send(uuid_field_name).should =~ /.{8}-.{4}-.{4}-.{12}/
     end

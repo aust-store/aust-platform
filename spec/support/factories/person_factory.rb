@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :barebone_person, class: "Person" do
-    ignore do
+    transient do
       create_address true
       customer true
       supplier false

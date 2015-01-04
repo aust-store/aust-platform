@@ -6,22 +6,22 @@ class Pos::Api::CashEntriesController < Pos::Api::ApplicationController
     only_current_user_resources
     search_by_date
     paginate_resource
-    render json: @resources, meta: meta
+    render json: @resources, meta: meta, root: "cash_entries"
   end
 
   def create
     @resource = current_company.pos_cash_entries.create(resource_params)
     if @resource.valid?
-      render json: @resource
+      render json: @resource, root: "cash_entry"
     else
-      render json: @resource.errors.first_messages
+      render json: @resource.errors.first_messages, root: "cash_entry"
     end
   end
 
   def update
     @resource = current_company.pos_cash_entries.find_by_uuid(params[:id])
     @resource.update_attributes(resource_params)
-    render json: @resource
+    render json: @resource, root: "cash_entry"
   end
 
   private

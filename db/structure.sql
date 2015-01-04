@@ -1267,7 +1267,8 @@ ALTER SEQUENCE taggings_id_seq OWNED BY taggings.id;
 
 CREATE TABLE tags (
     id integer NOT NULL,
-    name character varying(255)
+    name character varying(255),
+    taggings_count integer DEFAULT 0
 );
 
 
@@ -2541,6 +2542,13 @@ CREATE UNIQUE INDEX index_super_admin_users_on_reset_password_token ON super_adm
 
 
 --
+-- Name: index_taggings_on_taggable_id_and_taggable_type_and_context; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_taggings_on_taggable_id_and_taggable_type_and_context ON taggings USING btree (taggable_id, taggable_type, context);
+
+
+--
 -- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2853,3 +2861,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140409011830');
 INSERT INTO schema_migrations (version) VALUES ('20140521165135');
 
 INSERT INTO schema_migrations (version) VALUES ('20141231223527');
+
+INSERT INTO schema_migrations (version) VALUES ('20150103002904');
+
+INSERT INTO schema_migrations (version) VALUES ('20150103002905');
+

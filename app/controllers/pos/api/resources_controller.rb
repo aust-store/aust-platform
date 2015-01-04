@@ -13,7 +13,7 @@ class Pos::Api::ResourcesController < ApplicationController
         attributes:   responder._attributes,
         associations: responder._associations.map { |name, assoc|
           # if a root is not defined, use the association name
-          assoc.options[:root] || name
+          (assoc && assoc[:options] && assoc[:options][:root]) || name
         }
       }
     }

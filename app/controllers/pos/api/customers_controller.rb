@@ -10,7 +10,7 @@ class Pos::Api::CustomersController < Pos::Api::ApplicationController
   def create
     resource = current_company.customers.new(customer_params)
     if resource.save
-      render json: resource, root: "customer"
+      render json: resource, root: "customer", serializer: PersonSerializer
     else
       render json: {errors: resource.errors.first_messages}, status: 422
     end

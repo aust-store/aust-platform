@@ -21,17 +21,17 @@ describe Pos::Api::InventoryItemsController do
       xhr :get, :index
 
       ActiveSupport::JSON.decode(response.body).should == {
-        "inventory_items" => [
-          { "id"                => @item_pos2.uuid,
-            "name"              => @item_pos2.name,
-            "description"       => @item_pos2.description,
-            "price"             => "12.34",
-            "price_for_installments" => "16.01",
-            "entry_for_sale_id" => nil,
-            "on_sale"           => false,
-            "barcode"           => "123",
-            "reference_number"   => "1234" }
-        ],
+        "inventory_items" => [{
+          "id"                => @item_pos2.uuid,
+          "name"              => @item_pos2.name,
+          "description"       => @item_pos2.description,
+          "price"             => "12.34",
+          "price_for_installments" => "16.01",
+          "entry_for_sale_id" => nil,
+          "on_sale"           => false,
+          "barcode"           => "123",
+          "reference_number"   => "1234"
+        }],
         "meta" => {
           "page" => 1,
           "total_pages" => 2

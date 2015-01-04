@@ -96,14 +96,6 @@ describe Cart do
     end
   end
 
-  describe "#current_inventory_entry" do
-    it "returns the current inventory_entry" do
-      cart = Cart.new
-      cart.stub_chain(:company, :inventory_entries, :find).with(2) { :entry }
-      cart.current_inventory_entry(2).should == :entry
-    end
-  end
-
   describe ".find_or_create_cart" do
     let(:company) { double(carts: carts) }
     let(:cart) { double(id: :id, current_company: company) }

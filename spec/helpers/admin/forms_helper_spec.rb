@@ -6,7 +6,7 @@ describe Admin::FormsHelper do
     let(:tag1)     { double(name: "yes") }
     let(:tag2)     { double(name: "no") }
     let(:all_tags) { [tag1, tag2] }
-    let(:form)     { double }
+    let(:form)     { double(object: double(tag_list: ["yes", "no"])) }
 
     it "returns input field with correct name" do
       form
@@ -16,14 +16,16 @@ describe Admin::FormsHelper do
           as: :string,
           required: false,
           input_html: {
-          class: "js_taggable",
-          data: {
-            data: [
-              {"value" => "yes", "text" => "yes"},
-              {"value" => "no", "text" => "no"}
-            ].to_json
+            value: "yes, no",
+            class: "js_taggable",
+            data: {
+              data: [
+                {"value" => "yes", "text" => "yes"},
+                {"value" => "no", "text" => "no"}
+              ].to_json
+            }
           }
-        }})
+        })
       helper.taggable_input(:taggable_field, form, model)
     end
   end

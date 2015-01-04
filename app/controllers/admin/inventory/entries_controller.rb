@@ -44,12 +44,12 @@ module Admin
 
         if entry.update_attributes(params[:inventory_entry])
           respond_to do |format|
-            format.js { render json: item, status: 200, incremental_id: true }
+            format.js { raise "can we remove this ajax call and just use HTML?"; render json: item, status: 200, incremental_id: true }
             format.html { redirect_to redirect_target }
           end
         else
           respond_to do |format|
-            format.js { render json: item, status: 400, incremental_id: true }
+            format.js { raise "can we remove this ajax call and just use HTML?";  render json: item, status: 400, incremental_id: true }
             format.html { render "edit" }
           end
         end
