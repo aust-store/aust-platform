@@ -19,7 +19,7 @@ describe Pos::Api::CartsController do
     it "creates carts" do
       pregenerated_uuid = SecureRandom.uuid
       request_json = {
-        cart: {
+        carts: {
           id: pregenerated_uuid,
           total: 0,
         }
@@ -47,7 +47,7 @@ describe Pos::Api::CartsController do
     it "updates carts" do
       xhr :put, :update, {
         id: cart.uuid,
-        cart: {
+        carts: {
           total: 0,
           customer_id: customer.uuid
         }

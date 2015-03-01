@@ -5,7 +5,7 @@ describe Doorkeeper::TokensController do
 
   describe "POST create" do
     it "authenticates with grant_type 'password'" do
-      post :create, { grant_type: 'password', email: "admin@example.com", password: "1234567" }
+      post :create, { grant_type: 'password', username: "admin@example.com", password: "1234567" }
 
       ActiveSupport::JSON.decode(response.body).should == {
         "access_token"  => Doorkeeper::AccessToken.last.token,

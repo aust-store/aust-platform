@@ -11,6 +11,12 @@ module Store
 
     config.middleware.use Rack::SslEnforcer, :only_hosts => /.*\.austapp\.com$/, :only_environments => 'production'
     config.active_record.raise_in_transactional_callbacks = true
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
+      end
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

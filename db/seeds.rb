@@ -1,5 +1,5 @@
 # PRODUCTION DATA
-  Role.where(name: "customer").first_or_create!
+  customer_role = Role.where(name: "customer").first_or_create!
   Role.where(name: "supplier").first_or_create!
 
   # Themes
@@ -13,16 +13,4 @@
 
 
 # DEVELOPMENT DATA
-  if Rails.env.development?
-    require "factory_girl_rails"
-    Dir[Rails.root.join("spec/support/factories/*.rb")].each { |f| require f }
-
-    store = Company.where(handle: "mystore").first_or_create(name: "My Store")
-    Inventory.where(company_id: store.id).first_or_create
-    admin = AdminUser.where(email: "admin@example.com")
-              .first_or_create(password: "123456",
-                               name:     "Alexandre",
-                               role:     "founder",
-                               company_id: store.id)
-    #puts FactoryGirl.attributes_for(:inventory_item, company: store, user: admin)
-  end
+  require_relative "seeds/pos"

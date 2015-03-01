@@ -189,23 +189,4 @@ describe InventoryItem do
       @item.shipping_box.should_not == nil
     end
   end
-
-  describe "#update" do
-    it "loops forever" do
-      item = FactoryGirl.create(:inventory_item)
-      entry = FactoryGirl.create(:inventory_entry, inventory_item_id: item.id)
-      puts item.inspect
-      puts entry.inspect
-      params = {
-        "entries_attributes"=>[{
-          "id"=> entry.id,
-          "on_sale"=>"0",
-          "admin_user_id"=>1,
-          "store_id"=>1
-        }]
-      }
-      item.update(params)
-      puts entry.reload.inspect
-    end
-  end
 end

@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 
 gem 'rails', github: 'rails/rails', branch: '4-2-stable'
 gem 'rack-ssl-enforcer'
+gem 'rack-cors'
 
 # rails 4 compatibility
   gem 'protected_attributes', '1.0.8'

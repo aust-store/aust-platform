@@ -3,6 +3,7 @@ class OrderSerializer < ActiveModel::Serializer
 
   has_many :items
   belongs_to :customer
+  belongs_to :cart
 
   def id
     object.uuid

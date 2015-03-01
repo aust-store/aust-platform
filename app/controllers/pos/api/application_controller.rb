@@ -16,9 +16,6 @@ class Pos::Api::ApplicationController < ApplicationController
 
   def set_headers
     headers["Endpoint-Purpose"] = "point_of_sale"
-    if Rails.env.test? || Rails.env.development?
-      headers["Access-Control-Allow-Origin"] = "http://localhost:4200"
-    end
   end
 
   def current_user

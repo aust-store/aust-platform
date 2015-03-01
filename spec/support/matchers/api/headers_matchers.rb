@@ -17,7 +17,7 @@ RSpec::Matchers.define :have_proper_api_headers do
   end
 
   def expectations
-    { "Endpoint-Purpose" => "point_of_sale",
-      "Access-Control-Allow-Origin" => "http://localhost:4200" }
+    #"Access-Control-Allow-Origin" => "" }
+    { "Endpoint-Purpose" => "point_of_sale" }
   end
 end

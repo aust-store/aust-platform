@@ -16,7 +16,7 @@ describe Pos::Api::ResourcesController do
               "environment",
               "payment_type"
             ],
-            "associations" => ["items", "customer"]
+            "associations" => ["items", "customer", "cart"]
           }
         }
       end

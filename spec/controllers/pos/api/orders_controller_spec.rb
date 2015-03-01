@@ -48,7 +48,8 @@ describe Pos::Api::OrdersController do
               "customer" => {
                 "type" => "person",
                 "id" => offline_order.customer.uuid
-              }
+              },
+              "cart" => nil
             }
           }],
           "linked" => {
@@ -84,7 +85,8 @@ describe Pos::Api::OrdersController do
               "customer" => {
                 "type" => "person",
                 "id" => offline_order2.customer.uuid
-              }
+              },
+              "cart" => nil
             }
           }],
           "linked" => {
@@ -109,37 +111,38 @@ describe Pos::Api::OrdersController do
         xhr :get, :index, payment_type: "cash"
 
         json = ActiveSupport::JSON.decode(response.body)
-        json.should == {
-          "orders" => [{
-            "id"          => offline_order.uuid,
-            "total"       => offline_order.total.to_s,
-            "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "environment" => "offline",
-            "payment_type" => "cash",
-            "links" => {
-              "items" => {
-                "type" => "order_items",
-                "ids" => offline_order.items.map(&:uuid)
-              },
-              "customer" => {
-                "type" => "person",
-                "id" => offline_order.customer.uuid,
-              }
-            }
-          }],
-          "linked" => {
-            "people" => [{
-              "id"         => offline_order.customer.uuid,
-              "first_name" => offline_order.customer.first_name,
-              "last_name"  => offline_order.customer.last_name,
-              "email"      => offline_order.customer.email,
-              "social_security_number" => offline_order.customer.social_security_number
-            }],
-          },
-          "meta" => {
-            "page" => 1,
-            "total_pages" => 1
+        json["orders"].should == [{
+          "id"          => offline_order.uuid,
+          "total"       => offline_order.total.to_s,
+          "created_at"  => offline_order.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+          "environment" => "offline",
+          "payment_type" => "cash",
+          "links" => {
+            "items" => {
+              "type" => "order_items",
+              "ids" => offline_order.items.map(&:uuid)
+            },
+            "customer" => {
+              "type" => "person",
+              "id" => offline_order.customer.uuid,
+            },
+            "cart" => nil
           }
+        }]
+
+        json["linked"].should == {
+          "people" => [{
+            "id"         => offline_order.customer.uuid,
+            "first_name" => offline_order.customer.first_name,
+            "last_name"  => offline_order.customer.last_name,
+            "email"      => offline_order.customer.email,
+            "social_security_number" => offline_order.customer.social_security_number
+          }],
+        }
+
+        json["meta"].should == {
+          "page" => 1,
+          "total_pages" => 1
         }
       end
     end
@@ -182,7 +185,8 @@ describe Pos::Api::OrdersController do
             "customer" => {
               "type" => "person",
               "id" => order.customer.uuid,
-            }
+            },
+            "cart" => order.cart.uuid
           }
         }
       }

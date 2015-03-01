@@ -15,7 +15,7 @@ class Pos::Api::CartsController < Pos::Api::ApplicationController
 
   def cart_params
     resource_params = params
-      .require(:cart)
+      .require(:carts)
       .permit(:id, :customer_id)
 
     resource_params = replace_uuid_with_id(resource_params, current_company.customers, :customer_id)
