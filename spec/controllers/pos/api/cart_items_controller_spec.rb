@@ -18,12 +18,14 @@ describe Pos::Api::CartItemsController do
         entry = inventory_item.entries.first
 
         json_request = {
-          "cart_item" => {
+          "cart_items" => {
             "price" => 50,
             "price_for_installments" => 500,
             "inventory_entry_id" => entry.id,
-            "inventory_item_id"  => inventory_item.uuid,
-            "cart_id" => cart.uuid
+            "links" => {
+              "inventory_item"  => inventory_item.uuid,
+              "cart"            => cart.uuid
+            }
           }
         }
 
@@ -68,13 +70,15 @@ describe Pos::Api::CartItemsController do
         pregenerated_uuid = SecureRandom.uuid
 
         json_request = {
-          "cart_item" => {
+          "cart_items" => {
             "id" => pregenerated_uuid,
             "price" => 50,
             "price_for_installments" => 500,
             "inventory_entry_id" => entry.id,
-            "inventory_item_id"  => inventory_item.uuid,
-            "cart_id" => cart.uuid
+            "links" => {
+              "cart"            => cart.uuid,
+              "inventory_item"  => inventory_item.uuid
+            }
           }
         }
         xhr :post, :create, json_request

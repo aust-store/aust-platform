@@ -49,7 +49,9 @@ describe Pos::Api::CartsController do
         id: cart.uuid,
         carts: {
           total: 0,
-          customer_id: customer.uuid
+          links: {
+            customer: customer.uuid
+          }
         }
       }
 

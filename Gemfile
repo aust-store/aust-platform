@@ -81,6 +81,7 @@ group :development, :test do
   gem 'ejs'
   gem 'qunit-rails'
   #gem 'web-console', '~> 2.0'
+  gem 'awesome_print'
 end
 
 group :test do

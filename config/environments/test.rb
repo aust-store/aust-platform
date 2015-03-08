@@ -1,6 +1,7 @@
 Store::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.active_support.test_order = :random
   config.log_level = :debug
 
   # The test environment is used exclusively to run your application's

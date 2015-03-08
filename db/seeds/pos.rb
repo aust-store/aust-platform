@@ -64,40 +64,42 @@ if Rails.env.development? || Rails.env.test?
                                reference_number: "ref123")
                         .first_or_create(tag_list: ["used"])
   puts "Product for #{store.handle}: #{airmax.inspect}"
-  InventoryItemPrice.create(inventory_item_id: airmax.id,
-                            value: 193,
-                            for_installments: 202)
-  airmax_entry = InventoryEntry.create(inventory_item: airmax,
+  InventoryItemPrice.create!(
+    inventory_item_id: airmax.id,
+    value: 193.0,
+    for_installments: 202.0
+  )
+  airmax_entry = InventoryEntry.create!(inventory_item: airmax,
                                        description: "These came from Japan",
                                        quantity: 12_000,
                                        cost_per_unit: 150,
                                        point_of_sale: true,
                                        on_sale: true)
   # online order
-  Order.create(store: store,
+  Order.create!(store: store,
                environment: :website,
                payment_type: "cash",
                total: (193 * 2),
                customer_id: customer.id,
                admin_user_id: admin.id)
-  OrderItem.create(price: (193 * 2),
+  OrderItem.create!(price: (193 * 2),
                    quantity: 2,
                    price_for_installments: (202 * 2),
                    inventory_item:  airmax,
                    inventory_entry: airmax_entry)
   # offline order
-  cart = Cart.create(company: store,
+  cart = Cart.create!(company: store,
                      environment: :offline,
                      customer_id: customer.id)
 
-  Order.create(store: store,
+  Order.create!(store: store,
                environment: :offline,
                cart_id: cart.id,
                payment_type: "cash",
                total: (193 * 2),
                customer_id: customer.id,
                admin_user_id: admin.id)
-  OrderItem.create(price: (193 * 2),
+  OrderItem.create!(price: (193 * 2),
                    quantity: 2,
                    price_for_installments: (202 * 2),
                    inventory_item:  airmax,

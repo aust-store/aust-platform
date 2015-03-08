@@ -39,9 +39,11 @@ class Pos::Api::CartItemsController < Pos::Api::ApplicationController
   end
 
   def cart_item_params
-    resource_params = params
-      .require(:cart_item)
-      .permit(:id, :price, :price_for_installments, :inventory_entry_id, :cart_id, :inventory_item_id)
+    deserializer = ActiveModel::Deserializer.new(params)
+    resource_params = deserializer
+      .require(:cart_items)
+      .permit(:id, :price, :price_for_installments, :inventory_entry_id)
+      .associations(:cart, :inventory_item)
 
     resource_params = replace_uuid_with_id(resource_params,
                                            current_company.items,

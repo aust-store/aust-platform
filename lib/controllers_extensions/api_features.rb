@@ -24,6 +24,9 @@ module ControllersExtensions
       resource_params
     end
 
+    # On creation, we receive `id` attribute with UUID. This method deletes
+    # the `id` attribute (so that it can auto-generated) and adds `uuid` with
+    # the previous value of `id`.
     def replace_id_with_uuid(resource_params, id_field = :id, uuid_field = :uuid)
       if resource_params[id_field].present?
         resource_params[uuid_field] = resource_params[id_field]

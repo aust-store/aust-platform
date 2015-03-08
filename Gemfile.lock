@@ -84,6 +84,7 @@ GEM
       builder
       json
     arel (6.0.0)
+    awesome_print (1.6.1)
     barber (0.4.2)
       ember-source
       execjs
@@ -390,6 +391,7 @@ DEPENDENCIES
   activerecord-deprecated_finders
   acts-as-taggable-on
   airbrake
+  awesome_print
   better_errors
   brazilian-rails
   cancan
