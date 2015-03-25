@@ -1,0 +1,73 @@
+<VirtualHost *:80>
+      ServerName www.austapp.com
+      # !!! Be sure to point DocumentRoot to 'public'!
+      DocumentRoot /var/www/store/current/public    
+      <Directory /var/www/store/current/public>
+         # This relaxes Apache security settings.
+         AllowOverride all
+         # MultiViews must be turned off.
+         Options -MultiViews
+      </Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+      # POS
+      Alias /pv /var/www/pos/current/dist
+      <Directory /pv>
+         AllowOverride all
+	 Allow from all
+	 Order allow,deny
+      </Directory>
+      <Location /pv>
+         PassengerEnabled off
+      </Location>
+
+      # API DOCS
+      Alias /api-doc /var/www/aust_api_docs/current/build
+      <Directory /api-doc>
+         AllowOverride all
+	 Allow from all
+	 Order allow,deny
+      </Directory>
+      <Location /api-doc>
+         PassengerEnabled off
+      </Location>
+
+	<LocationMatch "^/assets/.*$">
+	  Header unset ETag
+	  FileETag None
+	  # RFC says only cache for 1 year
+	  ExpiresActive On
+	  ExpiresDefault "access plus 1 year"
+
+	</LocationMatch>
+
+	<LocationMatch "^/assets/.*$">
+	  RewriteEngine on
+	  SetEnv no-gzip
+
+	  # Make sure the browser supports gzip encoding before we send it,
+	  # and that we have a precompiled .gz version.
+	  RewriteCond %{HTTP:Accept-Encoding} \b(x-)?gzip\b
+	  RewriteCond %{REQUEST_FILENAME}.gz -s
+	  RewriteRule ^(.+)$ $1.gz
+	  # without it, Content-Type will be "application/x-gzip"
+	</LocationMatch>
+	   <FilesMatch .*\.css.gz>
+	       ForceType text/css
+	     Header set Content-Encoding gzip
+	     AddEncoding gzip .jsgz
+	   </FilesMatch>
+	 
+	  <FilesMatch .*\.js.gz>
+	      ForceType text/javascript
+	     Header set Content-Encoding gzip
+	     AddEncoding gzip .jsgz
+	  </FilesMatch>
+</VirtualHost>
