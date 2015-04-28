@@ -1,11 +1,13 @@
 class Admin::OrdersController < Admin::ApplicationController
   def index
+    environment = params[:environment] || "website"
     orders = current_company
       .orders
       .includes(:payment_statuses)
-      .created_on_the_website
+      .where(environment: environment)
       .order('id desc')
       .last(50)
+
     @orders = Admin::OrderDecorator.decorate_collection(orders)
   end
 

@@ -16,6 +16,20 @@
     Pedidos concluídos com sucesso
   </p>
 
+  <% if params[:environment] != "website" %>
+    <a href="?environment=website">Pedidos no site</a>
+  <% else %>
+    Pedidos no site
+  <% end %>
+  <br />
+  <% if params[:environment] != "offline" %>
+    <a href="?environment=offline">Pedidos offline</a>
+  <% else %>
+    Pedidos offline
+  <% end %>
+  <br />
+  <br />
+
   <div class="order_cards">
     <% @orders.each_slice(5) do |orders_line| %>
       <div class="orders_line">

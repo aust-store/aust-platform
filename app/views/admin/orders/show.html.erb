@@ -2,6 +2,14 @@
 
 <header>
   <h1><%= t('.title') %><%= @order.number %></h1>
+  <p>
+    Pedido através
+    <% if @order.environment == "website" %>
+      da <strong>loja virtual</strong>
+    <% elsif @order.environment == "offline" %>
+      do <strong>ponto de venda</strong>
+    <% end %>
+  </p>
 </header>
 
 <div class="main_container">
@@ -31,26 +39,34 @@
         <tr class="<%= cycle('even', 'odd') %>">
           <td><%= t(".shipping_details") %>:<br /></td>
           <td>
-            <%= @order.shipping_details.complete_details %>
+            <% if @order.shipping_details.present? %>
+              <%= @order.shipping_details.complete_details %>
+            <% else %>
+              Não há informações de frete.
+            <% end %>
           </td>
         </tr>
-        <tr class="<%= cycle('even', 'odd') %>">
-          <td></td>
-          <td>
-            <%= t('.package') %>:
-            <%= @order.shipping_details.package_width %>cm,
-            <%= @order.shipping_details.package_length %>cm,
-            <%= @order.shipping_details.package_height %>cm,
-            <%= @order.shipping_details.package_weight %>kg
-            <%= t('.package_legend') %>
-          </td>
-        </tr>
-        <tr class="<%= cycle('even', 'odd') %>">
-          <td><%= t(".shipping_address") %>:<br /></td>
-          <td>
-            <%= @order.shipping_address.complete_address %>
-          </td>
-        </tr>
+
+        <% if @order.shipping_details.present? %>
+          <tr class="<%= cycle('even', 'odd') %>">
+            <td></td>
+            <td>
+              <%= t('.package') %>:
+              <%= @order.shipping_details.package_width %>cm,
+              <%= @order.shipping_details.package_length %>cm,
+              <%= @order.shipping_details.package_height %>cm,
+              <%= @order.shipping_details.package_weight %>kg
+              <%= t('.package_legend') %>
+            </td>
+          </tr>
+          <tr class="<%= cycle('even', 'odd') %>">
+            <td><%= t(".shipping_address") %>:<br /></td>
+            <td>
+              <%= @order.shipping_address.complete_address %>
+            </td>
+          </tr>
+        <% end %>
+
         <tr class="<%= cycle('even', 'odd') %>">
           <td><%= t(".total_amount") %>:<br /></td>
           <td> <%= @order.total %> (<%= t(".excluding_shipping") %>) </td>
@@ -58,8 +74,12 @@
         <tr class="<%= cycle('even', 'odd') %>">
           <td><%= t(".client") %>:</td>
           <td>
-            <%= @order.customer.full_name %>,
-            <%= @order.customer.email %>
+            <% if @order.customer.present? %>
+              <%= @order.customer.full_name %>,
+              <%= @order.customer.email %>
+            <% else %>
+              Comprador não especificado.
+            <% end %>
           </td>
         </tr>
       </tbody>
@@ -73,7 +93,9 @@
           <th>ID</th>
           <th>Nome</th>
           <th>Preço unitário</th>
-          <th>Opções</th>
+          <% if @order.environment == "website" %>
+            <th>Opções</th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -82,12 +104,16 @@
           <td> <%= item_form.object.id %> </td>
           <td> <%= item_form.object.name %> </td>
           <td> <%= item_form.object.price %> </td>
-          <td class="options">
-            <%= item_form.input :status,
-              collection: statuses_collection,
-              selected: item_form.object.model.status,
-              include_blank: false %>
-          </td>
+
+          <% if @order.environment == "website" %>
+            <td class="options">
+
+              <%= item_form.input :status,
+                collection: statuses_collection,
+                selected: item_form.object.model.status,
+                include_blank: false %>
+            </td>
+          <% end %>
         </tr>
         <% end %>
       </tbody>
