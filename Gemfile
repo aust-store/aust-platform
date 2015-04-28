@@ -62,7 +62,7 @@ gem 'rack-cors'
   gem 'whenever', require: false
 
 group :development do
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', require: false
   gem 'quiet_assets'
   gem 'better_errors'
   #gem 'binding_of_caller', '0.7.2'
