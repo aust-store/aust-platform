@@ -15,6 +15,7 @@ Doorkeeper.configure do
   resource_owner_from_credentials do |routes|
     user = AdminUser.find_by_email(params[:username])
     user if user && user.valid_password?(params[:password])
+    user
   end
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   # admin_authenticator do

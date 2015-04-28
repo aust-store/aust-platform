@@ -18,7 +18,7 @@ class Pos::Api::OrdersController < Pos::Api::ApplicationController
     cart = current_company.carts.find_by_uuid(order_params[:cart_id])
 
     sale = Store::Sale.new(cart,
-                           uuid: order_id,
+                           uuid: order_uuid,
                            admin_user_id: current_user.id,
                            payment_type: payment_type)
     sale.close
@@ -28,8 +28,8 @@ class Pos::Api::OrdersController < Pos::Api::ApplicationController
 
   private
 
-  def order_id
-    order_params[:id]
+  def order_uuid
+    order_params[:uuid]
   end
 
   def payment_type
@@ -37,8 +37,12 @@ class Pos::Api::OrdersController < Pos::Api::ApplicationController
   end
 
   def order_params
-    params
-      .require(:order)
-      .permit(:id, :cart_id, :payment_type, :created_at)
+    deserializer = ActiveModel::Deserializer.new(params)
+    resource_params = deserializer
+      .require(:orders)
+      .permit(:id, :payment_type, :created_at)
+      .associations(:cart, :order_items)
+
+    resource_params = replace_id_with_uuid(resource_params)
   end
 end

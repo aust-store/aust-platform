@@ -156,16 +156,27 @@ describe Pos::Api::OrdersController do
     it "creates orders with embedded order items" do
       # 4 order items are created
       cart = FactoryGirl.create(:offline_cart, company: admin_user.company)
+      pregenerated_uuid = "53553600-c5c5-11e4-8872-455cdd00fc3b"
+
       json_request = {
-        "order" => {
-          "id"      => pregenerated_uuid,
-          "cart_id" => cart.uuid,
-          "payment_type" => "debit"
+        "orders" => {
+          "id"           => pregenerated_uuid,
+          "created_at"   => "Sun Mar 08 2015 16:00:02 GMT-0300 (BRT)",
+          "environment"  => "offline",
+          "payment_type" => "debit",
+          "total"        => 193,
+          "links" => {
+            "order_items" => [],
+            "cart"        => cart.uuid
+          }
         }
       }
-      xhr :post, :create, json_request
 
-      order = Order.first
+      Order.count.should == 0
+      post :create, json_request
+      Order.count.should == 1
+
+      order = Order.last
       order.uuid.should == pregenerated_uuid
       order.admin_user.should == admin_user
       json  = ActiveSupport::JSON.decode(response.body)

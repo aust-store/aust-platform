@@ -39,15 +39,8 @@
   </li>
 </ul>
 
-<% Feature.alpha(handle: @current_company.handle, allow_company: ["acpresentes"]) do %>
-  <!--
-  <h2>Loja</h2>
-  <ul>
-    <li <%= current_nav_namespace("store") %>>
-      <%= link_to "Produtos", admin_store_dashboard_path %>
-    </li>
-  </ul>
-  -->
+<% Feature.alpha(handle: @current_company.handle, allow_company: ["acpresentes", "basajoias"]) do %>
+
   <h2><%= t("admin.navigation.offline_sales") %></h2>
   <ul>
     <li>
@@ -56,6 +49,7 @@
         id: "go_to_point_of_sale" %>
       </li>
   </ul>
+
 <% end %>
 
 <br />

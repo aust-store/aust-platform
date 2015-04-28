@@ -44,6 +44,10 @@ module ActiveModel
       )
     end
 
+    def inspect
+      @params.inspect
+    end
+
     private
 
     attr_reader :params, :original_params, :adapter_name
