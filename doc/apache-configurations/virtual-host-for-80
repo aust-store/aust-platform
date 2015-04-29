@@ -18,6 +18,9 @@
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
       # POS
+      RewriteEngine On
+      RewriteCond %{HTTPS} off
+      RewriteRule /pv https://%{HTTP_HOST}%{REQUEST_URI}
       Alias /pv /var/www/pos/current/dist
       <Directory /pv>
          AllowOverride all

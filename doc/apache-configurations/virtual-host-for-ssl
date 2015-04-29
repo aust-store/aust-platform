@@ -10,13 +10,13 @@
       </Directory>
 
       # POS
-      Alias /pos /var/www/pos/current/dist
-      <Directory /pos>
+      Alias /pv /var/www/pos/current/dist
+      <Directory /pv>
          AllowOverride all
-	 Allow from all
-	 Order allow,deny
+         Allow from all
+         Order allow,deny
       </Directory>
-      <Location /pos>
+      <Location /pv>
          PassengerEnabled off
       </Location>
 
