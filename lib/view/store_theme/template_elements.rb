@@ -29,16 +29,17 @@ module View
       # actual value.
       #
       include TemplateElement::LayoutAndRendering
+      include TemplateElement::Assets
+      include TemplateElement::Banners
+      include TemplateElement::Cart
       include TemplateElement::Company
       include TemplateElement::CompanyContact
-      include TemplateElement::Cart
-      include TemplateElement::Products
       include TemplateElement::Customer
-      include TemplateElement::Pages
-      include TemplateElement::Taxonomy
-      include TemplateElement::Banners
       include TemplateElement::HtmlLinks
+      include TemplateElement::Pages
+      include TemplateElement::Products
       include TemplateElement::RailsFlash
+      include TemplateElement::Taxonomy
 
       def initialize(view, content_for_layout = nil)
         @view = view

@@ -11,6 +11,19 @@ pt_br:
 
         Por exemplo, se o usuário for para a página principal, seu HTML será mostrado onde o código <span class="code">{{{pagina_atual}}}</span> estiver.
 
+    # assets.rb
+    cdn:
+      name: "cdn"
+      group: "Assets"
+      type: "em linha"
+      description: |
+        Se você possui acesso à CDN do Aust, você pode usar esse comando.
+        Ele escreve a URL onde está o CDN. Assim você pode usar algo como,
+
+        <pre class="code">
+        <img src"{{cdn}}nome-do-site/images/logo.png" />
+        </pre>
+
     # company.rb
     company_name:
       name: "nome_da_empresa"
