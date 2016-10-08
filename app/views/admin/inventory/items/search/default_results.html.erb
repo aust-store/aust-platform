@@ -18,7 +18,7 @@
         <% @resources.each do |item| %>
           <tr class="result_line <%= cycle('odd', 'even') %>">
             <td>
-              <%= link_to item.name, @path.call(item), data: { id: item.id } %>
+              <%= link_to item.full_name, @path.call(item), data: { id: item.id } %>
             </td>
             <td class="status">
               <%= item.total_quantity_summing_inventory_entries %>

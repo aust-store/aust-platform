@@ -5,6 +5,10 @@ module Store
 
     include ::ActionView::Helpers::NumberHelper
 
+    def full_name
+      model.name
+    end
+
     def images
       model.images
     end

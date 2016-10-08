@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -72,24 +76,24 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE addresses (
     id integer NOT NULL,
     addressable_id integer,
-    addressable_type character varying(255),
+    addressable_type character varying,
     address_1 text,
     address_2 text,
     city text,
     zipcode text,
-    state character varying(255),
-    country character varying(255),
+    state character varying,
+    country character varying,
     "default" boolean,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    neighborhood character varying(255),
-    number character varying(255)
+    neighborhood character varying,
+    number character varying
 );
 
 
@@ -113,7 +117,7 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
--- Name: admin_dashboards; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_dashboards; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE admin_dashboards (
@@ -143,32 +147,32 @@ ALTER SEQUENCE admin_dashboards_id_seq OWNED BY admin_dashboards.id;
 
 
 --
--- Name: admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE admin_users (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     sign_in_count integer DEFAULT 0,
     current_sign_in_at timestamp without time zone,
     last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    confirmation_token character varying,
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
+    unconfirmed_email character varying,
+    authentication_token character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     company_id integer,
-    role character varying(255),
-    name character varying(255),
-    api_token character varying(255)
+    role character varying,
+    name character varying,
+    api_token character varying
 );
 
 
@@ -192,16 +196,16 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
--- Name: banners; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: banners; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE banners (
     id integer NOT NULL,
     company_id integer,
-    image character varying(255),
-    title character varying(255),
-    url character varying(255),
-    "position" character varying(255),
+    image character varying,
+    title character varying,
+    url character varying,
+    "position" character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -227,7 +231,7 @@ ALTER SEQUENCE banners_id_seq OWNED BY banners.id;
 
 
 --
--- Name: carts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: carts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE carts (
@@ -236,7 +240,7 @@ CREATE TABLE carts (
     company_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255),
+    environment character varying,
     uuid uuid
 );
 
@@ -261,15 +265,15 @@ ALTER SEQUENCE carts_id_seq OWNED BY carts.id;
 
 
 --
--- Name: companies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: companies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE companies (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    handle character varying(255),
+    handle character varying,
     domain text,
     theme_id integer
 );
@@ -295,7 +299,7 @@ ALTER SEQUENCE companies_id_seq OWNED BY companies.id;
 
 
 --
--- Name: company_settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: company_settings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE company_settings (
@@ -327,16 +331,16 @@ ALTER SEQUENCE company_settings_id_seq OWNED BY company_settings.id;
 
 
 --
--- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: contacts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE contacts (
     id integer NOT NULL,
-    phone_1 character varying(255),
-    phone_2 character varying(255),
-    email character varying(255),
+    phone_1 character varying,
+    phone_2 character varying,
+    email character varying,
     contactable_id integer,
-    contactable_type character varying(255),
+    contactable_type character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -362,18 +366,18 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 
 --
--- Name: custom_fields; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: custom_fields; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE custom_fields (
     id integer NOT NULL,
     company_id integer,
-    related_type character varying(255),
-    name character varying(255),
-    alphanumeric_name character varying(255),
+    related_type character varying,
+    name character varying,
+    alphanumeric_name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    field_type character varying(255),
+    field_type character varying,
     options hstore
 );
 
@@ -398,7 +402,7 @@ ALTER SEQUENCE custom_fields_id_seq OWNED BY custom_fields.id;
 
 
 --
--- Name: custom_fields_taxonomies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: custom_fields_taxonomies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE custom_fields_taxonomies (
@@ -408,15 +412,15 @@ CREATE TABLE custom_fields_taxonomies (
 
 
 --
--- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE friendly_id_slugs (
     id integer NOT NULL,
-    slug character varying(255) NOT NULL,
+    slug character varying NOT NULL,
     sluggable_id integer NOT NULL,
     sluggable_type character varying(50),
-    scope character varying(255),
+    scope character varying,
     created_at timestamp without time zone
 );
 
@@ -441,7 +445,7 @@ ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
--- Name: inventories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: inventories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE inventories (
@@ -472,7 +476,7 @@ ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
 
 
 --
--- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_entries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE inventory_entries (
@@ -511,7 +515,7 @@ ALTER SEQUENCE inventory_entries_id_seq OWNED BY inventory_entries.id;
 
 
 --
--- Name: inventory_item_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_item_images; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE inventory_item_images (
@@ -519,7 +523,7 @@ CREATE TABLE inventory_item_images (
     inventory_item_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    image character varying(255),
+    image character varying,
     cover boolean DEFAULT false
 );
 
@@ -544,7 +548,7 @@ ALTER SEQUENCE inventory_item_images_id_seq OWNED BY inventory_item_images.id;
 
 
 --
--- Name: inventory_item_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_item_prices; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE inventory_item_prices (
@@ -577,28 +581,28 @@ ALTER SEQUENCE inventory_item_prices_id_seq OWNED BY inventory_item_prices.id;
 
 
 --
--- Name: inventory_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_items; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE inventory_items (
     id integer NOT NULL,
     company_id integer,
-    name character varying(255),
+    name character varying,
     description text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     inventory_id integer,
-    reference character varying(255),
+    reference character varying,
     admin_user_id integer,
     merchandising text,
     taxonomy_id integer,
     year integer,
     manufacturer_id integer,
     moving_average_cost numeric(8,2),
-    slug character varying(255),
+    slug character varying,
     uuid uuid,
-    barcode character varying(255),
-    reference_number character varying(255),
+    barcode character varying,
+    reference_number character varying,
     custom_fields hstore,
     supplier_id integer
 );
@@ -624,12 +628,12 @@ ALTER SEQUENCE inventory_items_id_seq OWNED BY inventory_items.id;
 
 
 --
--- Name: manufacturers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: manufacturers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE manufacturers (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     company_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -657,19 +661,19 @@ ALTER SEQUENCE manufacturers_id_seq OWNED BY manufacturers.id;
 
 
 --
--- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE oauth_access_grants (
     id integer NOT NULL,
     resource_owner_id integer NOT NULL,
     application_id integer NOT NULL,
-    token character varying(255) NOT NULL,
+    token character varying NOT NULL,
     expires_in integer NOT NULL,
     redirect_uri text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     revoked_at timestamp without time zone,
-    scopes character varying(255)
+    scopes character varying
 );
 
 
@@ -693,19 +697,19 @@ ALTER SEQUENCE oauth_access_grants_id_seq OWNED BY oauth_access_grants.id;
 
 
 --
--- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE oauth_access_tokens (
     id integer NOT NULL,
     resource_owner_id integer,
     application_id integer,
-    token character varying(255) NOT NULL,
-    refresh_token character varying(255),
+    token character varying NOT NULL,
+    refresh_token character varying,
     expires_in integer,
     revoked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    scopes character varying(255)
+    scopes character varying
 );
 
 
@@ -729,16 +733,16 @@ ALTER SEQUENCE oauth_access_tokens_id_seq OWNED BY oauth_access_tokens.id;
 
 
 --
--- Name: oauth_applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_applications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE oauth_applications (
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    uid character varying(255) NOT NULL,
-    secret character varying(255) NOT NULL,
+    name character varying NOT NULL,
+    uid character varying NOT NULL,
+    secret character varying NOT NULL,
     redirect_uri text NOT NULL,
-    scopes character varying(255) DEFAULT ''::character varying NOT NULL,
+    scopes character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -764,7 +768,7 @@ ALTER SEQUENCE oauth_applications_id_seq OWNED BY oauth_applications.id;
 
 
 --
--- Name: order_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: order_items; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE order_items (
@@ -777,7 +781,7 @@ CREATE TABLE order_items (
     order_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    status character varying(255),
+    status character varying,
     parent_id integer,
     uuid uuid,
     price_for_installments numeric(8,2)
@@ -804,7 +808,7 @@ ALTER SEQUENCE order_items_id_seq OWNED BY order_items.id;
 
 
 --
--- Name: order_shippings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: order_shippings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE order_shippings (
@@ -846,7 +850,7 @@ ALTER SEQUENCE order_shippings_id_seq OWNED BY order_shippings.id;
 
 
 --
--- Name: orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE orders (
@@ -856,9 +860,9 @@ CREATE TABLE orders (
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    environment character varying(255),
+    environment character varying,
     uuid uuid,
-    payment_type character varying(255),
+    payment_type character varying,
     admin_user_id integer,
     total numeric(8,2)
 );
@@ -884,7 +888,7 @@ ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
 
 
 --
--- Name: pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: pages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE pages (
@@ -918,14 +922,14 @@ ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
--- Name: payment_gateways; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_gateways; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payment_gateways (
     id integer NOT NULL,
     store_id integer,
-    name character varying(255),
-    email character varying(255),
+    name character varying,
+    email character varying,
     token text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -952,13 +956,13 @@ ALTER SEQUENCE payment_gateways_id_seq OWNED BY payment_gateways.id;
 
 
 --
--- Name: payment_statuses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_statuses; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payment_statuses (
     id integer NOT NULL,
     order_id integer,
-    status character varying(255),
+    status character varying,
     notification_id text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -985,45 +989,45 @@ ALTER SEQUENCE payment_statuses_id_seq OWNED BY payment_statuses.id;
 
 
 --
--- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE people (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
+    email character varying DEFAULT ''::character varying,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     sign_in_count integer DEFAULT 0,
     current_sign_in_at timestamp without time zone,
     last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    confirmation_token character varying(255),
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    confirmation_token character varying,
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    authentication_token character varying(255),
+    unconfirmed_email character varying,
+    authentication_token character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     first_name text,
     last_name text,
-    social_security_number character varying(255),
-    nationality character varying(255),
+    social_security_number character varying,
+    nationality character varying,
     receive_newsletter boolean,
-    mobile_number character varying(255),
-    home_number character varying(255),
-    work_number character varying(255),
-    home_area_number character varying(255),
-    work_area_number character varying(255),
-    mobile_area_number character varying(255),
+    mobile_number character varying,
+    home_number character varying,
+    work_number character varying,
+    home_area_number character varying,
+    work_area_number character varying,
+    mobile_area_number character varying,
     store_id integer,
     enabled boolean DEFAULT true,
-    environment character varying(255),
+    environment character varying,
     has_password boolean DEFAULT true,
     uuid uuid,
-    company_id_number character varying(255)
+    company_id_number character varying
 );
 
 
@@ -1047,7 +1051,7 @@ ALTER SEQUENCE people_id_seq OWNED BY people.id;
 
 
 --
--- Name: people_roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: people_roles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE people_roles (
@@ -1077,7 +1081,7 @@ ALTER SEQUENCE people_roles_id_seq OWNED BY people_roles.id;
 
 
 --
--- Name: pos_cash_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: pos_cash_entries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE pos_cash_entries (
@@ -1085,7 +1089,7 @@ CREATE TABLE pos_cash_entries (
     uuid uuid,
     admin_user_id integer,
     company_id integer,
-    entry_type character varying(255),
+    entry_type character varying,
     amount numeric(8,2),
     previous_balance numeric(8,2),
     description text,
@@ -1114,12 +1118,12 @@ ALTER SEQUENCE pos_cash_entries_id_seq OWNED BY pos_cash_entries.id;
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: roles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE roles (
     id integer NOT NULL,
-    name character varying(255)
+    name character varying
 );
 
 
@@ -1143,16 +1147,16 @@ ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
 --
--- Name: shipping_boxes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: shipping_boxes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE shipping_boxes (
@@ -1187,21 +1191,21 @@ ALTER SEQUENCE shipping_boxes_id_seq OWNED BY shipping_boxes.id;
 
 
 --
--- Name: super_admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: super_admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE super_admin_users (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     sign_in_count integer DEFAULT 0,
     current_sign_in_at timestamp without time zone,
     last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -1227,16 +1231,16 @@ ALTER SEQUENCE super_admin_users_id_seq OWNED BY super_admin_users.id;
 
 
 --
--- Name: taggings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: taggings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE taggings (
     id integer NOT NULL,
     tag_id integer,
     taggable_id integer,
-    taggable_type character varying(255),
+    taggable_type character varying,
     tagger_id integer,
-    tagger_type character varying(255),
+    tagger_type character varying,
     context character varying(128),
     created_at timestamp without time zone
 );
@@ -1262,12 +1266,12 @@ ALTER SEQUENCE taggings_id_seq OWNED BY taggings.id;
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE tags (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     taggings_count integer DEFAULT 0
 );
 
@@ -1292,7 +1296,7 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 
 --
--- Name: taxonomies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: taxonomies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE taxonomies (
@@ -1302,7 +1306,7 @@ CREATE TABLE taxonomies (
     store_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    slug character varying(255)
+    slug character varying
 );
 
 
@@ -1326,7 +1330,7 @@ ALTER SEQUENCE taxonomies_id_seq OWNED BY taxonomies.id;
 
 
 --
--- Name: taxonomy_hierarchies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: taxonomy_hierarchies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE taxonomy_hierarchies (
@@ -1337,12 +1341,12 @@ CREATE TABLE taxonomy_hierarchies (
 
 
 --
--- Name: themes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: themes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE themes (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     description text,
     path text,
     public boolean DEFAULT true,
@@ -1618,7 +1622,7 @@ ALTER TABLE ONLY themes ALTER COLUMN id SET DEFAULT nextval('themes_id_seq'::reg
 
 
 --
--- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY addresses
@@ -1626,7 +1630,7 @@ ALTER TABLE ONLY addresses
 
 
 --
--- Name: admin_dashboards_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_dashboards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY admin_dashboards
@@ -1634,7 +1638,7 @@ ALTER TABLE ONLY admin_dashboards
 
 
 --
--- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY admin_users
@@ -1642,7 +1646,7 @@ ALTER TABLE ONLY admin_users
 
 
 --
--- Name: banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY banners
@@ -1650,7 +1654,7 @@ ALTER TABLE ONLY banners
 
 
 --
--- Name: carts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: carts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY carts
@@ -1658,7 +1662,7 @@ ALTER TABLE ONLY carts
 
 
 --
--- Name: companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY companies
@@ -1666,7 +1670,7 @@ ALTER TABLE ONLY companies
 
 
 --
--- Name: company_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: company_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY company_settings
@@ -1674,7 +1678,7 @@ ALTER TABLE ONLY company_settings
 
 
 --
--- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY contacts
@@ -1682,7 +1686,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY custom_fields
@@ -1690,7 +1694,7 @@ ALTER TABLE ONLY custom_fields
 
 
 --
--- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY friendly_id_slugs
@@ -1698,31 +1702,7 @@ ALTER TABLE ONLY friendly_id_slugs
 
 
 --
--- Name: good_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_entries
-    ADD CONSTRAINT good_balances_pkey PRIMARY KEY (id);
-
-
---
--- Name: good_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_item_images
-    ADD CONSTRAINT good_images_pkey PRIMARY KEY (id);
-
-
---
--- Name: goods_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY inventory_items
-    ADD CONSTRAINT goods_pkey PRIMARY KEY (id);
-
-
---
--- Name: inventories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: inventories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY inventories
@@ -1730,7 +1710,23 @@ ALTER TABLE ONLY inventories
 
 
 --
--- Name: inventory_item_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY inventory_entries
+    ADD CONSTRAINT inventory_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_item_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY inventory_item_images
+    ADD CONSTRAINT inventory_item_images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inventory_item_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY inventory_item_prices
@@ -1738,7 +1734,15 @@ ALTER TABLE ONLY inventory_item_prices
 
 
 --
--- Name: manufacturers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY inventory_items
+    ADD CONSTRAINT inventory_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: manufacturers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY manufacturers
@@ -1746,7 +1750,7 @@ ALTER TABLE ONLY manufacturers
 
 
 --
--- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_access_grants
@@ -1754,7 +1758,7 @@ ALTER TABLE ONLY oauth_access_grants
 
 
 --
--- Name: oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_access_tokens
@@ -1762,7 +1766,7 @@ ALTER TABLE ONLY oauth_access_tokens
 
 
 --
--- Name: oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_applications
@@ -1770,7 +1774,7 @@ ALTER TABLE ONLY oauth_applications
 
 
 --
--- Name: order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY order_items
@@ -1778,7 +1782,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: order_shippings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: order_shippings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY order_shippings
@@ -1786,7 +1790,7 @@ ALTER TABLE ONLY order_shippings
 
 
 --
--- Name: orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY orders
@@ -1794,7 +1798,7 @@ ALTER TABLE ONLY orders
 
 
 --
--- Name: pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY pages
@@ -1802,7 +1806,7 @@ ALTER TABLE ONLY pages
 
 
 --
--- Name: payment_gateways_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_gateways_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_gateways
@@ -1810,7 +1814,7 @@ ALTER TABLE ONLY payment_gateways
 
 
 --
--- Name: payment_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_statuses
@@ -1818,7 +1822,15 @@ ALTER TABLE ONLY payment_statuses
 
 
 --
--- Name: people_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY people
+    ADD CONSTRAINT people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: people_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY people_roles
@@ -1826,7 +1838,7 @@ ALTER TABLE ONLY people_roles
 
 
 --
--- Name: pos_cash_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: pos_cash_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY pos_cash_entries
@@ -1834,7 +1846,7 @@ ALTER TABLE ONLY pos_cash_entries
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY roles
@@ -1842,7 +1854,7 @@ ALTER TABLE ONLY roles
 
 
 --
--- Name: shipping_boxes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: shipping_boxes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY shipping_boxes
@@ -1850,7 +1862,7 @@ ALTER TABLE ONLY shipping_boxes
 
 
 --
--- Name: super_admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: super_admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY super_admin_users
@@ -1858,7 +1870,7 @@ ALTER TABLE ONLY super_admin_users
 
 
 --
--- Name: taggings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: taggings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY taggings
@@ -1866,7 +1878,7 @@ ALTER TABLE ONLY taggings
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -1874,7 +1886,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: taxonomies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: taxonomies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY taxonomies
@@ -1882,7 +1894,7 @@ ALTER TABLE ONLY taxonomies
 
 
 --
--- Name: themes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: themes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY themes
@@ -1890,743 +1902,763 @@ ALTER TABLE ONLY themes
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY people
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- Name: company_settings_gist_settings; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: company_settings_gist_settings; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX company_settings_gist_settings ON company_settings USING gist (settings);
 
 
 --
--- Name: customer_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: customer_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX customer_email ON people USING gin (to_tsvector('english'::regconfig, (email)::text));
 
 
 --
--- Name: customer_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: customer_first_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX customer_first_name ON people USING gin (to_tsvector('english'::regconfig, first_name));
 
 
 --
--- Name: customer_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: customer_last_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX customer_last_name ON people USING gin (to_tsvector('english'::regconfig, first_name));
 
 
 --
--- Name: customer_social_security_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: customer_social_security_number; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX customer_social_security_number ON people USING gin (to_tsvector('english'::regconfig, (social_security_number)::text));
 
 
 --
--- Name: good_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: good_description; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX good_description ON inventory_items USING gin (to_tsvector('english'::regconfig, description));
 
 
 --
--- Name: good_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: good_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX good_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
--- Name: index_addresses_on_addressable_id_and_addressable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_addresses_on_addressable_id_and_addressable_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_addresses_on_addressable_id_and_addressable_type ON addresses USING btree (addressable_id, addressable_type);
 
 
 --
--- Name: index_addresses_on_default; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_addresses_on_default; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_addresses_on_default ON addresses USING btree ("default");
 
 
 --
--- Name: index_admin_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_api_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_admin_users_on_api_token ON admin_users USING btree (api_token);
 
 
 --
--- Name: index_admin_users_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_admin_users_on_company_id ON admin_users USING btree (company_id);
 
 
 --
--- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
 
 
 --
--- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
 
 
 --
--- Name: index_banners_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_banners_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_banners_on_company_id ON banners USING btree (company_id);
 
 
 --
--- Name: index_carts_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_carts_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_carts_on_company_id ON carts USING btree (company_id);
 
 
 --
--- Name: index_carts_on_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_carts_on_customer_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_carts_on_customer_id ON carts USING btree (customer_id);
 
 
 --
--- Name: index_carts_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_carts_on_environment; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_carts_on_environment ON carts USING btree (environment);
 
 
 --
--- Name: index_carts_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_carts_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_carts_on_uuid ON carts USING btree (uuid);
 
 
 --
--- Name: index_companies_on_domain; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_companies_on_domain; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_companies_on_domain ON companies USING btree (domain);
 
 
 --
--- Name: index_companies_on_handle; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_companies_on_handle; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_companies_on_handle ON companies USING btree (handle);
 
 
 --
--- Name: index_companies_on_theme_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_companies_on_theme_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_companies_on_theme_id ON companies USING btree (theme_id);
 
 
 --
--- Name: index_company_settings_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_company_settings_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_company_settings_on_company_id ON company_settings USING btree (company_id);
 
 
 --
--- Name: index_contacts_on_contactable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_contacts_on_contactable_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_contacts_on_contactable_id ON contacts USING btree (contactable_id);
 
 
 --
--- Name: index_contacts_on_contactable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_contacts_on_contactable_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_contacts_on_contactable_type ON contacts USING btree (contactable_type);
 
 
 --
--- Name: index_custom_fields_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_custom_fields_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_custom_fields_on_company_id ON custom_fields USING btree (company_id);
 
 
 --
--- Name: index_custom_fields_on_options; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_custom_fields_on_options; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_custom_fields_on_options ON custom_fields USING gin (options);
 
 
 --
--- Name: index_custom_fields_on_related_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_custom_fields_on_related_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_custom_fields_on_related_type ON custom_fields USING btree (related_type);
 
 
 --
--- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_custom_fields_taxonomies_on_custom_field_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_fields_taxonomies_on_custom_field_id ON custom_fields_taxonomies USING btree (custom_field_id);
+
+
+--
+-- Name: index_custom_fields_taxonomies_on_taxonomy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_fields_taxonomies_on_taxonomy_id ON custom_fields_taxonomies USING btree (taxonomy_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
 
 
 --
--- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON friendly_id_slugs USING btree (slug, sluggable_type, scope);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
 
 
 --
--- Name: index_inventory_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_entries_on_admin_user_id ON inventory_entries USING btree (admin_user_id);
 
 
 --
--- Name: index_inventory_entries_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_entries_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_entries_on_inventory_item_id ON inventory_entries USING btree (inventory_item_id);
 
 
 --
--- Name: index_inventory_entries_on_on_sale; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_entries_on_on_sale; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_entries_on_on_sale ON inventory_entries USING btree (on_sale);
 
 
 --
--- Name: index_inventory_entries_on_point_of_sale; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_entries_on_point_of_sale; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_entries_on_point_of_sale ON inventory_entries USING btree (point_of_sale);
 
 
 --
--- Name: index_inventory_entries_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_entries_on_store_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_entries_on_store_id ON inventory_entries USING btree (store_id);
 
 
 --
--- Name: index_inventory_item_images_on_cover; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_item_images_on_cover; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_item_images_on_cover ON inventory_item_images USING btree (cover);
 
 
 --
--- Name: index_inventory_item_images_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_item_images_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_item_images_on_inventory_item_id ON inventory_item_images USING btree (inventory_item_id);
 
 
 --
--- Name: index_inventory_item_prices_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_item_prices_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_item_prices_on_inventory_item_id ON inventory_item_prices USING btree (inventory_item_id);
 
 
 --
--- Name: index_inventory_items_on_barcode; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_barcode; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_barcode ON inventory_items USING btree (barcode);
 
 
 --
--- Name: index_inventory_items_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_company_id ON inventory_items USING btree (company_id);
 
 
 --
--- Name: index_inventory_items_on_custom_fields; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_custom_fields; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_custom_fields ON inventory_items USING gin (custom_fields);
 
 
 --
--- Name: index_inventory_items_on_manufacturer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_manufacturer_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_manufacturer_id ON inventory_items USING btree (manufacturer_id);
 
 
 --
--- Name: index_inventory_items_on_reference_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_reference_number; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_reference_number ON inventory_items USING btree (reference_number);
 
 
 --
--- Name: index_inventory_items_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_slug ON inventory_items USING btree (slug);
 
 
 --
--- Name: index_inventory_items_on_supplier_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_supplier_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_supplier_id ON inventory_items USING btree (supplier_id);
 
 
 --
--- Name: index_inventory_items_on_taxonomy_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_taxonomy_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_taxonomy_id ON inventory_items USING btree (taxonomy_id);
 
 
 --
--- Name: index_inventory_items_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_inventory_items_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_inventory_items_on_uuid ON inventory_items USING btree (uuid);
 
 
 --
--- Name: index_manufacturers_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_manufacturers_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_manufacturers_on_admin_user_id ON manufacturers USING btree (admin_user_id);
 
 
 --
--- Name: index_manufacturers_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_manufacturers_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_manufacturers_on_company_id ON manufacturers USING btree (company_id);
 
 
 --
--- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_oauth_access_grants_on_token ON oauth_access_grants USING btree (token);
 
 
 --
--- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_oauth_access_tokens_on_refresh_token ON oauth_access_tokens USING btree (refresh_token);
 
 
 --
--- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_oauth_access_tokens_on_resource_owner_id ON oauth_access_tokens USING btree (resource_owner_id);
 
 
 --
--- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON oauth_access_tokens USING btree (token);
 
 
 --
--- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING btree (uid);
 
 
 --
--- Name: index_order_items_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_cart_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_cart_id ON order_items USING btree (cart_id);
 
 
 --
--- Name: index_order_items_on_inventory_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_inventory_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_inventory_entry_id ON order_items USING btree (inventory_entry_id);
 
 
 --
--- Name: index_order_items_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_inventory_item_id ON order_items USING btree (inventory_item_id);
 
 
 --
--- Name: index_order_items_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_order_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_order_id ON order_items USING btree (order_id);
 
 
 --
--- Name: index_order_items_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_parent_id ON order_items USING btree (parent_id);
 
 
 --
--- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_status ON order_items USING btree (status);
 
 
 --
--- Name: index_order_items_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_items_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_items_on_uuid ON order_items USING btree (uuid);
 
 
 --
--- Name: index_order_shippings_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_shippings_on_cart_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_shippings_on_cart_id ON order_shippings USING btree (cart_id);
 
 
 --
--- Name: index_order_shippings_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_order_shippings_on_order_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_order_shippings_on_order_id ON order_shippings USING btree (order_id);
 
 
 --
--- Name: index_orders_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_admin_user_id ON orders USING btree (admin_user_id);
 
 
 --
--- Name: index_orders_on_cart_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_cart_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_cart_id ON orders USING btree (cart_id);
 
 
 --
--- Name: index_orders_on_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_customer_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_customer_id ON orders USING btree (customer_id);
 
 
 --
--- Name: index_orders_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_environment; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_environment ON orders USING btree (environment);
 
 
 --
--- Name: index_orders_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_store_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_store_id ON orders USING btree (store_id);
 
 
 --
--- Name: index_orders_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_orders_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_uuid ON orders USING btree (uuid);
 
 
 --
--- Name: index_pages_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_pages_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pages_on_admin_user_id ON pages USING btree (admin_user_id);
 
 
 --
--- Name: index_pages_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_pages_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pages_on_company_id ON pages USING btree (company_id);
 
 
 --
--- Name: index_payment_gateways_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_gateways_on_store_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_gateways_on_store_id ON payment_gateways USING btree (store_id);
 
 
 --
--- Name: index_payment_statuses_on_order_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_statuses_on_order_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_statuses_on_order_id ON payment_statuses USING btree (order_id);
 
 
 --
--- Name: index_payment_statuses_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_statuses_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_statuses_on_status ON payment_statuses USING btree (status);
 
 
 --
--- Name: index_people_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_authentication_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_people_on_authentication_token ON people USING btree (authentication_token);
 
 
 --
--- Name: index_people_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_people_on_confirmation_token ON people USING btree (confirmation_token);
 
 
 --
--- Name: index_people_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_email ON people USING btree (email);
 
 
 --
--- Name: index_people_on_enabled; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_enabled; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_enabled ON people USING btree (enabled);
 
 
 --
--- Name: index_people_on_environment; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_environment; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_environment ON people USING btree (environment);
 
 
 --
--- Name: index_people_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_receive_newsletter; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_receive_newsletter ON people USING btree (receive_newsletter);
 
 
 --
--- Name: index_people_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_people_on_reset_password_token ON people USING btree (reset_password_token);
 
 
 --
--- Name: index_people_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_store_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_store_id ON people USING btree (store_id);
 
 
 --
--- Name: index_people_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_uuid ON people USING btree (uuid);
 
 
 --
--- Name: index_people_roles_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_roles_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_roles_on_person_id ON people_roles USING btree (person_id);
 
 
 --
--- Name: index_people_roles_on_role_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_roles_on_role_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_roles_on_role_id ON people_roles USING btree (role_id);
 
 
 --
--- Name: index_pos_cash_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_pos_cash_entries_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pos_cash_entries_on_admin_user_id ON pos_cash_entries USING btree (admin_user_id);
 
 
 --
--- Name: index_pos_cash_entries_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_pos_cash_entries_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pos_cash_entries_on_company_id ON pos_cash_entries USING btree (company_id);
 
 
 --
--- Name: index_roles_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_pos_cash_entries_on_entry_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pos_cash_entries_on_entry_type ON pos_cash_entries USING btree (entry_type);
+
+
+--
+-- Name: index_pos_cash_entries_on_uuid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pos_cash_entries_on_uuid ON pos_cash_entries USING btree (uuid);
+
+
+--
+-- Name: index_roles_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_roles_on_name ON roles USING btree (name);
 
 
 --
--- Name: index_shipping_boxes_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_shipping_boxes_on_inventory_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_shipping_boxes_on_inventory_item_id ON shipping_boxes USING btree (inventory_item_id);
 
 
 --
--- Name: index_super_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_super_admin_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_super_admin_users_on_email ON super_admin_users USING btree (email);
 
 
 --
--- Name: index_super_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_super_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_super_admin_users_on_reset_password_token ON super_admin_users USING btree (reset_password_token);
 
 
 --
--- Name: index_taggings_on_taggable_id_and_taggable_type_and_context; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taggings_on_taggable_id_and_taggable_type_and_context; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_taggings_on_taggable_id_and_taggable_type_and_context ON taggings USING btree (taggable_id, taggable_type, context);
 
 
 --
--- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_tags_on_name ON tags USING btree (name);
 
 
 --
--- Name: index_taxonomies_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taxonomies_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_taxonomies_on_parent_id ON taxonomies USING btree (parent_id);
 
 
 --
--- Name: index_taxonomies_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taxonomies_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_taxonomies_on_slug ON taxonomies USING btree (slug);
 
 
 --
--- Name: index_taxonomies_on_store_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taxonomies_on_store_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_taxonomies_on_store_id ON taxonomies USING btree (store_id);
 
 
 --
--- Name: index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_taxonomy_hierarchies_on_ancestor_id_and_descendant_id ON taxonomy_hierarchies USING btree (ancestor_id, descendant_id);
 
 
 --
--- Name: index_taxonomy_hierarchies_on_descendant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_taxonomy_hierarchies_on_descendant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_taxonomy_hierarchies_on_descendant_id ON taxonomy_hierarchies USING btree (descendant_id);
 
 
 --
--- Name: index_themes_on_company_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_themes_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_themes_on_company_id ON themes USING btree (company_id);
 
 
 --
--- Name: inventory_item_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: inventory_item_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX inventory_item_name ON inventory_items USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
--- Name: manufacturers_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: manufacturers_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX manufacturers_name ON manufacturers USING gin (to_tsvector('english'::regconfig, (name)::text));
 
 
 --
--- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX taggings_idx ON taggings USING btree (tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type);
 
 
 --
--- Name: taxonomies_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: taxonomies_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX taxonomies_name ON taxonomies USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -2636,7 +2668,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20120215233120');
 

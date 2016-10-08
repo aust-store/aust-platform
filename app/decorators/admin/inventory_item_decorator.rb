@@ -8,12 +8,12 @@ module Admin
     include ::ActionView::Helpers::NumberHelper
     include ::ActionView::Helpers::OutputSafetyHelper
 
-    def name
+    def full_name
       [object.manufacturer.try(:name), object.name].join(" ")
     end
 
     def description
-      raw object.description.gsub("\n", "<br />")
+      raw object.description.to_s.gsub("\n", "<br />")
     end
 
     def has_image?

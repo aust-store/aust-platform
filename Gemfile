@@ -3,7 +3,10 @@ Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
 
-gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+# In f1295038 I added the following line because there was a bug with stack
+# level too deep.
+# gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+gem 'rails', "~> 4.2.7"
 gem 'rack-ssl-enforcer'
 gem 'rack-cors'
 
@@ -76,7 +79,7 @@ group :development, :test do
   gem 'thin'
   gem 'pry'
   gem 'pry-nav'
-  gem 'poltergeist', '1.4.1'
+  gem 'poltergeist', '1.10.0'
   gem 'konacha'
   gem 'ejs'
   gem 'qunit-rails'
