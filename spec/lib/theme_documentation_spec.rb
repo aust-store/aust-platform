@@ -32,6 +32,7 @@ describe ThemeDocumentation do
         "empresa",
         "email_de_contato_cadastrado?",
         "pagina_principal_href",
+        "pagina_produtos_href",
         "pagina_de_contato_href",
         "pagina_principal_href_atualmente",
         "pagina_de_contato_href_atualmente",

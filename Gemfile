@@ -64,6 +64,10 @@ gem 'rack-cors'
   gem "airbrake"
   gem 'whenever', require: false
 
+group :production, :development do
+  gem "skylight"
+end
+
 group :development do
   gem 'rvm-capistrano', require: false
   gem 'quiet_assets'
