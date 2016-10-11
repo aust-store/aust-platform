@@ -21,6 +21,11 @@ module View
           controller.root_path
         end
 
+        desc "products_path"
+        def products_path
+          super
+        end
+
         desc "contact_path"
         def contact_path
           controller.new_contact_path

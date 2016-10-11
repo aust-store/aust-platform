@@ -169,7 +169,7 @@ Store::Application.routes.draw do
     end
 
     resources :categories, only: [:show], controller: "store/categories"
-    resources :products, only: [:show], controller: "store/products"
+    resources :products, only: [:index, :show], controller: "store/products"
     resources :pages,    only: [:show], controller: "store/pages"
     resource  :contact,  only: [:new, :create], controller: "store/contact" do
       get :success

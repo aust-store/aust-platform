@@ -148,6 +148,14 @@ pt_br:
         Escreve o endereço da página principal. Use este comando desta forma:
 
         <span class="code">&#60;a href="{{{pagina_principal_href}}}"&#62;Página principal&#60;/a&#62;</span>
+    products_path:
+      name: pagina_produtos_href
+      group: "Links"
+      type: "em linha"
+      description: |
+        Escreve o endereço da página de listagem de produtos/mercadorias do estoque. Use este comando desta forma:
+
+        <span class="code">&#60;a href="{{{pagina_produtos_href}}}"&#62;Produtos&#60;/a&#62;</span>
     contact_path:
       name: pagina_de_contato_href
       group: "Links"
