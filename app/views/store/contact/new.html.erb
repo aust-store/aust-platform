@@ -1,10 +1,12 @@
-<h1>Fale conosco</h1>
+<section class="page contact-page">
+  <h1>Fale conosco</h1>
 
-<p>Use o formulário abaixo para falar conosco. Campos com * são obrigatórios.</p>
+  <p>Use o formulário abaixo para falar conosco. Campos com * são obrigatórios.</p>
 
-<%= simple_form_for @contact, url: contact_path do |f| %>
-  <%= f.input :name %>
-  <%= f.input :email %>
-  <%= f.input :message, as: :text %>
-  <%= f.submit "Enviar", id: "submit" %>
-<% end %>
+  <%= simple_form_for @contact, url: contact_path do |f| %>
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%= f.input :message, as: :text %>
+    <%= f.submit "Enviar", id: "submit" %>
+  <% end %>
+</section>
