@@ -5,8 +5,8 @@ source 'https://rubygems.org'
 
 # In f1295038 I added the following line because there was a bug with stack
 # level too deep.
-# gem 'rails', github: 'rails/rails', branch: '4-2-stable'
-gem 'rails', "~> 4.2.7"
+gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+#gem 'rails', "~> 4.2.7"
 gem 'rack-ssl-enforcer'
 gem 'rack-cors'
 
