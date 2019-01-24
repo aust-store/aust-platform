@@ -9,7 +9,7 @@ module Store
   class Application < Rails::Application
     config.i18n.enforce_available_locales = true
 
-    config.middleware.use Rack::SslEnforcer, :only_hosts => /.*\.austapp\.com$/, :only_environments => 'production'
+    #config.middleware.use Rack::SslEnforcer, :only_hosts => /.*\.austapp\.com$/, :only_environments => 'production'
     config.active_record.raise_in_transactional_callbacks = true
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
@@ -112,7 +112,7 @@ module Store
 
     #
     # Custom variables
-    config.mailer_from_address = "Contato Aust <contato@austapp.com>"
+    config.mailer_from_address = "Contato Aust <contato@localhost>"
 
     # does web request to the shipping service
     config.auto_validate_company_zipcode = true

@@ -11,7 +11,7 @@ describe ContactForm do
         subject: "Formulário de contato",
         to:      "to@person.com",
         reply_to: "Alex <user@example.com>",
-        from:     "Contato Aust <contato@austapp.com>"
+        from:     "Contato <contato@localhost>"
       }
     end
   end

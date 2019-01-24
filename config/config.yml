@@ -6,7 +6,7 @@ global: &global
       private: "public/themes/private"
       cloud: "public/themes/cloud"
   notification_emails:
-    - contato@austapp.com
+    - devops@localhost
 
 development:
   <<: *global
@@ -27,5 +27,5 @@ production:
   <<: *global
   google_analytics: true
   s3:
-    key_id: "AKIAJ7XNFWY755WUROZQ"
-    secret_access_key: "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"
+    key_id: ""
+    secret_access_key: ""
